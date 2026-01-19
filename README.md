@@ -1,2 +1,2 @@
-# Nano
+# Nano.nau.edu
 
