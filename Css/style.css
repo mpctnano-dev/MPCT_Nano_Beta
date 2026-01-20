@@ -2528,9 +2528,9 @@ ul {
 }
 
 
-/* =========================================
+/* --------------------------------------
    EQUIPMENT CATALOG STYLES
-   ========================================= */
+   -------------------------------------- */
 
 /* 1. Sticky Filter Bar */
 .filter-section {
@@ -2760,9 +2760,9 @@ ul {
     }
 }
 
-/* =========================================
+/* --------------------------------------
    PAGE HEADER TWEAKS (CENTERED)
-   ========================================= */
+   -------------------------------------- */
 
 .page-header .container {
     display: flex;
@@ -2786,9 +2786,9 @@ ul {
 }
 
 
-/* =========================================
+/* --------------------------------------
    EQUIPMENT CATALOG VIEW CONTROLS & ANIMATIONS
-   ========================================= */
+   -------------------------------------- */
 
 /* 1. View Toggle Buttons (Grid vs List) */
 .view-controls {
@@ -2917,9 +2917,9 @@ ul {
     }
 }
 
-/* =========================================
-   2. LIST VIEW LAYOUT 
-   ========================================= */
+/* --------------------------------------
+    LIST VIEW LAYOUT 
+   -------------------------------------- */
 
 /* 1. The Container */
 .card-wrapper.list-view {
@@ -3007,3 +3007,231 @@ ul {
 
 /* Hide tags to keep it clean */
 .card-wrapper.list-view .tag { display: none; }
+
+/* --------------------------------------
+   EQUIPMENT DETAIL PAGE STYLES (Final Corrected Version)
+   -------------------------------------- */
+
+/* 1. LAYOUT & SPACING */
+.container.section-padding {
+    padding-top: 20px !important; 
+    padding-bottom: 80px !important;
+}
+
+.equip-hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    margin-bottom: 60px;
+    align-items: center;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 60px;
+}
+
+/* Breadcrumb */
+.breadcrumb-bar {
+    background: var(--gray-50);
+    border-bottom: 1px solid var(--gray-200);
+    padding: 15px 0;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+}
+.breadcrumb-bar a { color: var(--nau-blue); font-weight: 600; text-decoration: none; }
+.breadcrumb-bar .separator { margin: 0 10px; color: var(--gray-400); }
+.breadcrumb-bar .current { color: var(--gray-600); }
+
+/* 2. HERO CONTENT */
+.hero-image-box {
+    background: #fff;
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    padding: 20px;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+.hero-image-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+.equip-title { font-size: 2.5rem; color: var(--nau-blue); margin: 15px 0; line-height: 1.1; }
+.equip-desc { font-size: 1.1rem; color: var(--gray-600); line-height: 1.6; margin-bottom: 30px; }
+.tag-row { display: flex; gap: 10px; margin-bottom: 10px; }
+
+/* 3. HERO BUTTONS (Consolidated & Fixed) */
+.hero-actions { display: flex; gap: 15px; }
+
+/* --- Book Equipment (Primary) --- */
+/* Default: Blue Background */
+.hero-actions .btn-primary {
+    background-color: var(--nau-blue);
+    color: white !important;
+    border: 2px solid var(--nau-blue);
+    padding: 12px 25px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.2s ease;
+}
+
+/* Hover: GOLD Background, Blue Text */
+.hero-actions .btn-primary:hover {
+    background-color: var(--nau-gold) !important;
+    border-color: var(--nau-gold) !important;
+    color: var(--nau-blue) !important;
+}
+
+/* --- View Specs (Outline) --- */
+/* Default: Transparent, Blue Border */
+.hero-actions .btn-outline {
+    background-color: transparent;
+    border: 2px solid var(--nau-blue);
+    color: var(--nau-blue) !important;
+    padding: 12px 25px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.2s ease;
+}
+
+/* Hover: DARK NAVY Background (Distinct from Blue) */
+.hero-actions .btn-outline:hover {
+    background-color: #002447 !important; /* Very Dark Blue */
+    border-color: #002447 !important;
+    color: white !important;
+}
+
+/* 4. TABLES (Safe Colors) */
+.data-table, .comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--gray-200);
+    margin-top: 10px;
+    background: white;
+}
+
+.data-table th, .data-table td, 
+.comparison-table th, .comparison-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--gray-200);
+    text-align: left;
+}
+
+/* Headers */
+.data-table th { background: #f4f4f4; color: var(--nau-blue); width: 40%; font-weight: 700; }
+.comparison-table th { background: var(--nau-blue); color: white; }
+
+/* Zebra Striping */
+.data-table tr:nth-child(even), .comparison-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Comparison Highlight */
+.comparison-table th.highlight { background: var(--nau-gold); color: black; }
+.comparison-table td.highlight { background: #fffbe6; font-weight: 600; color: var(--nau-blue); }
+
+/* 5. SECTIONS & LISTS */
+.detail-section { margin-bottom: 50px; }
+
+.section-heading {
+    font-size: 1.5rem;
+    color: var(--nau-blue);
+    border-left: 4px solid var(--nau-gold);
+    padding-left: 15px;
+    margin-bottom: 25px;
+}
+
+.check-list { list-style: none; padding: 0; }
+.check-list li { margin-bottom: 12px; padding-left: 30px; position: relative; }
+.check-list li::before {
+    content: '\f058'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
+    color: var(--nau-green, #43692d); position: absolute; left: 0; top: 2px;
+}
+
+/* 6. SIDEBAR STYLING */
+.sidebar-col { display: flex; flex-direction: column; gap: 20px; }
+.sidebar-card {
+    background: #fff;
+    border: 1px solid var(--gray-200);
+    padding: 25px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.sidebar-card.highlight-border { border-top: 4px solid var(--nau-gold); }
+
+/* Unified Sidebar Title */
+.card-header h3, .sidebar-card h3 { 
+    margin: 0 0 15px 0; 
+    font-size: 1.1rem; 
+    font-weight: 700; 
+    color: var(--nau-blue); 
+}
+
+.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.sidebar-actions { display: flex; flex-direction: column; gap: 10px; }
+.btn.full-width { width: 100%; text-align: center; display: block; }
+
+/* Timeline */
+.timeline { position: relative; border-left: 2px solid var(--gray-200); margin-left: 10px; padding-left: 20px; margin-bottom: 25px; }
+.timeline-item { position: relative; margin-bottom: 20px; }
+.timeline-item .dot {
+    width: 12px; height: 12px; background: var(--gray-300); border-radius: 50%;
+    position: absolute; left: -27px; top: 5px; border: 2px solid #fff;
+}
+.timeline-item.done .dot { background: var(--nau-green, #43692d); }
+.timeline-item h4 { margin: 0 0 5px 0; font-size: 0.85rem; color: var(--gray-500); text-transform: uppercase; }
+.timeline-item a { color: var(--nau-blue); font-weight: 600; text-decoration: none; }
+
+/* Contact, Rates, Resources */
+.contact-row { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+.avatar-circle {
+    width: 45px; height: 45px; background: var(--gray-200); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; color: var(--gray-500);
+}
+.rate-row {
+    display: flex; justify-content: space-between; padding-bottom: 10px; margin-bottom: 10px;
+    border-bottom: 1px dashed var(--gray-200);
+}
+.rate-row:last-child { border: none; margin: 0; padding: 0; }
+
+.resource-list { list-style: none; padding: 0; margin: 0; }
+.resource-list li { margin-bottom: 10px; }
+.resource-list a { color: var(--gray-700); text-decoration: none; display: flex; gap: 10px; align-items: center; }
+.resource-list a:hover { color: var(--nau-blue); }
+
+
+/* --------------------------------------
+   NUCLEAR BUTTON FIX (Override Everything)
+   -------------------------------------- */
+
+/* 1. FORCE BOOK EQUIPMENT (Primary) */
+/* Normal State */
+.equip-hero-grid .hero-actions a.btn.btn-primary {
+    background-color: #003366 !important; /* Dark Blue */
+    color: #ffffff !important;
+    border: 2px solid #003366 !important;
+}
+/* Hover State */
+.equip-hero-grid .hero-actions a.btn.btn-primary:hover {
+    background-color: #FFD700 !important; /* Gold */
+    border-color: #FFD700 !important;
+    color: #003366 !important; /* Blue text on Gold */
+}
+
+/* 2. FORCE VIEW SPECS (Outline) */
+/* Normal State - NO BACKGROUND */
+.equip-hero-grid .hero-actions a.btn.btn-outline {
+    background-color: transparent !important;
+    border: 2px solid #003366 !important;
+    color: #003366 !important;
+}
+/* Hover State - DARK BLUE BACKGROUND */
+.equip-hero-grid .hero-actions a.btn.btn-outline:hover {
+    background-color: #FFD700 !important; /* Deep Navy */
+    border-color: #FFD700 !important;
+    color: #003366  !important; /* White text on Navy */
+}
