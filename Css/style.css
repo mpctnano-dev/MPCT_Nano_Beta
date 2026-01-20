@@ -2526,3 +2526,484 @@ ul {
     border-color: var(--gray-400);
     background: var(--gray-50);
 }
+
+
+/* =========================================
+   EQUIPMENT CATALOG STYLES
+   ========================================= */
+
+/* 1. Sticky Filter Bar */
+.filter-section {
+    position: sticky;
+    top: 80px; /* Adjusts for header height */
+    z-index: 900;
+    margin-top: -30px; 
+    padding-bottom: 20px;
+}
+
+.filter-bar {
+    background: var(--white);
+    padding: 15px 20px;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--gray-200);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    /* FIX: Keeps search and buttons close together */
+    justify-content: flex-start; 
+    gap: 20px;
+}
+
+/* 2. Search Input - Fixed Width */
+.search-wrapper {
+    position: relative;
+    width: 300px; /* Fixed width prevents squishing */
+    flex-shrink: 0;
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px 15px 10px 40px;
+    border-radius: 50px;
+    border: 1px solid var(--gray-300);
+    background: var(--gray-50); 
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    transition: all 0.2s;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--nau-gold);
+    background: var(--white);
+    box-shadow: 0 0 0 3px rgba(250, 192, 26, 0.2);
+}
+
+.search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gray-500);
+    font-size: 0.9rem;
+}
+
+/* 3. Filter Buttons (Pills) */
+.filter-groups {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    
+    justify-content: flex-start;
+}
+
+.filter-btn {
+    background: var(--white);
+    border: 1px solid var(--gray-300);
+    color: var(--gray-600);
+    padding: 6px 18px;
+    border-radius: 50px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* 1. ALL & METROLOGY -> GOLD */
+.filter-btn[data-filter="all"]:hover,
+.filter-btn[data-filter="all"].active,
+.filter-btn[data-filter="metrology"]:hover,
+.filter-btn[data-filter="metrology"].active {
+    background-color: var(--nau-gold);
+    color: var(--nau-blue);
+    border-color: var(--nau-gold);
+}
+
+/* 2. LITHOGRAPHY -> GREEN */
+.filter-btn[data-filter="lithography"]:hover,
+.filter-btn[data-filter="lithography"].active {
+    background-color: var(--nau-green);
+    color: var(--white);
+    border-color: var(--nau-green);
+}
+
+/* 3. DEPOSITION -> BLUE */
+.filter-btn[data-filter="deposition"]:hover,
+.filter-btn[data-filter="deposition"].active {
+    background-color: var(--nau-blue);
+    color: var(--white);
+    border-color: var(--nau-blue);
+}
+
+/* 4. ETCHING -> RED */
+.filter-btn[data-filter="etching"]:hover,
+.filter-btn[data-filter="etching"].active {
+    background-color: var(--nau-red);
+    color: var(--white);
+    border-color: var(--nau-red);
+}
+
+/* 5. PACKAGING -> TEAL (New Distinct Color) */
+.filter-btn[data-filter="packaging"]:hover,
+.filter-btn[data-filter="packaging"].active {
+    background-color: #0d9488; /* Teal */
+    color: var(--white);
+    border-color: #0d9488;
+}
+
+/* 6. FABRICATION -> DARK GREY (New Distinct Color) */
+.filter-btn[data-filter="fabrication"]:hover,
+.filter-btn[data-filter="fabrication"].active {
+    background-color: var(--gray-800);
+    color: var(--white);
+    border-color: var(--gray-800);
+}
+
+.filter-btn:hover {
+    border-color: var(--nau-blue);
+    color: var(--nau-blue);
+}
+
+.filter-btn.active {
+    background: var(--nau-blue);
+    color: var(--white);
+    border-color: var(--nau-blue);
+    box-shadow: 0 4px 10px rgba(0, 36, 84, 0.2);
+}
+
+/* 4. Equipment Card Tweaks */
+/* Ensures images in the catalog look uniform */
+.eq-image-container {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+    background: var(--gray-50);
+    border-radius: 50%; 
+    width: 180px;
+    align-self: center; 
+}
+
+.eq-image-container img {
+    max-height: 80%;
+    max-width: 80%;
+    object-fit: contain;
+}
+
+/* Status Badges */
+.status-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+.status-badge.available {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.status-badge.maintenance {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.status-badge.limited {
+    background: #fef9c3;
+    color: #854d0e;
+}
+
+/* 5. CAROUSEL WRAPPER (This replaces the Grid/Pagination styles) */
+.catalog-wrapper {
+    position: relative;
+    padding: 0 50px; /* Adds space for the arrows */
+}
+
+.catalog-wrapper .card-wrapper {
+    display: flex;
+    gap: 24px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 20px 0 40px 0;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Hides scrollbar for clean look */
+}
+
+/* Hide scrollbar on Chrome/Safari */
+.catalog-wrapper .card-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+/* Mobile Tweak */
+@media (max-width: 768px) {
+    .filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+    .search-wrapper {
+        width: 100%;
+        max-width: 100%;
+    }
+    .filter-groups {
+        overflow-x: auto;
+        padding-bottom: 5px;
+        flex-wrap: nowrap; /* Allows scrolling buttons sideways */
+    }
+    .catalog-wrapper {
+        padding: 0; /* Arrows disappear on mobile, so remove padding */
+    }
+}
+
+/* =========================================
+   PAGE HEADER TWEAKS (CENTERED)
+   ========================================= */
+
+.page-header .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; /* This centers the items horizontally */
+    text-align: center;  /* This centers the text itself */
+    width: 100%;
+}
+
+.page-header h1 {
+    margin-bottom: 10px !important; 
+    line-height: 1.1; 
+}
+
+.page-header p {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    opacity: 0.9;
+    max-width: 800px; 
+}
+
+
+/* =========================================
+   EQUIPMENT CATALOG VIEW CONTROLS & ANIMATIONS
+   ========================================= */
+
+/* 1. View Toggle Buttons (Grid vs List) */
+.view-controls {
+    display: flex;
+    gap: 5px;
+    margin-left: auto; /* Pushes controls to the far right of the filter bar */
+    padding-left: 20px;
+    border-left: 1px solid var(--gray-300);
+}
+
+.view-btn {
+    background: transparent;
+    border: none;
+    color: var(--gray-500);
+    padding: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 4px;
+}
+
+.view-btn.active, .view-btn:hover {
+    color: var(--nau-blue);
+    background: var(--gray-100);
+}
+
+/* 2. List View Layout Overrides
+   These styles apply only when the 'list-view' class is added to the container via JS.
+*/
+.card-wrapper.list-view {
+    display: flex;
+    flex-direction: column; /* Stacks items vertically instead of horizontally */
+    gap: 10px;
+    overflow-x: hidden; /* Disables horizontal scroll */
+    padding: 0;
+}
+
+.card-wrapper.list-view .equipment-card {
+    width: 100%;
+    min-width: 100%;
+    height: auto;
+    flex-direction: row; /* Align card content horizontally */
+    align-items: center;
+    padding: 15px 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* Internal Card Adjustments for List View */
+.card-wrapper.list-view .equipment-card .d-flex.flex-col {
+    flex-direction: row !important; /* Force row layout for inner content */
+    width: 100%;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+.card-wrapper.list-view .image-container {
+    width: 60px;
+    height: 60px;
+    margin: 0;
+    flex-shrink: 0; /* Prevents image from shrinking */
+}
+
+.card-wrapper.list-view .card-title {
+    font-size: 1.1rem;
+    margin: 0;
+    min-width: 200px; /* Ensures consistent alignment for text */
+}
+
+.card-wrapper.list-view .specs {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--gray-600);
+    flex-grow: 1; /* Pushes action buttons to the far right */
+}
+
+.card-wrapper.list-view .action-row {
+    margin: 0;
+    gap: 10px;
+    min-width: 160px;
+}
+
+/* Hide tags in list view to reduce clutter */
+.card-wrapper.list-view .tag {
+    display: none;
+}
+
+/* 3. Status Indicator & Animation 
+   Adds a pulsing dot next to the status text.
+*/
+.status-badge {
+    position: relative;
+    padding-left: 18px; /* Creates space for the indicator dot */
+}
+
+.status-badge::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: currentColor; /* Inherits text color (Green/Red) */
+}
+
+/* Pulse Animation Definition */
+.status-badge.available::before {
+    box-shadow: 0 0 0 0 rgba(22, 101, 52, 0.7);
+    animation: status-pulse 2s infinite;
+}
+
+@keyframes status-pulse {
+    0% {
+        transform: translateY(-50%) scale(0.95);
+        box-shadow: 0 0 0 0 rgba(22, 101, 52, 0.7);
+    }
+    70% {
+        transform: translateY(-50%) scale(1);
+        box-shadow: 0 0 0 6px rgba(22, 101, 52, 0);
+    }
+    100% {
+        transform: translateY(-50%) scale(0.95);
+        box-shadow: 0 0 0 0 rgba(22, 101, 52, 0);
+    }
+}
+
+/* =========================================
+   2. LIST VIEW LAYOUT 
+   ========================================= */
+
+/* 1. The Container */
+.card-wrapper.list-view {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    gap: 0;
+}
+
+/* 2. The Card -> Turns into a 3-Column Grid */
+.card-wrapper.list-view .equipment-card {
+    display: grid;
+    /* Col 1: Image | Col 2: Title (Stretch) | Col 3: Right Side (Auto) */
+    grid-template-columns: 80px 1fr auto; 
+    grid-template-areas: "image title info";
+    gap: 20px;
+    align-items: center;
+    
+    width: 100%;
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--gray-200);
+    border-radius: 0;
+    box-shadow: none;
+}
+
+/* 3. Disable the old Flexbox structure inside the card */
+.card-wrapper.list-view .equipment-card .d-flex.flex-col {
+    display: contents !important; /* This "unwraps" the divs so Grid works */
+}
+
+/* --- COLUMN 1: IMAGE --- */
+.card-wrapper.list-view .image-container {
+    grid-area: image;
+    width: 80px !important;
+    height: 80px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-wrapper.list-view .equipment-img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important; /* Keeps aspect ratio perfectly */
+}
+
+/* --- COLUMN 2: TITLE --- */
+/* We target the div containing the title/tags */
+.card-wrapper.list-view .d-flex.flex-col > div:first-child {
+    grid-area: title;
+}
+
+.card-wrapper.list-view .card-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0;
+    white-space: nowrap;
+}
+
+/* --- COLUMN 3: RIGHT SIDE (Room & Buttons) --- */
+/* We target the div containing specs/buttons */
+.card-wrapper.list-view .d-flex.flex-col > div:last-child {
+    grid-area: info;
+    display: flex;
+    flex-direction: column; /* Stack Room on top of Buttons */
+    align-items: flex-end;  /* Align right */
+    justify-content: center;
+}
+
+.card-wrapper.list-view .specs {
+    margin: 0 0 8px 0 !important;
+    text-align: right;
+    font-size: 0.9rem;
+}
+
+.card-wrapper.list-view .action-row {
+    margin: 0 !important;
+    display: flex;
+    gap: 10px;
+}
+
+/* Hide tags to keep it clean */
+.card-wrapper.list-view .tag { display: none; }
