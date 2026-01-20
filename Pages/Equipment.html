@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipment Catalog | NAU Nano</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="../CSS/style.css">
+</head>
+<body>
+
+    <site-header></site-header>
+
+    <main>
+        <section class="page-header bg-blue text-white section-padding" style="padding: 60px 0;">
+            <div class="container">
+                <h1>Equipment Catalog</h1>
+                <p class="text-white-muted">Browse our inventory of metrology, lithography, and fabrication tools.</p>
+            </div>
+        </section>
+
+        <section class="filter-section">
+            <div class="container">
+                <div class="filter-bar">
+                    <div class="search-wrapper">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="searchInput" placeholder="Search equipment..." class="search-input">
+                    </div>
+                    
+                    <div class="filter-groups" id="filterGroup">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="metrology">Metrology</button>
+                        <button class="filter-btn" data-filter="lithography">Lithography</button>
+                        <button class="filter-btn" data-filter="deposition">Deposition</button>
+                        <button class="filter-btn" data-filter="etching">Etching</button>
+                        <button class="filter-btn" data-filter="packaging">Packaging</button>
+                        <button class="filter-btn" data-filter="fabrication">Fabrication</button>
+                    </div>
+
+                    <div class="view-controls">
+                        <button class="view-btn active" id="gridViewBtn" title="Grid View">
+                            <i class="fas fa-th-large"></i>
+                        </button>
+                        <button class="view-btn" id="listViewBtn" title="List View">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-padding bg-gray-50 pt-20">
+            <div class="container">
+                
+                <div class="carousel-wrapper">
+                    <button class="nav-btn left" onclick="scrollCatalog(-340)">&#8249;</button>
+                    <button class="nav-btn right" onclick="scrollCatalog(340)">&#8250;</button>
+
+                    <div class="card-wrapper" id="cardContainer">
+                        
+                        <div class="equipment-card" data-category="metrology" data-title="Atomic Force Microscope">
+                            <div class="d-flex flex-col justify-between" style="height:100%">
+                                <div>
+                                    <div class="d-flex justify-between align-center mb-10">
+                                        <span class="tag">Metrology</span>
+                                        <span class="status-badge available">Available</span>
+                                    </div>
+                                    <h3 class="card-title">Atomic Force Microscope</h3>
+                                </div>
+                                <div class="image-container">
+                                    <img src="/Assets/Images/B2_AFM.png" class="equipment-img" alt="AFM" onerror="this.style.display='none'">
+                                </div>
+                                <div>
+                                    <div class="specs">Room 145<span class="small">Nano-surface analysis</span></div>
+                                    <div class="action-row">
+                                        <a href="About_Equipment/B2_AFM.html" class="action-btn about-btn">About</a>
+                                        <a href="/Pages/Booking1.html" class="action-btn book-btn">Book</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="equipment-card" data-category="deposition" data-title="Sputter System">
+                            <div class="d-flex flex-col justify-between" style="height:100%">
+                                <div>
+                                    <div class="d-flex justify-between align-center mb-10">
+                                        <span class="tag blue">Deposition</span>
+                                        <span class="status-badge available">Available</span>
+                                    </div>
+                                    <h3 class="card-title">Sputter System</h3>
+                                </div>
+                                <div class="image-container">
+                                    <img src="/Assets/Images/Sputtering.webp" class="equipment-img" alt="Sputter" onerror="this.style.display='none'">
+                                </div>
+                                <div>
+                                    <div class="specs">Cleanroom Bay 1<span class="small">Thin Film Deposition</span></div>
+                                    <div class="action-row">
+                                        <a href="#" class="action-btn about-btn">About</a>
+                                        <a href="/Pages/Booking1.html" class="action-btn book-btn">Book</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="equipment-card" data-category="lithography" data-title="Mask Aligner">
+                            <div class="d-flex flex-col justify-between" style="height:100%">
+                                <div>
+                                    <div class="d-flex justify-between align-center mb-10">
+                                        <span class="tag green">Lithography</span>
+                                        <span class="status-badge maintenance">Maintenance</span>
+                                    </div>
+                                    <h3 class="card-title">Mask Aligner</h3>
+                                </div>
+                                <div class="image-container">
+                                    <img src="/Assets/Images/Aligner.jpg" class="equipment-img" alt="Aligner" onerror="this.style.display='none'">
+                                </div>
+                                <div>
+                                    <div class="specs">Yellow Room<span class="small">Photolithography</span></div>
+                                    <div class="action-row">
+                                        <a href="#" class="action-btn about-btn">About</a>
+                                        <button class="action-btn book-btn disabled">Service</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="equipment-card" data-category="metrology" data-title="Scanning Electron Microscope">
+                            <div class="d-flex flex-col justify-between" style="height:100%">
+                                <div>
+                                    <div class="d-flex justify-between align-center mb-10">
+                                        <span class="tag">Metrology</span>
+                                        <span class="status-badge available">Available</span>
+                                    </div>
+                                    <h3 class="card-title">Scanning Electron Microscope</h3>
+                                </div>
+                                <div class="image-container">
+                                    <img src="/Assets/Images/SEM.png" class="equipment-img" alt="SEM" onerror="this.style.display='none'">
+                                </div>
+                                <div>
+                                    <div class="specs">Room 142<span class="small">High-res Imaging</span></div>
+                                    <div class="action-row">
+                                        <a href="#" class="action-btn about-btn">About</a>
+                                        <a href="/Pages/Booking1.html" class="action-btn book-btn">Book</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="equipment-card" data-category="deposition" data-title="E-Beam Evaporator">
+                            <div class="d-flex flex-col justify-between" style="height:100%">
+                                <div>
+                                    <div class="d-flex justify-between align-center mb-10">
+                                        <span class="tag blue">Deposition</span>
+                                        <span class="status-badge available">Available</span>
+                                    </div>
+                                    <h3 class="card-title">E-Beam Evaporator</h3>
+                                </div>
+                                <div class="image-container">
+                                    <img src="/Assets/Images/Ebeam.png" class="equipment-img" alt="E-Beam" onerror="this.style.display='none'">
+                                </div>
+                                <div>
+                                    <div class="specs">Bay 2<span class="small">Metal Deposition</span></div>
+                                    <div class="action-row">
+                                        <a href="#" class="action-btn about-btn">About</a>
+                                        <a href="/Pages/Booking1.html" class="action-btn book-btn">Book</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="equipment-card" data-category="etching" data-title="Plasma Cleaner">
+                            <div class="d-flex flex-col justify-between" style="height:100%">
+                                <div>
+                                    <div class="d-flex justify-between align-center mb-10">
+                                        <span class="tag red">Etching</span>
+                                        <span class="status-badge available">Available</span>
+                                    </div>
+                                    <h3 class="card-title">O2 Plasma Cleaner</h3>
+                                </div>
+                                <div class="image-container">
+                                    <img src="/Assets/Images/plasma.jpg" class="equipment-img" alt="Plasma" onerror="this.style.display='none'">
+                                </div>
+                                <div>
+                                    <div class="specs">Room 142<span class="small">Surface Activation</span></div>
+                                    <div class="action-row">
+                                        <a href="#" class="action-btn about-btn">About</a>
+                                        <a href="/Pages/Booking1.html" class="action-btn book-btn">Book</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="equipment-card" data-category="packaging fabrication" data-title="Wedge Wire Bonder">
+                            <div class="d-flex flex-col justify-between" style="height:100%">
+                                <div>
+                                    <div class="d-flex justify-between align-center mb-10">
+                                        <div class="d-flex gap-sm">
+                                            <span class="tag" style="background-color: #0d9488; color: white;">Packaging</span>
+                                        </div>
+                                        <span class="status-badge available">Available</span>
+                                    </div>
+                                    <h3 class="card-title">Wedge Wire Bonder</h3>
+                                </div>
+                                <div class="image-container">
+                                    <img src="/Assets/Images/bond.jpg" class="equipment-img" alt="Bonder" onerror="this.style.display='none'">
+                                </div>
+                                <div>
+                                    <div class="specs">Room 148<span class="small">Interconnects</span></div>
+                                    <div class="action-row">
+                                        <a href="#" class="action-btn about-btn">About</a>
+                                        <a href="/Pages/Booking1.html" class="action-btn book-btn">Book</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="equipment-card" data-category="metrology" data-title="Stylus Profilometer">
+                            <div class="d-flex flex-col justify-between" style="height:100%">
+                                <div>
+                                    <div class="d-flex justify-between align-center mb-10">
+                                        <span class="tag">Metrology</span>
+                                        <span class="status-badge available">Available</span>
+                                    </div>
+                                    <h3 class="card-title">Stylus Profilometer</h3>
+                                </div>
+                                <div class="image-container">
+                                    <img src="/Assets/Images/bruker.png" class="equipment-img" alt="Profilometer" onerror="this.style.display='none'">
+                                </div>
+                                <div>
+                                    <div class="specs">Room 145<span class="small">Step Height</span></div>
+                                    <div class="action-row">
+                                        <a href="#" class="action-btn about-btn">About</a>
+                                        <a href="/Pages/Booking1.html" class="action-btn book-btn">Book</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="equipment-card" data-category="lithography" data-title="Spin Coater">
+                            <div class="d-flex flex-col justify-between" style="height:100%">
+                                <div>
+                                    <div class="d-flex justify-between align-center mb-10">
+                                        <span class="tag blue">Lithography</span>
+                                        <span class="status-badge available">Available</span>
+                                    </div>
+                                    <h3 class="card-title">Spin Coater</h3>
+                                </div>
+                                <div class="image-container">
+                                    <img src="/Assets/Images/coater.webp" class="equipment-img" alt="Coater" onerror="this.style.display='none'">
+                                </div>
+                                <div>
+                                    <div class="specs">Fume Hood 2<span class="small">Photoresist</span></div>
+                                    <div class="action-row">
+                                        <a href="#" class="action-btn about-btn">About</a>
+                                        <a href="/Pages/Booking1.html" class="action-btn book-btn">Book</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="equipment-card" data-category="fabrication packaging" data-title="Dicing Saw">
+                            <div class="d-flex flex-col justify-between" style="height:100%">
+                                <div>
+                                    <div class="d-flex justify-between align-center mb-10">
+                                        <div class="d-flex gap-sm">
+                                            <span class="tag" style="background-color: var(--gray-800); color: white;">Fab</span>
+                                            <span class="tag" style="background-color: #0d9488; color: white;">Packaging</span>
+                                        </div>
+                                        <span class="status-badge available">Available</span>
+                                    </div>
+                                    <h3 class="card-title">Dicing Saw</h3>
+                                </div>
+                                <div class="image-container">
+                                    <img src="/Assets/Images/Saw.png" class="equipment-img" alt="Saw" onerror="this.style.display='none'">
+                                </div>
+                                <div>
+                                    <div class="specs">Room 148<span class="small">Wafer Cutting</span></div>
+                                    <div class="action-row">
+                                        <a href="#" class="action-btn about-btn">About</a>
+                                        <a href="/Pages/Booking1.html" class="action-btn book-btn">Book</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div> </div> </div>
+        </section>
+    </main>
+
+    <site-footer></site-footer>
+    
+    <script src="../JS/layout.js"></script>
+    <script src="../JS/script.js"></script>
+
+</body>
+</html>

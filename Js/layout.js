@@ -14,8 +14,8 @@ class SiteHeader extends HTMLElement {
         this.innerHTML = `
         <header class="site-header" id="mainHeader">
             <div class="main-nav-container container">
-                <a href="index.html" class="brand-logo">
-                    <img src="Assets/Images/NAU.png" alt="Northern Arizona University" class="header-logo">
+                <a href="/Index.html" class="brand-logo">
+                    <img src="/Assets/Images/NAU.png" alt="Northern Arizona University" class="header-logo">
                     <div class="brand-divider"></div>
                     <div class="brand-text">
                         <span class="dept">Nanotechnology Core Facility</span>
@@ -29,12 +29,12 @@ class SiteHeader extends HTMLElement {
                 </button>
 
                 <nav class="nav-menu">
-                    <div class="nav-item"><a href="index.html" class="nav-link" data-path="index.html">Home</a></div>
+                    <div class="nav-item"><a href="/Index.html" class="nav-link" data-path="index.html">Home</a></div>
                     <div class="nav-item"><a href="#" class="nav-link">Research</a></div>
-                    <div class="nav-item"><a href="#" class="nav-link">Equipment</a></div>
+                    <div class="nav-item"><a href="/Pages/Equipment.html" class="nav-link"data-path="Equipment.html">Equipment</a></div>
                     <div class="nav-item"><a href="#" class="nav-link">Faculty</a></div>
-                    <div class="nav-item"><a href="Contact_Us.html" class="nav-link" data-path="Contact_Us.html">Contact Us</a></div>
-                    <div class="nav-item"><a href="Booking1.html" class="btn btn-sm btn-gold">Reserve Equipment</a></div>
+                    <div class="nav-item"><a href="/Pages/Contact_Us.html" class="nav-link" data-path="Contact_Us.html">Contact Us</a></div>
+                    <div class="nav-item"><a href="/Pages/Booking1.html" class="btn btn-sm btn-gold">Reserve Equipment</a></div>
                 </nav>
             </div>
         </header>
@@ -45,10 +45,12 @@ class SiteHeader extends HTMLElement {
     }
 
     highlightActiveLink() {
+        // Gets the current file name (e.g., 'Contact_Us.html')
         const currentPath = window.location.pathname.split('/').pop() || 'index.html';
         const links = this.querySelectorAll('.nav-link');
 
         links.forEach(link => {
+            // Checks if the link matches the current page to add the 'Active' underline style
             if (link.dataset.path === currentPath) {
                 link.classList.add('active');
             }
@@ -95,7 +97,7 @@ class SiteFooter extends HTMLElement {
             <div class="container">
                 <div class="footer-grid">
                     <div class="footer-brand">
-                        <img src="Assets/Images/NAU.png" class="footer-logo" alt="NAU Logo"
+                        <img src="/Assets/Images/NAU.png" class="footer-logo" alt="NAU Logo"
                             onerror="this.style.display='none'">
                         <p style="color: rgba(255,255,255,0.7); max-width: 300px; margin-bottom: 25px;">The Microelectronics
                             Processing,
@@ -130,7 +132,7 @@ class SiteFooter extends HTMLElement {
                     <div class="footer-col">
                         <h4>User Portal</h4>
                         <ul class="footer-links">
-                            <li><a href="Booking1.html">Book Equipment</a></li>
+                            <li><a href="/Pages/Booking1.html">Book Equipment</a></li>
                             <li><a href="#">Report an Issue</a></li>
                             <li><a href="#">Safety Training</a></li>
                             <li><a href="#">SDS Database</a></li>
@@ -151,7 +153,7 @@ class SiteFooter extends HTMLElement {
                     <div class="footer-col">
                         <h4>Connect</h4>
                         <ul class="footer-links">
-                            <li><a href="Contact_Us.html">Contact Us</a></li>
+                            <li><a href="/Pages/Contact_Us.html">Contact Us</a></li>
                             <li><a href="#">Partner With Us</a></li>
                             <li><a href="#">Alumni Network</a></li>
                             <li><a href="#">Support NAU Nano</a></li>
