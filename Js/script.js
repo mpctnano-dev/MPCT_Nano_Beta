@@ -1,8 +1,7 @@
 /**
  * Core Application Logic
  * Handles interactive elements: slider, sticky header navigation, mobile menu, and scroll animations.
- * 
- * Architecture Note:
+ * * Architecture Note:
  * Logic is encapsulated within 'DOMContentLoaded' to ensure DOM readiness.
  * IntersectionObservers are used for performance-critical scroll effects instead of scroll event listeners where possible.
  */
@@ -14,7 +13,17 @@
  */
 function scrollGrid(amount) {
     const container = document.getElementById('cardContainer');
-    container.scrollBy({ left: amount, behavior: 'smooth' });
+    if (container) {
+        container.scrollBy({ left: amount, behavior: 'smooth' });
+    }
+}
+
+/**
+ * Equipment Catalog Scroll Alias
+ * Provides a semantic alias for the catalog page while reusing the same underlying logic.
+ */
+function scrollCatalog(amount) {
+    scrollGrid(amount);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -23,51 +32,56 @@ document.addEventListener('DOMContentLoaded', () => {
     // Toggles 'scrolled' class based on scroll position for glassmorphism effect.
     // -------------------------------------------------------------------------
     const header = document.getElementById('mainHeader');
-    window.addEventListener('scroll', () => {
-        // Optimization: Simple check avoids frequent layout thrashing
-        if (window.scrollY > 50) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-    });
+    if (header) {
+        window.addEventListener('scroll', () => {
+            // Optimization: Simple check avoids frequent layout thrashing
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    }
 
     // -------------------------------------------------------------------------
     // Hero Slider Component
-    // Manual implementation of a carousel. Consider refactoring to a library if complexity grows.
+    // Manual implementation of a carousel.
     // -------------------------------------------------------------------------
     const slides = document.querySelectorAll('.slide');
     const nextBtn = document.getElementById('nextSlide');
     const prevBtn = document.getElementById('prevSlide');
-    let currentSlide = 0;
-    const totalSlides = slides.length;
-    let slideInterval;
+    
+    if (slides.length > 0) {
+        let currentSlide = 0;
+        const totalSlides = slides.length;
+        let slideInterval;
 
-    function showSlide(index) {
-        if (index >= totalSlides) index = 0;
-        if (index < 0) index = totalSlides - 1;
+        function showSlide(index) {
+            if (index >= totalSlides) index = 0;
+            if (index < 0) index = totalSlides - 1;
 
-        // Remove active class from current, update index, add to new
-        slides[currentSlide].classList.remove('active');
-        currentSlide = index;
-        slides[currentSlide].classList.add('active');
+            // Remove active class from current, update index, add to new
+            slides[currentSlide].classList.remove('active');
+            currentSlide = index;
+            slides[currentSlide].classList.add('active');
+        }
+
+        // Navigation Wrappers
+        function nextSlide() { showSlide(currentSlide + 1); }
+        function prevSlide() { showSlide(currentSlide - 1); }
+
+        if (nextBtn && prevBtn) {
+            nextBtn.addEventListener('click', () => { nextSlide(); resetInterval(); });
+            prevBtn.addEventListener('click', () => { prevSlide(); resetInterval(); });
+        }
+
+        // Auto-advance logic
+        function startInterval() { slideInterval = setInterval(nextSlide, 6000); }
+        function resetInterval() { clearInterval(slideInterval); startInterval(); }
+
+        // Init Slider
+        startInterval();
     }
-
-    // Navigation Wrappers
-    function nextSlide() { showSlide(currentSlide + 1); }
-    function prevSlide() { showSlide(currentSlide - 1); }
-
-    if (nextBtn && prevBtn) {
-        nextBtn.addEventListener('click', () => { nextSlide(); resetInterval(); });
-        prevBtn.addEventListener('click', () => { prevSlide(); resetInterval(); });
-    }
-
-    // Auto-advance logic
-    function startInterval() { slideInterval = setInterval(nextSlide, 6000); }
-    function resetInterval() { clearInterval(slideInterval); startInterval(); }
-
-    // Init Slider
-    startInterval();
 
     // -------------------------------------------------------------------------
     // Mobile Navigation Toggle
@@ -76,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileBtn = document.querySelector('.mobile-toggle');
     const navMenu = document.querySelector('.nav-menu');
 
-    if (mobileBtn) {
+    if (mobileBtn && navMenu) {
         mobileBtn.addEventListener('click', () => {
             const isHidden = window.getComputedStyle(navMenu).display === 'none';
             if (isHidden) {
@@ -94,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             } else {
                 navMenu.style.display = 'none';
-                // Reset inline style if viewport resized (handled by CSS media queries usually, but safe fallback)
+                // Reset inline style if viewport resized
                 if (window.innerWidth > 1024) navMenu.style.display = '';
             }
         });
@@ -137,79 +151,149 @@ document.addEventListener('DOMContentLoaded', () => {
     // Animated Statistics Counter
     // -------------------------------------------------------------------------
     const stats = document.querySelectorAll('.metric-value');
+    if (stats.length > 0) {
+        const animateValue = (obj, start, end, duration) => {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                // EaseOutExpo effect
+                const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+                let value = Math.floor(easeProgress * (end - start) + start);
 
-    /**
-     * Animate numeric value with EaseOutExpo
-     */
-    const animateValue = (obj, start, end, duration) => {
-        let startTimestamp = null;
-        const step = (timestamp) => {
-            if (!startTimestamp) startTimestamp = timestamp;
-            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                if (obj.dataset.suffix) value += obj.dataset.suffix;
+                if (obj.dataset.prefix) value = obj.dataset.prefix + value;
 
-            // EaseOutExpo - starts fast, slows down at the end
-            const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+                obj.innerHTML = value;
 
-            // Calculate current value
-            let value = Math.floor(easeProgress * (end - start) + start);
-
-            // Formatting: Re-attach prefix/suffix if they existed
-            if (obj.dataset.suffix) value += obj.dataset.suffix;
-            if (obj.dataset.prefix) value = obj.dataset.prefix + value;
-
-            obj.innerHTML = value;
-
-            if (progress < 1) {
-                window.requestAnimationFrame(step);
-            }
-        };
-        window.requestAnimationFrame(step);
-    }
-
-    // Trigger animation when stats scroll into view
-    const statsObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const target = entry.target;
-                const rawText = target.innerText;
-
-                // Extract numeric data and symbols
-                let prefix = rawText.includes('$') ? '$' : '';
-                let suffix = rawText.includes('%') ? '%' : (rawText.includes('+') ? '+' : '');
-                let endValue = parseInt(rawText.replace(/[^0-9]/g, ''));
-
-                if (!isNaN(endValue)) {
-                    target.dataset.prefix = prefix;
-                    target.dataset.suffix = suffix;
-                    animateValue(target, 0, endValue, 2000);
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
                 }
+            };
+            window.requestAnimationFrame(step);
+        }
 
-                observer.unobserve(target);
-            }
+        const statsObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = entry.target;
+                    const rawText = target.innerText;
+                    let prefix = rawText.includes('$') ? '$' : '';
+                    let suffix = rawText.includes('%') ? '%' : (rawText.includes('+') ? '+' : '');
+                    let endValue = parseInt(rawText.replace(/[^0-9]/g, ''));
+
+                    if (!isNaN(endValue)) {
+                        target.dataset.prefix = prefix;
+                        target.dataset.suffix = suffix;
+                        animateValue(target, 0, endValue, 2000);
+                    }
+                    observer.unobserve(target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        stats.forEach(stat => {
+            statsObserver.observe(stat);
         });
-    }, { threshold: 0.5 });
-
-    stats.forEach(stat => {
-        statsObserver.observe(stat);
-    });
+    }
 
     // -------------------------------------------------------------------------
     // Contact Form Handler
-    // Prevents default submission for demo purposes.
     // -------------------------------------------------------------------------
     const contactForm = document.querySelector('form');
-    if (contactForm) {
+    if (contactForm && contactForm.id === 'contactForm') {
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
             alert('Thank you for your message! We will get back to you shortly.');
             contactForm.reset();
         });
     }
+
+    // -------------------------------------------------------------------------
+    // Equipment Catalog Logic: Filtering & View Layout
+    // -------------------------------------------------------------------------
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const searchInput = document.getElementById('searchInput');
+    const eqCards = document.querySelectorAll('.equipment-card');
+    
+    // View Switcher Elements
+    const gridBtn = document.getElementById('gridViewBtn');
+    const listBtn = document.getElementById('listViewBtn');
+    const container = document.getElementById('cardContainer');
+    const arrows = document.querySelectorAll('.nav-btn'); 
+
+    if (filterBtns.length > 0) {
+        
+        // A. View Toggle Logic (Grid vs List)
+        if (gridBtn && listBtn && container) {
+            // Switch to List View
+            listBtn.addEventListener('click', () => {
+                container.classList.add('list-view');
+                listBtn.classList.add('active');
+                gridBtn.classList.remove('active');
+                // Hide arrows in list view (vertical layout)
+                arrows.forEach(arrow => arrow.style.display = 'none');
+            });
+
+            // Switch to Grid View
+            gridBtn.addEventListener('click', () => {
+                container.classList.remove('list-view');
+                gridBtn.classList.add('active');
+                listBtn.classList.remove('active');
+                // Show arrows in grid view (carousel layout)
+                arrows.forEach(arrow => arrow.style.display = 'flex');
+            });
+        }
+
+        // B. Filtering Logic
+        const filterItems = () => {
+            const term = searchInput ? searchInput.value.toLowerCase() : '';
+            const activeBtn = document.querySelector('.filter-btn.active');
+            const activeCategory = activeBtn ? activeBtn.dataset.filter : 'all';
+
+            eqCards.forEach(card => {
+                const title = card.dataset.title ? card.dataset.title.toLowerCase() : '';
+                const categories = card.dataset.category ? card.dataset.category.toLowerCase() : ''; 
+
+                const matchesSearch = title.includes(term);
+                // Use includes() to support multi-tagged items
+                const matchesCategory = activeCategory === 'all' || categories.includes(activeCategory);
+
+                if (matchesSearch && matchesCategory) {
+                    card.style.display = ''; 
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        };
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                filterItems();
+            });
+        });
+
+        if (searchInput) {
+            searchInput.addEventListener('input', filterItems);
+        }
+
+        // Check URL Params for direct category linking
+        const urlParams = new URLSearchParams(window.location.search);
+        const categoryParam = urlParams.get('category');
+        if (categoryParam) {
+            const targetBtn = document.querySelector(`.filter-btn[data-filter="${categoryParam}"]`);
+            if (targetBtn) {
+                targetBtn.click();
+            }
+        }
+    }
 });
 
 /**
  * Contact Page Logic (Contact_Us.html)
- * Handles category selection and dynamic form injection.
+ * Data structure and functions for dynamic form generation.
  * -------------------------------------------------------------------------
  */
 const fieldData = {
@@ -431,7 +515,6 @@ function selectCategory(category, element) {
 
         // Show Form
         formContainer.classList.remove('hidden');
-        // Force flow to recognize visibility before adding animation class
         void formContainer.offsetWidth;
         formContainer.classList.add('fade-in');
 
@@ -446,8 +529,6 @@ function resetSelection() {
     document.querySelectorAll('.gateway-card').forEach(card => card.classList.remove('selected'));
     document.getElementById('formContainer').classList.add('hidden');
     document.getElementById('formContainer').classList.remove('fade-in');
-
-    // Scroll back to top of grid
     document.getElementById('gatewayGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
@@ -458,9 +539,7 @@ function handleFormSubmit(e) {
     document.getElementById('contactForm').reset();
 }
 
-
-
-
+// Global Exports
 window.fieldData = fieldData;
 window.selectCategory = selectCategory;
 window.resetSelection = resetSelection;
