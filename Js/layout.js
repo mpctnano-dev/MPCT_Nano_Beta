@@ -31,7 +31,7 @@ class SiteHeader extends HTMLElement {
                 <nav class="nav-menu">
                     <div class="nav-item"><a href="/Index.html" class="nav-link" data-path="index.html">Home</a></div>
                     <div class="nav-item"><a href="#" class="nav-link">Research</a></div>
-                    <div class="nav-item"><a href="./Pages/Equipment.html" class="nav-link"data-path="Equipment.html">Equipment</a></div>
+                    <div class="nav-item"><a href="/Pages/Equipment.html" class="nav-link"data-path="Equipment.html">Equipment</a></div>
                     <div class="nav-item"><a href="#" class="nav-link">Faculty</a></div>
                     <div class="nav-item"><a href="/Pages/Contact_Us.html" class="nav-link" data-path="Contact_Us.html">Contact Us</a></div>
                     <div class="nav-item"><a href="/Pages/Booking1.html" class="btn btn-sm btn-gold">Reserve Equipment</a></div>
