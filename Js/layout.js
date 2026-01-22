@@ -15,7 +15,7 @@ class SiteHeader extends HTMLElement {
         <header class="site-header" id="mainHeader">
             <div class="main-nav-container container">
                 <a href="/Index.html" class="brand-logo">
-                    <img src="/Assets/Images/NAU.png" alt="Northern Arizona University" class="header-logo">
+                    <img src="./Assets/Images/NAU.png" alt="Northern Arizona University" class="header-logo">
                     <div class="brand-divider"></div>
                     <div class="brand-text">
                         <span class="dept">Nanotechnology Core Facility</span>
