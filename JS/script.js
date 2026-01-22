@@ -560,3 +560,55 @@ window.fieldData = fieldData;
 window.selectCategory = selectCategory;
 window.resetSelection = resetSelection;
 window.handleFormSubmit = handleFormSubmit;
+
+
+// -------------------------------------------------------------------------
+    // EQUIPMENT CATALOG LOGIC
+    // Handles Grid/List toggle and Category Filtering
+    // -------------------------------------------------------------------------
+    const container = document.getElementById('equipmentContainer');
+    const gridBtn = document.getElementById('gridViewBtn');
+    const listBtn = document.getElementById('listViewBtn');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.tech-card');
+
+    // 1. VIEW SWITCHER (Grid vs List)
+    if (container && gridBtn && listBtn) {
+        gridBtn.addEventListener('click', () => {
+            container.classList.remove('list-layout');
+            container.classList.add('grid-layout');
+            gridBtn.classList.add('active');
+            listBtn.classList.remove('active');
+        });
+
+        listBtn.addEventListener('click', () => {
+            container.classList.remove('grid-layout');
+            container.classList.add('list-layout');
+            listBtn.classList.add('active');
+            gridBtn.classList.remove('active');
+        });
+    }
+
+    // 2. FILTERING LOGIC
+    if (filterBtns.length > 0) {
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // Add active to clicked button
+                btn.classList.add('active');
+
+                const filterValue = btn.getAttribute('data-filter');
+
+                cards.forEach(card => {
+                    const category = card.getAttribute('data-category');
+                    
+                    if (filterValue === 'all' || category === filterValue) {
+                        card.style.display = 'flex'; // Show
+                    } else {
+                        card.style.display = 'none'; // Hide
+                    }
+                });
+            });
+        });
+    }
