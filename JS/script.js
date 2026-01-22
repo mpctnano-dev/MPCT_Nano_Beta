@@ -83,6 +83,22 @@ document.addEventListener('DOMContentLoaded', () => {
         startInterval();
     }
 
+    // Featured Equipment Carousel (Homepage)
+    // Connects the Left/Right arrows to the scroll logic
+    // -------------------------------------------------------------------------
+    const carouselLeft = document.querySelector('.nav-btn.left');
+    const carouselRight = document.querySelector('.nav-btn.right');
+    
+    if (carouselLeft && carouselRight) {
+        carouselLeft.addEventListener('click', () => {
+            scrollGrid(-350); // Scroll Left
+        });
+
+        carouselRight.addEventListener('click', () => {
+            scrollGrid(350); // Scroll Right
+        });
+    }
+
     // -------------------------------------------------------------------------
     // Mobile Navigation Toggle
     // Handles the mobile menu overlay state.
