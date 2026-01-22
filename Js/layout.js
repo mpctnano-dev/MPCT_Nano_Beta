@@ -15,7 +15,7 @@ class SiteHeader extends HTMLElement {
         <header class="site-header" id="mainHeader">
             <div class="main-nav-container container">
                 <a href="/Index.html" class="brand-logo">
-                    <img src="Images/NAU.png" alt="Northern Arizona University" class="header-logo">
+                    <img src="./Images/NAU.png" alt="Northern Arizona University" class="header-logo">
                     <div class="brand-divider"></div>
                     <div class="brand-text">
                         <span class="dept">Nanotechnology Core Facility</span>
@@ -97,7 +97,7 @@ class SiteFooter extends HTMLElement {
             <div class="container">
                 <div class="footer-grid">
                     <div class="footer-brand">
-                        <img src="Images/NAU.png" class="footer-logo" alt="NAU Logo"
+                        <img src="./Images/NAU.png" class="footer-logo" alt="NAU Logo"
                             onerror="this.style.display='none'">
                         <p style="color: rgba(255,255,255,0.7); max-width: 300px; margin-bottom: 25px;">The Microelectronics
                             Processing,
