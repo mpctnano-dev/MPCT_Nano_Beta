@@ -11,11 +11,18 @@ class SiteHeader extends HTMLElement {
     }
 
     connectedCallback() {
+        // DYNAMIC PATH LOGIC
+        // Check if we are in a subfolder (like About_Equipment)
+        // If yes, we need to go up one level (../). If no, we stay in root (./)
+        // We look for 'About_Equipment' in the URL to decide.
+        const isInSubfolder = window.location.pathname.includes('/About_Equipment/');
+        const basePath = isInSubfolder ? '../' : './';
+
         this.innerHTML = `
         <header class="site-header" id="mainHeader">
             <div class="main-nav-container container">
-                <a href="/Index.html" class="brand-logo">
-                    <img src="./Images/NAU.png" alt="Northern Arizona University" class="header-logo">
+                <a href="${basePath}index.html" class="brand-logo">
+                    <img src="${basePath}Images/NAU.png" alt="Northern Arizona University" class="header-logo">
                     <div class="brand-divider"></div>
                     <div class="brand-text">
                         <span class="dept">Nanotechnology Core Facility</span>
@@ -29,12 +36,16 @@ class SiteHeader extends HTMLElement {
                 </button>
 
                 <nav class="nav-menu">
-                    <div class="nav-item"><a href="/Index.html" class="nav-link" data-path="index.html">Home</a></div>
+                    <div class="nav-item"><a href="${basePath}index.html" class="nav-link" data-path="index.html">Home</a></div>
                     <div class="nav-item"><a href="#" class="nav-link">Research</a></div>
-                    <div class="nav-item"><a href="./Pages/Equipment.html" class="nav-link"data-path="Equipment.html">Equipment</a></div>
+                    
+                    <div class="nav-item"><a href="${basePath}Equipment.html" class="nav-link" data-path="Equipment.html">Equipment</a></div>
+                    
                     <div class="nav-item"><a href="#" class="nav-link">Faculty</a></div>
-                    <div class="nav-item"><a href="/Pages/Contact_Us.html" class="nav-link" data-path="Contact_Us.html">Contact Us</a></div>
-                    <div class="nav-item"><a href="/Pages/Booking1.html" class="btn btn-sm btn-gold">Reserve Equipment</a></div>
+                    
+                    <div class="nav-item"><a href="${basePath}Contact_Us.html" class="nav-link" data-path="Contact_Us.html">Contact Us</a></div>
+                    
+                    <div class="nav-item"><a href="${basePath}Booking1.html" class="btn btn-sm btn-gold">Reserve Equipment</a></div>
                 </nav>
             </div>
         </header>
@@ -45,12 +56,10 @@ class SiteHeader extends HTMLElement {
     }
 
     highlightActiveLink() {
-        // Gets the current file name (e.g., 'Contact_Us.html')
         const currentPath = window.location.pathname.split('/').pop() || 'index.html';
         const links = this.querySelectorAll('.nav-link');
 
         links.forEach(link => {
-            // Checks if the link matches the current page to add the 'Active' underline style
             if (link.dataset.path === currentPath) {
                 link.classList.add('active');
             }
@@ -58,7 +67,6 @@ class SiteHeader extends HTMLElement {
     }
 
     initMobileMenu() {
-        // Re-attach mobile menu logic since it's now dynamically injected
         const mobileBtn = this.querySelector('.mobile-toggle');
         const navMenu = this.querySelector('.nav-menu');
 
@@ -92,19 +100,23 @@ class SiteFooter extends HTMLElement {
     }
 
     connectedCallback() {
+        // Re-use dynamic path logic for the footer images/links
+        const isInSubfolder = window.location.pathname.includes('/About_Equipment/');
+        const basePath = isInSubfolder ? '../' : './';
+
         this.innerHTML = `
         <footer class="site-footer">
             <div class="container">
                 <div class="footer-grid">
                     <div class="footer-brand">
-                        <img src="./Images/NAU.png" class="footer-logo" alt="NAU Logo"
+                        <img src="${basePath}Images/NAU.png" class="footer-logo" alt="NAU Logo"
                             onerror="this.style.display='none'">
                         <p style="color: rgba(255,255,255,0.7); max-width: 300px; margin-bottom: 25px;">The Microelectronics
                             Processing,
                             Characterization, and Testing Lab is dedicated to advancing semiconductor education and
                             research.</p>
                         <div class="social-row">
-                            <a href="https://twitter.com/NAU" target="_blank" class="social-icon" aria-label="X (Twitter)">
+                             <a href="https://twitter.com/NAU" target="_blank" class="social-icon" aria-label="X (Twitter)">
                                 <svg viewBox="0 0 24 24">
                                     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
                                 </svg>
@@ -132,7 +144,7 @@ class SiteFooter extends HTMLElement {
                     <div class="footer-col">
                         <h4>User Portal</h4>
                         <ul class="footer-links">
-                            <li><a href="/Pages/Booking1.html">Book Equipment</a></li>
+                            <li><a href="${basePath}Booking1.html">Book Equipment</a></li>
                             <li><a href="#">Report an Issue</a></li>
                             <li><a href="#">Safety Training</a></li>
                             <li><a href="#">SDS Database</a></li>
@@ -153,7 +165,7 @@ class SiteFooter extends HTMLElement {
                     <div class="footer-col">
                         <h4>Connect</h4>
                         <ul class="footer-links">
-                            <li><a href="/Pages/Contact_Us.html">Contact Us</a></li>
+                            <li><a href="${basePath}Contact_Us.html">Contact Us</a></li>
                             <li><a href="#">Partner With Us</a></li>
                             <li><a href="#">Alumni Network</a></li>
                             <li><a href="#">Support NAU Nano</a></li>
