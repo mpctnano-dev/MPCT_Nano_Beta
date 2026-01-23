@@ -3,13 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Equipment Catalog | NAU Nano</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <title>Equipment Catalog | NAU Nanotechnology</title>
     <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
@@ -19,280 +15,392 @@
         <section class="page-header bg-blue text-white section-padding" style="padding: 60px 0;">
             <div class="container">
                 <h1>Equipment Catalog</h1>
-                <p class="text-white-muted">Browse our inventory of metrology, lithography, and fabrication tools.</p>
+                <p class="text-white-muted">Browse our complete inventory of characterization, fabrication, and packaging tools.</p>
             </div>
         </section>
 
-        <section class="filter-section">
-            <div class="container">
-                <div class="filter-bar">
-                    <div class="search-wrapper">
-                        <i class="fas fa-search search-icon"></i>
-                        <input type="text" id="searchInput" placeholder="Search equipment..." class="search-input">
-                    </div>
-                    
-                    <div class="filter-groups" id="filterGroup">
-                        <button class="filter-btn active" data-filter="all">All</button>
-                        <button class="filter-btn" data-filter="metrology">Metrology</button>
-                        <button class="filter-btn" data-filter="lithography">Lithography</button>
-                        <button class="filter-btn" data-filter="deposition">Deposition</button>
-                        <button class="filter-btn" data-filter="etching">Etching</button>
-                        <button class="filter-btn" data-filter="packaging">Packaging</button>
-                        <button class="filter-btn" data-filter="fabrication">Fabrication</button>
-                    </div>
+        <section class="filter-section" style="border-bottom: 1px solid var(--gray-200); padding: 20px 0; position: sticky; top: 0; z-index: 90;">
+            <div class="container d-flex justify-between align-center" style="gap: 20px; flex-wrap: wrap;">
+                
+                <div class="search-wrapper" style="position: relative; flex-grow: 1; max-width: 300px;">
+                    <i class="fas fa-search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--gray-400);"></i>
+                    <input type="text" id="searchInput" placeholder="Search equipment..." 
+                           style="width: 100%; padding: 10px 10px 10px 40px; border: 1px solid var(--gray-300); border-radius: 20px; background: var(--gray-50);">
+                </div>
 
-                    <div class="view-controls">
-                        <button class="view-btn active" id="gridViewBtn" title="Grid View">
-                            <i class="fas fa-th-large"></i>
-                        </button>
-                        <button class="view-btn" id="listViewBtn" title="List View">
-                            <i class="fas fa-list"></i>
-                        </button>
-                    </div>
+                <div class="filter-group">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="Metrology">Metrology</button>
+                    <button class="filter-btn" data-filter="Lithography">Lithography</button>
+                    <button class="filter-btn" data-filter="Deposition">Deposition</button>
+                    <button class="filter-btn" data-filter="Packaging">Packaging</button>
+                    <button class="filter-btn" data-filter="General">General</button>
+                </div>
+
+                <div class="view-switcher">
+                    <button class="btn btn-sm btn-outline active" id="gridViewBtn"><i class="fas fa-th-large"></i> Grid</button>
+                    <button class="btn btn-sm btn-outline" id="listViewBtn"><i class="fas fa-list"></i> List</button>
                 </div>
             </div>
         </section>
 
-        <section class="section-padding bg-gray-50 pt-20">
+        <section class="catalog-section" style="padding: 40px 0; background-color: var(--gray-50); min-height: 600px;">
             <div class="container">
                 
-                <div class="carousel-wrapper">
-                    <button class="nav-btn left" onclick="scrollCatalog(-340)">&#8249;</button>
-                    <button class="nav-btn right" onclick="scrollCatalog(340)">&#8250;</button>
+                <div class="grid-layout" id="equipmentContainer">
 
-                    <div class="card-wrapper" id="cardContainer">
-                        
-                        <div class="equipment-card" data-category="metrology" data-title="Atomic Force Microscope">
-                            <div class="d-flex flex-col justify-between" style="height:100%">
-                                <div>
-                                    <div class="d-flex justify-between align-center mb-10">
-                                        <span class="tag">Metrology</span>
-                                        <span class="status-badge available">Available</span>
-                                    </div>
-                                    <h3 class="card-title">Atomic Force Microscope</h3>
-                                </div>
-                                <div class="image-container">
-                                    <img src="Images/B2_AFM.png" class="equipment-img" alt="AFM" onerror="this.style.display='none'">
-                                </div>
-                                <div>
-                                    <div class="specs">Room 145<span class="small">Nano-surface analysis</span></div>
-                                    <div class="action-row">
-                                        <a href="About_Equipment/B2_AFM.html" class="action-btn about-btn">About</a>
-                                        <a href="/Pages/Booking1.html" class="action-btn book-btn">Book</a>
-                                    </div>
-                                </div>
+                    <div class="tech-card" data-category="Metrology">
+                        <div class="tech-card-header">
+                            <div class="d-flex justify-between align-center mb-2">
+                                <span class="badge badge-blue">Metrology</span>
+                                <span class="status-dot available"></span>
                             </div>
+                            <h3 class="tech-title">B-2 Atomic Force Microscope (AFM)</h3>
                         </div>
+                        <div class="tech-img-box"><img src="Images/B2_AFM.png" onerror="this.src='https://placehold.co/400x300?text=AFM'"></div>
+                        <div class="tech-body">
+                            <div class="tech-info"><span><i class="fas fa-map-marker-alt"></i> Room 145</span><span><i class="fas fa-wave-square"></i> Surface Topography</span></div>
+                            <div class="tech-actions"><a href="About_Equipment/B2_AFM.html" class="btn-tech btn-tech-outline">About</a><a href="Booking1.html" class="btn-tech btn-tech-fill">Book</a></div>
+                        </div>
+                    </div>
 
-                        <div class="equipment-card" data-category="deposition" data-title="Sputter System">
-                            <div class="d-flex flex-col justify-between" style="height:100%">
-                                <div>
-                                    <div class="d-flex justify-between align-center mb-10">
-                                        <span class="tag blue">Deposition</span>
-                                        <span class="status-badge available">Available</span>
-                                    </div>
-                                    <h3 class="card-title">Sputter System</h3>
-                                </div>
-                                <div class="image-container">
-                                    <img src="Images/Sputtering.webp" class="equipment-img" alt="Sputter" onerror="this.style.display='none'">
-                                </div>
-                                <div>
-                                    <div class="specs">Cleanroom Bay 1<span class="small">Thin Film Deposition</span></div>
-                                    <div class="action-row">
-                                        <a href="#" class="action-btn about-btn">About</a>
-                                        <a href="/Pages/Booking1.html" class="action-btn book-btn">Book</a>
-                                    </div>
-                                </div>
+                    <div class="tech-card" data-category="Metrology">
+                        <div class="tech-card-header">
+                            <div class="d-flex justify-between align-center mb-2">
+                                <span class="badge badge-blue">Metrology</span>
+                                <span class="status-dot available"></span>
                             </div>
+                            <h3 class="tech-title">Scanning Electron Microscope (SEM)</h3>
                         </div>
+                        <div class="tech-img-box"><img src="Images/SEM.jpg" alt="SEM"></div>
+                        <div class="tech-body">
+                            <div class="tech-info"><span><i class="fas fa-map-marker-alt"></i> Room 145</span><span><i class="fas fa-search-plus"></i> High Res Imaging</span></div>
+                            <div class="tech-actions"><a href="#" class="btn-tech btn-tech-outline">About</a><a href="Booking1.html" class="btn-tech btn-tech-fill">Book</a></div>
+                        </div>
+                    </div>
 
-                        <div class="equipment-card" data-category="lithography" data-title="Mask Aligner">
-                            <div class="d-flex flex-col justify-between" style="height:100%">
-                                <div>
-                                    <div class="d-flex justify-between align-center mb-10">
-                                        <span class="tag green">Lithography</span>
-                                        <span class="status-badge maintenance">Maintenance</span>
-                                    </div>
-                                    <h3 class="card-title">Mask Aligner</h3>
-                                </div>
-                                <div class="image-container">
-                                    <img src="Images/aligner.jpg" class="equipment-img" alt="Aligner" onerror="this.style.display='none'">
-                                </div>
-                                <div>
-                                    <div class="specs">Yellow Room<span class="small">Photolithography</span></div>
-                                    <div class="action-row">
-                                        <a href="#" class="action-btn about-btn">About</a>
-                                        <button class="action-btn book-btn disabled">Service</button>
-                                    </div>
-                                </div>
+                    <div class="tech-card" data-category="Metrology">
+                        <div class="tech-card-header">
+                            <div class="d-flex justify-between align-center mb-2">
+                                <span class="badge badge-blue">Metrology</span>
+                                <span class="status-dot maintenance"></span>
                             </div>
+                            <h3 class="tech-title">Transmission Electron Microscope (TEM)</h3>
                         </div>
+                        <div class="tech-img-box"><img src="Images/TEM.jpg" alt="TEM"></div>
+                        <div class="tech-body">
+                            <div class="tech-info"><span><i class="fas fa-map-marker-alt"></i> Basement Lab</span><span><i class="fas fa-atom"></i> Atomic Resolution</span></div>
+                            <div class="tech-actions"><a href="#" class="btn-tech btn-tech-outline">About</a><a href="Booking1.html" class="btn-tech btn-tech-fill">Book</a></div>
+                        </div>
+                    </div>
 
-                        <div class="equipment-card" data-category="metrology" data-title="Scanning Electron Microscope">
-                            <div class="d-flex flex-col justify-between" style="height:100%">
-                                <div>
-                                    <div class="d-flex justify-between align-center mb-10">
-                                        <span class="tag">Metrology</span>
-                                        <span class="status-badge available">Available</span>
-                                    </div>
-                                    <h3 class="card-title">Scanning Electron Microscope</h3>
-                                </div>
-                                <div class="image-container">
-                                    <img src="Images/SEM.png" class="equipment-img" alt="SEM" onerror="this.style.display='none'">
-                                </div>
-                                <div>
-                                    <div class="specs">Room 142<span class="small">High-res Imaging</span></div>
-                                    <div class="action-row">
-                                        <a href="#" class="action-btn about-btn">About</a>
-                                        <a href="/Pages/Booking1.html" class="action-btn book-btn">Book</a>
-                                    </div>
-                                </div>
+                    <div class="tech-card" data-category="Metrology">
+                        <div class="tech-card-header">
+                            <div class="d-flex justify-between align-center mb-2">
+                                <span class="badge badge-blue">Metrology</span>
+                                <span class="status-dot available"></span>
                             </div>
+                            <h3 class="tech-title">XRD (X-Ray Diffraction)</h3>
                         </div>
+                        <div class="tech-img-box"><img src="Images/XRD.jpg" alt="XRD"></div>
+                        <div class="tech-body">
+                            <div class="tech-info"><span><i class="fas fa-map-marker-alt"></i> Room 148</span><span><i class="fas fa-cubes"></i> Crystallography</span></div>
+                            <div class="tech-actions"><a href="#" class="btn-tech btn-tech-outline">About</a><a href="Booking1.html" class="btn-tech btn-tech-fill">Book</a></div>
+                        </div>
+                    </div>
 
-                        <div class="equipment-card" data-category="deposition" data-title="E-Beam Evaporator">
-                            <div class="d-flex flex-col justify-between" style="height:100%">
-                                <div>
-                                    <div class="d-flex justify-between align-center mb-10">
-                                        <span class="tag blue">Deposition</span>
-                                        <span class="status-badge available">Available</span>
-                                    </div>
-                                    <h3 class="card-title">E-Beam Evaporator</h3>
-                                </div>
-                                <div class="image-container">
-                                    <img src="Images/Ebeam.png" class="equipment-img" alt="E-Beam" onerror="this.style.display='none'">
-                                </div>
-                                <div>
-                                    <div class="specs">Bay 2<span class="small">Metal Deposition</span></div>
-                                    <div class="action-row">
-                                        <a href="#" class="action-btn about-btn">About</a>
-                                        <a href="/Pages/Booking1.html" class="action-btn book-btn">Book</a>
-                                    </div>
-                                </div>
+                    <div class="tech-card" data-category="Metrology">
+                        <div class="tech-card-header">
+                            <div class="d-flex justify-between align-center mb-2">
+                                <span class="badge badge-blue">Metrology</span>
+                                <span class="status-dot available"></span>
                             </div>
+                            <h3 class="tech-title">Ellipsometer</h3>
                         </div>
+                        <div class="tech-img-box"><img src="Images/Ellipsometer.jpg" alt="Ellipsometer"></div>
+                        <div class="tech-body">
+                            <div class="tech-info"><span><i class="fas fa-map-marker-alt"></i> Room 145</span><span><i class="fas fa-layer-group"></i> Film Thickness</span></div>
+                            <div class="tech-actions"><a href="#" class="btn-tech btn-tech-outline">About</a><a href="Booking1.html" class="btn-tech btn-tech-fill">Book</a></div>
+                        </div>
+                    </div>
 
-                        <div class="equipment-card" data-category="etching" data-title="Plasma Cleaner">
-                            <div class="d-flex flex-col justify-between" style="height:100%">
-                                <div>
-                                    <div class="d-flex justify-between align-center mb-10">
-                                        <span class="tag red">Etching</span>
-                                        <span class="status-badge available">Available</span>
-                                    </div>
-                                    <h3 class="card-title">O2 Plasma Cleaner</h3>
-                                </div>
-                                <div class="image-container">
-                                    <img src="Images/plasma.jpg" class="equipment-img" alt="Plasma" onerror="this.style.display='none'">
-                                </div>
-                                <div>
-                                    <div class="specs">Room 142<span class="small">Surface Activation</span></div>
-                                    <div class="action-row">
-                                        <a href="#" class="action-btn about-btn">About</a>
-                                        <a href="/Pages/Booking1.html" class="action-btn book-btn">Book</a>
-                                    </div>
-                                </div>
+                    <div class="tech-card" data-category="Metrology">
+                        <div class="tech-card-header">
+                            <div class="d-flex justify-between align-center mb-2">
+                                <span class="badge badge-blue">Metrology</span>
+                                <span class="status-dot available"></span>
                             </div>
+                            <h3 class="tech-title">Stylus Profilometer</h3>
                         </div>
+                        <div class="tech-img-box"><img src="Images/bruker.png" onerror="this.src='https://placehold.co/400x300?text=Profilometer'"></div>
+                        <div class="tech-body">
+                            <div class="tech-info"><span><i class="fas fa-map-marker-alt"></i> Room 145</span><span><i class="fas fa-chart-bar"></i> Step Height</span></div>
+                            <div class="tech-actions"><a href="#" class="btn-tech btn-tech-outline">About</a><a href="Booking1.html" class="btn-tech btn-tech-fill">Book</a></div>
+                        </div>
+                    </div>
 
-                        <div class="equipment-card" data-category="packaging fabrication" data-title="Wedge Wire Bonder">
-                            <div class="d-flex flex-col justify-between" style="height:100%">
-                                <div>
-                                    <div class="d-flex justify-between align-center mb-10">
-                                        <div class="d-flex gap-sm">
-                                            <span class="tag" style="background-color: #0d9488; color: white;">Packaging</span>
-                                        </div>
-                                        <span class="status-badge available">Available</span>
-                                    </div>
-                                    <h3 class="card-title">Wedge Wire Bonder</h3>
-                                </div>
-                                <div class="image-container">
-                                    <img src="Images/bond.jpg" class="equipment-img" alt="Bonder" onerror="this.style.display='none'">
-                                </div>
-                                <div>
-                                    <div class="specs">Room 148<span class="small">Interconnects</span></div>
-                                    <div class="action-row">
-                                        <a href="#" class="action-btn about-btn">About</a>
-                                        <a href="/Pages/Booking1.html" class="action-btn book-btn">Book</a>
-                                    </div>
-                                </div>
+                    <div class="tech-card" data-category="Metrology">
+                        <div class="tech-card-header">
+                            <div class="d-flex justify-between align-center mb-2">
+                                <span class="badge badge-blue">Metrology</span>
+                                <span class="status-dot available"></span>
                             </div>
+                            <h3 class="tech-title">Optical Holographic Profiler</h3>
                         </div>
+                        <div class="tech-img-box"><img src="Images/OHP.jpg" alt="Profiler"></div>
+                        <div class="tech-body">
+                            <div class="tech-info"><span><i class="fas fa-map-marker-alt"></i> Room 145</span><span><i class="fas fa-ruler-vertical"></i> 3D Surface Map</span></div>
+                            <div class="tech-actions"><a href="#" class="btn-tech btn-tech-outline">About</a><a href="Booking1.html" class="btn-tech btn-tech-fill">Book</a></div>
+                        </div>
+                    </div>
 
-                        <div class="equipment-card" data-category="metrology" data-title="Stylus Profilometer">
-                            <div class="d-flex flex-col justify-between" style="height:100%">
-                                <div>
-                                    <div class="d-flex justify-between align-center mb-10">
-                                        <span class="tag">Metrology</span>
-                                        <span class="status-badge available">Available</span>
-                                    </div>
-                                    <h3 class="card-title">Stylus Profilometer</h3>
-                                </div>
-                                <div class="image-container">
-                                    <img src="Images/bruker.png" class="equipment-img" alt="Profilometer" onerror="this.style.display='none'">
-                                </div>
-                                <div>
-                                    <div class="specs">Room 145<span class="small">Step Height</span></div>
-                                    <div class="action-row">
-                                        <a href="#" class="action-btn about-btn">About</a>
-                                        <a href="/Pages/Booking1.html" class="action-btn book-btn">Book</a>
-                                    </div>
-                                </div>
+                     <div class="tech-card" data-category="Metrology">
+                        <div class="tech-card-header">
+                            <div class="d-flex justify-between align-center mb-2">
+                                <span class="badge badge-blue">Metrology</span>
+                                <span class="status-dot available"></span>
                             </div>
+                            <h3 class="tech-title">Wide Area CMM</h3>
                         </div>
+                        <div class="tech-img-box"><img src="Images/CMM_WA.png" alt="CMM"></div>
+                        <div class="tech-body">
+                            <div class="tech-info"><span><i class="fas fa-map-marker-alt"></i> Metrology Lab</span><span><i class="fas fa-ruler-combined"></i> Dimensional Check</span></div>
+                            <div class="tech-actions"><a href="#" class="btn-tech btn-tech-outline">About</a><a href="Booking1.html" class="btn-tech btn-tech-fill">Book</a></div>
+                        </div>
+                    </div>
 
-                        <div class="equipment-card" data-category="lithography" data-title="Spin Coater">
-                            <div class="d-flex flex-col justify-between" style="height:100%">
-                                <div>
-                                    <div class="d-flex justify-between align-center mb-10">
-                                        <span class="tag blue">Lithography</span>
-                                        <span class="status-badge available">Available</span>
-                                    </div>
-                                    <h3 class="card-title">Spin Coater</h3>
-                                </div>
-                                <div class="image-container">
-                                    <img src="Images/coater.webp" class="equipment-img" alt="Coater" onerror="this.style.display='none'">
-                                </div>
-                                <div>
-                                    <div class="specs">Fume Hood 2<span class="small">Photoresist</span></div>
-                                    <div class="action-row">
-                                        <a href="#" class="action-btn about-btn">About</a>
-                                        <a href="/Pages/Booking1.html" class="action-btn book-btn">Book</a>
-                                    </div>
-                                </div>
+                    <div class="tech-card" data-category="Lithography">
+                        <div class="tech-card-header">
+                            <div class="d-flex justify-between align-center mb-2">
+                                <span class="badge badge-gold">Lithography</span>
+                                <span class="status-dot available"></span>
                             </div>
+                            <h3 class="tech-title">UV Mask Aligner</h3>
                         </div>
+                        <div class="tech-img-box"><img src="Images/aligner.jpg" onerror="this.src='https://placehold.co/400x300?text=Aligner'"></div>
+                        <div class="tech-body">
+                            <div class="tech-info"><span><i class="fas fa-map-marker-alt"></i> Yellow Room</span><span><i class="fas fa-microchip"></i> Photo-Litho</span></div>
+                            <div class="tech-actions"><a href="#" class="btn-tech btn-tech-outline">About</a><a href="Booking1.html" class="btn-tech btn-tech-fill">Book</a></div>
+                        </div>
+                    </div>
 
-                        <div class="equipment-card" data-category="fabrication packaging" data-title="Dicing Saw">
-                            <div class="d-flex flex-col justify-between" style="height:100%">
-                                <div>
-                                    <div class="d-flex justify-between align-center mb-10">
-                                        <div class="d-flex gap-sm">
-                                            <span class="tag" style="background-color: var(--gray-800); color: white;">Fab</span>
-                                            <span class="tag" style="background-color: #0d9488; color: white;">Packaging</span>
-                                        </div>
-                                        <span class="status-badge available">Available</span>
-                                    </div>
-                                    <h3 class="card-title">Dicing Saw</h3>
-                                </div>
-                                <div class="image-container">
-                                    <img src="Images/Saw.png" class="equipment-img" alt="Saw" onerror="this.style.display='none'">
-                                </div>
-                                <div>
-                                    <div class="specs">Room 148<span class="small">Wafer Cutting</span></div>
-                                    <div class="action-row">
-                                        <a href="#" class="action-btn about-btn">About</a>
-                                        <a href="/Pages/Booking1.html" class="action-btn book-btn">Book</a>
-                                    </div>
-                                </div>
+                    <div class="tech-card" data-category="Lithography">
+                        <div class="tech-card-header">
+                            <div class="d-flex justify-between align-center mb-2">
+                                <span class="badge badge-gold">Lithography</span>
+                                <span class="status-dot busy"></span>
                             </div>
+                            <h3 class="tech-title">Spin Coater</h3>
                         </div>
+                        <div class="tech-img-box"><img src="Images/coater.webp" onerror="this.src='https://placehold.co/400x300?text=Coater'"></div>
+                        <div class="tech-body">
+                            <div class="tech-info"><span><i class="fas fa-map-marker-alt"></i> Fume Hood 2</span><span><i class="fas fa-wind"></i> Photoresist</span></div>
+                            <div class="tech-actions"><a href="#" class="btn-tech btn-tech-outline">About</a><a href="Booking1.html" class="btn-tech btn-tech-fill">Book</a></div>
+                        </div>
+                    </div>
 
-                    </div> </div> </div>
+                    <div class="tech-card" data-category="Lithography">
+                        <div class="tech-card-header">
+                            <div class="d-flex justify-between align-center mb-2">
+                                <span class="badge badge-gold">Lithography</span>
+                                <span class="status-dot available"></span>
+                            </div>
+                            <h3 class="tech-title">LPKF ProtoLaser R4</h3>
+                        </div>
+                        <div class="tech-img-box"><img src="Images/LPKF.png" alt="Laser"></div>
+                        <div class="tech-body">
+                            <div class="tech-info"><span><i class="fas fa-map-marker-alt"></i> Fab Lab</span><span><i class="fas fa-bolt"></i> Laser Ablation</span></div>
+                            <div class="tech-actions"><a href="#" class="btn-tech btn-tech-outline">About</a><a href="Booking1.html" class="btn-tech btn-tech-fill">Book</a></div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card" data-category="Lithography">
+                        <div class="tech-card-header">
+                            <div class="d-flex justify-between align-center mb-2">
+                                <span class="badge badge-gold">Lithography</span>
+                                <span class="status-dot available"></span>
+                            </div>
+                            <h3 class="tech-title">Nano Imprinter</h3>
+                        </div>
+                        <div class="tech-img-box"><img src="Images/NI.png" alt="Imprinter"></div>
+                        <div class="tech-body">
+                            <div class="tech-info"><span><i class="fas fa-map-marker-alt"></i> Yellow Room</span><span><i class="fas fa-stamp"></i> Nano-Patterning</span></div>
+                            <div class="tech-actions"><a href="#" class="btn-tech btn-tech-outline">About</a><a href="Booking1.html" class="btn-tech btn-tech-fill">Book</a></div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card" data-category="Deposition">
+                        <div class="tech-card-header">
+                            <div class="d-flex justify-between align-center mb-2">
+                                <span class="badge badge-purple">Deposition</span>
+                                <span class="status-dot available"></span>
+                            </div>
+                            <h3 class="tech-title">High-Vacuum Sputter</h3>
+                        </div>
+                        <div class="tech-img-box"><img src="Images/Sputtering.webp"></div>
+                        <div class="tech-body">
+                            <div class="tech-info"><span><i class="fas fa-map-marker-alt"></i> Room 145</span><span><i class="fas fa-cloud"></i> PVD Coating</span></div>
+                            <div class="tech-actions"><a href="#" class="btn-tech btn-tech-outline">About</a><a href="Booking1.html" class="btn-tech btn-tech-fill">Book</a></div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card" data-category="Deposition">
+                        <div class="tech-card-header">
+                            <div class="d-flex justify-between align-center mb-2">
+                                <span class="badge badge-purple">Deposition</span>
+                                <span class="status-dot available"></span>
+                            </div>
+                            <h3 class="tech-title">LPKF Electroplater</h3>
+                        </div>
+                        <div class="tech-img-box"><img src="Images/LPKF_E.png"></div>
+                        <div class="tech-body">
+                            <div class="tech-info"><span><i class="fas fa-map-marker-alt"></i> Wet Lab</span><span><i class="fas fa-flask"></i> Metal Plating</span></div>
+                            <div class="tech-actions"><a href="#" class="btn-tech btn-tech-outline">About</a><a href="Booking1.html" class="btn-tech btn-tech-fill">Book</a></div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card" data-category="Packaging">
+                        <div class="tech-card-header">
+                            <div class="d-flex justify-between align-center mb-2">
+                                <span class="badge badge-green">Packaging</span>
+                                <span class="status-dot maintenance"></span>
+                            </div>
+                            <h3 class="tech-title">PCB Wire Bonder</h3>
+                        </div>
+                        <div class="tech-img-box"><img src="Images/bond.jpg" onerror="this.src='https://placehold.co/400x300?text=Wire+Bonder'"></div>
+                        <div class="tech-body">
+                            <div class="tech-info"><span><i class="fas fa-map-marker-alt"></i> Room 148</span><span><i class="fas fa-project-diagram"></i> Interconnects</span></div>
+                            <div class="tech-actions"><a href="#" class="btn-tech btn-tech-outline">About</a><a href="Booking1.html" class="btn-tech btn-tech-fill">Book</a></div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card" data-category="Packaging">
+                        <div class="tech-card-header">
+                            <div class="d-flex justify-between align-center mb-2">
+                                <span class="badge badge-green">Packaging</span>
+                                <span class="status-dot available"></span>
+                            </div>
+                            <h3 class="tech-title">Die Bonder</h3>
+                        </div>
+                        <div class="tech-img-box"><img src="Images/Die_B.png" alt="Die Bonder"></div>
+                        <div class="tech-body">
+                            <div class="tech-info"><span><i class="fas fa-map-marker-alt"></i> Room 148</span><span><i class="fas fa-microchip"></i> Chip Attach</span></div>
+                            <div class="tech-actions"><a href="#" class="btn-tech btn-tech-outline">About</a><a href="Booking1.html" class="btn-tech btn-tech-fill">Book</a></div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card" data-category="Packaging">
+                        <div class="tech-card-header">
+                            <div class="d-flex justify-between align-center mb-2">
+                                <span class="badge badge-green">Packaging</span>
+                                <span class="status-dot available"></span>
+                            </div>
+                            <h3 class="tech-title">PLC Pick and Place</h3>
+                        </div>
+                        <div class="tech-img-box"><img src="Images/PLC.png" alt="Pick Place"></div>
+                        <div class="tech-body">
+                            <div class="tech-info"><span><i class="fas fa-map-marker-alt"></i> Assembly Lab</span><span><i class="fas fa-hand-holding"></i> PCB Assembly</span></div>
+                            <div class="tech-actions"><a href="#" class="btn-tech btn-tech-outline">About</a><a href="Booking1.html" class="btn-tech btn-tech-fill">Book</a></div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card" data-category="Packaging">
+                        <div class="tech-card-header">
+                            <div class="d-flex justify-between align-center mb-2">
+                                <span class="badge badge-green">Packaging</span>
+                                <span class="status-dot available"></span>
+                            </div>
+                            <h3 class="tech-title">LPKF Reflow Oven</h3>
+                        </div>
+                        <div class="tech-img-box"><img src="Images/LPKF_RO.png" alt="Reflow"></div>
+                        <div class="tech-body">
+                            <div class="tech-info"><span><i class="fas fa-map-marker-alt"></i> Assembly Lab</span><span><i class="fas fa-thermometer-three-quarters"></i> Soldering</span></div>
+                            <div class="tech-actions"><a href="#" class="btn-tech btn-tech-outline">About</a><a href="Booking1.html" class="btn-tech btn-tech-fill">Book</a></div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card" data-category="Packaging">
+                        <div class="tech-card-header">
+                            <div class="d-flex justify-between align-center mb-2">
+                                <span class="badge badge-green">Packaging</span>
+                                <span class="status-dot available"></span>
+                            </div>
+                            <h3 class="tech-title">LPKF Wave Solder</h3>
+                        </div>
+                        <div class="tech-img-box"><img src="Images/165.jpg" alt="Solder"></div>
+                        <div class="tech-body">
+                            <div class="tech-info"><span><i class="fas fa-map-marker-alt"></i> Assembly Lab</span><span><i class="fas fa-water"></i> Mass Soldering</span></div>
+                            <div class="tech-actions"><a href="#" class="btn-tech btn-tech-outline">About</a><a href="Booking1.html" class="btn-tech btn-tech-fill">Book</a></div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card" data-category="General">
+                        <div class="tech-card-header">
+                            <div class="d-flex justify-between align-center mb-2">
+                                <span class="badge badge-purple">General</span>
+                                <span class="status-dot available"></span>
+                            </div>
+                            <h3 class="tech-title">Vector Network Analyzer (VNA)</h3>
+                        </div>
+                        <div class="tech-img-box"><img src="Images/VNA.webp" alt="VNA"></div>
+                        <div class="tech-body">
+                            <div class="tech-info"><span><i class="fas fa-map-marker-alt"></i> RF Lab</span><span><i class="fas fa-signal"></i> RF Testing</span></div>
+                            <div class="tech-actions"><a href="#" class="btn-tech btn-tech-outline">About</a><a href="Booking1.html" class="btn-tech btn-tech-fill">Book</a></div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card" data-category="General">
+                        <div class="tech-card-header">
+                            <div class="d-flex justify-between align-center mb-2">
+                                <span class="badge badge-purple">General</span>
+                                <span class="status-dot available"></span>
+                            </div>
+                            <h3 class="tech-title">Probe Station</h3>
+                        </div>
+                        <div class="tech-img-box"><img src="Images/Probe_Station.png" alt="Probe"></div>
+                        <div class="tech-body">
+                            <div class="tech-info"><span><i class="fas fa-map-marker-alt"></i> Room 145</span><span><i class="fas fa-microchip"></i> Electrical Test</span></div>
+                            <div class="tech-actions"><a href="#" class="btn-tech btn-tech-outline">About</a><a href="Booking1.html" class="btn-tech btn-tech-fill">Book</a></div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card" data-category="General">
+                        <div class="tech-card-header">
+                            <div class="d-flex justify-between align-center mb-2">
+                                <span class="badge badge-purple">General</span>
+                                <span class="status-dot available"></span>
+                            </div>
+                            <h3 class="tech-title">3D Printer / Cutter</h3>
+                        </div>
+                        <div class="tech-img-box"><img src="Images/3D.png" alt="3D Printer"></div>
+                        <div class="tech-body">
+                            <div class="tech-info"><span><i class="fas fa-map-marker-alt"></i> Fab Lab</span><span><i class="fas fa-cube"></i> Rapid Prototyping</span></div>
+                            <div class="tech-actions"><a href="#" class="btn-tech btn-tech-outline">About</a><a href="Booking1.html" class="btn-tech btn-tech-fill">Book</a></div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card" data-category="General">
+                        <div class="tech-card-header">
+                            <div class="d-flex justify-between align-center mb-2">
+                                <span class="badge badge-purple">General</span>
+                                <span class="status-dot available"></span>
+                            </div>
+                            <h3 class="tech-title">Desktop Mill</h3>
+                        </div>
+                        <div class="tech-img-box"><img src="Images/DeskMill.png" alt="Mill"></div>
+                        <div class="tech-body">
+                            <div class="tech-info"><span><i class="fas fa-map-marker-alt"></i> Workshop</span><span><i class="fas fa-cogs"></i> Machining</span></div>
+                            <div class="tech-actions"><a href="#" class="btn-tech btn-tech-outline">About</a><a href="Booking1.html" class="btn-tech btn-tech-fill">Book</a></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </section>
     </main>
 
     <site-footer></site-footer>
-    
+
     <script src="JS/layout.js"></script>
     <script src="JS/script.js"></script>
 
