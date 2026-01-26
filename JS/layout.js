@@ -12,9 +12,7 @@ class SiteHeader extends HTMLElement {
 
     connectedCallback() {
         // DYNAMIC PATH LOGIC
-        // Check if we are in a subfolder (like About_Equipment)
-        // If yes, we need to go up one level (../). If no, we stay in root (./)
-        // We look for 'About_Equipment' in the URL to decide.
+       
         const isInSubfolder = window.location.pathname.includes('/About_Equipment/');
         const basePath = isInSubfolder ? '../' : './';
 
@@ -45,7 +43,7 @@ class SiteHeader extends HTMLElement {
                     
                     <div class="nav-item"><a href="${basePath}Contact_Us.html" class="nav-link" data-path="Contact_Us.html">Contact Us</a></div>
                     
-                    <div class="nav-item"><a href="${basePath}Booking1.html" class="btn btn-sm btn-gold">Reserve Equipment</a></div>
+                    <div class="nav-item"><a href="https://outlook.office.com/book/iMPaCTNanoLab@bookings.nau.edu/?ismsaljsauthenabled" target="_blank" class="btn btn-sm btn-gold">Reserve Equipment</a></div>
                 </nav>
             </div>
         </header>
