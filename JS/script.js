@@ -315,12 +315,13 @@ document.addEventListener('DOMContentLoaded', () => {
 const fieldData = {
     'equipment': {
         title: "Equipment Inquiry",
+        endpoint: "https://formspree.io/f/mwvblgoa", // FORMSPREE
         desc: "Check availability or request specs for specific tools.",
         fields: `
             <div class="grid grid-2 gap-lg">
                 <div>
                     <label class="block font-bold mb-1 required">Equipment of Interest</label>
-                    <select class="form-control">
+                    <select name="equipment" class="form-control">
                         <option>-- Select Tool --</option>
                         <option>Keyence VHX-7000</option>
                         <option>B-2 AFM</option>
@@ -331,35 +332,36 @@ const fieldData = {
                 </div>
                 <div>
                     <label class="block font-bold mb-1">Intended Usage</label>
-                    <select class="form-control">
+                    <select name="usage" class="form-control">
                         <option>Self-Use (I need training)</option>
                         <option>Service (Staff runs samples)</option>
                     </select>
                 </div>
                 <div class="col-span-2">
                     <label class="block font-bold mb-1 required">Technical Requirements</label>
-                    <textarea rows="3" class="form-control" placeholder="Describe sample type, size, and measurement goals..."></textarea>
+                    <textarea name="requirements" rows="3" class="form-control" placeholder="Describe sample type, size, and measurement goals..."></textarea>
                 </div>
             </div>
         `
     },
     'research': {
         title: "Research Collaboration",
+        endpoint: "https://forminit.com/f/zusp4mopqve", // FORMINIT
         desc: "Propose a joint project or grant partnership.",
         fields: `
             <div class="form-stack">
                 <div>
                     <label class="block font-bold mb-1 required">Project Title / Topic</label>
-                    <input type="text" class="form-control" placeholder="e.g. Novel Dielectric Characterization">
+                    <input type="text" name="project_title" class="form-control" placeholder="e.g. Novel Dielectric Characterization">
                 </div>
                 <div class="grid grid-2 gap-lg">
                     <div>
                         <label class="block font-bold mb-1">Funding Agency</label>
-                        <input type="text" class="form-control" placeholder="NSF, DOE, Industry...">
+                        <input type="text" name="funding_agency" class="form-control" placeholder="NSF, DOE, Industry...">
                     </div>
                     <div>
                         <label class="block font-bold mb-1">Timeline</label>
-                        <select class="form-control">
+                        <select name="timeline" class="form-control">
                             <option>Short Term (< 3 months)</option>
                             <option>Long Term (1+ year)</option>
                             <option>Grant Proposal Phase</option>
@@ -368,43 +370,45 @@ const fieldData = {
                 </div>
                 <div>
                     <label class="block font-bold mb-1 required">Project Abstract</label>
-                    <textarea rows="5" class="form-control" placeholder="Provide a brief summary of the research goals..."></textarea>
+                    <textarea name="abstract" rows="5" class="form-control" placeholder="Provide a brief summary of the research goals..."></textarea>
                 </div>
             </div>
         `
     },
     'billing': {
         title: "Billing & Invoicing",
+        endpoint: "https://usebasin.com/f/c8c90a55ffa6", // BASIN
         desc: "Resolve payment issues or request quotes.",
         fields: `
             <div class="grid grid-2 gap-lg">
                 <div>
                     <label class="block font-bold mb-1 required">Reference Number</label>
-                    <input type="text" class="form-control" placeholder="Invoice # or PO #">
+                    <input type="text" name="ref_number" class="form-control" placeholder="Invoice # or PO #">
                 </div>
                 <div>
                     <label class="block font-bold mb-1 required">Billing Contact Person</label>
-                    <input type="text" class="form-control">
+                    <input type="text" name="billing_contact" class="form-control">
                 </div>
                 <div class="col-span-2">
                     <label class="block font-bold mb-1">Billing Address</label>
-                    <textarea rows="2" class="form-control"></textarea>
+                    <textarea name="billing_address" rows="2" class="form-control"></textarea>
                 </div>
                 <div class="col-span-2">
                     <label class="block font-bold mb-1">Issue Description</label>
-                    <textarea rows="3" class="form-control" placeholder="Describe the billing discrepancy or request..."></textarea>
+                    <textarea name="issue_desc" rows="3" class="form-control" placeholder="Describe the billing discrepancy or request..."></textarea>
                 </div>
             </div>
         `
     },
     'training': {
         title: "Safety & Training",
+        endpoint: "https://formspree.io/f/mwvblgoa", // Fallback to Formspree
         desc: "Register for safety courses or equipment authorization.",
         fields: `
             <div class="grid grid-2 gap-lg">
                 <div>
                     <label class="block font-bold mb-1 required">Current Status</label>
-                    <select class="form-control">
+                    <select name="status" class="form-control">
                         <option>New User (No Access)</option>
                         <option>Active User (Adding Tool)</option>
                         <option>Expired Access (Renewal)</option>
@@ -412,7 +416,7 @@ const fieldData = {
                 </div>
                 <div>
                     <label class="block font-bold mb-1 required">Requested Training</label>
-                    <select class="form-control">
+                    <select name="training_type" class="form-control">
                         <option>EHS Basic Safety (Mandatory)</option>
                         <option>Cleanroom Gowning</option>
                         <option>Chemical Safety</option>
@@ -421,27 +425,28 @@ const fieldData = {
                 </div>
                 <div>
                     <label class="block font-bold mb-1">NAU ID</label>
-                    <input type="text" class="form-control" placeholder="1234567">
+                    <input type="text" name="nau_id" class="form-control" placeholder="1234567">
                 </div>
                 <div>
                     <label class="block font-bold mb-1">PI / Supervisor Name</label>
-                    <input type="text" class="form-control">
+                    <input type="text" name="supervisor" class="form-control">
                 </div>
             </div>
         `
     },
     'courses': {
         title: "Course Support",
+        endpoint: "https://formspree.io/f/mwvblgoa", // Fallback to Formspree
         desc: "Inquiries regarding lab classes or curriculum.",
         fields: `
             <div class="grid grid-2 gap-lg">
                 <div>
                     <label class="block font-bold mb-1 required">Course Number</label>
-                    <input type="text" class="form-control" placeholder="e.g. EE400">
+                    <input type="text" name="course_num" class="form-control" placeholder="e.g. EE400">
                 </div>
                 <div>
                     <label class="block font-bold mb-1">Semester</label>
-                    <select class="form-control">
+                    <select name="semester" class="form-control">
                         <option>Fall 2025</option>
                         <option>Spring 2026</option>
                         <option>Summer 2026</option>
@@ -449,23 +454,24 @@ const fieldData = {
                 </div>
                 <div class="col-span-2">
                     <label class="block font-bold mb-1 required">Inquiry</label>
-                    <textarea rows="3" class="form-control" placeholder="Question about lab schedule, materials, or enrollment..."></textarea>
+                    <textarea name="inquiry" rows="3" class="form-control" placeholder="Question about lab schedule, materials, or enrollment..."></textarea>
                 </div>
             </div>
         `
     },
     'tour': {
         title: "Schedule a Tour",
+        endpoint: "https://formspree.io/f/mwvblgoa", // Fallback to Formspree
         desc: "Visit the facility.",
         fields: `
             <div class="grid grid-2 gap-lg">
                 <div>
                     <label class="block font-bold mb-1 required">Group Size</label>
-                    <input type="number" class="form-control" placeholder="Approx number of people">
+                    <input type="number" name="group_size" class="form-control" placeholder="Approx number of people">
                 </div>
                 <div>
                     <label class="block font-bold mb-1 required">Group Type</label>
-                    <select class="form-control">
+                    <select name="group_type" class="form-control">
                         <option>K-12 School</option>
                         <option>Prospective Students</option>
                         <option>Industry Partners</option>
@@ -474,56 +480,63 @@ const fieldData = {
                 </div>
                 <div>
                     <label class="block font-bold mb-1 required">Preferred Date</label>
-                    <input type="date" class="form-control">
+                    <input type="date" name="date_preferred" class="form-control">
                 </div>
                 <div>
                     <label class="block font-bold mb-1">Alternative Date</label>
-                    <input type="date" class="form-control">
+                    <input type="date" name="date_alt" class="form-control">
                 </div>
             </div>
         `
     },
     'sales': {
         title: "Vendor / Sales",
+        endpoint: "https://formspree.io/f/mwvblgoa", // Fallback to Formspree
         desc: "Product demonstrations and supply chain.",
         fields: `
             <div class="form-stack">
                 <div>
                     <label class="block font-bold mb-1 required">Product Category</label>
-                    <input type="text" class="form-control" placeholder="e.g. Chemicals, Metrology Equipment, PPE">
+                    <input type="text" name="product_cat" class="form-control" placeholder="e.g. Chemicals, Metrology Equipment, PPE">
                 </div>
                 <div>
                     <label class="block font-bold mb-1 required">Message</label>
-                    <textarea rows="4" class="form-control" placeholder="Describe your product or reason for contact..."></textarea>
+                    <textarea name="message" rows="4" class="form-control" placeholder="Describe your product or reason for contact..."></textarea>
                 </div>
             </div>
         `
     },
     'other': {
         title: "General Inquiry",
+        endpoint: "https://formspree.io/f/mwvblgoa", // Fallback to Formspree
         desc: "How can we help you?",
         fields: `
             <div>
                 <label class="block font-bold mb-1 required">Message</label>
-                <textarea rows="5" class="form-control" placeholder="Please describe your question or issue..."></textarea>
+                <textarea name="message" rows="5" class="form-control" placeholder="Please describe your question or issue..."></textarea>
             </div>
         `
     }
 };
 
 function selectCategory(category, element) {
-    // Highlighting Logic
+    // 1. Highlighting Logic
     document.querySelectorAll('.gateway-card').forEach(card => card.classList.remove('selected'));
     element.classList.add('selected');
 
-    // Data Injection
+    // 2. Data Injection
     const data = fieldData[category];
     const formContainer = document.getElementById('formContainer');
+    const contactForm = document.getElementById('contactForm');
     const dynamicFields = document.getElementById('dynamicFields');
     const formTitle = document.getElementById('formTitle');
     const formDesc = document.getElementById('formDesc');
 
     if (data) {
+        // --- SET DYNAMIC ENDPOINT ---
+        contactForm.setAttribute('data-url', data.endpoint);
+        console.log(`Endpoint set to: ${data.endpoint}`); 
+
         formTitle.textContent = data.title;
         formDesc.textContent = data.desc;
         dynamicFields.innerHTML = data.fields;
@@ -531,7 +544,7 @@ function selectCategory(category, element) {
 
         // Show Form
         formContainer.classList.remove('hidden');
-        void formContainer.offsetWidth;
+        void formContainer.offsetWidth; // Trigger reflow for animation
         formContainer.classList.add('fade-in');
 
         // Smooth Scroll
@@ -548,11 +561,57 @@ function resetSelection() {
     document.getElementById('gatewayGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-function handleFormSubmit(e) {
+async function handleFormSubmit(e) {
     e.preventDefault();
-    alert("Thank you! Your inquiry has been routed to the appropriate team.");
-    resetSelection();
-    document.getElementById('contactForm').reset();
+    
+    const form = document.getElementById('contactForm');
+    
+    // --- RETRIEVE DYNAMIC ENDPOINT ---
+    const destinationUrl = form.getAttribute('data-url');
+    
+    if (!destinationUrl) {
+        alert("Configuration Error: No endpoint found.");
+        return;
+    }
+
+    const data = new FormData(form);
+    const submitBtn = form.querySelector('button[type="submit"]');
+    
+    // 1. Show Loading State
+    const originalBtnText = submitBtn.innerText;
+    submitBtn.innerText = "Sending...";
+    submitBtn.disabled = true;
+
+    // 2. Send to Dynamic URL
+    try {
+        const response = await fetch(destinationUrl, {
+            method: "POST",
+            body: data,
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            // Success!
+            alert("Thank you! Your inquiry has been sent successfully.");
+            form.reset();
+            if (window.resetSelection) window.resetSelection();
+        } else {
+            // Error handling
+            const errorData = await response.json();
+            const errorMessage = errorData.error || errorData.message || "Unknown error";
+            alert("Oops! There was a problem: " + errorMessage);
+        }
+    } catch (error) {
+        // Network Error
+        console.error(error);
+        alert("Oops! There was a network problem submitting your form.");
+    } finally {
+        // 3. Reset Button
+        submitBtn.innerText = originalBtnText;
+        submitBtn.disabled = false;
+    }
 }
 
 // Global Exports
@@ -560,7 +619,6 @@ window.fieldData = fieldData;
 window.selectCategory = selectCategory;
 window.resetSelection = resetSelection;
 window.handleFormSubmit = handleFormSubmit;
-
 
 // -------------------------------------------------------------------------
     // EQUIPMENT CATALOG LOGIC
