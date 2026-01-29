@@ -315,7 +315,7 @@ document.addEventListener('DOMContentLoaded', () => {
 const fieldData = {
     'equipment': {
         title: "Equipment Inquiry",
-        endpoint: "https://formspree.io/f/mwvblgoa", // FORMSPREE
+        endpoint: "https://formspree.io/f/mwvblgoa", // SERVICE: Formspree
         desc: "Check availability or request specs for specific tools.",
         fields: `
             <div class="grid grid-2 gap-lg">
@@ -346,7 +346,8 @@ const fieldData = {
     },
     'research': {
         title: "Research Collaboration",
-        endpoint: "https://forminit.com/f/zusp4mopqve", // FORMINIT
+        // SERVICE: Forminit (Exact URL provided)
+        endpoint: "https://forminit.com/f/zusp4mopqve", 
         desc: "Propose a joint project or grant partnership.",
         fields: `
             <div class="form-stack">
@@ -377,7 +378,7 @@ const fieldData = {
     },
     'billing': {
         title: "Billing & Invoicing",
-        endpoint: "https://usebasin.com/f/c8c90a55ffa6", // BASIN
+        endpoint: "https://usebasin.com/f/c8c90a55ffa6", // SERVICE: Basin
         desc: "Resolve payment issues or request quotes.",
         fields: `
             <div class="grid grid-2 gap-lg">
@@ -402,7 +403,7 @@ const fieldData = {
     },
     'training': {
         title: "Safety & Training",
-        endpoint: "https://formspree.io/f/mwvblgoa", // Fallback to Formspree
+        endpoint: "https://formspree.io/f/mwvblgoa", // Fallback: Formspree
         desc: "Register for safety courses or equipment authorization.",
         fields: `
             <div class="grid grid-2 gap-lg">
@@ -436,7 +437,7 @@ const fieldData = {
     },
     'courses': {
         title: "Course Support",
-        endpoint: "https://formspree.io/f/mwvblgoa", // Fallback to Formspree
+        endpoint: "https://formspree.io/f/mwvblgoa", // Fallback: Formspree
         desc: "Inquiries regarding lab classes or curriculum.",
         fields: `
             <div class="grid grid-2 gap-lg">
@@ -461,7 +462,7 @@ const fieldData = {
     },
     'tour': {
         title: "Schedule a Tour",
-        endpoint: "https://formspree.io/f/mwvblgoa", // Fallback to Formspree
+        endpoint: "https://formspree.io/f/mwvblgoa", // Fallback: Formspree
         desc: "Visit the facility.",
         fields: `
             <div class="grid grid-2 gap-lg">
@@ -491,7 +492,7 @@ const fieldData = {
     },
     'sales': {
         title: "Vendor / Sales",
-        endpoint: "https://formspree.io/f/mwvblgoa", // Fallback to Formspree
+        endpoint: "https://formspree.io/f/mwvblgoa", // Fallback: Formspree
         desc: "Product demonstrations and supply chain.",
         fields: `
             <div class="form-stack">
@@ -508,7 +509,7 @@ const fieldData = {
     },
     'other': {
         title: "General Inquiry",
-        endpoint: "https://formspree.io/f/mwvblgoa", // Fallback to Formspree
+        endpoint: "https://formspree.io/f/mwvblgoa", // Fallback: Formspree
         desc: "How can we help you?",
         fields: `
             <div>
