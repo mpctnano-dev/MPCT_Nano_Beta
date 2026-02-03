@@ -23,7 +23,7 @@ class SiteHeader extends HTMLElement {
                     <img src="${basePath}Images/NAU.png" alt="Northern Arizona University" class="header-logo">
                     <div class="brand-divider"></div>
                     <div class="brand-text">
-                        <span class="dept">Nanotechnology Core Facility</span>
+                        <span class="dept">Microelectronics at NAU</span>
                     </div>
                 </a>
 
@@ -35,7 +35,7 @@ class SiteHeader extends HTMLElement {
 
                 <nav class="nav-menu">
                     <div class="nav-item"><a href="${basePath}index.html" class="nav-link" data-path="index.html">Home</a></div>
-                    <div class="nav-item"><a href="${basePath}Academics.html" class="nav-link">Academics</a></div>
+                    <div class="nav-item"><a href="${basePath}Academics.html" class="nav-link">Featured Degrees</a></div>
                     
                     <div class="nav-item"><a href="${basePath}Equipment.html" class="nav-link" data-path="Equipment.html">Equipment</a></div>
                     

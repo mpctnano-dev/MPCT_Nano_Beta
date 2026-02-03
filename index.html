@@ -37,100 +37,24 @@
     <main>
         <!-- 
             Hero Slider Component 
-            Critical Rendering Path: Ensure first image is preloaded if possible.
+            Static Image with no slide buttons
         -->
-        <section class="hero" id="heroSlider">
-            <div class="slide slide-1 active">
+        <section class="hero" id="heroStatic">
+            <div class="slide active">
                 <div class="slide-bg-container">
-                    <img src="Images/89.jpg" class="slide-bg-img" alt="Advanced Packaging">
+                    <img src="Images/89.jpg" class="slide-bg-img" alt="Semiconductor Training">
                     <div class="slide-overlay"></div>
                 </div>
                 <div class="slide-content">
                     <div class="container">
-                        <div class="slide-tag"><span>Breaking News</span></div>
-                        <h1 class="slide-title">Pioneering Nanotechnology<br>& Semiconductor Research</h1>
-                        <p class="slide-desc">NAU's Nano program secures $15M grant for advanced semiconductor packaging
-                            and nanomaterials.</p>
-                        <a href="#" class="btn btn-primary">Read The Full Story</a>
+                        <div class="slide-tag"><span>ACA Grant News</span></div>
+                        <h1 class="slide-title">ACA Allocates Funding for<br>Semiconductor Training</h1>
+                        <p class="slide-desc">$13 million to expand microelectronics training, establishing a new
+                            certificate program, training center in Phoenix, and metrology laboratory.</p>
+                        <a href="https://news.nau.edu/semiconductor-training/" target="_blank"
+                            class="btn btn-primary">Read Full Story</a>
                     </div>
                 </div>
-            </div>
-
-            <div class="slide slide-2">
-                <div class="slide-bg-container">
-                    <img src="Images/123.jpg" class="slide-bg-img" alt="Cleanroom">
-                    <div class="slide-overlay"></div>
-                </div>
-                <div class="slide-content">
-                    <div class="container">
-                        <div class="slide-tag"><span>Facilities Update</span></div>
-                        <h1 class="slide-title">State-of-the-Art<br>Nanofabrication Facility</h1>
-                        <p class="slide-desc">Our ISO 5 cleanroom is equipped with next-gen lithography and etching
-                            tools for atomic-scale precision.</p>
-                        <a href="#" class="btn btn-primary">Take the Virtual Tour</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="slide slide-3">
-                <div class="slide-bg-container">
-                    <img src="Images/124.jpg" class="slide-bg-img" alt="Students">
-                    <div class="slide-overlay"></div>
-                </div>
-                <div class="slide-content">
-                    <div class="container">
-                        <div class="slide-tag"><span>Research Excellence</span></div>
-                        <h1 class="slide-title">Innovation in<br>Quantum Materials</h1>
-                        <p class="slide-desc">Our grad students took top prize at the International Semiconductor
-                            Conference for quantum dot research.</p>
-                        <a href="#" class="btn btn-primary">Meet the Team</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="slide slide-4">
-                <div class="slide-bg-container">
-                    <img src="Images/99.jpg" class="slide-bg-img" alt="Lab Work">
-                    <div class="slide-overlay"></div>
-                </div>
-                <div class="slide-content">
-                    <div class="container">
-                        <div class="slide-tag"><span>Industry Partners</span></div>
-                        <h1 class="slide-title">Collaborate with<br>Leaders in Tech</h1>
-                        <p class="slide-desc">Working alongside Intel and TSMC to define the future of semiconductor
-                            manufacturing protocols.</p>
-                        <a href="#" class="btn btn-primary">View Partners</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="slide slide-5">
-                <div class="slide-bg-container">
-                    <img src="Images/165.jpg" class="slide-bg-img" alt="Microscope">
-                    <div class="slide-overlay"></div>
-                </div>
-                <div class="slide-content">
-                    <div class="container">
-                        <div class="slide-tag"><span>Education First</span></div>
-                        <h1 class="slide-title">Hands-on<br>Training Modules</h1>
-                        <p class="slide-desc">From photolithography to etching, gain real-world experience on standard
-                            industry tools.</p>
-                        <a href="#" class="btn btn-primary">Browse Courses</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="slider-controls">
-                <button class="slider-btn" id="prevSlide" aria-label="Previous Slide">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M15 18l-6-6 6-6" />
-                    </svg>
-                </button>
-                <button class="slider-btn" id="nextSlide" aria-label="Next Slide">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M9 18l6-6-6-6" />
-                    </svg>
-                </button>
             </div>
         </section>
 
@@ -751,10 +675,10 @@
                             allowfullscreen title="NAU Semiconductor Training">
                         </iframe>
                     </div>
-                    
+
                     <div class="playlist-sidebar">
                         <h3 class="playlist-title">Lab Highlights</h3>
-                        
+
                         <div class="playlist-item">
                             <div class="playlist-thumb">
                                 <img src="Images/aligner.jpg" alt="Lithography Thumb">
@@ -796,7 +720,7 @@
                 </div>
             </div>
         </section>
-        
+
         <!-- RECOMMENDATIONS / TESTIMONIALS -->
         <section class="section-padding bg-white">
             <div class="container">
