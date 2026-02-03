@@ -50,8 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const slides = document.querySelectorAll('.slide');
     const nextBtn = document.getElementById('nextSlide');
     const prevBtn = document.getElementById('prevSlide');
-    
-    if (slides.length > 0) {
+
+    if (slides.length > 1) {
         let currentSlide = 0;
         const totalSlides = slides.length;
         let slideInterval;
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // -------------------------------------------------------------------------
     const carouselLeft = document.querySelector('.nav-btn.left');
     const carouselRight = document.querySelector('.nav-btn.right');
-    
+
     if (carouselLeft && carouselRight) {
         carouselLeft.addEventListener('click', () => {
             scrollGrid(-350); // Scroll Left
@@ -96,6 +96,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         carouselRight.addEventListener('click', () => {
             scrollGrid(350); // Scroll Right
+        });
+    }
+
+    // Integrated Education Paths Carousel
+    // -------------------------------------------------------------------------
+    const eduLeft = document.getElementById('eduLeft');
+    const eduRight = document.getElementById('eduRight');
+    const eduContainer = document.getElementById('educationContainer');
+
+    if (eduLeft && eduRight && eduContainer) {
+        eduLeft.addEventListener('click', () => {
+            eduContainer.scrollBy({ left: -360, behavior: 'smooth' });
+        });
+
+        eduRight.addEventListener('click', () => {
+            eduContainer.scrollBy({ left: 360, behavior: 'smooth' });
         });
     }
 
@@ -231,15 +247,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const filterBtns = document.querySelectorAll('.filter-btn');
     const searchInput = document.getElementById('searchInput');
     const eqCards = document.querySelectorAll('.equipment-card');
-    
+
     // View Switcher Elements
     const gridBtn = document.getElementById('gridViewBtn');
     const listBtn = document.getElementById('listViewBtn');
     const container = document.getElementById('cardContainer');
-    const arrows = document.querySelectorAll('.nav-btn'); 
+    const arrows = document.querySelectorAll('.nav-btn');
 
     if (filterBtns.length > 0) {
-        
+
         // A. View Toggle Logic (Grid vs List)
         if (gridBtn && listBtn && container) {
             // Switch to List View
@@ -269,14 +285,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             eqCards.forEach(card => {
                 const title = card.dataset.title ? card.dataset.title.toLowerCase() : '';
-                const categories = card.dataset.category ? card.dataset.category.toLowerCase() : ''; 
+                const categories = card.dataset.category ? card.dataset.category.toLowerCase() : '';
 
                 const matchesSearch = title.includes(term);
                 // Use includes() to support multi-tagged items
                 const matchesCategory = activeCategory === 'all' || categories.includes(activeCategory);
 
                 if (matchesSearch && matchesCategory) {
-                    card.style.display = ''; 
+                    card.style.display = '';
                 } else {
                     card.style.display = 'none';
                 }
@@ -563,52 +579,52 @@ window.handleFormSubmit = handleFormSubmit;
 
 
 // -------------------------------------------------------------------------
-    // EQUIPMENT CATALOG LOGIC
-    // Handles Grid/List toggle and Category Filtering
-    // -------------------------------------------------------------------------
-    const container = document.getElementById('equipmentContainer');
-    const gridBtn = document.getElementById('gridViewBtn');
-    const listBtn = document.getElementById('listViewBtn');
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const cards = document.querySelectorAll('.tech-card');
+// EQUIPMENT CATALOG LOGIC
+// Handles Grid/List toggle and Category Filtering
+// -------------------------------------------------------------------------
+const container = document.getElementById('equipmentContainer');
+const gridBtn = document.getElementById('gridViewBtn');
+const listBtn = document.getElementById('listViewBtn');
+const filterBtns = document.querySelectorAll('.filter-btn');
+const cards = document.querySelectorAll('.tech-card');
 
-    // 1. VIEW SWITCHER (Grid vs List)
-    if (container && gridBtn && listBtn) {
-        gridBtn.addEventListener('click', () => {
-            container.classList.remove('list-layout');
-            container.classList.add('grid-layout');
-            gridBtn.classList.add('active');
-            listBtn.classList.remove('active');
-        });
+// 1. VIEW SWITCHER (Grid vs List)
+if (container && gridBtn && listBtn) {
+    gridBtn.addEventListener('click', () => {
+        container.classList.remove('list-layout');
+        container.classList.add('grid-layout');
+        gridBtn.classList.add('active');
+        listBtn.classList.remove('active');
+    });
 
-        listBtn.addEventListener('click', () => {
-            container.classList.remove('grid-layout');
-            container.classList.add('list-layout');
-            listBtn.classList.add('active');
-            gridBtn.classList.remove('active');
-        });
-    }
+    listBtn.addEventListener('click', () => {
+        container.classList.remove('grid-layout');
+        container.classList.add('list-layout');
+        listBtn.classList.add('active');
+        gridBtn.classList.remove('active');
+    });
+}
 
-    // 2. FILTERING LOGIC
-    if (filterBtns.length > 0) {
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Remove active class from all buttons
-                filterBtns.forEach(b => b.classList.remove('active'));
-                // Add active to clicked button
-                btn.classList.add('active');
+// 2. FILTERING LOGIC
+if (filterBtns.length > 0) {
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Remove active class from all buttons
+            filterBtns.forEach(b => b.classList.remove('active'));
+            // Add active to clicked button
+            btn.classList.add('active');
 
-                const filterValue = btn.getAttribute('data-filter');
+            const filterValue = btn.getAttribute('data-filter');
 
-                cards.forEach(card => {
-                    const category = card.getAttribute('data-category');
-                    
-                    if (filterValue === 'all' || category === filterValue) {
-                        card.style.display = 'flex'; // Show
-                    } else {
-                        card.style.display = 'none'; // Hide
-                    }
-                });
+            cards.forEach(card => {
+                const category = card.getAttribute('data-category');
+
+                if (filterValue === 'all' || category === filterValue) {
+                    card.style.display = 'flex'; // Show
+                } else {
+                    card.style.display = 'none'; // Hide
+                }
             });
         });
-    }
+    });
+}
