@@ -99,6 +99,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Integrated Education Paths Carousel
+    // -------------------------------------------------------------------------
+    const eduLeft = document.getElementById('eduLeft');
+    const eduRight = document.getElementById('eduRight');
+    const eduContainer = document.getElementById('educationContainer');
+
+    if (eduLeft && eduRight && eduContainer) {
+        eduLeft.addEventListener('click', () => {
+            eduContainer.scrollBy({ left: -360, behavior: 'smooth' });
+        });
+
+        eduRight.addEventListener('click', () => {
+            eduContainer.scrollBy({ left: 360, behavior: 'smooth' });
+        });
+    }
+
     // -------------------------------------------------------------------------
     // Mobile Navigation Toggle
     // Handles the mobile menu overlay state.
