@@ -3549,3 +3549,122 @@ ul {
         width: 100%;
     }
 }
+
+/* --------------------------------------
+   APPLICATION LIST (Checklist Style) 
+   -------------------------------------- */
+.app-item {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+}
+
+.app-icon {
+    font-size: 1.2rem;
+    color: var(--nau-gold); /* Uses existing gold variable */
+    margin-top: 3px;        /* Visual alignment with the text title */
+    flex-shrink: 0;         /* Prevents icon from squishing on mobile */
+}
+
+.app-title {
+    display: block;
+    color: var(--nau-blue);
+    font-weight: 700;
+    margin-bottom: 2px;
+    line-height: 1.2;
+}
+
+.app-desc {
+    font-size: 0.9rem;
+    color: var(--gray-600);
+    line-height: 1.5;
+}
+
+
+/* --------------------------------------
+   TOOL MANAGER CARD (Refined)
+   -------------------------------------- */
+.manager-card {
+    background: white;
+    border: 1px solid var(--gray-200);
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.04); /* Softer shadow */
+    text-align: left;
+}
+
+.manager-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--gray-500);
+    font-weight: 700;
+    display: block;
+    margin-bottom: 20px;
+}
+
+.manager-profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--gray-100); /* Subtle separator */
+}
+
+.manager-avatar {
+    width: 55px;
+    height: 55px;
+    background: var(--nau-blue);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 10px rgba(0, 36, 84, 0.2);
+}
+
+.manager-info h4 {
+    margin: 0 0 4px 0;
+    font-size: 1.1rem;
+    color: var(--nau-blue);
+    font-weight: 700;
+}
+
+.manager-info span {
+    font-size: 0.85rem;
+    color: var(--gray-600);
+    font-weight: 500;
+}
+
+.contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 0.95rem;
+    color: var(--gray-700);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.contact-item i {
+    color: var(--nau-gold);
+    width: 20px;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+/* Style for the blank/placeholder text */
+.placeholder-text {
+    color: var(--gray-400);
+    font-style: italic;
+    font-size: 0.9rem;
+}
