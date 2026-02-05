@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amatrol Smart Robot Workcell | NAU Nano Core</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../CSS/style.css">
+</head>
+<body>
+
+    <site-header></site-header>
+
+    <main class="product-page">
+        <section class="product-hero">
+            <div class="container">
+                <div class="hero-inner">
+                    <div class="hero-text">
+                        <div class="hero-badges">
+                            <span class="tag blue">Robotics</span>
+                            <span class="tag gold">Automation Training</span>
+
+                            <div class="status-indicator-wrapper" title="System Unavailable" style="width: auto; padding: 5px 12px; border-radius: 20px; gap: 8px; display: flex; align-items: center;">
+                                <span class="status-dot busy"></span>
+                                <span style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: white;">Unavailable</span>
+                            </div>
+                        </div>
+                        <h1 class="hero-title">Amatrol Smart Robot Workcell</h1>
+                        <p class="hero-subtitle">
+                            An Amatrol training workcell built around a FANUC LR Mate 200iD/4S 6-axis industrial robot. The system supports robot operation, programming, troubleshooting, and material handling workflows in a lab-scale automated cell.
+                        </p>
+                        <div class="hero-cta">
+                            <button class="btn btn-primary disabled" style="background-color: var(--gray-500); border-color: var(--gray-500); cursor: not-allowed;">
+                                <i class="fas fa-ban" style="margin-right: 8px;"></i> Currently Unavailable
+                            </button>
+                            <a href="#specs" class="btn btn-outline">
+                                <i class="fas fa-list-ul" style="margin-right: 8px;"></i> View Specs
+                            </a>
+                        </div>
+                    </div>
+                    <div class="hero-image-wrapper">
+                        <img src="../Images/Amatrol_smartrobot.png" alt="Amatrol Smart Robot Workcell" class="hero-img" style="max-height: 360px; width: 100%; object-fit: contain;" onerror="this.src='https://placehold.co/600x400/png?text=Smart+Robot+Workcell'">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="specs-bar">
+            <div class="container">
+                <div class="specs-grid">
+                    <div class="spec-item">
+                        <i class="fas fa-robot"></i>
+                        <div>
+                            <span class="label">Robot</span>
+                            <span class="value">FANUC LR Mate 200iD/4S</span>
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <i class="fas fa-arrows-alt"></i>
+                        <div>
+                            <span class="label">Reach</span>
+                            <span class="value">550 mm</span>
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <i class="fas fa-weight-hanging"></i>
+                        <div>
+                            <span class="label">Payload</span>
+                            <span class="value">4 kg</span>
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <i class="fas fa-project-diagram"></i>
+                        <div>
+                            <span class="label">Axes</span>
+                            <span class="value">6-axis</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container section-padding">
+            <div class="layout-grid">
+
+                <div class="content-col">
+
+                    <section class="info-block">
+                        <h2 class="section-heading">System Capabilities</h2>
+                        <p>
+                            The Smart Robot Workcell is an educational training system built around a FANUC LR Mate 200iD/4S robot for teaching robot operation, programming, and troubleshooting in a realistic automated cell.
+                        </p>
+                        <p>
+                            Workcell configurations vary, but training systems can include robot material handling, palletizing logistics, and cell-level safety and control features.
+                        </p>
+                    </section>
+
+                    <section class="info-block">
+                        <h3 class="subsection-title">Operating Modes</h3>
+                        <div class="features-grid">
+                            <div class="feature-card">
+                                <div class="icon-box blue"><i class="fas fa-hand-paper"></i></div>
+                                <h4>Pick and Place</h4>
+                                <p>High-speed handling and part transfer using the 6-axis robot.</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="icon-box gold"><i class="fas fa-industry"></i></div>
+                                <h4>Machine Tending</h4>
+                                <p>Robot operation for part loading and unloading in automated cells.</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="icon-box green"><i class="fas fa-boxes"></i></div>
+                                <h4>Logistics / Palletizing (Config Dependent)</h4>
+                                <p>Workcell configurations may include conveyors, pallets, and sorting tasks.</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="icon-box purple"><i class="fas fa-shield-alt"></i></div>
+                                <h4>Safety and Interlocks</h4>
+                                <p>Training on safety devices and interlocked cell operation.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="info-block" id="specs">
+                        <h3 class="subsection-title">Technical Specifications</h3>
+                        <table class="tech-specs-table">
+                            <tbody>
+                                <tr>
+                                    <th>Robot Model</th>
+                                    <td>FANUC LR Mate 200iD/4S</td>
+                                </tr>
+                                <tr>
+                                    <th>Axes</th>
+                                    <td>6 controlled axes</td>
+                                </tr>
+                                <tr>
+                                    <th>Payload</th>
+                                    <td>4 kg max</td>
+                                </tr>
+                                <tr>
+                                    <th>Reach</th>
+                                    <td>550 mm</td>
+                                </tr>
+                                <tr>
+                                    <th>Repeatability</th>
+                                    <td>0.01 mm</td>
+                                </tr>
+                                <tr>
+                                    <th>Mounting</th>
+                                    <td>Floor, upside down, or angle mounting</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                   
+
+                    <section class="info-block">
+                        <h3 class="subsection-title">Comparison: Robot Workcell vs. Manual Handling</h3>
+                        <p style="margin-bottom: 20px; font-size: 0.95rem; color: var(--gray-600);">
+                            Comparing automated robot handling to manual material handling workflows.
+                        </p>
+                        <div class="table-responsive">
+                            <table class="comparison-table">
+                                <thead>
+                                    <tr>
+                                        <th class="col-feature">Feature</th>
+                                        <th class="col-highlight">Robot Workcell</th>
+                                        <th class="col-standard">Manual Handling</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Repeatability</td>
+                                        <td class="highlight-cell">Programmable, consistent cycles</td>
+                                        <td>Operator-dependent</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Throughput</td>
+                                        <td class="highlight-cell">High-speed handling with automated sequences</td>
+                                        <td>Slower, manual operations</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Training Focus</td>
+                                        <td class="highlight-cell">Robot programming and cell integration</td>
+                                        <td>Manual process steps</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Safety Systems</td>
+                                        <td class="highlight-cell">Interlocked safety devices and guarded cell</td>
+                                        <td>Manual safety practices</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Use Case</td>
+                                        <td class="highlight-cell">Automation and logistics training</td>
+                                        <td>Manual material handling</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <section class="info-block">
+                        <h3 class="subsection-title">Common Applications</h3>
+                        <div class="grid grid-2 gap-md">
+
+                            <div class="app-item">
+                                <i class="fas fa-check-circle app-icon"></i>
+                                <div>
+                                    <strong class="app-title">Pick and Place Operations</strong>
+                                    <span class="app-desc">Material handling, part transfer, and sorting.</span>
+                                </div>
+                            </div>
+
+                            <div class="app-item">
+                                <i class="fas fa-check-circle app-icon"></i>
+                                <div>
+                                    <strong class="app-title">Robot Programming</strong>
+                                    <span class="app-desc">Teach pendant programming and motion sequencing.</span>
+                                </div>
+                            </div>
+
+                            <div class="app-item">
+                                <i class="fas fa-check-circle app-icon"></i>
+                                <div>
+                                    <strong class="app-title">Cell Integration</strong>
+                                    <span class="app-desc">Conveyors, sensors, and safety interlocks.</span>
+                                </div>
+                            </div>
+
+                            <div class="app-item">
+                                <i class="fas fa-check-circle app-icon"></i>
+                                <div>
+                                    <strong class="app-title">Troubleshooting</strong>
+                                    <span class="app-desc">Fault isolation and corrective actions in an automated cell.</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+
+                </div>
+
+                <aside class="sidebar-col">
+
+                    <div class="sidebar-widget manager-card">
+                        <span class="manager-label">Tool Custodian</span>
+
+                        <div class="manager-profile">
+                            <div class="manager-avatar">RS</div>
+                            <div class="manager-info">
+                                <h4>Dr. Rachel S Speaks</h4>
+                                <span>Equipment Owner</span>
+                            </div>
+                        </div>
+
+                        <div class="contact-list">
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <span class="placeholder-text">Email pending...</span>
+                            </div>
+
+                            <div class="contact-item">
+                                <i class="fas fa-phone"></i>
+                                <span class="placeholder-text">Phone pending...</span>
+                            </div>
+
+                            <div class="contact-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>98E Room XX</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">Hourly Rates</h3>
+                        <div class="rate-table">
+                            <div class="rate-row">
+                                <span class="rate-label">Internal (NAU)</span>
+                                <span class="rate-cost">TBD</span>
+                            </div>
+                            <div class="rate-row">
+                                <span class="rate-label">External (Academic)</span>
+                                <span class="rate-cost">TBD</span>
+                            </div>
+                            <div class="rate-row">
+                                <span class="rate-label">Industry</span>
+                                <span class="rate-cost">TBD</span>
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px; text-align: center;">
+                            <a href="../Rates.html" class="link-blue-underline" style="font-weight: 600; font-size: 0.9rem;">
+                                View Full Rate Sheet ->
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget" id="docs">
+                        <h3 class="widget-title">Documentation</h3>
+                        <div class="doc-links">
+                            <a href="#" class="doc-link">
+                                <i class="fas fa-file-pdf"></i>
+                                <div>
+                                    <strong>Workcell Specs Sheet</strong>
+                                    <small>PDF - Unavailable</small>
+                                </div>
+                            </a>
+                            <a href="#" class="doc-link">
+                                <i class="fas fa-book"></i>
+                                <div>
+                                    <strong>Training Guide</strong>
+                                    <small>PDF - Unavailable</small>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <site-footer></site-footer>
+
+    <script src="../JS/layout.js"></script>
+    <script src="../JS/script.js"></script>
+
+</body>
+</html>
