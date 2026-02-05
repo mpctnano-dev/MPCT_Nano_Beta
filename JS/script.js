@@ -148,35 +148,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // -------------------------------------------------------------------------
     // Scroll Animation Observer (Progressive Enhancement)
-    // Uses IntersectionObserverAPI to trigger '.fade-in' animations.
+    // Handles both new '.reveal-on-scroll' and legacy '.card' animations.
     // -------------------------------------------------------------------------
-    const cards = document.querySelectorAll('.card, .featured-story, .player-card, .metric-box');
-
-    // Fallback: If JS fails or Observer not supported, force reveal after delay
-    setTimeout(() => {
-        cards.forEach(card => {
-            if (getComputedStyle(card).opacity === '0') {
-                card.style.opacity = '1';
-            }
-        });
-    }, 1500);
+    const revealElements = document.querySelectorAll('.reveal-on-scroll');
+    const legacyElements = document.querySelectorAll('.card, .featured-story, .player-card, .metric-box');
 
     if ('IntersectionObserver' in window) {
-        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+        const observerOptions = { threshold: 0.15, rootMargin: '0px 0px -50px 0px' };
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('fade-in');
-                    observer.unobserve(entry.target); // Run once per element
+                    const target = entry.target;
+                    if (target.classList.contains('reveal-on-scroll')) {
+                        target.classList.add('revealed');
+                    } else {
+                        target.classList.add('fade-in');
+                    }
+                    observer.unobserve(target);
                 }
             });
         }, observerOptions);
 
-        cards.forEach(card => {
-            card.style.opacity = '0'; // Initial state for animation
-            observer.observe(card);
+        // New System
+        revealElements.forEach(el => observer.observe(el));
+
+        // Legacy System (apply loose opacity0 only if not using new class)
+        legacyElements.forEach(el => {
+            if (!el.classList.contains('reveal-on-scroll')) {
+                el.style.opacity = '0';
+                observer.observe(el);
+            }
         });
+    } else {
+        // Fallback
+        revealElements.forEach(el => el.classList.add('revealed'));
+        legacyElements.forEach(el => el.style.opacity = '1');
     }
 
     // -------------------------------------------------------------------------
