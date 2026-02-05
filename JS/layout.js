@@ -12,7 +12,7 @@ class SiteHeader extends HTMLElement {
 
     connectedCallback() {
         // DYNAMIC PATH LOGIC
-       
+
         const isInSubfolder = window.location.pathname.includes('/About_Equipment/');
         const basePath = isInSubfolder ? '../' : './';
 
@@ -35,7 +35,7 @@ class SiteHeader extends HTMLElement {
 
                 <nav class="nav-menu">
                     <div class="nav-item"><a href="${basePath}index.html" class="nav-link" data-path="index.html">Home</a></div>
-                    <div class="nav-item"><a href="${basePath}Academics.html" class="nav-link">Featured Degrees</a></div>
+                    <div class="nav-item"><a href="${basePath}degree-programs.html" class="nav-link" data-path="degree-programs.html">Degree Programs</a></div>
                     
                     <div class="nav-item"><a href="${basePath}Equipment.html" class="nav-link" data-path="Equipment.html">Equipment</a></div>
                     
