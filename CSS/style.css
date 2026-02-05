@@ -4055,7 +4055,7 @@ ul {
     font-size: 1.2rem;
     line-height: 1.7;
     margin-bottom: 32px;
-    max-width: 600px;
+    max-width: 100%;
 }
 
 /* ================================
@@ -4063,7 +4063,7 @@ ul {
    ================================ */
 .section-intro {
     text-align: left;
-    max-width: 800px;
+    max-width: 100%;
     margin: 0 0 var(--space-2xl) 0;
 }
 
@@ -4076,6 +4076,7 @@ ul {
     color: var(--gray-600);
     font-size: 1.1rem;
     line-height: 1.7;
+    max-width: 100%;
 }
 
 .section-tag {
