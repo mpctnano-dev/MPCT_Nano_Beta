@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ellipsometer | NAU Nano Core</title>
+    <title>J.A. Woollam RC2 Ellipsometer | NAU Nano Core</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../CSS/style.css">
 </head>
@@ -12,18 +12,317 @@
     <site-header></site-header>
 
     <main class="product-page">
-        <section class="page-header bg-blue text-white section-padding" style="padding: 60px 0;">
+        <section class="product-hero">
             <div class="container">
-                <h1>Ellipsometer</h1>
-                <p class="text-white-muted">Details coming soon.</p>
+                <div class="hero-inner">
+                    <div class="hero-text">
+                        <div class="hero-badges">
+                            <span class="tag blue">Metrology</span>
+                            <span class="tag gold">Thin Film</span>
+
+                            <div class="status-indicator-wrapper" title="System Unavailable" style="width: auto; padding: 5px 12px; border-radius: 20px; gap: 8px; display: flex; align-items: center;">
+                                <span class="status-dot busy"></span>
+                                <span style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: white;">Unavailable</span>
+                            </div>
+                        </div>
+                        <h1 class="hero-title">J.A. Woollam RC2 Ellipsometer</h1>
+                        <p class="hero-subtitle">
+                            High-speed dual-rotating compensator spectroscopic ellipsometer for non-contact thin film characterization. Provides full Mueller-matrix data, mapping, and precision thickness and optical constants.
+                        </p>
+                        <div class="hero-cta">
+                            <button class="btn btn-primary disabled" style="background-color: var(--gray-500); border-color: var(--gray-500); cursor: not-allowed;">
+                                <i class="fas fa-ban" style="margin-right: 8px;"></i> Currently Unavailable
+                            </button>
+                            <a href="#specs" class="btn btn-outline">
+                                <i class="fas fa-list-ul" style="margin-right: 8px;"></i> View Specs
+                            </a>
+                        </div>
+                    </div>
+                    <div class="hero-image-wrapper">
+                        <img src="../Images/Ellipsometer.jpg" alt="J.A. Woollam RC2 Ellipsometer" class="hero-img" style="max-height: 360px; width: 100%; object-fit: contain;" onerror="this.src='https://placehold.co/600x400/png?text=RC2+Ellipsometer'">
+                    </div>
+                </div>
             </div>
         </section>
 
+        <div class="specs-bar">
+            <div class="container">
+                <div class="specs-grid">
+                    <div class="spec-item">
+                        <i class="fas fa-wave-square"></i>
+                        <div>
+                            <span class="label">Spectral Range</span>
+                            <span class="value">210 to 1690/2500 nm</span>
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <i class="fas fa-th-large"></i>
+                        <div>
+                            <span class="label">Mueller Matrix</span>
+                            <span class="value">All 16 elements</span>
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <i class="fas fa-chart-line"></i>
+                        <div>
+                            <span class="label">Wavelengths</span>
+                            <span class="value">&gt;1000 channels</span>
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <i class="fas fa-expand"></i>
+                        <div>
+                            <span class="label">Sample Size</span>
+                            <span class="value">Up to 200/300 mm</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="container section-padding">
-            <section class="info-block">
-                <h2 class="section-heading">Overview</h2>
-                <p>Content pending.</p>
-            </section>
+            <div class="layout-grid">
+
+                <div class="content-col">
+
+                    <section class="info-block">
+                        <h2 class="section-heading">System Capabilities</h2>
+                        <p>
+                            The RC2 uses a dual-rotating compensator design to capture full Mueller-matrix data, enabling characterization of complex, anisotropic, or depolarizing samples.
+                        </p>
+                        <p>
+                            High-speed acquisition allows more than 1000 wavelengths per measurement and supports automated mapping for uniformity checks across wafers or large substrates.
+                        </p>
+                    </section>
+
+                    <section class="info-block">
+                        <h3 class="subsection-title">Operating Modes</h3>
+                        <div class="features-grid">
+                            <div class="feature-card">
+                                <div class="icon-box blue"><i class="fas fa-wave-square"></i></div>
+                                <h4>Spectroscopic Ellipsometry</h4>
+                                <p>Thin film thickness and optical constant measurements (n, k).</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="icon-box gold"><i class="fas fa-th-large"></i></div>
+                                <h4>Mueller-Matrix</h4>
+                                <p>Full 16-element Mueller matrix for complex materials.</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="icon-box green"><i class="fas fa-map"></i></div>
+                                <h4>Mapping</h4>
+                                <p>Spatial uniformity of thickness and optical constants.</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="icon-box purple"><i class="fas fa-tachometer-alt"></i></div>
+                                <h4>In-Situ Monitoring</h4>
+                                <p>Real-time growth or etch rate monitoring (with integration).</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="info-block" id="specs">
+                        <h3 class="subsection-title">Technical Specifications</h3>
+                        <table class="tech-specs-table">
+                            <tbody>
+                                <tr>
+                                    <th>Spectral Range</th>
+                                    <td>UV-Vis-NIR (210 nm to 1690 nm or 2500 nm)</td>
+                                </tr>
+                                <tr>
+                                    <th>Detectors</th>
+                                    <td>CCD (UV-Vis) and InGaAs (NIR)</td>
+                                </tr>
+                                <tr>
+                                    <th>Angle of Incidence</th>
+                                    <td>Automated or manual, typically 45 to 90 deg</td>
+                                </tr>
+                                <tr>
+                                    <th>Data Acquisition</th>
+                                    <td>~0.1 to 3 seconds per measurement point</td>
+                                </tr>
+                                <tr>
+                                    <th>Wavelength Count</th>
+                                    <td>&gt;1000 channels per measurement</td>
+                                </tr>
+                                <tr>
+                                    <th>Sample Size</th>
+                                    <td>Standard configurations up to 200 mm or 300 mm wafers</td>
+                                </tr>
+                                <tr>
+                                    <th>Sample Surface</th>
+                                    <td>Reflective or semi-reflective surfaces preferred</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    
+
+                    <section class="info-block">
+                        <h3 class="subsection-title">Comparison: Ellipsometry vs. Stylus Profilometry</h3>
+                        <p style="margin-bottom: 20px; font-size: 0.95rem; color: var(--gray-600);">
+                            Comparing optical ellipsometry to traditional contact profilometry.
+                        </p>
+                        <div class="table-responsive">
+                            <table class="comparison-table">
+                                <thead>
+                                    <tr>
+                                        <th class="col-feature">Feature</th>
+                                        <th class="col-highlight">This System (Ellipsometry)</th>
+                                        <th class="col-standard">Traditional Method (Stylus Profilometer)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Measurement Method</td>
+                                        <td class="highlight-cell">Non-contact optical polarization analysis</td>
+                                        <td>Contact stylus traces surface topography</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Data Output</td>
+                                        <td class="highlight-cell">Thickness and optical constants (n, k)</td>
+                                        <td>Step height and surface profile</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sample Impact</td>
+                                        <td class="highlight-cell">Non-destructive, no surface contact</td>
+                                        <td>Physical stylus contact with surface</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mapping</td>
+                                        <td class="highlight-cell">Automated multi-point mapping</td>
+                                        <td>Line scans with limited area coverage</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Best Use</td>
+                                        <td class="highlight-cell">Thin film characterization and optical properties</td>
+                                        <td>Step height and roughness verification</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <section class="info-block">
+                        <h3 class="subsection-title">Common Applications</h3>
+                        <div class="grid grid-2 gap-md">
+
+                            <div class="app-item">
+                                <i class="fas fa-check-circle app-icon"></i>
+                                <div>
+                                    <strong class="app-title">Thin Film Thickness</strong>
+                                    <span class="app-desc">Thickness and optical constants for multilayer stacks.</span>
+                                </div>
+                            </div>
+
+                            <div class="app-item">
+                                <i class="fas fa-check-circle app-icon"></i>
+                                <div>
+                                    <strong class="app-title">Semiconductor and PV</strong>
+                                    <span class="app-desc">Gate oxides, TCOs, and absorber layer characterization.</span>
+                                </div>
+                            </div>
+
+                            <div class="app-item">
+                                <i class="fas fa-check-circle app-icon"></i>
+                                <div>
+                                    <strong class="app-title">Uniformity Mapping</strong>
+                                    <span class="app-desc">Wafer-scale thickness and n,k uniformity checks.</span>
+                                </div>
+                            </div>
+
+                            <div class="app-item">
+                                <i class="fas fa-check-circle app-icon"></i>
+                                <div>
+                                    <strong class="app-title">In-Situ Monitoring</strong>
+                                    <span class="app-desc">Real-time growth or etch rate monitoring.</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+
+                    
+
+                </div>
+
+                <aside class="sidebar-col">
+
+                    <div class="sidebar-widget manager-card">
+                        <span class="manager-label">Tool Custodian</span>
+
+                        <div class="manager-profile">
+                            <div class="manager-avatar">GM</div>
+                            <div class="manager-info">
+                                <h4>Gabriel Alonzo Montano</h4>
+                                <span>Equipment Owner</span>
+                            </div>
+                        </div>
+
+                        <div class="contact-list">
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <span class="placeholder-text">Email pending...</span>
+                            </div>
+
+                            <div class="contact-item">
+                                <i class="fas fa-phone"></i>
+                                <span class="placeholder-text">Phone pending...</span>
+                            </div>
+
+                            <div class="contact-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>98E Room XX</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">Hourly Rates</h3>
+                        <div class="rate-table">
+                            <div class="rate-row">
+                                <span class="rate-label">Internal (NAU)</span>
+                                <span class="rate-cost">TBD</span>
+                            </div>
+                            <div class="rate-row">
+                                <span class="rate-label">External (Academic)</span>
+                                <span class="rate-cost">TBD</span>
+                            </div>
+                            <div class="rate-row">
+                                <span class="rate-label">Industry</span>
+                                <span class="rate-cost">TBD</span>
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px; text-align: center;">
+                            <a href="../Rates.html" class="link-blue-underline" style="font-weight: 600; font-size: 0.9rem;">
+                                View Full Rate Sheet ->
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget" id="docs">
+                        <h3 class="widget-title">Documentation</h3>
+                        <div class="doc-links">
+                            <a href="#" class="doc-link">
+                                <i class="fas fa-file-pdf"></i>
+                                <div>
+                                    <strong>Tool Specs Sheet</strong>
+                                    <small>PDF - Unavailable</small>
+                                </div>
+                            </a>
+                            <a href="#" class="doc-link">
+                                <i class="fas fa-book"></i>
+                                <div>
+                                    <strong>Operator Manual</strong>
+                                    <small>PDF - Unavailable</small>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                </aside>
+            </div>
         </div>
     </main>
 

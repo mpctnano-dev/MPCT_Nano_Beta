@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TEM Prep - Ion Beam Mill | NAU Nano Core</title>
+    <title>Fischione 1051 TEM Ion Beam Mill | NAU Nano Core</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../CSS/style.css">
 </head>
@@ -12,18 +12,325 @@
     <site-header></site-header>
 
     <main class="product-page">
-        <section class="page-header bg-blue text-white section-padding" style="padding: 60px 0;">
+        <section class="product-hero">
             <div class="container">
-                <h1>TEM Prep - Ion Beam Mill</h1>
-                <p class="text-white-muted">Details coming soon.</p>
+                <div class="hero-inner">
+                    <div class="hero-text">
+                        <div class="hero-badges">
+                            <span class="tag blue">Sample Prep</span>
+                            <span class="tag gold">Ion Milling</span>
+
+                            <div class="status-indicator-wrapper" title="System Unavailable" style="width: auto; padding: 5px 12px; border-radius: 20px; gap: 8px; display: flex; align-items: center;">
+                                <span class="status-dot busy"></span>
+                                <span style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: white;">Unavailable</span>
+                            </div>
+                        </div>
+                        <h1 class="hero-title">Fischione 1051 TEM Ion Beam Mill</h1>
+                        <p class="hero-subtitle">
+                            Ion milling and polishing system for preparing electron-transparent TEM specimens. Dual ion sources, wide energy control, and adjustable incidence angles support fast thinning and low-damage final polishing.
+                        </p>
+                        <div class="hero-cta">
+                            <button class="btn btn-primary disabled" style="background-color: var(--gray-500); border-color: var(--gray-500); cursor: not-allowed;">
+                                <i class="fas fa-ban" style="margin-right: 8px;"></i> Currently Unavailable
+                            </button>
+                            <a href="#specs" class="btn btn-outline">
+                                <i class="fas fa-list-ul" style="margin-right: 8px;"></i> View Specs
+                            </a>
+                        </div>
+                    </div>
+                    <div class="hero-image-wrapper">
+                        <img src="../Images/TEM_IonMill.png" alt="Fischione 1051 TEM Mill" class="hero-img" style="max-height: 360px; width: 100%; object-fit: contain;" onerror="this.src='https://placehold.co/600x400/png?text=Fischione+1051+TEM+Mill'">
+                    </div>
+                </div>
             </div>
         </section>
 
+        <div class="specs-bar">
+            <div class="container">
+                <div class="specs-grid">
+                    <div class="spec-item">
+                        <i class="fas fa-bolt"></i>
+                        <div>
+                            <span class="label">Ion Energy Range</span>
+                            <span class="value">~100 eV to 10 keV</span>
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <i class="fas fa-compass"></i>
+                        <div>
+                            <span class="label">Milling Angle</span>
+                            <span class="value">-15 to +10 deg</span>
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <i class="fas fa-ruler-combined"></i>
+                        <div>
+                            <span class="label">Specimen Size</span>
+                            <span class="value">3 mm dia x 250 um</span>
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <i class="fas fa-layer-group"></i>
+                        <div>
+                            <span class="label">Ion Sources</span>
+                            <span class="value">Dual TrueFocus</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="container section-padding">
-            <section class="info-block">
-                <h2 class="section-heading">Overview</h2>
-                <p>Content pending.</p>
-            </section>
+            <div class="layout-grid">
+
+                <div class="content-col">
+
+                    <section class="info-block">
+                        <h2 class="section-heading">System Capabilities</h2>
+                        <p>
+                            The 1051 TEM Mill prepares thin, electron-transparent specimens using dual ion sources with independently controlled energy. It supports high-rate material removal for bulk thinning and low-energy polishing for final surface cleanup.
+                        </p>
+                        <p>
+                            Adjustable incidence angles, 360-degree rotation with rocking, and beam sequencing help control uniformity and reduce preferential milling. Optional cryogenic cooling is available for temperature-sensitive materials.
+                        </p>
+                    </section>
+
+                    <section class="info-block">
+                        <h3 class="subsection-title">Operating Modes</h3>
+                        <div class="features-grid">
+                            <div class="feature-card">
+                                <div class="icon-box blue"><i class="fas fa-gauge-high"></i></div>
+                                <h4>High-Energy Milling</h4>
+                                <p>Ion energies up to 10 keV for rapid thinning from bulk to near electron transparency.</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="icon-box gold"><i class="fas fa-feather"></i></div>
+                                <h4>Low-Energy Polishing</h4>
+                                <p>Ion energies down to about 100 eV for final cleanup and damage reduction.</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="icon-box green"><i class="fas fa-arrows-alt-v"></i></div>
+                                <h4>Double-Sided Milling</h4>
+                                <p>Beams directed to both surfaces for symmetric thinning and reduced redeposition.</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="icon-box purple"><i class="fas fa-sliders-h"></i></div>
+                                <h4>Automated Recipes</h4>
+                                <p>Multi-step sequences with energy, angle, time, and temperature control for repeatable runs.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="info-block" id="specs">
+                        <h3 class="subsection-title">Technical Specifications</h3>
+                        <table class="tech-specs-table">
+                            <tbody>
+                                <tr>
+                                    <th>Ion Sources</th>
+                                    <td>Two TrueFocus ion sources, independently controlled</td>
+                                </tr>
+                                <tr>
+                                    <th>Ion Energy</th>
+                                    <td>~100 eV to 10 keV (variable)</td>
+                                </tr>
+                                <tr>
+                                    <th>Beam Current Density</th>
+                                    <td>Up to ~10 mA/cm^2</td>
+                                </tr>
+                                <tr>
+                                    <th>Milling Angle</th>
+                                    <td>-15 to +10 deg incidence</td>
+                                </tr>
+                                <tr>
+                                    <th>Specimen Size</th>
+                                    <td>Approx. 3 mm diameter x 250 um thick</td>
+                                </tr>
+                                <tr>
+                                    <th>Stage Motion</th>
+                                    <td>360 deg rotation, variable speed, rocking and beam sequencing</td>
+                                </tr>
+                                <tr>
+                                    <th>Process Gas</th>
+                                    <td>Ultra-high purity argon (99.999%), ~15 psi</td>
+                                </tr>
+                                <tr>
+                                    <th>Cooling (Optional)</th>
+                                    <td>LN2 conductive stage, standard 3-5 h dewar (extended 12-18 h)</td>
+                                </tr>
+                                <tr>
+                                    <th>Power</th>
+                                    <td>100/120/220/240 VAC, 50/60 Hz, ~720 W</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    
+
+                    <section class="info-block">
+                        <h3 class="subsection-title">Comparison: Ion Milling vs. Mechanical Pre-Thinning</h3>
+                        <p style="margin-bottom: 20px; font-size: 0.95rem; color: var(--gray-600);">
+                            Comparing the ion beam mill to traditional mechanical pre-thinning and dimpling approaches.
+                        </p>
+                        <div class="table-responsive">
+                            <table class="comparison-table">
+                                <thead>
+                                    <tr>
+                                        <th class="col-feature">Feature</th>
+                                        <th class="col-highlight">This System (Ion Milling)</th>
+                                        <th class="col-standard">Traditional Method (Mechanical)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Material Removal</td>
+                                        <td class="highlight-cell">Argon ion beam thinning and polishing</td>
+                                        <td>Abrasive grinding and dimpling</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Process Role</td>
+                                        <td class="highlight-cell">Final step to reach electron transparency</td>
+                                        <td>Pre-thinning to reduce ion milling time</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Damage Control</td>
+                                        <td class="highlight-cell">Low-energy polishing to reduce prep damage</td>
+                                        <td>Mechanical steps can introduce surface damage</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Angle Control</td>
+                                        <td class="highlight-cell">Precise incidence angle and beam sequencing</td>
+                                        <td>Limited to fixture and wheel geometry</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Best Use</td>
+                                        <td class="highlight-cell">Final thinning for TEM/STEM readiness</td>
+                                        <td>Bulk material removal before ion milling</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <section class="info-block">
+                        <h3 class="subsection-title">Common Applications</h3>
+                        <div class="grid grid-2 gap-md">
+
+                            <div class="app-item">
+                                <i class="fas fa-check-circle app-icon"></i>
+                                <div>
+                                    <strong class="app-title">Plan-View TEM</strong>
+                                    <span class="app-desc">Uniform thinning of bulk and thin film samples for TEM imaging.</span>
+                                </div>
+                            </div>
+
+                            <div class="app-item">
+                                <i class="fas fa-check-circle app-icon"></i>
+                                <div>
+                                    <strong class="app-title">Cross-Section TEM</strong>
+                                    <span class="app-desc">Preparation of layered or composite cross sections.</span>
+                                </div>
+                            </div>
+
+                            <div class="app-item">
+                                <i class="fas fa-check-circle app-icon"></i>
+                                <div>
+                                    <strong class="app-title">Low-Damage Polishing</strong>
+                                    <span class="app-desc">Final low-energy cleaning to reduce artifacts.</span>
+                                </div>
+                            </div>
+
+                            <div class="app-item">
+                                <i class="fas fa-check-circle app-icon"></i>
+                                <div>
+                                    <strong class="app-title">Cryogenic Milling</strong>
+                                    <span class="app-desc">Optional cooling for temperature-sensitive materials.</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+
+                    
+
+                </div>
+
+                <aside class="sidebar-col">
+
+                    <div class="sidebar-widget manager-card">
+                        <span class="manager-label">Tool Custodian</span>
+
+                        <div class="manager-profile">
+                            <div class="manager-avatar">MY</div>
+                            <div class="manager-info">
+                                <h4>Dr. Miguel Jose Yacaman</h4>
+                                <span>Equipment Owner</span>
+                            </div>
+                        </div>
+
+                        <div class="contact-list">
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <span class="placeholder-text">Email pending...</span>
+                            </div>
+
+                            <div class="contact-item">
+                                <i class="fas fa-phone"></i>
+                                <span class="placeholder-text">Phone pending...</span>
+                            </div>
+
+                            <div class="contact-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>98E Room 103</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">Hourly Rates</h3>
+                        <div class="rate-table">
+                            <div class="rate-row">
+                                <span class="rate-label">Internal (NAU)</span>
+                                <span class="rate-cost">TBD</span>
+                            </div>
+                            <div class="rate-row">
+                                <span class="rate-label">External (Academic)</span>
+                                <span class="rate-cost">TBD</span>
+                            </div>
+                            <div class="rate-row">
+                                <span class="rate-label">Industry</span>
+                                <span class="rate-cost">TBD</span>
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px; text-align: center;">
+                            <a href="../Rates.html" class="link-blue-underline" style="font-weight: 600; font-size: 0.9rem;">
+                                View Full Rate Sheet ->
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget" id="docs">
+                        <h3 class="widget-title">Documentation</h3>
+                        <div class="doc-links">
+                            <a href="#" class="doc-link">
+                                <i class="fas fa-file-pdf"></i>
+                                <div>
+                                    <strong>Tool Specs Sheet</strong>
+                                    <small>PDF - Unavailable</small>
+                                </div>
+                            </a>
+                            <a href="#" class="doc-link">
+                                <i class="fas fa-book"></i>
+                                <div>
+                                    <strong>Operator Manual</strong>
+                                    <small>PDF - Unavailable</small>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                </aside>
+            </div>
         </div>
     </main>
 
