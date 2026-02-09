@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Photoluminescence Spectrometer | NAU Nano Core</title>
+    <title>Edinburgh Instruments FLS1000 | NAU Nano Core</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../CSS/style.css">
 </head>
@@ -12,18 +12,323 @@
     <site-header></site-header>
 
     <main class="product-page">
-        <section class="page-header bg-blue text-white section-padding" style="padding: 60px 0;">
+        <section class="product-hero">
             <div class="container">
-                <h1>Photoluminescence Spectrometer</h1>
-                <p class="text-white-muted">Details coming soon.</p>
+                <div class="hero-inner">
+                    <div class="hero-text">
+                        <div class="hero-badges">
+                            <span class="tag blue">Metrology</span>
+                            <span class="tag gold">Photoluminescence</span>
+                            <div class="status-indicator-wrapper" title="System Online">
+                                <span class="status-dot available pulse"></span>
+                            </div>
+                        </div>
+                        <h1 class="hero-title">Edinburgh Instruments FLS1000</h1>
+                        <p class="hero-subtitle">
+                            Modular photoluminescence spectrometer for steady-state and time-resolved measurements from the UV to the mid-IR. Designed for high sensitivity, flexible excitation, and advanced lifetime analysis.
+                        </p>
+                        <div class="hero-cta">
+                            <a href="../Booking1.html" class="btn btn-primary">
+                                <i class="fas fa-calendar-check" style="margin-right: 8px;"></i> Reserve Tool
+                            </a>
+                            <a href="#specs" class="btn btn-outline">
+                                <i class="fas fa-list-ul" style="margin-right: 8px;"></i> View Specs
+                            </a>
+                        </div>
+                    </div>
+                    <div class="hero-image-wrapper">
+                        <img src="../Images/FLS1000.png" alt="Edinburgh Instruments FLS1000" class="hero-img" style="max-height: 360px; width: 100%; object-fit: contain;" onerror="this.src='https://placehold.co/600x400/png?text=FLS1000'">
+                    </div>
+                </div>
             </div>
         </section>
 
+        <div class="specs-bar">
+            <div class="container">
+                <div class="specs-grid">
+                    <div class="spec-item">
+                        <i class="fas fa-wave-square"></i>
+                        <div>
+                            <span class="label">Spectral Range</span>
+                            <span class="value">~185 to 5500 nm</span>
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <i class="fas fa-stopwatch"></i>
+                        <div>
+                            <span class="label">Time Range</span>
+                            <span class="value">ps to s lifetimes</span>
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <i class="fas fa-signal"></i>
+                        <div>
+                            <span class="label">Sensitivity</span>
+                            <span class="value">&gt;35,000:1 SNR</span>
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <i class="fas fa-lightbulb"></i>
+                        <div>
+                            <span class="label">Light Source</span>
+                            <span class="value">450 W Xe lamp</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="container section-padding">
-            <section class="info-block">
-                <h2 class="section-heading">Overview</h2>
-                <p>Content pending.</p>
-            </section>
+            <div class="layout-grid">
+
+                <div class="content-col">
+
+                    <section class="info-block">
+                        <h2 class="section-heading">System Capabilities</h2>
+                        <p>
+                            The FLS1000 supports steady-state and time-resolved photoluminescence across a wide spectral range, enabling spectral scans, lifetime measurements, and quantum yield work on a broad variety of materials.
+                        </p>
+                        <p>
+                            Its modular optical design and multiple excitation sources allow flexible experiment configurations for photophysics, photochemistry, and materials characterization.
+                        </p>
+                    </section>
+
+                    <section class="info-block">
+                        <h3 class="subsection-title">Operating Modes</h3>
+                        <div class="features-grid">
+                            <div class="feature-card">
+                                <div class="icon-box blue"><i class="fas fa-wave-square"></i></div>
+                                <h4>Steady-State Spectra</h4>
+                                <p>Emission and excitation spectra for material identification and spectral analysis.</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="icon-box gold"><i class="fas fa-bolt"></i></div>
+                                <h4>TCSPC Lifetimes</h4>
+                                <p>Fluorescence lifetimes from picoseconds to microseconds.</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="icon-box green"><i class="fas fa-clock"></i></div>
+                                <h4>MCS Phosphorescence</h4>
+                                <p>Long-lived decay measurements from nanoseconds to seconds.</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="icon-box purple"><i class="fas fa-arrows-left-right"></i></div>
+                                <h4>Anisotropy</h4>
+                                <p>Polarization-resolved emission for molecular rotation studies.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="info-block" id="specs">
+                        <h3 class="subsection-title">Technical Specifications</h3>
+                        <table class="tech-specs-table">
+                            <tbody>
+                                <tr>
+                                    <th>Spectral Coverage</th>
+                                    <td>~185 nm to 5500 nm (UV to mid-IR)</td>
+                                </tr>
+                                <tr>
+                                    <th>Time-Resolved Range</th>
+                                    <td>Picoseconds to seconds (12 orders of magnitude)</td>
+                                </tr>
+                                <tr>
+                                    <th>Monochromators</th>
+                                    <td>325 mm focal length Czerny-Turner with triple grating turret</td>
+                                </tr>
+                                <tr>
+                                    <th>Light Source</th>
+                                    <td>450 W ozone-free Xenon arc lamp</td>
+                                </tr>
+                                <tr>
+                                    <th>Pulsed Sources</th>
+                                    <td>Picosecond diode lasers and microsecond flashlamp</td>
+                                </tr>
+                                <tr>
+                                    <th>Wavelength Accuracy</th>
+                                    <td>+/- 0.2 nm (grating dependent)</td>
+                                </tr>
+                                <tr>
+                                    <th>Minimum Step Size</th>
+                                    <td>0.01 nm</td>
+                                </tr>
+                                <tr>
+                                    <th>Stray Light Rejection</th>
+                                    <td>1:10^5 (single mono) and 1:10^10 (double mono)</td>
+                                </tr>
+                                <tr>
+                                    <th>Interface</th>
+                                    <td>USB control via PC software</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                   
+
+                    <section class="info-block">
+                        <h3 class="subsection-title">Comparison: Spectrofluorometer vs. Filter Fluorometer</h3>
+                        <p style="margin-bottom: 20px; font-size: 0.95rem; color: var(--gray-600);">
+                            Comparing the FLS1000 against a traditional filter-based fluorometer.
+                        </p>
+                        <div class="table-responsive">
+                            <table class="comparison-table">
+                                <thead>
+                                    <tr>
+                                        <th class="col-feature">Feature</th>
+                                        <th class="col-highlight">This System (Spectrofluorometer)</th>
+                                        <th class="col-standard">Traditional Method (Filter Fluorometer)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Wavelength Selection</td>
+                                        <td class="highlight-cell">Monochromators allow scanning across wavelengths</td>
+                                        <td>Fixed filters for specific excitation/emission bands</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Data Output</td>
+                                        <td class="highlight-cell">Full excitation/emission spectra and lifetimes</td>
+                                        <td>Single-band intensity measurements</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Flexibility</td>
+                                        <td class="highlight-cell">High flexibility for research and material screening</td>
+                                        <td>Optimized for specific analytes or routine tests</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Resolution Control</td>
+                                        <td class="highlight-cell">Adjustable slit bandwidth and scanning</td>
+                                        <td>Fixed bandwidth defined by filters</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Typical Use</td>
+                                        <td class="highlight-cell">Advanced spectroscopy and method development</td>
+                                        <td>Targeted measurements with simple workflows</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <section class="info-block">
+                        <h3 class="subsection-title">Common Applications</h3>
+                        <div class="grid grid-2 gap-md">
+
+                            <div class="app-item">
+                                <i class="fas fa-check-circle app-icon"></i>
+                                <div>
+                                    <strong class="app-title">Semiconductors and Nanomaterials</strong>
+                                    <span class="app-desc">PL characterization of quantum dots, nanotubes, and PV materials.</span>
+                                </div>
+                            </div>
+
+                            <div class="app-item">
+                                <i class="fas fa-check-circle app-icon"></i>
+                                <div>
+                                    <strong class="app-title">Photophysics and Photochemistry</strong>
+                                    <span class="app-desc">Excited-state dynamics, decay kinetics, and energy transfer studies.</span>
+                                </div>
+                            </div>
+
+                            <div class="app-item">
+                                <i class="fas fa-check-circle app-icon"></i>
+                                <div>
+                                    <strong class="app-title">Life Sciences Assays</strong>
+                                    <span class="app-desc">Fluorescence-based assays and molecular probes.</span>
+                                </div>
+                            </div>
+
+                            <div class="app-item">
+                                <i class="fas fa-check-circle app-icon"></i>
+                                <div>
+                                    <strong class="app-title">Quantum Yield and Lifetime</strong>
+                                    <span class="app-desc">Absolute PLQY and time-resolved lifetime analysis.</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+
+                   
+
+                </div>
+
+                <aside class="sidebar-col">
+
+                    <div class="sidebar-widget manager-card">
+                        <span class="manager-label">Tool Custodian</span>
+
+                        <div class="manager-profile">
+                            <div class="manager-avatar">GM</div>
+                            <div class="manager-info">
+                                <h4>Gabriel Alonzo Montano</h4>
+                                <span>Equipment Owner</span>
+                            </div>
+                        </div>
+
+                        <div class="contact-list">
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <span class="placeholder-text">Email pending...</span>
+                            </div>
+
+                            <div class="contact-item">
+                                <i class="fas fa-phone"></i>
+                                <span class="placeholder-text">Phone pending...</span>
+                            </div>
+
+                            <div class="contact-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>98E Room 104</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">Hourly Rates</h3>
+                        <div class="rate-table">
+                            <div class="rate-row">
+                                <span class="rate-label">Internal (NAU)</span>
+                                <span class="rate-cost">TBD</span>
+                            </div>
+                            <div class="rate-row">
+                                <span class="rate-label">External (Academic)</span>
+                                <span class="rate-cost">TBD</span>
+                            </div>
+                            <div class="rate-row">
+                                <span class="rate-label">Industry</span>
+                                <span class="rate-cost">TBD</span>
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px; text-align: center;">
+                            <a href="../Rates.html" class="link-blue-underline" style="font-weight: 600; font-size: 0.9rem;">
+                                View Full Rate Sheet ->
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget" id="docs">
+                        <h3 class="widget-title">Documentation</h3>
+                        <div class="doc-links">
+                            <a href="#" class="doc-link">
+                                <i class="fas fa-file-pdf"></i>
+                                <div>
+                                    <strong>Tool Specs Sheet</strong>
+                                    <small>PDF - Unavailable</small>
+                                </div>
+                            </a>
+                            <a href="#" class="doc-link">
+                                <i class="fas fa-book"></i>
+                                <div>
+                                    <strong>Operator Manual</strong>
+                                    <small>PDF - Unavailable</small>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                </aside>
+            </div>
         </div>
     </main>
 
