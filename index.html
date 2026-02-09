@@ -397,141 +397,242 @@
                 <!-- Cards Grid with Navigation -->
                 <div class="edu-carousel-container">
                     <button class="edu-nav-btn edu-nav-left" id="eduNavLeft" aria-label="Previous programs">
-                        <i class="fas fa-chevron-left"></i>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
                     </button>
 
                     <div class="edu-cards-viewport">
                         <div class="edu-cards-grid" id="eduCardsGrid">
-                            <!-- Card 1: Electrical Engineering -->
-                            <div class="edu-card">
-                                <div class="edu-card-header blue">
-                                    <i class="fas fa-bolt"></i>
-                                </div>
-                                <div class="edu-card-body">
-                                    <span class="edu-card-tag blue">Bachelor's Degree</span>
-                                    <h3 class="edu-card-title">Electrical Engineering</h3>
-                                    <p class="edu-card-desc">Design complex electrical systems, from microchips to power
-                                        grids. Focus on digital logic, circuit design, and semiconductor devices.</p>
-                                    <ul class="edu-card-topics">
-                                        <li>Circuit Design</li>
-                                        <li>Signals & Systems</li>
-                                        <li>Microelectronics</li>
-                                    </ul>
-                                    <a href="degree-programs.html#electrical" class="edu-card-link">Explore Program <i
-                                            class="fas fa-arrow-right"></i></a>
-                                </div>
-                            </div>
-
-                            <!-- Card 2: Mechatronics & Robotics -->
-                            <div class="edu-card">
-                                <div class="edu-card-header gold">
-                                    <i class="fas fa-robot"></i>
-                                </div>
-                                <div class="edu-card-body">
-                                    <span class="edu-card-tag gold">Bachelor's Degree</span>
-                                    <h3 class="edu-card-title">Mechatronics & Robotics</h3>
-                                    <p class="edu-card-desc">Combine mechanical, electrical, and computer engineering to
-                                        build autonomous systems. Ideal for manufacturing automation careers.</p>
-                                    <ul class="edu-card-topics">
-                                        <li>Robotic Control</li>
-                                        <li>Embedded Systems</li>
-                                        <li>Automation</li>
-                                    </ul>
-                                    <a href="degree-programs.html#mechatronics" class="edu-card-link">Explore Program <i
-                                            class="fas fa-arrow-right"></i></a>
+                            <!-- Card 1: Computer Engineering -->
+                            <div class="edu-card-wrapper">
+                                <div class="edu-card">
+                                    <div class="edu-card-header blue">
+                                        <span class="edu-semester">Fall 2026</span>
+                                        <span class="edu-duration">4 Years</span>
+                                    </div>
+                                    <div class="edu-card-body">
+                                        <span class="edu-card-tag blue">Bachelor of Science</span>
+                                        <h3 class="edu-card-title">Computer Engineering</h3>
+                                        <p class="edu-card-desc">Bridge the gap between hardware and software. Design
+                                            high-performance computing systems, embedded controllers, and advanced
+                                            processor architectures essential for the AI and semiconductor era.</p>
+                                        <ul class="edu-card-topics">
+                                            <li>Computer Architecture</li>
+                                            <li>Digital Logic & VLSI</li>
+                                            <li>FPGA Design</li>
+                                            <li>Network Systems</li>
+                                        </ul>
+                                        <a href="degree-programs.html#computer-engineering"
+                                            class="edu-card-link">Explore Program
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                <polyline points="12 5 19 12 12 19"></polyline>
+                                            </svg>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- Card 3: Mechanical Engineering -->
-                            <div class="edu-card">
-                                <div class="edu-card-header blue">
-                                    <i class="fas fa-cogs"></i>
-                                </div>
-                                <div class="edu-card-body">
-                                    <span class="edu-card-tag blue">Bachelor's Degree</span>
-                                    <h3 class="edu-card-title">Mechanical Engineering</h3>
-                                    <p class="edu-card-desc">Master mechanics, thermodynamics, and materials science.
-                                        Design the physical components of semiconductor manufacturing tools.</p>
-                                    <ul class="edu-card-topics">
-                                        <li>Thermodynamics</li>
-                                        <li>Materials Science</li>
-                                        <li>Fluid Dynamics</li>
-                                    </ul>
-                                    <a href="degree-programs.html#mechanical" class="edu-card-link">Explore Program <i
-                                            class="fas fa-arrow-right"></i></a>
-                                </div>
-                            </div>
-
-                            <!-- Card 4: Computer Science -->
-                            <div class="edu-card">
-                                <div class="edu-card-header gold">
-                                    <i class="fas fa-code"></i>
-                                </div>
-                                <div class="edu-card-body">
-                                    <span class="edu-card-tag gold">Bachelor's Degree</span>
-                                    <h3 class="edu-card-title">Computer Science</h3>
-                                    <p class="edu-card-desc">Develop software solutions that power modern technology.
-                                        From algorithms to AI, gain the skills to innovate in the digital world.</p>
-                                    <ul class="edu-card-topics">
-                                        <li>Software Engineering</li>
-                                        <li>Data Structures</li>
-                                        <li>Operating Systems</li>
-                                    </ul>
-                                    <a href="degree-programs.html#cs" class="edu-card-link">Explore Program <i
-                                            class="fas fa-arrow-right"></i></a>
+                            <!-- Card 2: Computer Science -->
+                            <div class="edu-card-wrapper">
+                                <div class="edu-card">
+                                    <div class="edu-card-header gold">
+                                        <span class="edu-semester">Fall 2026</span>
+                                        <span class="edu-duration">4 Years</span>
+                                    </div>
+                                    <div class="edu-card-body">
+                                        <span class="edu-card-tag gold">Bachelor of Science</span>
+                                        <h3 class="edu-card-title">Computer Science</h3>
+                                        <p class="edu-card-desc">Build foundational knowledge in software development,
+                                            algorithms, and computing systems. Modern fabrication plants run on millions
+                                            of lines of code—your skills are vital for automation and yield
+                                            optimization.</p>
+                                        <ul class="edu-card-topics">
+                                            <li>Software Engineering</li>
+                                            <li>Algorithms & Data</li>
+                                            <li>Operating Systems</li>
+                                            <li>Artificial Intelligence</li>
+                                        </ul>
+                                        <a href="degree-programs.html#cs" class="edu-card-link">Explore Program
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                <polyline points="12 5 19 12 12 19"></polyline>
+                                            </svg>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- Card 5: Engineering Technology -->
-                            <div class="edu-card">
-                                <div class="edu-card-header blue">
-                                    <i class="fas fa-tools"></i>
-                                </div>
-                                <div class="edu-card-body">
-                                    <span class="edu-card-tag blue">BSET Degree</span>
-                                    <h3 class="edu-card-title">Engineering Technology</h3>
-                                    <p class="edu-card-desc">Focus on the application of engineering principles. A
-                                        hands-on degree for those who want to implement and manage technology.</p>
-                                    <ul class="edu-card-topics">
-                                        <li>Applied Electronics</li>
-                                        <li>Manufacturing Processes</li>
-                                        <li>Industrial Systems</li>
-                                    </ul>
-                                    <a href="degree-programs.html#bset" class="edu-card-link">Explore Program <i
-                                            class="fas fa-arrow-right"></i></a>
+                            <!-- Card 3: Electrical Engineering -->
+                            <div class="edu-card-wrapper">
+                                <div class="edu-card">
+                                    <div class="edu-card-header blue">
+                                        <span class="edu-semester">Fall 2026</span>
+                                        <span class="edu-duration">4 Years</span>
+                                    </div>
+                                    <div class="edu-card-body">
+                                        <span class="edu-card-tag blue">Bachelor of Science</span>
+                                        <h3 class="edu-card-title">Electrical Engineering</h3>
+                                        <p class="edu-card-desc">Design, develop, and analyze electrical and electronic
+                                            systems used in semiconductor manufacturing, communications, energy systems,
+                                            and embedded technologies.</p>
+                                        <ul class="edu-card-topics">
+                                            <li>Circuit Analysis & Design</li>
+                                            <li>Microelectronics</li>
+                                            <li>Embedded Systems</li>
+                                            <li>Signal Processing</li>
+                                        </ul>
+                                        <a href="degree-programs.html#electrical" class="edu-card-link">Explore Program
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                <polyline points="12 5 19 12 12 19"></polyline>
+                                            </svg>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- Card 6: Workforce Training -->
-                            <div class="edu-card">
-                                <div class="edu-card-header gold">
-                                    <i class="fas fa-certificate"></i>
+                            <!-- Card 4: Engineering Technology -->
+                            <div class="edu-card-wrapper">
+                                <div class="edu-card">
+                                    <div class="edu-card-header gold">
+                                        <span class="edu-semester">Fall 2026</span>
+                                        <span class="edu-duration">4 Years</span>
+                                    </div>
+                                    <div class="edu-card-body">
+                                        <span class="edu-card-tag gold">Bachelor of Science (BSET)</span>
+                                        <h3 class="edu-card-title">Engineering Technology</h3>
+                                        <p class="edu-card-desc">Focus on applied engineering practices and technical
+                                            problem-solving. This degree lays the groundwork for roles in manufacturing
+                                            supervision, equipment maintenance, and industrial operations.</p>
+                                        <ul class="edu-card-topics">
+                                            <li>Manufacturing Systems</li>
+                                            <li>Quality Assurance</li>
+                                            <li>Industrial Systems</li>
+                                            <li>Project Management</li>
+                                        </ul>
+                                        <a href="degree-programs.html#bset" class="edu-card-link">Explore Program
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                <polyline points="12 5 19 12 12 19"></polyline>
+                                            </svg>
+                                        </a>
+                                    </div>
                                 </div>
-                                <div class="edu-card-body">
-                                    <span class="edu-card-tag gold">Certificate</span>
-                                    <h3 class="edu-card-title">Workforce Training</h3>
-                                    <p class="edu-card-desc">Rapidly gain the skills needed to work in a semiconductor
-                                        fab. Industry-recognized certifications and safety training.</p>
-                                    <ul class="edu-card-topics">
-                                        <li>Fab Safety</li>
-                                        <li>Cleanroom Operations</li>
-                                        <li>Semiconductor Basics</li>
-                                    </ul>
-                                    <a href="degree-programs.html#workforce" class="edu-card-link">View Training <i
-                                            class="fas fa-arrow-right"></i></a>
+                            </div>
+
+                            <!-- Card 5: Mechanical Engineering -->
+                            <div class="edu-card-wrapper">
+                                <div class="edu-card">
+                                    <div class="edu-card-header blue">
+                                        <span class="edu-semester">Fall 2026</span>
+                                        <span class="edu-duration">4 Years</span>
+                                    </div>
+                                    <div class="edu-card-body">
+                                        <span class="edu-card-tag blue">Bachelor of Science</span>
+                                        <h3 class="edu-card-title">Mechanical Engineering</h3>
+                                        <p class="edu-card-desc">Design, analyze, and improve mechanical and energy
+                                            systems. The semiconductor industry relies on mechanical engineers for
+                                            thermal management, equipment design, and vacuum systems.</p>
+                                        <ul class="edu-card-topics">
+                                            <li>Thermodynamics</li>
+                                            <li>Materials Science</li>
+                                            <li>Solid Mechanics</li>
+                                            <li>System Dynamics</li>
+                                        </ul>
+                                        <a href="degree-programs.html#mechanical" class="edu-card-link">Explore Program
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                <polyline points="12 5 19 12 12 19"></polyline>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 6: Mechatronics & Robotics Engineering -->
+                            <div class="edu-card-wrapper">
+                                <div class="edu-card">
+                                    <div class="edu-card-header gold">
+                                        <span class="edu-semester">Fall 2026</span>
+                                        <span class="edu-duration">4 Years</span>
+                                    </div>
+                                    <div class="edu-card-body">
+                                        <span class="edu-card-tag gold">Bachelor of Science</span>
+                                        <h3 class="edu-card-title">Mechatronics & Robotics Engineering</h3>
+                                        <p class="edu-card-desc">Integrate mechanical, electrical, and computer
+                                            engineering with control systems to design automated and intelligent
+                                            systems. Perfect for semiconductor automation and wafer handling robots.</p>
+                                        <ul class="edu-card-topics">
+                                            <li>Robotics Design</li>
+                                            <li>Control Systems</li>
+                                            <li>Sensors & Actuators</li>
+                                            <li>Industrial Automation</li>
+                                        </ul>
+                                        <a href="degree-programs.html#mechatronics" class="edu-card-link">Explore
+                                            Program
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                <polyline points="12 5 19 12 12 19"></polyline>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 7: PTAP Apprenticeship -->
+                            <div class="edu-card-wrapper">
+                                <div class="edu-card">
+                                    <div class="edu-card-header blue">
+                                        <span class="edu-semester">Enrolling Now</span>
+                                        <span class="edu-duration">2 Years</span>
+                                    </div>
+                                    <div class="edu-card-body">
+                                        <span class="edu-card-tag blue">State-Registered Apprenticeship</span>
+                                        <h3 class="edu-card-title">Process Technician Apprenticeship (PTAP)</h3>
+                                        <p class="edu-card-desc">A 2-year program developed in partnership with TSMC
+                                            Arizona, Rio Salado College, and the City of Phoenix. Combines 600 hours of
+                                            coursework with 4,000 hours of on-the-job training at TSMC's fab.</p>
+                                        <ul class="edu-card-topics">
+                                            <li>OSHA 30 Safety</li>
+                                            <li>Vacuum Technology</li>
+                                            <li>Metrology & Instrumentation</li>
+                                            <li>Semiconductor Processes</li>
+                                        </ul>
+                                        <a href="degree-programs.html#ptap" class="edu-card-link">View PTAP Details <i
+                                                class="fas fa-arrow-right"></i></a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <button class="edu-nav-btn edu-nav-right" id="eduNavRight" aria-label="Next programs">
-                        <i class="fas fa-chevron-right"></i>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
                     </button>
                 </div>
 
                 <!-- Pagination Dots -->
                 <div class="edu-pagination">
                     <span class="edu-dot active"></span>
+                    <span class="edu-dot"></span>
                     <span class="edu-dot"></span>
                 </div>
             </div>

@@ -104,60 +104,75 @@ document.addEventListener('DOMContentLoaded', () => {
     const eduNavLeft = document.getElementById('eduNavLeft');
     const eduNavRight = document.getElementById('eduNavRight');
     const eduCardsGrid = document.getElementById('eduCardsGrid');
-    const eduDots = document.querySelectorAll('.edu-dot');
+    const eduDotsContainer = document.getElementById('eduDots');
 
-    if (eduNavLeft && eduNavRight && eduCardsGrid) {
+    if (eduNavLeft && eduNavRight && eduCardsGrid && eduDotsContainer) {
         let currentPage = 0;
-        const totalPages = 2; // 6 cards / 3 per row = 2 pages (first 3, last 3)
+        let totalPages = 3;
+
+        function getCardsPerView() {
+            if (window.innerWidth <= 768) return 1;
+            if (window.innerWidth <= 1024) return 2;
+            return 3;
+        }
+
+        function updatePagination() {
+            const cardsPerView = getCardsPerView();
+            totalPages = Math.ceil(7 / cardsPerView); // 7 cards total
+
+            // Generate dots
+            eduDotsContainer.innerHTML = '';
+            for (let i = 0; i < totalPages; i++) {
+                const dot = document.createElement('span');
+                dot.className = `edu-dot ${i === currentPage ? 'active' : ''}`;
+                dot.dataset.index = i;
+                dot.addEventListener('click', () => updateEduPage(i));
+                eduDotsContainer.appendChild(dot);
+            }
+
+            // Validate currentPage
+            if (currentPage >= totalPages) {
+                updateEduPage(totalPages - 1);
+            } else {
+                updateEduPage(currentPage);
+            }
+        }
 
         function updateEduPage(page) {
             currentPage = page;
-            
-            // Get all cards
-            const cards = eduCardsGrid.querySelectorAll('.edu-card');
-            
-            // Show/hide cards based on page (3 cards per page)
-            cards.forEach((card, index) => {
-                if (page === 0 && index < 3) {
-                    card.style.display = 'flex';
-                } else if (page === 1 && index >= 3) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-            
-            // Update pagination dots
-            eduDots.forEach((dot, index) => {
+
+            // Slide the grid
+            const translateX = -(page * 100);
+            eduCardsGrid.style.transform = `translateX(${translateX}%)`;
+
+            // Update pagination dots active state
+            const dots = eduDotsContainer.querySelectorAll('.edu-dot');
+            dots.forEach((dot, index) => {
                 dot.classList.toggle('active', index === page);
             });
-            
+
             // Update button states
             eduNavLeft.disabled = page === 0;
             eduNavRight.disabled = page === totalPages - 1;
         }
 
         eduNavLeft.addEventListener('click', () => {
-            if (currentPage > 0) {
-                updateEduPage(currentPage - 1);
-            }
+            if (currentPage > 0) updateEduPage(currentPage - 1);
         });
 
         eduNavRight.addEventListener('click', () => {
-            if (currentPage < totalPages - 1) {
-                updateEduPage(currentPage + 1);
-            }
+            if (currentPage < totalPages - 1) updateEduPage(currentPage + 1);
         });
 
-        // Dot click navigation
-        eduDots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                updateEduPage(index);
-            });
+        // Resize listener
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(updatePagination, 100);
         });
 
-        // Initialize: show first 3 cards
-        updateEduPage(0);
+        // Initialize
+        updatePagination();
     }
 
     // -------------------------------------------------------------------------
