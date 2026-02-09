@@ -4769,14 +4769,14 @@ ul {
     color: var(--nau-gold);
 }
 
-.tech-card h3 {
+.industry-dashboard .tech-card h3 {
     color: white;
     font-size: 1.1rem;
     font-weight: 700;
     margin-bottom: var(--space-sm);
 }
 
-.tech-card p {
+.industry-dashboard .tech-card p {
     color: rgba(255, 255, 255, 0.7);
     font-size: 0.9rem;
     line-height: 1.6;
