@@ -2265,6 +2265,294 @@ ul {
 }
 
 /* ============================================
+   EDUCATION PATHS SECTION - 3x3 Grid Layout
+   ============================================ */
+.education-paths-section {
+    padding: 80px 0;
+    background: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+}
+
+/* Section Header */
+.edu-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 50px;
+    gap: 30px;
+}
+
+.edu-header-content {
+    max-width: 600px;
+}
+
+.edu-eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--nau-gold-dark);
+    margin-bottom: 12px;
+}
+
+.edu-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--nau-blue);
+    margin-bottom: 12px;
+    line-height: 1.2;
+}
+
+.edu-subtitle {
+    font-size: 1.1rem;
+    color: var(--gray-600);
+    line-height: 1.6;
+}
+
+/* Carousel Container */
+.edu-carousel-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Navigation Buttons */
+.edu-nav-btn {
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid var(--nau-blue);
+    background: white;
+    color: var(--nau-blue);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.edu-nav-btn:hover {
+    background: var(--nau-blue);
+    color: white;
+    transform: scale(1.1);
+}
+
+.edu-nav-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Cards Viewport */
+.edu-cards-viewport {
+    flex: 1;
+    overflow: hidden;
+}
+
+/* Cards Grid - 3 columns */
+.edu-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    transition: transform 0.5s ease;
+}
+
+/* Individual Card */
+.edu-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    min-height: 380px;
+    transition: all 0.3s ease;
+}
+
+.edu-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* Card Header with Icon */
+.edu-card-header {
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+}
+
+.edu-card-header.blue {
+    background: linear-gradient(135deg, var(--nau-blue) 0%, #003366 100%);
+    color: white;
+}
+
+.edu-card-header.gold {
+    background: linear-gradient(135deg, var(--nau-gold) 0%, #d4a500 100%);
+    color: white;
+}
+
+/* Card Body */
+.edu-card-body {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.edu-card-tag {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    width: fit-content;
+}
+
+.edu-card-tag.blue {
+    background: rgba(0, 36, 84, 0.1);
+    color: var(--nau-blue);
+}
+
+.edu-card-tag.gold {
+    background: rgba(255, 184, 28, 0.2);
+    color: var(--nau-gold-dark);
+}
+
+.edu-card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--nau-blue);
+    margin-bottom: 12px;
+    line-height: 1.3;
+}
+
+.edu-card-desc {
+    font-size: 0.9rem;
+    color: var(--gray-600);
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.edu-card-topics {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+    flex: 1;
+}
+
+.edu-card-topics li {
+    position: relative;
+    padding-left: 20px;
+    font-size: 0.85rem;
+    color: var(--gray-700);
+    margin-bottom: 8px;
+}
+
+.edu-card-topics li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--nau-gold);
+    font-weight: 700;
+}
+
+.edu-card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--nau-blue);
+    text-decoration: none;
+    margin-top: auto;
+    transition: all 0.3s ease;
+}
+
+.edu-card-link i {
+    transition: transform 0.3s ease;
+}
+
+.edu-card-link:hover {
+    color: var(--nau-gold-dark);
+}
+
+.edu-card-link:hover i {
+    transform: translateX(5px);
+}
+
+/* Pagination Dots */
+.edu-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 35px;
+}
+
+.edu-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(0, 36, 84, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.edu-dot.active {
+    background: var(--nau-blue);
+    width: 30px;
+    border-radius: 6px;
+}
+
+.edu-dot:hover:not(.active) {
+    background: rgba(0, 36, 84, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .edu-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .edu-card {
+        min-height: 360px;
+    }
+
+    .edu-section-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 768px) {
+    .edu-cards-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .edu-title {
+        font-size: 1.8rem;
+    }
+
+    .edu-nav-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    .edu-card {
+        min-height: auto;
+    }
+}
+
+/* ============================================
    ABOUT SECTION V2 - Redesigned Layout
    ============================================ */
 .about-section-v2 {

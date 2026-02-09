@@ -381,218 +381,158 @@
 
 
         <!-- INTEGRATED EDUCATION PATHS -->
-        <section class="section-padding">
+        <section class="education-paths-section">
             <div class="container">
-                <div class="section-header">
-                    <h2>Integrated Education Paths</h2>
-                    <a href="degree-programs.html" class="see-all">View All Programs &rarr;</a>
+                <!-- Section Header -->
+                <div class="edu-section-header">
+                    <div class="edu-header-content">
+                        <span class="edu-eyebrow">Academic Programs</span>
+                        <h2 class="edu-title">Integrated Education Paths</h2>
+                        <p class="edu-subtitle">From foundational degrees to specialized training, prepare for a career
+                            in semiconductor manufacturing and research.</p>
+                    </div>
+                    <a href="degree-programs.html" class="btn btn-primary">View All Programs</a>
                 </div>
 
-                <div class="carousel-wrapper">
-                    <button class="nav-btn left" id="eduLeft">&#8249;</button>
-                    <button class="nav-btn right" id="eduRight">&#8250;</button>
+                <!-- Cards Grid with Navigation -->
+                <div class="edu-carousel-container">
+                    <button class="edu-nav-btn edu-nav-left" id="eduNavLeft" aria-label="Previous programs">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
 
-                    <div class="card-wrapper" id="educationContainer">
-                        <!-- Card 1: Electrical Engineering -->
-                        <div class="card card-border-blue"
-                            style="min-width: 350px; height: 100%; display: flex; flex-direction: column;">
-                            <div class="card-body" style="flex: 1; display: flex; flex-direction: column;">
-                                <h3 class="card-title">Electrical Engineering</h3>
-                                <div class="tag blue mb-sm">Bachelor's Degree</div>
-                                <p class="card-text">
-                                    Design complex electrical systems, from microchips to power grids.
-                                    Focus on digital logic, circuit design, and semiconductor devices.
-                                </p>
-                                <p class="card-text"><strong>Key Topics:</strong></p>
-                                <ul class="feature-list" style="flex: 1;">
-                                    <li class="feature-item">
-                                        <svg class="check-icon" viewBox="0 0 24 24">
-                                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                                        </svg>Circuit Design
-                                    </li>
-                                    <li class="feature-item">
-                                        <svg class="check-icon" viewBox="0 0 24 24">
-                                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                                        </svg>Signals & Systems
-                                    </li>
-                                    <li class="feature-item">
-                                        <svg class="check-icon" viewBox="0 0 24 24">
-                                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                                        </svg>Microelectronics
-                                    </li>
-                                </ul>
-                                <a href="degree-programs.html#electrical" class="btn btn-outline btn-outline-blue"
-                                    style="margin-top: auto;">Explore Electrical</a>
+                    <div class="edu-cards-viewport">
+                        <div class="edu-cards-grid" id="eduCardsGrid">
+                            <!-- Card 1: Electrical Engineering -->
+                            <div class="edu-card">
+                                <div class="edu-card-header blue">
+                                    <i class="fas fa-bolt"></i>
+                                </div>
+                                <div class="edu-card-body">
+                                    <span class="edu-card-tag blue">Bachelor's Degree</span>
+                                    <h3 class="edu-card-title">Electrical Engineering</h3>
+                                    <p class="edu-card-desc">Design complex electrical systems, from microchips to power
+                                        grids. Focus on digital logic, circuit design, and semiconductor devices.</p>
+                                    <ul class="edu-card-topics">
+                                        <li>Circuit Design</li>
+                                        <li>Signals & Systems</li>
+                                        <li>Microelectronics</li>
+                                    </ul>
+                                    <a href="degree-programs.html#electrical" class="edu-card-link">Explore Program <i
+                                            class="fas fa-arrow-right"></i></a>
+                                </div>
+                            </div>
+
+                            <!-- Card 2: Mechatronics & Robotics -->
+                            <div class="edu-card">
+                                <div class="edu-card-header gold">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                                <div class="edu-card-body">
+                                    <span class="edu-card-tag gold">Bachelor's Degree</span>
+                                    <h3 class="edu-card-title">Mechatronics & Robotics</h3>
+                                    <p class="edu-card-desc">Combine mechanical, electrical, and computer engineering to
+                                        build autonomous systems. Ideal for manufacturing automation careers.</p>
+                                    <ul class="edu-card-topics">
+                                        <li>Robotic Control</li>
+                                        <li>Embedded Systems</li>
+                                        <li>Automation</li>
+                                    </ul>
+                                    <a href="degree-programs.html#mechatronics" class="edu-card-link">Explore Program <i
+                                            class="fas fa-arrow-right"></i></a>
+                                </div>
+                            </div>
+
+                            <!-- Card 3: Mechanical Engineering -->
+                            <div class="edu-card">
+                                <div class="edu-card-header blue">
+                                    <i class="fas fa-cogs"></i>
+                                </div>
+                                <div class="edu-card-body">
+                                    <span class="edu-card-tag blue">Bachelor's Degree</span>
+                                    <h3 class="edu-card-title">Mechanical Engineering</h3>
+                                    <p class="edu-card-desc">Master mechanics, thermodynamics, and materials science.
+                                        Design the physical components of semiconductor manufacturing tools.</p>
+                                    <ul class="edu-card-topics">
+                                        <li>Thermodynamics</li>
+                                        <li>Materials Science</li>
+                                        <li>Fluid Dynamics</li>
+                                    </ul>
+                                    <a href="degree-programs.html#mechanical" class="edu-card-link">Explore Program <i
+                                            class="fas fa-arrow-right"></i></a>
+                                </div>
+                            </div>
+
+                            <!-- Card 4: Computer Science -->
+                            <div class="edu-card">
+                                <div class="edu-card-header gold">
+                                    <i class="fas fa-code"></i>
+                                </div>
+                                <div class="edu-card-body">
+                                    <span class="edu-card-tag gold">Bachelor's Degree</span>
+                                    <h3 class="edu-card-title">Computer Science</h3>
+                                    <p class="edu-card-desc">Develop software solutions that power modern technology.
+                                        From algorithms to AI, gain the skills to innovate in the digital world.</p>
+                                    <ul class="edu-card-topics">
+                                        <li>Software Engineering</li>
+                                        <li>Data Structures</li>
+                                        <li>Operating Systems</li>
+                                    </ul>
+                                    <a href="degree-programs.html#cs" class="edu-card-link">Explore Program <i
+                                            class="fas fa-arrow-right"></i></a>
+                                </div>
+                            </div>
+
+                            <!-- Card 5: Engineering Technology -->
+                            <div class="edu-card">
+                                <div class="edu-card-header blue">
+                                    <i class="fas fa-tools"></i>
+                                </div>
+                                <div class="edu-card-body">
+                                    <span class="edu-card-tag blue">BSET Degree</span>
+                                    <h3 class="edu-card-title">Engineering Technology</h3>
+                                    <p class="edu-card-desc">Focus on the application of engineering principles. A
+                                        hands-on degree for those who want to implement and manage technology.</p>
+                                    <ul class="edu-card-topics">
+                                        <li>Applied Electronics</li>
+                                        <li>Manufacturing Processes</li>
+                                        <li>Industrial Systems</li>
+                                    </ul>
+                                    <a href="degree-programs.html#bset" class="edu-card-link">Explore Program <i
+                                            class="fas fa-arrow-right"></i></a>
+                                </div>
+                            </div>
+
+                            <!-- Card 6: Workforce Training -->
+                            <div class="edu-card">
+                                <div class="edu-card-header gold">
+                                    <i class="fas fa-certificate"></i>
+                                </div>
+                                <div class="edu-card-body">
+                                    <span class="edu-card-tag gold">Certificate</span>
+                                    <h3 class="edu-card-title">Workforce Training</h3>
+                                    <p class="edu-card-desc">Rapidly gain the skills needed to work in a semiconductor
+                                        fab. Industry-recognized certifications and safety training.</p>
+                                    <ul class="edu-card-topics">
+                                        <li>Fab Safety</li>
+                                        <li>Cleanroom Operations</li>
+                                        <li>Semiconductor Basics</li>
+                                    </ul>
+                                    <a href="degree-programs.html#workforce" class="edu-card-link">View Training <i
+                                            class="fas fa-arrow-right"></i></a>
+                                </div>
                             </div>
                         </div>
-
-                        <!-- Card 2: Mechatronics & Robotics -->
-                        <div class="card card-border-gold"
-                            style="min-width: 350px; height: 100%; display: flex; flex-direction: column;">
-                            <div class="card-body" style="flex: 1; display: flex; flex-direction: column;">
-                                <h3 class="card-title">Mechatronics & Robotics</h3>
-                                <div class="tag mb-sm">Bachelor's Degree</div>
-                                <p class="card-text">
-                                    Combine mechanical, electrical, and computer engineering to build autonomous
-                                    systems.
-                                    Ideal for careers in manufacturing automation.
-                                </p>
-                                <p class="card-text"><strong>Key Topics:</strong></p>
-                                <ul class="feature-list" style="flex: 1;">
-                                    <li class="feature-item">
-                                        <svg class="check-icon" viewBox="0 0 24 24">
-                                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                                        </svg>Robotic Control
-                                    </li>
-                                    <li class="feature-item">
-                                        <svg class="check-icon" viewBox="0 0 24 24">
-                                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                                        </svg>Embedded Systems
-                                    </li>
-                                    <li class="feature-item">
-                                        <svg class="check-icon" viewBox="0 0 24 24">
-                                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                                        </svg>Automation
-                                    </li>
-                                </ul>
-                                <a href="degree-programs.html#mechatronics" class="btn btn-outline btn-outline-blue"
-                                    style="margin-top: auto;">Explore Mechatronics</a>
-                            </div>
-                        </div>
-
-                        <!-- Card 3: Mechanical Engineering -->
-                        <div class="card card-border-blue"
-                            style="min-width: 350px; height: 100%; display: flex; flex-direction: column;">
-                            <div class="card-body" style="flex: 1; display: flex; flex-direction: column;">
-                                <h3 class="card-title">Mechanical Engineering</h3>
-                                <div class="tag blue mb-sm">Bachelor's Degree</div>
-                                <p class="card-text">
-                                    Master mechanics, thermodynamics, and materials science.
-                                    Design the physical components of semiconductor tools.
-                                </p>
-                                <p class="card-text"><strong>Key Topics:</strong></p>
-                                <ul class="feature-list" style="flex: 1;">
-                                    <li class="feature-item">
-                                        <svg class="check-icon" viewBox="0 0 24 24">
-                                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                                        </svg>Thermodynamics
-                                    </li>
-                                    <li class="feature-item">
-                                        <svg class="check-icon" viewBox="0 0 24 24">
-                                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                                        </svg>Materials Science
-                                    </li>
-                                    <li class="feature-item">
-                                        <svg class="check-icon" viewBox="0 0 24 24">
-                                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                                        </svg>Fluid Dynamics
-                                    </li>
-                                </ul>
-                                <a href="degree-programs.html#mechanical" class="btn btn-outline btn-outline-blue"
-                                    style="margin-top: auto;">Explore Mechanical</a>
-                            </div>
-                        </div>
-
-                        <!-- Card 4: Computer Science -->
-                        <div class="card card-border-gold"
-                            style="min-width: 350px; height: 100%; display: flex; flex-direction: column;">
-                            <div class="card-body" style="flex: 1; display: flex; flex-direction: column;">
-                                <h3 class="card-title">Computer Science</h3>
-                                <div class="tag mb-sm">Bachelor's Degree</div>
-                                <p class="card-text">
-                                    Develop software solutions that power modern technology. From algorithms to
-                                    AI, gain the skills to innovate in the digital world.
-                                </p>
-                                <p class="card-text"><strong>Key Topics:</strong></p>
-                                <ul class="feature-list" style="flex: 1;">
-                                    <li class="feature-item">
-                                        <svg class="check-icon" viewBox="0 0 24 24">
-                                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                                        </svg>Software Engineering
-                                    </li>
-                                    <li class="feature-item">
-                                        <svg class="check-icon" viewBox="0 0 24 24">
-                                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                                        </svg>Data Structures
-                                    </li>
-                                    <li class="feature-item">
-                                        <svg class="check-icon" viewBox="0 0 24 24">
-                                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                                        </svg>Operating Systems
-                                    </li>
-                                </ul>
-                                <a href="degree-programs.html#cs" class="btn btn-outline btn-outline-blue"
-                                    style="margin-top: auto;">Explore CS</a>
-                            </div>
-                        </div>
-
-                        <!-- Card 5: Engineering Technology -->
-                        <div class="card card-border-blue"
-                            style="min-width: 350px; height: 100%; display: flex; flex-direction: column;">
-                            <div class="card-body" style="flex: 1; display: flex; flex-direction: column;">
-                                <h3 class="card-title">Engineering Technology</h3>
-                                <div class="tag blue mb-sm">BSET Degree</div>
-                                <p class="card-text">
-                                    Focus on the application of engineering principles. A hands-on degree for those
-                                    who want to implement and manage technology.
-                                </p>
-                                <p class="card-text"><strong>Key Topics:</strong></p>
-                                <ul class="feature-list" style="flex: 1;">
-                                    <li class="feature-item">
-                                        <svg class="check-icon" viewBox="0 0 24 24">
-                                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                                        </svg>Applied Electronics
-                                    </li>
-                                    <li class="feature-item">
-                                        <svg class="check-icon" viewBox="0 0 24 24">
-                                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                                        </svg>Manufacturing Processes
-                                    </li>
-                                    <li class="feature-item">
-                                        <svg class="check-icon" viewBox="0 0 24 24">
-                                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                                        </svg>Industrial Systems
-                                    </li>
-                                </ul>
-                                <a href="degree-programs.html#bset" class="btn btn-outline btn-outline-blue"
-                                    style="margin-top: auto;">Explore BSET</a>
-                            </div>
-                        </div>
-
-                        <!-- Card 6: Workforce Training -->
-                        <div class="card card-border-gold"
-                            style="min-width: 350px; height: 100%; display: flex; flex-direction: column;">
-                            <div class="card-body" style="flex: 1; display: flex; flex-direction: column;">
-                                <h3 class="card-title">Workforce Training</h3>
-                                <div class="tag mb-sm">Certificate / Training</div>
-                                <p class="card-text">
-                                    Rapidly gain the skills need to work in a semiconductor fab.
-                                    Industry-recognized certifications and safety training.
-                                </p>
-                                <p class="card-text"><strong>Training Features:</strong></p>
-                                <ul class="feature-list" style="flex: 1;">
-                                    <li class="feature-item">
-                                        <svg class="check-icon" viewBox="0 0 24 24">
-                                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                                        </svg>Fab Safety
-                                    </li>
-                                    <li class="feature-item">
-                                        <svg class="check-icon" viewBox="0 0 24 24">
-                                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                                        </svg>Cleanroom Ops
-                                    </li>
-                                    <li class="feature-item">
-                                        <svg class="check-icon" viewBox="0 0 24 24">
-                                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                                        </svg>Semiconductor Basics
-                                    </li>
-                                </ul>
-                                <a href="degree-programs.html#workforce" class="btn btn-outline btn-outline-blue"
-                                    style="margin-top: auto;">View Training</a>
-                            </div>
-                        </div>
-
                     </div>
+
+                    <button class="edu-nav-btn edu-nav-right" id="eduNavRight" aria-label="Next programs">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+
+                <!-- Pagination Dots -->
+                <div class="edu-pagination">
+                    <span class="edu-dot active"></span>
+                    <span class="edu-dot"></span>
                 </div>
             </div>
         </section>

@@ -99,20 +99,65 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Integrated Education Paths Carousel
+    // Integrated Education Paths - 3x3 Grid Navigation
     // -------------------------------------------------------------------------
-    const eduLeft = document.getElementById('eduLeft');
-    const eduRight = document.getElementById('eduRight');
-    const eduContainer = document.getElementById('educationContainer');
+    const eduNavLeft = document.getElementById('eduNavLeft');
+    const eduNavRight = document.getElementById('eduNavRight');
+    const eduCardsGrid = document.getElementById('eduCardsGrid');
+    const eduDots = document.querySelectorAll('.edu-dot');
 
-    if (eduLeft && eduRight && eduContainer) {
-        eduLeft.addEventListener('click', () => {
-            eduContainer.scrollBy({ left: -360, behavior: 'smooth' });
+    if (eduNavLeft && eduNavRight && eduCardsGrid) {
+        let currentPage = 0;
+        const totalPages = 2; // 6 cards / 3 per row = 2 pages (first 3, last 3)
+
+        function updateEduPage(page) {
+            currentPage = page;
+            
+            // Get all cards
+            const cards = eduCardsGrid.querySelectorAll('.edu-card');
+            
+            // Show/hide cards based on page (3 cards per page)
+            cards.forEach((card, index) => {
+                if (page === 0 && index < 3) {
+                    card.style.display = 'flex';
+                } else if (page === 1 && index >= 3) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            // Update pagination dots
+            eduDots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === page);
+            });
+            
+            // Update button states
+            eduNavLeft.disabled = page === 0;
+            eduNavRight.disabled = page === totalPages - 1;
+        }
+
+        eduNavLeft.addEventListener('click', () => {
+            if (currentPage > 0) {
+                updateEduPage(currentPage - 1);
+            }
         });
 
-        eduRight.addEventListener('click', () => {
-            eduContainer.scrollBy({ left: 360, behavior: 'smooth' });
+        eduNavRight.addEventListener('click', () => {
+            if (currentPage < totalPages - 1) {
+                updateEduPage(currentPage + 1);
+            }
         });
+
+        // Dot click navigation
+        eduDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                updateEduPage(index);
+            });
+        });
+
+        // Initialize: show first 3 cards
+        updateEduPage(0);
     }
 
     // -------------------------------------------------------------------------
