@@ -3431,6 +3431,7 @@ ul {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
     padding: 0;
     overflow: hidden;
+    border-radius: 12px;
 }
 
 .widget-header-primary {
@@ -3441,8 +3442,32 @@ ul {
     font-family: var(--font-display);
 }
 
+/* Support for newer HTML structure with manager-label */
+.manager-label {
+    display: block;
+    background: var(--nau-blue);
+    color: white;
+    padding: 15px 25px;
+    font-weight: 700;
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: -1px -1px 0 -1px;
+    border-radius: 12px 12px 0 0;
+}
+
 .manager-body {
     padding: 25px;
+}
+
+/* Apply padding to manager-profile when there's no manager-body wrapper */
+.manager-card>.manager-profile {
+    padding: 25px 25px 0 25px;
+}
+
+.manager-card>.contact-list {
+    padding: 0 25px 25px 25px;
 }
 
 .manager-profile {
@@ -3455,14 +3480,28 @@ ul {
 .manager-avatar {
     width: 50px;
     height: 50px;
-    background: var(--gray-200);
+    background: var(--nau-blue);
+    color: white;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    color: var(--gray-600);
     font-size: 1.2rem;
+    box-shadow: 0 4px 10px rgba(0, 36, 84, 0.2);
+}
+
+.manager-info h4 {
+    margin: 0 0 4px 0;
+    font-size: 1.1rem;
+    color: var(--nau-blue);
+    font-weight: 700;
+}
+
+.manager-info span {
+    font-size: 0.85rem;
+    color: var(--gray-600);
+    font-weight: 500;
 }
 
 .manager-contact {
@@ -3471,6 +3510,35 @@ ul {
     display: flex;
     flex-direction: column;
     gap: 8px;
+}
+
+/* Support for newer contact-list structure */
+.contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.95rem;
+    color: var(--gray-700);
+}
+
+.contact-item i {
+    color: var(--nau-gold);
+    width: 20px;
+    text-align: center;
+    font-size: 1rem;
+}
+
+/* Placeholder text styling */
+.placeholder-text {
+    color: var(--gray-400);
+    font-style: italic;
+    font-size: 0.9rem;
 }
 
 .contact-line i {
