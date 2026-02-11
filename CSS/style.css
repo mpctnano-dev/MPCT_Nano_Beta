@@ -3148,7 +3148,7 @@ ul {
     line-height: 1.5;
 }
 
-/* Image Stack — overlapping layout */
+/* Image Stack — overlapping with hover swap */
 .about-shared-image-col {
     position: relative;
     min-height: 480px;
@@ -3164,19 +3164,16 @@ ul {
     border-radius: var(--radius-md);
     overflow: hidden;
     box-shadow: var(--shadow-lg);
-    transition: transform var(--trans-med);
-}
-
-.about-shared-image-frame:hover {
-    transform: translateY(-4px);
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    cursor: pointer;
 }
 
 .about-shared-image-frame.primary-frame {
     position: absolute;
     top: 0;
     left: 0;
-    width: 85%;
-    height: 320px;
+    width: 88%;
+    height: 310px;
     z-index: 2;
 }
 
@@ -3184,10 +3181,37 @@ ul {
     position: absolute;
     bottom: 0;
     right: 0;
-    width: 70%;
-    height: 240px;
+    width: 75%;
+    height: 250px;
     z-index: 1;
     border: 4px solid white;
+}
+
+/* Hover swap: hovered image comes to front, sibling goes back */
+.about-shared-image-frame.primary-frame:hover {
+    z-index: 3;
+    transform: scale(1.03);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+}
+
+.about-shared-image-frame.secondary-frame:hover {
+    z-index: 3;
+    transform: scale(1.03);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+}
+
+/* When secondary is hovered, push primary back */
+.about-shared-image-stack:has(.secondary-frame:hover) .primary-frame:not(:hover) {
+    z-index: 1;
+    transform: scale(0.97);
+    filter: brightness(0.92);
+}
+
+/* When primary is hovered, push secondary back */
+.about-shared-image-stack:has(.primary-frame:hover) .secondary-frame:not(:hover) {
+    z-index: 1;
+    transform: scale(0.97);
+    filter: brightness(0.92);
 }
 
 .about-shared-img {
@@ -3246,41 +3270,18 @@ ul {
     position: relative;
 }
 
-/* Connecting track line behind the cards */
+/* Connecting track line between stage icons */
 .pipeline-track {
     position: absolute;
-    top: 27px;
-    left: calc(16.66% + 10px);
-    right: calc(16.66% + 10px);
-    height: 3px;
+    top: 28px;
+    left: 16.66%;
+    right: 16.66%;
+    height: 2px;
     background: linear-gradient(90deg,
-        rgba(128, 179, 255, 0.5),
-        rgba(250, 192, 26, 0.5),
-        rgba(77, 219, 136, 0.5));
+        rgba(128, 179, 255, 0.6),
+        rgba(250, 192, 26, 0.6),
+        rgba(77, 219, 136, 0.6));
     z-index: 0;
-}
-
-.pipeline-track::before,
-.pipeline-track::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-}
-
-.pipeline-track::before {
-    left: -5px;
-    background: #80b3ff;
-    box-shadow: 0 0 12px rgba(128, 179, 255, 0.6);
-}
-
-.pipeline-track::after {
-    right: -5px;
-    background: #4ddb88;
-    box-shadow: 0 0 12px rgba(77, 219, 136, 0.6);
 }
 
 .pipeline-stage {
@@ -3730,20 +3731,22 @@ ul {
     }
 
     .about-shared-image-col {
-        min-height: 360px;
+        min-height: 380px;
     }
 
     .about-shared-image-stack {
-        height: 360px;
+        height: 380px;
+        max-width: 500px;
+        margin: 0 auto;
     }
 
     .about-shared-image-frame.primary-frame {
-        width: 65%;
+        width: 75%;
         height: 260px;
     }
 
     .about-shared-image-frame.secondary-frame {
-        width: 55%;
+        width: 65%;
         height: 200px;
     }
 
@@ -3785,21 +3788,23 @@ ul {
 
 @media (max-width: 768px) {
     .about-shared-image-col {
-        min-height: 300px;
+        min-height: 320px;
     }
 
     .about-shared-image-stack {
-        height: 300px;
+        height: 320px;
+        max-width: 400px;
+        margin: 0 auto;
     }
 
     .about-shared-image-frame.primary-frame {
         width: 80%;
-        height: 220px;
+        height: 230px;
     }
 
     .about-shared-image-frame.secondary-frame {
-        width: 60%;
-        height: 160px;
+        width: 65%;
+        height: 170px;
     }
 
     .impact-metrics-grid {
