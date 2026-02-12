@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spatial Light Modulator | NAU Nano Core</title>
+    <title>Thorlabs EXULUS-HD2HP Spatial Light Modulator | NAU Nano Core</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../CSS/style.css">
 </head>
@@ -12,18 +12,245 @@
     <site-header></site-header>
 
     <main class="product-page">
-        <section class="page-header bg-blue text-white section-padding" style="padding: 60px 0;">
+        <section class="product-hero">
             <div class="container">
-                <h1>Spatial Light Modulator</h1>
-                <p class="text-white-muted">Details coming soon.</p>
+                <div class="hero-inner">
+                    <div class="hero-text">
+                        <div class="hero-badges">
+                            <span class="tag blue">Metrology</span>
+                            <span class="tag gold">Wavefront Shaping</span>
+                            <div class="status-indicator-wrapper" title="System Unavailable">
+                                <span class="status-dot busy"></span>
+                            </div>
+                        </div>
+                        <h1 class="hero-title">Thorlabs EXULUS-HD2HP Spatial Light Modulator</h1>
+                        <p class="hero-subtitle">
+                            A high-power reflective, phase-only LCoS spatial light modulator for programmable wavefront control. It is designed for beam shaping, steering, optical trapping, and holography in the 400 to 850 nm range.
+                        </p>
+                        <div class="hero-cta">
+                            <button class="btn btn-primary disabled" style="background-color: var(--gray-500); border-color: var(--gray-500); cursor: not-allowed;">
+                                <i class="fas fa-ban" style="margin-right: 8px;"></i> Currently Unavailable
+                            </button>
+                            <a href="#specs" class="btn btn-outline">
+                                <i class="fas fa-list-ul" style="margin-right: 8px;"></i> View Specs
+                            </a>
+                        </div>
+                    </div>
+                    <div class="hero-image-wrapper">
+                         <img src="../Images/Spatial_Light_Modulator.png" alt="EXULUS-HD2HP Spatial Light Modulator" class="hero-img" onerror="this.src='https://placehold.co/600x400/png?text=Spatial+Light+Modulator'">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="specs-bar">
+            <div class="container">
+                <div class="specs-grid">
+                    <div class="spec-item">
+                        <i class="fas fa-sun"></i>
+                        <div>
+                            <span class="label">Wavelength</span>
+                            <span class="value">400 to 850 nm</span>
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <i class="fas fa-th"></i>
+                        <div>
+                            <span class="label">Resolution</span>
+                            <span class="value">1920 x 1200</span>
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <i class="fas fa-ruler-combined"></i>
+                        <div>
+                            <span class="label">Pixel Pitch</span>
+                            <span class="value">8 um</span>
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <i class="fas fa-sync-alt"></i>
+                        <div>
+                            <span class="label">Frame Rate</span>
+                            <span class="value">60 Hz</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
         <div class="container section-padding">
-            <section class="info-block">
-                <h2 class="section-heading">Overview</h2>
-                <p>Content pending.</p>
-            </section>
+            <div class="layout-grid">
+                
+                <div class="content-col">
+                    
+                    <section class="info-block">
+                        <h2 class="section-heading">System Capabilities</h2>
+                        <p>
+                            The EXULUS-HD2HP is a reflective phase-only spatial light modulator that applies programmable phase patterns to a laser beam. It is optimized for high-power operation with a liquid-cooled SLM head.
+                        </p>
+                        <p>
+                            Control is provided through HDMI-compatible video input for phase maps, with USB configuration via the EXULUS software.
+                        </p>
+                    </section>
+
+                    <section class="info-block">
+                        <h3 class="subsection-title">Operating Modes</h3>
+                        <div class="features-grid">
+                            <div class="feature-card">
+                                <div class="icon-box blue"><i class="fas fa-desktop"></i></div>
+                                <h4>Video Input Mode</h4>
+                                <p>Use the SLM as a display for dynamic phase patterns.</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="icon-box gold"><i class="fas fa-image"></i></div>
+                                <h4>Static Pattern Mode</h4>
+                                <p>Load fixed phase masks for stable beam shaping.</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="icon-box green"><i class="fas fa-bullseye"></i></div>
+                                <h4>CGH and Diffraction</h4>
+                                <p>Generate holographic patterns, gratings, and Fresnel lenses.</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="icon-box purple"><i class="fas fa-signal"></i></div>
+                                <h4>Trigger Output</h4>
+                                <p>Sync external devices to frame updates via SMA output.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="info-block" id="specs">
+                        <h3 class="subsection-title">Technical Specifications</h3>
+                        <table class="tech-specs-table">
+                            <tbody>
+                                <tr>
+                                    <th>Technology</th>
+                                    <td>Reflective LCoS, phase-only modulation</td>
+                                </tr>
+                                <tr>
+                                    <th>Active Area</th>
+                                    <td>15.42 mm x 9.66 mm</td>
+                                </tr>
+                                <tr>
+                                    <th>Fill Factor</th>
+                                    <td>Greater than 92 percent</td>
+                                </tr>
+                                <tr>
+                                    <th>Phase Range</th>
+                                    <td>pi or 2pi at 633 nm (model dependent)</td>
+                                </tr>
+                                <tr>
+                                    <th>Cooling</th>
+                                    <td>Liquid-cooled head with external chiller</td>
+                                </tr>
+                                <tr>
+                                    <th>Interfaces</th>
+                                    <td>HDMI-compatible input and USB 2.0 control</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="info-block">
+                        <h3 class="subsection-title">Common Applications</h3>
+    
+                        <div class="grid grid-2 gap-md">
+        
+                            <div class="app-item">
+                                <i class="fas fa-check-circle app-icon"></i>
+                                <div>
+                                    <strong class="app-title">Wavefront Correction</strong>
+                                    <span class="app-desc">Adaptive optics and aberration compensation.</span>
+                                </div>
+                            </div>
+
+                            <div class="app-item">
+                                <i class="fas fa-check-circle app-icon"></i>
+                                <div>
+                                    <strong class="app-title">Beam Steering</strong>
+                                    <span class="app-desc">Dynamic steering and splitting without mechanical motion.</span>
+                                </div>
+                            </div>
+
+                            <div class="app-item">
+                                <i class="fas fa-check-circle app-icon"></i>
+                                <div>
+                                    <strong class="app-title">Optical Trapping</strong>
+                                    <span class="app-desc">Multi-spot trap arrays for optical tweezers.</span>
+                                </div>
+                            </div>
+
+                            <div class="app-item">
+                                <i class="fas fa-check-circle app-icon"></i>
+                                <div>
+                                    <strong class="app-title">Holography</strong>
+                                    <span class="app-desc">Computer-generated holography for structured beams.</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+                
+                </div>
+
+                <aside class="sidebar-col">
+                    
+                    <div class="sidebar-widget manager-card">
+                        <span class="manager-label">Tool Custodian</span>
+                        
+                        <div class="manager-profile">
+                            <div class="manager-avatar">CM</div> 
+                            <div class="manager-info">
+                                <h4>Christopher John Mann</h4>
+                                <span>Tool Custodian</span>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-list">
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <span class="placeholder-text">Email pending...</span>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Building 98E</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">Status</h3>
+                        <div style="background: #fee2e2; color: #991b1b; padding: 15px; border-radius: 8px; text-align: center; font-weight: 700;">
+                            <i class="fas fa-exclamation-circle" style="margin-right: 5px;"></i> UNAVAILABLE
+                        </div>
+                        <p style="margin-top: 10px; font-size: 0.9rem; color: var(--gray-600); text-align: center;">
+                            This system is currently offline or undergoing maintenance.
+                        </p>
+                    </div>
+
+                    <div class="sidebar-widget" id="docs">
+                        <h3 class="widget-title">Documentation</h3>
+                        <div class="doc-links">
+                            <a href="#" class="doc-link">
+                                <i class="fas fa-file-pdf"></i>
+                                <div>
+                                    <strong>EXULUS User Guide</strong>
+                                    <small>PDF - Unavailable</small>
+                                </div>
+                            </a>
+                            <a href="#" class="doc-link">
+                                <i class="fas fa-file-alt"></i>
+                                <div>
+                                    <strong>SLM Safety SOP</strong>
+                                    <small>PDF - Unavailable</small>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                </aside>
+            </div>
         </div>
     </main>
 
