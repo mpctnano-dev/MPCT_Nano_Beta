@@ -29,13 +29,20 @@
                 </div>
 
                 <div class="filter-group">
-                    <button class="filter-btn active" data-filter="all">All</button>
-                    <button class="filter-btn" data-filter="Mechatronics">Mechatronics</button>
-                    <button class="filter-btn" data-filter="Electrical">Electrical</button>
-                    <button class="filter-btn" data-filter="Fabrication">Fabrication</button>
-                    <button class="filter-btn" data-filter="Metrology">Metrology</button>
-                    <button class="filter-btn" data-filter="Sample Prep">Sample Prep</button>
-                    <button class="filter-btn" data-filter="Support Systems">Support Systems</button>
+                    <button class="filter-btn category-btn active" data-filter="all">All</button>
+                    <button class="filter-btn category-btn" data-filter="Mechatronics">Mechatronics</button>
+                    <button class="filter-btn category-btn" data-filter="Electrical">Electrical</button>
+                    <button class="filter-btn category-btn" data-filter="Fabrication">Fabrication</button>
+                    <button class="filter-btn category-btn" data-filter="Metrology">Metrology</button>
+                    <button class="filter-btn category-btn" data-filter="Sample Prep">Sample Prep</button>
+                    <button class="filter-btn category-btn" data-filter="Support Systems">Support Systems</button>
+                </div>
+
+                <div class="filter-group location-filter">
+                    <span class="filter-label">Location</span>
+                    <button class="filter-btn location-btn active" data-location="all">All</button>
+                    <button class="filter-btn location-btn" data-location="Flagstaff">Flagstaff</button>
+                    <button class="filter-btn location-btn" data-location="NVC">NVC (Phoenix)</button>
                 </div>
 
                 <div class="view-switcher">
@@ -50,22 +57,23 @@
                 
                 <div class="grid-layout" id="equipmentContainer">
 
-                    <!--
-                    <div class="tech-card" data-category="Metrology">
+                    <div class="tech-card" data-category="Metrology" data-location="NVC">
                         <div class="tech-card-header">
                             <div class="d-flex justify-between align-center mb-2">
                                 <span class="badge badge-blue">Metrology</span>
-                                <span class="status-dot busy"></span>
+                                <span class="status-dot available"></span>
                             </div>
                             <h3 class="tech-title">B-2 Atomic Force Microscope (AFM)</h3>
                         </div>
                         <div class="tech-img-box"><img src="Images/B2_AFM.png" onerror="this.src='https://placehold.co/400x300?text=AFM'"></div>
                         <div class="tech-body">
-                            <div class="tech-info"><span><i class="fas fa-map-marker-alt"></i> Room 145</span><span><i class="fas fa-wave-square"></i> Surface Topography</span></div>
-                            <div class="tech-actions"><a href="About_Equipment/B2_AFM.html" class="btn-tech btn-tech-outline">About</a><a href="#" class="btn-tech btn-tech-fill">Book</a></div>
+                            <div class="tech-info">
+                                <span><i class="fas fa-map-marker-alt"></i> Room 145, NAU NVC (Phoenix)</span>
+                                <span><i class="fas fa-tag"></i> Model: B-2 (AFM Workshop)</span>
+                            </div>
+                            <div class="tech-actions"><a href="About_Equipment/B2_AFM.html" class="btn-tech btn-tech-outline">About</a><button class="btn-tech btn-tech-fill disabled">Book</button></div>
                         </div>
                     </div>
-                    -->
 
                     <div class="tech-card" data-category="Metrology">
                         <div class="tech-card-header">
@@ -82,22 +90,20 @@
                         </div>
                     </div>
 
-                    <!--
                     <div class="tech-card" data-category="Metrology">
                         <div class="tech-card-header">
                             <div class="d-flex justify-between align-center mb-2">
                                 <span class="badge badge-blue">Metrology</span>
-                                <span class="status-dot maintenance"></span>
+                                <span class="status-dot busy"></span>
                             </div>
                             <h3 class="tech-title">Transmission Electron Microscope (TEM)</h3>
                         </div>
                         <div class="tech-img-box"><img src="Images/TEM.jpg" alt="TEM"></div>
                         <div class="tech-body">
-                            <div class="tech-info"><span><i class="fas fa-map-marker-alt"></i> Building 98E</span><span><i class="fas fa-atom"></i> Atomic Resolution</span></div>
-                            <div class="tech-actions"><a href="About_Equipment/TEM.html" class="btn-tech btn-tech-outline">About</a><a href="https://outlook.office.com/book/iMPaCTNanoLab@bookings.nau.edu/s/bF6uHiQv60-nlKL__InQWw2?ismsaljsauthenabled" class="btn-tech btn-tech-fill">Book</a></div>
+                            <div class="tech-info"><span><i class="fas fa-map-marker-alt"></i> Building 98E</span><span><i class="fas fa-tag"></i> Model: JEM-F200</span></div>
+                            <div class="tech-actions"><a href="About_Equipment/TEM.html" class="btn-tech btn-tech-outline">About</a><button class="btn-tech btn-tech-fill disabled" style="opacity: 0.6; cursor: not-allowed;">Book</button></div>
                         </div>
                     </div>
-                    -->
 
                     <div class="tech-card" data-category="Metrology">
                         <div class="tech-card-header">
@@ -224,7 +230,7 @@
                         </div>
                     </div>
 
-                    <div class="tech-card" data-category="Fabrication">
+                    <div class="tech-card" data-category="Fabrication" data-location="Flagstaff,NVC">
                         <div class="tech-card-header">
                             <div class="d-flex justify-between align-center mb-2">
                                 <span class="badge badge-gold">Fabrication</span>
@@ -358,7 +364,7 @@
     </div>
 </div>
 
-                    <div class="tech-card" data-category="Mechatronics">
+                    <div class="tech-card" data-category="Mechatronics" data-location="Flagstaff,NVC">
                         <div class="tech-card-header">
                             <div class="d-flex justify-between align-center mb-2">
                                 <span class="badge badge-green">Mechatronics</span>
@@ -368,12 +374,16 @@
                         </div>
                         <div class="tech-img-box"><img src="Images/PLC.png" alt="Amatrol 87-MS1 Pick and Place" onerror="this.src='https://placehold.co/400x300?text=Amatrol+87-MS1'"></div>
                         <div class="tech-body">
-                            <div class="tech-info"><span><i class="fas fa-map-marker-alt"></i> Building 98E</span><span><i class="fas fa-robot"></i> Automation Training</span></div>
+                            <div class="tech-info">
+                                <span><i class="fas fa-map-marker-alt"></i> Flagstaff - Building 98E</span>
+                                <span><i class="fas fa-map-marker-alt"></i> NVC Room 144 (Unavailable)</span>
+                                <span><i class="fas fa-robot"></i> Automation Training</span>
+                            </div>
                             <div class="tech-actions"><a href="About_Equipment/Amatrol_87_MS1.html" class="btn-tech btn-tech-outline">About</a><button class="btn-tech btn-tech-fill disabled" style="opacity: 0.6; cursor: not-allowed;">Book</button></div>
                         </div>
                     </div>
 
-                    <div class="tech-card" data-category="Mechatronics">
+                    <div class="tech-card" data-category="Mechatronics" data-location="Flagstaff,NVC">
                         <div class="tech-card-header">
                             <div class="d-flex justify-between align-center mb-2">
                                 <span class="badge badge-green">Mechatronics</span>
@@ -383,7 +393,11 @@
                         </div>
                         <div class="tech-img-box"><img src="Images/Amatrol_PLC_87MS2.png" alt="Amatrol 87-MS2 Gauging Station" onerror="this.src='https://placehold.co/400x300?text=Amatrol+87-MS2'"></div>
                         <div class="tech-body">
-                            <div class="tech-info"><span><i class="fas fa-map-marker-alt"></i> Building 98E</span><span><i class="fas fa-ruler-combined"></i> Go/No-Go Gauging</span></div>
+                            <div class="tech-info">
+                                <span><i class="fas fa-map-marker-alt"></i> Flagstaff - Building 98E</span>
+                                <span><i class="fas fa-map-marker-alt"></i> NVC Room 144 (Unavailable)</span>
+                                <span><i class="fas fa-ruler-combined"></i> Go/No-Go Gauging</span>
+                            </div>
                             <div class="tech-actions"><a href="About_Equipment/Amatrol_87_MS2.html" class="btn-tech btn-tech-outline">About</a><button class="btn-tech btn-tech-fill disabled" style="opacity: 0.6; cursor: not-allowed;">Book</button></div>
                         </div>
                     </div>
@@ -480,7 +494,8 @@
     </div>
     <div class="tech-body">
         <div class="tech-info">
-            <span><i class="fas fa-map-marker-alt"></i> Building 98E</span>
+            <span><i class="fas fa-map-marker-alt"></i> Flagstaff - Building 98E</span>
+            <span><i class="fas fa-map-marker-alt"></i> NVC Room 145 (Unavailable)</span>
             <span><i class="fas fa-sync-alt"></i> CNC Turning</span>
         </div>
         <div class="tech-actions">
@@ -538,7 +553,7 @@
     </div>
 </div>
 
-                    <div class="tech-card" data-category="Fabrication">
+                    <div class="tech-card" data-category="Fabrication" data-location="Flagstaff,NVC">
                         <div class="tech-card-header">
                             <div class="d-flex justify-between align-center mb-2">
                                 <span class="badge badge-gold">Fabrication</span>
@@ -563,7 +578,11 @@
                         </div>
                         <div class="tech-img-box"><img src="Images/DeskMill.png" alt="Haas Desktop Mill" onerror="this.src='https://placehold.co/400x300?text=Haas+Desktop+Mill'"></div>
                         <div class="tech-body">
-                            <div class="tech-info"><span><i class="fas fa-map-marker-alt"></i> Building 98E</span><span><i class="fas fa-cogs"></i> CNC Milling</span></div>
+                            <div class="tech-info">
+                                <span><i class="fas fa-map-marker-alt"></i> Flagstaff - Building 98E</span>
+                                <span><i class="fas fa-map-marker-alt"></i> NVC Room 145 (Unavailable)</span>
+                                <span><i class="fas fa-cogs"></i> CNC Milling</span>
+                            </div>
                             <div class="tech-actions"><a href="About_Equipment/Haas_DesktopMill.html" class="btn-tech btn-tech-outline">About</a><button class="btn-tech btn-tech-fill disabled" style="opacity: 0.6; cursor: not-allowed;">Book</button></div>
                         </div>
                     </div>
@@ -712,6 +731,52 @@
                                 <span class="badge badge-green">Sample Prep</span>
                                 <span class="status-dot busy"></span>
                             </div>
+                            <h3 class="tech-title">TEM Prep - Disk Grinder</h3>
+                        </div>
+                        <div class="tech-img-box">
+                            <img src="Images/TEM_Disk_Grinder.png" alt="TEM Prep - Disk Grinder" onerror="this.src='https://placehold.co/400x300?text=Disk+Grinder'">
+                        </div>
+                        <div class="tech-body">
+                            <div class="tech-info">
+                                <span><i class="fas fa-map-marker-alt"></i> Building 98E</span>
+                                <span><i class="fas fa-tag"></i> Model: Fischione 160</span>
+                            </div>
+                            <div class="tech-actions">
+                                <a href="About_Equipment/TEM_Prep_Disk_Grinder.html" class="btn-tech btn-tech-outline">About</a>
+                                <button class="btn-tech btn-tech-fill disabled" style="opacity: 0.6; cursor: not-allowed;">Book</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card" data-category="Sample Prep">
+                        <div class="tech-card-header">
+                            <div class="d-flex justify-between align-center mb-2">
+                                <span class="badge badge-green">Sample Prep</span>
+                                <span class="status-dot busy"></span>
+                            </div>
+                            <h3 class="tech-title">TEM Prep - Dimple Grinder</h3>
+                        </div>
+                        <div class="tech-img-box">
+                            <img src="Images/TEM_Dimple_Grinder.png" alt="TEM Prep - Dimple Grinder" onerror="this.src='https://placehold.co/400x300?text=Dimple+Grinder'">
+                        </div>
+                        <div class="tech-body">
+                            <div class="tech-info">
+                                <span><i class="fas fa-map-marker-alt"></i> Building 98E</span>
+                                <span><i class="fas fa-tag"></i> Model: Fischione 200</span>
+                            </div>
+                            <div class="tech-actions">
+                                <a href="About_Equipment/TEM_Prep_Dimple_Grinder.html" class="btn-tech btn-tech-outline">About</a>
+                                <button class="btn-tech btn-tech-fill disabled" style="opacity: 0.6; cursor: not-allowed;">Book</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card" data-category="Sample Prep">
+                        <div class="tech-card-header">
+                            <div class="d-flex justify-between align-center mb-2">
+                                <span class="badge badge-green">Sample Prep</span>
+                                <span class="status-dot busy"></span>
+                            </div>
                             <h3 class="tech-title">TEM Prep - Ion Beam Mill</h3>
                         </div>
                         <div class="tech-img-box">
@@ -725,6 +790,190 @@
                             <div class="tech-actions">
                                 <a href="About_Equipment/TEM_Prep_Ion_Beam_Mill.html" class="btn-tech btn-tech-outline">About</a>
                                 <button class="btn-tech btn-tech-fill disabled" style="opacity: 0.6; cursor: not-allowed;">Book</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card" data-category="Metrology" data-location="NVC">
+                        <div class="tech-card-header">
+                            <div class="d-flex justify-between align-center mb-2">
+                                <span class="badge badge-blue">Metrology</span>
+                                <span class="status-dot available"></span>
+                            </div>
+                            <h3 class="tech-title">Keyence VK-X3000 3D Surface Profiler</h3>
+                        </div>
+                        <div class="tech-img-box">
+                            <img src="Images/VKX3000.png" alt="Keyence VK-X3000" onerror="this.src='https://placehold.co/400x300?text=VK-X3000'">
+                        </div>
+                        <div class="tech-body">
+                            <div class="tech-info">
+                                <span><i class="fas fa-map-marker-alt"></i> Room 145, NAU NVC (Phoenix)</span>
+                                <span><i class="fas fa-tag"></i> Model: VK-X3000</span>
+                            </div>
+                            <div class="tech-actions">
+                                <a href="About_Equipment/VKX3000_3D_Surface_Profiler.html" class="btn-tech btn-tech-outline">About</a>
+                                <button class="btn-tech btn-tech-fill disabled">Book</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card" data-category="Metrology" data-location="NVC">
+                        <div class="tech-card-header">
+                            <div class="d-flex justify-between align-center mb-2">
+                                <span class="badge badge-blue">Metrology</span>
+                                <span class="status-dot available"></span>
+                            </div>
+                            <h3 class="tech-title">Keyence VHX-7000 Digital Microscope</h3>
+                        </div>
+                        <div class="tech-img-box">
+                            <img src="Images/VHX7000.png" alt="Keyence VHX-7000" onerror="this.src='https://placehold.co/400x300?text=VHX-7000'">
+                        </div>
+                        <div class="tech-body">
+                            <div class="tech-info">
+                                <span><i class="fas fa-map-marker-alt"></i> Room 145, NAU NVC (Phoenix)</span>
+                                <span><i class="fas fa-tag"></i> Model: VHX-7000 (EA-300)</span>
+                            </div>
+                            <div class="tech-actions">
+                                <a href="About_Equipment/VHX7000_Digital_Microscope.html" class="btn-tech btn-tech-outline">About</a>
+                                <button class="btn-tech btn-tech-fill disabled">Book</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card" data-category="Metrology" data-location="NVC">
+                        <div class="tech-card-header">
+                            <div class="d-flex justify-between align-center mb-2">
+                                <span class="badge badge-blue">Metrology</span>
+                                <span class="status-dot available"></span>
+                            </div>
+                            <h3 class="tech-title">Fluke P3114 Oil Deadweight Tester</h3>
+                        </div>
+                        <div class="tech-img-box">
+                            <img src="Images/Fluke_P3114.png" alt="Fluke P3114" onerror="this.src='https://placehold.co/400x300?text=Fluke+P3114'">
+                        </div>
+                        <div class="tech-body">
+                            <div class="tech-info">
+                                <span><i class="fas fa-map-marker-alt"></i> Room 145, NAU NVC (Phoenix)</span>
+                                <span><i class="fas fa-balance-scale"></i> Pressure Calibration</span>
+                            </div>
+                            <div class="tech-actions">
+                                <a href="About_Equipment/Fluke_P3114_Deadweight_Tester.html" class="btn-tech btn-tech-outline">About</a>
+                                <button class="btn-tech btn-tech-fill disabled">Book</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card" data-category="Electrical" data-location="NVC">
+                        <div class="tech-card-header">
+                            <div class="d-flex justify-between align-center mb-2">
+                                <span class="badge badge-purple">Electrical</span>
+                                <span class="status-dot available"></span>
+                            </div>
+                            <h3 class="tech-title">Tektronix TBS1052C Digital Oscilloscope</h3>
+                        </div>
+                        <div class="tech-img-box">
+                            <img src="Images/TBS1052C.png" alt="Tektronix TBS1052C" onerror="this.src='https://placehold.co/400x300?text=TBS1052C'">
+                        </div>
+                        <div class="tech-body">
+                            <div class="tech-info">
+                                <span><i class="fas fa-map-marker-alt"></i> Room 145, NAU NVC (Phoenix)</span>
+                                <span><i class="fas fa-tag"></i> Model: TBS1052C</span>
+                            </div>
+                            <div class="tech-actions">
+                                <a href="About_Equipment/Tektronix_TBS1052C.html" class="btn-tech btn-tech-outline">About</a>
+                                <button class="btn-tech btn-tech-fill disabled">Book</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card" data-category="Electrical" data-location="NVC">
+                        <div class="tech-card-header">
+                            <div class="d-flex justify-between align-center mb-2">
+                                <span class="badge badge-purple">Electrical</span>
+                                <span class="status-dot available"></span>
+                            </div>
+                            <h3 class="tech-title">Tektronix AFG1022 Function Generator</h3>
+                        </div>
+                        <div class="tech-img-box">
+                            <img src="Images/AFG1022.png" alt="Tektronix AFG1022" onerror="this.src='https://placehold.co/400x300?text=AFG1022'">
+                        </div>
+                        <div class="tech-body">
+                            <div class="tech-info">
+                                <span><i class="fas fa-map-marker-alt"></i> Room 145, NAU NVC (Phoenix)</span>
+                                <span><i class="fas fa-tag"></i> Model: AFG1000 Series</span>
+                            </div>
+                            <div class="tech-actions">
+                                <a href="About_Equipment/Tektronix_AFG1022.html" class="btn-tech btn-tech-outline">About</a>
+                                <button class="btn-tech btn-tech-fill disabled">Book</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card" data-category="Electrical" data-location="NVC">
+                        <div class="tech-card-header">
+                            <div class="d-flex justify-between align-center mb-2">
+                                <span class="badge badge-purple">Electrical</span>
+                                <span class="status-dot available"></span>
+                            </div>
+                            <h3 class="tech-title">Keithley 2110 5.5 Digit Multimeter</h3>
+                        </div>
+                        <div class="tech-img-box">
+                            <img src="Images/Keithley_2110.png" alt="Keithley 2110" onerror="this.src='https://placehold.co/400x300?text=Keithley+2110'">
+                        </div>
+                        <div class="tech-body">
+                            <div class="tech-info">
+                                <span><i class="fas fa-map-marker-alt"></i> Room 145, NAU NVC (Phoenix)</span>
+                                <span><i class="fas fa-tag"></i> Model: 2110</span>
+                            </div>
+                            <div class="tech-actions">
+                                <a href="About_Equipment/Keithley_2110.html" class="btn-tech btn-tech-outline">About</a>
+                                <button class="btn-tech btn-tech-fill disabled">Book</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card" data-category="Fabrication" data-location="NVC">
+                        <div class="tech-card-header">
+                            <div class="d-flex justify-between align-center mb-2">
+                                <span class="badge badge-gold">Fabrication</span>
+                                <span class="status-dot available"></span>
+                            </div>
+                            <h3 class="tech-title">Voltera V-One PCB Printer</h3>
+                        </div>
+                        <div class="tech-img-box">
+                            <img src="Images/Voltera_VOne.png" alt="Voltera V-One" onerror="this.src='https://placehold.co/400x300?text=Voltera+V-One'">
+                        </div>
+                        <div class="tech-body">
+                            <div class="tech-info">
+                                <span><i class="fas fa-map-marker-alt"></i> Room 145, NAU NVC (Phoenix)</span>
+                                <span><i class="fas fa-bolt"></i> PCB Prototyping</span>
+                            </div>
+                            <div class="tech-actions">
+                                <a href="About_Equipment/Voltera_VOne_PCB_Printer.html" class="btn-tech btn-tech-outline">About</a>
+                                <button class="btn-tech btn-tech-fill disabled">Book</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card" data-category="Sample Prep" data-location="NVC">
+                        <div class="tech-card-header">
+                            <div class="d-flex justify-between align-center mb-2">
+                                <span class="badge badge-green">Sample Prep</span>
+                                <span class="status-dot available"></span>
+                            </div>
+                            <h3 class="tech-title">PELCO FlexScribe 300</h3>
+                        </div>
+                        <div class="tech-img-box">
+                            <img src="Images/PELCO_FlexScribe.png" alt="PELCO FlexScribe 300" onerror="this.src='https://placehold.co/400x300?text=FlexScribe+300'">
+                        </div>
+                        <div class="tech-body">
+                            <div class="tech-info">
+                                <span><i class="fas fa-map-marker-alt"></i> Room 145, NAU NVC (Phoenix)</span>
+                                <span><i class="fas fa-cut"></i> Wafer Scribing</span>
+                            </div>
+                            <div class="tech-actions">
+                                <a href="About_Equipment/PELCO_FlexScribe_300.html" class="btn-tech btn-tech-outline">About</a>
+                                <button class="btn-tech btn-tech-fill disabled">Book</button>
                             </div>
                         </div>
                     </div>
