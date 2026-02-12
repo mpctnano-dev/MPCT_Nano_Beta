@@ -249,6 +249,41 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // -------------------------------------------------------------------------
+    // About Page Reserve Tool Button State
+    // -------------------------------------------------------------------------
+    const updateReserveButtonState = () => {
+        const isProductPage = document.querySelector('.product-page');
+        if (!isProductPage) return;
+
+        const statusDot = document.querySelector('.status-indicator-wrapper .status-dot');
+        const reserveBtn = document.querySelector('.hero-cta .btn.btn-primary');
+        if (!statusDot || !reserveBtn) return;
+
+        const isAvailable = statusDot.classList.contains('available');
+        const storedLabel = reserveBtn.dataset.availableLabel;
+        if (!storedLabel) {
+            reserveBtn.dataset.availableLabel = reserveBtn.innerHTML.trim();
+        }
+
+        if (!isAvailable) {
+            reserveBtn.classList.add('disabled');
+            reserveBtn.setAttribute('aria-disabled', 'true');
+            reserveBtn.setAttribute('tabindex', '-1');
+            if (reserveBtn.tagName.toLowerCase() === 'a') {
+                reserveBtn.setAttribute('href', '#');
+            }
+            reserveBtn.innerHTML = '<i class="fas fa-ban" style="margin-right: 8px;"></i> Currently Unavailable';
+        } else if (reserveBtn.dataset.availableLabel) {
+            reserveBtn.classList.remove('disabled');
+            reserveBtn.removeAttribute('aria-disabled');
+            reserveBtn.removeAttribute('tabindex');
+            reserveBtn.innerHTML = reserveBtn.dataset.availableLabel;
+        }
+    };
+
+    updateReserveButtonState();
+
+    // -------------------------------------------------------------------------
     // Equipment Catalog Logic: Filtering & View Layout
     // -------------------------------------------------------------------------
     const filterBtns = document.querySelectorAll('.filter-btn');
@@ -594,6 +629,40 @@ const listBtn = document.getElementById('listViewBtn');
 const categoryBtns = document.querySelectorAll('.category-btn');
 const locationBtns = document.querySelectorAll('.location-btn');
 const cards = document.querySelectorAll('.tech-card');
+const searchInput = document.getElementById('searchInput');
+
+const getCardTitle = (card) => {
+    const titleEl = card.querySelector('.tech-title');
+    return titleEl ? titleEl.textContent.trim() : '';
+};
+
+const normalizeTerm = (value) => (value || '').toLowerCase().trim();
+
+const buildSearchSuggestions = () => {
+    if (!searchInput || cards.length === 0) return;
+
+    const listId = 'equipmentSearchList';
+    let dataList = document.getElementById(listId);
+    if (!dataList) {
+        dataList = document.createElement('datalist');
+        dataList.id = listId;
+        document.body.appendChild(dataList);
+    }
+
+    searchInput.setAttribute('list', listId);
+    dataList.innerHTML = '';
+
+    const names = Array.from(cards)
+        .map((card) => getCardTitle(card))
+        .filter(Boolean)
+        .sort((a, b) => a.localeCompare(b));
+
+    names.forEach((name) => {
+        const option = document.createElement('option');
+        option.value = name;
+        dataList.appendChild(option);
+    });
+};
 
 // 1. VIEW SWITCHER (Grid vs List)
 if (container && gridBtn && listBtn) {
@@ -634,13 +703,16 @@ const matchesLocation = (card, locationFilter) => {
 const applyFilters = () => {
     const activeCategory = getActiveCategory();
     const activeLocation = getActiveLocation();
+    const term = normalizeTerm(searchInput ? searchInput.value : '');
 
     cards.forEach(card => {
         const category = card.getAttribute('data-category') || '';
         const categoryMatch = activeCategory === 'all' || category === activeCategory;
         const locationMatch = matchesLocation(card, activeLocation);
+        const title = normalizeTerm(getCardTitle(card));
+        const matchesSearch = !term || title.includes(term);
 
-        if (categoryMatch && locationMatch) {
+        if (categoryMatch && locationMatch && matchesSearch) {
             card.style.display = 'flex';
         } else {
             card.style.display = 'none';
@@ -667,3 +739,10 @@ if (locationBtns.length > 0) {
         });
     });
 }
+
+if (searchInput) {
+    searchInput.addEventListener('input', applyFilters);
+}
+
+buildSearchSuggestions();
+applyFilters();
