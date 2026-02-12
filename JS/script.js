@@ -99,20 +99,80 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Integrated Education Paths Carousel
+    // Integrated Education Paths - 3x3 Grid Navigation
     // -------------------------------------------------------------------------
-    const eduLeft = document.getElementById('eduLeft');
-    const eduRight = document.getElementById('eduRight');
-    const eduContainer = document.getElementById('educationContainer');
+    const eduNavLeft = document.getElementById('eduNavLeft');
+    const eduNavRight = document.getElementById('eduNavRight');
+    const eduCardsGrid = document.getElementById('eduCardsGrid');
+    const eduDotsContainer = document.getElementById('eduDots');
 
-    if (eduLeft && eduRight && eduContainer) {
-        eduLeft.addEventListener('click', () => {
-            eduContainer.scrollBy({ left: -360, behavior: 'smooth' });
+    if (eduNavLeft && eduNavRight && eduCardsGrid && eduDotsContainer) {
+        let currentPage = 0;
+        let totalPages = 3;
+
+        function getCardsPerView() {
+            if (window.innerWidth <= 768) return 1;
+            if (window.innerWidth <= 1024) return 2;
+            return 3;
+        }
+
+        function updatePagination() {
+            const cardsPerView = getCardsPerView();
+            totalPages = Math.ceil(7 / cardsPerView); // 7 cards total
+
+            // Generate dots
+            eduDotsContainer.innerHTML = '';
+            for (let i = 0; i < totalPages; i++) {
+                const dot = document.createElement('span');
+                dot.className = `edu-dot ${i === currentPage ? 'active' : ''}`;
+                dot.dataset.index = i;
+                dot.addEventListener('click', () => updateEduPage(i));
+                eduDotsContainer.appendChild(dot);
+            }
+
+            // Validate currentPage
+            if (currentPage >= totalPages) {
+                updateEduPage(totalPages - 1);
+            } else {
+                updateEduPage(currentPage);
+            }
+        }
+
+        function updateEduPage(page) {
+            currentPage = page;
+
+            // Slide the grid
+            const translateX = -(page * 100);
+            eduCardsGrid.style.transform = `translateX(${translateX}%)`;
+
+            // Update pagination dots active state
+            const dots = eduDotsContainer.querySelectorAll('.edu-dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === page);
+            });
+
+            // Update button states
+            eduNavLeft.disabled = page === 0;
+            eduNavRight.disabled = page === totalPages - 1;
+        }
+
+        eduNavLeft.addEventListener('click', () => {
+            if (currentPage > 0) updateEduPage(currentPage - 1);
         });
 
-        eduRight.addEventListener('click', () => {
-            eduContainer.scrollBy({ left: 360, behavior: 'smooth' });
+        eduNavRight.addEventListener('click', () => {
+            if (currentPage < totalPages - 1) updateEduPage(currentPage + 1);
         });
+
+        // Resize listener
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(updatePagination, 100);
+        });
+
+        // Initialize
+        updatePagination();
     }
 
     // -------------------------------------------------------------------------

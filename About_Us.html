@@ -1,27 +1,382 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us | NAU Nano</title>
+    <meta name="description"
+        content="The MPaCT Lab at Northern Arizona University is a $13M shared-use research facility housing 25+ advanced instruments for semiconductor research, metrology, and workforce training.">
     <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
 
     <site-header></site-header>
 
-    <main style="min-height: 60vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
-        <h1 style="font-size: 3rem; color: var(--nau-blue); margin-bottom: 20px;">About Us</h1>
-        <p style="font-size: 1.5rem; color: var(--gray-600);">Page content in progress...</p>
-        <div style="margin-top: 30px;">
-            <i class="fas fa-hard-hat" style="font-size: 4rem; color: var(--nau-gold);"></i>
-        </div>
+    <main>
+        <!-- 1. HERO BANNER -->
+        <section class="about-hero">
+            <div class="about-hero-pattern"></div>
+            <div class="container">
+                <span class="section-eyebrow">About the Lab</span>
+                <h1 class="about-hero-title">
+                    The MPaCT Lab at<br><span class="text-gold">Northern Arizona University</span>
+                </h1>
+                <p class="about-hero-tagline">
+                    A $13 million shared-use research facility dedicated to microelectronics processing,
+                    semiconductor metrology, and hands-on workforce training — open to NAU, external researchers,
+                    and industry partners nationwide.
+                </p>
+            </div>
+        </section>
+
+        <!-- 2. STATS STRIP -->
+        <section class="about-stats-section">
+            <div class="container">
+                <div class="stats-strip">
+                    <div class="stat-item">
+                        <div class="stat-value">$13<span class="stat-suffix">M</span></div>
+                        <div class="stat-title">Facility Investment</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">1,500<span class="stat-suffix">sq ft</span></div>
+                        <div class="stat-title">Class 1000 Cleanroom</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">25+</div>
+                        <div class="stat-title">Research Instruments</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">5+</div>
+                        <div class="stat-title">Disciplines Served</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. SHARED-USE FACILITY -->
+        <section class="about-shared-section">
+            <div class="container">
+                <div class="about-shared-grid">
+                    <div class="about-shared-text">
+                        <span class="section-eyebrow">Shared-Use Facility</span>
+                        <h2 class="section-title">Open Access. <span class="text-gold">World-Class Tools.</span></h2>
+                        <p class="about-shared-desc">
+                            The Microelectronics Processing and Characterization Testing Lab (MPaCT) is Northern
+                            Arizona University's centralized research facility for semiconductor and materials
+                            science work. Funded through a combination of state appropriations, federal grants, and
+                            industry partnerships, the lab houses over 25 instruments across a 1,500 sq ft
+                            Class 1000 cleanroom and adjacent characterization suites.
+                        </p>
+                        <p class="about-shared-desc">
+                            As a shared-use facility, the MPaCT Lab is not restricted to any single department or
+                            college. NAU students, faculty from any discipline, visiting researchers, and private-sector
+                            engineers all use the same equipment under the same roof. Staff handle instrument
+                            maintenance, calibration, and user training so researchers can focus on their work.
+                        </p>
+                        <div class="shared-highlights">
+                            <div class="shared-highlight-item">
+                                <div class="shared-highlight-icon blue">
+                                    <i class="fas fa-door-open"></i>
+                                </div>
+                                <div>
+                                    <h4>Open to All Researchers</h4>
+                                    <p>No departmental restrictions. NAU affiliates and external users gain access
+                                        after completing safety orientation.</p>
+                                </div>
+                            </div>
+                            <div class="shared-highlight-item">
+                                <div class="shared-highlight-icon gold">
+                                    <i class="fas fa-hands-helping"></i>
+                                </div>
+                                <div>
+                                    <h4>Staff-Supported Operations</h4>
+                                    <p>Full-time technicians provide training, run samples on request, and assist
+                                        with data collection and interpretation.</p>
+                                </div>
+                            </div>
+                            <div class="shared-highlight-item">
+                                <div class="shared-highlight-icon green">
+                                    <i class="fas fa-tools"></i>
+                                </div>
+                                <div>
+                                    <h4>Maintained & Calibrated</h4>
+                                    <p>All instruments are on active service contracts. Calibration records and
+                                        consumables are managed by lab staff.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="about-shared-image-col">
+                        <div class="about-shared-image-stack">
+                            <div class="about-shared-image-frame primary-frame">
+                                <img src="Images/students_lab.jpg" alt="Students in the MPaCT cleanroom"
+                                    class="about-shared-img">
+                            </div>
+                            <div class="about-shared-image-frame secondary-frame">
+                                <img src="Images/workshop.jpg" alt="Equipment training session"
+                                    class="about-shared-img">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. STRATEGIC VISION -->
+        <section class="about-vision-section">
+            <div class="container">
+                <div class="about-vision-header">
+                    <span class="section-eyebrow light">Strategic Vision</span>
+                    <h2 class="about-vision-title">Building Arizona's Innovation Infrastructure</h2>
+                    <p class="about-vision-subtitle">
+                        Arizona has attracted over $100 billion in semiconductor capital investment in recent years.
+                        NAU is building the research and training infrastructure that Northern Arizona needs to
+                        participate in that growth.
+                    </p>
+                </div>
+
+                <div class="vision-pipeline">
+                    <div class="pipeline-track"></div>
+
+                    <div class="pipeline-stage">
+                        <div class="stage-number">01</div>
+                        <div class="stage-icon"><i class="fas fa-flask"></i></div>
+                        <div class="stage-card">
+                            <h3>Research Infrastructure</h3>
+                            <p>The lab provides metrology, deposition, and characterization capabilities that
+                                previously required sending samples out of state. Faculty and graduate students
+                                now conduct thin film, nanomaterial, and device research on campus.</p>
+                            <div class="stage-tags">
+                                <span>AFM & SEM</span>
+                                <span>Sputtering & ALD</span>
+                                <span>Electrical Testing</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pipeline-stage">
+                        <div class="stage-number">02</div>
+                        <div class="stage-icon gold"><i class="fas fa-graduation-cap"></i></div>
+                        <div class="stage-card">
+                            <h3>Workforce Development</h3>
+                            <p>In direct partnership with TSMC, Intel, and Microchip Technology, NAU has
+                                developed hands-on training programs that produce process technicians and
+                                engineers ready for the fab floor from day one.</p>
+                            <div class="stage-tags">
+                                <span>PTAP Apprenticeship</span>
+                                <span>Cleanroom Training</span>
+                                <span>Industry Curriculum</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pipeline-stage">
+                        <div class="stage-number">03</div>
+                        <div class="stage-icon green"><i class="fas fa-handshake"></i></div>
+                        <div class="stage-card">
+                            <h3>Industry Services</h3>
+                            <p>Companies use the lab for contract metrology, failure analysis, and R&D
+                                prototyping on a fee-for-service basis. We also develop custom training programs
+                                for corporate partners across the semiconductor supply chain.</p>
+                            <div class="stage-tags">
+                                <span>Contract Testing</span>
+                                <span>Co-Op Programs</span>
+                                <span>Sponsored Research</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. WHAT THE LAB DOES -->
+        <section class="about-mission-section">
+            <div class="container">
+                <div class="about-content-grid">
+                    <div class="about-content-left">
+                        <div class="about-image-frame">
+                            <img src="Images/cleanroom.png" alt="MPaCT Cleanroom" class="about-image-v2">
+                            <div class="image-badge">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>Class 1000 Cleanroom</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="about-content-right">
+                        <h2 class="section-title">What the Lab Does</h2>
+                        <p class="about-mission">
+                            The MPaCT Lab supports research and instruction across electrical engineering, mechanical
+                            engineering, computer engineering, physics, and materials science. The facility handles
+                            everything from undergraduate coursework to federally funded research programs.
+                        </p>
+                        <p class="about-mission">
+                            Researchers use the lab to deposit and pattern thin films, characterize material
+                            properties at the nanoscale, fabricate prototype devices, and perform failure analysis.
+                            The lab also serves as the training ground for NAU's semiconductor workforce programs.
+                        </p>
+
+                        <h3 class="capabilities-title">Core Capabilities</h3>
+                        <div class="capabilities-grid">
+                            <div class="capability-card">
+                                <div class="capability-icon blue">
+                                    <i class="fas fa-microscope"></i>
+                                </div>
+                                <div class="capability-info">
+                                    <h4>Metrology</h4>
+                                    <p>AFM, SEM, Optical Profiling</p>
+                                </div>
+                            </div>
+                            <div class="capability-card">
+                                <div class="capability-icon gold">
+                                    <i class="fas fa-layer-group"></i>
+                                </div>
+                                <div class="capability-info">
+                                    <h4>Lithography</h4>
+                                    <p>Mask Aligner, Spin Coating</p>
+                                </div>
+                            </div>
+                            <div class="capability-card">
+                                <div class="capability-icon green">
+                                    <i class="fas fa-atom"></i>
+                                </div>
+                                <div class="capability-info">
+                                    <h4>Deposition</h4>
+                                    <p>Sputtering, Evaporation, ALD</p>
+                                </div>
+                            </div>
+                            <div class="capability-card">
+                                <div class="capability-icon purple">
+                                    <i class="fas fa-bolt"></i>
+                                </div>
+                                <div class="capability-info">
+                                    <h4>Characterization</h4>
+                                    <p>Electrical, Thermal, Optical</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. USER ACCESS PATHWAYS -->
+        <section class="about-access-section">
+            <div class="container">
+                <div class="about-access-header">
+                    <span class="section-eyebrow">Get Started</span>
+                    <h2 class="section-title">Who Can Use the Lab?</h2>
+                    <p class="about-access-subtitle">The MPaCT Lab serves researchers and engineers at every level.
+                        Access is available through the pathways below.</p>
+                </div>
+
+                <div class="access-pathways-grid">
+                    <div class="access-card">
+                        <div class="access-card-icon blue">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <h3>NAU Students & Faculty</h3>
+                        <p>All NAU-affiliated researchers gain access after completing the required safety
+                            orientation. The lab supports coursework, thesis projects, and funded research.</p>
+                        <ul class="access-features">
+                            <li><i class="fas fa-check-circle"></i> Safety training provided</li>
+                            <li><i class="fas fa-check-circle"></i> Course & thesis integration</li>
+                            <li><i class="fas fa-check-circle"></i> Graduate research support</li>
+                            <li><i class="fas fa-check-circle"></i> Capstone project access</li>
+                        </ul>
+                        <a href="Contact_Us.html" class="btn btn-primary btn-access">Request Access</a>
+                    </div>
+
+                    <div class="access-card">
+                        <div class="access-card-icon gold">
+                            <i class="fas fa-university"></i>
+                        </div>
+                        <h3>External Researchers</h3>
+                        <p>Faculty and researchers from other institutions can use the lab through collaborative
+                            agreements or fee-for-service arrangements.</p>
+                        <ul class="access-features">
+                            <li><i class="fas fa-check-circle"></i> Visiting researcher status</li>
+                            <li><i class="fas fa-check-circle"></i> Collaborative agreements</li>
+                            <li><i class="fas fa-check-circle"></i> Mail-in sample analysis</li>
+                            <li><i class="fas fa-check-circle"></i> Data sharing protocols</li>
+                        </ul>
+                        <a href="Contact_Us.html" class="btn btn-primary btn-access">Inquire</a>
+                    </div>
+
+                    <div class="access-card">
+                        <div class="access-card-icon green">
+                            <i class="fas fa-industry"></i>
+                        </div>
+                        <h3>Industry & Government</h3>
+                        <p>Private companies and government agencies use the lab for contract testing, R&D
+                            prototyping, and customized workforce training programs.</p>
+                        <ul class="access-features">
+                            <li><i class="fas fa-check-circle"></i> Fee-for-service testing</li>
+                            <li><i class="fas fa-check-circle"></i> NDA & IP protections</li>
+                            <li><i class="fas fa-check-circle"></i> Custom R&D projects</li>
+                            <li><i class="fas fa-check-circle"></i> Corporate training</li>
+                        </ul>
+                        <a href="Contact_Us.html" class="btn btn-primary btn-access">Partner With Us</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. IMPACT (commented out)
+        <section class="about-impact-section">
+            ...
+        </section>
+        -->
+
+        <!-- 8. PUBLICATION ACKNOWLEDGEMENT -->
+        <section class="about-acknowledgement-section">
+            <div class="container">
+                <div class="acknowledgement-box">
+                    <div class="acknowledgement-content">
+                        <div class="acknowledgement-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <h2>Publication Acknowledgement</h2>
+                        <p>Research conducted using MPaCT Lab equipment or staff assistance should include
+                            the following acknowledgement in any resulting publications, presentations, or reports:</p>
+                        <div class="acknowledgement-snippet">
+                            <p id="ackText">"This work was performed in part at the Microelectronics Processing and
+                                Characterization Testing Lab (MPaCT) at Northern Arizona University, Flagstaff, AZ."</p>
+                            <button class="btn-copy" onclick="copyAcknowledgement()" title="Copy to clipboard">
+                                <i class="fas fa-copy"></i> Copy
+                            </button>
+                        </div>
+                        <p class="acknowledgement-note">Consistent acknowledgement across publications helps the
+                            university track facility usage and justify continued investment in shared research
+                            infrastructure.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <site-footer></site-footer>
 
     <script src="JS/layout.js"></script>
     <script src="JS/script.js"></script>
+    <script>
+        function copyAcknowledgement() {
+            const text = document.getElementById('ackText').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.querySelector('.btn-copy');
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+                }, 2000);
+            });
+        }
+    </script>
 
 </body>
+
 </html>
