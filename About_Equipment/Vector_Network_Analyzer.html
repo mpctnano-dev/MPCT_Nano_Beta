@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vector Network Analyzer | NAU Nano Core</title>
+    <title>Keysight E5063A ENA Vector Network Analyzer | NAU Nano Core</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../CSS/style.css">
 </head>
@@ -12,18 +12,245 @@
     <site-header></site-header>
 
     <main class="product-page">
-        <section class="page-header bg-blue text-white section-padding" style="padding: 60px 0;">
+        <section class="product-hero">
             <div class="container">
-                <h1>Vector Network Analyzer</h1>
-                <p class="text-white-muted">Details coming soon.</p>
+                <div class="hero-inner">
+                    <div class="hero-text">
+                        <div class="hero-badges">
+                            <span class="tag purple">Electrical</span>
+                            <span class="tag gold">RF Vector Network Analyzer</span>
+                            <div class="status-indicator-wrapper" title="System Unavailable">
+                                <span class="status-dot busy"></span>
+                            </div>
+                        </div>
+                        <h1 class="hero-title">Keysight E5063A ENA Vector Network Analyzer</h1>
+                        <p class="hero-subtitle">
+                            A general-purpose 2-port RF VNA for S-parameter measurements of passive and active components. It covers a wide frequency range with strong dynamic range and low trace noise for precise RF characterization.
+                        </p>
+                        <div class="hero-cta">
+                            <button class="btn btn-primary disabled" style="background-color: var(--gray-500); border-color: var(--gray-500); cursor: not-allowed;">
+                                <i class="fas fa-ban" style="margin-right: 8px;"></i> Currently Unavailable
+                            </button>
+                            <a href="#specs" class="btn btn-outline">
+                                <i class="fas fa-list-ul" style="margin-right: 8px;"></i> View Specs
+                            </a>
+                        </div>
+                    </div>
+                    <div class="hero-image-wrapper">
+                         <img src="../Images/VNA.webp" alt="Keysight E5063A ENA VNA" class="hero-img" onerror="this.src='https://placehold.co/600x400/png?text=Keysight+E5063A+VNA'">
+                    </div>
+                </div>
             </div>
         </section>
 
+        <div class="specs-bar">
+            <div class="container">
+                <div class="specs-grid">
+                    <div class="spec-item">
+                        <i class="fas fa-wave-square"></i>
+                        <div>
+                            <span class="label">Frequency Range</span>
+                            <span class="value">100 kHz - 18 GHz (option)</span>
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <i class="fas fa-plug"></i>
+                        <div>
+                            <span class="label">Ports</span>
+                            <span class="value">2-port, 50 ohm, Type-N</span>
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <i class="fas fa-chart-line"></i>
+                        <div>
+                            <span class="label">Dynamic Range</span>
+                            <span class="value">~122 dB (typ.)</span>
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <i class="fas fa-signal"></i>
+                        <div>
+                            <span class="label">Trace Noise</span>
+                            <span class="value">~0.002 dB rms</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="container section-padding">
-            <section class="info-block">
-                <h2 class="section-heading">Overview</h2>
-                <p>Content pending.</p>
-            </section>
+            <div class="layout-grid">
+                
+                <div class="content-col">
+                    
+                    <section class="info-block">
+                        <h2 class="section-heading">System Capabilities</h2>
+                        <p>
+                            The Keysight E5063A ENA supports precision S-parameter measurements for filters, cables, antennas, and matching networks. It provides a wide frequency range with strong dynamic range and low trace noise for accurate RF characterization.
+                        </p>
+                        <p>
+                            Multiple calibration methods are supported (SOLT, TRL, ECal, and more), along with optional time-domain analysis, mixed-mode S-parameters, and fixture de-embedding for advanced workflows.
+                        </p>
+                    </section>
+
+                    <section class="info-block">
+                        <h3 class="subsection-title">Measurement Modes</h3>
+                        <div class="features-grid">
+                            <div class="feature-card">
+                                <div class="icon-box blue"><i class="fas fa-wave-square"></i></div>
+                                <h4>Frequency Sweeps</h4>
+                                <p>Linear, log, and segmented sweeps for standard RF characterization.</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="icon-box gold"><i class="fas fa-project-diagram"></i></div>
+                                <h4>S-Parameters</h4>
+                                <p>2-port measurements of S11, S21, S12, and S22.</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="icon-box green"><i class="fas fa-clock"></i></div>
+                                <h4>Time-Domain (Option)</h4>
+                                <p>Reflectometry and response analysis for locating discontinuities.</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="icon-box purple"><i class="fas fa-tools"></i></div>
+                                <h4>Calibration & De-Embedding</h4>
+                                <p>SOLT, TRL, ECal, and adapter removal/insertion.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="info-block" id="specs">
+                        <h3 class="subsection-title">Technical Specifications</h3>
+                        <table class="tech-specs-table">
+                            <tbody>
+                                <tr>
+                                    <th>Frequency Range</th>
+                                    <td>100 kHz to 500 MHz / 1.5 / 3 / 4.5 / 6.5 / 8.5 / 14 / 18 GHz (option dependent)</td>
+                                </tr>
+                                <tr>
+                                    <th>Test Ports</th>
+                                    <td>2-port S-parameter, 50 ohm, Type-N connectors</td>
+                                </tr>
+                                <tr>
+                                    <th>Dynamic Range (typ.)</th>
+                                    <td>~122 dB at 100 MHz - 4.35 GHz, IFBW 10 Hz</td>
+                                </tr>
+                                <tr>
+                                    <th>Trace Noise (typ.)</th>
+                                    <td>~0.002 dB rms at 8 MHz - 4.35 GHz, IFBW 70 kHz</td>
+                                </tr>
+                                <tr>
+                                    <th>Calibration Methods</th>
+                                    <td>SOLT, TRL, unknown thru, waveguide, ECal, adapter removal/insertion</td>
+                                </tr>
+                                <tr>
+                                    <th>Interfaces</th>
+                                    <td>USB, LAN; optional GPIB and 24-bit handler I/O</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="info-block">
+                        <h3 class="subsection-title">Common Applications</h3>
+    
+                        <div class="grid grid-2 gap-md">
+        
+                            <div class="app-item">
+                                <i class="fas fa-check-circle app-icon"></i>
+                                <div>
+                                    <strong class="app-title">Passive Component Test</strong>
+                                    <span class="app-desc">Insertion loss, return loss, and VSWR of filters, cables, and connectors.</span>
+                                </div>
+                            </div>
+
+                            <div class="app-item">
+                                <i class="fas fa-check-circle app-icon"></i>
+                                <div>
+                                    <strong class="app-title">RF Education and R&D</strong>
+                                    <span class="app-desc">General RF network characterization and lab instruction.</span>
+                                </div>
+                            </div>
+
+                            <div class="app-item">
+                                <i class="fas fa-check-circle app-icon"></i>
+                                <div>
+                                    <strong class="app-title">Materials Characterization</strong>
+                                    <span class="app-desc">Permittivity and permeability extraction with external software.</span>
+                                </div>
+                            </div>
+
+                            <div class="app-item">
+                                <i class="fas fa-check-circle app-icon"></i>
+                                <div>
+                                    <strong class="app-title">Production / QA</strong>
+                                    <span class="app-desc">Automated pass/fail testing with limit lines and handler I/O.</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+                
+                </div>
+
+                <aside class="sidebar-col">
+                    
+                    <div class="sidebar-widget manager-card">
+                        <span class="manager-label">Tool Custodian</span>
+                        
+                        <div class="manager-profile">
+                            <div class="manager-avatar">MY</div> 
+                            <div class="manager-info">
+                                <h4>Dr. Miguel Jose Yacaman</h4>
+                                <span>Tool Custodian</span>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-list">
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <span class="placeholder-text">Email pending...</span>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>98E Room 103</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">Status</h3>
+                        <div style="background: #fee2e2; color: #991b1b; padding: 15px; border-radius: 8px; text-align: center; font-weight: 700;">
+                            <i class="fas fa-exclamation-circle" style="margin-right: 5px;"></i> UNAVAILABLE
+                        </div>
+                        <p style="margin-top: 10px; font-size: 0.9rem; color: var(--gray-600); text-align: center;">
+                            This system is currently offline or undergoing maintenance.
+                        </p>
+                    </div>
+
+                    <div class="sidebar-widget" id="docs">
+                        <h3 class="widget-title">Documentation</h3>
+                        <div class="doc-links">
+                            <a href="#" class="doc-link">
+                                <i class="fas fa-file-pdf"></i>
+                                <div>
+                                    <strong>E5063A User Guide</strong>
+                                    <small>PDF - Unavailable</small>
+                                </div>
+                            </a>
+                            <a href="#" class="doc-link">
+                                <i class="fas fa-file-alt"></i>
+                                <div>
+                                    <strong>Calibration SOP</strong>
+                                    <small>PDF - Unavailable</small>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                </aside>
+            </div>
         </div>
     </main>
 

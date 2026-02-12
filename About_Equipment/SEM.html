@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scanning Electron Microscope (SEM) | NAU Nano Core</title>
+    <title>JEOL JSM-IT710HR Field Emission SEM | NAU Nano Core</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../CSS/style.css">
 </head>
@@ -12,18 +12,245 @@
     <site-header></site-header>
 
     <main class="product-page">
-        <section class="page-header bg-blue text-white section-padding" style="padding: 60px 0;">
+        <section class="product-hero">
             <div class="container">
-                <h1>Scanning Electron Microscope (SEM)</h1>
-                <p class="text-white-muted">Details coming soon.</p>
+                <div class="hero-inner">
+                    <div class="hero-text">
+                        <div class="hero-badges">
+                            <span class="tag blue">Metrology</span>
+                            <span class="tag gold">Field Emission SEM</span>
+                            <div class="status-indicator-wrapper" title="System Unavailable">
+                                <span class="status-dot busy"></span>
+                            </div>
+                        </div>
+                        <h1 class="hero-title">JEOL JSM-IT710HR Field Emission SEM</h1>
+                        <p class="hero-subtitle">
+                            A Schottky field emission scanning electron microscope for high-resolution imaging and microanalysis. It supports high- and low-vacuum operation with integrated EDS for live spectra and X-ray mapping.
+                        </p>
+                        <div class="hero-cta">
+                            <button class="btn btn-primary disabled" style="background-color: var(--gray-500); border-color: var(--gray-500); cursor: not-allowed;">
+                                <i class="fas fa-ban" style="margin-right: 8px;"></i> Currently Unavailable
+                            </button>
+                            <a href="#specs" class="btn btn-outline">
+                                <i class="fas fa-list-ul" style="margin-right: 8px;"></i> View Specs
+                            </a>
+                        </div>
+                    </div>
+                    <div class="hero-image-wrapper">
+                         <img src="../Images/SEM.jpg" alt="JEOL JSM-IT710HR SEM" class="hero-img" onerror="this.src='https://placehold.co/600x400/png?text=Field+Emission+SEM'">
+                    </div>
+                </div>
             </div>
         </section>
 
+        <div class="specs-bar">
+            <div class="container">
+                <div class="specs-grid">
+                    <div class="spec-item">
+                        <i class="fas fa-atom"></i>
+                        <div>
+                            <span class="label">Electron Source</span>
+                            <span class="value">Schottky FEG</span>
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <div>
+                            <span class="label">Max Probe Current</span>
+                            <span class="value">>= 300 nA</span>
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <i class="fas fa-wind"></i>
+                        <div>
+                            <span class="label">Vacuum Modes</span>
+                            <span class="value">High / Low</span>
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <i class="fas fa-chart-area"></i>
+                        <div>
+                            <span class="label">Analytics</span>
+                            <span class="value">Integrated EDS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="container section-padding">
-            <section class="info-block">
-                <h2 class="section-heading">Overview</h2>
-                <p>Content pending.</p>
-            </section>
+            <div class="layout-grid">
+                
+                <div class="content-col">
+                    
+                    <section class="info-block">
+                        <h2 class="section-heading">System Capabilities</h2>
+                        <p>
+                            The JEOL JSM-IT710HR is a compact, multipurpose field emission SEM designed for high-resolution imaging and microanalysis. It delivers high probe current with a small probe size for detailed surface morphology and compositional contrast.
+                        </p>
+                        <p>
+                            High- and low-vacuum modes accommodate conductive and non-conductive samples, with secondary electron and quadrant backscatter detectors plus live 3D surface reconstruction. Integrated JEOL EDS enables live spectra and X-ray mapping.
+                        </p>
+                    </section>
+
+                    <section class="info-block">
+                        <h3 class="subsection-title">Operating Modes</h3>
+                        <div class="features-grid">
+                            <div class="feature-card">
+                                <div class="icon-box blue"><i class="fas fa-microscope"></i></div>
+                                <h4>High-Vacuum Imaging</h4>
+                                <p>High-resolution SE and BSE imaging for conductive or coated samples.</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="icon-box gold"><i class="fas fa-wind"></i></div>
+                                <h4>Low-Vacuum Imaging</h4>
+                                <p>Controlled pressure imaging for poorly conducting or outgassing samples.</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="icon-box green"><i class="fas fa-chart-area"></i></div>
+                                <h4>Live EDS Analysis</h4>
+                                <p>Real-time spectra and X-ray maps during imaging.</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="icon-box purple"><i class="fas fa-cube"></i></div>
+                                <h4>3D Surface Reconstruction</h4>
+                                <p>Live 3D topography using the quadrant BSE detector.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="info-block" id="specs">
+                        <h3 class="subsection-title">Technical Specifications</h3>
+                        <table class="tech-specs-table">
+                            <tbody>
+                                <tr>
+                                    <th>Electron Source</th>
+                                    <td>In-lens Schottky field emission gun</td>
+                                </tr>
+                                <tr>
+                                    <th>Maximum Probe Current</th>
+                                    <td>>= 300 nA delivered to specimen</td>
+                                </tr>
+                                <tr>
+                                    <th>Vacuum Modes</th>
+                                    <td>High vacuum and low vacuum with one-click switching</td>
+                                </tr>
+                                <tr>
+                                    <th>Detectors</th>
+                                    <td>SE and quadrant BSE with live 3D function</td>
+                                </tr>
+                                <tr>
+                                    <th>Integrated Analytics</th>
+                                    <td>JEOL EDS for live spectra and X-ray maps</td>
+                                </tr>
+                                <tr>
+                                    <th>Automation</th>
+                                    <td>Montage, scripting, remote control, and data management</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <section class="info-block">
+                        <h3 class="subsection-title">Common Applications</h3>
+    
+                        <div class="grid grid-2 gap-md">
+        
+                            <div class="app-item">
+                                <i class="fas fa-check-circle app-icon"></i>
+                                <div>
+                                    <strong class="app-title">High-Resolution Imaging</strong>
+                                    <span class="app-desc">Surface morphology and microstructure of metals, semiconductors, polymers, and ceramics.</span>
+                                </div>
+                            </div>
+
+                            <div class="app-item">
+                                <i class="fas fa-check-circle app-icon"></i>
+                                <div>
+                                    <strong class="app-title">Elemental Analysis</strong>
+                                    <span class="app-desc">Qualitative and semi-quantitative EDS point analysis and mapping.</span>
+                                </div>
+                            </div>
+
+                            <div class="app-item">
+                                <i class="fas fa-check-circle app-icon"></i>
+                                <div>
+                                    <strong class="app-title">3D Surface Visualization</strong>
+                                    <span class="app-desc">Topographic reconstruction of rough or complex surfaces.</span>
+                                </div>
+                            </div>
+
+                            <div class="app-item">
+                                <i class="fas fa-check-circle app-icon"></i>
+                                <div>
+                                    <strong class="app-title">Automated Imaging</strong>
+                                    <span class="app-desc">Large-area montages and repeatable imaging workflows for QA and R&D.</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+                
+                </div>
+
+                <aside class="sidebar-col">
+                    
+                    <div class="sidebar-widget manager-card">
+                        <span class="manager-label">Tool Custodian</span>
+                        
+                        <div class="manager-profile">
+                            <div class="manager-avatar">MY</div> 
+                            <div class="manager-info">
+                                <h4>Dr. Miguel Jose Yacaman</h4>
+                                <span>Tool Custodian</span>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-list">
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <span class="placeholder-text">Email pending...</span>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>98E Room 103</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">Status</h3>
+                        <div style="background: #fee2e2; color: #991b1b; padding: 15px; border-radius: 8px; text-align: center; font-weight: 700;">
+                            <i class="fas fa-exclamation-circle" style="margin-right: 5px;"></i> UNAVAILABLE
+                        </div>
+                        <p style="margin-top: 10px; font-size: 0.9rem; color: var(--gray-600); text-align: center;">
+                            This system is currently offline or undergoing maintenance.
+                        </p>
+                    </div>
+
+                    <div class="sidebar-widget" id="docs">
+                        <h3 class="widget-title">Documentation</h3>
+                        <div class="doc-links">
+                            <a href="#" class="doc-link">
+                                <i class="fas fa-file-pdf"></i>
+                                <div>
+                                    <strong>SEM User Guide</strong>
+                                    <small>PDF - Unavailable</small>
+                                </div>
+                            </a>
+                            <a href="#" class="doc-link">
+                                <i class="fas fa-file-alt"></i>
+                                <div>
+                                    <strong>EDS Analysis SOP</strong>
+                                    <small>PDF - Unavailable</small>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                </aside>
+            </div>
         </div>
     </main>
 
