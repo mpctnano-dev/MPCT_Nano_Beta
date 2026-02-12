@@ -1,0 +1,514 @@
+﻿{
+    "lastUpdated":  "2026-02-12",
+    "equipment":  [
+                      {
+                          "id":  "EQ-001",
+                          "name":  "Amatrol 87-MS1 Pick and Place",
+                          "category":  "Mechatronics",
+                          "status":  "EXPECTED",
+                          "expectedDate":  "07/01/26",
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/Amatrol_87_MS1.html"
+                      },
+                      {
+                          "id":  "EQ-002",
+                          "name":  "Amatrol 87-MS2 Gauging Station",
+                          "category":  "Mechatronics",
+                          "status":  "EXPECTED",
+                          "expectedDate":  "07/01/26",
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/Amatrol_87_MS2.html"
+                      },
+                      {
+                          "id":  "EQ-003",
+                          "name":  "Amatrol 87-MS7 Inventory Storage",
+                          "category":  "Mechatronics",
+                          "status":  "EXPECTED",
+                          "expectedDate":  "07/01/26",
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/Amatrol_87_MS7.html"
+                      },
+                      {
+                          "id":  "EQ-004",
+                          "name":  "Amatrol Smart Robot Workcell",
+                          "category":  "Mechatronics",
+                          "status":  "EXPECTED",
+                          "expectedDate":  "07/01/26",
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/Amatrol_SmartRobot_Workcell.html"
+                      },
+                      {
+                          "id":  "EQ-005",
+                          "name":  "B-2 Atomic Force Microscope (AFM)",
+                          "category":  "Metrology",
+                          "status":  "AVAILABLE",
+                          "expectedDate":  null,
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/B2_AFM.html"
+                      },
+                      {
+                          "id":  "EQ-006",
+                          "name":  "Bambu Lab H2D 3D Printer",
+                          "category":  "Fabrication",
+                          "status":  "AVAILABLE",
+                          "expectedDate":  null,
+                          "warningMessage":  null,
+                          "accessories":  [
+                                              "3D Scanner"
+                                          ],
+                          "aboutPage":  "About_Equipment/Bambu_H2D.html"
+                      },
+                      {
+                          "id":  "EQ-007",
+                          "name":  "BELPREP VAC Series",
+                          "category":  "Metrology",
+                          "status":  "EXPECTED",
+                          "expectedDate":  "07/01/26",
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/BELPREP_VAC_Series.html"
+                      },
+                      {
+                          "id":  "EQ-008",
+                          "name":  "BELSORP MAX X Surface and Pore Analyzer",
+                          "category":  "Metrology",
+                          "status":  "EXPECTED",
+                          "expectedDate":  "07/01/26",
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/BELSORP_MAX_X.html"
+                      },
+                      {
+                          "id":  "EQ-009",
+                          "name":  "CSZ Environmental Chamber",
+                          "category":  "Electrical",
+                          "status":  "EXPECTED",
+                          "expectedDate":  "07/01/26",
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/CSZ_EnvChamber.html"
+                      },
+                      {
+                          "id":  "EQ-010",
+                          "name":  "Ellipsometer",
+                          "category":  "Metrology",
+                          "status":  "AVAILABLE",
+                          "expectedDate":  null,
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/Ellipsometer.html"
+                      },
+                      {
+                          "id":  "EQ-011",
+                          "name":  "Fluke P3114 Oil Deadweight Tester",
+                          "category":  "Metrology",
+                          "status":  "AVAILABLE",
+                          "expectedDate":  null,
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/Fluke_P3114_Deadweight_Tester.html"
+                      },
+                      {
+                          "id":  "EQ-012",
+                          "name":  "Haas Desktop Lathe",
+                          "category":  "Fabrication",
+                          "status":  "EXPECTED",
+                          "expectedDate":  "07/01/26",
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/Haas_DesktopLathe.html"
+                      },
+                      {
+                          "id":  "EQ-013",
+                          "name":  "Haas Desktop Mill",
+                          "category":  "Fabrication",
+                          "status":  "EXPECTED",
+                          "expectedDate":  "07/01/26",
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/Haas_DesktopMill.html"
+                      },
+                      {
+                          "id":  "EQ-014",
+                          "name":  "Keithley 2110 5.5 Digit Multimeter",
+                          "category":  "Electrical",
+                          "status":  "AVAILABLE",
+                          "expectedDate":  null,
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/Keithley_2110.html"
+                      },
+                      {
+                          "id":  "EQ-015",
+                          "name":  "Keyence VHX-7000 Digital Microscope",
+                          "category":  "Metrology",
+                          "status":  "AVAILABLE",
+                          "expectedDate":  null,
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/VHX7000_Digital_Microscope.html"
+                      },
+                      {
+                          "id":  "EQ-016",
+                          "name":  "Keyence VK-X3000 3D Surface Profiler",
+                          "category":  "Metrology",
+                          "status":  "AVAILABLE",
+                          "expectedDate":  null,
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/VKX3000_3D_Surface_Profiler.html"
+                      },
+                      {
+                          "id":  "EQ-017",
+                          "name":  "Keyence WM-6000 Wide Area CMM",
+                          "category":  "Metrology",
+                          "status":  "EXPECTED",
+                          "expectedDate":  "07/01/26",
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/Keyence_WM6000.html"
+                      },
+                      {
+                          "id":  "EQ-018",
+                          "name":  "Keysight E4990A Impedance Analyzer",
+                          "category":  "Electrical",
+                          "status":  "EXPECTED",
+                          "expectedDate":  "07/01/26",
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/Keysight_ImpAnalyzer.html"
+                      },
+                      {
+                          "id":  "EQ-019",
+                          "name":  "LN2 Storage and Dewars",
+                          "category":  "Support Systems",
+                          "status":  "EXPECTED",
+                          "expectedDate":  "07/01/26",
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/LN2_Storage_Dewars.html"
+                      },
+                      {
+                          "id":  "EQ-020",
+                          "name":  "LPKF ProtoLaser R4",
+                          "category":  "Fabrication",
+                          "status":  "AVAILABLE",
+                          "expectedDate":  null,
+                          "warningMessage":  null,
+                          "accessories":  [
+                                              "LPKF MultiPress S",
+                                              "LPKF Electroplater",
+                                              "LPKF Pick \u0026 Place",
+                                              "LPKF Reflow Oven",
+                                              "Wave Solder"
+                                          ],
+                          "aboutPage":  "About_Equipment/LPKF_ProtoLaser.html"
+                      },
+                      {
+                          "id":  "EQ-021",
+                          "name":  "Montana CryoAdvance 50",
+                          "category":  "Electrical",
+                          "status":  "AVAILABLE",
+                          "expectedDate":  null,
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/Montana_CryoStation.html"
+                      },
+                      {
+                          "id":  "EQ-022",
+                          "name":  "MPI TS200 Probe Station",
+                          "category":  "Electrical",
+                          "status":  "EXPECTED",
+                          "expectedDate":  "07/01/26",
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/MPI_TS200.html"
+                      },
+                      {
+                          "id":  "EQ-023",
+                          "name":  "NIL Technology CNI v3.0",
+                          "category":  "Fabrication",
+                          "status":  "EXPECTED",
+                          "expectedDate":  "07/01/26",
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/NIL_CNI_v3.html"
+                      },
+                      {
+                          "id":  "EQ-024",
+                          "name":  "Optical Holographic Profiler",
+                          "category":  "Metrology",
+                          "status":  "EXPECTED",
+                          "expectedDate":  "07/01/26",
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/Optical_Holographic_Profiler.html"
+                      },
+                      {
+                          "id":  "EQ-025",
+                          "name":  "PELCO FlexScribe 300",
+                          "category":  "Sample Prep",
+                          "status":  "AVAILABLE",
+                          "expectedDate":  null,
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/PELCO_FlexScribe_300.html"
+                      },
+                      {
+                          "id":  "EQ-026",
+                          "name":  "Photoluminescence Spectrometer",
+                          "category":  "Metrology",
+                          "status":  "EXPECTED",
+                          "expectedDate":  "07/01/26",
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/Photoluminescence_Spectrometer.html"
+                      },
+                      {
+                          "id":  "EQ-027",
+                          "name":  "Scanning Electron Microscope (SEM)",
+                          "category":  "Metrology",
+                          "status":  "EXPECTED",
+                          "expectedDate":  "07/01/26",
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/SEM.html"
+                      },
+                      {
+                          "id":  "EQ-028",
+                          "name":  "Seebeck and Resistivity Instrument",
+                          "category":  "Electrical",
+                          "status":  "AVAILABLE",
+                          "expectedDate":  null,
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/Seebeck_Resistivity_Instrument.html"
+                      },
+                      {
+                          "id":  "EQ-029",
+                          "name":  "SIMS Workstation",
+                          "category":  "Metrology",
+                          "status":  "EXPECTED",
+                          "expectedDate":  "07/01/26",
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/SIMS_Workstation.html"
+                      },
+                      {
+                          "id":  "EQ-030",
+                          "name":  "Spatial Light Modulator",
+                          "category":  "Metrology",
+                          "status":  "EXPECTED",
+                          "expectedDate":  "07/01/26",
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/Spatial_Light_Modulator.html"
+                      },
+                      {
+                          "id":  "EQ-031",
+                          "name":  "SUSS Mask Aligner",
+                          "category":  "Fabrication",
+                          "status":  "AVAILABLE",
+                          "expectedDate":  null,
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/SUSS_MJB4.html"
+                      },
+                      {
+                          "id":  "EQ-032",
+                          "name":  "Tektronix AFG1022 Function Generator",
+                          "category":  "Electrical",
+                          "status":  "AVAILABLE",
+                          "expectedDate":  null,
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/Tektronix_AFG1022.html"
+                      },
+                      {
+                          "id":  "EQ-033",
+                          "name":  "Tektronix TBS1052C Digital Oscilloscope",
+                          "category":  "Electrical",
+                          "status":  "AVAILABLE",
+                          "expectedDate":  null,
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/Tektronix_TBS1052C.html"
+                      },
+                      {
+                          "id":  "EQ-034",
+                          "name":  "TEM Prep - Dimple Grinder",
+                          "category":  "Sample Prep",
+                          "status":  "EXPECTED",
+                          "expectedDate":  "07/01/26",
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/TEM_Prep_Dimple_Grinder.html"
+                      },
+                      {
+                          "id":  "EQ-035",
+                          "name":  "TEM Prep - Disk Grinder",
+                          "category":  "Sample Prep",
+                          "status":  "EXPECTED",
+                          "expectedDate":  "07/01/26",
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/TEM_Prep_Disk_Grinder.html"
+                      },
+                      {
+                          "id":  "EQ-036",
+                          "name":  "TEM Prep - Ion Beam Mill",
+                          "category":  "Sample Prep",
+                          "status":  "EXPECTED",
+                          "expectedDate":  "07/01/26",
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/TEM_Prep_Ion_Beam_Mill.html"
+                      },
+                      {
+                          "id":  "EQ-037",
+                          "name":  "Transmission Electron Microscope (TEM)",
+                          "category":  "Metrology",
+                          "status":  "EXPECTED",
+                          "expectedDate":  "07/01/26",
+                          "warningMessage":  null,
+                          "accessories":  [
+                                              "Backscattered Detector",
+                                              "Electron Biprism"
+                                          ],
+                          "aboutPage":  "About_Equipment/TEM.html"
+                      },
+                      {
+                          "id":  "EQ-038",
+                          "name":  "Tresky T-4909 Die Bonder",
+                          "category":  "Fabrication",
+                          "status":  "EXPECTED",
+                          "expectedDate":  "07/01/26",
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/Tresky_DieBonder.html"
+                      },
+                      {
+                          "id":  "EQ-039",
+                          "name":  "Vector Network Analyzer (VNA)",
+                          "category":  "Electrical",
+                          "status":  "EXPECTED",
+                          "expectedDate":  "07/01/26",
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/Vector_Network_Analyzer.html"
+                      },
+                      {
+                          "id":  "EQ-040",
+                          "name":  "Voltera V-One PCB Printer",
+                          "category":  "Fabrication",
+                          "status":  "AVAILABLE",
+                          "expectedDate":  null,
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/Voltera_VOne_PCB_Printer.html"
+                      },
+                      {
+                          "id":  "EQ-041",
+                          "name":  "West-Bond Wire Bonder",
+                          "category":  "Fabrication",
+                          "status":  "EXPECTED",
+                          "expectedDate":  "07/01/26",
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/WestBond_WireBonder.html"
+                      },
+                      {
+                          "id":  "EQ-042",
+                          "name":  "XRD (X-Ray Diffraction)",
+                          "category":  "Metrology",
+                          "status":  "EXPECTED",
+                          "expectedDate":  "07/01/26",
+                          "warningMessage":  null,
+                          "accessories":  [
+
+                                          ],
+                          "aboutPage":  "About_Equipment/XRD.html"
+                      }
+                  ]
+}
