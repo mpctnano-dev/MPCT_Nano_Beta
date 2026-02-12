@@ -191,3 +191,24 @@ class SiteFooter extends HTMLElement {
 // Register Components
 customElements.define('site-header', SiteHeader);
 customElements.define('site-footer', SiteFooter);
+
+const injectEquipmentStatusScript = () => {
+    const needsStatus = document.querySelector('.tech-card') || document.querySelector('.product-page');
+    if (!needsStatus) return;
+    if (document.querySelector('script[data-equipment-status]')) return;
+
+    const isInSubfolder = window.location.pathname.includes('/About_Equipment/');
+    const basePath = isInSubfolder ? '../' : './';
+
+    const script = document.createElement('script');
+    script.src = `${basePath}JS/Equipment_Status.js`;
+    script.defer = true;
+    script.dataset.equipmentStatus = 'true';
+    document.body.appendChild(script);
+};
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', injectEquipmentStatusScript);
+} else {
+    injectEquipmentStatusScript();
+}
