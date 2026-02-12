@@ -261,8 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('cardContainer');
     const arrows = document.querySelectorAll('.nav-btn');
 
-    if (filterBtns.length > 0) {
-
+    if (filterBtns.length > 0 && eqCards.length > 0) {
         // A. View Toggle Logic (Grid vs List)
         if (gridBtn && listBtn && container) {
             // Switch to List View
@@ -592,7 +591,8 @@ window.handleFormSubmit = handleFormSubmit;
 const container = document.getElementById('equipmentContainer');
 const gridBtn = document.getElementById('gridViewBtn');
 const listBtn = document.getElementById('listViewBtn');
-const filterBtns = document.querySelectorAll('.filter-btn');
+const categoryBtns = document.querySelectorAll('.category-btn');
+const locationBtns = document.querySelectorAll('.location-btn');
 const cards = document.querySelectorAll('.tech-card');
 
 // 1. VIEW SWITCHER (Grid vs List)
@@ -612,26 +612,58 @@ if (container && gridBtn && listBtn) {
     });
 }
 
-// 2. FILTERING LOGIC
-if (filterBtns.length > 0) {
-    filterBtns.forEach(btn => {
+// 2. FILTERING LOGIC (Category + Location)
+const getActiveCategory = () => {
+    const active = document.querySelector('.category-btn.active');
+    return active ? active.getAttribute('data-filter') : 'all';
+};
+
+const getActiveLocation = () => {
+    const active = document.querySelector('.location-btn.active');
+    return active ? active.getAttribute('data-location') : 'all';
+};
+
+const matchesLocation = (card, locationFilter) => {
+    if (locationFilter === 'all') return true;
+    // Default to Flagstaff if not specified
+    const raw = card.getAttribute('data-location') || 'Flagstaff';
+    const locations = raw.split(',').map(loc => loc.trim().toLowerCase());
+    return locations.includes(locationFilter.toLowerCase());
+};
+
+const applyFilters = () => {
+    const activeCategory = getActiveCategory();
+    const activeLocation = getActiveLocation();
+
+    cards.forEach(card => {
+        const category = card.getAttribute('data-category') || '';
+        const categoryMatch = activeCategory === 'all' || category === activeCategory;
+        const locationMatch = matchesLocation(card, activeLocation);
+
+        if (categoryMatch && locationMatch) {
+            card.style.display = 'flex';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+};
+
+if (categoryBtns.length > 0) {
+    categoryBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            // Remove active class from all buttons
-            filterBtns.forEach(b => b.classList.remove('active'));
-            // Add active to clicked button
+            categoryBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+            applyFilters();
+        });
+    });
+}
 
-            const filterValue = btn.getAttribute('data-filter');
-
-            cards.forEach(card => {
-                const category = card.getAttribute('data-category');
-
-                if (filterValue === 'all' || category === filterValue) {
-                    card.style.display = 'flex'; // Show
-                } else {
-                    card.style.display = 'none'; // Hide
-                }
-            });
+if (locationBtns.length > 0) {
+    locationBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            locationBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            applyFilters();
         });
     });
 }

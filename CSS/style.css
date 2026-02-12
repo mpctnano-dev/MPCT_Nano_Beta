@@ -3664,6 +3664,18 @@ ul {
     flex-wrap: wrap;
 }
 
+.filter-label {
+    font-size: 0.85rem;
+    color: var(--gray-500);
+    font-weight: 600;
+    margin-right: 4px;
+    align-self: center;
+}
+
+.location-filter {
+    align-items: center;
+}
+
 .filter-btn {
     background: none;
     border: 1px solid transparent;
@@ -3893,6 +3905,19 @@ ul {
     background: var(--nau-gold);
     border-color: var(--nau-gold);
     color: var(--nau-blue);
+}
+
+.btn-tech.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.btn.disabled {
+    background-color: var(--gray-500);
+    border-color: var(--gray-500);
+    cursor: not-allowed;
+    pointer-events: none;
 }
 
 /* --- 4. LIST VIEW TRANSFORMATIONS --- */
