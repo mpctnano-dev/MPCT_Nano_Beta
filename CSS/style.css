@@ -7568,13 +7568,13 @@ ul {
 @keyframes hdNodeGlow {
     0%,
     100% {
-        box-shadow: 0 0 3px rgba(250, 192, 26, 0.18), 0 0 8px rgba(250, 192, 26, 0.06);
-        transform: translate(-50%, -50%) scale(0.98);
+        box-shadow: 0 0 5px rgba(250, 192, 26, 0.35), 0 0 12px rgba(250, 192, 26, 0.14);
+        transform: translate(-50%, -50%) scale(0.95);
     }
 
     50% {
-        box-shadow: 0 0 5px rgba(250, 192, 26, 0.3), 0 0 12px rgba(250, 192, 26, 0.1);
-        transform: translate(-50%, -50%) scale(1.03);
+        box-shadow: 0 0 8px rgba(250, 192, 26, 0.55), 0 0 18px rgba(250, 192, 26, 0.22);
+        transform: translate(-50%, -50%) scale(1.06);
     }
 }
 
@@ -7601,12 +7601,12 @@ ul {
 
     0%,
     100% {
-        text-shadow: 0 0 5px rgba(250, 192, 26, 0.08), 0 0 14px rgba(250, 192, 26, 0.03);
-        opacity: 0.85;
+        text-shadow: 0 0 8px rgba(250, 192, 26, 0.15), 0 0 20px rgba(250, 192, 26, 0.06);
+        opacity: 0.75;
     }
 
     50% {
-        text-shadow: 0 0 8px rgba(250, 192, 26, 0.2), 0 0 20px rgba(250, 192, 26, 0.08);
+        text-shadow: 0 0 14px rgba(250, 192, 26, 0.38), 0 0 28px rgba(250, 192, 26, 0.14);
         opacity: 1;
     }
 }
@@ -7727,15 +7727,15 @@ ul {
 
     0%,
     100% {
-        opacity: 0.25;
-        transform: translate(-50%, -50%) scale(0.95);
-        box-shadow: 0 0 3px rgba(250, 192, 26, 0.1);
+        opacity: 0.35;
+        transform: translate(-50%, -50%) scale(0.85);
+        box-shadow: 0 0 3px rgba(250, 192, 26, 0.12);
     }
 
     50% {
-        opacity: 0.45;
-        transform: translate(-50%, -50%) scale(1.02);
-        box-shadow: 0 0 5px rgba(250, 192, 26, 0.15);
+        opacity: 0.8;
+        transform: translate(-50%, -50%) scale(1.12);
+        box-shadow: 0 0 7px rgba(250, 192, 26, 0.3), 0 0 14px rgba(250, 192, 26, 0.1);
     }
 }
 
@@ -7761,34 +7761,50 @@ ul {
     }
 }
 
-@keyframes hdBranchPulse {
-
-    0%,
-    100% {
-        opacity: 0.25;
-        height: 12px;
-        transform: translateX(-50%) translateY(0);
+/* Signal flowing down the vertical branch */
+@keyframes hdBranchSignalV {
+    0% {
+        background: linear-gradient(to bottom,
+                rgba(250, 192, 26, 0.75) 0%,
+                rgba(255, 230, 100, 0.45) 15%,
+                rgba(250, 192, 26, 0.25) 40%,
+                rgba(250, 192, 26, 0.4) 100%);
+        box-shadow: 0 0 5px rgba(250, 192, 26, 0.15);
     }
 
     50% {
-        opacity: 0.4;
-        height: 13px;
-        transform: translateX(-50%) translateY(0.5px);
+        background: linear-gradient(to bottom,
+                rgba(250, 192, 26, 0.3) 0%,
+                rgba(250, 192, 26, 0.25) 50%,
+                rgba(255, 230, 100, 0.45) 85%,
+                rgba(250, 192, 26, 0.75) 100%);
+        box-shadow: 0 0 8px rgba(250, 192, 26, 0.28);
+    }
+
+    100% {
+        background: linear-gradient(to bottom,
+                rgba(250, 192, 26, 0.75) 0%,
+                rgba(255, 230, 100, 0.45) 15%,
+                rgba(250, 192, 26, 0.25) 40%,
+                rgba(250, 192, 26, 0.4) 100%);
+        box-shadow: 0 0 5px rgba(250, 192, 26, 0.15);
     }
 }
 
-@keyframes hdBranchTipMove {
-
-    0%,
-    100% {
-        opacity: 0.25;
-        transform: translateX(-50%) translateY(0) scale(0.97);
-        box-shadow: 0 0 2px rgba(250, 192, 26, 0.08);
+/* Signal flowing across the horizontal arm */
+@keyframes hdBranchSignalH {
+    0% {
+        opacity: 0.5;
+        box-shadow: 0 0 4px rgba(250, 192, 26, 0.12);
     }
 
-    50% {
-        opacity: 0.4;
-        transform: translateX(-50%) translateY(0.5px) scale(1.02);
+    40% {
+        opacity: 0.85;
+        box-shadow: 0 0 8px rgba(250, 192, 26, 0.3);
+    }
+
+    100% {
+        opacity: 0.5;
         box-shadow: 0 0 4px rgba(250, 192, 26, 0.12);
     }
 }
@@ -7816,17 +7832,18 @@ ul {
     align-items: center;
     justify-content: center;
     background: linear-gradient(180deg,
-            rgba(0, 18, 42, 0.97) 0%,
-            rgba(0, 22, 52, 0.88) 35%,
-            rgba(0, 26, 62, 0.6) 65%,
-            rgba(0, 30, 72, 0.2) 88%,
+            rgba(0, 18, 42, 0.98) 0%,
+            rgba(0, 20, 48, 0.94) 25%,
+            rgba(0, 24, 56, 0.82) 50%,
+            rgba(0, 28, 64, 0.55) 72%,
+            rgba(0, 32, 74, 0.22) 88%,
             transparent 100%);
     overflow: hidden;
     isolation: isolate;
     pointer-events: none;
-    backdrop-filter: blur(20px) saturate(160%);
-    -webkit-backdrop-filter: blur(20px) saturate(160%);
-    box-shadow: 0 16px 48px -16px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(4px) saturate(120%);
+    -webkit-backdrop-filter: blur(4px) saturate(120%);
+    box-shadow: 0 20px 60px -10px rgba(0, 12, 30, 0.4);
     transition: top 0.35s ease, background 0.45s ease;
 }
 
@@ -7836,17 +7853,17 @@ ul {
     inset: 0;
     pointer-events: none;
     z-index: 1;
-    opacity: 0.35;
+    opacity: 0.75;
 }
 
 .hd-particles span {
     position: absolute;
     bottom: 10%;
-    width: 1.2px;
-    height: 1.2px;
+    width: 2px;
+    height: 2px;
     border-radius: 50%;
-    background: rgba(250, 192, 26, 0.45);
-    box-shadow: 0 0 3px rgba(250, 192, 26, 0.12);
+    background: rgba(250, 192, 26, 0.7);
+    box-shadow: 0 0 6px rgba(250, 192, 26, 0.3);
     opacity: 0;
     animation: hdParticleFloat linear infinite;
 }
@@ -7959,7 +7976,7 @@ ul {
     position: absolute;
     overflow: hidden;
     border-radius: 999px;
-    opacity: 0.25;
+    opacity: 0.5;
 }
 
 .hd-field-line::after {
@@ -7968,14 +7985,14 @@ ul {
 }
 
 .hd-field-line--h {
-    height: 0.8px;
+    height: 1px;
     background: linear-gradient(to right,
             rgba(250, 192, 26, 0.01) 0%,
-            rgba(250, 192, 26, 0.08) 20%,
-            rgba(250, 192, 26, 0.16) 50%,
-            rgba(250, 192, 26, 0.08) 80%,
+            rgba(250, 192, 26, 0.14) 20%,
+            rgba(250, 192, 26, 0.28) 50%,
+            rgba(250, 192, 26, 0.14) 80%,
             rgba(250, 192, 26, 0.01) 100%);
-    box-shadow: 0 0 3px rgba(250, 192, 26, 0.06);
+    box-shadow: 0 0 5px rgba(250, 192, 26, 0.12);
 }
 
 .hd-field-line--h::after {
@@ -7985,21 +8002,21 @@ ul {
     height: 100%;
     background: linear-gradient(to right,
             transparent 0%,
-            rgba(255, 247, 210, 0.25) 52%,
+            rgba(255, 247, 210, 0.5) 52%,
             transparent 100%);
-    animation: hdFieldFlowH 18s linear infinite;
+    animation: hdFieldFlowH 12s linear infinite;
     animation-delay: var(--flow-delay, 0s);
 }
 
 .hd-field-line--v {
-    width: 0.8px;
+    width: 1px;
     background: linear-gradient(to bottom,
             rgba(250, 192, 26, 0.01) 0%,
-            rgba(250, 192, 26, 0.08) 20%,
-            rgba(250, 192, 26, 0.16) 50%,
-            rgba(250, 192, 26, 0.08) 80%,
+            rgba(250, 192, 26, 0.14) 20%,
+            rgba(250, 192, 26, 0.28) 50%,
+            rgba(250, 192, 26, 0.14) 80%,
             rgba(250, 192, 26, 0.01) 100%);
-    box-shadow: 0 0 3px rgba(250, 192, 26, 0.06);
+    box-shadow: 0 0 5px rgba(250, 192, 26, 0.12);
 }
 
 .hd-field-line--v::after {
@@ -8009,9 +8026,9 @@ ul {
     height: 22%;
     background: linear-gradient(to bottom,
             transparent 0%,
-            rgba(255, 247, 210, 0.25) 52%,
+            rgba(255, 247, 210, 0.5) 52%,
             transparent 100%);
-    animation: hdFieldFlowV 18s linear infinite;
+    animation: hdFieldFlowV 12s linear infinite;
     animation-delay: var(--flow-delay, 0s);
 }
 
@@ -8101,13 +8118,13 @@ ul {
 
 .hd-field-via {
     position: absolute;
-    width: 2.2px;
-    height: 2.2px;
+    width: 4.5px;
+    height: 4.5px;
     border-radius: 50%;
-    background: rgba(250, 192, 26, 0.3);
-    border: 0.5px solid rgba(250, 192, 26, 0.15);
+    background: rgba(250, 192, 26, 0.45);
+    border: 0.8px solid rgba(250, 192, 26, 0.3);
     transform: translate(-50%, -50%);
-    animation: hdViaPulse 10s ease-in-out infinite;
+    animation: hdViaPulse 5s ease-in-out infinite;
     animation-delay: var(--via-delay, 0s);
 }
 
@@ -8201,43 +8218,43 @@ ul {
 .hd-trace {
     flex: 1;
     min-width: 100px;
-    height: 1px;
+    height: 1.5px;
     position: relative;
     background: linear-gradient(to right,
-            rgba(250, 192, 26, 0.01) 0%,
-            rgba(250, 192, 26, 0.4) 100%);
-    box-shadow: 0 0 6px rgba(250, 192, 26, 0.06);
+            rgba(250, 192, 26, 0.02) 0%,
+            rgba(250, 192, 26, 0.5) 100%);
+    box-shadow: 0 0 6px rgba(250, 192, 26, 0.12);
 }
 
 .hd-trace--left {
     background: linear-gradient(to right,
             transparent 0%,
-            rgba(250, 192, 26, 0.06) 18%,
-            rgba(250, 192, 26, 0.22) 55%,
-            rgba(250, 192, 26, 0.48) 100%);
-    box-shadow: 0 0 8px rgba(250, 192, 26, 0.08);
+            rgba(250, 192, 26, 0.12) 12%,
+            rgba(250, 192, 26, 0.35) 52%,
+            rgba(250, 192, 26, 0.65) 100%);
+    box-shadow: 0 0 8px rgba(250, 192, 26, 0.16);
 }
 
 .hd-trace--right {
     background: linear-gradient(to left,
             transparent 0%,
-            rgba(250, 192, 26, 0.06) 18%,
-            rgba(250, 192, 26, 0.22) 55%,
-            rgba(250, 192, 26, 0.48) 100%);
-    box-shadow: 0 0 8px rgba(250, 192, 26, 0.08);
+            rgba(250, 192, 26, 0.12) 12%,
+            rgba(250, 192, 26, 0.35) 52%,
+            rgba(250, 192, 26, 0.65) 100%);
+    box-shadow: 0 0 8px rgba(250, 192, 26, 0.16);
 }
 
 /* --- Circuit Nodes (Via Holes) --- */
 .hd-node {
     position: absolute;
-    width: 3px;
-    height: 3px;
+    width: 4.5px;
+    height: 4.5px;
     border-radius: 50%;
-    background: rgba(250, 192, 26, 0.5);
-    border: 0.5px solid rgba(250, 192, 26, 0.25);
+    background: rgba(250, 192, 26, 0.7);
+    border: 0.8px solid rgba(250, 192, 26, 0.45);
     top: 50%;
     transform: translate(-50%, -50%);
-    animation: hdNodeGlow 7s ease-in-out infinite;
+    animation: hdNodeGlow 4.5s ease-in-out infinite;
     z-index: 2;
 }
 
@@ -8245,8 +8262,8 @@ ul {
 .hd-trace--left .hd-node:nth-child(1) {
     left: 15%;
     animation-delay: 0s;
-    width: 2.2px;
-    height: 2.2px;
+    width: 3.2px;
+    height: 3.2px;
 }
 
 .hd-trace--left .hd-node:nth-child(2) {
@@ -8257,12 +8274,20 @@ ul {
 .hd-trace--left .hd-node:nth-child(3) {
     left: 82%;
     animation-delay: 0.6s;
+    width: 5px;
+    height: 5px;
+    background: rgba(250, 192, 26, 0.7);
+    border: 0.8px solid rgba(250, 192, 26, 0.45);
 }
 
 /* Node positioning - right trace */
 .hd-trace--right .hd-node:nth-child(1) {
     left: 18%;
     animation-delay: 0.9s;
+    width: 5px;
+    height: 5px;
+    background: rgba(250, 192, 26, 0.7);
+    border: 0.8px solid rgba(250, 192, 26, 0.45);
 }
 
 .hd-trace--right .hd-node:nth-child(2) {
@@ -8273,57 +8298,67 @@ ul {
 .hd-trace--right .hd-node:nth-child(3) {
     left: 85%;
     animation-delay: 1.5s;
-    width: 2.2px;
-    height: 2.2px;
+    width: 3.2px;
+    height: 3.2px;
 }
 
-/* Branch nodes - small vertical trace extending down */
+/* Branch nodes - vertical drop trace (PCB via-to-trace routing) */
 .hd-node--branch::after {
     content: '';
     position: absolute;
-    top: calc(50% + 3px);
+    top: calc(50% + 5px);
     left: 50%;
     transform: translateX(-50%);
-    width: 0.8px;
-    height: 12px;
+    width: 2px;
+    height: 26px;
     background: linear-gradient(to bottom,
-            rgba(250, 192, 26, 0.35) 0%,
-            rgba(250, 192, 26, 0.2) 58%,
-            rgba(250, 192, 26, 0.04) 100%);
-    box-shadow: 0 0 3px rgba(250, 192, 26, 0.08);
-    animation: hdBranchPulse 8s ease-in-out infinite;
+            rgba(250, 192, 26, 0.8) 0%,
+            rgba(250, 192, 26, 0.55) 50%,
+            rgba(250, 192, 26, 0.7) 100%);
+    box-shadow: 0 0 8px rgba(250, 192, 26, 0.25);
+    animation: hdBranchSignalV 3s ease-in-out infinite;
 }
 
+/* Branch 90-degree horizontal arm — forms L-shaped PCB route */
+.hd-node--branch::before {
+    content: '';
+    position: absolute;
+    top: calc(50% + 30px);
+    left: 50%;
+    width: 28px;
+    height: 2px;
+    border-radius: 1px;
+    background: rgba(250, 192, 26, 0.6);
+    box-shadow: 0 0 8px rgba(250, 192, 26, 0.22);
+    animation: hdBranchSignalH 3s ease-in-out infinite;
+}
+
+/* Left trace — arm routes leftward (away from center brand) */
 .hd-trace--left .hd-node--branch::after {
-    animation-delay: 0.6s;
+    animation-delay: 0.4s;
 }
 
 .hd-trace--left .hd-node--branch::before {
-    animation-delay: 0.6s;
+    transform: translateX(-100%);
+    background: linear-gradient(to left,
+            rgba(250, 192, 26, 0.7) 0%,
+            rgba(250, 192, 26, 0.35) 60%,
+            rgba(250, 192, 26, 0.15) 100%);
+    animation-delay: 0.7s;
 }
 
+/* Right trace — arm routes rightward (away from center brand) */
 .hd-trace--right .hd-node--branch::after {
     animation-delay: 0.9s;
 }
 
 .hd-trace--right .hd-node--branch::before {
-    animation-delay: 0.9s;
-}
-
-/* Branch end node (tiny dot at bottom of branch) */
-.hd-node--branch::before {
-    content: '';
-    position: absolute;
-    top: calc(50% + 15px);
-    left: 50%;
-    transform: translateX(-50%);
-    width: 2.4px;
-    height: 2.4px;
-    border-radius: 50%;
-    background: rgba(250, 192, 26, 0.35);
-    border: 0.5px solid rgba(250, 192, 26, 0.2);
-    box-shadow: 0 0 3px rgba(250, 192, 26, 0.1);
-    animation: hdBranchTipMove 8s ease-in-out infinite;
+    transform: none;
+    background: linear-gradient(to right,
+            rgba(250, 192, 26, 0.7) 0%,
+            rgba(250, 192, 26, 0.35) 60%,
+            rgba(250, 192, 26, 0.15) 100%);
+    animation-delay: 1.2s;
 }
 
 /* --- Center Brand Text --- */
@@ -8341,14 +8376,14 @@ ul {
     font-family: 'Georgia', 'Times New Roman', serif;
     font-style: italic;
     font-weight: 400;
-    font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+    font-size: clamp(1.2rem, 2.8vw, 1.8rem);
     line-height: 1;
     margin-right: 1px;
     color: rgba(218, 227, 238, 0.55);
-    text-shadow: 0 0 6px rgba(250, 192, 26, 0.05);
+    text-shadow: 0 0 8px rgba(250, 192, 26, 0.08);
     opacity: 0;
     transform: translateX(-8px);
-    animation: hdIAppear 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.1s forwards, hdIGlow 12s ease-in-out 1.4s infinite;
+    animation: hdIAppear 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.08s forwards, hdIGlow 8s ease-in-out 1.2s infinite;
 }
 
 @supports ((-webkit-background-clip: text) or (background-clip: text)) {
@@ -8360,24 +8395,24 @@ ul {
         background-clip: text;
         color: transparent;
         -webkit-text-fill-color: transparent;
-        animation: hdIAppear 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.1s forwards,
-            hdWaferShimmer 18s linear 1.4s infinite,
-            hdIGlow 12s ease-in-out 1.4s infinite;
+        animation: hdIAppear 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.08s forwards,
+            hdWaferShimmer 14s linear 1.2s infinite,
+            hdIGlow 8s ease-in-out 1.2s infinite;
     }
 }
 
 /* --- Masked MPaCT Logo --- */
 .hd-mpact-mask {
-    width: clamp(110px, 18vw, 210px);
+    width: clamp(90px, 14vw, 175px);
     aspect-ratio: 668 / 174;
     height: auto;
     /* Fallback logo rendering when mask support is unavailable */
     background: url('../MPaCT-mask.png') center / contain no-repeat;
     opacity: 0;
     transform: translateY(3px) scale(0.992);
-    animation: hdBrandReveal 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.18s forwards;
+    animation: hdBrandReveal 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.14s forwards;
     filter:
-        drop-shadow(0 0 4px rgba(250, 192, 26, 0.1)) drop-shadow(0 0 12px rgba(250, 192, 26, 0.05));
+        drop-shadow(0 0 6px rgba(250, 192, 26, 0.15)) drop-shadow(0 0 16px rgba(250, 192, 26, 0.08));
 }
 
 /* Preferred rendering: gradient visible only inside letter shapes */
@@ -8386,8 +8421,8 @@ ul {
         background: var(--hd-foil-gradient);
         background-size: 220% 100%;
         background-position: 0% center;
-        animation: hdBrandReveal 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.18s forwards,
-            hdWaferShimmer 18s linear 1.4s infinite;
+        animation: hdBrandReveal 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.14s forwards,
+            hdWaferShimmer 14s linear 1.2s infinite;
 
         -webkit-mask-image: url('../MPaCT-mask.png');
         -webkit-mask-size: contain;
@@ -8403,21 +8438,21 @@ ul {
     }
 }
 
-/* Subtle breathing glow behind the brand */
+/* Breathing glow behind the brand */
 .hd-brand::after {
     content: '';
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 180%;
-    height: 320%;
+    width: 160%;
+    height: 280%;
     background: radial-gradient(ellipse at center,
-            rgba(250, 192, 26, 0.07) 0%,
-            rgba(250, 192, 26, 0.025) 35%,
-            transparent 60%);
+            rgba(250, 192, 26, 0.09) 0%,
+            rgba(250, 192, 26, 0.035) 30%,
+            transparent 55%);
     pointer-events: none;
-    animation: hdTextBreath 12s ease-in-out infinite;
+    animation: hdTextBreath 8s ease-in-out infinite;
     z-index: -1;
 }
 
@@ -8430,29 +8465,29 @@ ul {
     z-index: 4;
     pointer-events: none;
     mix-blend-mode: screen;
-    opacity: 0.25;
+    opacity: 0.6;
 }
 
 .hd-pulse--ltr {
     left: -150px;
     transform: translateY(-50%);
-    height: 1px;
-    width: 120px;
-    background: linear-gradient(to right, transparent, rgba(250, 192, 26, 0.2) 35%, rgba(255, 255, 255, 0.12) 50%, rgba(250, 192, 26, 0.2) 65%, transparent);
-    box-shadow: 0 0 6px rgba(250, 192, 26, 0.06);
-    animation: hdPulseLTR 9s ease-in-out infinite;
-    animation-delay: 1.2s;
+    height: 1.5px;
+    width: 110px;
+    background: linear-gradient(to right, transparent, rgba(250, 192, 26, 0.4) 35%, rgba(255, 255, 255, 0.25) 50%, rgba(250, 192, 26, 0.4) 65%, transparent);
+    box-shadow: 0 0 8px rgba(250, 192, 26, 0.15);
+    animation: hdPulseLTR 7s ease-in-out infinite;
+    animation-delay: 0.8s;
 }
 
 .hd-pulse--rtl {
     right: -150px;
     transform: translateY(-50%);
-    height: 1px;
-    width: 90px;
-    background: linear-gradient(to left, transparent, rgba(180, 210, 240, 0.12), rgba(255, 255, 255, 0.08), rgba(180, 210, 240, 0.12), transparent);
-    box-shadow: 0 0 4px rgba(180, 210, 240, 0.04);
-    animation: hdPulseRTL 12s ease-in-out infinite;
-    animation-delay: 4s;
+    height: 1.5px;
+    width: 80px;
+    background: linear-gradient(to left, transparent, rgba(180, 210, 240, 0.25), rgba(255, 255, 255, 0.18), rgba(180, 210, 240, 0.25), transparent);
+    box-shadow: 0 0 6px rgba(180, 210, 240, 0.12);
+    animation: hdPulseRTL 9s ease-in-out infinite;
+    animation-delay: 3s;
 }
 
 /* ============================================
@@ -8525,7 +8560,7 @@ ul {
     }
 
     .hd-circuit-field {
-        opacity: 0.2;
+        opacity: 0.45;
     }
 
     .hd-circuit {
@@ -8579,7 +8614,7 @@ ul {
     }
 
     .hd-circuit-field {
-        opacity: 0.15;
+        opacity: 0.4;
     }
 
     .hd-brand {
@@ -8595,11 +8630,11 @@ ul {
     }
 
     .hd-i {
-        font-size: clamp(1.1rem, 5.5vw, 1.6rem);
+        font-size: clamp(1rem, 5vw, 1.4rem);
     }
 
     .hd-mpact-mask {
-        width: clamp(80px, 30vw, 130px);
+        width: clamp(70px, 26vw, 120px);
     }
 
     .hd-pulse--rtl {
