@@ -32,15 +32,35 @@ document.addEventListener('DOMContentLoaded', () => {
     // Toggles 'scrolled' class based on scroll position for glassmorphism effect.
     // -------------------------------------------------------------------------
     const header = document.getElementById('mainHeader');
+    let lastHeaderHeight = 0;
+
+    const syncStickyOffsets = () => {
+        const activeHeader = document.getElementById('mainHeader');
+        if (!activeHeader) return;
+
+        const measuredHeight = Math.round(activeHeader.getBoundingClientRect().height);
+        if (Math.abs(measuredHeight - lastHeaderHeight) >= 1) {
+            document.documentElement.style.setProperty('--site-header-height', `${measuredHeight}px`);
+            lastHeaderHeight = measuredHeight;
+        }
+    };
+
     if (header) {
-        window.addEventListener('scroll', () => {
-            // Optimization: Simple check avoids frequent layout thrashing
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
+        let isHeaderCompact = false;
+
+        const updateHeaderState = () => {
+            const shouldCompact = window.scrollY > 50;
+            if (shouldCompact !== isHeaderCompact) {
+                header.classList.toggle('scrolled', shouldCompact);
+                isHeaderCompact = shouldCompact;
             }
-        });
+            syncStickyOffsets();
+        };
+
+        updateHeaderState();
+        window.addEventListener('scroll', updateHeaderState, { passive: true });
+        window.addEventListener('resize', syncStickyOffsets, { passive: true });
+        window.setTimeout(syncStickyOffsets, 120);
     }
 
     // -------------------------------------------------------------------------
