@@ -1,0 +1,505 @@
+/**
+ * Wafer Hero Module
+ * Minimal, foundry-inspired cinematic wafer scene.
+ */
+.wafer-hero {
+    --wafer-scroll: 0;
+    --wafer-pointer-x: 0;
+    --wafer-pointer-y: 0;
+
+    position: relative;
+    min-height: clamp(760px, 102svh, 1120px);
+    color: var(--white);
+    overflow: clip;
+    isolation: isolate;
+    background:
+        radial-gradient(168% 126% at 88% 6%, rgba(42, 98, 168, 0.24), transparent 40%),
+        radial-gradient(128% 92% at 16% 86%, rgba(171, 143, 255, 0.09), transparent 56%),
+        linear-gradient(154deg, #000103 0%, #000309 24%, #00060d 44%, #000309 68%, #000102 100%);
+}
+
+.wafer-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.54) 0%, rgba(0, 0, 0, 0.28) 46%, rgba(0, 0, 0, 0.7) 100%),
+        radial-gradient(circle at 72% 50%, rgba(146, 208, 246, 0.12), transparent 56%);
+}
+
+.wafer-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.48) 0%, transparent 16%, transparent 78%, rgba(0, 0, 0, 0.58) 100%),
+        radial-gradient(circle at 50% 53%, transparent 48%, rgba(0, 0, 0, 0.46) 100%);
+}
+
+.wafer-hero__backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.wafer-hero__aurora {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    mix-blend-mode: screen;
+    opacity: 0.24;
+    animation: waferAuraDrift 22s ease-in-out infinite alternate;
+}
+
+.wafer-hero__aurora--gold {
+    width: clamp(260px, 32vw, 540px);
+    aspect-ratio: 1;
+    top: -18%;
+    right: -10%;
+    background: radial-gradient(circle, rgba(178, 221, 255, 0.32) 0%, rgba(178, 221, 255, 0.03) 72%, transparent 100%);
+}
+
+.wafer-hero__aurora--blue {
+    width: clamp(280px, 42vw, 640px);
+    aspect-ratio: 1;
+    bottom: -28%;
+    left: -16%;
+    background: radial-gradient(circle, rgba(127, 203, 255, 0.25) 0%, rgba(127, 203, 255, 0.03) 70%, transparent 100%);
+    animation-delay: 3.4s;
+}
+
+.wafer-hero__mesh {
+    position: absolute;
+    inset: -8%;
+    opacity: 0.1;
+    background-image:
+        linear-gradient(to right, rgba(167, 220, 250, 0.16) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(167, 220, 250, 0.12) 1px, transparent 1px);
+    background-size: 74px 74px;
+    mask-image: radial-gradient(circle at 72% 50%, rgba(0, 0, 0, 0.92), transparent 82%);
+}
+
+.wafer-hero__haze {
+    position: absolute;
+    inset: 0;
+    opacity: 0.1;
+    background:
+        radial-gradient(circle at 64% 44%, rgba(172, 223, 253, 0.2), transparent 48%),
+        radial-gradient(circle at 58% 52%, rgba(255, 255, 255, 0.08), transparent 70%);
+}
+
+.wafer-hero__stage {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 0;
+    transform: translate3d(calc(var(--wafer-pointer-x) * 5px), calc((var(--wafer-scroll) * -38px) + (var(--wafer-pointer-y) * 4px)), 0);
+    transition: transform 140ms linear;
+    will-change: transform;
+}
+
+.wafer-hero__canvas-shell {
+    position: relative;
+    width: min(116vw, 1620px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    margin-right: clamp(-620px, -41vw, -250px);
+    transform-style: preserve-3d;
+    transform:
+        perspective(1600px)
+        rotateX(calc(var(--wafer-pointer-y) * -2.5deg))
+        rotateY(calc(var(--wafer-pointer-x) * 3deg))
+        rotateZ(-8deg)
+        scale(calc(1.04 + (var(--wafer-scroll) * 0.03)));
+    transition: transform 170ms linear;
+    will-change: transform;
+    filter:
+        drop-shadow(0 104px 110px rgba(0, 0, 0, 0.84))
+        drop-shadow(0 0 48px rgba(164, 220, 252, 0.12));
+}
+
+.wafer-hero__canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border-radius: 50%;
+}
+
+.wafer-hero__glass {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 24% 18%, rgba(255, 255, 255, 0.12), transparent 20%),
+        radial-gradient(circle at 76% 74%, rgba(255, 255, 255, 0.04), transparent 24%);
+    mix-blend-mode: screen;
+    opacity: 0.35;
+}
+
+.wafer-hero__inner {
+    position: relative;
+    z-index: 5;
+    min-height: inherit;
+    display: flex;
+    align-items: center;
+    padding-top: calc(var(--site-header-height) + clamp(30px, 6vh, 74px));
+    padding-bottom: clamp(30px, 7vh, 88px);
+}
+
+.wafer-hero__content {
+    width: min(600px, 92vw);
+}
+
+.wafer-hero__badge,
+.wafer-hero__title,
+.wafer-hero__desc,
+.wafer-hero__ctas {
+    opacity: 0;
+    transform: translateY(22px);
+    animation: waferLiftIn 0.86s cubic-bezier(0.2, 0.86, 0.24, 1) forwards;
+}
+
+.wafer-hero__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: var(--space-lg);
+    padding: 8px 18px;
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(250, 192, 26, 0.36);
+    background: rgba(250, 192, 26, 0.1);
+    color: rgba(255, 234, 174, 0.96);
+    font-family: 'Montserrat', var(--font-display);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    animation-delay: 0.08s;
+}
+
+.wafer-hero__badge-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #f8be18;
+    box-shadow: 0 0 12px rgba(250, 192, 26, 0.62);
+}
+
+.wafer-hero__title {
+    margin-bottom: var(--space-lg);
+    max-width: 16ch;
+    font-family: 'Montserrat', var(--font-display);
+    font-size: clamp(2.2rem, 5.2vw, 4.9rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--white);
+    text-shadow: 0 18px 42px rgba(0, 0, 0, 0.55);
+    animation-delay: 0.22s;
+}
+
+.wafer-hero__title-gold {
+    background: linear-gradient(134deg, #f8bd18 0%, #ffe39c 48%, #f8bd18 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.wafer-hero__desc {
+    max-width: 62ch;
+    margin-bottom: var(--space-xl);
+    font-size: clamp(1rem, 1.45vw, 1.13rem);
+    line-height: 1.72;
+    color: rgba(226, 242, 255, 0.88);
+    text-wrap: pretty;
+    animation-delay: 0.34s;
+}
+
+.wafer-hero__ctas {
+    display: flex;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+    animation-delay: 0.48s;
+}
+
+.wafer-hero__cta-primary {
+    padding: 14px 34px;
+    border-radius: var(--radius-full);
+    font-size: 1.02rem;
+    font-weight: 700;
+    box-shadow: 0 14px 34px rgba(250, 192, 26, 0.3);
+}
+
+.wafer-hero__cta-outline {
+    padding: 14px 34px;
+    border-radius: var(--radius-full);
+    border-width: 2px;
+    font-size: 1.02rem;
+    font-weight: 700;
+    background: rgba(0, 14, 32, 0.32);
+}
+
+.wafer-hero__scroll-indicator {
+    position: absolute;
+    right: clamp(16px, 3vw, 42px);
+    bottom: clamp(16px, 3vw, 38px);
+    z-index: 7;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    opacity: calc(0.92 - (var(--wafer-scroll) * 0.72));
+    transition: opacity 260ms ease;
+}
+
+.wafer-hero__scroll-text {
+    font-family: 'Montserrat', var(--font-display);
+    font-size: 0.64rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(230, 244, 255, 0.92);
+    writing-mode: vertical-lr;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+}
+
+.wafer-hero__scroll-line {
+    width: 2px;
+    height: 68px;
+    border-radius: 99px;
+    background: rgba(210, 238, 255, 0.38);
+    position: relative;
+    overflow: hidden;
+}
+
+.wafer-hero__scroll-line::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent, rgba(250, 192, 26, 1), transparent);
+    animation: waferScrollPulse 2.7s ease-in-out infinite;
+}
+
+/* ── Wafer tooltip ─────────────────────────────────────── */
+
+.wafer-hero__tooltip {
+    position: fixed;
+    z-index: 100;
+    max-width: 280px;
+    padding: 14px 18px;
+    border-radius: 10px;
+    border: 1px solid rgba(160, 200, 240, 0.18);
+    background: rgba(8, 14, 28, 0.88);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.5),
+        0 0 1px rgba(140, 190, 240, 0.2);
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.wafer-hero__tooltip.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.wafer-hero__tooltip-pip {
+    position: absolute;
+    top: -5px;
+    left: 18px;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    border-top: 1px solid rgba(160, 200, 240, 0.18);
+    border-left: 1px solid rgba(160, 200, 240, 0.18);
+    background: rgba(8, 14, 28, 0.88);
+    transform: rotate(45deg);
+}
+
+.wafer-hero__tooltip-title {
+    font-family: 'Montserrat', var(--font-display);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(200, 230, 255, 0.95);
+    margin-bottom: 6px;
+}
+
+.wafer-hero__tooltip-desc {
+    font-size: 0.78rem;
+    line-height: 1.52;
+    color: rgba(190, 218, 245, 0.78);
+}
+
+@keyframes waferAuraDrift {
+    0% {
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    100% {
+        transform: translate3d(12px, -10px, 0) scale(1.03);
+    }
+}
+
+@keyframes waferLiftIn {
+    from {
+        opacity: 0;
+        transform: translateY(22px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes waferScrollPulse {
+    0% {
+        transform: translateY(-100%);
+    }
+
+    100% {
+        transform: translateY(100%);
+    }
+}
+
+@media (max-width: 1200px) {
+    .wafer-hero__canvas-shell {
+        width: min(126vw, 1420px);
+        margin-right: clamp(-560px, -46vw, -240px);
+    }
+}
+
+@media (max-width: 992px) {
+    .wafer-hero {
+        min-height: 900px;
+    }
+
+    .wafer-hero__stage {
+        justify-content: center;
+        align-items: flex-start;
+        padding-right: 0;
+        padding-top: calc(var(--site-header-height) + 20px);
+        transform: translate3d(0, calc(var(--wafer-scroll) * -34px), 0);
+    }
+
+    .wafer-hero__canvas-shell {
+        width: min(124vw, 860px);
+        margin-right: -30vw;
+        transform: perspective(1200px) rotateX(0deg) rotateY(0deg) rotateZ(-4deg) scale(1);
+    }
+
+    .wafer-hero__inner {
+        align-items: flex-end;
+        padding-top: calc(var(--site-header-height) + 334px);
+    }
+
+    .wafer-hero__content {
+        width: 100%;
+    }
+
+    .wafer-hero__title {
+        max-width: 20ch;
+        font-size: clamp(1.95rem, 8vw, 3.6rem);
+    }
+}
+
+@media (max-width: 768px) {
+    .wafer-hero {
+        min-height: 820px;
+    }
+
+    .wafer-hero__stage {
+        padding-top: calc(var(--site-header-height) + 12px);
+    }
+
+    .wafer-hero__canvas-shell {
+        width: min(126vw, 660px);
+        margin-right: -34vw;
+    }
+
+    .wafer-hero__inner {
+        padding-top: calc(var(--site-header-height) + 262px);
+        padding-bottom: 26px;
+    }
+
+    .wafer-hero__badge {
+        font-size: 0.62rem;
+        padding: 6px 12px;
+        letter-spacing: 0.05em;
+    }
+
+    .wafer-hero__title {
+        font-size: clamp(1.78rem, 9vw, 2.84rem);
+        line-height: 1.09;
+    }
+
+    .wafer-hero__desc {
+        font-size: 0.95rem;
+        line-height: 1.62;
+        margin-bottom: var(--space-lg);
+    }
+
+    .wafer-hero__ctas {
+        flex-direction: column;
+    }
+
+    .wafer-hero__cta-primary,
+    .wafer-hero__cta-outline {
+        width: 100%;
+        text-align: center;
+        padding: 13px 20px;
+    }
+
+    .wafer-hero__scroll-indicator {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .wafer-hero {
+        min-height: 748px;
+    }
+
+    .wafer-hero__canvas-shell {
+        width: min(130vw, 560px);
+        margin-right: -38vw;
+    }
+
+    .wafer-hero__inner {
+        padding-top: calc(var(--site-header-height) + 224px);
+    }
+
+    .wafer-hero__title {
+        font-size: clamp(1.58rem, 8.9vw, 2.2rem);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .wafer-hero,
+    .wafer-hero * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .wafer-hero__scroll-indicator {
+        display: none;
+    }
+}

@@ -18,6 +18,7 @@
 
     <!-- External CSS  cng-->
     <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="CSS/wafer-hero.css">
 </head>
 
 
@@ -36,105 +37,54 @@
 
     <main>
         <!--
-            Hero V2 - Immersive Cinematic Hero
-            Full-viewport with layered overlays, staggered animations, and branded divider.
+            Wafer Hero - Custom, copyright-safe silicon wafer animation.
+            Canvas-driven wafer rendering with scroll + pointer motion.
         -->
-        <section class="hero-v2" id="heroMain">
-            <div class="hero-v2__bg">
-                <img src="Images/89.jpg" alt="MPaCT Lab cleanroom and semiconductor research at Northern Arizona University" class="hero-v2__bg-img">
+        <section class="wafer-hero" id="heroMain">
+            <div class="wafer-hero__backdrop" aria-hidden="true">
+                <div class="wafer-hero__aurora wafer-hero__aurora--gold"></div>
+                <div class="wafer-hero__aurora wafer-hero__aurora--blue"></div>
+                <div class="wafer-hero__mesh"></div>
+                <div class="wafer-hero__haze"></div>
             </div>
-            <div class="hero-v2__overlay"></div>
-            <div class="hero-v2__pattern"></div>
 
-            <div class="hero-v2__content">
-                <div class="container">
-                    <div class="hero-v2__badge">
-                        <span class="hero-v2__badge-dot"></span>
-                        Open to Researchers &amp; Industry Nationwide
-                    </div>
-                    <h1 class="hero-v2__title">
-                        The <span class="hero-v2__title-gold">MPaCT Lab</span> at<br>Northern Arizona University
-                    </h1>
-                    <p class="hero-v2__desc">
-                        A $13 million shared-use research facility open to faculty and private companies
-                        nationwide. We provide access to 25+ advanced instruments and expert technical
-                        staff to support semiconductor research, materials characterization, and workforce
-                        development across the country.
+            <div class="wafer-hero__stage" aria-hidden="true">
+                <div class="wafer-hero__canvas-shell">
+                    <canvas class="wafer-hero__canvas" id="waferCanvas" role="presentation"></canvas>
+                    <span class="wafer-hero__glass"></span>
+                </div>
+            </div>
+
+            <div class="container wafer-hero__inner">
+                <div class="wafer-hero__content">
+                    <p class="wafer-hero__badge">
+                        <span class="wafer-hero__badge-dot"></span>
+                        Open to Researchers & Industry Nationwide
                     </p>
-                    <div class="hero-v2__ctas">
-                        <a href="About_Us.html" class="btn btn-primary hero-v2__cta-primary">Explore the Facility</a>
-                        <a href="Equipment.html" class="btn btn-outline hero-v2__cta-outline">View Equipment</a>
+
+                    <h1 class="wafer-hero__title">
+                        The MPaCT Lab<br><span class="wafer-hero__title-gold"> at NAU</span>
+                    </h1>
+
+                    <p class="wafer-hero__desc">
+                        A $13 million shared-use research facility open to faculty and
+                        private companies nationwide. We provide access to 25+ advanced
+                        instruments and expert technical staff to support semiconductor
+                        research, materials characterization, and workforce development
+                        across the country.
+                    </p>
+
+                    <div class="wafer-hero__ctas">
+                        <a href="About_Us.html" class="btn btn-primary wafer-hero__cta-primary">Explore Shared Facility</a>
+                        <a href="Equipment.html" class="btn btn-outline wafer-hero__cta-outline">View Equipment</a>
                     </div>
                 </div>
             </div>
 
-            <div class="hero-v2__scroll-indicator">
-                <span class="hero-v2__scroll-text">Scroll</span>
-                <div class="hero-v2__scroll-line"></div>
+            <div class="wafer-hero__scroll-indicator" aria-hidden="true">
+                <span class="wafer-hero__scroll-text">Scroll</span>
+                <span class="wafer-hero__scroll-line"></span>
             </div>
-        </section>
-
-        <!-- iMPaCT Nano Circuit Divider -->
-        <section class="hero-divider" aria-hidden="true">
-            <!-- Floating nano particles -->
-            <div class="hd-particles">
-                <span></span><span></span><span></span><span></span>
-                <span></span><span></span><span></span><span></span>
-                <span></span><span></span><span></span><span></span>
-            </div>
-
-            <!-- Background PCB field traces and vias -->
-            <div class="hd-circuit-field">
-                <span class="hd-field-line hd-field-line--h hd-field-line--h1"></span>
-                <span class="hd-field-line hd-field-line--h hd-field-line--h2"></span>
-                <span class="hd-field-line hd-field-line--h hd-field-line--h3"></span>
-                <span class="hd-field-line hd-field-line--h hd-field-line--h4"></span>
-                <span class="hd-field-line hd-field-line--h hd-field-line--h5"></span>
-                <span class="hd-field-line hd-field-line--h hd-field-line--h6"></span>
-                <span class="hd-field-line hd-field-line--v hd-field-line--v1"></span>
-                <span class="hd-field-line hd-field-line--v hd-field-line--v2"></span>
-                <span class="hd-field-line hd-field-line--v hd-field-line--v3"></span>
-                <span class="hd-field-line hd-field-line--v hd-field-line--v4"></span>
-                <span class="hd-field-line hd-field-line--v hd-field-line--v5"></span>
-                <span class="hd-field-line hd-field-line--v hd-field-line--v6"></span>
-
-                <span class="hd-field-via hd-field-via--1"></span>
-                <span class="hd-field-via hd-field-via--2"></span>
-                <span class="hd-field-via hd-field-via--3"></span>
-                <span class="hd-field-via hd-field-via--4"></span>
-                <span class="hd-field-via hd-field-via--5"></span>
-                <span class="hd-field-via hd-field-via--6"></span>
-                <span class="hd-field-via hd-field-via--7"></span>
-                <span class="hd-field-via hd-field-via--8"></span>
-                <span class="hd-field-via hd-field-via--9"></span>
-                <span class="hd-field-via hd-field-via--10"></span>
-                <span class="hd-field-via hd-field-via--11"></span>
-                <span class="hd-field-via hd-field-via--12"></span>
-            </div>
-
-            <!-- Circuit trace layout -->
-            <div class="hd-circuit">
-                <div class="hd-trace hd-trace--left">
-                    <span class="hd-node"></span>
-                    <span class="hd-node"></span>
-                    <span class="hd-node hd-node--branch"></span>
-                </div>
-
-                <div class="hd-brand">
-                    <span class="hd-i">i</span>
-                    <div class="hd-mpact-mask"></div>
-                </div>
-
-                <div class="hd-trace hd-trace--right">
-                    <span class="hd-node hd-node--branch"></span>
-                    <span class="hd-node"></span>
-                    <span class="hd-node"></span>
-                </div>
-            </div>
-
-            <!-- Energy pulses sweeping across the trace -->
-            <div class="hd-pulse hd-pulse--ltr"></div>
-            <div class="hd-pulse hd-pulse--rtl"></div>
         </section>
 
         <!-- Quick Actions - Commented Out
@@ -767,6 +717,7 @@
 
     <!-- External Script -->
     <script src="JS/script.js"></script>
+    <script src="JS/wafer-hero.js"></script>
 </body>
 
 </html>

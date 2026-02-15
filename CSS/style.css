@@ -7833,17 +7833,14 @@ ul {
     justify-content: center;
     background: linear-gradient(180deg,
             rgba(0, 18, 42, 0.98) 0%,
-            rgba(0, 20, 48, 0.94) 25%,
-            rgba(0, 24, 56, 0.82) 50%,
-            rgba(0, 28, 64, 0.55) 72%,
-            rgba(0, 32, 74, 0.22) 88%,
-            transparent 100%);
+            rgba(0, 20, 48, 0.95) 30%,
+            rgba(0, 24, 56, 0.85) 55%,
+            rgba(0, 28, 64, 0.6) 75%,
+            rgba(0, 30, 70, 0.25) 92%,
+            rgba(0, 30, 70, 0) 100%);
     overflow: hidden;
     isolation: isolate;
     pointer-events: none;
-    backdrop-filter: blur(4px) saturate(120%);
-    -webkit-backdrop-filter: blur(4px) saturate(120%);
-    box-shadow: 0 20px 60px -10px rgba(0, 12, 30, 0.4);
     transition: top 0.35s ease, background 0.45s ease;
 }
 
