@@ -435,29 +435,38 @@ const fieldData = {
         desc: "Check availability or request specs for specific tools.",
         fields: `
             <div class="grid grid-2 gap-lg">
+
                 <div>
                     <label class="block font-bold mb-1 required">Equipment of Interest</label>
-                    <select class="form-control">
-                        <option>-- Select Tool --</option>
-                        <option>Keyence VHX-7000</option>
-                        <option>B-2 AFM</option>
-                        <option>JEOL TEM</option>
-                        <option>Mask Aligner</option>
-                        <option>Other / Unsure</option>
+                    <select name="equipment_interest" class="form-control" required>
+                        <option value="">-- Select Tool --</option>
+                        <option value="Keyence VHX-7000">Keyence VHX-7000</option>
+                        <option value="B-2 AFM">B-2 AFM</option>
+                        <option value="JEOL TEM">JEOL TEM</option>
+                        <option value="Mask Aligner">Mask Aligner</option>
+                        <option value="Other / Unsure">Other / Unsure</option>
                     </select>
                 </div>
+
                 <div>
                     <label class="block font-bold mb-1">Intended Usage</label>
-                    <select class="form-control">
-                        <option>Self-Use (I need training)</option>
-                        <option>Service (Staff runs samples)</option>
+                    <select name="intended_usage" class="form-control">
+                        <option value="Self-Use">Self-Use (I need training)</option>
+                        <option value="Service">Service (Staff runs samples)</option>
                     </select>
                 </div>
+
                 <div class="col-span-2">
                     <label class="block font-bold mb-1 required">Technical Requirements</label>
-                    <textarea rows="3" class="form-control" placeholder="Describe sample type, size, and measurement goals..."></textarea>
+                    <textarea rows="3"
+                            name="technical_requirements"
+                            class="form-control"
+                            placeholder="Describe sample type, size, and measurement goals..."
+                            required></textarea>
                 </div>
+
             </div>
+
         `
     },
     'research': {
@@ -465,29 +474,49 @@ const fieldData = {
         desc: "Propose a joint project or grant partnership.",
         fields: `
             <div class="form-stack">
+
                 <div>
                     <label class="block font-bold mb-1 required">Project Title / Topic</label>
-                    <input type="text" class="form-control" placeholder="e.g. Novel Dielectric Characterization">
+                    <input type="text"
+                        name="project_title"
+                        class="form-control"
+                        placeholder="e.g. Novel Dielectric Characterization"
+                        required>
                 </div>
+
                 <div class="grid grid-2 gap-lg">
+
                     <div>
                         <label class="block font-bold mb-1">Funding Agency</label>
-                        <input type="text" class="form-control" placeholder="NSF, DOE, Industry...">
+                        <input type="text"
+                            name="funding_agency"
+                            class="form-control"
+                            placeholder="NSF, DOE, Industry...">
                     </div>
+
                     <div>
                         <label class="block font-bold mb-1">Timeline</label>
-                        <select class="form-control">
-                            <option>Short Term (< 3 months)</option>
-                            <option>Long Term (1+ year)</option>
-                            <option>Grant Proposal Phase</option>
+                        <select name="project_timeline" class="form-control">
+                            <option value="">-- Select Timeline --</option>
+                            <option value="Short Term (<3 months)">Short Term (&lt; 3 months)</option>
+                            <option value="Long Term (1+ year)">Long Term (1+ year)</option>
+                            <option value="Grant Proposal Phase">Grant Proposal Phase</option>
                         </select>
                     </div>
+
                 </div>
+
                 <div>
                     <label class="block font-bold mb-1 required">Project Abstract</label>
-                    <textarea rows="5" class="form-control" placeholder="Provide a brief summary of the research goals..."></textarea>
+                    <textarea rows="5"
+                            name="project_abstract"
+                            class="form-control"
+                            placeholder="Provide a brief summary of the research goals..."
+                            required></textarea>
                 </div>
+
             </div>
+
         `
     },
     'billing': {
@@ -495,23 +524,43 @@ const fieldData = {
         desc: "Resolve payment issues or request quotes.",
         fields: `
             <div class="grid grid-2 gap-lg">
+
                 <div>
                     <label class="block font-bold mb-1 required">Reference Number</label>
-                    <input type="text" class="form-control" placeholder="Invoice # or PO #">
+                    <input type="text"
+                        name="billing_reference_number"
+                        class="form-control"
+                        placeholder="Invoice # or PO #"
+                        required>
                 </div>
+
                 <div>
                     <label class="block font-bold mb-1 required">Billing Contact Person</label>
-                    <input type="text" class="form-control">
+                    <input type="text"
+                        name="billing_contact_person"
+                        class="form-control"
+                        placeholder="Full Name"
+                        required>
                 </div>
+
                 <div class="col-span-2">
                     <label class="block font-bold mb-1">Billing Address</label>
-                    <textarea rows="2" class="form-control"></textarea>
+                    <textarea rows="2"
+                            name="billing_address"
+                            class="form-control"
+                            placeholder="Street, City, State, ZIP"></textarea>
                 </div>
+
                 <div class="col-span-2">
                     <label class="block font-bold mb-1">Issue Description</label>
-                    <textarea rows="3" class="form-control" placeholder="Describe the billing discrepancy or request..."></textarea>
+                    <textarea rows="3"
+                            name="billing_issue_description"
+                            class="form-control"
+                            placeholder="Describe the billing discrepancy or request..."></textarea>
                 </div>
+
             </div>
+
         `
     },
     'training': {
@@ -519,32 +568,50 @@ const fieldData = {
         desc: "Register for safety courses or equipment authorization.",
         fields: `
             <div class="grid grid-2 gap-lg">
+
                 <div>
                     <label class="block font-bold mb-1 required">Current Status</label>
-                    <select class="form-control">
-                        <option>New User (No Access)</option>
-                        <option>Active User (Adding Tool)</option>
-                        <option>Expired Access (Renewal)</option>
+                    <select name="training_current_status"
+                            class="form-control"
+                            required>
+                        <option value="">-- Select Status --</option>
+                        <option value="New User (No Access)">New User (No Access)</option>
+                        <option value="Active User (Adding Tool)">Active User (Adding Tool)</option>
+                        <option value="Expired Access (Renewal)">Expired Access (Renewal)</option>
                     </select>
                 </div>
+
                 <div>
                     <label class="block font-bold mb-1 required">Requested Training</label>
-                    <select class="form-control">
-                        <option>EHS Basic Safety (Mandatory)</option>
-                        <option>Cleanroom Gowning</option>
-                        <option>Chemical Safety</option>
-                        <option>Specific Tool Authorization</option>
+                    <select name="training_requested_type"
+                            class="form-control"
+                            required>
+                        <option value="">-- Select Training --</option>
+                        <option value="EHS Basic Safety (Mandatory)">EHS Basic Safety (Mandatory)</option>
+                        <option value="Cleanroom Gowning">Cleanroom Gowning</option>
+                        <option value="Chemical Safety">Chemical Safety</option>
+                        <option value="Specific Tool Authorization">Specific Tool Authorization</option>
                     </select>
                 </div>
+
                 <div>
                     <label class="block font-bold mb-1">NAU ID</label>
-                    <input type="text" class="form-control" placeholder="1234567">
+                    <input type="text"
+                        name="training_nau_id"
+                        class="form-control"
+                        placeholder="1234567">
                 </div>
+
                 <div>
                     <label class="block font-bold mb-1">PI / Supervisor Name</label>
-                    <input type="text" class="form-control">
+                    <input type="text"
+                        name="training_supervisor_name"
+                        class="form-control"
+                        placeholder="Supervisor Full Name">
                 </div>
+
             </div>
+
         `
     },
     'courses': {
@@ -552,23 +619,41 @@ const fieldData = {
         desc: "Inquiries regarding lab classes or curriculum.",
         fields: `
             <div class="grid grid-2 gap-lg">
+
                 <div>
                     <label class="block font-bold mb-1 required">Course Number</label>
-                    <input type="text" class="form-control" placeholder="e.g. EE400">
+                    <input 
+                        type="text" 
+                        name="course_number"
+                        class="form-control" 
+                        placeholder="e.g. EE400"
+                        required>
                 </div>
+
                 <div>
                     <label class="block font-bold mb-1">Semester</label>
-                    <select class="form-control">
-                        <option>Fall 2025</option>
-                        <option>Spring 2026</option>
-                        <option>Summer 2026</option>
+                    <select 
+                        name="semester"
+                        class="form-control">
+                        <option value="">-- Select Semester --</option>
+                        <option value="Fall 2025">Fall 2025</option>
+                        <option value="Spring 2026">Spring 2026</option>
+                        <option value="Summer 2026">Summer 2026</option>
                     </select>
                 </div>
+
                 <div class="col-span-2">
                     <label class="block font-bold mb-1 required">Inquiry</label>
-                    <textarea rows="3" class="form-control" placeholder="Question about lab schedule, materials, or enrollment..."></textarea>
+                    <textarea 
+                        name="inquiry"
+                        rows="3" 
+                        class="form-control" 
+                        placeholder="Question about lab schedule, materials, or enrollment..."
+                        required></textarea>
                 </div>
+
             </div>
+
         `
     },
     'tour': {
@@ -576,28 +661,37 @@ const fieldData = {
         desc: "Visit the facility.",
         fields: `
             <div class="grid grid-2 gap-lg">
+
                 <div>
                     <label class="block font-bold mb-1 required">Group Size</label>
-                    <input type="number" class="form-control" placeholder="Approx number of people">
+                    <input type="number" name="tour_group_size" class="form-control" placeholder="Approx number of people" required>
                 </div>
+
                 <div>
                     <label class="block font-bold mb-1 required">Group Type</label>
-                    <select class="form-control">
-                        <option>K-12 School</option>
-                        <option>Prospective Students</option>
-                        <option>Industry Partners</option>
-                        <option>Academic Guests</option>
+                    <select name="tour_group_type"
+                            class="form-control"
+                            required>
+                        <option value="">-- Select Group Type --</option>
+                        <option value="K-12 School">K-12 School</option>
+                        <option value="Prospective Students">Prospective Students</option>
+                        <option value="Industry Partners">Industry Partners</option>
+                        <option value="Academic Guests">Academic Guests</option>
                     </select>
                 </div>
+
                 <div>
                     <label class="block font-bold mb-1 required">Preferred Date</label>
-                    <input type="date" class="form-control">
+                    <input type="date" name="tour_preferred_date" class="form-control" required>
                 </div>
+
                 <div>
                     <label class="block font-bold mb-1">Alternative Date</label>
-                    <input type="date" class="form-control">
+                    <input type="date" name="tour_alternative_date" class="form-control">
                 </div>
+
             </div>
+
         `
     },
     'sales': {
@@ -605,25 +699,31 @@ const fieldData = {
         desc: "Product demonstrations and supply chain.",
         fields: `
             <div class="form-stack">
+
                 <div>
                     <label class="block font-bold mb-1 required">Product Category</label>
-                    <input type="text" class="form-control" placeholder="e.g. Chemicals, Metrology Equipment, PPE">
+                    <input type="text" name="sales_product_category" class="form-control" placeholder="e.g. Chemicals, Metrology Equipment, PPE" required>
                 </div>
+
                 <div>
                     <label class="block font-bold mb-1 required">Message</label>
-                    <textarea rows="4" class="form-control" placeholder="Describe your product or reason for contact..."></textarea>
+                    <textarea rows="4" name="sales_message" class="form-control"  placeholder="Describe your product or reason for contact..." required></textarea>
                 </div>
+
             </div>
+
         `
     },
     'other': {
         title: "General Inquiry",
         desc: "How can we help you?",
         fields: `
-            <div>
+           <div>
                 <label class="block font-bold mb-1 required">Message</label>
-                <textarea rows="5" class="form-control" placeholder="Please describe your question or issue..."></textarea>
+                <textarea name="other_message" rows="5" class="form-control" placeholder="Please describe your question or issue..." required></textarea>
             </div>
+
+
         `
     }
 };

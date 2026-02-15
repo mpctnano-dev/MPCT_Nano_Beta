@@ -24,85 +24,169 @@
     <!-- Header (Shared) -->
     <site-header></site-header>
 
-    <main>
-        <!-- Page Header -->
-        <section class="section-padding bg-gray-50 text-center">
-            <div class="container">
-                <h1 class="text-blue mb-10">HOW CAN WE HELP YOU?</h1>
-                <p class="text-muted page-subtitle">Select a category
-                    below to route your inquiry to the correct department.</p>
-            </div>
-        </section>
+<main>
 
-        <!-- Main Gateway Grid -->
-        <section class="section-padding pt-20">
-            <div class="container">
-                <!-- Grid of Options -->
-                <div class="grid grid-4 gap-md" id="gatewayGrid">
+    <!-- Page Header -->
+    <section class="section-padding bg-gray-50 text-center">
+        <div class="container">
+            <h1 class="text-blue mb-10">HOW CAN WE HELP YOU?</h1>
+            <p class="text-muted page-subtitle">
+                Select a category below to route your inquiry.
+            </p>
+        </div>
+    </section>
 
-                    <!-- Equipment -->
-                    <div class="gateway-card" onclick="selectCategory('equipment', this)">
-                        <i class="fas fa-microscope"></i>
-                        <h3 class="gateway-title">Equipment Access</h3>
-                        <p class="gateway-desc">Reservations, technical capabilities, and instrument status.</p>
-                    </div>
+    <!-- Gateway Grid -->
+    <section class="section-padding pt-20">
+        <div class="container">
 
-                    <!-- Research -->
-                    <div class="gateway-card" onclick="selectCategory('research', this)">
-                        <i class="fas fa-atom"></i>
-                        <h3 class="gateway-title">Collaborations</h3>
-                        <p class="gateway-desc">Joint research proposals, grants, and industry partnerships.</p>
-                    </div>
+            <div class="grid grid-4 gap-md">
 
-                    <!-- Billing -->
-                    <div class="gateway-card" onclick="selectCategory('billing', this)">
-                        <i class="fas fa-file-invoice-dollar"></i>
-                        <h3 class="gateway-title">Billing & Invoices</h3>
-                        <p class="gateway-desc">Purchase orders, service quotes, and payment inquiries.</p>
-                    </div>
-
-                    <!-- Training -->
-                    <div class="gateway-card" onclick="selectCategory('training', this)">
-                        <i class="fas fa-user-graduate"></i>
-                        <h3 class="gateway-title">Training</h3>
-                        <p class="gateway-desc">Safety certification, tool training, and badge access.</p>
-                    </div>
-
-                    <!-- Courses -->
-                    <div class="gateway-card" onclick="selectCategory('courses', this)">
-                        <i class="fas fa-chalkboard-teacher"></i>
-                        <h3 class="gateway-title">Courses</h3>
-                        <p class="gateway-desc">Undergraduate labs, curriculum support, and student access.</p>
-                    </div>
-
-                    <!-- Tour -->
-                    <div class="gateway-card" onclick="selectCategory('tour', this)">
-                        <i class="fas fa-map-marked-alt"></i>
-                        <h3 class="gateway-title">Facility Tour</h3>
-                        <p class="gateway-desc">Request a guided tour for groups, schools, or VIPs.</p>
-                    </div>
-
-                    <!-- Sales -->
-                    <div class="gateway-card" onclick="selectCategory('sales', this)">
-                        <i class="fas fa-truck-loading"></i>
-                        <h3 class="gateway-title">Vendor / Sales</h3>
-                        <p class="gateway-desc">Product demos, supply deliveries, and vendor registration.</p>
-                    </div>
-
-                    <!-- Other -->
-                    <div class="gateway-card" onclick="selectCategory('other', this)">
-                        <i class="fas fa-comment-dots"></i>
-                        <h3 class="gateway-title">General / Other</h3>
-                        <p class="gateway-desc">Website issues, feedback, or general questions.</p>
-                    </div>
+                <div class="gateway-card" id="card-equipment" onclick="loadForm('equipment')"> 
+                    <i class="fas fa-microscope"></i>
+                    <h3 class="gateway-title">Equipment Access</h3>
+                    <p class="gateway-desc">Reservations and instrument status.</p>
                 </div>
 
-                <!-- Dynamic Form Container -->
-                <div id="formContainer" class="hidden form-wrapper">
+                <div class="gateway-card" id="card-research" onclick="loadForm('research')">
+                    <i class="fas fa-atom"></i>
+                    <h3 class="gateway-title">Collaborations</h3>
+                    <p class="gateway-desc">Research partnerships.</p>
+                </div>
+
+                <div class="gateway-card" id="card-billing" onclick="loadForm('billing')">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <h3 class="gateway-title">Billing & Invoices</h3>
+                    <p class="gateway-desc">Quotes and payments.</p>
+                </div>
+
+                <div class="gateway-card" id="card-training" onclick="loadForm('training')">
+                    <i class="fas fa-user-graduate"></i>
+                    <h3 class="gateway-title">Training</h3>
+                    <p class="gateway-desc">Certification and access.</p>
+                </div>
+
+                <div class="gateway-card" id="card-courses" onclick="loadForm('courses')">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <h3 class="gateway-title">Courses</h3>
+                    <p class="gateway-desc">Academic labs.</p>
+                </div>
+
+                <div class="gateway-card" id="card-tour" onclick="loadForm('tour')">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <h3 class="gateway-title">Facility Tour</h3>
+                    <p class="gateway-desc">Guided visit request.</p>
+                </div>
+
+                <div class="gateway-card" id="card-sales" onclick="loadForm('sales')">
+                    <i class="fas fa-truck-loading"></i>
+                    <h3 class="gateway-title">Vendor / Sales</h3>
+                    <p class="gateway-desc">Product demos.</p>
+                </div>
+
+                <div class="gateway-card" id="card-other" onclick="loadForm('general')">
+                    <i class="fas fa-comment-dots"></i>
+                    <h3 class="gateway-title">General / Other</h3>
+                    <p class="gateway-desc">General questions.</p>
+                </div>
+
+            </div>
+
+            <!-- ================= FORMS ================= -->
+
+                 <!--Equipment Form-->
+            <div id="equipment-form" class="hidden form-wrapper">
                     <div class="section-header form-header-line">
                         <div style="width: 100%;">
-                            <h2 id="formTitle" class="text-blue mb-5">Contact Details</h2>
-                            <p id="formDesc" class="text-muted">Please fill out the information below.</p>
+                            <h2 id="formTitle" class="text-blue mb-5">Equipment Inquiry</h2>
+                            <p id="formDesc" class="text-muted">Check availability or request specs for specific tools.</p>
+                        </div>
+                    </div>
+
+                    <form id="contactForm"  method="POST" action="FormSubmission.php">
+                        <!-- Common Fields -->
+                        <div class="grid grid-2 gap-lg" style="margin-bottom: 25px;">
+                            <div>
+                                <label class="block font-bold mb-1 required">First Name</label>
+                                <input type="text" name="first_name" class="form-control" placeholder="Jane" required>
+                            </div>
+
+                            <div>
+                                <label class="block font-bold mb-1 required">Last Name</label>
+                                <input type="text" name="last_name" class="form-control" placeholder="Doe" required>
+                            </div>
+
+                            <div>
+                                <label class="block font-bold mb-1 required">Email</label>
+                                <input type="email" name="email" class="form-control" placeholder="jane.doe@example.com" required>
+                            </div>
+
+                            <div>
+                                <label class="block font-bold mb-1">Phone</label>
+                                <input type="tel" name="phone" class="form-control" placeholder="(555) 123-4567">
+                            </div>
+
+                            <div class="col-span-2">
+                                <label class="block font-bold mb-1 required">Organization / Affiliation</label>
+                                <input type="text" name="organization" class="form-control"
+                                    placeholder="University Name or Company" required>
+                            </div>
+                            
+                        </div>
+
+                         <div class="grid grid-2 gap-lg">
+
+                            <div>
+                                <label class="block font-bold mb-1 required">Equipment of Interest</label>
+                                <select name="equipment_interest" class="form-control" required>
+                                    <option value="">-- Select Tool --</option>
+                                    <option value="Keyence VHX-7000">Keyence VHX-7000</option>
+                                    <option value="B-2 AFM">B-2 AFM</option>
+                                    <option value="JEOL TEM">JEOL TEM</option>
+                                    <option value="Mask Aligner">Mask Aligner</option>
+                                    <option value="Other / Unsure">Other / Unsure</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block font-bold mb-1">Intended Usage</label>
+                                <select name="intended_usage" class="form-control">
+                                    <option value="Self-Use">Self-Use (I need training)</option>
+                                    <option value="Service">Service (Staff runs samples)</option>
+                                </select>
+                            </div>
+
+                            <div class="col-span-2">
+                                <label class="block font-bold mb-1 required">Technical Requirements</label>
+                                <textarea rows="3"
+                                        name="technical_requirements"
+                                        class="form-control"
+                                        placeholder="Describe sample type, size, and measurement goals..."
+                                        required></textarea>
+                            </div>
+
+                        </div>
+
+
+                        <!-- Actions -->
+                        <div class="d-flex justify-between align-center">
+                            <button type="button" onclick="resetSelection()" class="btn btn-outline btn-outline-gray">
+                                Cancel
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                Submit Request
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+
+            <!--Research Form-->
+           <div id="research-form" class="hidden form-wrapper">
+                    <div class="section-header form-header-line">
+                        <div style="width: 100%;">
+                            <h2 id="formTitle" class="text-blue mb-5">Research Collaboration</h2>
+                            <p id="formDesc" class="text-muted">Propose a joint project or grant partnership.</p>
                         </div>
                     </div>
 
@@ -138,10 +222,50 @@
                             
                         </div>
 
-                        <!-- Dynamic Fields Injection Point -->
-                        <div id="dynamicFields" class="separator-top">
-                            <!-- JS Inject -->
+                        <div class="form-stack">
+
+                            <div>
+                                <label class="block font-bold mb-1 required">Project Title / Topic</label>
+                                <input type="text"
+                                    name="project_title"
+                                    class="form-control"
+                                    placeholder="e.g. Novel Dielectric Characterization"
+                                    required>
+                            </div>
+
+                            <div class="grid grid-2 gap-lg">
+
+                                <div>
+                                    <label class="block font-bold mb-1">Funding Agency</label>
+                                    <input type="text"
+                                        name="funding_agency"
+                                        class="form-control"
+                                        placeholder="NSF, DOE, Industry...">
+                                </div>
+
+                                <div>
+                                    <label class="block font-bold mb-1">Timeline</label>
+                                    <select name="project_timeline" class="form-control">
+                                        <option value="">-- Select Timeline --</option>
+                                        <option value="Short Term (<3 months)">Short Term (&lt; 3 months)</option>
+                                        <option value="Long Term (1+ year)">Long Term (1+ year)</option>
+                                        <option value="Grant Proposal Phase">Grant Proposal Phase</option>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <div>
+                                <label class="block font-bold mb-1 required">Project Abstract</label>
+                                <textarea rows="5"
+                                        name="project_abstract"
+                                        class="form-control"
+                                        placeholder="Provide a brief summary of the research goals..."
+                                        required></textarea>
+                            </div>
+
                         </div>
+
 
                         <!-- Actions -->
                         <div class="d-flex justify-between align-center">
@@ -154,9 +278,540 @@
                         </div>
                     </form>
                 </div>
-            </div>
-        </section>
-    </main>
+
+       
+            <!--Billing Form-->
+                <div id="billing-form" class="hidden form-wrapper">
+                    <div class="section-header form-header-line">
+                        <div style="width: 100%;">
+                            <h2 id="formTitle" class="text-blue mb-5">Billing & Invoicing</h2>
+                            <p id="formDesc" class="text-muted">Resolve payment issues or request quotes.</p>
+                        </div>
+                    </div>
+                    
+                    <form id="contactForm"  method="POST" action="FormSubmission.php">
+                       
+                        <div class="grid grid-2 gap-lg" style="margin-bottom: 25px;">
+                            <div>
+                                <label class="block font-bold mb-1 required">First Name</label>
+                                <input type="text" name="first_name" class="form-control" placeholder="Jane" required>
+                            </div>
+
+                            <div>
+                                <label class="block font-bold mb-1 required">Last Name</label>
+                                <input type="text" name="last_name" class="form-control" placeholder="Doe" required>
+                            </div>
+
+                            <div>
+                                <label class="block font-bold mb-1 required">Email</label>
+                                <input type="email" name="email" class="form-control" placeholder="jane.doe@example.com" required>
+                            </div>
+
+                            <div>
+                                <label class="block font-bold mb-1">Phone</label>
+                                <input type="tel" name="phone" class="form-control" placeholder="(555) 123-4567">
+                            </div>
+
+                            <div class="col-span-2">
+                                <label class="block font-bold mb-1 required">Organization / Affiliation</label>
+                                <input type="text" name="organization" class="form-control"
+                                    placeholder="University Name or Company" required>
+                            </div>
+
+                            
+                        </div>
+
+                        <div class="grid grid-2 gap-lg">
+
+                            <div>
+                                <label class="block font-bold mb-1 required">Reference Number</label>
+                                <input type="text"
+                                    name="billing_reference_number"
+                                    class="form-control"
+                                    placeholder="Invoice # or PO #"
+                                    required>
+                            </div>
+
+                            <div>
+                                <label class="block font-bold mb-1 required">Billing Contact Person</label>
+                                <input type="text"
+                                    name="billing_contact_person"
+                                    class="form-control"
+                                    placeholder="Full Name"
+                                    required>
+                            </div>
+
+                            <div class="col-span-2">
+                                <label class="block font-bold mb-1">Billing Address</label>
+                                <textarea rows="2"
+                                        name="billing_address"
+                                        class="form-control"
+                                        placeholder="Street, City, State, ZIP"></textarea>
+                            </div>
+
+                            <div class="col-span-2">
+                                <label class="block font-bold mb-1">Issue Description</label>
+                                <textarea rows="3"
+                                        name="billing_issue_description"
+                                        class="form-control"
+                                        placeholder="Describe the billing discrepancy or request..."></textarea>
+                            </div>
+
+                        </div>
+
+
+                        <!-- Actions -->
+                        <div class="d-flex justify-between align-center">
+                            <button type="button" onclick="resetSelection()" class="btn btn-outline btn-outline-gray">
+                                Cancel
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                Submit Request
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            
+            
+             <!--Training Form-->
+            <div id="training-form" class="hidden form-wrapper">
+                    <div class="section-header form-header-line">
+                        <div style="width: 100%;">
+                            <h2 id="formTitle" class="text-blue mb-5">Safety & Training</h2>
+                            <p id="formDesc" class="text-muted">Register for safety courses or equipment authorization.</p>
+                        </div>
+                    </div>
+
+                    <form id="contactForm"  method="POST" action="FormSubmission.php">
+                        <!-- Common Fields -->
+                        <div class="grid grid-2 gap-lg" style="margin-bottom: 25px;">
+                            <div>
+                                <label class="block font-bold mb-1 required">First Name</label>
+                                <input type="text" name="first_name" class="form-control" placeholder="Jane" required>
+                            </div>
+
+                            <div>
+                                <label class="block font-bold mb-1 required">Last Name</label>
+                                <input type="text" name="last_name" class="form-control" placeholder="Doe" required>
+                            </div>
+
+                            <div>
+                                <label class="block font-bold mb-1 required">Email</label>
+                                <input type="email" name="email" class="form-control" placeholder="jane.doe@example.com" required>
+                            </div>
+
+                            <div>
+                                <label class="block font-bold mb-1">Phone</label>
+                                <input type="tel" name="phone" class="form-control" placeholder="(555) 123-4567">
+                            </div>
+
+                            <div class="col-span-2">
+                                <label class="block font-bold mb-1 required">Organization / Affiliation</label>
+                                <input type="text" name="organization" class="form-control"
+                                    placeholder="University Name or Company" required>
+                            </div>
+
+                            
+                        </div>
+
+                        <div class="grid grid-2 gap-lg">
+
+                            <div>
+                                <label class="block font-bold mb-1 required">Current Status</label>
+                                <select name="training_current_status"
+                                        class="form-control"
+                                        required>
+                                    <option value="">-- Select Status --</option>
+                                    <option value="New User (No Access)">New User (No Access)</option>
+                                    <option value="Active User (Adding Tool)">Active User (Adding Tool)</option>
+                                    <option value="Expired Access (Renewal)">Expired Access (Renewal)</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block font-bold mb-1 required">Requested Training</label>
+                                <select name="training_requested_type"
+                                        class="form-control"
+                                        required>
+                                    <option value="">-- Select Training --</option>
+                                    <option value="EHS Basic Safety (Mandatory)">EHS Basic Safety (Mandatory)</option>
+                                    <option value="Cleanroom Gowning">Cleanroom Gowning</option>
+                                    <option value="Chemical Safety">Chemical Safety</option>
+                                    <option value="Specific Tool Authorization">Specific Tool Authorization</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block font-bold mb-1">NAU ID</label>
+                                <input type="text"
+                                    name="training_nau_id"
+                                    class="form-control"
+                                    placeholder="1234567">
+                            </div>
+
+                            <div>
+                                <label class="block font-bold mb-1">PI / Supervisor Name</label>
+                                <input type="text"
+                                    name="training_supervisor_name"
+                                    class="form-control"
+                                    placeholder="Supervisor Full Name">
+                            </div>
+
+                        </div>
+
+
+
+
+                        <!-- Actions -->
+                        <div class="d-flex justify-between align-center">
+                            <button type="button" onclick="resetSelection()" class="btn btn-outline btn-outline-gray">
+                                Cancel
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                Submit Request
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            <!--Courses Form-->
+            <div id="courses-form" class="hidden form-wrapper">
+                    <div class="section-header form-header-line">
+                        <div style="width: 100%;">
+                            <h2 id="formTitle" class="text-blue mb-5">Course Support</h2>
+                            <p id="formDesc" class="text-muted">Inquiries regarding lab classes or curriculum.</p>
+                        </div>
+                    </div>
+
+                    <form id="contactForm"  method="POST" action="FormSubmission.php">
+                        <!-- Common Fields -->
+                        <div class="grid grid-2 gap-lg" style="margin-bottom: 25px;">
+                            <div>
+                                <label class="block font-bold mb-1 required">First Name</label>
+                                <input type="text" name="first_name" class="form-control" placeholder="Jane" required>
+                            </div>
+
+                            <div>
+                                <label class="block font-bold mb-1 required">Last Name</label>
+                                <input type="text" name="last_name" class="form-control" placeholder="Doe" required>
+                            </div>
+
+                            <div>
+                                <label class="block font-bold mb-1 required">Email</label>
+                                <input type="email" name="email" class="form-control" placeholder="jane.doe@example.com" required>
+                            </div>
+
+                            <div>
+                                <label class="block font-bold mb-1">Phone</label>
+                                <input type="tel" name="phone" class="form-control" placeholder="(555) 123-4567">
+                            </div>
+
+                            <div class="col-span-2">
+                                <label class="block font-bold mb-1 required">Organization / Affiliation</label>
+                                <input type="text" name="organization" class="form-control"
+                                    placeholder="University Name or Company" required>
+                            </div>
+
+                            
+                        </div>
+
+                        <div class="grid grid-2 gap-lg">
+
+                            <div>
+                                <label class="block font-bold mb-1 required">Course Number</label>
+                                <input 
+                                    type="text" 
+                                    name="course_number"
+                                    class="form-control" 
+                                    placeholder="e.g. EE400"
+                                    required>
+                            </div>
+
+                            <div>
+                                <label class="block font-bold mb-1">Semester</label>
+                                <select 
+                                    name="semester"
+                                    class="form-control">
+                                    <option value="">-- Select Semester --</option>
+                                    <option value="Fall 2025">Fall 2025</option>
+                                    <option value="Spring 2026">Spring 2026</option>
+                                    <option value="Summer 2026">Summer 2026</option>
+                                </select>
+                            </div>
+
+                            <div class="col-span-2">
+                                <label class="block font-bold mb-1 required">Inquiry</label>
+                                <textarea 
+                                    name="inquiry"
+                                    rows="3" 
+                                    class="form-control" 
+                                    placeholder="Question about lab schedule, materials, or enrollment..."
+                                    required></textarea>
+                            </div>
+
+                        </div>
+
+
+                        <!-- Actions -->
+                        <div class="d-flex justify-between align-center">
+                            <button type="button" onclick="resetSelection()" class="btn btn-outline btn-outline-gray">
+                                Cancel
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                Submit Request
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            <!--Tour Form-->
+            <div id="tour-form" class="hidden form-wrapper">
+                    <div class="section-header form-header-line">
+                        <div style="width: 100%;">
+                            <h2 id="formTitle" class="text-blue mb-5">Schedule a Tour</h2>
+                            <p id="formDesc" class="text-muted">Visit the facility.</p>
+                        </div>
+                    </div>
+
+                    <form id="contactForm"  method="POST" action="FormSubmission.php">
+                        <!-- Common Fields -->
+                        <div class="grid grid-2 gap-lg" style="margin-bottom: 25px;">
+                            <div>
+                                <label class="block font-bold mb-1 required">First Name</label>
+                                <input type="text" name="first_name" class="form-control" placeholder="Jane" required>
+                            </div>
+
+                            <div>
+                                <label class="block font-bold mb-1 required">Last Name</label>
+                                <input type="text" name="last_name" class="form-control" placeholder="Doe" required>
+                            </div>
+
+                            <div>
+                                <label class="block font-bold mb-1 required">Email</label>
+                                <input type="email" name="email" class="form-control" placeholder="jane.doe@example.com" required>
+                            </div>
+
+                            <div>
+                                <label class="block font-bold mb-1">Phone</label>
+                                <input type="tel" name="phone" class="form-control" placeholder="(555) 123-4567">
+                            </div>
+
+                            <div class="col-span-2">
+                                <label class="block font-bold mb-1 required">Organization / Affiliation</label>
+                                <input type="text" name="organization" class="form-control"
+                                    placeholder="University Name or Company" required>
+                            </div>
+
+                            
+                        </div>
+
+                        <div class="grid grid-2 gap-lg">
+
+                            <div>
+                                <label class="block font-bold mb-1 required">Group Size</label>
+                                <input type="number" name="tour_group_size" class="form-control" placeholder="Approx number of people" required>
+                            </div>
+
+                            <div>
+                                <label class="block font-bold mb-1 required">Group Type</label>
+                                <select name="tour_group_type"
+                                        class="form-control"
+                                        required>
+                                    <option value="">-- Select Group Type --</option>
+                                    <option value="K-12 School">K-12 School</option>
+                                    <option value="Prospective Students">Prospective Students</option>
+                                    <option value="Industry Partners">Industry Partners</option>
+                                    <option value="Academic Guests">Academic Guests</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block font-bold mb-1 required">Preferred Date</label>
+                                <input type="date" name="tour_preferred_date" class="form-control" required>
+                            </div>
+
+                            <div>
+                                <label class="block font-bold mb-1">Alternative Date</label>
+                                <input type="date" name="tour_alternative_date" class="form-control">
+                            </div>
+
+                        </div>
+
+
+                        <!-- Actions -->
+                        <div class="d-flex justify-between align-center">
+                            <button type="button" onclick="resetSelection()" class="btn btn-outline btn-outline-gray">
+                                Cancel
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                Submit Request
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            <!--Sales-->
+
+            <div id="sales-form" class="hidden form-wrapper">
+                    <div class="section-header form-header-line">
+                        <div style="width: 100%;">
+                            <h2 id="formTitle" class="text-blue mb-5">Vendor / Sales</h2>
+                            <p id="formDesc" class="text-muted">Product demonstrations and supply chain.</p>
+                        </div>
+                    </div>
+
+                    <form id="contactForm" onsubmit="handleFormSubmit(event)">
+                        <!-- Common Fields -->
+                        <div class="grid grid-2 gap-lg" style="margin-bottom: 25px;">
+                            <div>
+                                <label class="block font-bold mb-1 required">First Name</label>
+                                <input type="text" class="form-control" placeholder="Jane" required>
+                            </div>
+                            <div>
+                                <label class="block font-bold mb-1 required">Last Name</label>
+                                <input type="text" class="form-control" placeholder="Doe" required>
+                            </div>
+                            <div>
+                                <label class="block font-bold mb-1 required">Email</label>
+                                <input type="email" class="form-control" placeholder="jane.doe@example.com" required>
+                            </div>
+                            <div>
+                                <label class="block font-bold mb-1">Phone</label>
+                                <input type="tel" class="form-control" placeholder="(555) 123-4567">
+                            </div>
+                            <div class="col-span-2">
+                                <label class="block font-bold mb-1 required">Organization / Affiliation</label>
+                                <input type="text" class="form-control" placeholder="University Name or Company"
+                                    required>
+                            </div>
+                        </div>
+
+                        <div class="form-stack">
+
+                            <div>
+                                <label class="block font-bold mb-1 required">Product Category</label>
+                                <input type="text" name="sales_product_category" class="form-control" placeholder="e.g. Chemicals, Metrology Equipment, PPE" required>
+                            </div>
+
+                            <div>
+                                <label class="block font-bold mb-1 required">Message</label>
+                                <textarea rows="4" name="sales_message" class="form-control"  placeholder="Describe your product or reason for contact..." required></textarea>
+                            </div>
+
+                        </div>
+
+                    
+
+                        <!-- Actions -->
+                        <div class="d-flex justify-between align-center">
+                            <button type="button" onclick="resetSelection()" class="btn btn-outline btn-outline-gray">
+                                Cancel
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                Submit Request
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            <!-- Others-->
+            <div id="general-form" class="hidden form-wrapper">
+                    <div class="section-header form-header-line">
+                        <div style="width: 100%;">
+                            <h2 id="formTitle" class="text-blue mb-5">General Inquiry</h2>
+                            <p id="formDesc" class="text-muted">How can we help you?</p>
+                        </div>
+                    </div>
+
+                    <form id="contactForm" onsubmit="handleFormSubmit(event)">
+                        <!-- Common Fields -->
+                        <div class="grid grid-2 gap-lg" style="margin-bottom: 25px;">
+                            <div>
+                                <label class="block font-bold mb-1 required">First Name</label>
+                                <input type="text" class="form-control" placeholder="Jane" required>
+                            </div>
+                            <div>
+                                <label class="block font-bold mb-1 required">Last Name</label>
+                                <input type="text" class="form-control" placeholder="Doe" required>
+                            </div>
+                            <div>
+                                <label class="block font-bold mb-1 required">Email</label>
+                                <input type="email" class="form-control" placeholder="jane.doe@example.com" required>
+                            </div>
+                            <div>
+                                <label class="block font-bold mb-1">Phone</label>
+                                <input type="tel" class="form-control" placeholder="(555) 123-4567">
+                            </div>
+                            <div class="col-span-2">
+                                <label class="block font-bold mb-1 required">Organization / Affiliation</label>
+                                <input type="text" class="form-control" placeholder="University Name or Company"
+                                    required>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block font-bold mb-1 required">Message</label>
+                            <textarea name="other_message" rows="5" class="form-control" placeholder="Please describe your question or issue..." required></textarea>
+                        </div>
+
+
+                        <!-- Actions -->
+                        <div class="d-flex justify-between align-center">
+                            <button type="button" onclick="resetSelection()" class="btn btn-outline btn-outline-gray">
+                                Cancel
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                Submit Request
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+        </div>
+    </section>
+
+</main>
+    <script>
+    function loadForm(type) {
+
+        // Hide all forms
+        document.querySelectorAll('.form-wrapper').forEach(form => {
+            form.classList.add("hidden");
+        });
+
+        // Remove active state
+        document.querySelectorAll('.gateway-card').forEach(card => {
+            card.classList.remove("active");
+        });
+
+        // Show selected form
+        const selectedForm = document.getElementById(type + "-form");
+        if (selectedForm) {
+            selectedForm.classList.remove("hidden");
+
+            // Optional: smooth scroll to form
+            selectedForm.scrollIntoView({ behavior: "smooth" });
+        }
+
+        // Highlight selected card
+        const selectedCard = document.getElementById("card-" + type);
+        if (selectedCard) {
+            selectedCard.classList.add("active");
+        }
+
+        // Update URL hash
+        window.location.hash = type;
+    }
+
+
+    // Auto-load form if URL contains hash
+    window.addEventListener("DOMContentLoaded", function () {
+        const formToLoad = window.location.hash.substring(1);
+        if (formToLoad) {
+            loadForm(formToLoad);
+        }
+    });
+    </script>
 
     <!-- Footer (Shared) -->
     <site-footer></site-footer>
