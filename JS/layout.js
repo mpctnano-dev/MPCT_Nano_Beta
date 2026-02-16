@@ -23,7 +23,8 @@ class SiteHeader extends HTMLElement {
                     <img src="${basePath}Images/NAU.png" alt="Northern Arizona University" class="header-logo">
                     <div class="brand-divider"></div>
                     <div class="brand-text">
-                        <span class="dept">Microelectronics at NAU</span>
+                        <span class="dept">MPaCT Lab</span>
+                        <span class="dept-sub">Microelectronics Processing and Characterization Lab</span>
                     </div>
                 </a>
 
@@ -124,10 +125,8 @@ class SiteFooter extends HTMLElement {
                                 <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
                             </a>
                             <a href="https://www.instagram.com/nauflagstaff/" target="_blank" class="social-icon" aria-label="Instagram">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M7 2C4.243 2 2 4.243 2 7v10c0 2.757 2.243 5 5 5h10c2.757 0 5-2.243 5-5V7c0-2.757-2.243-5-5-5H7zm10 2c1.654 0 3 1.346 3 3v10c0 1.654-1.346 3-3 3H7c-1.654 0-3-1.346-3-3V7c0-1.654 1.346-3 3-3h10zm-5 3a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6zm4.5-2.5a1 1 0 100 2 1 1 0 000-2z"></path>
                                 </svg>
                             </a>
                             <a href="https://www.linkedin.com/school/northern-arizona-university/" target="_blank" class="social-icon" aria-label="LinkedIn">

@@ -718,6 +718,14 @@ ul {
     letter-spacing: 0.5px;
 }
 
+.brand-text .dept-sub {
+    font-family: var(--font-body);
+    font-size: 0.6rem;
+    font-weight: 500;
+    color: #6b7280;
+    letter-spacing: 0.2px;
+}
+
 /* Nav Menu */
 .nav-menu {
     display: flex;
@@ -6239,18 +6247,48 @@ ul {
 }
 
 .status-dot.available {
-    background-color: #22c55e;
-    box-shadow: 0 0 0 2px #dcfce7;
+    background-color: transparent;
+    box-shadow: none;
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    display: inline-flex;
+    align-items: center;
+}
+
+.status-dot.available::after {
+    content: "Available";
+    color: #22c55e;
+    font-weight: 600;
+    font-size: 0.75rem;
 }
 
 .status-dot.unavailable {
-    background-color: #ef4444;
-    box-shadow: 0 0 0 2px #fee2e2;
+    background-color: transparent;
+    box-shadow: none;
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    display: inline-flex;
+    align-items: center;
 }
 
 .status-dot.busy {
-    background-color: #ef4444;
-    box-shadow: 0 0 0 2px #fee2e2;
+    background-color: transparent;
+    box-shadow: none;
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    display: inline-flex;
+    align-items: center;
+}
+
+.status-dot.unavailable::after,
+.status-dot.busy::after {
+    content: "Unavailable";
+    color: #ef4444;
+    font-weight: 600;
+    font-size: 0.75rem;
 }
 
 .status-dot.maintenance {
