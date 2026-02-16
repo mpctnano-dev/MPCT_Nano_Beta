@@ -18,7 +18,7 @@ try {
     $mail->isSMTP();
 
 
-        //Below is used for mpct.nano@gmail only
+    //Below is used for mpct.nano@gmail only
     $mail->Host       = 'smtp.gmail.com';       // 
     $mail->SMTPAuth   = true;
     $mail->Username   = 'mpct.nano@gmail.com';    // SMTP email
@@ -26,7 +26,12 @@ try {
     $mail->SMTPSecure = 'tls';
     $mail->Port       = 587;
 
-      // Recipient: Lab Manager
+    $first_name   = htmlspecialchars($_POST['first_name']);
+    $last_name    = htmlspecialchars($_POST['last_name']);
+    $email = htmlspecialchars($_POST['email']);
+    $name = $first_name . ' ' . $last_name;  
+    
+    // Recipient: Lab Manager
     $mail->setFrom('mpct.nano@nau.edu', 'MPaCT Lab');
 
     $mail->addAddress('mpct.nano@nau.edu');
@@ -87,59 +92,53 @@ try {
     }
 }*/
 
-$timestamp = date("F j, Y, g:i a");
+$timestamp = date("F j, Y");
 
 
-    
+    // --- 1. DATA GRID GENERATOR ---
+    $dataRows = '';
+    foreach ($_POST as $key => $value) {
+        if (!empty(trim($value)) && !in_array($key, ['submit', 'email_to'])) {
+            $label = strtoupper(str_replace(['_', '-'], ' ', htmlspecialchars($key)));
+            $val   = nl2br(htmlspecialchars(trim($value)));
+            
+            $dataRows .= "
+            <tr>
+                <td style='padding: 15px 0; border-bottom: 1px solid #e5e7eb; width: 140px; vertical-align: top; font-size: 10px; letter-spacing: 1px; color: #6b7280; font-weight: 700;'>$label</td>
+                <td style='padding: 15px 0; border-bottom: 1px solid #e5e7eb; vertical-align: top; font-size: 14px; color: #111827; line-height: 1.5;'>$val</td>
+            </tr>";
+        }
+    }
 
-    $timestamp = date("F j, Y, g:i a");
+    // --- 2. INTERNAL LAB NOTIFICATION ---
+    $mail->setFrom('mpct.nano@nau.edu', 'MPCT SYSTEM');
+    $mail->addAddress('mpct.nano@nau.edu');
+	$mail->addCC('sethuprasad.gorantla@nau.edu');
+    $mail->addCC('spg99@nau.edu');
+    $mail->isHTML(true);
+    $mail->Subject = "NEW INQUIRY SUBMISSION- " . date('Ymd') . " by " . strtoupper($name);
 
-    $mail->clearAddresses();
-    $mail->addAddress("lab@yourdomain.edu");  // Shared Lab Email
-    $mail->Subject = "New Web Inquiry - MPaCT Lab";
+      $mail->Body = "
+    <div style='background: #ffffff; padding: 40px; font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif; color: #111827;'>
+        <div style='max-width: 600px; margin: 0 auto; border: 1px solid #111827; padding: 40px;'>
+            
+            <div style='border-bottom: 4px solid #111827; padding-bottom: 20px; margin-bottom: 30px;'>
+                <div style='font-size: 10px; letter-spacing: 3px; font-weight: 800; color: #111827;'>METROLOGY LABORATORY</div>
+                <h1 style='margin: 10px 0 0 0; font-size: 28px; font-weight: 300; letter-spacing: -0.5px;'>Technical Inquiry</h1>
+                <div style='margin-top: 5px; font-size: 11px; color: #6b7280;'>REF: $timestamp</div>
+            </div>
 
-    $mail->Body = '
-    <!DOCTYPE html>
-    <html>
-    <body style="font-family:Arial, Helvetica, sans-serif; background:#f4f6f8; padding:30px;">
+            <table style='width: 100%; border-collapse: collapse;'>
+                $dataRows
+            </table>
 
-    <table width="700" cellpadding="0" cellspacing="0" 
-    style="background:#ffffff; padding:30px; border-radius:6px;">
+            <div style='margin-top: 40px; font-size: 10px; color: #9ca3af; text-align: right; letter-spacing: 1px;'>
+                MPACT LOGISTICS ENGINE / NORTHERN ARIZONA UNIVERSITY
+            </div>
+        </div>
+    </div>";
 
-    <tr>
-    <td>
-
-    <h2 style="margin-top:0; color:#1f3b57;">
-    New Inquiry Submission
-    </h2>
-
-    <p style="font-size:14px; color:#555;">
-    A new inquiry has been submitted through the MPaCT Lab website.
-    </p>
-
-    <p style="font-size:13px; color:#888;">
-    Submitted on: '.$timestamp.'
-    </p>
-
-    <hr style="margin:20px 0;">
-
-    <table width="100%" cellpadding="0" cellspacing="0" style="font-size:14px; color:#333;">
-    '.$formattedFields.'
-    </table>
-
-    </td>
-    </tr>
-
-    </table>
-
-    </body>
-    </html>
-    ';
-
-
-
-    $mail->send();
-    echo "Success";
+    $mail->send();  
 
 
 // Optional: Send confirmation to the user
@@ -183,7 +182,7 @@ Thank You for Your Submission
 </div>
 
 <p style="font-size:14px; color:#444; line-height:1.6; margin-top:20px;">
-Dear '.htmlspecialchars($_POST["name"] ?? "Valued User").',
+Dear ' . $name . ',
 <br><br>
 
 We appreciate your interest in the <strong>MPaCT Lab</strong>. 
@@ -197,7 +196,7 @@ assessment details, or any additional information required.
 <div style="margin-top:30px; font-size:14px; color:#333;">
 If you need immediate assistance, please contact us:
 <br><br>
-<strong>Email:</strong> mpactlab@yourdomain.edu<br>
+<strong>Email:</strong> mpct.nano@nau.edu<br>
 <strong>Phone:</strong> (123) 456-7890
 </div>
 
@@ -222,9 +221,12 @@ All rights reserved.
 ';
 
 $mail->send();
-
+header("Location: index.html?status=success");
+exit();
 
 } catch (Exception $e) {
-    echo "Mailer Error: {$mail->ErrorInfo}";
+    header("Location: index.html?status=error");
+    exit();
 }
+
 ?>

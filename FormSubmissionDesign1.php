@@ -21,7 +21,11 @@ try {
     $mail->Port       = 587;
 
      $timestamp = strtoupper(date("d M Y / H:i"));
-    $userName = htmlspecialchars($_POST['name'] ?? 'Client');
+    //$userName = htmlspecialchars($_POST['name'] ?? 'Client');
+    $first_name   = htmlspecialchars($_POST['first_name']);
+    $last_name    = htmlspecialchars($_POST['last_name']);
+    $email = htmlspecialchars($_POST['email']);
+    $userName = $first_name . ' ' . $last_name;
 
     // --- 1. DATA GRID GENERATOR ---
     $dataRows = '';

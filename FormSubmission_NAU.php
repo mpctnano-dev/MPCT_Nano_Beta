@@ -32,9 +32,7 @@ try {
     $mail->isHTML(true);
     $mail->Subject = "New Metrology Lab Inquiry Submission";
 
-    // ===============================
-    // 1️⃣ Collect & Sanitize All Fields
-    // ===============================
+  
     $formattedFields = '';
 
     foreach ($_POST as $key => $value) {
@@ -68,15 +66,7 @@ try {
         }
     }
 
-    // ===============================
-    // 2️⃣ Email Config
-    // ===============================
-
  
-
-    // ===============================
-    // 3️⃣ Modern Professional Layout
-    // ===============================
 
     $mail->Body = "
     <div style='background:#f1f5f9; padding:40px 20px; font-family:Segoe UI, Arial, sans-serif;'>
