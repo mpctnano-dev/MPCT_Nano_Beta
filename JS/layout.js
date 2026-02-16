@@ -23,7 +23,7 @@ class SiteHeader extends HTMLElement {
                     <img src="${basePath}Images/NAU.png" alt="Northern Arizona University" class="header-logo">
                     <div class="brand-divider"></div>
                     <div class="brand-text">
-                        <span class="dept">MPaCT Nano Lab</span>
+                        <span class="dept1">MPaCT Nano Lab</span>
                         <span class="dept-sub">Microelectronics Processing and Characterization Lab</span>
                     </div>
                 </a>
