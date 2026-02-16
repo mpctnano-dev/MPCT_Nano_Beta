@@ -337,7 +337,7 @@ $labBody = '<!DOCTYPE html>
                     <tr>
                         <td style="background:#f8f9fa; padding:16px 32px; border-top:1px solid #e8e8e8;">
                             <p style="margin:0; font-size:12px; color:#999; text-align:center;">
-                                This email was sent from the MPaCT Nano Lab contact form at nau.edu<br>
+                                This email was sent from the MPaCT Nano Lab (<a href="https://nano.nau.edu" style="color:#999; text-decoration:underline;">nano.nau.edu</a>) from Northern Arizona University<br>
                                 You can reply directly to this email to reach the sender.
                             </p>
                         </td>
