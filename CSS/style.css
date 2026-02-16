@@ -717,6 +717,15 @@ ul {
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
+.dept1 {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--nau-blue);
+    /* Dark Text 
+    text-transform: uppercase;*/
+    letter-spacing: 0.5px;
+}
 
 .brand-text .dept-sub {
     font-family: var(--font-body);
