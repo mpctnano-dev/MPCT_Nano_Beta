@@ -463,7 +463,7 @@ const fieldData = {
                 </div>
                 <div>
                     <label class="block font-bold mb-1 required">Equipment Name</label>
-                    <select id="equipmentName" name="equipment_name" class="form-control">
+                    <select id="equipmentName" name="equipment_name" class="form-control" required>
                         <option value="">-- Select Tool --</option>
                     </select>
                 </div>
@@ -476,7 +476,7 @@ const fieldData = {
                 </div>
                 <div class="col-span-2">
                     <label class="block font-bold mb-1 required">Experimental Details / Measurement Goals</label>
-                    <textarea name="experimental_details" rows="3" class="form-control" placeholder="Describe sample type, size, and what you need to measure..."></textarea>
+                    <textarea name="experimental_details" rows="3" class="form-control" placeholder="Describe sample type, size, and what you need to measure..." required></textarea>
                 </div>
             </div>
         `
@@ -488,7 +488,7 @@ const fieldData = {
             <div class="form-stack">
                 <div>
                     <label class="block font-bold mb-1 required">Project Title / Topic</label>
-                    <input type="text" name="project_title" class="form-control" placeholder="e.g. Novel Dielectric Characterization">
+                    <input type="text" name="project_title" class="form-control" placeholder="e.g. Novel Dielectric Characterization" required>
                 </div>
                 <div class="grid grid-2 gap-lg">
                     <div>
@@ -507,7 +507,7 @@ const fieldData = {
                 </div>
                 <div>
                     <label class="block font-bold mb-1 required">Project Description / Abstract</label>
-                    <textarea name="project_abstract" rows="5" class="form-control" placeholder="Provide a brief summary of the project goals..."></textarea>
+                    <textarea name="project_abstract" rows="5" class="form-control" placeholder="Provide a brief summary of the project goals..." required></textarea>
                 </div>
             </div>
         `
@@ -519,19 +519,19 @@ const fieldData = {
             <div class="grid grid-2 gap-lg">
                 <div>
                     <label class="block font-bold mb-1 required">Reference Number</label>
-                    <input type="text" name="reference_number" class="form-control" placeholder="Invoice # or PO #">
+                    <input type="text" name="reference_number" class="form-control" placeholder="Invoice # or PO #" required>
                 </div>
                 <div>
                     <label class="block font-bold mb-1 required">Billing Contact Person</label>
-                    <input type="text" name="billing_contact" class="form-control">
+                    <input type="text" name="billing_contact" class="form-control" required>
                 </div>
                 <div class="col-span-2">
                     <label class="block font-bold mb-1">Billing Address</label>
-                    <textarea name="billing_address" rows="2" class="form-control"></textarea>
+                    <textarea name="billing_address" rows="2" class="form-control" required></textarea>
                 </div>
                 <div class="col-span-2">
                     <label class="block font-bold mb-1">Issue Description</label>
-                    <textarea name="issue_description" rows="3" class="form-control" placeholder="Describe the billing discrepancy or request..."></textarea>
+                    <textarea name="issue_description" rows="3" class="form-control" placeholder="Describe the billing discrepancy or request..." required></textarea>
                 </div>
             </div>
         `
@@ -543,7 +543,7 @@ const fieldData = {
             <div class="grid grid-2 gap-lg">
                 <div>
                     <label class="block font-bold mb-1 required">Request Type</label>
-                    <select name="request_type" class="form-control">
+                    <select name="request_type" class="form-control" required>
                         <option>Safety Training (New User)</option>
                         <option>Tool Training</option>
                         <option>Outreach / Workshop</option>
@@ -552,7 +552,7 @@ const fieldData = {
                 </div>
                 <div>
                     <label class="block font-bold mb-1 required">Training Specifics</label>
-                    <select name="training_specifics" class="form-control">
+                    <select name="training_specifics" class="form-control" required>
                         <option>EHS Basic Safety</option>
                         <option>Cleanroom Gowning</option>
                         <option>Specific Tool (Describe below)</option>
@@ -561,7 +561,7 @@ const fieldData = {
                 </div>
                 <div class="col-span-2">
                     <label class="block font-bold mb-1">Notes / Additional Details</label>
-                    <textarea name="notes" rows="3" class="form-control" placeholder="Please specify tool names, group size, or workshop topics..."></textarea>
+                    <textarea name="notes" rows="3" class="form-control" placeholder="Please specify tool names, group size, or workshop topics..." required></textarea>
                 </div>
             </div>
         `
@@ -573,7 +573,7 @@ const fieldData = {
             <div class="grid grid-2 gap-lg">
                 <div>
                     <label class="block font-bold mb-1 required">Course Number</label>
-                    <input type="text" name="course_number" class="form-control" placeholder="e.g. EE400">
+                    <input type="text" name="course_number" class="form-control" placeholder="e.g. EE400" required>
                 </div>
                 <div>
                     <label class="block font-bold mb-1">Semester</label>
@@ -597,11 +597,11 @@ const fieldData = {
             <div class="grid grid-2 gap-lg">
                 <div>
                     <label class="block font-bold mb-1 required">Group Size</label>
-                    <input type="number" name="group_size" class="form-control" placeholder="Approx number of people">
+                    <input type="number" name="group_size" class="form-control" placeholder="Approx number of people" required>
                 </div>
                 <div>
                     <label class="block font-bold mb-1 required">Group Type</label>
-                    <select name="group_type" class="form-control">
+                    <select name="group_type" class="form-control" required>
                         <option>K-12 School</option>
                         <option>Prospective Students</option>
                         <option>Industry Partners</option>
@@ -610,7 +610,7 @@ const fieldData = {
                 </div>
                 <div>
                     <label class="block font-bold mb-1 required">Preferred Date</label>
-                    <input type="date" name="preferred_date" class="form-control">
+                    <input type="date" name="preferred_date" class="form-control" required>
                 </div>
                 <div>
                     <label class="block font-bold mb-1">Alternative Date</label>
@@ -630,11 +630,11 @@ const fieldData = {
             <div class="form-stack">
                 <div>
                     <label class="block font-bold mb-1 required">Product Category</label>
-                    <input type="text" name="product_category" class="form-control" placeholder="e.g. Chemicals, Metrology Equipment, PPE">
+                    <input type="text" name="product_category" class="form-control" placeholder="e.g. Chemicals, Metrology Equipment, PPE" required>
                 </div>
                 <div>
                     <label class="block font-bold mb-1 required">Message</label>
-                    <textarea name="message" rows="4" class="form-control" placeholder="Describe your product or reason for contact..."></textarea>
+                    <textarea name="message" rows="4" class="form-control" placeholder="Describe your product or reason for contact..." required></textarea>
                 </div>
             </div>
         `
@@ -645,7 +645,7 @@ const fieldData = {
         fields: `
             <div>
                 <label class="block font-bold mb-1 required">Message</label>
-                <textarea name="message" rows="5" class="form-control" placeholder="Please describe your question or issue..."></textarea>
+                <textarea name="message" rows="5" class="form-control" placeholder="Please describe your question or issue..." required></textarea>
             </div>
         `
     },
