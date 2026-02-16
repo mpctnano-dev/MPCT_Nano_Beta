@@ -566,7 +566,6 @@ try {
     $labMail->addCC('Akhil.Kinnera@nau.edu');
     $labMail->addCC('Sethuprasad.Gorantla@nau.edu');
     $labMail->addCC('Krishna-Dev.Palem@nau.edu');
-    $labMail->addCC('akhilkinnera01@gmail.com');
     $labMail->addReplyTo($email, $fullName);  // so Reply goes to the user
     $labMail->Subject = $labSubject;
     $labMail->Body = $labBody;
