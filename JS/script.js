@@ -648,6 +648,32 @@ const fieldData = {
                 <textarea rows="5" class="form-control" placeholder="Please describe your question or issue..."></textarea>
             </div>
         `
+    },
+    'issue': {
+        title: "Report an Issue",
+        desc: "Found a problem with equipment or facilities? Let us know.",
+        fields: `
+            <div class="grid grid-2 gap-lg">
+                <div>
+                    <label class="block font-bold mb-1 required">Issue Type</label>
+                    <select class="form-control">
+                        <option>Equipment Malfunction</option>
+                        <option>Facilities (Power, Water, HVAC)</option>
+                        <option>Software / Network</option>
+                        <option>Safety Concern</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-bold mb-1">Equipment Name (if applicable)</label>
+                    <input type="text" class="form-control" placeholder="e.g. Zeiss SEM">
+                </div>
+                <div class="col-span-2">
+                    <label class="block font-bold mb-1 required">Description</label>
+                    <textarea rows="4" class="form-control" placeholder="Please describe the issue in detail..."></textarea>
+                </div>
+            </div>
+        `
     }
 };
 
@@ -726,7 +752,9 @@ async function populateEquipmentData() {
 function selectCategory(category, element) {
     // Highlighting Logic
     document.querySelectorAll('.gateway-card').forEach(card => card.classList.remove('selected'));
-    element.classList.add('selected');
+    if (element) {
+        element.classList.add('selected');
+    }
 
     // Data Injection
     const data = fieldData[category];
@@ -784,9 +812,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const autoCategory = urlParams.get('category');
     if (autoCategory && typeof fieldData !== 'undefined' && fieldData[autoCategory]) {
         const targetCard = document.querySelector(`.gateway-card[onclick*="'${autoCategory}'"]`);
-        if (targetCard) {
-            selectCategory(autoCategory, targetCard);
-        }
+        // Pass targetCard if found, otherwise null (valid for hidden categories like 'issue')
+        selectCategory(autoCategory, targetCard);
     }
 });
 
