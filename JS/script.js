@@ -456,14 +456,15 @@ const fieldData = {
         fields: `
             <div class="grid grid-2 gap-lg">
                 <div>
-                    <label class="block font-bold mb-1 required">Equipment of Interest</label>
-                    <select class="form-control">
-                        <option>-- Select Tool --</option>
-                        <option>Keyence VHX-7000</option>
-                        <option>B-2 AFM</option>
-                        <option>JEOL TEM</option>
-                        <option>Mask Aligner</option>
-                        <option>Other / Unsure</option>
+                    <label class="block font-bold mb-1">Equipment Category</label>
+                    <select id="equipmentCategory" class="form-control">
+                        <option value="">-- All Categories --</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-bold mb-1 required">Equipment Name</label>
+                    <select id="equipmentName" class="form-control">
+                        <option value="">-- Select Tool --</option>
                     </select>
                 </div>
                 <div>
@@ -474,15 +475,15 @@ const fieldData = {
                     </select>
                 </div>
                 <div class="col-span-2">
-                    <label class="block font-bold mb-1 required">Technical Requirements</label>
-                    <textarea rows="3" class="form-control" placeholder="Describe sample type, size, and measurement goals..."></textarea>
+                    <label class="block font-bold mb-1 required">Experimental Details / Measurement Goals</label>
+                    <textarea rows="3" class="form-control" placeholder="Describe sample type, size, and what you need to measure..."></textarea>
                 </div>
             </div>
         `
     },
     'research': {
-        title: "Research Collaboration",
-        desc: "Propose a joint project or grant partnership.",
+        title: "Research & Strategic Partnerships",
+        desc: "Propose a joint project, grant partnership, or industry collaboration.",
         fields: `
             <div class="form-stack">
                 <div>
@@ -498,14 +499,15 @@ const fieldData = {
                         <label class="block font-bold mb-1">Timeline</label>
                         <select class="form-control">
                             <option>Short Term (< 3 months)</option>
+                            <option>Mid Term (~6 months)</option>
                             <option>Long Term (1+ year)</option>
                             <option>Grant Proposal Phase</option>
                         </select>
                     </div>
                 </div>
                 <div>
-                    <label class="block font-bold mb-1 required">Project Abstract</label>
-                    <textarea rows="5" class="form-control" placeholder="Provide a brief summary of the research goals..."></textarea>
+                    <label class="block font-bold mb-1 required">Project Description / Abstract</label>
+                    <textarea rows="5" class="form-control" placeholder="Provide a brief summary of the project goals..."></textarea>
                 </div>
             </div>
         `
@@ -540,29 +542,26 @@ const fieldData = {
         fields: `
             <div class="grid grid-2 gap-lg">
                 <div>
-                    <label class="block font-bold mb-1 required">Current Status</label>
+                    <label class="block font-bold mb-1 required">Request Type</label>
                     <select class="form-control">
-                        <option>New User (No Access)</option>
-                        <option>Active User (Adding Tool)</option>
-                        <option>Expired Access (Renewal)</option>
+                        <option>Safety Training (New User)</option>
+                        <option>Tool Training</option>
+                        <option>Outreach / Workshop</option>
+                        <option>Group Demo</option>
                     </select>
                 </div>
                 <div>
-                    <label class="block font-bold mb-1 required">Requested Training</label>
+                    <label class="block font-bold mb-1 required">Training Specifics</label>
                     <select class="form-control">
-                        <option>EHS Basic Safety (Mandatory)</option>
+                        <option>EHS Basic Safety</option>
                         <option>Cleanroom Gowning</option>
-                        <option>Chemical Safety</option>
-                        <option>Specific Tool Authorization</option>
+                        <option>Specific Tool (Describe below)</option>
+                        <option>Custom Workshop</option>
                     </select>
                 </div>
-                <div>
-                    <label class="block font-bold mb-1">NAU ID</label>
-                    <input type="text" class="form-control" placeholder="1234567">
-                </div>
-                <div>
-                    <label class="block font-bold mb-1">PI / Supervisor Name</label>
-                    <input type="text" class="form-control">
+                <div class="col-span-2">
+                    <label class="block font-bold mb-1">Notes / Additional Details</label>
+                    <textarea rows="3" class="form-control" placeholder="Please specify tool names, group size, or workshop topics..."></textarea>
                 </div>
             </div>
         `
@@ -617,6 +616,10 @@ const fieldData = {
                     <label class="block font-bold mb-1">Alternative Date</label>
                     <input type="date" class="form-control">
                 </div>
+                <div class="col-span-2">
+                    <label class="block font-bold mb-1">Notes / Specific Interests</label>
+                    <textarea rows="3" class="form-control" placeholder="Any specific areas you'd like to see or topics to cover?"></textarea>
+                </div>
             </div>
         `
     },
@@ -648,6 +651,78 @@ const fieldData = {
     }
 };
 
+// Helper function to populate equipment dropdowns
+async function populateEquipmentData() {
+    const categorySelect = document.getElementById('equipmentCategory');
+    const equipmentSelect = document.getElementById('equipmentName');
+
+    if (!categorySelect || !equipmentSelect) return;
+
+    // If already populated, just return (or we could force refresh)
+    if (categorySelect.getAttribute('data-loaded') === 'true') return;
+
+    try {
+        const response = await fetch('equipment.json');
+        if (!response.ok) throw new Error('Failed to load equipment data');
+
+        const data = await response.json();
+        const equipmentList = data.equipment || [];
+
+        // 1. Populate Categories
+        const categories = [...new Set(equipmentList.map(item => item.category))].sort();
+
+        categories.forEach(cat => {
+            const option = document.createElement('option');
+            option.value = cat;
+            option.textContent = cat;
+            categorySelect.appendChild(option);
+        });
+
+        // 2. Define Filter Logic
+        const filterEquipment = () => {
+            const selectedCat = categorySelect.value;
+            const currentVal = equipmentSelect.value;
+
+            // Clear existing options
+            equipmentSelect.innerHTML = '<option value="">-- Select Tool --</option>';
+
+            // Filter list
+            const filtered = selectedCat
+                ? equipmentList.filter(item => item.category === selectedCat)
+                : equipmentList;
+
+            // Sort by name
+            filtered.sort((a, b) => a.name.localeCompare(b.name));
+
+            // Populate options
+            filtered.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item.name;
+                option.textContent = item.name;
+                equipmentSelect.appendChild(option);
+            });
+
+            // Restore selection if possible, or reset
+            // If category changed, likely reset.
+        };
+
+        // Initial populate (all equipment)
+        filterEquipment();
+
+        // Add Event Listener
+        categorySelect.addEventListener('change', filterEquipment);
+
+        // Mark as loaded
+        categorySelect.setAttribute('data-loaded', 'true');
+
+    } catch (error) {
+        console.error('Error populating equipment:', error);
+        const errOption = document.createElement('option');
+        errOption.textContent = "Error loading equipment";
+        categorySelect.appendChild(errOption);
+    }
+}
+
 function selectCategory(category, element) {
     // Highlighting Logic
     document.querySelectorAll('.gateway-card').forEach(card => card.classList.remove('selected'));
@@ -665,6 +740,11 @@ function selectCategory(category, element) {
         formDesc.textContent = data.desc;
         dynamicFields.innerHTML = data.fields;
         dynamicFields.className = 'fade-in';
+
+        // Dynamic Population for Equipment
+        if (category === 'equipment') {
+            populateEquipmentData();
+        }
 
         // Show Form
         formContainer.classList.remove('hidden');
@@ -697,6 +777,18 @@ window.fieldData = fieldData;
 window.selectCategory = selectCategory;
 window.resetSelection = resetSelection;
 window.handleFormSubmit = handleFormSubmit;
+
+// Auto-select Contact Us category from URL parameter (e.g., ?category=research)
+document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const autoCategory = urlParams.get('category');
+    if (autoCategory && typeof fieldData !== 'undefined' && fieldData[autoCategory]) {
+        const targetCard = document.querySelector(`.gateway-card[onclick*="'${autoCategory}'"]`);
+        if (targetCard) {
+            selectCategory(autoCategory, targetCard);
+        }
+    }
+});
 
 
 // -------------------------------------------------------------------------
@@ -826,3 +918,23 @@ if (searchInput) {
 
 buildSearchSuggestions();
 applyFilters();
+
+// -------------------------------------------------------------------------
+// Hero Divider: Re-trigger animations on bfcache restore
+// The iMPaCT brand elements (.hd-i, .hd-mpact-mask) start at opacity:0
+// and use one-shot 'forwards' animations to appear. On back/forward
+// navigation the browser may restore from bfcache without replaying
+// those animations, leaving the divider invisible.
+// -------------------------------------------------------------------------
+window.addEventListener('pageshow', (event) => {
+    if (event.persisted) {
+        const animatedEls = document.querySelectorAll('.hd-i, .hd-mpact-mask');
+        animatedEls.forEach(el => {
+            const saved = el.style.animation;
+            el.style.animation = 'none';
+            // Force reflow so the browser acknowledges the reset
+            void el.offsetWidth;
+            el.style.animation = saved || '';
+        });
+    }
+});

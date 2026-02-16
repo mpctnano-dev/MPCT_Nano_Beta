@@ -35,16 +35,16 @@ class SiteHeader extends HTMLElement {
 
                 <nav class="nav-menu">
                     <div class="nav-item"><a href="${basePath}index.html" class="nav-link" data-path="index.html">Home</a></div>
+                    <div class="nav-item"><a href="${basePath}Equipment.html" class="nav-link" data-path="Equipment.html">Equipment</a></div>
+                    
                     <div class="nav-item"><a href="${basePath}degree-programs.html" class="nav-link" data-path="degree-programs.html">Degree Programs</a></div>
                     <!-- Removed DP_2 link -->
-                    
-                    <div class="nav-item"><a href="${basePath}Equipment.html" class="nav-link" data-path="Equipment.html">Equipment</a></div>
                     
                     <div class="nav-item"><a href="${basePath}About_Us.html" class="nav-link">About Us</a></div>
                     
                     <div class="nav-item"><a href="${basePath}Contact_Us.html" class="nav-link" data-path="Contact_Us.html">Contact Us</a></div>
                     
-                    <div class="nav-item"><a href="https://outlook.office.com/book/iMPaCTNanoLab@bookings.nau.edu/?ismsaljsauthenabled" target="_blank" class="btn btn-sm btn-gold">Reserve Equipment</a></div>
+                    <div class="nav-item"><a href="${basePath}Contact_Us.html?category=equipment" class="btn btn-sm btn-gold">Reserve Equipment</a></div>
                 </nav>
             </div>
         </header>
@@ -154,10 +154,10 @@ class SiteFooter extends HTMLElement {
                     <div class="footer-col">
                         <h4>Academics</h4>
                         <ul class="footer-links">
-                            <li><a href="#">Undergraduate Courses</a></li>
-                            <li><a href="#">Graduate Research</a></li>
-                            <li><a href="#">Certificate Programs</a></li>
-                            <li><a href="#">Student Projects</a></li>
+                            <li><a href="https://catalog.nau.edu/Catalog/">Undergraduate Courses</a></li>
+                            <li><a href="${basePath}degree-programs.html">Graduate Research</a></li>
+                            <li><a href="${basePath}degree-programs.html">Certificate Programs</a></li>
+                            <li><a href="${basePath}degree-programs.html">Student Projects</a></li>
                         </ul>
                     </div>
 
@@ -165,9 +165,9 @@ class SiteFooter extends HTMLElement {
                         <h4>Connect</h4>
                         <ul class="footer-links">
                             <li><a href="${basePath}Contact_Us.html">Contact Us</a></li>
-                            <li><a href="#">Partner With Us</a></li>
-                            <li><a href="#">Alumni Network</a></li>
-                            <li><a href="#">Support NAU Nano</a></li>
+                            <li><a href="${basePath}Contact_Us.html?category=research">Partner With Us</a></li>
+                            <li><a href="https://nau.edu/alumni/">Alumni Network</a></li>
+                            <li><a href="https://foundation.nau.edu/">Support NAU Nano</a></li>
                         </ul>
                     </div>
                 </div>
@@ -177,9 +177,9 @@ class SiteFooter extends HTMLElement {
                 <div class="container footer-bottom-flex">
                     <p>&copy; 2026 Northern Arizona University. All Rights Reserved.</p>
                     <div class="footer-links-flex">
-                        <a href="#" class="footer-link-mute">Nondiscrimination</a>
-                        <a href="#" class="footer-link-mute">Accessibility</a>
-                        <a href="#" class="footer-link-mute">Privacy</a>
+                        <a href="https://in.nau.edu/eoa/" target="_blank" class="footer-link-mute">Nondiscrimination</a>
+                        <a href="https://in.nau.edu/accessibility/" target="_blank" class="footer-link-mute">Accessibility</a>
+                        <a href="https://nau.edu/privacy/" target="_blank" class="footer-link-mute">Privacy</a>
                     </div>
                 </div>
             </div>
