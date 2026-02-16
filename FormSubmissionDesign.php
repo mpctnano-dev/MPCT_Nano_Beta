@@ -18,13 +18,16 @@ try {
     $mail->isSMTP();
 
 
+    $mail->Host       = 'mailgate.nau.edu';
+    $mail->SMTPAuth   = true;
+    $mail->Port       = 587;
     //Below is used for mpct.nano@gmail only
-    $mail->Host       = 'smtp.gmail.com';       // 
+   /* $mail->Host       = 'smtp.gmail.com';       // 
     $mail->SMTPAuth   = true;
     $mail->Username   = 'mpct.nano@gmail.com';    // SMTP email
     $mail->Password   = 'jyqksvagxwnywmmc';    // SMTP gmail Password,please do not edit else should be generated
     $mail->SMTPSecure = 'tls';
-    $mail->Port       = 587;
+    $mail->Port       = 587;*/
 
     $first_name   = htmlspecialchars($_POST['first_name']);
     $last_name    = htmlspecialchars($_POST['last_name']);
