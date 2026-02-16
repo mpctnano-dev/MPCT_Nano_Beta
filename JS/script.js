@@ -457,26 +457,26 @@ const fieldData = {
             <div class="grid grid-2 gap-lg">
                 <div>
                     <label class="block font-bold mb-1">Equipment Category</label>
-                    <select id="equipmentCategory" class="form-control">
+                    <select id="equipmentCategory" name="equipment_category" class="form-control">
                         <option value="">-- All Categories --</option>
                     </select>
                 </div>
                 <div>
                     <label class="block font-bold mb-1 required">Equipment Name</label>
-                    <select id="equipmentName" class="form-control">
+                    <select id="equipmentName" name="equipment_name" class="form-control">
                         <option value="">-- Select Tool --</option>
                     </select>
                 </div>
                 <div>
                     <label class="block font-bold mb-1">Intended Usage</label>
-                    <select class="form-control">
+                    <select name="intended_usage" class="form-control">
                         <option>Self-Use (I need training)</option>
                         <option>Service (Staff runs samples)</option>
                     </select>
                 </div>
                 <div class="col-span-2">
                     <label class="block font-bold mb-1 required">Experimental Details / Measurement Goals</label>
-                    <textarea rows="3" class="form-control" placeholder="Describe sample type, size, and what you need to measure..."></textarea>
+                    <textarea name="experimental_details" rows="3" class="form-control" placeholder="Describe sample type, size, and what you need to measure..."></textarea>
                 </div>
             </div>
         `
@@ -488,16 +488,16 @@ const fieldData = {
             <div class="form-stack">
                 <div>
                     <label class="block font-bold mb-1 required">Project Title / Topic</label>
-                    <input type="text" class="form-control" placeholder="e.g. Novel Dielectric Characterization">
+                    <input type="text" name="project_title" class="form-control" placeholder="e.g. Novel Dielectric Characterization">
                 </div>
                 <div class="grid grid-2 gap-lg">
                     <div>
                         <label class="block font-bold mb-1">Funding Agency</label>
-                        <input type="text" class="form-control" placeholder="NSF, DOE, Industry...">
+                        <input type="text" name="funding_agency" class="form-control" placeholder="NSF, DOE, Industry...">
                     </div>
                     <div>
                         <label class="block font-bold mb-1">Timeline</label>
-                        <select class="form-control">
+                        <select name="timeline" class="form-control">
                             <option>Short Term (< 3 months)</option>
                             <option>Mid Term (~6 months)</option>
                             <option>Long Term (1+ year)</option>
@@ -507,7 +507,7 @@ const fieldData = {
                 </div>
                 <div>
                     <label class="block font-bold mb-1 required">Project Description / Abstract</label>
-                    <textarea rows="5" class="form-control" placeholder="Provide a brief summary of the project goals..."></textarea>
+                    <textarea name="project_abstract" rows="5" class="form-control" placeholder="Provide a brief summary of the project goals..."></textarea>
                 </div>
             </div>
         `
@@ -519,19 +519,19 @@ const fieldData = {
             <div class="grid grid-2 gap-lg">
                 <div>
                     <label class="block font-bold mb-1 required">Reference Number</label>
-                    <input type="text" class="form-control" placeholder="Invoice # or PO #">
+                    <input type="text" name="reference_number" class="form-control" placeholder="Invoice # or PO #">
                 </div>
                 <div>
                     <label class="block font-bold mb-1 required">Billing Contact Person</label>
-                    <input type="text" class="form-control">
+                    <input type="text" name="billing_contact" class="form-control">
                 </div>
                 <div class="col-span-2">
                     <label class="block font-bold mb-1">Billing Address</label>
-                    <textarea rows="2" class="form-control"></textarea>
+                    <textarea name="billing_address" rows="2" class="form-control"></textarea>
                 </div>
                 <div class="col-span-2">
                     <label class="block font-bold mb-1">Issue Description</label>
-                    <textarea rows="3" class="form-control" placeholder="Describe the billing discrepancy or request..."></textarea>
+                    <textarea name="issue_description" rows="3" class="form-control" placeholder="Describe the billing discrepancy or request..."></textarea>
                 </div>
             </div>
         `
@@ -543,7 +543,7 @@ const fieldData = {
             <div class="grid grid-2 gap-lg">
                 <div>
                     <label class="block font-bold mb-1 required">Request Type</label>
-                    <select class="form-control">
+                    <select name="request_type" class="form-control">
                         <option>Safety Training (New User)</option>
                         <option>Tool Training</option>
                         <option>Outreach / Workshop</option>
@@ -552,7 +552,7 @@ const fieldData = {
                 </div>
                 <div>
                     <label class="block font-bold mb-1 required">Training Specifics</label>
-                    <select class="form-control">
+                    <select name="training_specifics" class="form-control">
                         <option>EHS Basic Safety</option>
                         <option>Cleanroom Gowning</option>
                         <option>Specific Tool (Describe below)</option>
@@ -561,7 +561,7 @@ const fieldData = {
                 </div>
                 <div class="col-span-2">
                     <label class="block font-bold mb-1">Notes / Additional Details</label>
-                    <textarea rows="3" class="form-control" placeholder="Please specify tool names, group size, or workshop topics..."></textarea>
+                    <textarea name="notes" rows="3" class="form-control" placeholder="Please specify tool names, group size, or workshop topics..."></textarea>
                 </div>
             </div>
         `
@@ -573,11 +573,11 @@ const fieldData = {
             <div class="grid grid-2 gap-lg">
                 <div>
                     <label class="block font-bold mb-1 required">Course Number</label>
-                    <input type="text" class="form-control" placeholder="e.g. EE400">
+                    <input type="text" name="course_number" class="form-control" placeholder="e.g. EE400">
                 </div>
                 <div>
                     <label class="block font-bold mb-1">Semester</label>
-                    <select class="form-control">
+                    <select name="semester" class="form-control">
                         <option>Fall 2025</option>
                         <option>Spring 2026</option>
                         <option>Summer 2026</option>
@@ -585,7 +585,7 @@ const fieldData = {
                 </div>
                 <div class="col-span-2">
                     <label class="block font-bold mb-1 required">Inquiry</label>
-                    <textarea rows="3" class="form-control" placeholder="Question about lab schedule, materials, or enrollment..."></textarea>
+                    <textarea name="inquiry" rows="3" class="form-control" placeholder="Question about lab schedule, materials, or enrollment..."></textarea>
                 </div>
             </div>
         `
@@ -597,11 +597,11 @@ const fieldData = {
             <div class="grid grid-2 gap-lg">
                 <div>
                     <label class="block font-bold mb-1 required">Group Size</label>
-                    <input type="number" class="form-control" placeholder="Approx number of people">
+                    <input type="number" name="group_size" class="form-control" placeholder="Approx number of people">
                 </div>
                 <div>
                     <label class="block font-bold mb-1 required">Group Type</label>
-                    <select class="form-control">
+                    <select name="group_type" class="form-control">
                         <option>K-12 School</option>
                         <option>Prospective Students</option>
                         <option>Industry Partners</option>
@@ -610,15 +610,15 @@ const fieldData = {
                 </div>
                 <div>
                     <label class="block font-bold mb-1 required">Preferred Date</label>
-                    <input type="date" class="form-control">
+                    <input type="date" name="preferred_date" class="form-control">
                 </div>
                 <div>
                     <label class="block font-bold mb-1">Alternative Date</label>
-                    <input type="date" class="form-control">
+                    <input type="date" name="alternative_date" class="form-control">
                 </div>
                 <div class="col-span-2">
                     <label class="block font-bold mb-1">Notes / Specific Interests</label>
-                    <textarea rows="3" class="form-control" placeholder="Any specific areas you'd like to see or topics to cover?"></textarea>
+                    <textarea name="notes" rows="3" class="form-control" placeholder="Any specific areas you'd like to see or topics to cover?"></textarea>
                 </div>
             </div>
         `
@@ -630,11 +630,11 @@ const fieldData = {
             <div class="form-stack">
                 <div>
                     <label class="block font-bold mb-1 required">Product Category</label>
-                    <input type="text" class="form-control" placeholder="e.g. Chemicals, Metrology Equipment, PPE">
+                    <input type="text" name="product_category" class="form-control" placeholder="e.g. Chemicals, Metrology Equipment, PPE">
                 </div>
                 <div>
                     <label class="block font-bold mb-1 required">Message</label>
-                    <textarea rows="4" class="form-control" placeholder="Describe your product or reason for contact..."></textarea>
+                    <textarea name="message" rows="4" class="form-control" placeholder="Describe your product or reason for contact..."></textarea>
                 </div>
             </div>
         `
@@ -645,7 +645,7 @@ const fieldData = {
         fields: `
             <div>
                 <label class="block font-bold mb-1 required">Message</label>
-                <textarea rows="5" class="form-control" placeholder="Please describe your question or issue..."></textarea>
+                <textarea name="message" rows="5" class="form-control" placeholder="Please describe your question or issue..."></textarea>
             </div>
         `
     },
@@ -656,7 +656,7 @@ const fieldData = {
             <div class="grid grid-2 gap-lg">
                 <div>
                     <label class="block font-bold mb-1 required">Issue Type</label>
-                    <select class="form-control">
+                    <select name="issue_type" class="form-control">
                         <option>Equipment Malfunction</option>
                         <option>Facilities (Power, Water, HVAC)</option>
                         <option>Software / Network</option>
@@ -666,11 +666,11 @@ const fieldData = {
                 </div>
                 <div>
                     <label class="block font-bold mb-1">Equipment Name (if applicable)</label>
-                    <input type="text" class="form-control" placeholder="e.g. Zeiss SEM">
+                    <input type="text" name="equipment_name" class="form-control" placeholder="e.g. Zeiss SEM">
                 </div>
                 <div class="col-span-2">
                     <label class="block font-bold mb-1 required">Description</label>
-                    <textarea rows="4" class="form-control" placeholder="Please describe the issue in detail..."></textarea>
+                    <textarea name="description" rows="4" class="form-control" placeholder="Please describe the issue in detail..."></textarea>
                 </div>
             </div>
         `
@@ -769,6 +769,14 @@ function selectCategory(category, element) {
         dynamicFields.innerHTML = data.fields;
         dynamicFields.className = 'fade-in';
 
+        // Set hidden category input
+        const categoryInput = document.getElementById('categoryInput');
+        if (categoryInput) categoryInput.value = category;
+
+        // Clear any previous feedback
+        const feedback = document.getElementById('formFeedback');
+        if (feedback) { feedback.classList.add('hidden'); feedback.textContent = ''; }
+
         // Dynamic Population for Equipment
         if (category === 'equipment') {
             populateEquipmentData();
@@ -793,11 +801,52 @@ function resetSelection() {
     document.getElementById('gatewayGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-function handleFormSubmit(e) {
+async function handleFormSubmit(e) {
     e.preventDefault();
-    alert("Thank you! Your inquiry has been routed to the appropriate team.");
-    resetSelection();
-    document.getElementById('contactForm').reset();
+
+    const form = document.getElementById('contactForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const feedback = document.getElementById('formFeedback');
+    const formData = new FormData(form);
+
+    // Disable button during submission
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+    feedback.classList.add('hidden');
+
+    try {
+        const response = await fetch('FormSubmission.php', {
+            method: 'POST',
+            body: formData,
+        });
+        const result = await response.json();
+
+        feedback.classList.remove('hidden');
+        if (result.success) {
+            feedback.style.cssText = 'padding:14px 18px;border-radius:8px;background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;font-weight:600;';
+            feedback.textContent = result.message;
+            form.reset();
+            // Scroll to feedback
+            setTimeout(() => {
+                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 200);
+            // Auto-reset after 5 seconds
+            setTimeout(() => {
+                resetSelection();
+            }, 5000);
+        } else {
+            feedback.style.cssText = 'padding:14px 18px;border-radius:8px;background:#ffebee;color:#c62828;border:1px solid #ef9a9a;font-weight:600;';
+            feedback.textContent = result.message || 'An error occurred. Please try again.';
+        }
+    } catch (err) {
+        feedback.classList.remove('hidden');
+        feedback.style.cssText = 'padding:14px 18px;border-radius:8px;background:#ffebee;color:#c62828;border:1px solid #ef9a9a;font-weight:600;';
+        feedback.textContent = 'Unable to connect to the server. Please try again later or email us directly.';
+        console.error('Form submission error:', err);
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Request';
+    }
 }
 
 // Global Exports
