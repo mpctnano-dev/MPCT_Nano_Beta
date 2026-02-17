@@ -680,6 +680,7 @@ ul {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
 }
 
 .brand-logo {
@@ -688,6 +689,7 @@ ul {
     align-items: center;
     text-decoration: none;
     gap: 16px;
+    min-width: 0;
 }
 
 .header-logo {
@@ -713,6 +715,7 @@ ul {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    min-width: 0;
 }
 
 .brand-text .dept {
@@ -732,6 +735,7 @@ ul {
     /* Dark Text 
     text-transform: uppercase;*/
     letter-spacing: 0.5px;
+    line-height: 1.2;
 }
 
 .brand-text .dept-sub {
@@ -827,11 +831,55 @@ ul {
 @media (max-width: 1024px) {
     .nav-menu {
         display: none;
-        /* JS toggles this */
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 0;
+        right: 0;
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        padding: 14px;
+        background: var(--nau-blue);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 12px;
+        box-shadow: var(--shadow-lg);
+        z-index: 1100;
+    }
+
+    .nav-menu.is-open {
+        display: flex;
+    }
+
+    .nav-item {
+        width: 100%;
+    }
+
+    .nav-menu .nav-link {
+        display: block;
+        color: #ffffff;
+        padding: 10px 8px;
+        border-radius: 8px;
+    }
+
+    .nav-menu .nav-link::after {
+        display: none;
+    }
+
+    .nav-menu .nav-link:hover,
+    .nav-menu .nav-link.active {
+        color: var(--nau-gold);
+        background: rgba(255, 255, 255, 0.08);
     }
 
     .mobile-toggle {
-        display: block;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        border: 1px solid var(--gray-300);
     }
 
     .brand-divider {
@@ -844,6 +892,34 @@ ul {
 
     .brand-text .dept {
         font-size: 0.9rem;
+    }
+
+    .dept1 {
+        font-size: 0.9rem;
+        letter-spacing: 0.2px;
+    }
+
+    .nav-menu .btn-gold {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .brand-logo {
+        gap: 10px;
+    }
+
+    .header-logo {
+        height: 36px;
+    }
+
+    .brand-divider {
+        display: none;
+    }
+
+    .dept1 {
+        font-size: 0.8rem;
     }
 }
 

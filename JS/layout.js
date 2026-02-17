@@ -69,27 +69,36 @@ class SiteHeader extends HTMLElement {
         const mobileBtn = this.querySelector('.mobile-toggle');
         const navMenu = this.querySelector('.nav-menu');
 
-        if (mobileBtn) {
-            mobileBtn.addEventListener('click', () => {
-                const isHidden = window.getComputedStyle(navMenu).display === 'none';
-                if (isHidden) {
-                    Object.assign(navMenu.style, {
-                        display: 'flex',
-                        flexDirection: 'column',
-                        position: 'absolute',
-                        top: '100%',
-                        left: '0',
-                        width: '100%',
-                        background: 'var(--nau-blue)',
-                        padding: '20px',
-                        zIndex: '1000'
-                    });
-                } else {
-                    navMenu.style.display = 'none';
-                    if (window.innerWidth > 1024) navMenu.style.display = '';
-                }
-            });
+        if (!mobileBtn || !navMenu) return;
+
+        if (!navMenu.id) {
+            navMenu.id = 'site-nav-menu';
         }
+
+        const closeMenu = () => {
+            navMenu.classList.remove('is-open');
+            mobileBtn.setAttribute('aria-expanded', 'false');
+            mobileBtn.setAttribute('aria-label', 'Open Menu');
+        };
+
+        mobileBtn.setAttribute('aria-controls', navMenu.id);
+        mobileBtn.setAttribute('aria-expanded', 'false');
+
+        mobileBtn.addEventListener('click', () => {
+            const isOpen = navMenu.classList.toggle('is-open');
+            mobileBtn.setAttribute('aria-expanded', String(isOpen));
+            mobileBtn.setAttribute('aria-label', isOpen ? 'Close Menu' : 'Open Menu');
+        });
+
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', closeMenu);
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 1024) {
+                closeMenu();
+            }
+        }, { passive: true });
     }
 }
 
