@@ -201,8 +201,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // -------------------------------------------------------------------------
     const mobileBtn = document.querySelector('.mobile-toggle');
     const navMenu = document.querySelector('.nav-menu');
+    const isManagedBySiteHeader = mobileBtn ? Boolean(mobileBtn.closest('site-header')) : false;
 
-    if (mobileBtn && navMenu) {
+    // Fallback binding only for legacy/static headers.
+    // <site-header> already binds its own mobile menu logic in layout.js.
+    if (mobileBtn && navMenu && !isManagedBySiteHeader) {
         mobileBtn.addEventListener('click', () => {
             const isHidden = window.getComputedStyle(navMenu).display === 'none';
             if (isHidden) {
