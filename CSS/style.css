@@ -109,6 +109,13 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+@media (max-width: 1024px) {
+    /* Avoid costly parallax-like repainting on mobile browsers */
+    body {
+        background-attachment: scroll;
+    }
+}
+
 ::selection {
     background: var(--nau-gold);
     color: var(--nau-blue);
@@ -4943,8 +4950,8 @@ ul {
 /* 1. Sticky Filter Bar */
 .filter-section {
     position: sticky;
-    top: 80px;
-    /* Adjusts for header height */
+    top: var(--site-header-height);
+    /* Sync with measured sticky header height from JS */
     z-index: 900;
     margin-top: -30px;
     padding-bottom: 20px;
@@ -6176,6 +6183,13 @@ ul {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 30px;
+}
+
+@media (max-width: 480px) {
+    .grid-layout {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
 }
 
 .list-layout {
@@ -7676,7 +7690,7 @@ ul {
    ================================ */
 .programs-grid-variant {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(350px, 100%), 1fr));
     gap: var(--space-xl);
     padding-bottom: var(--space-2xl);
 }
