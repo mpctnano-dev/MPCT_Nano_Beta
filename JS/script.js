@@ -338,11 +338,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const isProductPage = document.querySelector('.product-page');
         if (!isProductPage) return;
 
-        const statusDot = document.querySelector('.status-indicator-wrapper .status-dot');
         const reserveBtn = document.querySelector('.hero-cta .btn.btn-primary');
-        if (!statusDot || !reserveBtn) return;
+        if (!reserveBtn) return;
 
-        const isAvailable = statusDot.classList.contains('available');
+        const statusTag = document.querySelector('.hero-badges .status-tag');
+        const statusDot = document.querySelector('.status-indicator-wrapper .status-dot');
+
+        const isAvailable = statusTag
+            ? statusTag.classList.contains('available')
+            : (statusDot ? statusDot.classList.contains('available') : false);
         const storedLabel = reserveBtn.dataset.availableLabel;
         if (!storedLabel) {
             reserveBtn.dataset.availableLabel = reserveBtn.innerHTML.trim();
@@ -360,11 +364,21 @@ document.addEventListener('DOMContentLoaded', () => {
             reserveBtn.classList.remove('disabled');
             reserveBtn.removeAttribute('aria-disabled');
             reserveBtn.removeAttribute('tabindex');
+            if (reserveBtn.tagName.toLowerCase() === 'a') {
+                reserveBtn.setAttribute('href', '../Contact_Us.html?category=equipment');
+            }
             reserveBtn.innerHTML = reserveBtn.dataset.availableLabel;
         }
     };
 
     updateReserveButtonState();
+    if (document.querySelector('.product-page')) {
+        const badges = document.querySelector('.hero-badges');
+        if (badges) {
+            const observer = new MutationObserver(() => updateReserveButtonState());
+            observer.observe(badges, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
+        }
+    }
 
     // -------------------------------------------------------------------------
     // Equipment Catalog Logic: Filtering & View Layout
