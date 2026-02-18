@@ -5018,6 +5018,77 @@ ul {
     background: var(--gray-50);
 }
 
+/* --------------------------------------
+   CONTACT PAGE - MOBILE RESPONSIVE
+   -------------------------------------- */
+
+@media (max-width: 768px) {
+    /* Reduce form-wrapper padding on mobile */
+    .form-wrapper {
+        padding: 20px 16px;
+    }
+
+    /* Fix col-span-2 inside a collapsed 1-column grid */
+    .col-span-2 {
+        grid-column: span 1;
+    }
+
+    /* Gateway cards: always 2-col on small phones, 1-col below 480px */
+    #gatewayGrid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .gateway-card {
+        padding: 16px 12px;
+    }
+
+    .gateway-card i {
+        font-size: 1.8rem;
+        margin-bottom: 8px;
+    }
+
+    .gateway-title {
+        font-size: 0.9rem;
+    }
+
+    .gateway-desc {
+        display: none;
+    }
+
+    /* Form action buttons: stack on mobile */
+    #contactForm .d-flex.justify-between {
+        flex-direction: column-reverse;
+        gap: 12px;
+    }
+
+    #contactForm .d-flex.justify-between .btn {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+    }
+
+    /* Contact page header padding */
+    .section-padding.bg-gray-50.text-center {
+        padding: 40px 0 24px;
+    }
+
+    /* Form title size on mobile */
+    #formTitle {
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 480px) {
+    #gatewayGrid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .form-wrapper {
+        padding: 16px 12px;
+    }
+}
 
 /* --------------------------------------
    EQUIPMENT CATALOG STYLES
