@@ -1242,6 +1242,15 @@ ul {
     color: var(--white);
 }
 
+/* About pages: show a clean green "Available" text label (no extra pill/dot duplication) */
+.product-page .tag.status-tag.available {
+    background: transparent;
+    color: #22c55e;
+    padding: 0;
+    border-radius: 0;
+    font-weight: 700;
+}
+
 .tag.status-tag.unavailable {
     background-color: var(--nau-red);
     color: var(--white);
