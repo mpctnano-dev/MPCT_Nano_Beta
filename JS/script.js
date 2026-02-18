@@ -54,10 +54,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 header.classList.toggle('scrolled', shouldCompact);
                 isHeaderCompact = shouldCompact;
             }
-            syncStickyOffsets();
+            // NOTE: syncStickyOffsets intentionally NOT called here.
+            // Calling getBoundingClientRect() on every scroll event causes
+            // layout thrashing. The CSS variable is only updated on load/resize.
         };
 
         updateHeaderState();
+        syncStickyOffsets(); // Measure once after initial state is set
         window.addEventListener('scroll', updateHeaderState, { passive: true });
         window.addEventListener('resize', syncStickyOffsets, { passive: true });
         window.setTimeout(syncStickyOffsets, 120);

@@ -276,6 +276,10 @@ ul {
     gap: var(--space-xl);
 }
 
+.gap-2xl {
+    gap: var(--space-2xl);
+}
+
 .grid {
     display: grid;
 }
@@ -312,6 +316,12 @@ ul {
 
 .section-padding {
     padding: var(--space-4xl) 0;
+}
+
+@media (max-width: 768px) {
+    .section-padding {
+        padding: var(--space-3xl) 0;
+    }
 }
 
 .relative {
@@ -645,7 +655,14 @@ ul {
     position: sticky;
     top: 0;
     z-index: 1000;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    /* Transition only specific properties (not 'all') to prevent glitch/twitching.
+       The layout-recalculation loop is stopped in JS by not calling syncStickyOffsets
+       on scroll, so padding can animate smoothly here without causing jitter. */
+    transform: translateZ(0);
+    will-change: padding, box-shadow;
+    transition: padding 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     padding: 20px 0;
 }
@@ -696,11 +713,7 @@ ul {
     height: 44px;
     width: auto;
     /* FILTER REMOVED: Displays original logo colors */
-    transition: height 0.3s ease;
-}
-
-.site-header.scrolled .header-logo {
-    height: 40px;
+    /* No height transition: prevents layout reflow on scroll */
 }
 
 .brand-divider {
@@ -2699,6 +2712,16 @@ ul {
 }
 
 @media (max-width: 768px) {
+    /* Fix stat-box overflow on mobile (left: -20px goes off-screen) */
+    .stat-box {
+        left: 12px;
+        bottom: 12px;
+    }
+
+    .about-image-col {
+        height: 300px;
+    }
+
     .fab-status-card {
         padding: 20px;
     }
@@ -4771,6 +4794,13 @@ ul {
     margin-left: var(--space-xl);
 }
 
+@media (max-width: 768px) {
+    .partners-box {
+        margin-left: 0;
+        margin-top: var(--space-lg);
+    }
+}
+
 .partners-title {
     color: var(--nau-blue);
     margin-bottom: 20px;
@@ -4946,6 +4976,13 @@ ul {
     overflow: hidden;
     box-shadow: var(--shadow-xl);
     border: 4px solid rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+    .map-container {
+        height: 260px;
+        margin-top: var(--space-lg);
+    }
 }
 
 .footer-legal-container {
