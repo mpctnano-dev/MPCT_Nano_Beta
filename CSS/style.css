@@ -6065,6 +6065,36 @@ ul {
     gap: 12px;
 }
 
+.owner-role + .owner-role {
+    border-top: 1px solid var(--gray-200);
+    margin-top: 16px;
+    padding-top: 16px;
+}
+
+.owner-role-title {
+    margin: 0 0 10px 0;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.9px;
+    color: var(--gray-600);
+    font-weight: 700;
+}
+
+.owner-role .manager-profile {
+    margin-bottom: 10px;
+}
+
+.contact-list.compact {
+    gap: 8px;
+}
+
+.manager-cta-btn {
+    display: block;
+    width: 100%;
+    margin-top: 18px;
+    text-align: center;
+}
+
 .contact-item {
     display: flex;
     align-items: center;
