@@ -28,32 +28,6 @@ class SiteHeader extends HTMLElement {
         const basePath      = isInSubfolder ? '../' : './';
         const currentPage   = window.location.pathname.split('/').pop() || 'index.html';
 
-        // ── Context detection ────────────────────────────────────────────
-        const MPACT_PAGES = [
-            'MPaCT.html', 'Equipment.html', 'Safety_Training.html',
-            'Lab_Calendar.html', 'Research_Publications.html', 'EquipmentRequest.html'
-        ];
-        const WFD_PAGES = ['WorkForceDevelopment.html'];
-
-        const isMPaCTSection = MPACT_PAGES.includes(currentPage) || isInSubfolder;
-        const isWFDSection   = WFD_PAGES.includes(currentPage);
-
-        // ── Dynamic CTA button ───────────────────────────────────────────
-        // MPaCT section → "Reserve Equipment"
-        // WFD section   → "Enroll Now"
-        // Home + all other pages → "Apply Now"
-        let ctaText, ctaHref;
-        if (isWFDSection) {
-            ctaText = 'Enroll Now';
-            ctaHref = `${basePath}Contact_Us.html?category=research`;
-        } else if (isMPaCTSection) {
-            ctaText = 'Reserve Equipment';
-            ctaHref = `${basePath}Contact_Us.html?category=equipment`;
-        } else {
-            ctaText = 'Apply Now';
-            ctaHref = `${basePath}Contact_Us.html?category=equipment`;
-        }
-
         // ── HTML ─────────────────────────────────────────────────────────
         this.innerHTML = `
         <header class="site-header" id="mainHeader">
@@ -364,77 +338,15 @@ class SiteHeader extends HTMLElement {
                     </div>
                     <!-- End WFD Mega-Menu -->
 
-                    <!-- ═══════ Resources Dropdown ═══════ -->
-                    <div class="nav-item nav-item--has-dropdown" id="resourcesDropdownItem">
-                        <button class="nav-dropdown-btn" aria-expanded="false" aria-haspopup="true">
-                            Resources
-                            <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                            </svg>
-                        </button>
-
-                        <div class="nav-mega-panel nav-resources-panel" role="menu" aria-label="Resources navigation">
-                            <div class="nav-mega-inner nav-resources-inner">
-
-                                <a href="${basePath}About_Us.html"
-                                    class="nav-res-link" data-path="About_Us.html" role="menuitem">
-                                    <div class="nav-res-icon">
-                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                            stroke-linejoin="round">
-                                            <circle cx="12" cy="8" r="4"></circle>
-                                            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"></path>
-                                        </svg>
-                                    </div>
-                                    <div class="nav-res-text">
-                                        <strong>About Us</strong>
-                                        <small>Our mission, team &amp; facility</small>
-                                    </div>
-                                </a>
-
-                                <a href="${basePath}Contact_Us.html"
-                                    class="nav-res-link" data-path="Contact_Us.html" role="menuitem">
-                                    <div class="nav-res-icon">
-                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                            stroke-linejoin="round">
-                                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                                            <polyline points="22,6 12,13 2,6"></polyline>
-                                        </svg>
-                                    </div>
-                                    <div class="nav-res-text">
-                                        <strong>Contact Us</strong>
-                                        <small>Get in touch with the lab</small>
-                                    </div>
-                                </a>
-
-                                <a href="${basePath}Contact_Us.html?category=careers"
-                                    class="nav-res-link" role="menuitem">
-                                    <div class="nav-res-icon">
-                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                            stroke-linejoin="round">
-                                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                                            <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"></path>
-                                            <line x1="12" y1="12" x2="12" y2="16"></line>
-                                            <line x1="10" y1="14" x2="14" y2="14"></line>
-                                        </svg>
-                                    </div>
-                                    <div class="nav-res-text">
-                                        <strong>Careers</strong>
-                                        <small>Jobs, internships &amp; co-ops</small>
-                                    </div>
-                                </a>
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Resources Dropdown -->
-
-                    <!-- Dynamic CTA button -->
+                    <!-- About Us -->
                     <div class="nav-item">
-                        <a href="${ctaHref}" class="btn btn-sm btn-gold">${ctaText}</a>
+                        <a href="${basePath}About_Us.html" class="nav-link"
+                            data-path="About_Us.html">About Us</a>
+                    </div>
+
+                    <!-- Static CTA button -->
+                    <div class="nav-item">
+                        <a href="${basePath}Contact_Us.html" class="btn btn-sm btn-gold">Contact Us</a>
                     </div>
 
                 </nav>
