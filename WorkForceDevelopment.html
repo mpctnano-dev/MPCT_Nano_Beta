@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Workforce Development at NAU Nano — training Day-1 ready semiconductor engineers through industry partnerships, apprenticeships, and integrated degree programs.">
+    <meta name="theme-color" content="#002454">
+    <title>Workforce Development | NAU Nano</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="CSS/style.css">
+
+    <style>
+        /* ================================================================
+           WORKFORCE DEVELOPMENT — CINEMATIC PAGE DESIGN SYSTEM
+           ================================================================ */
+
+        /* ── 1. CINEMATIC HERO ──────────────────────────────────────────── */
+        .ml-hero {
+            position: relative;
+            height: 100vh;
+            min-height: 680px;
+            max-height: 1080px;
+            display: flex;
+            align-items: flex-end;
+            overflow: hidden;
+            background: var(--nau-blue-dark);
+        }
+
+        .ml-hero__bg {
+            position: absolute;
+            inset: 0;
+        }
+
+        .ml-hero__bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 35%;
+            animation: mlKenBurns 22s ease-in-out infinite alternate;
+        }
+
+        @keyframes mlKenBurns {
+            from { transform: scale(1.04) translateX(0); }
+            to   { transform: scale(1.10) translateX(-1.5%); }
+        }
+
+        .ml-hero__overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to top,
+                rgba(0, 10, 28, 0.97) 0%,
+                rgba(0, 36, 84, 0.80) 38%,
+                rgba(0, 24, 56, 0.45) 70%,
+                rgba(0, 10, 28, 0.25) 100%
+            );
+        }
+
+        .ml-hero__noise {
+            position: absolute;
+            inset: 0;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-size: 200px 200px;
+            pointer-events: none;
+        }
+
+        .ml-hero__content {
+            position: relative;
+            z-index: 2;
+            padding-bottom: 88px;
+            width: 100%;
+        }
+
+        .ml-hero__split {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 64px;
+            align-items: flex-end;
+        }
+
+        .ml-hero__eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--nau-gold);
+            margin-bottom: 22px;
+        }
+
+        .wfd-hero__badge-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--nau-gold);
+            animation: wfdDotPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes wfdDotPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50%       { opacity: 0.5; transform: scale(0.7); }
+        }
+
+        .ml-hero__title {
+            font-size: clamp(3rem, 6.5vw, 5.5rem);
+            font-weight: 900;
+            color: #fff;
+            line-height: 0.95;
+            letter-spacing: -0.035em;
+            margin-bottom: 28px;
+        }
+
+        .ml-hero__title em {
+            font-style: normal;
+            color: var(--nau-gold);
+        }
+
+        .ml-hero__subtitle {
+            font-size: 1.05rem;
+            color: rgba(255, 255, 255, 0.65);
+            line-height: 1.8;
+            max-width: 540px;
+            margin-bottom: 40px;
+        }
+
+        .ml-hero__subtitle strong {
+            color: rgba(255, 255, 255, 0.92);
+            font-weight: 600;
+        }
+
+        .ml-hero__actions {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        /* Hero right panel */
+        .ml-hero__panel {
+            background: rgba(0, 12, 36, 0.72);
+            backdrop-filter: blur(28px) saturate(150%);
+            -webkit-backdrop-filter: blur(28px) saturate(150%);
+            border: 1px solid rgba(250, 192, 26, 0.18);
+            border-radius: 20px;
+            padding: 32px;
+        }
+
+        .ml-hero__panel-label {
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--nau-gold);
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .ml-hero__panel-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+
+        .ml-pstat__num {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 900;
+            color: #fff;
+            line-height: 1;
+        }
+
+        .ml-pstat__num em {
+            font-style: normal;
+            color: var(--nau-gold);
+            font-size: 1.2rem;
+        }
+
+        .ml-pstat__label {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.45);
+            margin-top: 5px;
+            line-height: 1.4;
+        }
+
+        .ml-hero__panel-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+        }
+
+        .ml-hero__panel-tag {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: rgba(255, 255, 255, 0.65);
+            font-size: 0.68rem;
+            font-weight: 600;
+            padding: 5px 12px;
+            border-radius: 100px;
+            letter-spacing: 0.3px;
+        }
+
+        /* Scroll cue */
+        .ml-hero__scroll {
+            position: absolute;
+            bottom: 36px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            z-index: 3;
+            color: rgba(255, 255, 255, 0.35);
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .ml-hero__scroll-bar {
+            width: 1px;
+            height: 52px;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.35), transparent);
+            animation: scrollBarPulse 2.2s ease-in-out infinite;
+        }
+
+        @keyframes scrollBarPulse {
+            0%, 100% { transform: scaleY(1); opacity: 0.6; }
+            50%       { transform: scaleY(0.6); opacity: 0.2; }
+        }
+
+        @media (max-width: 1100px) {
+            .ml-hero__split { grid-template-columns: 1fr; }
+            .ml-hero__panel { display: none; }
+        }
+
+        @media (max-width: 600px) {
+            .ml-hero { min-height: 600px; }
+            .ml-hero__content { padding-bottom: 64px; }
+        }
+
+        /* ── Under Development mid-section ── */
+        .wfd-dev {
+            padding: 96px 24px;
+            background: #f9fafb;
+            text-align: center;
+            border-top: 1px solid var(--gray-200);
+        }
+        .wfd-dev__eyebrow {
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            color: var(--nau-gold);
+            display: block;
+            margin-bottom: 16px;
+        }
+        .wfd-dev__title {
+            font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+            font-weight: 800;
+            color: var(--nau-blue);
+            letter-spacing: -0.03em;
+            margin: 0 0 16px;
+        }
+        .wfd-dev__desc {
+            color: var(--gray-500);
+            font-size: 1rem;
+            line-height: 1.7;
+            max-width: 480px;
+            margin: 0 auto 40px;
+        }
+
+        /* Preview cards */
+        .wfd-dev__cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            max-width: 860px;
+            margin: 0 auto 40px;
+        }
+        .wfd-dev__card {
+            background: #fff;
+            border: 1px solid var(--gray-200);
+            border-radius: 14px;
+            padding: 24px 20px;
+            text-align: center;
+        }
+        .wfd-dev__card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(0,36,84,0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--nau-blue);
+            margin: 0 auto 14px;
+        }
+        .wfd-dev__card-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--nau-blue);
+            margin-bottom: 6px;
+        }
+        .wfd-dev__card-sub {
+            font-size: 0.78rem;
+            color: var(--gray-500);
+            line-height: 1.5;
+        }
+
+        @media (max-width: 640px) {
+            .wfd-hero { padding: 130px 0 70px; background-attachment: scroll; }
+            .wfd-stats__inner { height: auto; flex-wrap: wrap; padding: 0; }
+            .wfd-stat {
+                flex: 1 1 50%;
+                border-right: none;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+                padding: 16px 0;
+            }
+            .wfd-dev__cards { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <site-header></site-header>
+
+    <main>
+
+        <!-- ══════════════════════════════════════════════════════════
+             §1  CINEMATIC HERO
+        ══════════════════════════════════════════════════════════════ -->
+        <section class="ml-hero">
+            <div class="ml-hero__bg">
+                <img src="Images/13.jpg"
+                    alt="Workforce Training and Cleanroom Apprenticeships at Northern Arizona University">
+            </div>
+            <div class="ml-hero__overlay"></div>
+            <div class="ml-hero__noise"></div>
+
+            <div class="ml-hero__content">
+                <div class="container">
+                    <div class="ml-hero__split">
+
+                        <!-- Left: text & CTAs -->
+                        <div>
+                            <div class="ml-hero__eyebrow">
+                                <span class="wfd-hero__badge-dot"></span>
+                                NAU Nano Initiative
+                            </div>
+                            <h1 class="ml-hero__title">
+                                Workforce<br><em>Development</em>
+                            </h1>
+                            <p class="ml-hero__subtitle">
+                                Producing Day-1 ready <strong>semiconductor engineers and process technicians</strong> through industry apprenticeships, integrated degree programs, and partnerships with Intel, TSMC, and Microchip.
+                            </p>
+                            <div class="ml-hero__actions">
+                                <a href="degree-programs.html" class="btn btn-primary">View Degree Programs</a>
+                                <a href="Contact_Us.html?category=research" class="btn btn-outline">Partner With Us</a>
+                            </div>
+                        </div>
+
+                        <!-- Right: stats panel -->
+                        <div class="ml-hero__panel">
+                            <div class="ml-hero__panel-label">Program Impact</div>
+                            <div class="ml-hero__panel-stats">
+                                <div>
+                                    <div class="ml-pstat__num">4<em>+</em></div>
+                                    <div class="ml-pstat__label">Industry Partners</div>
+                                </div>
+                                <div>
+                                    <div class="ml-pstat__num">600</div>
+                                    <div class="ml-pstat__label">Cert. Lab Hours</div>
+                                </div>
+                                <div>
+                                    <div class="ml-pstat__num">100<em>%</em></div>
+                                    <div class="ml-pstat__label">Job Placement</div>
+                                </div>
+                                <div>
+                                    <div class="ml-pstat__num">2<em>yr</em></div>
+                                    <div class="ml-pstat__label">PTAP Accelerated</div>
+                                </div>
+                            </div>
+                            <div class="ml-hero__panel-tags">
+                                <span class="ml-hero__panel-tag">OSHA 30 Certified</span>
+                                <span class="ml-hero__panel-tag">Apprenticeships</span>
+                                <span class="ml-hero__panel-tag">TSMC Pipeline</span>
+                                <span class="ml-hero__panel-tag">Flagstaff, AZ</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="ml-hero__scroll" aria-hidden="true">
+                <span>Scroll</span>
+                <div class="ml-hero__scroll-bar"></div>
+            </div>
+        </section>
+
+        <!-- ── Under Development mid-section ── -->
+        <section class="wfd-dev">
+
+            <span class="wfd-dev__eyebrow">Under Development</span>
+            <h2 class="wfd-dev__title">This page is being built</h2>
+            <p class="wfd-dev__desc">
+                Our Workforce Development section — covering the PTAP Apprenticeship, industry partnerships,
+                and career pathways — is actively in development and will be available soon.
+            </p>
+
+            <div class="wfd-dev__cards">
+                <div class="wfd-dev__card">
+                    <div class="wfd-dev__card-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                            <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                        </svg>
+                    </div>
+                    <div class="wfd-dev__card-title">PTAP Apprenticeship</div>
+                    <div class="wfd-dev__card-sub">2-year program with TSMC Arizona</div>
+                </div>
+
+                <div class="wfd-dev__card">
+                    <div class="wfd-dev__card-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                            <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"></path>
+                        </svg>
+                    </div>
+                    <div class="wfd-dev__card-title">Industry Partnerships</div>
+                    <div class="wfd-dev__card-sub">Intel, TSMC, Microchip &amp; NXP</div>
+                </div>
+
+                <div class="wfd-dev__card">
+                    <div class="wfd-dev__card-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                        </svg>
+                    </div>
+                    <div class="wfd-dev__card-title">Career Pathways</div>
+                    <div class="wfd-dev__card-sub">Internships, co-ops &amp; job placement</div>
+                </div>
+            </div>
+
+            <a href="Contact_Us.html?category=research"
+                style="display:inline-flex;align-items:center;gap:6px;color:var(--nau-gold);font-weight:600;font-size:0.875rem;text-decoration:none;border:1px solid rgba(250,192,26,0.35);padding:10px 22px;border-radius:100px;transition:background 0.2s;"
+                onmouseover="this.style.background='rgba(250,192,26,0.08)'"
+                onmouseout="this.style.background='transparent'">
+                Contact Us to Learn More
+            </a>
+
+        </section>
+
+    </main>
+
+    <site-footer></site-footer>
+
+    <script src="JS/layout.js"></script>
+
+</body>
+
+</html>

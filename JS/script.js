@@ -53,10 +53,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (shouldCompact !== isHeaderCompact) {
                 header.classList.toggle('scrolled', shouldCompact);
                 isHeaderCompact = shouldCompact;
+                // Recalculate sticky offsets after the CSS transition finishes (0.3s)
+                setTimeout(syncStickyOffsets, 350);
             }
-            // NOTE: syncStickyOffsets intentionally NOT called here.
+            // NOTE: syncStickyOffsets intentionally NOT called on every scroll tick here.
             // Calling getBoundingClientRect() on every scroll event causes
-            // layout thrashing. The CSS variable is only updated on load/resize.
+            // layout thrashing. The CSS variable is only updated on load/resize/transition end.
         };
 
         updateHeaderState();
