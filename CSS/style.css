@@ -749,7 +749,7 @@ ul {
 /* Nav Menu */
 .nav-menu {
     display: flex;
-    gap: 32px;
+    gap: 22px;
     align-items: center;
 }
 
@@ -825,6 +825,20 @@ ul {
     background: none;
     color: var(--nau-blue);
     cursor: pointer;
+}
+
+@media (max-width: 1280px) {
+    .nav-menu {
+        gap: 16px;
+    }
+
+    .nav-link {
+        font-size: 0.9rem;
+    }
+
+    .btn-sm {
+        padding: 9px 18px;
+    }
 }
 
 /* Mobile Responsive */

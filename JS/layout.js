@@ -35,12 +35,13 @@ class SiteHeader extends HTMLElement {
 
                 <nav class="nav-menu">
                     <div class="nav-item"><a href="${basePath}index.html" class="nav-link" data-path="index.html">Home</a></div>
+                    <div class="nav-item"><a href="${basePath}MPaCT_Lab.html" class="nav-link" data-path="MPaCT_Lab.html">MPaCT Lab</a></div>
                     <div class="nav-item"><a href="${basePath}Equipment.html" class="nav-link" data-path="Equipment.html">Equipment</a></div>
                     
                     <div class="nav-item"><a href="${basePath}degree-programs.html" class="nav-link" data-path="degree-programs.html">Degree Programs</a></div>
                     <!-- Removed DP_2 link -->
                     
-                    <div class="nav-item"><a href="${basePath}About_Us.html" class="nav-link">About Us</a></div>
+                    <div class="nav-item"><a href="${basePath}About_Us.html" class="nav-link" data-path="About_Us.html">About Us</a></div>
                     
                     <div class="nav-item"><a href="${basePath}Contact_Us.html" class="nav-link" data-path="Contact_Us.html">Contact Us</a></div>
                     

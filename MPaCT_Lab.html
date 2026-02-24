@@ -1,0 +1,626 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPaCT Lab | NAU Nano</title>
+    <meta name="description"
+        content="Explore the MPaCT Lab experience: capabilities, research support, workforce development, and equipment access at Northern Arizona University.">
+    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .mpactlab-shell {
+            background: linear-gradient(180deg, #f7fafd 0%, #edf2f8 100%);
+        }
+
+        .mpactlab-section {
+            padding: 72px 0;
+        }
+
+        .mpactlab-head {
+            margin-bottom: 28px;
+        }
+
+        .mpactlab-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--nau-blue);
+            background: rgba(0, 36, 84, 0.08);
+            border: 1px solid rgba(0, 36, 84, 0.12);
+            border-radius: 999px;
+            padding: 6px 12px;
+            margin-bottom: 12px;
+        }
+
+        .mpactlab-title {
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            color: var(--nau-blue);
+            margin: 0 0 10px;
+            line-height: 1.12;
+        }
+
+        .mpactlab-lead {
+            margin: 0;
+            color: var(--gray-700);
+            max-width: 860px;
+        }
+
+        .mpactlab-intro-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 24px;
+            align-items: stretch;
+        }
+
+        .mpactlab-panel {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow: 0 14px 32px rgba(0, 20, 50, 0.08);
+        }
+
+        .mpactlab-panel p {
+            color: var(--gray-700);
+            margin: 0 0 14px;
+        }
+
+        .mpactlab-cta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .mpactlab-chip-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .mpactlab-chip {
+            border: 1px solid #d7deea;
+            color: #29496b;
+            background: #f6f9ff;
+            border-radius: 999px;
+            padding: 5px 10px;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+
+        .mpactlab-metric-stack {
+            display: grid;
+            gap: 12px;
+        }
+
+        .mpactlab-metric-card {
+            background: linear-gradient(125deg, #0b2f59 0%, #12467f 100%);
+            color: white;
+            border-radius: 14px;
+            padding: 16px 18px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 12px 24px rgba(0, 25, 60, 0.25);
+        }
+
+        .mpactlab-metric-card strong {
+            display: block;
+            font-size: 1.3rem;
+            line-height: 1.1;
+            margin-bottom: 4px;
+        }
+
+        .mpactlab-metric-card span {
+            font-size: 0.86rem;
+            color: rgba(255, 255, 255, 0.88);
+        }
+
+        .mpactlab-cap-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .mpactlab-cap-card {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 16px;
+            padding: 18px;
+            box-shadow: 0 10px 24px rgba(0, 24, 54, 0.06);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mpactlab-cap-card::after {
+            content: '';
+            position: absolute;
+            right: -28px;
+            top: -28px;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(250, 192, 26, 0.24) 0%, rgba(250, 192, 26, 0) 70%);
+            pointer-events: none;
+        }
+
+        .mpactlab-cap-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            color: white;
+            font-size: 1rem;
+            background: linear-gradient(130deg, #0b3360 0%, #1d5a9c 100%);
+        }
+
+        .mpactlab-cap-card h3 {
+            margin: 0 0 8px;
+            font-size: 1.02rem;
+            color: var(--nau-blue);
+        }
+
+        .mpactlab-cap-card p {
+            margin: 0 0 12px;
+            color: var(--gray-700);
+            font-size: 0.92rem;
+        }
+
+        .mpactlab-cap-link {
+            text-decoration: none;
+            font-size: 0.86rem;
+            font-weight: 700;
+            color: var(--nau-blue);
+        }
+
+        .mpactlab-flow-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .mpactlab-flow-card {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 16px;
+            padding: 18px;
+            box-shadow: 0 10px 20px rgba(0, 18, 45, 0.06);
+        }
+
+        .mpactlab-flow-step {
+            display: inline-flex;
+            width: 30px;
+            height: 30px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #e8f0fb;
+            color: #123f72;
+            font-size: 0.82rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .mpactlab-flow-card h3 {
+            margin: 0 0 8px;
+            font-size: 0.98rem;
+            color: var(--nau-blue);
+        }
+
+        .mpactlab-flow-card p {
+            margin: 0;
+            color: var(--gray-700);
+            font-size: 0.9rem;
+        }
+
+        .mpactlab-focus {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            align-items: stretch;
+        }
+
+        .mpactlab-photo {
+            border-radius: 18px;
+            overflow: hidden;
+            min-height: 360px;
+            position: relative;
+            box-shadow: 0 16px 28px rgba(0, 24, 52, 0.16);
+        }
+
+        .mpactlab-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .mpactlab-photo-tag {
+            position: absolute;
+            left: 14px;
+            bottom: 14px;
+            background: rgba(9, 43, 79, 0.84);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            border-radius: 999px;
+            padding: 7px 12px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+
+        .mpactlab-list-card {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 18px;
+            padding: 24px;
+            box-shadow: 0 12px 24px rgba(0, 23, 58, 0.08);
+        }
+
+        .mpactlab-list-card h3 {
+            margin: 0 0 10px;
+            color: var(--nau-blue);
+            font-size: 1.2rem;
+        }
+
+        .mpactlab-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: 10px;
+        }
+
+        .mpactlab-list li {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            color: var(--gray-700);
+            font-size: 0.94rem;
+            line-height: 1.45;
+        }
+
+        .mpactlab-list i {
+            color: var(--nau-gold);
+            margin-top: 4px;
+            min-width: 14px;
+            text-align: center;
+        }
+
+        .mpactlab-final {
+            background: linear-gradient(130deg, #082848 0%, #0e3b68 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 34px 30px;
+            box-shadow: 0 16px 34px rgba(0, 18, 42, 0.34);
+        }
+
+        .mpactlab-final h2 {
+            margin: 0 0 10px;
+            font-size: clamp(1.5rem, 2.8vw, 2rem);
+            line-height: 1.12;
+        }
+
+        .mpactlab-final p {
+            margin: 0;
+            color: rgba(255, 255, 255, 0.88);
+            max-width: 760px;
+        }
+
+        .mpactlab-final .mpactlab-cta-row {
+            margin-top: 18px;
+        }
+
+        @media (max-width: 1100px) {
+            .mpactlab-cap-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .mpactlab-flow-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .mpactlab-intro-grid,
+            .mpactlab-focus {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .mpactlab-section {
+                padding: 56px 0;
+            }
+
+            .mpactlab-cap-grid,
+            .mpactlab-flow-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .mpactlab-panel,
+            .mpactlab-list-card {
+                padding: 20px;
+            }
+
+            .mpactlab-final {
+                padding: 24px 20px;
+            }
+
+            .mpactlab-cta-row .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <site-header></site-header>
+
+    <main class="mpactlab-shell">
+        <section class="about-hero">
+            <div class="about-hero-pattern"></div>
+            <div class="container">
+                <span class="section-eyebrow">About the Lab</span>
+                <h1 class="about-hero-title">
+                    The MPaCT Lab at<br><span class="text-gold">Northern Arizona University</span>
+                </h1>
+                <p class="about-hero-tagline">
+                    A $13 million shared-use research facility dedicated to microelectronics processing,
+                    semiconductor metrology, and hands-on workforce training - open to NAU, external researchers,
+                    and industry partners nationwide.
+                </p>
+            </div>
+        </section>
+
+        <section class="about-stats-section">
+            <div class="container">
+                <div class="stats-strip">
+                    <div class="stat-item">
+                        <div class="stat-value">$13<span class="stat-suffix">M</span></div>
+                        <div class="stat-title">Facility Investment</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">1,500<span class="stat-suffix">sq ft</span></div>
+                        <div class="stat-title">Class 1000 Cleanroom</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">25+</div>
+                        <div class="stat-title">Research Instruments</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">5+</div>
+                        <div class="stat-title">Disciplines Served</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="hero-divider" aria-hidden="true">
+            <div class="hd-particles">
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+            </div>
+
+            <div class="hd-circuit-field">
+                <span class="hd-field-line hd-field-line--h hd-field-line--h1"></span>
+                <span class="hd-field-line hd-field-line--h hd-field-line--h2"></span>
+                <span class="hd-field-line hd-field-line--h hd-field-line--h3"></span>
+                <span class="hd-field-line hd-field-line--h hd-field-line--h4"></span>
+                <span class="hd-field-line hd-field-line--h hd-field-line--h5"></span>
+                <span class="hd-field-line hd-field-line--h hd-field-line--h6"></span>
+                <span class="hd-field-line hd-field-line--v hd-field-line--v1"></span>
+                <span class="hd-field-line hd-field-line--v hd-field-line--v2"></span>
+                <span class="hd-field-line hd-field-line--v hd-field-line--v3"></span>
+                <span class="hd-field-line hd-field-line--v hd-field-line--v4"></span>
+                <span class="hd-field-line hd-field-line--v hd-field-line--v5"></span>
+                <span class="hd-field-line hd-field-line--v hd-field-line--v6"></span>
+                <span class="hd-field-via hd-field-via--1"></span>
+                <span class="hd-field-via hd-field-via--2"></span>
+                <span class="hd-field-via hd-field-via--3"></span>
+                <span class="hd-field-via hd-field-via--4"></span>
+                <span class="hd-field-via hd-field-via--5"></span>
+                <span class="hd-field-via hd-field-via--6"></span>
+                <span class="hd-field-via hd-field-via--7"></span>
+                <span class="hd-field-via hd-field-via--8"></span>
+                <span class="hd-field-via hd-field-via--9"></span>
+                <span class="hd-field-via hd-field-via--10"></span>
+                <span class="hd-field-via hd-field-via--11"></span>
+                <span class="hd-field-via hd-field-via--12"></span>
+            </div>
+
+            <div class="hd-circuit">
+                <div class="hd-trace hd-trace--left">
+                    <span class="hd-node"></span>
+                    <span class="hd-node"></span>
+                    <span class="hd-node hd-node--branch"></span>
+                </div>
+
+                <div class="hd-brand">
+                    <span class="hd-i">i</span>
+                    <div class="hd-mpact-mask"></div>
+                </div>
+
+                <div class="hd-trace hd-trace--right">
+                    <span class="hd-node hd-node--branch"></span>
+                    <span class="hd-node"></span>
+                    <span class="hd-node"></span>
+                </div>
+            </div>
+
+            <div class="hd-pulse hd-pulse--ltr"></div>
+            <div class="hd-pulse hd-pulse--rtl"></div>
+        </section>
+
+        <section class="mpactlab-section">
+            <div class="container">
+                <div class="mpactlab-head">
+                    <span class="mpactlab-kicker"><i class="fa-solid fa-compass-drafting"></i> MPaCT Experience</span>
+                    <h2 class="mpactlab-title">A single place to discover tools, workflows, and access paths</h2>
+                    <p class="mpactlab-lead">
+                        This hub is designed for fast orientation: what the lab can do, how teams engage with it, and
+                        where to start when you are planning your next project.
+                    </p>
+                </div>
+
+                <div class="mpactlab-intro-grid">
+                    <article class="mpactlab-panel">
+                        <p>
+                            MPaCT combines research instrumentation, staff support, and workforce training in one
+                            environment. Whether your team needs a single run or a multi-stage process, this page maps
+                            the path from request to results.
+                        </p>
+                        <p>
+                            Browse capability areas, connect with staff, and move directly to reservation and equipment
+                            documentation from here.
+                        </p>
+                        <div class="mpactlab-chip-wrap">
+                            <span class="mpactlab-chip">Open-access model</span>
+                            <span class="mpactlab-chip">Research + Teaching support</span>
+                            <span class="mpactlab-chip">Industry collaboration ready</span>
+                            <span class="mpactlab-chip">Technical staff guidance</span>
+                        </div>
+                        <div class="mpactlab-cta-row">
+                            <a href="Equipment.html" class="btn btn-primary">Explore Equipment</a>
+                            <a href="Contact_Us.html?category=equipment" class="btn btn-outline">Reserve Equipment</a>
+                        </div>
+                    </article>
+
+                    <div class="mpactlab-metric-stack">
+                        <div class="mpactlab-metric-card">
+                            <strong>End-to-end lab support</strong>
+                            <span>From training and safety onboarding through data-ready results.</span>
+                        </div>
+                        <div class="mpactlab-metric-card">
+                            <strong>Multi-domain capability</strong>
+                            <span>Fabrication, metrology, electrical testing, and sample preparation.</span>
+                        </div>
+                        <div class="mpactlab-metric-card">
+                            <strong>University + industry access</strong>
+                            <span>Designed for NAU users, visiting researchers, and private-sector teams.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mpactlab-section" style="padding-top: 0;">
+            <div class="container">
+                <div class="mpactlab-head">
+                    <span class="mpactlab-kicker"><i class="fa-solid fa-layer-group"></i> Capability Streams</span>
+                    <h2 class="mpactlab-title">Work by capability, then go straight to the right tools</h2>
+                </div>
+
+                <div class="mpactlab-cap-grid">
+                    <article class="mpactlab-cap-card">
+                        <div class="mpactlab-cap-icon"><i class="fa-solid fa-microscope"></i></div>
+                        <h3>Metrology and Characterization</h3>
+                        <p>Surface, structural, and materials analysis workflows for research and failure studies.</p>
+                        <a class="mpactlab-cap-link" href="Equipment.html">See metrology tools</a>
+                    </article>
+                    <article class="mpactlab-cap-card">
+                        <div class="mpactlab-cap-icon"><i class="fa-solid fa-microchip"></i></div>
+                        <h3>Fabrication and Prototyping</h3>
+                        <p>Patterning, bonding, and prototyping support for devices and process development.</p>
+                        <a class="mpactlab-cap-link" href="Equipment.html">See fabrication tools</a>
+                    </article>
+                    <article class="mpactlab-cap-card">
+                        <div class="mpactlab-cap-icon"><i class="fa-solid fa-bolt"></i></div>
+                        <h3>Electrical and Thermal Testing</h3>
+                        <p>Controlled electrical measurement environments and test platforms for validation.</p>
+                        <a class="mpactlab-cap-link" href="Equipment.html">See electrical tools</a>
+                    </article>
+                    <article class="mpactlab-cap-card">
+                        <div class="mpactlab-cap-icon"><i class="fa-solid fa-user-graduate"></i></div>
+                        <h3>Training and Workforce Pipeline</h3>
+                        <p>Hands-on tool training aligned with semiconductor workforce and partner needs.</p>
+                        <a class="mpactlab-cap-link" href="Contact_Us.html?category=training">Request training support</a>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="mpactlab-section" style="padding-top: 0;">
+            <div class="container">
+                <div class="mpactlab-head">
+                    <span class="mpactlab-kicker"><i class="fa-solid fa-route"></i> Project Flow</span>
+                    <h2 class="mpactlab-title">A clear path from inquiry to booked equipment access</h2>
+                </div>
+
+                <div class="mpactlab-flow-grid">
+                    <article class="mpactlab-flow-card">
+                        <span class="mpactlab-flow-step">01</span>
+                        <h3>Submit Request</h3>
+                        <p>Use the equipment access form with project scope, timeline, and affiliation.</p>
+                    </article>
+                    <article class="mpactlab-flow-card">
+                        <span class="mpactlab-flow-step">02</span>
+                        <h3>Review and Routing</h3>
+                        <p>Staff route your request to the proper capability area and support contact.</p>
+                    </article>
+                    <article class="mpactlab-flow-card">
+                        <span class="mpactlab-flow-step">03</span>
+                        <h3>Onboarding and Scheduling</h3>
+                        <p>Safety and training requirements are completed before scheduling tool access.</p>
+                    </article>
+                    <article class="mpactlab-flow-card">
+                        <span class="mpactlab-flow-step">04</span>
+                        <h3>Execute and Iterate</h3>
+                        <p>Run the workflow, review outcomes, and plan next iterations with staff support.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="mpactlab-section" style="padding-top: 0;">
+            <div class="container">
+                <div class="mpactlab-focus">
+                    <div class="mpactlab-photo">
+                        <img src="Images/18.jpg" alt="MPaCT Lab workspace and cleanroom operations">
+                        <span class="mpactlab-photo-tag">Shared-use research environment</span>
+                    </div>
+                    <article class="mpactlab-list-card">
+                        <h3>What makes MPaCT practical for teams</h3>
+                        <ul class="mpactlab-list">
+                            <li><i class="fa-solid fa-check"></i><span>Cross-functional tool coverage across metrology, fabrication, and testing.</span></li>
+                            <li><i class="fa-solid fa-check"></i><span>Staff-assisted operation models for both expert and first-time users.</span></li>
+                            <li><i class="fa-solid fa-check"></i><span>Direct linkage from equipment pages to reservation and contact flows.</span></li>
+                            <li><i class="fa-solid fa-check"></i><span>Designed for NAU coursework, sponsored research, and industry collaboration.</span></li>
+                            <li><i class="fa-solid fa-check"></i><span>Structured onboarding that supports repeatable, safe, and efficient usage.</span></li>
+                        </ul>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="mpactlab-section" style="padding-top: 0;">
+            <div class="container">
+                <div class="mpactlab-final">
+                    <h2>Ready to start work in the MPaCT Lab?</h2>
+                    <p>
+                        Move directly to equipment exploration, submit your access request, or connect with the team for
+                        project planning support.
+                    </p>
+                    <div class="mpactlab-cta-row">
+                        <a href="Equipment.html" class="btn btn-primary">Browse Equipment Catalog</a>
+                        <a href="Contact_Us.html?category=equipment" class="btn btn-outline">Start Equipment Access</a>
+                        <a href="About_Us.html" class="btn btn-outline">Learn About the Facility</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <site-footer></site-footer>
+
+    <script src="JS/layout.js"></script>
+    <script src="JS/script.js"></script>
+</body>
+
+</html>
