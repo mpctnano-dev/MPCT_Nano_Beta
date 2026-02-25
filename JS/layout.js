@@ -3,18 +3,12 @@
  * --------------------------------------
  * Defines custom web components <site-header> and <site-footer>
  * to ensure consistency across all pages without server-side includes.
- *
- * Dynamic features:
- *  - Gold CTA button text/href adapts per page section:
- *      WFD pages          → "Enroll Now"
- *      MPaCT section pages → "Reserve Equipment"
- *      Home + all others  → "Apply Now"
  *  - Home nav item displays as house icon (no text)
  *  - Nav order: Home (icon) | MPaCT Lab | Degree Programs | WFD | Resources ▾
  *  - Resources dropdown: About Us, Contact Us, Careers
  *  - Active nav link highlighting
  *  - MPaCT Lab mega-menu (icon grid)
- *  - WFD split-panel mega-menu (creative new design)
+
  */
 
 class SiteHeader extends HTMLElement {
@@ -25,8 +19,8 @@ class SiteHeader extends HTMLElement {
     connectedCallback() {
         // ── Path helpers ─────────────────────────────────────────────────
         const isInSubfolder = window.location.pathname.includes('/About_Equipment/');
-        const basePath      = isInSubfolder ? '../' : './';
-        const currentPage   = window.location.pathname.split('/').pop() || 'index.html';
+        const basePath = isInSubfolder ? '../' : './';
+        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
 
         // ── HTML ─────────────────────────────────────────────────────────
         this.innerHTML = `
@@ -176,6 +170,23 @@ class SiteHeader extends HTMLElement {
                                         </div>
                                     </a>
 
+                                    <a href="${basePath}services.html" class="nav-dropdown-link"
+                                        data-path="services.html" role="menuitem">
+                                        <div class="nav-dropdown-icon">
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                                                <polyline points="2 17 12 22 22 17"></polyline>
+                                                <polyline points="2 12 12 17 22 12"></polyline>
+                                            </svg>
+                                        </div>
+                                        <div class="nav-dropdown-text">
+                                            <strong>Services</strong>
+                                            <small>3D Printing &amp; Support</small>
+                                        </div>
+                                    </a>
+
                                     <div class="nav-dropdown-link nav-dropdown-link--disabled"
                                         role="menuitem" aria-disabled="true">
                                         <div class="nav-dropdown-icon">
@@ -216,120 +227,92 @@ class SiteHeader extends HTMLElement {
                             </svg>
                         </button>
 
-                        <div class="nav-wfd-panel" role="menu" aria-label="Workforce Development navigation">
-                            <div class="nav-wfd-inner">
+                        <div class="nav-mega-panel" role="menu" aria-label="Workforce Development navigation">
+                            <div class="nav-mega-inner">
+                                <div class="nav-dropdown-grid">
 
-                                <!-- LEFT: Featured dark panel -->
-                                <div class="nav-wfd-left">
-                                    <div class="nav-wfd-left__eyebrow">
-                                        <span class="nav-wfd-left__dot"></span>
-                                        NAU Nano
-                                    </div>
-                                    <div class="nav-wfd-left__title">
-                                        Workforce<br><em>Development</em>
-                                    </div>
-                                    <p class="nav-wfd-left__desc">
-                                        Day-1 ready graduates for Arizona's semiconductor fab floor — powered by Intel, TSMC, and Microchip Technology.
-                                    </p>
-                                    <div class="nav-wfd-left__stats">
-                                        <div class="nav-wfd-stat">
-                                            <div class="nav-wfd-stat__num">4</div>
-                                            <div class="nav-wfd-stat__label">Programs</div>
+                                    <a href="${basePath}WorkForceDevelopment.html#ptap" class="nav-dropdown-link"
+                                        data-path="WorkForceDevelopment.html" role="menuitem">
+                                        <div class="nav-dropdown-icon">
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                                <polyline points="9 12 11 14 15 10"></polyline>
+                                            </svg>
                                         </div>
-                                        <div class="nav-wfd-stat">
-                                            <div class="nav-wfd-stat__num">6</div>
-                                            <div class="nav-wfd-stat__label">Degrees</div>
+                                        <div class="nav-dropdown-text">
+                                            <strong>PTAP Apprenticeship <span class="nav-soon-badge" style="background: rgba(46, 204, 113, 0.15); color: #2ecc71; border: 1px solid rgba(46, 204, 113, 0.3);">Enrolling</span></strong>
+                                            <small>2-year program with TSMC</small>
                                         </div>
-                                    </div>
-                                    <a href="${basePath}WorkForceDevelopment.html" class="nav-wfd-left__cta">
-                                        Learn More
-                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
-                                            stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
-                                            stroke-linejoin="round">
-                                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                                            <polyline points="12 5 19 12 12 19"></polyline>
-                                        </svg>
-                                    </a>
-                                </div>
-
-                                <!-- RIGHT: Editorial link list -->
-                                <div class="nav-wfd-right">
-                                    <div class="nav-wfd-right__label">Programs &amp; Pathways</div>
-
-                                    <a href="${basePath}WorkForceDevelopment.html#ptap"
-                                        class="nav-wfd-link" data-path="WorkForceDevelopment.html" role="menuitem">
-                                        <div class="nav-wfd-link__body">
-                                            <div class="nav-wfd-link__title">
-                                                PTAP Apprenticeship
-                                                <span class="nav-wfd-badge nav-wfd-badge--live">Enrolling</span>
-                                            </div>
-                                            <div class="nav-wfd-link__sub">2-year state-registered program with TSMC Arizona</div>
-                                        </div>
-                                        <svg class="nav-wfd-link__arrow" width="14" height="14" viewBox="0 0 24 24"
-                                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                            stroke-linejoin="round">
-                                            <polyline points="9 18 15 12 9 6"></polyline>
-                                        </svg>
                                     </a>
 
-                                    <a href="${basePath}degree-programs.html"
-                                        class="nav-wfd-link" data-path="degree-programs.html" role="menuitem">
-                                        <div class="nav-wfd-link__body">
-                                            <div class="nav-wfd-link__title">
-                                                Degree Programs
-                                                <span class="nav-wfd-badge nav-wfd-badge--new">6 Tracks</span>
-                                            </div>
-                                            <div class="nav-wfd-link__sub">EE, CS, CE, ME, Mechatronics, BSET</div>
+                                    <a href="${basePath}degree-programs.html" class="nav-dropdown-link"
+                                        data-path="degree-programs.html" role="menuitem">
+                                        <div class="nav-dropdown-icon">
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                                            </svg>
                                         </div>
-                                        <svg class="nav-wfd-link__arrow" width="14" height="14" viewBox="0 0 24 24"
-                                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                            stroke-linejoin="round">
-                                            <polyline points="9 18 15 12 9 6"></polyline>
-                                        </svg>
+                                        <div class="nav-dropdown-text">
+                                            <strong>Degree Programs <span class="nav-soon-badge" style="background: rgba(52, 152, 219, 0.15); color: #3498db; border: 1px solid rgba(52, 152, 219, 0.3);">6 Tracks</span></strong>
+                                            <small>EE, CS, CE, ME, BSET</small>
+                                        </div>
                                     </a>
 
-                                    <a href="${basePath}WorkForceDevelopment.html#industry"
-                                        class="nav-wfd-link" role="menuitem">
-                                        <div class="nav-wfd-link__body">
-                                            <div class="nav-wfd-link__title">
-                                                Industry Partnerships
-                                            </div>
-                                            <div class="nav-wfd-link__sub">Sponsored research, co-ops, and talent pipelines</div>
+                                    <a href="${basePath}WorkForceDevelopment.html#industry" class="nav-dropdown-link"
+                                        data-path="WorkForceDevelopment.html" role="menuitem">
+                                        <div class="nav-dropdown-icon">
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                                                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                                            </svg>
                                         </div>
-                                        <svg class="nav-wfd-link__arrow" width="14" height="14" viewBox="0 0 24 24"
-                                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                            stroke-linejoin="round">
-                                            <polyline points="9 18 15 12 9 6"></polyline>
-                                        </svg>
+                                        <div class="nav-dropdown-text">
+                                            <strong>Industry Partnerships</strong>
+                                            <small>Sponsored research &amp; co-ops</small>
+                                        </div>
                                     </a>
 
-                                    <a href="${basePath}WorkForceDevelopment.html#careers"
-                                        class="nav-wfd-link" role="menuitem">
-                                        <div class="nav-wfd-link__body">
-                                            <div class="nav-wfd-link__title">
-                                                Career Pathways
-                                                <span class="nav-wfd-badge nav-wfd-badge--soon">Soon</span>
-                                            </div>
-                                            <div class="nav-wfd-link__sub">Job placement, internships &amp; co-op placements</div>
+                                    <a href="${basePath}WorkForceDevelopment.html#careers" class="nav-dropdown-link"
+                                        data-path="WorkForceDevelopment.html" role="menuitem">
+                                        <div class="nav-dropdown-icon">
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                                                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                                                <line x1="9" y1="12" x2="15" y2="12"></line>
+                                                <line x1="9" y1="16" x2="13" y2="16"></line>
+                                            </svg>
                                         </div>
-                                        <svg class="nav-wfd-link__arrow" width="14" height="14" viewBox="0 0 24 24"
-                                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                            stroke-linejoin="round">
-                                            <polyline points="9 18 15 12 9 6"></polyline>
-                                        </svg>
+                                        <div class="nav-dropdown-text">
+                                            <strong>Career Pathways <span class="nav-soon-badge">Soon</span></strong>
+                                            <small>Job placement &amp; internships</small>
+                                        </div>
                                     </a>
 
-                                    <a href="${basePath}Contact_Us.html?category=research"
-                                        class="nav-wfd-link" role="menuitem">
-                                        <div class="nav-wfd-link__body">
-                                            <div class="nav-wfd-link__title">Become a Partner</div>
-                                            <div class="nav-wfd-link__sub">Shape curriculum &amp; access top talent early</div>
+                                    <a href="${basePath}Contact_Us.html?category=research" class="nav-dropdown-link"
+                                        data-path="Contact_Us.html" role="menuitem">
+                                        <div class="nav-dropdown-icon">
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                                <circle cx="9" cy="7" r="4"></circle>
+                                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                            </svg>
                                         </div>
-                                        <svg class="nav-wfd-link__arrow" width="14" height="14" viewBox="0 0 24 24"
-                                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                            stroke-linejoin="round">
-                                            <polyline points="9 18 15 12 9 6"></polyline>
-                                        </svg>
+                                        <div class="nav-dropdown-text">
+                                            <strong>Become a Partner</strong>
+                                            <small>Access top talent early</small>
+                                        </div>
                                     </a>
 
                                 </div>
@@ -368,7 +351,7 @@ class SiteHeader extends HTMLElement {
         });
 
         // Dropdown links — also highlight the parent trigger
-        this.querySelectorAll('.nav-dropdown-link[data-path], .nav-wfd-link[data-path], .nav-res-link[data-path]').forEach(link => {
+        this.querySelectorAll('.nav-dropdown-link[data-path], .nav-res-link[data-path]').forEach(link => {
             if (link.dataset.path === currentPath) {
                 link.classList.add('active');
                 const trigger = link.closest('.nav-item--has-dropdown')?.querySelector('.nav-dropdown-btn');
@@ -385,7 +368,7 @@ class SiteHeader extends HTMLElement {
 
     initMobileMenu() {
         const mobileBtn = this.querySelector('.mobile-toggle');
-        const navMenu   = this.querySelector('.nav-menu');
+        const navMenu = this.querySelector('.nav-menu');
         if (!mobileBtn || !navMenu) return;
 
         if (!navMenu.id) navMenu.id = 'site-nav-menu';
@@ -421,14 +404,14 @@ class SiteHeader extends HTMLElement {
     /**
      * initAllDropdowns — sets up hover/click/keyboard behaviour for every
      * .nav-item--has-dropdown on the page. Works for both MPaCT (nav-mega-panel)
-     * and WFD (nav-wfd-panel) because both share the same trigger class.
+     * and WFD (nav-mega-panel) because both share the same trigger class.
      */
     initAllDropdowns() {
         const dropdownItems = this.querySelectorAll('.nav-item--has-dropdown');
 
         dropdownItems.forEach(item => {
-            const btn   = item.querySelector('.nav-dropdown-btn');
-            const panel = item.querySelector('.nav-mega-panel, .nav-wfd-panel');
+            const btn = item.querySelector('.nav-dropdown-btn');
+            const panel = item.querySelector('.nav-mega-panel');
             if (!btn || !panel) return;
 
             let closeTimer = null;
@@ -516,7 +499,7 @@ class SiteFooter extends HTMLElement {
 
     connectedCallback() {
         const isInSubfolder = window.location.pathname.includes('/About_Equipment/');
-        const basePath      = isInSubfolder ? '../' : './';
+        const basePath = isInSubfolder ? '../' : './';
 
         this.innerHTML = `
         <footer class="site-footer">
@@ -616,10 +599,10 @@ const injectEquipmentStatusScript = () => {
     if (document.querySelector('script[data-equipment-status]')) return;
 
     const isInSubfolder = window.location.pathname.includes('/About_Equipment/');
-    const basePath      = isInSubfolder ? '../' : './';
+    const basePath = isInSubfolder ? '../' : './';
 
     const script = document.createElement('script');
-    script.src   = `${basePath}JS/Equipment_Status.js`;
+    script.src = `${basePath}JS/Equipment_Status.js`;
     script.defer = true;
     script.dataset.equipmentStatus = 'true';
     document.body.appendChild(script);

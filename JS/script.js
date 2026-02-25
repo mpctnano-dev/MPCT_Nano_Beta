@@ -18,14 +18,6 @@ function scrollGrid(amount) {
     }
 }
 
-/**
- * Equipment Catalog Scroll Alias
- * Provides a semantic alias for the catalog page while reusing the same underlying logic.
- */
-function scrollCatalog(amount) {
-    scrollGrid(amount);
-}
-
 document.addEventListener('DOMContentLoaded', () => {
     // -------------------------------------------------------------------------
     // Sticky Header Logic
@@ -66,46 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('scroll', updateHeaderState, { passive: true });
         window.addEventListener('resize', syncStickyOffsets, { passive: true });
         window.setTimeout(syncStickyOffsets, 120);
-    }
-
-    // -------------------------------------------------------------------------
-    // Hero Slider Component
-    // Manual implementation of a carousel.
-    // -------------------------------------------------------------------------
-    const slides = document.querySelectorAll('.slide');
-    const nextBtn = document.getElementById('nextSlide');
-    const prevBtn = document.getElementById('prevSlide');
-
-    if (slides.length > 1) {
-        let currentSlide = 0;
-        const totalSlides = slides.length;
-        let slideInterval;
-
-        function showSlide(index) {
-            if (index >= totalSlides) index = 0;
-            if (index < 0) index = totalSlides - 1;
-
-            // Remove active class from current, update index, add to new
-            slides[currentSlide].classList.remove('active');
-            currentSlide = index;
-            slides[currentSlide].classList.add('active');
-        }
-
-        // Navigation Wrappers
-        function nextSlide() { showSlide(currentSlide + 1); }
-        function prevSlide() { showSlide(currentSlide - 1); }
-
-        if (nextBtn && prevBtn) {
-            nextBtn.addEventListener('click', () => { nextSlide(); resetInterval(); });
-            prevBtn.addEventListener('click', () => { prevSlide(); resetInterval(); });
-        }
-
-        // Auto-advance logic
-        function startInterval() { slideInterval = setInterval(nextSlide, 6000); }
-        function resetInterval() { clearInterval(slideInterval); startInterval(); }
-
-        // Init Slider
-        startInterval();
     }
 
     // Featured Equipment Carousel (Homepage)
@@ -201,45 +153,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // -------------------------------------------------------------------------
-    // Mobile Navigation Toggle
-    // Handles the mobile menu overlay state.
-    // -------------------------------------------------------------------------
-    const mobileBtn = document.querySelector('.mobile-toggle');
-    const navMenu = document.querySelector('.nav-menu');
-    const isManagedBySiteHeader = mobileBtn ? Boolean(mobileBtn.closest('site-header')) : false;
-
-    // Fallback binding only for legacy/static headers.
-    // <site-header> already binds its own mobile menu logic in layout.js.
-    if (mobileBtn && navMenu && !isManagedBySiteHeader) {
-        mobileBtn.addEventListener('click', () => {
-            const isHidden = window.getComputedStyle(navMenu).display === 'none';
-            if (isHidden) {
-                // Force flex display for mobile overlay
-                Object.assign(navMenu.style, {
-                    display: 'flex',
-                    flexDirection: 'column',
-                    position: 'absolute',
-                    top: '100%',
-                    left: '0',
-                    width: '100%',
-                    background: 'var(--nau-blue)',
-                    padding: '20px',
-                    zIndex: '1000'
-                });
-            } else {
-                navMenu.style.display = 'none';
-                // Reset inline style if viewport resized
-                if (window.innerWidth > 1024) navMenu.style.display = '';
-            }
-        });
-    }
-
-    // -------------------------------------------------------------------------
     // Scroll Animation Observer (Progressive Enhancement)
     // Handles both new '.reveal-on-scroll' and legacy '.card' animations.
     // -------------------------------------------------------------------------
     const revealElements = document.querySelectorAll('.reveal-on-scroll');
-    const legacyElements = document.querySelectorAll('.card, .featured-story, .player-card, .metric-box');
+    const legacyElements = document.querySelectorAll('.card, .metric-box');
 
     if ('IntersectionObserver' in window) {
         const observerOptions = { threshold: 0.15, rootMargin: '0px 0px -50px 0px' };
@@ -325,18 +243,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // -------------------------------------------------------------------------
-    // Contact Form Handler
-    // -------------------------------------------------------------------------
-    const contactForm = document.querySelector('form');
-    if (contactForm && contactForm.id === 'contactForm') {
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('Thank you for your message! We will get back to you shortly.');
-            contactForm.reset();
-        });
-    }
-
-    // -------------------------------------------------------------------------
     // About Page Reserve Tool Button State
     // -------------------------------------------------------------------------
     const updateReserveButtonState = () => {
@@ -371,85 +277,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateReserveButtonState();
 
-    // -------------------------------------------------------------------------
-    // Equipment Catalog Logic: Filtering & View Layout
-    // -------------------------------------------------------------------------
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const searchInput = document.getElementById('searchInput');
-    const eqCards = document.querySelectorAll('.equipment-card');
-
-    // View Switcher Elements
-    const gridBtn = document.getElementById('gridViewBtn');
-    const listBtn = document.getElementById('listViewBtn');
-    const container = document.getElementById('cardContainer');
-    const arrows = document.querySelectorAll('.nav-btn');
-
-    if (filterBtns.length > 0 && eqCards.length > 0) {
-        // A. View Toggle Logic (Grid vs List)
-        if (gridBtn && listBtn && container) {
-            // Switch to List View
-            listBtn.addEventListener('click', () => {
-                container.classList.add('list-view');
-                listBtn.classList.add('active');
-                gridBtn.classList.remove('active');
-                // Hide arrows in list view (vertical layout)
-                arrows.forEach(arrow => arrow.style.display = 'none');
-            });
-
-            // Switch to Grid View
-            gridBtn.addEventListener('click', () => {
-                container.classList.remove('list-view');
-                gridBtn.classList.add('active');
-                listBtn.classList.remove('active');
-                // Show arrows in grid view (carousel layout)
-                arrows.forEach(arrow => arrow.style.display = 'flex');
-            });
-        }
-
-        // B. Filtering Logic
-        const filterItems = () => {
-            const term = searchInput ? searchInput.value.toLowerCase() : '';
-            const activeBtn = document.querySelector('.filter-btn.active');
-            const activeCategory = activeBtn ? activeBtn.dataset.filter : 'all';
-
-            eqCards.forEach(card => {
-                const title = card.dataset.title ? card.dataset.title.toLowerCase() : '';
-                const categories = card.dataset.category ? card.dataset.category.toLowerCase() : '';
-
-                const matchesSearch = title.includes(term);
-                // Use includes() to support multi-tagged items
-                const matchesCategory = activeCategory === 'all' || categories.includes(activeCategory);
-
-                if (matchesSearch && matchesCategory) {
-                    card.style.display = '';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        };
-
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                filterItems();
-            });
-        });
-
-        if (searchInput) {
-            searchInput.addEventListener('input', filterItems);
-        }
-
-        // Check URL Params for direct category linking
-        const urlParams = new URLSearchParams(window.location.search);
-        const categoryParam = urlParams.get('category');
-        if (categoryParam) {
-            const targetBtn = document.querySelector(`.filter-btn[data-filter="${categoryParam}"]`);
-            if (targetBtn) {
-                targetBtn.click();
-            }
-        }
-    }
 });
 
 /**
