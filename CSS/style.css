@@ -532,55 +532,11 @@ ul {
     border-color: var(--gray-300);
 }
 
-.card-img-top {
-    position: relative;
-    overflow: hidden;
-    padding-top: 56.25%;
-    background-color: var(--gray-200);
-}
-
-.card-img-top img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform var(--trans-slow);
-}
-
-.card:hover .card-img-top img {
-    transform: scale(1.05);
-}
-
-.card-body {
-    padding: var(--space-md);
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.card-meta {
-    font-size: 0.8rem;
-    color: var(--gray-600);
-    font-weight: 600;
-    margin-bottom: var(--space-xs);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
 .card-title {
     font-size: 1.4rem;
     margin-bottom: var(--space-sm);
     color: var(--nau-blue);
     font-weight: 700;
-}
-
-.card-text {
-    color: var(--gray-700);
-    font-size: 0.95rem;
-    margin-bottom: var(--space-md);
 }
 
 /**
@@ -672,16 +628,6 @@ ul {
     flex-direction: column;
     justify-content: center;
     min-width: 0;
-}
-
-.brand-text .dept {
-    font-family: var(--font-body);
-    font-weight: 700;
-    font-size: 1.05rem;
-    color: var(--nau-blue);
-    /* Dark Text */
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
 }
 
 .dept1 {
@@ -846,10 +792,6 @@ ul {
         /* Slightly smaller on mobile to fit better */
         margin: 0 8px;
         /* Tighter spacing */
-    }
-
-    .brand-text .dept {
-        font-size: 0.9rem;
     }
 
     .dept1 {
@@ -1062,6 +1004,7 @@ ul {
     line-height: 1.4;
 }
 
+/* Not sure - Look into this: .status-badge defined 3 times (~here, ~line 3910, ~line 4112). Each overrides previous. Consider consolidating. */
 .status-badge {
     font-family: var(--font-body);
     font-size: 11px;
@@ -1426,22 +1369,6 @@ ul {
     box-shadow: 0 0 0 3px rgba(250, 192, 26, 0.2);
 }
 
-.info-card {
-    background: var(--white);
-    border: 1px solid var(--gray-200);
-    border-radius: var(--radius-md);
-    padding: var(--space-lg);
-    margin-bottom: var(--space-md);
-    box-shadow: var(--shadow-sm);
-}
-
-.info-icon {
-    width: 24px;
-    height: 24px;
-    fill: var(--nau-gold);
-    margin-bottom: var(--space-sm);
-}
-
 /**
  * Utility Classes
  * --------------------------------------
@@ -1495,16 +1422,6 @@ ul {
     mix-blend-mode: multiply;
 }
 
-.about-image-col.fab-preview::after {
-    display: none;
-}
-
-.about-image-col.investment-preview::after {
-    display: none;
-}
-
-
-
 .about-image {
     width: 100%;
     height: 100%;
@@ -1516,367 +1433,7 @@ ul {
     z-index: 0;
 }
 
-.fab-status-card {
-    width: 100%;
-    height: 100%;
-    border-radius: var(--radius-md);
-    border: 1px solid rgba(255, 207, 94, 0.65);
-    box-shadow: var(--shadow-lg);
-    background:
-        linear-gradient(150deg, #fff7df 0%, #ffe6a0 52%, #ffd074 100%);
-    padding: 24px;
-    position: relative;
-    z-index: 0;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.fab-status-card::before,
-.fab-status-card::after {
-    content: "";
-    position: absolute;
-    border-radius: 50%;
-    pointer-events: none;
-}
-
-.fab-status-card::before {
-    width: 180px;
-    height: 180px;
-    right: -42px;
-    top: -54px;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.62) 0%, rgba(255, 255, 255, 0) 72%);
-}
-
-.fab-status-card::after {
-    width: 220px;
-    height: 220px;
-    left: -76px;
-    bottom: -118px;
-    background: radial-gradient(circle, rgba(185, 103, 0, 0.15) 0%, rgba(185, 103, 0, 0) 70%);
-}
-
-.fab-chip {
-    align-self: flex-start;
-    padding: 4px 10px;
-    border-radius: 999px;
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: #703e00;
-    background: rgba(255, 255, 255, 0.85);
-    border: 1px solid rgba(255, 177, 47, 0.55);
-}
-
-.fab-status-title {
-    margin: 0;
-    color: #5b3400;
-    font-size: 1.35rem;
-    line-height: 1.25;
-}
-
-.fab-wafer-art {
-    width: 88px;
-    height: 88px;
-    border-radius: 50%;
-    background:
-        repeating-radial-gradient(circle at 50% 50%, rgba(138, 78, 0, 0.16) 0 2px, rgba(255, 255, 255, 0) 2px 10px),
-        linear-gradient(135deg, #ffe9af 0%, #ffc75d 100%);
-    border: 2px solid rgba(138, 78, 0, 0.3);
-    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.45);
-}
-
-.fab-progress-list {
-    display: grid;
-    gap: 10px;
-}
-
-.fab-progress-item {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 5px 10px;
-}
-
-.fab-progress-label {
-    color: #5f3800;
-    font-size: 0.86rem;
-    font-weight: 600;
-}
-
-.fab-progress-state {
-    color: rgba(95, 56, 0, 0.78);
-    font-size: 0.78rem;
-    font-weight: 600;
-}
-
-.fab-progress-track {
-    grid-column: 1 / -1;
-    height: 6px;
-    border-radius: 999px;
-    background: rgba(95, 56, 0, 0.18);
-    overflow: hidden;
-}
-
-.fab-progress-fill {
-    height: 100%;
-    border-radius: 999px;
-    background: linear-gradient(90deg, #a95d00 0%, #ffb022 100%);
-}
-
-.fab-progress-fill.facility {
-    width: 72%;
-}
-
-.fab-progress-fill.procurement {
-    width: 58%;
-}
-
-.fab-progress-fill.commissioning {
-    width: 18%;
-}
-
-.fab-milestone {
-    margin: 4px 0 0 0;
-    color: #4f2c00;
-    font-size: 0.82rem;
-    font-weight: 600;
-    letter-spacing: 0.01em;
-}
-
-.investment-visual {
-    width: 100%;
-    height: 100%;
-    border-radius: var(--radius-md);
-    border: 1px solid rgba(255, 205, 0, 0.35);
-    box-shadow: var(--shadow-lg);
-    background: linear-gradient(145deg, #002454 0%, #003b70 56%, #0b567b 100%);
-    padding: 22px;
-    position: relative;
-    z-index: 0;
-    overflow: hidden;
-    color: #ffffff;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.investment-visual::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-        radial-gradient(circle at 15% 10%, rgba(255, 205, 0, 0.22) 0%, rgba(255, 205, 0, 0) 35%),
-        radial-gradient(circle at 82% 82%, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0) 40%);
-    pointer-events: none;
-}
-
-.investment-header {
-    position: relative;
-    z-index: 1;
-}
-
-.investment-chip {
-    display: inline-block;
-    padding: 4px 10px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 205, 0, 0.45);
-    color: #ffdc63;
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-}
-
-.investment-title {
-    margin: 0;
-    font-size: 1.3rem;
-    line-height: 1.2;
-    color: #ffffff;
-}
-
-.investment-map {
-    position: relative;
-    z-index: 1;
-    flex: 1;
-    min-height: 190px;
-    border-radius: 14px;
-    border: 1px dashed rgba(255, 205, 0, 0.45);
-    background: rgba(0, 0, 0, 0.12);
-    overflow: hidden;
-}
-
-.map-line {
-    position: absolute;
-    height: 2px;
-    background: linear-gradient(90deg, rgba(255, 205, 0, 0) 0%, rgba(255, 205, 0, 0.92) 50%, rgba(255, 205, 0, 0) 100%);
-    transform-origin: left center;
-}
-
-.map-line-1 {
-    width: 45%;
-    top: 30%;
-    left: 19%;
-    transform: rotate(15deg);
-}
-
-.map-line-2 {
-    width: 33%;
-    top: 60%;
-    left: 45%;
-    transform: rotate(-16deg);
-}
-
-.map-line-3 {
-    width: 30%;
-    top: 52%;
-    left: 20%;
-    transform: rotate(18deg);
-}
-
-.map-node {
-    position: absolute;
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding: 6px 9px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    font-size: 0.74rem;
-    line-height: 1;
-    font-weight: 600;
-    color: #ffffff;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-}
-
-.node-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #ffcf3f;
-    box-shadow: 0 0 0 3px rgba(255, 207, 63, 0.25);
-    flex-shrink: 0;
-}
-
-.node-nau {
-    top: 15%;
-    left: 8%;
-}
-
-.node-phx {
-    top: 37%;
-    left: 52%;
-}
-
-.node-partner {
-    top: 67%;
-    left: 59%;
-}
-
-.node-workforce {
-    top: 67%;
-    left: 8%;
-}
-
-.investment-note {
-    position: relative;
-    z-index: 1;
-    margin: 0;
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 0.82rem;
-    line-height: 1.35;
-}
-
-.catalog-visual {
-    width: 100%;
-    height: 100%;
-    border-radius: var(--radius-md);
-    border: 1px solid rgba(0, 36, 84, 0.12);
-    box-shadow: var(--shadow-lg);
-    background: linear-gradient(160deg, #f8fbff 0%, #eaf2fb 100%);
-    padding: 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.catalog-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-}
-
-.catalog-chip {
-    display: inline-block;
-    padding: 5px 10px;
-    border-radius: 999px;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: #7a4d00;
-    background: rgba(255, 205, 0, 0.25);
-    border: 1px solid rgba(255, 205, 0, 0.45);
-}
-
-.catalog-title {
-    margin: 0;
-    color: var(--nau-blue);
-    font-size: 1.06rem;
-    line-height: 1.2;
-    text-align: right;
-}
-
-.catalog-grid {
-    flex: 1;
-    min-height: 0;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-template-rows: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-}
-
-.catalog-tile {
-    position: relative;
-    margin: 0;
-    border-radius: 10px;
-    overflow: hidden;
-    min-height: 0;
-    border: 1px solid rgba(0, 36, 84, 0.16);
-    box-shadow: 0 4px 12px rgba(0, 36, 84, 0.12);
-}
-
-.catalog-tile img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-.catalog-tile::after {
-    content: "";
-    position: absolute;
-    inset: auto 0 0 0;
-    height: 45%;
-    background: linear-gradient(180deg, rgba(0, 36, 84, 0) 0%, rgba(0, 36, 84, 0.75) 100%);
-}
-
-.catalog-tile figcaption {
-    position: absolute;
-    left: 8px;
-    bottom: 7px;
-    z-index: 1;
-    color: #ffffff;
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-}
+/* fab-status-card, investment-visual, catalog-visual - REMOVED: Not used in any HTML */
 
 .stat-box {
     position: absolute;
@@ -1889,16 +1446,6 @@ ul {
     box-shadow: var(--shadow-lg);
     z-index: 2;
 }
-
-.about-image-col.fab-preview .stat-box {
-    background: rgba(255, 255, 255, 0.96);
-}
-
-.about-image-col.investment-preview .stat-box {
-    background: rgba(255, 255, 255, 0.97);
-}
-
-
 
 .stat-number {
     font-weight: 700;
@@ -1919,7 +1466,6 @@ ul {
 
 @media (max-width: 768px) {
 
-    /* Fix stat-box overflow on mobile (left: -20px goes off-screen) */
     .stat-box {
         left: 12px;
         bottom: 12px;
@@ -1928,71 +1474,6 @@ ul {
     .about-image-col {
         height: 300px;
     }
-
-    .fab-status-card {
-        padding: 20px;
-    }
-
-    .fab-status-title {
-        font-size: 1.15rem;
-    }
-
-    .fab-wafer-art {
-        width: 74px;
-        height: 74px;
-    }
-
-    .about-image-col.fab-preview .stat-box {
-        left: 12px;
-        bottom: 12px;
-    }
-
-    .investment-visual {
-        padding: 18px;
-    }
-
-    .investment-title {
-        font-size: 1.12rem;
-    }
-
-    .investment-map {
-        min-height: 165px;
-    }
-
-    .map-node {
-        font-size: 0.66rem;
-        padding: 5px 8px;
-        gap: 6px;
-    }
-
-    .node-workforce {
-        top: 72%;
-        left: 7%;
-    }
-
-    .about-image-col.investment-preview .stat-box {
-        left: 12px;
-        bottom: 12px;
-    }
-
-    .catalog-visual {
-        padding: 12px;
-        gap: 10px;
-    }
-
-    .catalog-title {
-        font-size: 0.94rem;
-    }
-
-    .catalog-grid {
-        gap: 8px;
-    }
-
-    .catalog-tile figcaption {
-        font-size: 0.62rem;
-    }
-
-
 }
 
 /* ============================================
@@ -2491,6 +1972,7 @@ ul {
     margin-bottom: 20px;
 }
 
+/* Not sure - Look into this: Duplicate .text-gold (first uses --nau-gold, this uses --nau-gold-dark). This override wins. */
 .text-gold {
     color: var(--nau-gold-dark);
 }
@@ -2740,7 +2222,7 @@ ul {
     /* Increased padding for grander feel */
     background-color: var(--nau-blue);
     /* Darker overlay for better text contrast, using a high-quality lab image */
-    background-image: linear-gradient(rgba(0, 15, 35, 0.85), rgba(0, 36, 84, 0.8)), url('../Images/15.jpg');
+    background-image: linear-gradient(rgba(0, 15, 35, 0.85), rgba(0, 36, 84, 0.8)), url('../Images/engineering_lab_hero.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -2809,6 +2291,7 @@ ul {
     background: white;
 }
 
+/* Not sure - Look into this: Duplicate .cta-box (this version and one in degree-programs section ~line 6230). Second overrides this. Consider consolidating. */
 .cta-box {
     background: linear-gradient(135deg, var(--nau-blue) 0%, #001a3d 100%);
     border-radius: 20px;
@@ -2839,6 +2322,7 @@ ul {
     flex-wrap: wrap;
 }
 
+/* Not sure - Look into this: Duplicate .btn-outline (first at ~line 347 has pill shape via base .btn, this overrides with border-radius:8px). Consider consolidating. */
 .btn-outline {
     background: transparent;
     border: 2px solid white;
@@ -2891,7 +2375,7 @@ ul {
     /* Layered: Dark overlay gradient + Image */
     background-image:
         linear-gradient(to bottom, rgba(0, 26, 61, 0.85), rgba(0, 26, 61, 0.7)),
-        url('../Images/21.jpg');
+        url('../Images/dark_room.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -3690,89 +3174,7 @@ ul {
     margin-bottom: 0;
 }
 
-/* --- 8. Research Acknowledgements --- */
-.about-acknowledgement-section {
-    padding: 80px 0;
-    background: white;
-}
-
-.acknowledgement-box {
-    background: var(--gray-50);
-    border: 1px solid var(--gray-200);
-    border-radius: var(--radius-md);
-    padding: 50px;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.acknowledgement-content {
-    text-align: center;
-}
-
-.acknowledgement-icon {
-    font-size: 2rem;
-    color: var(--nau-gold);
-    margin-bottom: 16px;
-}
-
-.acknowledgement-box h2 {
-    font-size: 1.8rem;
-    font-weight: 800;
-    color: var(--nau-blue);
-    margin-bottom: 12px;
-}
-
-.acknowledgement-box>.acknowledgement-content>p {
-    font-size: 1rem;
-    color: var(--gray-600);
-    max-width: 550px;
-    margin: 0 auto 24px auto;
-}
-
-.acknowledgement-snippet {
-    background: white;
-    border: 2px dashed var(--nau-gold);
-    border-radius: 12px;
-    padding: 24px 28px;
-    position: relative;
-    margin-bottom: 20px;
-}
-
-.acknowledgement-snippet p {
-    font-style: italic;
-    font-size: 1rem;
-    color: var(--nau-blue);
-    line-height: 1.7;
-    margin-bottom: 0;
-}
-
-.btn-copy {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 16px;
-    padding: 8px 20px;
-    background: var(--nau-blue);
-    color: white;
-    border: none;
-    border-radius: var(--radius-full);
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all var(--trans-fast);
-}
-
-.btn-copy:hover {
-    background: var(--nau-blue-light);
-    transform: translateY(-1px);
-}
-
-.acknowledgement-note {
-    font-size: 0.88rem;
-    color: var(--gray-500);
-    font-style: italic;
-    margin-bottom: 0;
-}
+/* Not sure - Look into this: Duplicate acknowledgement section (first at ~line 2408 has horizontal layout, this has centered layout). Both override each other. HTML uses acknowledgement-header/body from the first version. Consider consolidating. */
 
 /* --- About Us Responsive Overrides --- */
 @media (max-width: 1024px) {
@@ -4159,10 +3561,6 @@ ul {
     margin-bottom: 15px;
 }
 
-.mb-10 {
-    margin-bottom: 10px;
-}
-
 .btn-orange {
     background-color: #d45d00;
     border-color: #d45d00;
@@ -4407,6 +3805,7 @@ ul {
     justify-content: flex-start;
 }
 
+/* Not sure - Look into this: Duplicate .filter-btn (also defined at ~line 4932 with different styles). Second overrides this. Consider consolidating. */
 .filter-btn {
     background: var(--white);
     border: 1px solid var(--gray-300);
@@ -5506,7 +4905,7 @@ ul {
    EQUIPMENT CATALOG STYLES (Grid & List)
  */
 
-/* --- 1. Filter & Search Bar --- */
+/* Not sure - Look into this: Duplicate .filter-section (first at ~line 3743 has sticky positioning, this adds background). Consider merging. */
 .filter-section {
     background: #fff;
 }
@@ -6103,6 +5502,7 @@ ul {
 /* ================================
    PROGRAM CARDS
    ================================ */
+/* Not sure - Look into this: Duplicate .program-card (also defined at ~line 6492). Second overrides this. Consider consolidating. */
 .program-card {
     background: white;
     border-radius: var(--radius-md);
