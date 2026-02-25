@@ -26,7 +26,7 @@
         <!-- ══════════════════════════════════════════════════════════
              §1  CINEMATIC HERO
         ══════════════════════════════════════════════════════════════ -->
-        <section class="ml-hero">
+        <section class="ml-hero ml-hero--compact">
             <div class="ml-hero__bg">
                 <img src="Images/lab_services.jpg" alt="MPaCT Lab Services and Prototyping">
             </div>
@@ -114,11 +114,6 @@
                     </div>
                 </div>
             </div>
-
-            <div class="ml-hero__scroll" aria-hidden="true">
-                <span>Scroll</span>
-                <div class="ml-hero__scroll-bar"></div>
-            </div>
         </section>
 
 
@@ -130,7 +125,7 @@
             <div class="container">
 
                 <!-- Enhanced "What are these services?" Section -->
-                <div class="services-intro-grid">
+                <div class="services-intro-grid reveal-on-scroll">
                     <div class="services-intro-text">
                         <div class="ml-eyebrow" style="margin-bottom: 24px;">Remote Fabrication</div>
                         <h2 class="ml-section-title" style="color: var(--nau-blue);">Expertise On Demand</h2>
@@ -192,13 +187,13 @@
                 </div>
 
                 <!-- Process Steps (Adapted from ml-access) -->
-                <div style="margin-top: 120px; text-align: center; margin-bottom: 60px;">
+                <div class="reveal-on-scroll" style="margin-top: 120px; text-align: center; margin-bottom: 60px;">
                     <h2 class="ml-section-title" style="color: var(--nau-blue);">How It Works</h2>
                     <p class="ml-section-sub" style="margin: 0 auto; max-width: 600px;">A streamlined process designed
                         to take your concept to completion with maximum efficiency.</p>
                 </div>
 
-                <div class="ml-access__steps services-process-steps">
+                <div class="ml-access__steps services-process-steps reveal-on-scroll">
                     <!-- Step 1 -->
                     <div class="ml-access__step">
                         <div class="ml-access__step-badge">1</div>
@@ -241,7 +236,7 @@
         ══════════════════════════════════════════════════════════════ -->
         <section class="services-directory" id="our-services">
             <div class="container">
-                <div style="text-align: center; margin-bottom: 80px;">
+                <div class="reveal-on-scroll" style="text-align: center; margin-bottom: 48px;">
                     <div class="ml-eyebrow">Active Offerings</div>
                     <h2 class="ml-section-title">Available Services</h2>
                     <p class="ml-section-sub" style="margin: 0 auto;">
@@ -249,111 +244,60 @@
                     </p>
                 </div>
 
-                <!-- 3D Printer Service (Asymmetrical Left) -->
-                <article class="s-feature-row">
-                    <div class="s-feature-image">
-                        <div class="s-image-wrapper">
-                            <img src="Images/3D_Printer_Service.jpg" alt="Bambu Lab 3D Printing Service"
-                                onerror="this.src='Images/electronics_students.jpg'">
-                            <div class="s-image-overlay"></div>
+                <div class="s-card-grid">
+                    <!-- 3D Printing -->
+                    <article class="s-card reveal-on-scroll">
+                        <div class="s-card__img-wrap">
+                            <img src="Images/3D_Printer_Service.jpg" alt="Bambu Lab 3D Printing Service" class="s-card__img">
                         </div>
-                    </div>
-                    <div class="s-feature-content">
-                        <div class="s-feature-glass">
-                            <span class="ml-hero__panel-label"
-                                style="border-bottom: none; margin-bottom: 12px; display: block;">Rapid
-                                Prototyping</span>
-                            <h3 class="s-feature-title">3D Printing Services</h3>
-                            <p class="s-feature-desc">
-                                Utilize our high-speed, multi-color capable <strong>Bambu Lab X1C (H2D)</strong> 3D
-                                printer for structural prototyping, custom tool enclosures, and intricate mechanical
-                                parts. Perfect for iterating hardware designs quickly before moving to costly
-                                semiconductor, metal, or injection-molding fabrication.
-                            </p>
-
-                            <ul class="s-feature-list">
-                                <li>
-                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                    </svg>
-                                    Multi-material & Multi-color Output
-                                </li>
-                                <li>
-                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                    </svg>
-                                    High-Speed CoreXY Architecture
-                                </li>
-                                <li>
-                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                    </svg>
-                                    Versatile Filaments (PLA, PETG, ABS, PC)
-                                </li>
-                            </ul>
-
-                            <a href="3D_Printer.html" class="btn btn-primary" style="margin-top: 32px;">Request 3D
-                                Print</a>
+                        <div class="s-card__body">
+                            <span class="s-card__eyebrow">Rapid Prototyping</span>
+                            <h3 class="s-card__title">3D Printing Services</h3>
+                            <p class="s-card__desc">High-speed multi-color 3D printing using the Bambu Lab X1C for structural prototyping, custom enclosures, and mechanical parts.</p>
+                            <div class="s-card__tags">
+                                <span>Multi-Material</span>
+                                <span>High-Speed</span>
+                                <span>PLA / PETG / ABS</span>
+                            </div>
+                            <a href="3D_Printer.html" class="s-card__cta">Request 3D Print <span>&rarr;</span></a>
                         </div>
-                    </div>
-                </article>
+                    </article>
 
-                <!-- LPKF Laser Service (Asymmetrical Right) -->
-                <article class="s-feature-row s-feature-row--reverse">
-                    <div class="s-feature-image">
-                        <div class="s-image-wrapper">
-                            <img src="Images/LPKF_Service.jpg" alt="LPKF ProtoLaser R4 Service"
-                                onerror="this.src='Images/computer_lab.jpg'">
-                            <div class="s-image-overlay"></div>
+                    <!-- Laser Structuring -->
+                    <article class="s-card reveal-on-scroll">
+                        <div class="s-card__img-wrap">
+                            <img src="Images/LPKF_Service.jpg" alt="LPKF ProtoLaser R4 Service" class="s-card__img">
                         </div>
-                    </div>
-                    <div class="s-feature-content">
-                        <div class="s-feature-glass">
-                            <span class="ml-hero__panel-label"
-                                style="border-bottom: none; margin-bottom: 12px; display: block;">Laser
-                                Processing</span>
-                            <h3 class="s-feature-title">Laser Structuring (LPKF)</h3>
-                            <p class="s-feature-desc">
-                                Leverage the ultra-short pulse <strong>LPKF ProtoLaser R4</strong> for "cold" laser
-                                ablation without thermal damage. Ideal for structuring delicate transparent films,
-                                precise cutting of hardened glass, and creating specialized RF/Microwave circuits with
-                                micron-level accuracy.
-                            </p>
-
-                            <ul class="s-feature-list">
-                                <li>
-                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                    </svg>
-                                    Cold Ablation (Picosecond Laser)
-                                </li>
-                                <li>
-                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                    </svg>
-                                    Rapid Microfluidic Prototyping
-                                </li>
-                                <li>
-                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                    </svg>
-                                    PCB & Antenna Structuring
-                                </li>
-                            </ul>
-
-                            <a href="LPKF.html" class="btn btn-outline"
-                                style="margin-top: 32px; background: transparent; color: var(--nau-blue); border-color: var(--nau-blue);">Coming
-                                Soon</a>
+                        <div class="s-card__body">
+                            <span class="s-card__eyebrow">Laser Processing</span>
+                            <h3 class="s-card__title">Laser Structuring (LPKF)</h3>
+                            <p class="s-card__desc">Ultra-short pulse cold laser ablation for structuring transparent films, precision glass cutting, and RF/microwave circuit fabrication.</p>
+                            <div class="s-card__tags">
+                                <span>Picosecond Laser</span>
+                                <span>Microfluidics</span>
+                                <span>PCB Structuring</span>
+                            </div>
+                            <a href="LPKF.html" class="s-card__cta s-card__cta--soon">Coming Soon</a>
                         </div>
-                    </div>
-                </article>
+                    </article>
+                </div>
 
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════
+             §4  CALL TO ACTION
+        ══════════════════════════════════════════════════════════════ -->
+        <section class="section-padding" style="background: var(--nau-blue); text-align: center;">
+            <div class="container reveal-on-scroll">
+                <h2 class="ml-section-title" style="color: #fff;">Ready to Get Started?</h2>
+                <p class="ml-section-sub" style="color: rgba(255,255,255,0.7); margin: 0 auto 32px;">
+                    Submit a service request or contact us to discuss your project requirements.
+                </p>
+                <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+                    <a href="Contact.html" class="btn btn-primary">Contact Us</a>
+                    <a href="#how-to-use" class="btn btn-outline" style="color: #fff; border-color: rgba(255,255,255,0.3);">View Process</a>
+                </div>
             </div>
         </section>
 
@@ -362,6 +306,7 @@
     <site-footer></site-footer>
 
     <script src="JS/layout.js"></script>
+    <script src="JS/script.js"></script>
 
 </body>
 
