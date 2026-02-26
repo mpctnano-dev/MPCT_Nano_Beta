@@ -5,10 +5,228 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="3D Printer Services from the MPaCT Lab at Northern Arizona University — coming soon.">
+        content="Request professional 3D printing services from the MPaCT Lab at Northern Arizona University. Elite additive manufacturing, multi-material capabilities, and rapid prototyping.">
     <meta name="theme-color" content="#002454">
-    <title>3D Printer Services | MPaCT Lab | NAU Nano</title>
+    <title>Professional 3D Printing Service | MPaCT Lab | NAU Nano</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,400&display=swap"
+        rel="stylesheet">
+
     <link rel="stylesheet" href="CSS/style.css">
+
+    <style>
+        /* ══════════════════════════════════════════════════════════
+           PREMIUM 3D PRINTING PAGE STYLES
+        ══════════════════════════════════════════════════════════════ */
+        
+        /* Spacing & Typography Enhancements */
+        .premium-section {
+            padding: 100px 0;
+            position: relative;
+        }
+        .premium-section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 24px;
+        }
+        .premium-section-sub {
+            font-size: 1.15rem;
+            color: var(--gray-600);
+            line-height: 1.8;
+            max-width: 680px;
+            margin: 0 auto 60px;
+        }
+
+        /* Hero Adjustments */
+        .print-hero-page.ml-hero--compact {
+            padding: 120px 0 80px;
+            min-height: 500px;
+        }
+
+        .print-hero-page.ml-hero--compact .ml-hero__split {
+            grid-template-columns: 1fr;
+        }
+        
+        .print-hero-page .ml-hero__overlay {
+            background: linear-gradient(135deg, 
+                rgba(0, 24, 56, 0.95) 0%, 
+                rgba(0, 18, 48, 0.88) 50%, 
+                rgba(0, 10, 30, 0.75) 100%);
+        }
+
+        /* Form Enhancements */
+        .pf {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 25px 50px rgba(0,36,84,0.05);
+            border: 1px solid var(--gray-200);
+            padding: 60px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .pf__legend {
+            font-size: 1.4rem;
+            color: var(--nau-blue);
+            font-weight: 700;
+            padding-bottom: 16px;
+            margin-bottom: 32px;
+            border-bottom: 2px solid var(--gray-100);
+            width: 100%;
+        }
+
+        .pf__legend-num {
+            background: var(--nau-blue);
+            color: var(--white);
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 1rem;
+            margin-right: 12px;
+        }
+
+        .pf__input, .pf__select, .pf__textarea {
+            background: #f8fafc;
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            padding: 14px 16px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .pf__input:focus, .pf__select:focus, .pf__textarea:focus {
+            background: var(--white);
+            border-color: var(--nau-blue);
+            box-shadow: 0 0 0 4px rgba(0,36,84,0.1);
+        }
+
+        .pf__dropzone {
+            background: #f8fafc;
+            border: 2px dashed var(--gray-300);
+            border-radius: 12px;
+            padding: 40px;
+            transition: all 0.3s ease;
+        }
+
+        .pf__dropzone:hover {
+            border-color: var(--nau-blue);
+            background: rgba(0,36,84,0.02);
+        }
+
+        @media (max-width: 768px) {
+            .pf {
+                padding: 30px 20px;
+            }
+        }
+
+        /* FAQ Styles - Premium NAU Dark Theme */
+        .faq-section {
+            background: linear-gradient(135deg, var(--nau-blue) 0%, var(--nau-blue-dark) 100%);
+            position: relative;
+            overflow: hidden;
+            padding: 100px 0;
+        }
+        
+        .faq-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+            background-size: 32px 32px;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .faq-section::after {
+            content: '';
+            position: absolute;
+            top: -30%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 140%;
+            height: 160%;
+            background: radial-gradient(ellipse at center, rgba(250,192,26,0.06) 0%, transparent 55%);
+            pointer-events: none;
+        }
+
+        .faq-list--dark {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .faq-item {
+            background: rgba(0, 18, 48, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            backdrop-filter: blur(12px);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item[open] {
+            border-color: rgba(250, 192, 26, 0.5);
+            background: rgba(0, 18, 48, 0.6);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(250, 192, 26, 0.2);
+        }
+
+        .faq-item__question {
+            padding: 24px;
+            color: var(--white);
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            list-style: none;
+            transition: color 0.3s;
+        }
+
+        .faq-item__question::-webkit-details-marker {
+            display: none;
+        }
+
+        .faq-item[open] .faq-item__question {
+            color: var(--nau-gold);
+        }
+
+        .faq-item__chevron {
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            color: rgba(255, 255, 255, 0.5);
+            flex-shrink: 0;
+            margin-left: 16px;
+        }
+
+        .faq-item[open] .faq-item__chevron {
+            transform: rotate(180deg);
+            color: var(--nau-gold);
+        }
+
+        .faq-item__answer {
+            padding: 0 24px 24px;
+            color: rgba(255, 255, 255, 0.65);
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        .faq-item__answer p {
+            margin: 0;
+        }
+
+        .faq-item__answer strong {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+        }
+    </style>
 </head>
 
 <body>
@@ -16,35 +234,475 @@
     <site-header></site-header>
 
     <main>
-        <section style="
-            min-height: calc(100vh - 160px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            gap: 12px;
-            text-align: center;
-            padding: 100px 24px 80px;
-            background: #fff;
-        ">
-            <span
-                style="font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:2.5px;color:var(--nau-gold);">Under
-                Development</span>
-            <h1
-                style="font-size:clamp(2.2rem,5vw,3.8rem);font-weight:900;color:var(--nau-blue);letter-spacing:-0.04em;margin:4px 0 0;">
-                3D Printer Services</h1>
-            <p style="color:var(--gray-500);font-size:1rem;line-height:1.7;max-width:420px;margin:8px 0 0;">This page is
-                currently being built and will be available soon.</p>
-            <a href="services.html"
-                style="margin-top:20px;color:var(--nau-gold);font-weight:600;font-size:0.875rem;text-decoration:none;display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(250,192,26,0.35);padding:8px 18px;border-radius:100px;transition:background 0.2s;"
-                onmouseover="this.style.background='rgba(250,192,26,0.08)'"
-                onmouseout="this.style.background='transparent'">← Back to Services</a>
+        <!-- ══════════════════════════════════════════════════════════
+             §1  CINEMATIC HERO
+        ══════════════════════════════════════════════════════════════ -->
+        <section class="ml-hero ml-hero--compact print-hero-page">
+            <div class="ml-hero__bg">
+                <img src="Images/3d_printer.png" alt="3D Printing at the MPaCT Lab" style="object-position: center 30%;">
+            </div>
+            <div class="ml-hero__overlay"></div>
+            <div class="ml-hero__noise"></div>
+
+            <div class="ml-hero__content">
+                <div class="container">
+                    <div class="ml-hero__split">
+
+                        <!-- Left: text & CTAs -->
+                        <div style="padding-right: 20px;">
+                            <div class="ml-hero__eyebrow">
+                                <span class="ml-hero__eyebrow-line"></span>
+                                Elite Fabrication
+                            </div>
+                            <h1 class="ml-hero__title" style="line-height: 1.1; margin-bottom: 24px;">
+                                Professional<br><em>3D Printing</em>
+                            </h1>
+                            <p class="ml-hero__subtitle" style="font-size: 1.1rem; line-height: 1.7; max-width: 560px; color: rgba(255,255,255,0.85);">
+                                Upload your 3D models and our cleanroom-trained technicians will fabricate them to exact specifications. 
+                                <strong>No machine training required.</strong> Rapid turnaround, custom materials, and flawless execution.
+                            </p>
+                            <div class="ml-hero__actions" style="margin-top: 40px;">
+                                <a href="#print-request-form" class="btn btn-primary" style="padding: 14px 36px; font-size: 1.1rem;">Start a Project</a>
+                                <a href="#how-it-works" class="btn btn-outline" style="padding: 14px 36px; font-size: 1.1rem;">Process Details</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </section>
+        <!-- ══════════════════════════════════════════════════════════
+             §3  THE PROCESS (Dark Sleek Section)
+        ══════════════════════════════════════════════════════════════ -->
+        <section class="premium-section dark-steps" id="how-it-works"
+            style="background: linear-gradient(180deg, var(--nau-blue-dark) 0%, var(--nau-blue) 100%); position: relative; overflow: hidden;">
+            <!-- Geometric Grid Background -->
+            <div style="position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; opacity: 0.8; pointer-events: none;"></div>
+            
+            <div class="container" style="position: relative; z-index: 2;">
+                <div class="reveal-on-scroll" style="text-align: center;">
+                    <div class="ml-eyebrow ml-eyebrow--light" style="margin-bottom: 16px; background: rgba(250, 192, 26, 0.15); color: var(--nau-gold);">Streamlined Workflow</div>
+                    <h2 class="premium-section-title text-white">How It Works</h2>
+                    <p class="premium-section-sub" style="color: rgba(255,255,255,0.7); max-width: 700px;">
+                        A rigorous, professional process ensuring your designs are validated, accurately quoted, and manufactured to the highest standard.
+                    </p>
+                </div>
+
+                <div class="ml-access__steps print-steps reveal-on-scroll" style="margin-top: 60px;">
+                    <div class="ml-access__step">
+                        <div class="ml-access__step-badge" style="background: var(--nau-gold); color: var(--nau-blue); border: none;">1</div>
+                        <h3 class="ml-access__step-title" style="color: var(--white); font-size: 1.3rem;">Submit Data</h3>
+                        <p class="ml-access__step-desc" style="color: rgba(255,255,255,0.6); font-size: 0.95rem;">Upload your STL/3MF files through our secure portal along with material and tolerance requirements.</p>
+                    </div>
+                    <div class="ml-access__step">
+                        <div class="ml-access__step-badge" style="background: var(--nau-gold); color: var(--nau-blue); border: none;">2</div>
+                        <h3 class="ml-access__step-title" style="color: var(--white); font-size: 1.3rem;">DFM Review</h3>
+                        <p class="ml-access__step-desc" style="color: rgba(255,255,255,0.6); font-size: 0.95rem;">Our technicians analyze your geometry for printability, overhangs, and structural integrity.</p>
+                    </div>
+                    <div class="ml-access__step">
+                        <div class="ml-access__step-badge" style="background: var(--nau-gold); color: var(--nau-blue); border: none;">3</div>
+                        <h3 class="ml-access__step-title" style="color: var(--white); font-size: 1.3rem;">Approve Quote</h3>
+                        <p class="ml-access__step-desc" style="color: rgba(255,255,255,0.6); font-size: 0.95rem;">Receive a detailed cost breakdown and estimated lead time. We only proceed upon your authorization.</p>
+                    </div>
+                    <div class="ml-access__step">
+                        <div class="ml-access__step-badge" style="background: var(--nau-gold); color: var(--nau-blue); border: none;">4</div>
+                        <h3 class="ml-access__step-title" style="color: var(--white); font-size: 1.3rem;">Fabrication</h3>
+                        <p class="ml-access__step-desc" style="color: rgba(255,255,255,0.6); font-size: 0.95rem;">Parts are printed, supports are carefully removed, and a final quality inspection is performed.</p>
+                    </div>
+                    <div class="ml-access__step">
+                        <div class="ml-access__step-badge" style="background: var(--nau-gold); color: var(--nau-blue); border: none;">5</div>
+                        <h3 class="ml-access__step-title" style="color: var(--white); font-size: 1.3rem;">Delivery</h3>
+                        <p class="ml-access__step-desc" style="color: rgba(255,255,255,0.6); font-size: 0.95rem;">Collect your part directly from the lab or have it securely shipped to your specified address.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ══════════════════════════════════════════════════════════
+             §4  REQUEST FORM
+        ══════════════════════════════════════════════════════════════ -->
+        <section class="premium-section" id="print-request-form" style="background: var(--white);">
+            <div class="container">
+
+                <div class="reveal-on-scroll" style="text-align: center;">
+                    <div class="ml-eyebrow" style="margin-bottom: 16px;">Project Initiation</div>
+                    <h2 class="premium-section-title text-blue">Request Fabrication</h2>
+                    <p class="premium-section-sub">
+                        Complete the technical intake form below. Accurate data ensures a faster DFM review and quoting process.
+                        Fields marked with <span style="color: var(--nau-red);">*</span> are required.
+                    </p>
+                </div>
+
+                <!-- ─── THE FORM ─── -->
+                <form id="printRequestForm" class="pf reveal-on-scroll" novalidate>
+
+                    <!-- ── Section A: About You ── -->
+                    <fieldset class="pf__section">
+                        <legend class="pf__legend">
+                            <span class="pf__legend-num">1</span> Client Information
+                        </legend>
+
+                        <div class="pf__row pf__row--2col">
+                            <div class="pf__group">
+                                <label for="pf-name" class="pf__label">Full Name <span class="pf__req">*</span></label>
+                                <input type="text" id="pf-name" name="name" class="pf__input" required placeholder="Dr. Jane Doe">
+                                <span class="pf__error" id="pf-name-error"></span>
+                            </div>
+                            <div class="pf__group">
+                                <label for="pf-email" class="pf__label">Institutional/Corporate Email <span class="pf__req">*</span></label>
+                                <input type="email" id="pf-email" name="email" class="pf__input" required placeholder="jane.doe@nau.edu">
+                                <span class="pf__error" id="pf-email-error"></span>
+                            </div>
+                        </div>
+
+                        <div class="pf__row pf__row--2col">
+                            <div class="pf__group">
+                                <label for="pf-affiliation" class="pf__label">Affiliation <span class="pf__req">*</span></label>
+                                <select id="pf-affiliation" name="affiliation" class="pf__select" required>
+                                    <option value="" disabled selected>Select affiliation type…</option>
+                                    <option value="internal">NAU Internal (Research/Academic)</option>
+                                    <option value="external_academic">External Academic Institution</option>
+                                    <option value="industry">Industry / Corporate Partner</option>
+                                </select>
+                                <span class="pf__error" id="pf-affiliation-error"></span>
+                            </div>
+                            <div class="pf__group">
+                                <label for="pf-department" class="pf__label">Department / Organization <span class="pf__req">*</span></label>
+                                <input type="text" id="pf-department" name="department" class="pf__input" required placeholder="e.g. Mechanical Engineering">
+                                <span class="pf__error" id="pf-department-error"></span>
+                            </div>
+                        </div>
+
+                        <div class="pf__row">
+                            <div class="pf__group" style="max-width: 360px;">
+                                <label for="pf-project-type" class="pf__label">Project Type <span class="pf__req">*</span></label>
+                                <select id="pf-project-type" name="project_type" class="pf__select" required>
+                                    <option value="" disabled selected>Select one…</option>
+                                    <option value="class">Class Project</option>
+                                    <option value="research">Research</option>
+                                    <option value="personal">Personal</option>
+                                    <option value="industry_prototype">Industry Prototype</option>
+                                </select>
+                                <span class="pf__helper" style="font-size: 0.85rem; color: var(--gray-500); margin-top: 4px; display: block;">Helps us prioritize and route your request.</span>
+                                <span class="pf__error" id="pf-project-type-error"></span>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- ── Section B: Your Print ── -->
+                    <fieldset class="pf__section" style="margin-top: 48px;">
+                        <legend class="pf__legend">
+                            <span class="pf__legend-num">2</span> Digital Assets & Material
+                        </legend>
+
+                        <!-- File Upload -->
+                        <div class="pf__group">
+                            <label class="pf__label">CAD Files <span class="pf__req">*</span></label>
+                            <span class="pf__helper">Accepted formats: <strong>.stl</strong> or <strong>.3mf</strong>. Max 50MB per file.</span>
+
+                            <div class="pf__dropzone" id="pf-dropzone">
+                                <input type="file" id="pf-files" name="files" class="pf__file-input" accept=".stl,.3mf" multiple>
+                                <div class="pf__dropzone-content" style="text-align: center;">
+                                    <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="var(--nau-blue)" stroke-width="1.5" style="margin-bottom: 12px; opacity: 0.7;">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="17 8 12 3 7 8"></polyline>
+                                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                                    </svg>
+                                    <p style="font-size: 1.1rem; color: var(--nau-blue); font-weight: 500;">Drag geometry files here or <span style="color: var(--nau-gold-dark); cursor: pointer; text-decoration: underline;">browse</span></p>
+                                </div>
+                            </div>
+                            <div class="pf__file-list" id="pf-file-list"></div>
+                            <span class="pf__error" id="pf-files-error"></span>
+                        </div>
+
+                        <!-- Print Size -->
+                        <div class="pf__row pf__row--2col" style="align-items: end;">
+                            <div class="pf__group">
+                                <label for="pf-size" class="pf__label">Overall Bounding Box (mm) <span class="pf__req">*</span></label>
+                                <input type="text" id="pf-size" name="print_size" class="pf__input" required placeholder="e.g. X:120 Y:80 Z:50">
+                                <span class="pf__error" id="pf-size-error"></span>
+                            </div>
+                            <div class="pf__group" style="padding-bottom: 14px;">
+                                <label class="pf__checkbox-label">
+                                    <input type="checkbox" id="pf-default-scale" name="default_scale" class="pf__checkbox">
+                                    <span style="font-weight: 500;">Maintain native CAD scale</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Material & Colors -->
+                        <div class="pf__row">
+                            <div class="pf__group" style="max-width: 200px;">
+                                <label for="pf-quantity" class="pf__label">Quantity <span class="pf__req">*</span></label>
+                                <input type="number" id="pf-quantity" name="quantity" class="pf__input" required min="1" value="1" placeholder="1">
+                                <span class="pf__error" id="pf-quantity-error"></span>
+                            </div>
+                        </div>
+                        <div class="pf__row pf__row--3col">
+                            <div class="pf__group">
+                                <label for="pf-material" class="pf__label">Polymer <span class="pf__req">*</span></label>
+                                <select id="pf-material" name="material" class="pf__select" required>
+                                    <option value="" disabled selected>Select…</option>
+                                    <option value="PLA">PLA (Standard)</option>
+                                    <option value="PETG">PETG (Durable)</option>
+                                    <option value="TPU">TPU (Flexible)</option>
+                                </select>
+                                <span class="pf__error" id="pf-material-error"></span>
+                            </div>
+                            <div class="pf__group">
+                                <label for="pf-color1" class="pf__label">Color Priority <span class="pf__req">*</span></label>
+                                <input type="text" id="pf-color1" name="color_primary" class="pf__input" required placeholder="e.g. Matte Black">
+                                <span class="pf__error" id="pf-color1-error"></span>
+                            </div>
+                            <div class="pf__group">
+                                <label for="pf-color2" class="pf__label">Alternative Color <span class="pf__req">*</span></label>
+                                <input type="text" id="pf-color2" name="color_secondary" class="pf__input" required placeholder="e.g. White">
+                                <span class="pf__error" id="pf-color2-error"></span>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- ── Section C: Delivery & Notes ── -->
+                    <fieldset class="pf__section" style="margin-top: 48px;">
+                        <legend class="pf__legend">
+                            <span class="pf__legend-num">3</span> Logistics
+                        </legend>
+
+                        <div class="pf__row pf__row--2col">
+                            <div class="pf__group">
+                                <label for="pf-deadline" class="pf__label">Target Completion Date</label>
+                                <input type="date" id="pf-deadline" name="deadline" class="pf__input">
+                                <span class="pf__helper">Best effort, not guaranteed.</span>
+                            </div>
+                            <div class="pf__group">
+                                <label for="pf-delivery" class="pf__label">Fulfillment Method <span class="pf__req">*</span></label>
+                                <select id="pf-delivery" name="delivery_method" class="pf__select" required>
+                                    <option value="" disabled selected>Select…</option>
+                                    <option value="pickup">Lab Will-Call (Free)</option>
+                                    <option value="ship">Domestic Shipping</option>
+                                </select>
+                                <span class="pf__error" id="pf-delivery-error"></span>
+                            </div>
+                        </div>
+
+                        <!-- Shipping Address (shown only when "Ship" is selected) -->
+                        <div class="pf__shipping" id="pf-shipping-section" style="display: none;">
+                            <p class="pf__shipping-label" style="font-weight: 700; color: var(--nau-blue); margin-bottom: 16px;">Shipping Address</p>
+                            <div class="pf__row">
+                                <div class="pf__group">
+                                    <label for="pf-street" class="pf__label">Street Address <span class="pf__req">*</span></label>
+                                    <input type="text" id="pf-street" name="ship_street" class="pf__input" placeholder="123 University Ave">
+                                    <span class="pf__error" id="pf-street-error"></span>
+                                </div>
+                            </div>
+                            <div class="pf__row pf__row--2col">
+                                <div class="pf__group">
+                                    <label for="pf-city" class="pf__label">City <span class="pf__req">*</span></label>
+                                    <input type="text" id="pf-city" name="ship_city" class="pf__input" placeholder="Flagstaff">
+                                    <span class="pf__error" id="pf-city-error"></span>
+                                </div>
+                                <div class="pf__group">
+                                    <label for="pf-state" class="pf__label">State <span class="pf__req">*</span></label>
+                                    <input type="text" id="pf-state" name="ship_state" class="pf__input" placeholder="AZ">
+                                    <span class="pf__error" id="pf-state-error"></span>
+                                </div>
+                            </div>
+                            <div class="pf__row pf__row--2col">
+                                <div class="pf__group">
+                                    <label for="pf-zip" class="pf__label">ZIP Code <span class="pf__req">*</span></label>
+                                    <input type="text" id="pf-zip" name="ship_zip" class="pf__input" placeholder="86001">
+                                    <span class="pf__error" id="pf-zip-error"></span>
+                                </div>
+                                <div class="pf__group">
+                                    <label for="pf-country" class="pf__label">Country <span class="pf__req">*</span></label>
+                                    <input type="text" id="pf-country" name="ship_country" class="pf__input" value="United States" placeholder="United States">
+                                    <span class="pf__error" id="pf-country-error"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Notes -->
+                        <div class="pf__group">
+                            <label for="pf-notes" class="pf__label">Engineering Notes & Tolerances</label>
+                            <textarea id="pf-notes" name="notes" class="pf__textarea" rows="4" placeholder="Specify any critical dimensions, preferred print orientation, infill density requirements, or multi-color mapping details."></textarea>
+                        </div>
+                    </fieldset>
+
+                    <!-- ── Section D: Advanced Options (Accordion) ── -->
+                    <div class="pf__advanced-toggle" id="pf-advanced-toggle" style="margin-top: 24px;">
+                        <button type="button" class="pf__advanced-btn" id="pf-advanced-btn" style="display: flex; align-items: center; gap: 8px; background: none; border: none; font-weight: 600; color: var(--nau-blue); cursor: pointer; padding: 0;">
+                            <svg class="pf__advanced-chevron" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                            Advanced Print Options
+                            <span class="pf__advanced-badge" style="background: rgba(0,36,84,0.1); padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">Optional</span>
+                        </button>
+                    </div>
+
+                    <fieldset class="pf__section pf__section--advanced" id="pf-advanced-panel" style="display: none; margin-top: 24px; padding-top: 24px; border-top: 1px dashed var(--gray-300);">
+                        <legend class="pf__legend">
+                            <span class="pf__legend-num">4</span> Advanced Options
+                        </legend>
+                        <p class="pf__section-note" style="margin-bottom: 24px; color: var(--gray-600);">
+                            These settings have sensible defaults. Only change them if you have specific requirements.
+                        </p>
+
+                        <div class="pf__row pf__row--2col">
+                            <div class="pf__group">
+                                <label for="pf-quality" class="pf__label">Quality Preset</label>
+                                <select id="pf-quality" name="quality" class="pf__select">
+                                    <option value="draft">Draft — Fastest, visible layer lines</option>
+                                    <option value="standard" selected>Standard — Good balance of speed and quality</option>
+                                    <option value="fine">Fine — Slowest, smoothest surface finish</option>
+                                </select>
+                            </div>
+                            <div class="pf__group">
+                                <label for="pf-strength" class="pf__label">Strength Preset</label>
+                                <select id="pf-strength" name="strength" class="pf__select">
+                                    <option value="display">Display — Light infill, for visual models</option>
+                                    <option value="balanced" selected>Balanced — Moderate infill, general use</option>
+                                    <option value="functional">Functional — Dense infill, load-bearing parts</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="pf__row pf__row--2col">
+                            <div class="pf__group">
+                                <label for="pf-supports" class="pf__label">Support Structures</label>
+                                <select id="pf-supports" name="supports" class="pf__select">
+                                    <option value="staff_decide" selected>Staff Decide — Let us choose the best approach</option>
+                                    <option value="none">None — No support material</option>
+                                    <option value="auto">Auto — Slicer-generated supports</option>
+                                </select>
+                            </div>
+                            <div class="pf__group">
+                                <label for="pf-multicolor" class="pf__label">Multi-Color / Multi-Material?</label>
+                                <select id="pf-multicolor" name="multicolor" class="pf__select">
+                                    <option value="no" selected>No — Single color &amp; material</option>
+                                    <option value="yes">Yes — I need multiple colors or materials</option>
+                                </select>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- ── Section E: Policies & Submit ── -->
+                    <fieldset class="pf__section pf__section--submit" style="margin-top: 40px; padding-top: 30px; border-top: 1px solid var(--gray-200);">
+                        <div class="pf__policies" style="background: var(--gray-50); padding: 24px; border-radius: 8px; margin-bottom: 30px;">
+                            <h4 style="font-size: 1rem; color: var(--nau-blue); margin-bottom: 12px;">Service Agreement</h4>
+                            <p style="font-size: 0.85rem; color: var(--gray-600); margin-bottom: 16px;">
+                                By submitting this request, you acknowledge that a formal quotation will be provided for approval prior to fabrication. The MPaCT Lab maintains confidentiality of all submitted IP but assumes no liability for design flaws inherent in the provided CAD files.
+                            </p>
+                            <label class="pf__checkbox-label pf__checkbox-label--policy">
+                                <input type="checkbox" id="pf-policy-agree" name="policy_agree" class="pf__checkbox" required>
+                                <span style="font-weight: 600; color: var(--nau-blue);">I accept the terms and authorize DFM review. <span class="pf__req">*</span></span>
+                            </label>
+                            <span class="pf__error" id="pf-policy-error"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" id="pf-submit-btn" style="width: 100%; padding: 18px; font-size: 1.2rem; border-radius: 8px;">
+                            Submit Project for Review
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 8px;">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </button>
+                    </fieldset>
+                </form>
+
+                <!-- ── Success State ── -->
+                <div class="pf__success" id="pf-success" style="display: none; background: var(--white); border-radius: 16px; box-shadow: 0 25px 50px rgba(0,36,84,0.05); border: 1px solid var(--gray-200); padding: 60px; max-width: 900px; margin: 0 auto; text-align: center;">
+                    <div class="pf__success-inner">
+                        <div style="width: 80px; height: 80px; background: rgba(0, 122, 51, 0.1); color: var(--nau-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
+                            <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </div>
+                        <h2 style="font-size: 2.2rem; color: var(--nau-blue); margin-bottom: 16px;">Data Received</h2>
+                        <p style="font-size: 1.1rem; color: var(--gray-600); margin-bottom: 24px;">Project Reference ID: <strong id="pf-ticket-id" style="color: var(--nau-blue); font-family: monospace; font-size: 1.2rem; background: var(--gray-100); padding: 4px 8px; border-radius: 4px;"></strong></p>
+                        <p style="color: var(--gray-600); max-width: 500px; margin: 0 auto 40px; line-height: 1.6;">
+                            Your CAD data has been securely uploaded to the MPaCT server. Our engineers will perform a DFM analysis and issue a formal quote to your email shortly.
+                        </p>
+                        <button type="button" class="btn btn-outline" style="border-color: var(--nau-blue); color: var(--nau-blue);" id="pf-submit-another-btn">
+                            Submit Another Project
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════
+             §5  FAQ (NAU Dark Theme)
+        ══════════════════════════════════════════════════════════════ -->
+        <section class="faq-section">
+            <div class="container" style="max-width: 800px; position: relative; z-index: 2;">
+                <div class="reveal-on-scroll" style="text-align: center; margin-bottom: 48px;">
+                    <div class="ml-eyebrow ml-eyebrow--light" style="margin-bottom: 16px; background: rgba(250, 192, 26, 0.15); color: var(--nau-gold);">Questions</div>
+                    <h2 class="premium-section-title text-white">Frequently Asked Questions</h2>
+                </div>
+
+                <div class="faq-list--dark reveal-on-scroll">
+                    <details class="faq-item">
+                        <summary class="faq-item__question">
+                            What file formats do you accept?
+                            <svg class="faq-item__chevron" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </summary>
+                        <div class="faq-item__answer">
+                            <p>We accept <strong>STL</strong> and <strong>3MF</strong> files only. Most CAD programs (Fusion 360, SolidWorks, Blender, TinkerCAD) can export in these formats.</p>
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="faq-item__question">
+                            How much does it cost?
+                            <svg class="faq-item__chevron" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </summary>
+                        <div class="faq-item__answer">
+                            <p>Pricing is quote-based and depends on material, size, and print time. You'll receive a detailed estimate before any work begins — no surprises.</p>
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="faq-item__question">
+                            How long does printing take?
+                            <svg class="faq-item__chevron" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </summary>
+                        <div class="faq-item__answer">
+                            <p>Most jobs are completed within <strong>3–5 business days</strong>. Larger or more complex prints may take longer — we'll include a timeline in your quote.</p>
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="faq-item__question">
+                            Can I watch my print being made?
+                            <svg class="faq-item__chevron" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </summary>
+                        <div class="faq-item__answer">
+                            <p>We don't currently offer live viewing, but you'll receive status updates by email at every stage of the process.</p>
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="faq-item__question">
+                            What if my print fails?
+                            <svg class="faq-item__chevron" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </summary>
+                        <div class="faq-item__answer">
+                            <p>If a print fails due to a machine error or issue on our end, we'll reprint it at no extra cost. If the failure is caused by a design issue, we'll contact you to discuss adjustments.</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <site-footer></site-footer>
 
     <script src="JS/layout.js"></script>
+    <script src="JS/script.js"></script>
+    <script src="JS/services.js"></script>
 
 </body>
 
