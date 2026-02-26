@@ -36,6 +36,7 @@ class SiteHeader extends HTMLElement {
                 <nav class="nav-menu">
                     <div class="nav-item"><a href="${basePath}index.html" class="nav-link" data-path="index.html">Home</a></div>
                     <div class="nav-item"><a href="${basePath}Equipment.html" class="nav-link" data-path="Equipment.html">Equipment</a></div>
+                    <div class="nav-item"><a href="${basePath}Services.html" class="nav-link" data-path="Services.html">Services</a></div>
                     
                     <div class="nav-item"><a href="${basePath}degree-programs.html" class="nav-link" data-path="degree-programs.html">Degree Programs</a></div>
                     <!-- Removed DP_2 link -->

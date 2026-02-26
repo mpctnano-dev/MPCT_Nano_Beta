@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services | NAU MPaCT Lab</title>
+    <meta name="description" content="Service intake portal for MPaCT Lab offerings including LPKF ProtoLaser R4 processing and upcoming 3D cutting services.">
+    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="sv3-page">
+
+    <site-header></site-header>
+
+    <main>
+        <section class="sv3-hero">
+            <h1>MPaCT Service Portal</h1>
+            <p>Streamlined intake for our advanced manufacturing and analysis services.</p>
+        </section>
+
+        <div class="container">
+            <div class="sv3-main-content">
+                <aside class="sv3-sidebar">
+                    <div class="sv3-sidebar-header">
+                        <h2>Our Services</h2>
+                    </div>
+                    <nav class="sv3-nav-list">
+                        <button class="sv3-nav-button active" data-service="lpkf">
+                            <i class="fas fa-bolt"></i>
+                            <span>LPKF ProtoLaser R4</span>
+                        </button>
+                        <button class="sv3-nav-button" data-service="cut3d">
+                            <i class="fas fa-cube"></i>
+                            <span>3D Cutting Service</span>
+                        </button>
+                    </nav>
+                </aside>
+
+                <div class="sv3-content-area">
+                    <div id="lpkf" class="sv3-panel active">
+                        <h3>LPKF ProtoLaser R4 Request</h3>
+                        <p class="panel-lead">Submit your part scope, material class, and feature goals for review.</p>
+                        <form id="lpkfServiceForm" class="sv3-form-layout">
+                            <div class="sv3-form-grid">
+                                <div class="sv3-form-group">
+                                    <label for="lpkf-first_name">First Name</label>
+                                    <input type="text" id="lpkf-first_name" name="first_name" class="sv3-input" required>
+                                </div>
+                                <div class="sv3-form-group">
+                                    <label for="lpkf-last_name">Last Name</label>
+                                    <input type="text" id="lpkf-last_name" name="last_name" class="sv3-input" required>
+                                </div>
+                                <div class="sv3-form-group sv3-full-width">
+                                    <label for="lpkf-email">Email</label>
+                                    <input type="email" id="lpkf-email" name="email" class="sv3-input" required>
+                                </div>
+                                <div class="sv3-form-group">
+                                    <label for="lpkf_service_type">Service Type</label>
+                                    <select id="lpkf_service_type" name="lpkf_service_type" class="sv3-select" required>
+                                        <option value="">Select Service...</option>
+                                        <option>Laser Structuring</option>
+                                        <option>Cutting / Depaneling</option>
+                                        <option>Drilling</option>
+                                    </select>
+                                </div>
+                                <div class="sv3-form-group">
+                                    <label for="lpkf_substrate">Substrate</label>
+                                    <select id="lpkf_substrate" name="lpkf_substrate" class="sv3-select" required>
+                                        <option value="">Select Material...</option>
+                                        <option>FR4 / Laminate</option>
+                                        <option>Ceramic / LTCC</option>
+                                        <option>Glass</option>
+                                        <option>Polyimide / Flex</option>
+                                    </select>
+                                </div>
+                                <div class="sv3-form-group sv3-full-width">
+                                    <label for="lpkf_details">Project Details</label>
+                                    <textarea id="lpkf_details" name="lpkf_details" rows="4" class="sv3-textarea" required></textarea>
+                                </div>
+                            </div>
+                            <div class="sv3-form-actions">
+                                <button type="submit" id="lpkfSubmitBtn" class="btn btn-primary">Submit LPKF Request</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="cut3d" class="sv3-panel">
+                        <div class="sv3-future-panel">
+                             <i class="fas fa-cogs"></i>
+                            <h3>3D Cutting Service</h3>
+                            <p>This service is currently under development. The intake form and process details will be available soon.</p>
+                             <a href="Contact_Us.html?category=other" class="btn btn-secondary">Express Early Interest</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <site-footer></site-footer>
+
+    <script src="JS/layout.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navButtons = document.querySelectorAll('.sv3-nav-button');
+            const panels = document.querySelectorAll('.sv3-panel');
+
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const serviceId = button.dataset.service;
+
+                    navButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    panels.forEach(panel => {
+                        panel.classList.toggle('active', panel.id === serviceId);
+                    });
+                });
+            });
+            
+            // Simplified form submission logic
+            const lpkfForm = document.getElementById('lpkfServiceForm');
+            if (lpkfForm) {
+                 lpkfForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    alert('Form submitted (demo)!');
+                    lpkfForm.reset();
+                 });
+            }
+        });
+    </script>
+</body>
+</html>
