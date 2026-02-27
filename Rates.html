@@ -1,0 +1,749 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipment Billing Rate Sheet | NAU Nano Core</title>
+    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+</head>
+
+<body>
+    <site-header></site-header>
+
+    <main>
+        <section class="rates-hero">
+            <div class="container">
+                <div class="rates-kicker">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                    Central Billing Reference
+                </div>
+                <h1>Equipment Billing Units & Recharge Rates</h1>
+                <p>
+                    This page is the single source for all equipment billing information across NAU Nano Core.
+                    Entries are grouped by category for easy review and planning.
+                </p>
+
+                <div class="rates-actions">
+                    <a href="Contact_Us.html?category=equipment" class="btn btn-primary">Request Equipment Access</a>
+                    <a href="Equipment.html" class="btn btn-outline-light">Back to Equipment Catalog</a>
+                </div>
+
+                <div class="rates-metrics">
+                    <div class="rates-metric">
+                        <strong data-count="6">0</strong>
+                        <span>Categories</span>
+                    </div>
+                    <div class="rates-metric">
+                        <strong data-count="42">0</strong>
+                        <span>Equipment Entries</span>
+                    </div>
+                    <div class="rates-metric">
+                        <strong>Billable Unit: TBD</strong>
+                        <span>Pending management approval</span>
+                    </div>
+                    <div class="rates-metric">
+                        <strong>Internal/External: TBD</strong>
+                        <span>Rate cards under review</span>
+                    </div>
+                </div>
+
+                <!-- Global Search -->
+                <div class="global-search-wrap">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="globalSearch" placeholder="Search all equipment (e.g. SEM, Haas, AFM…)"
+                        autocomplete="off">
+                    <div class="global-search-meta">
+                        <span class="search-count" id="searchCount"></span>
+                        <button class="search-clear-btn" id="searchClear" title="Clear search"><i
+                                class="fa-solid fa-xmark"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="rates-body">
+            <div class="container rates-layout">
+                <aside class="rates-sidebar" aria-label="Rates categories">
+                    <h2>Jump to Category</h2>
+                    <nav>
+                        <a href="#mechatronics">Mechatronics <i class="fa-solid fa-arrow-right"></i></a>
+                        <a href="#electrical">Electrical <i class="fa-solid fa-arrow-right"></i></a>
+                        <a href="#fabrication">Fabrication <i class="fa-solid fa-arrow-right"></i></a>
+                        <a href="#metrology">Metrology <i class="fa-solid fa-arrow-right"></i></a>
+                        <a href="#sample-prep">Sample Prep <i class="fa-solid fa-arrow-right"></i></a>
+                        <a href="#support-systems">Support Systems <i class="fa-solid fa-arrow-right"></i></a>
+                    </nav>
+                </aside>
+
+                <div class="rates-content">
+                    <div class="rates-alert">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span><strong>Status:</strong> Billable units, internal rates, and external rates are currently
+                            shown as <strong>TBD</strong>.</span>
+                    </div>
+
+                    <!-- Global no-results -->
+                    <div class="global-no-results" id="globalNoResults">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <h3>No equipment found</h3>
+                        <p>Try adjusting your search term or clearing the filter.</p>
+                    </div>
+
+                    <section id="mechatronics" class="category-card">
+                        <h2 class="category-head">
+                            <i class="fa-solid fa-robot cat-icon"></i>
+                            <span class="cat-title">Mechatronics</span>
+                            <div class="cat-filter-wrap">
+                                <i class="fa-solid fa-magnifying-glass cat-search-icon"></i>
+                                <input type="text" class="cat-filter" placeholder="Filter…" data-target="mechatronics">
+                                <button class="cat-filter-icon" title="Filter this category"><i
+                                        class="fa-solid fa-filter"></i></button>
+                            </div>
+                        </h2>
+                        <div class="table-wrap">
+                            <table class="rates-table">
+                                <thead>
+                                    <tr>
+                                        <th>Equipment</th>
+                                        <th>Billable Unit</th>
+                                        <th>Internal Rate</th>
+                                        <th>External Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Amatrol 87-MS1 Pick and Place</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Amatrol 87-MS2 Gauging Station</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Amatrol 87-MS7 Inventory Storage</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Amatrol Smart Robot Workcell</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="no-results"><i class="fa-solid fa-filter-circle-xmark"></i>
+                            <p>No matching equipment in this category.</p>
+                        </div>
+                    </section>
+
+                    <section id="electrical" class="category-card">
+                        <h2 class="category-head">
+                            <i class="fa-solid fa-bolt cat-icon"></i>
+                            <span class="cat-title">Electrical</span>
+                            <div class="cat-filter-wrap">
+                                <i class="fa-solid fa-magnifying-glass cat-search-icon"></i>
+                                <input type="text" class="cat-filter" placeholder="Filter…" data-target="electrical">
+                                <button class="cat-filter-icon" title="Filter this category"><i
+                                        class="fa-solid fa-filter"></i></button>
+                            </div>
+                        </h2>
+                        <div class="table-wrap">
+                            <table class="rates-table">
+                                <thead>
+                                    <tr>
+                                        <th>Equipment</th>
+                                        <th>Billable Unit</th>
+                                        <th>Internal Rate</th>
+                                        <th>External Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>CSZ Environmental Chamber</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Keithley 2110 5.5 Digit Multimeter</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Keysight E4990A Impedance Analyzer</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Montana CryoAdvance 50</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>MPI TS200 Probe Station</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Seebeck and Resistivity Instrument</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tektronix AFG1022 Function Generator</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tektronix TBS1052C Digital Oscilloscope</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Vector Network Analyzer (VNA)</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="no-results"><i class="fa-solid fa-filter-circle-xmark"></i>
+                            <p>No matching equipment in this category.</p>
+                        </div>
+                    </section>
+
+                    <section id="fabrication" class="category-card">
+                        <h2 class="category-head">
+                            <i class="fa-solid fa-microchip cat-icon"></i>
+                            <span class="cat-title">Fabrication (Lithography, Bonding, and Additive)</span>
+                            <div class="cat-filter-wrap">
+                                <i class="fa-solid fa-magnifying-glass cat-search-icon"></i>
+                                <input type="text" class="cat-filter" placeholder="Filter…" data-target="fabrication">
+                                <button class="cat-filter-icon" title="Filter this category"><i
+                                        class="fa-solid fa-filter"></i></button>
+                            </div>
+                        </h2>
+                        <div class="table-wrap">
+                            <table class="rates-table">
+                                <thead>
+                                    <tr>
+                                        <th>Equipment</th>
+                                        <th>Billable Unit</th>
+                                        <th>Internal Rate</th>
+                                        <th>External Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Bambu Lab H2D 3D Printer</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Haas Desktop Lathe</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Haas Desktop Mill</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>LPKF ProtoLaser R4</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>NIL Technology CNI v3.0</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>SUSS Mask Aligner</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tresky T-4909 Die Bonder</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Voltera V-One PCB Printer</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>West-Bond Wire Bonder</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="no-results"><i class="fa-solid fa-filter-circle-xmark"></i>
+                            <p>No matching equipment in this category.</p>
+                        </div>
+                    </section>
+
+                    <section id="metrology" class="category-card">
+                        <h2 class="category-head">
+                            <i class="fa-solid fa-microscope cat-icon"></i>
+                            <span class="cat-title">Metrology</span>
+                            <div class="cat-filter-wrap">
+                                <i class="fa-solid fa-magnifying-glass cat-search-icon"></i>
+                                <input type="text" class="cat-filter" placeholder="Filter…" data-target="metrology">
+                                <button class="cat-filter-icon" title="Filter this category"><i
+                                        class="fa-solid fa-filter"></i></button>
+                            </div>
+                        </h2>
+                        <div class="table-wrap">
+                            <table class="rates-table">
+                                <thead>
+                                    <tr>
+                                        <th>Equipment</th>
+                                        <th>Billable Unit</th>
+                                        <th>Internal Rate</th>
+                                        <th>External Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>B-2 Atomic Force Microscope (AFM)</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>BELPREP VAC Series</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>BELSORP MAX X Surface and Pore Analyzer</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ellipsometer</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fluke P3114 Oil Deadweight Tester</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Keyence VHX-7000 Digital Microscope</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Keyence VK-X3000 3D Surface Profiler</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Keyence WM-6000 Wide Area CMM</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Optical Holographic Profiler</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Photoluminescence Spectrometer</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Scanning Electron Microscope (SEM)</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>SIMS Workstation</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Spatial Light Modulator</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Transmission Electron Microscope (TEM)</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>XRD (X-Ray Diffraction)</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="no-results"><i class="fa-solid fa-filter-circle-xmark"></i>
+                            <p>No matching equipment in this category.</p>
+                        </div>
+                    </section>
+
+                    <section id="sample-prep" class="category-card">
+                        <h2 class="category-head">
+                            <i class="fa-solid fa-flask-vial cat-icon"></i>
+                            <span class="cat-title">Sample Prep</span>
+                            <div class="cat-filter-wrap">
+                                <i class="fa-solid fa-magnifying-glass cat-search-icon"></i>
+                                <input type="text" class="cat-filter" placeholder="Filter…" data-target="sample-prep">
+                                <button class="cat-filter-icon" title="Filter this category"><i
+                                        class="fa-solid fa-filter"></i></button>
+                            </div>
+                        </h2>
+                        <div class="table-wrap">
+                            <table class="rates-table">
+                                <thead>
+                                    <tr>
+                                        <th>Equipment</th>
+                                        <th>Billable Unit</th>
+                                        <th>Internal Rate</th>
+                                        <th>External Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>PELCO FlexScribe 300</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>TEM Prep - Dimple Grinder</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>TEM Prep - Disk Grinder</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>TEM Prep - Ion Beam Mill</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="no-results"><i class="fa-solid fa-filter-circle-xmark"></i>
+                            <p>No matching equipment in this category.</p>
+                        </div>
+                    </section>
+
+                    <section id="support-systems" class="category-card">
+                        <h2 class="category-head">
+                            <i class="fa-solid fa-screwdriver-wrench cat-icon"></i>
+                            <span class="cat-title">Support Systems</span>
+                            <div class="cat-filter-wrap">
+                                <i class="fa-solid fa-magnifying-glass cat-search-icon"></i>
+                                <input type="text" class="cat-filter" placeholder="Filter…"
+                                    data-target="support-systems">
+                                <button class="cat-filter-icon" title="Filter this category"><i
+                                        class="fa-solid fa-filter"></i></button>
+                            </div>
+                        </h2>
+                        <div class="table-wrap">
+                            <table class="rates-table">
+                                <thead>
+                                    <tr>
+                                        <th>Equipment</th>
+                                        <th>Billable Unit</th>
+                                        <th>Internal Rate</th>
+                                        <th>External Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>LN2 Storage and Dewars</td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                        <td><span class="tbd-chip">TBD</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="no-results"><i class="fa-solid fa-filter-circle-xmark"></i>
+                            <p>No matching equipment in this category.</p>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Back to Top -->
+    <button class="back-to-top" id="backToTop" title="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+    <site-footer></site-footer>
+
+    <script src="JS/layout.js"></script>
+    <script>
+        (function () {
+            'use strict';
+
+            /* ======================================================
+               1.  COUNTER ANIMATION FOR HERO METRICS
+               ====================================================== */
+            function animateCounters() {
+                document.querySelectorAll('[data-count]').forEach(el => {
+                    const target = parseInt(el.dataset.count, 10);
+                    if (isNaN(target)) return;
+                    const duration = 1200;
+                    const start = performance.now();
+                    function tick(now) {
+                        const elapsed = now - start;
+                        const progress = Math.min(elapsed / duration, 1);
+                        // easeOutQuart
+                        const ease = 1 - Math.pow(1 - progress, 4);
+                        el.textContent = Math.round(target * ease);
+                        if (progress < 1) requestAnimationFrame(tick);
+                    }
+                    requestAnimationFrame(tick);
+                });
+            }
+            // Fire when hero is visible
+            const heroObs = new IntersectionObserver((entries, obs) => {
+                entries.forEach(e => {
+                    if (e.isIntersecting) {
+                        animateCounters();
+                        obs.disconnect();
+                    }
+                });
+            }, { threshold: 0.3 });
+            const heroSection = document.querySelector('.rates-hero');
+            if (heroSection) heroObs.observe(heroSection);
+
+            /* ======================================================
+               2.  SCROLL-TRIGGERED CARD ANIMATIONS
+               ====================================================== */
+            const cardObs = new IntersectionObserver((entries) => {
+                entries.forEach((e, i) => {
+                    if (e.isIntersecting) {
+                        // stagger delay based on index
+                        const delay = Array.from(document.querySelectorAll('.category-card')).indexOf(e.target) * 80;
+                        setTimeout(() => e.target.classList.add('in-view'), delay);
+                        cardObs.unobserve(e.target);
+                    }
+                });
+            }, { threshold: 0.08 });
+            document.querySelectorAll('.category-card').forEach(c => cardObs.observe(c));
+
+            /* ======================================================
+               3.  SIDEBAR SCROLL-SPY
+               ====================================================== */
+            const sidebarLinks = document.querySelectorAll('.rates-sidebar a[href^="#"]');
+            const categorySections = Array.from(sidebarLinks).map(a => {
+                const id = a.getAttribute('href').slice(1);
+                return document.getElementById(id);
+            }).filter(Boolean);
+
+            function updateScrollSpy() {
+                let active = null;
+                const offset = 120;
+                categorySections.forEach(sec => {
+                    const rect = sec.getBoundingClientRect();
+                    if (rect.top <= offset && rect.bottom > offset) active = sec;
+                });
+                sidebarLinks.forEach(link => {
+                    const id = link.getAttribute('href').slice(1);
+                    link.classList.toggle('active', active && active.id === id);
+                });
+            }
+            window.addEventListener('scroll', updateScrollSpy, { passive: true });
+            updateScrollSpy();
+
+            /* ======================================================
+               4.  GLOBAL SEARCH
+               ====================================================== */
+            const globalInput = document.getElementById('globalSearch');
+            const searchCount = document.getElementById('searchCount');
+            const searchClear = document.getElementById('searchClear');
+            const globalNoRes = document.getElementById('globalNoResults');
+            const allCards = document.querySelectorAll('.category-card');
+
+            function doGlobalSearch() {
+                const term = globalInput.value.trim().toLowerCase();
+                searchClear.classList.toggle('visible', term.length > 0);
+
+                let totalVisible = 0;
+
+                allCards.forEach(card => {
+                    const rows = card.querySelectorAll('tbody tr');
+                    let cardVisible = 0;
+                    rows.forEach(row => {
+                        const name = row.querySelector('td:first-child')?.textContent.toLowerCase() || '';
+                        const show = !term || name.includes(term);
+                        row.style.display = show ? '' : 'none';
+                        if (show) cardVisible++;
+                    });
+                    totalVisible += cardVisible;
+
+                    const noRes = card.querySelector('.no-results');
+                    const tableWrap = card.querySelector('.table-wrap');
+
+                    if (term && cardVisible === 0) {
+                        card.style.display = 'none';
+                        if (noRes) noRes.classList.add('visible');
+                        if (tableWrap) tableWrap.style.display = 'none';
+                    } else {
+                        card.style.display = '';
+                        if (noRes) noRes.classList.remove('visible');
+                        if (tableWrap) tableWrap.style.display = '';
+                    }
+                });
+
+                if (term) {
+                    searchCount.textContent = totalVisible + ' result' + (totalVisible !== 1 ? 's' : '');
+                } else {
+                    searchCount.textContent = '';
+                }
+
+                globalNoRes.classList.toggle('visible', term && totalVisible === 0);
+            }
+
+            globalInput.addEventListener('input', doGlobalSearch);
+            searchClear.addEventListener('click', () => {
+                globalInput.value = '';
+                doGlobalSearch();
+                globalInput.focus();
+            });
+
+            /* ======================================================
+               5.  PER-CATEGORY INLINE FILTERS
+               ====================================================== */
+            document.querySelectorAll('.cat-filter-icon').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const wrap = btn.closest('.cat-filter-wrap');
+                    const input = wrap.querySelector('.cat-filter');
+                    const isOpen = input.classList.contains('expanded');
+                    if (isOpen) {
+                        input.classList.remove('expanded');
+                        wrap.classList.remove('open');
+                        input.value = '';
+                        // Reset rows
+                        const card = btn.closest('.category-card');
+                        card.querySelectorAll('tbody tr').forEach(r => r.style.display = '');
+                        const noRes = card.querySelector('.no-results');
+                        if (noRes) noRes.classList.remove('visible');
+                        const tableWrap = card.querySelector('.table-wrap');
+                        if (tableWrap) tableWrap.style.display = '';
+                    } else {
+                        input.classList.add('expanded');
+                        wrap.classList.add('open');
+                        setTimeout(() => input.focus(), 100);
+                    }
+                });
+            });
+
+            document.querySelectorAll('.cat-filter').forEach(input => {
+                input.addEventListener('input', () => {
+                    const term = input.value.trim().toLowerCase();
+                    const card = input.closest('.category-card');
+                    const rows = card.querySelectorAll('tbody tr');
+                    let visible = 0;
+                    rows.forEach(row => {
+                        const name = row.querySelector('td:first-child')?.textContent.toLowerCase() || '';
+                        const show = !term || name.includes(term);
+                        row.style.display = show ? '' : 'none';
+                        if (show) visible++;
+                    });
+                    const noRes = card.querySelector('.no-results');
+                    const tableWrap = card.querySelector('.table-wrap');
+                    if (term && visible === 0) {
+                        if (noRes) noRes.classList.add('visible');
+                        if (tableWrap) tableWrap.style.display = 'none';
+                    } else {
+                        if (noRes) noRes.classList.remove('visible');
+                        if (tableWrap) tableWrap.style.display = '';
+                    }
+                });
+            });
+
+            /* ======================================================
+               6.  BACK TO TOP BUTTON
+               ====================================================== */
+            const btt = document.getElementById('backToTop');
+            window.addEventListener('scroll', () => {
+                btt.classList.toggle('visible', window.scrollY > 400);
+            }, { passive: true });
+            btt.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            /* ======================================================
+               7.  SMOOTH SCROLL OFFSET FOR ANCHOR LINKS
+               ====================================================== */
+            document.querySelectorAll('a[href^="#"]').forEach(link => {
+                link.addEventListener('click', e => {
+                    const id = link.getAttribute('href').slice(1);
+                    const target = document.getElementById(id);
+                    if (!target) return;
+                    e.preventDefault();
+                    const offset = 100; // sticky header height
+                    const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                    window.scrollTo({ top, behavior: 'smooth' });
+                });
+            });
+
+        })();
+    </script>
+</body>
+
+</html>
