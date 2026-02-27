@@ -1,133 +1,1258 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Services | NAU MPaCT Lab</title>
-    <meta name="description" content="Service intake portal for MPaCT Lab offerings including LPKF ProtoLaser R4 processing and upcoming 3D cutting services.">
+    <title>Equipment Services | NAU Nano Core</title>
+    <meta name="description" content="Request specialized services and processing from the NAU Nano Core facility.">
     <link rel="stylesheet" href="CSS/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ============================================
+           SERVICES PAGE - DYNAMIC MASTER-DETAIL
+           ============================================ */
+
+        /* ---------- HERO SECTION ---------- */
+        .services-hero {
+            background: linear-gradient(135deg, var(--nau-blue) 0%, #0a3366 100%);
+            color: white;
+            padding: 60px 0 50px;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .services-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -10%;
+            width: 50%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(250, 192, 26, 0.08) 0%, transparent 70%);
+            transform: rotate(-15deg);
+            pointer-events: none;
+        }
+
+        .services-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 999px;
+            padding: 5px 14px;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            font-weight: 700;
+            backdrop-filter: blur(4px);
+            background: rgba(255, 255, 255, 0.1);
+            animation: slideDown 0.6s cubic-bezier(0.25, 1, 0.5, 1) both;
+        }
+
+        .services-hero h1 {
+            margin: 0 0 12px;
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            line-height: 1.1;
+            animation: slideUp 0.7s 0.1s both;
+        }
+
+        .services-hero p {
+            margin: 0 auto;
+            max-width: 650px;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 1.05rem;
+            animation: slideUp 0.7s 0.2s both;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ---------- LAYOUT GRID ---------- */
+        .services-body {
+            background: #f8fafc;
+            padding: 40px 0 80px;
+            min-height: 60vh;
+            position: relative;
+        }
+
+        .services-layout {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        @media (max-width: 900px) {
+            .services-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ---------- CATEGORY SIDEBAR ---------- */
+        .filter-sidebar {
+            position: sticky;
+            top: 100px;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 36, 84, 0.04);
+            backdrop-filter: blur(12px);
+            padding: 24px;
+            z-index: 10;
+        }
+
+        .filter-sidebar h3 {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: var(--nau-blue);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .category-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .cat-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            background: transparent;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: var(--font-body);
+            color: var(--gray-700);
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .cat-btn:hover {
+            background: rgba(0, 36, 84, 0.04);
+            color: var(--nau-blue);
+        }
+
+        .cat-btn.active {
+            background: var(--nau-blue);
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 36, 84, 0.15);
+        }
+
+        .cat-count {
+            font-size: 0.75rem;
+            background: rgba(0, 0, 0, 0.08);
+            padding: 2px 8px;
+            border-radius: 999px;
+        }
+
+        .cat-btn.active .cat-count {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        /* Responsive sidebar */
+        @media (max-width: 900px) {
+            .filter-sidebar {
+                position: static;
+                padding: 16px;
+                margin-bottom: 20px;
+            }
+
+            .category-list {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+
+            .cat-btn {
+                width: auto;
+                padding: 8px 16px;
+            }
+        }
+
+        /* ---------- GLOBAL SEARCH BAR ---------- */
+        .grid-area {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .global-search-container {
+            position: relative;
+            width: 100%;
+            background: white;
+            border-radius: 999px;
+            box-shadow: 0 4px 15px rgba(0, 36, 84, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            display: flex;
+            align-items: center;
+            padding: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .global-search-container:focus-within {
+            box-shadow: 0 6px 20px rgba(0, 36, 84, 0.1);
+            border-color: rgba(0, 36, 84, 0.15);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            color: var(--gray-500);
+            font-size: 1.1rem;
+            pointer-events: none;
+        }
+
+        .service-search-input {
+            width: 100%;
+            border: none;
+            background: transparent;
+            padding: 14px 20px 14px 50px;
+            font-size: 1rem;
+            font-family: var(--font-body);
+            color: var(--gray-800);
+            outline: none;
+        }
+
+        .service-search-input::placeholder {
+            color: var(--gray-400);
+        }
+
+        .clear-search {
+            background: rgba(0, 0, 0, 0.05);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-500);
+            cursor: pointer;
+            margin-right: 8px;
+            transition: all 0.2s;
+        }
+
+        .clear-search:hover {
+            background: rgba(0, 0, 0, 0.1);
+            color: var(--gray-800);
+        }
+
+        /* ---------- EQUIPMENT GRID ---------- */
+        .eq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .service-card {
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0, 20, 50, 0.04);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.5s ease backwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--nau-gold);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+            transform-origin: bottom;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 36, 84, 0.08);
+            border-color: rgba(0, 36, 84, 0.1);
+        }
+
+        .service-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .sc-cat {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--gray-500);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .sc-title {
+            font-size: 1.15rem;
+            color: var(--nau-blue);
+            margin: 0 0 16px;
+            line-height: 1.3;
+        }
+
+        .sc-action {
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--nau-blue);
+        }
+
+        .sc-action i {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(250, 192, 26, 0.15);
+            color: var(--nau-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .service-card:hover .sc-action i {
+            background: var(--nau-gold);
+            transform: translateX(4px);
+        }
+
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray-500);
+        }
+
+        /* ---------- DYNAMIC PANEL (MASTER-DETAIL) ---------- */
+        .panel-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 24, 56, 0.4);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .panel-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .slide-panel {
+            position: fixed;
+            top: 0;
+            right: -600px;
+            width: 100%;
+            max-width: 600px;
+            height: 100%;
+            background: white;
+            box-shadow: -10px 0 40px rgba(0, 0, 0, 0.15);
+            z-index: 2001;
+            transition: right 0.5s cubic-bezier(0.25, 1, 0.4, 1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .slide-panel.active {
+            right: 0;
+        }
+
+        .panel-header {
+            padding: 24px 30px;
+            background: #f8fafc;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+
+        .panel-header h2 {
+            margin: 0;
+            font-size: 1.4rem;
+            color: var(--nau-blue);
+            line-height: 1.2;
+        }
+
+        .panel-subtitle {
+            font-size: 0.85rem;
+            color: var(--gray-600);
+            margin-top: 6px;
+        }
+
+        .close-panel {
+            background: transparent;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--gray-500);
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .close-panel:hover {
+            background: rgba(0, 0, 0, 0.05);
+            color: var(--nau-red);
+            transform: rotate(90deg);
+        }
+
+        .panel-content {
+            padding: 30px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        /* Forms in panel */
+        .service-form {
+            display: grid;
+            gap: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--gray-700);
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            background: #fff;
+            transition: all 0.3s;
+            color: var(--gray-800);
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--nau-blue);
+            box-shadow: 0 0 0 3px rgba(0, 36, 84, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-note {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            margin-top: 4px;
+        }
+
+        .accessories-check {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .acc-cbx {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+            color: var(--gray-700);
+            cursor: pointer;
+        }
+
+        .panel-footer {
+            padding: 24px 30px;
+            background: white;
+            border-top: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        /* Structured Form Sections */
+        .form-section {
+            background: #f8fafc;
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            display: grid;
+            gap: 20px;
+        }
+
+        .section-title {
+            grid-column: 1 / -1;
+            font-size: 1.1rem;
+            color: var(--nau-blue);
+            margin: 0 0 4px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--nau-gold);
+            display: inline-block;
+            width: max-content;
+        }
+
+        .file-upload-box {
+            grid-column: 1 / -1;
+            border: 2px dashed var(--gray-300);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            background: white;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .file-upload-box:hover {
+            border-color: var(--nau-blue);
+            background: rgba(0, 36, 84, 0.02);
+        }
+
+        .file-upload-box i {
+            font-size: 2rem;
+            color: var(--gray-400);
+            margin-bottom: 12px;
+        }
+
+        .file-upload-box p {
+            margin: 0;
+            color: var(--gray-600);
+            font-size: 0.9rem;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 16px;
+            margin-top: 8px;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.95rem;
+            color: var(--gray-800);
+            cursor: pointer;
+        }
+
+        .hidden-field {
+            display: none !important;
+        }
+
+        /* LPKF specialized UI touches */
+        .lpkf-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, rgba(250, 192, 26, 0.1) 0%, rgba(250, 192, 26, 0.2) 100%);
+            border: 1px solid rgba(250, 192, 26, 0.4);
+            color: #8a6d00;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        /* Responsive panel */
+        @media (max-width: 600px) {
+            .slide-panel {
+                width: 100%;
+                right: -100%;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .panel-header,
+            .panel-content,
+            .panel-footer {
+                padding: 20px;
+            }
+        }
+
+        .skeleton {
+            background: #eee;
+            background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+            background-size: 200% 100%;
+            animation: 1.5s shine linear infinite;
+            border-radius: 8px;
+        }
+
+        @keyframes shine {
+            to {
+                background-position-x: -200%;
+            }
+        }
+    </style>
 </head>
-<body class="sv3-page">
+
+<body>
 
     <site-header></site-header>
 
     <main>
-        <section class="sv3-hero">
-            <h1>MPaCT Service Portal</h1>
-            <p>Streamlined intake for our advanced manufacturing and analysis services.</p>
+        <section class="services-hero">
+            <div class="container">
+                <div class="services-kicker">
+                    <i class="fas fa-tools"></i>
+                    Staff-Assisted Services
+                </div>
+                <h1>Service Request Portal</h1>
+                <p>
+                    Select an instrument below to request a managed service. Our staff will process your samples
+                    according to your specifications.
+                </p>
+            </div>
         </section>
 
-        <div class="container">
-            <div class="sv3-main-content">
-                <aside class="sv3-sidebar">
-                    <div class="sv3-sidebar-header">
-                        <h2>Our Services</h2>
+        <section class="services-body">
+            <div class="container services-layout">
+
+                <!-- Category Filter Sidebar -->
+                <aside class="filter-sidebar">
+                    <h3><i class="fas fa-filter"></i> Categories</h3>
+                    <div class="category-list" id="categoryFilterList">
+                        <!-- Populated via JS -->
+                        <div style="height: 36px; width: 100%; margin-bottom: 8px;" class="skeleton"></div>
+                        <div style="height: 36px; width: 100%; margin-bottom: 8px;" class="skeleton"></div>
+                        <div style="height: 36px; width: 100%; margin-bottom: 8px;" class="skeleton"></div>
                     </div>
-                    <nav class="sv3-nav-list">
-                        <button class="sv3-nav-button active" data-service="lpkf">
-                            <i class="fas fa-bolt"></i>
-                            <span>LPKF ProtoLaser R4</span>
-                        </button>
-                        <button class="sv3-nav-button" data-service="cut3d">
-                            <i class="fas fa-cube"></i>
-                            <span>3D Cutting Service</span>
-                        </button>
-                    </nav>
                 </aside>
 
-                <div class="sv3-content-area">
-                    <div id="lpkf" class="sv3-panel active">
-                        <h3>LPKF ProtoLaser R4 Request</h3>
-                        <p class="panel-lead">Submit your part scope, material class, and feature goals for review.</p>
-                        <form id="lpkfServiceForm" class="sv3-form-layout">
-                            <div class="sv3-form-grid">
-                                <div class="sv3-form-group">
-                                    <label for="lpkf-first_name">First Name</label>
-                                    <input type="text" id="lpkf-first_name" name="first_name" class="sv3-input" required>
-                                </div>
-                                <div class="sv3-form-group">
-                                    <label for="lpkf-last_name">Last Name</label>
-                                    <input type="text" id="lpkf-last_name" name="last_name" class="sv3-input" required>
-                                </div>
-                                <div class="sv3-form-group sv3-full-width">
-                                    <label for="lpkf-email">Email</label>
-                                    <input type="email" id="lpkf-email" name="email" class="sv3-input" required>
-                                </div>
-                                <div class="sv3-form-group">
-                                    <label for="lpkf_service_type">Service Type</label>
-                                    <select id="lpkf_service_type" name="lpkf_service_type" class="sv3-select" required>
-                                        <option value="">Select Service...</option>
-                                        <option>Laser Structuring</option>
-                                        <option>Cutting / Depaneling</option>
-                                        <option>Drilling</option>
-                                    </select>
-                                </div>
-                                <div class="sv3-form-group">
-                                    <label for="lpkf_substrate">Substrate</label>
-                                    <select id="lpkf_substrate" name="lpkf_substrate" class="sv3-select" required>
-                                        <option value="">Select Material...</option>
-                                        <option>FR4 / Laminate</option>
-                                        <option>Ceramic / LTCC</option>
-                                        <option>Glass</option>
-                                        <option>Polyimide / Flex</option>
-                                    </select>
-                                </div>
-                                <div class="sv3-form-group sv3-full-width">
-                                    <label for="lpkf_details">Project Details</label>
-                                    <textarea id="lpkf_details" name="lpkf_details" rows="4" class="sv3-textarea" required></textarea>
-                                </div>
-                            </div>
-                            <div class="sv3-form-actions">
-                                <button type="submit" id="lpkfSubmitBtn" class="btn btn-primary">Submit LPKF Request</button>
-                            </div>
-                        </form>
+                <!-- Equipment Grid Area -->
+                <div class="grid-area">
+                    <!-- Global Search Bar -->
+                    <div class="global-search-container">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="serviceSearch" class="service-search-input"
+                            placeholder="Search equipment, process, or keyword...">
+                        <button class="clear-search" id="clearSearchBtn" aria-label="Clear search"
+                            style="display: none;">
+                            <i class="fas fa-times"></i>
+                        </button>
                     </div>
 
-                    <div id="cut3d" class="sv3-panel">
-                        <div class="sv3-future-panel">
-                             <i class="fas fa-cogs"></i>
-                            <h3>3D Cutting Service</h3>
-                            <p>This service is currently under development. The intake form and process details will be available soon.</p>
-                             <a href="Contact_Us.html?category=other" class="btn btn-secondary">Express Early Interest</a>
+                    <!-- Equipment Grid -->
+                    <div class="eq-grid" id="equipmentGrid">
+                        <!-- Loading Skeletons -->
+                        <div class="service-card" style="height: 180px;">
+                            <div style="height: 12px; width: 40%; margin-bottom: 12px;" class="skeleton"></div>
+                            <div style="height: 24px; width: 80%; margin-bottom: auto;" class="skeleton"></div>
+                            <div style="height: 16px; width: 100px;" class="skeleton"></div>
+                        </div>
+                        <div class="service-card" style="height: 180px;">
+                            <div style="height: 12px; width: 40%; margin-bottom: 12px;" class="skeleton"></div>
+                            <div style="height: 24px; width: 80%; margin-bottom: auto;" class="skeleton"></div>
+                            <div style="height: 16px; width: 100px;" class="skeleton"></div>
+                        </div>
+                        <div class="service-card" style="height: 180px;">
+                            <div style="height: 12px; width: 40%; margin-bottom: 12px;" class="skeleton"></div>
+                            <div style="height: 24px; width: 80%; margin-bottom: auto;" class="skeleton"></div>
+                            <div style="height: 16px; width: 100px;" class="skeleton"></div>
                         </div>
                     </div>
                 </div>
+
             </div>
-        </div>
+        </section>
     </main>
+
+    <!-- Slide Over Panel Overlay -->
+    <div class="panel-overlay" id="panelOverlay"></div>
+
+    <!-- Slide Over Panel Content -->
+    <aside class="slide-panel" id="slidePanel" aria-hidden="true">
+        <div class="panel-header">
+            <div>
+                <h2 id="panelTitle">Request Service</h2>
+                <div class="panel-subtitle" id="panelCat">Equipment Category</div>
+            </div>
+            <button class="close-panel" id="closePanelBtn" aria-label="Close panel">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="panel-content" id="panelContent">
+            <!-- Form injected via JS -->
+        </div>
+
+        <div class="panel-footer">
+            <button type="button" class="btn btn-outline" style="color: var(--gray-600); border-color: var(--gray-400);"
+                id="cancelBtn">Cancel</button>
+            <button type="submit" form="dynamicServiceForm" class="btn btn-primary">Submit Request</button>
+        </div>
+    </aside>
 
     <site-footer></site-footer>
 
     <script src="JS/layout.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const navButtons = document.querySelectorAll('.sv3-nav-button');
-            const panels = document.querySelectorAll('.sv3-panel');
+            const grid = document.getElementById('equipmentGrid');
+            const categoryList = document.getElementById('categoryFilterList');
+            const panel = document.getElementById('slidePanel');
+            const overlay = document.getElementById('panelOverlay');
+            const closeBtn = document.getElementById('closePanelBtn');
+            const cancelBtn = document.getElementById('cancelBtn');
+            const panelTitle = document.getElementById('panelTitle');
+            const panelCat = document.getElementById('panelCat');
+            const panelContent = document.getElementById('panelContent');
 
-            navButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const serviceId = button.dataset.service;
+            let allEquipment = [];
+            let currentFilter = 'All';
 
-                    navButtons.forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-
-                    panels.forEach(panel => {
-                        panel.classList.toggle('active', panel.id === serviceId);
-                    });
+            // 1. Fetch JSON
+            fetch('equipment.json')
+                .then(res => res.json())
+                .then(data => {
+                    allEquipment = data.equipment;
+                    renderCategories();
+                    renderGrid();
+                })
+                .catch(err => {
+                    grid.innerHTML = `<div class="no-results"><i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 10px; color: var(--nau-red);"></i><p>Failed to load equipment data. Please try again later.</p></div>`;
+                    console.error(err);
                 });
+
+            // 2. Render Categories
+            function renderCategories() {
+                // Determine unique categories and counts
+                const catCounts = { 'All': allEquipment.length };
+                allEquipment.forEach(eq => {
+                    if (eq.category) {
+                        catCounts[eq.category] = (catCounts[eq.category] || 0) + 1;
+                    }
+                });
+
+                categoryList.innerHTML = '';
+
+                // Render 'All'
+                categoryList.appendChild(createCatBtn('All', catCounts['All'], true));
+
+                // Render others alphabetically
+                Object.keys(catCounts).sort().forEach(cat => {
+                    if (cat !== 'All') {
+                        categoryList.appendChild(createCatBtn(cat, catCounts[cat], false));
+                    }
+                });
+            }
+
+            function createCatBtn(name, count, isActive) {
+                const btn = document.createElement('button');
+                btn.className = `cat-btn ${isActive ? 'active' : ''}`;
+                btn.innerHTML = `<span>${name}</span> <span class="cat-count">${count}</span>`;
+                btn.addEventListener('click', () => {
+                    // Update active state
+                    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentFilter = name;
+                    renderGrid();
+                });
+                return btn;
+            }
+
+            // 3. Render Grid
+            function renderGrid() {
+                grid.innerHTML = '';
+
+                const searchTerm = document.getElementById('serviceSearch').value.toLowerCase();
+
+                let filtered = currentFilter === 'All'
+                    ? allEquipment
+                    : allEquipment.filter(eq => eq.category === currentFilter);
+
+                // Apply search filter
+                if (searchTerm) {
+                    filtered = filtered.filter(eq =>
+                        eq.name.toLowerCase().includes(searchTerm) ||
+                        (eq.category && eq.category.toLowerCase().includes(searchTerm))
+                    );
+                }
+
+                if (filtered.length === 0) {
+                    grid.innerHTML = `<div class="no-results" style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--gray-500);">
+                        <i class="fas fa-search" style="font-size: 2rem; margin-bottom: 12px; color: var(--gray-300);"></i>
+                        <p>No equipment found matching your criteria.</p>
+                    </div>`;
+                    return;
+                }
+
+                filtered.sort((a, b) => a.name.localeCompare(b.name)).forEach((eq, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'service-card';
+                    card.style.animationDelay = `${index * 0.05}s`;
+
+                    card.innerHTML = `
+                        <div class="sc-cat">${eq.category || 'Uncategorized'}</div>
+                        <h4 class="sc-title">${eq.name}</h4>
+                        <div class="sc-action">
+                            <span>Request Service</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    `;
+
+                    // Handle card click
+                    card.addEventListener('click', () => openPanel(eq));
+
+                    grid.appendChild(card);
+                });
+            }
+
+            // Search Input Listeners
+            const searchInput = document.getElementById('serviceSearch');
+            const clearBtn = document.getElementById('clearSearchBtn');
+
+            searchInput.addEventListener('input', (e) => {
+                const val = e.target.value;
+                clearBtn.style.display = val.length > 0 ? 'flex' : 'none';
+                renderGrid();
             });
-            
-            // Simplified form submission logic
-            const lpkfForm = document.getElementById('lpkfServiceForm');
-            if (lpkfForm) {
-                 lpkfForm.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    alert('Form submitted (demo)!');
-                    lpkfForm.reset();
-                 });
+
+            clearBtn.addEventListener('click', () => {
+                searchInput.value = '';
+                clearBtn.style.display = 'none';
+                renderGrid();
+                searchInput.focus();
+            });
+
+            // 4. Panel Logic
+            function openPanel(eq) {
+                panelTitle.textContent = eq.name;
+                panelCat.textContent = eq.category || 'Uncategorized';
+
+                // Generate Form HTML
+                if (eq.id === 'EQ-020' || eq.name.includes("LPKF ProtoLaser R4")) {
+                    panelContent.innerHTML = getLPKFFormTemplate(eq.name);
+                    setupLPKFDynamicFields();
+                } else {
+                    panelContent.innerHTML = getGenericFormTemplate(eq.name);
+                }
+
+                // Add submit listener
+                const form = document.getElementById('dynamicServiceForm');
+                if (form) {
+                    form.addEventListener('submit', handleFormSubmit);
+                }
+
+                // Show panel
+                overlay.classList.add('active');
+                panel.classList.add('active');
+                panel.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden'; // prevent background scrolling
+            }
+
+            function setupLPKFDynamicFields() {
+                // Custom Material Toggle
+                const matSelect = document.getElementById('sf-targetMat');
+                const customMatGroup = document.getElementById('customMaterialGroup');
+                const customMatInput = document.getElementById('sf-customMat');
+
+                if (matSelect) {
+                    matSelect.addEventListener('change', (e) => {
+                        if (e.target.value === 'other') {
+                            customMatGroup.classList.remove('hidden-field');
+                            customMatInput.setAttribute('required', 'true');
+                        } else {
+                            customMatGroup.classList.add('hidden-field');
+                            customMatInput.removeAttribute('required');
+                            customMatInput.value = '';
+                        }
+                    });
+                }
+
+                // Shipping Address Toggle
+                const deliverySelect = document.getElementById('sf-delivery');
+                const addressGroup = document.getElementById('shippingAddressGroup');
+                const addressInput = document.getElementById('sf-address');
+
+                if (deliverySelect) {
+                    deliverySelect.addEventListener('change', (e) => {
+                        if (e.target.value === 'shipping' || e.target.value === 'campus_mail') {
+                            addressGroup.classList.remove('hidden-field');
+                            addressInput.setAttribute('required', 'true');
+                        } else {
+                            addressGroup.classList.add('hidden-field');
+                            addressInput.removeAttribute('required');
+                            addressInput.value = '';
+                        }
+                    });
+                }
+
+                // File Upload display
+                const fileInput = document.getElementById('sf-file');
+                const fileBox = document.querySelector('.file-upload-box');
+                const fileLabel = fileBox ? fileBox.querySelector('p') : null;
+
+                if (fileInput && fileLabel) {
+                    fileInput.addEventListener('change', (e) => {
+                        if (e.target.files.length > 0) {
+                            fileLabel.innerHTML = `<strong>Selected:</strong> ${e.target.files[0].name}`;
+                            fileBox.style.borderColor = 'var(--nau-green)';
+                            fileBox.style.background = 'rgba(56, 142, 60, 0.05)';
+                        } else {
+                            fileLabel.innerHTML = `<strong>Click to browse</strong> or drag and drop files here`;
+                            fileBox.style.borderColor = 'var(--gray-300)';
+                            fileBox.style.background = 'white';
+                        }
+                    });
+                }
+            }
+
+            function closePanel() {
+                overlay.classList.remove('active');
+                panel.classList.remove('active');
+                panel.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = '';
+            }
+
+            // Cleanly handle submit to prevent page reload for demo
+            function handleFormSubmit(e) {
+                e.preventDefault();
+                const btn = document.querySelector('button[form="dynamicServiceForm"]');
+                const ogText = btn.textContent;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+
+                // Simulate network
+                setTimeout(() => {
+                    alert('Service Request Submitted successfully!');
+                    closePanel();
+                    btn.textContent = ogText;
+                    e.target.reset();
+                }, 800);
+            }
+
+            // Event Listeners for closing
+            closeBtn.addEventListener('click', closePanel);
+            cancelBtn.addEventListener('click', closePanel);
+            overlay.addEventListener('click', closePanel);
+
+            // 5. Templates
+            function getLPKFFormTemplate(eqName) {
+                return `
+                    <div class="lpkf-badge">
+                        <i class="fas fa-bolt"></i> Precision Laser Protocol
+                    </div>
+                    <form id="dynamicServiceForm" class="service-form">
+                        <input type="hidden" name="equipment" value="${eqName}">
+                        
+                        <!-- SECTION 1: Client Info -->
+                        <div class="form-section">
+                            <h3 class="section-title">1. Client & Affiliation</h3>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label" for="sf-fname">First Name <span class="text-gold">*</span></label>
+                                    <input type="text" id="sf-fname" name="first_name" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="sf-lname">Last Name <span class="text-gold">*</span></label>
+                                    <input type="text" id="sf-lname" name="last_name" class="form-input" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label" for="sf-email">Email Address <span class="text-gold">*</span></label>
+                                    <input type="email" id="sf-email" name="email" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="sf-phone">Phone Number</label>
+                                    <input type="tel" id="sf-phone" name="phone" class="form-input">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label" for="sf-affil">Client Affiliation <span class="text-gold">*</span></label>
+                                    <select id="sf-affil" name="affiliation" class="form-select" required>
+                                        <option value="" disabled selected>Select type...</option>
+                                        <option value="internal_research">NAU Internal Researcher/Faculty</option>
+                                        <option value="internal_student">NAU Student</option>
+                                        <option value="external_academic">External Academic / Institute</option>
+                                        <option value="commercial">Industry / Commercial</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="sf-org">Organization / Department <span class="text-gold">*</span></label>
+                                    <input type="text" id="sf-org" name="organization" class="form-input" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="sf-billing">Billing Entity / Workday Speedtype / Grant # (Optional)</label>
+                                <input type="text" id="sf-billing" name="billing_code" class="form-input" placeholder="For internal NAU billing or PO references">
+                            </div>
+                        </div>
+
+                        <!-- SECTION 2: Project Overview -->
+                        <div class="form-section">
+                            <h3 class="section-title">2. Project Overview</h3>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label" for="sf-title">Project Title <span class="text-gold">*</span></label>
+                                    <input type="text" id="sf-title" name="project_title" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="sf-appcat">Application Category <span class="text-gold">*</span></label>
+                                    <select id="sf-appcat" name="application_category" class="form-select" required>
+                                        <option value="" disabled selected>Select primary use...</option>
+                                        <option value="rf">RF & Microwave Circuits</option>
+                                        <option value="microfluidics">Microfluidics / Channels</option>
+                                        <option value="flex">Flexible Electronics</option>
+                                        <option value="thinfilm">Thin Film Removal / Coating Ablation</option>
+                                        <option value="ceramic">Ceramic Machining</option>
+                                        <option value="general">General PCB Prototyping</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="sf-abstract">Project Abstract / End Goal <span class="text-gold">*</span></label>
+                                <p class="form-note">Describe what you are trying to achieve with this service request.</p>
+                                <textarea id="sf-abstract" name="project_abstract" class="form-textarea" rows="3" required></textarea>
+                            </div>
+                        </div>
+
+                        <!-- SECTION 3: Materials -->
+                        <div class="form-section">
+                            <h3 class="section-title">3. Material & Substrate Details</h3>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label" for="sf-targetMat">Target Substrate <span class="text-gold">*</span></label>
+                                    <select id="sf-targetMat" name="substrate_material" class="form-select" required>
+                                        <option value="" disabled selected>Select base material...</option>
+                                        <option value="fr4">Standard FR4</option>
+                                        <option value="rogers">High-Freq Rogers / PTFE</option>
+                                        <option value="polyimide">Polyimide / Flex Foil</option>
+                                        <option value="ceramic_al2o3">Fired Ceramic (Al₂O₃)</option>
+                                        <option value="ceramic_ltcc">Fired Ceramic (LTCC)</option>
+                                        <option value="glass">Glass</option>
+                                        <option value="other">Other (Specify)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group hidden-field" id="customMaterialGroup">
+                                    <label class="form-label" for="sf-customMat">Specify Custom Material <span class="text-gold">*</span></label>
+                                    <input type="text" id="sf-customMat" name="custom_material" class="form-input">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label" for="sf-subthick">Substrate Thickness (mm) <span class="text-gold">*</span></label>
+                                    <input type="number" step="0.01" min="0.01" id="sf-subthick" name="substrate_thickness" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="sf-copper">Base Copper Thickness <span class="text-gold">*</span></label>
+                                    <select id="sf-copper" name="copper_thickness" class="form-select" required>
+                                        <option value="" disabled selected>Select copper...</option>
+                                        <option value="18um">18 µm (0.5 oz)</option>
+                                        <option value="35um">35 µm (1.0 oz)</option>
+                                        <option value="none">None / Bare Substrate</option>
+                                        <option value="custom">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SECTION 4: Precision Specs -->
+                        <div class="form-section">
+                            <h3 class="section-title">4. Precision & Process Specs</h3>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Number of Processing Layers <span class="text-gold">*</span></label>
+                                <div class="radio-group">
+                                    <label class="radio-label"><input type="radio" name="layer_count" value="single" required> Single-Sided</label>
+                                    <label class="radio-label"><input type="radio" name="layer_count" value="double"> Double-Sided</label>
+                                    <label class="radio-label"><input type="radio" name="layer_count" value="multi"> Multilayer</label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row" style="margin-top: 10px;">
+                                <div class="form-group">
+                                    <label class="form-label" for="sf-minwide">Minimum Trace Width (µm) <span class="text-gold">*</span></label>
+                                    <p class="form-note">R4 System absolute limit: 20 µm.</p>
+                                    <input type="number" min="20" id="sf-minwide" name="min_trace_width" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="sf-minspace">Minimum Spacing (µm) <span class="text-gold">*</span></label>
+                                    <p class="form-note">R4 System absolute limit: 35 µm.</p>
+                                    <input type="number" min="35" id="sf-minspace" name="min_spacing" class="form-input" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SECTION 5: Accessories -->
+                        <div class="form-section">
+                            <h3 class="section-title">5. Supplemental Workflow Services</h3>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Required Secondary Accessories</label>
+                                <p class="form-note">Select additional facility processes required after LPKF laser structuring.</p>
+                                <div class="accessories-check" style="flex-direction: column;">
+                                    <label class="acc-cbx"><input type="checkbox" name="acc[]" value="multipress"> <strong>Multilayer Lamination</strong> (via LPKF MultiPress S)</label>
+                                    <label class="acc-cbx"><input type="checkbox" name="acc[]" value="electroplater"> <strong>Through-Hole Plating</strong> (via LPKF Electroplater)</label>
+                                    <label class="acc-cbx"><input type="checkbox" name="acc[]" value="pickplace"> <strong>Component Assembly</strong> (via LPKF Pick & Place)</label>
+                                    <label class="acc-cbx"><input type="checkbox" name="acc[]" value="reflow"> <strong>Reflow Soldering</strong> (via LPKF Reflow Oven)</label>
+                                    <label class="acc-cbx"><input type="checkbox" name="acc[]" value="wave"> <strong>Wave Soldering</strong> (Mass THT soldering)</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SECTION 6: Logistics -->
+                        <div class="form-section">
+                            <h3 class="section-title">6. Files & Logistics</h3>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Upload Design Files (.zip, .gbr, .dxf) <span class="text-gold">*</span></label>
+                                <label class="file-upload-box">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p><strong>Click to browse</strong> or drag and drop files here</p>
+                                    <input type="file" style="display: none;" id="sf-file" required>
+                                </label>
+                            </div>
+                            
+                            <div class="form-row" style="margin-top: 10px;">
+                                <div class="form-group full">
+                                    <label class="form-label" for="sf-delivery">Delivery / Return Method <span class="text-gold">*</span></label>
+                                    <select id="sf-delivery" name="delivery_method" class="form-select" required>
+                                        <option value="" disabled selected>Select method...</option>
+                                        <option value="pickup">Local In-Person Pickup (NAU Core Facility)</option>
+                                        <option value="campus_mail">NAU Campus Mail</option>
+                                        <option value="shipping">External Shipping (FedEx / UPS)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group hidden-field" id="shippingAddressGroup">
+                                <label class="form-label" for="sf-address">Delivery Address / PO Box <span class="text-gold">*</span></label>
+                                <textarea id="sf-address" name="shipping_address" class="form-textarea" rows="2"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                `;
+            }
+
+            function getGenericFormTemplate(eqName) {
+                return `
+                    <form id="dynamicServiceForm" class="service-form">
+                        <div class="form-group">
+                            <label class="form-label">Target Equipment</label>
+                            <input type="text" class="form-input" value="${eqName}" readonly style="background: var(--gray-50); color: var(--nau-blue); font-weight: 600;">
+                            <input type="hidden" name="equipment" value="${eqName}">
+                        </div>
+
+                        <div class="form-row" style="margin-top: 8px;">
+                            <div class="form-group">
+                                <label class="form-label" for="sf-fname">First Name <span class="text-gold">*</span></label>
+                                <input type="text" id="sf-fname" name="first_name" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="sf-lname">Last Name <span class="text-gold">*</span></label>
+                                <input type="text" id="sf-lname" name="last_name" class="form-input" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="sf-email">University Email <span class="text-gold">*</span></label>
+                            <input type="email" id="sf-email" name="email" class="form-input" required>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 8px;">
+                            <label class="form-label" for="sf-details">Service Request Details <span class="text-gold">*</span></label>
+                            <p class="form-note">Describe the process, materials, or samples you need handled by staff.</p>
+                            <textarea id="sf-details" name="details" class="form-textarea" placeholder="Describe your request..." required></textarea>
+                        </div>
+                    </form>
+                `;
             }
         });
     </script>
 </body>
+
 </html>
