@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Request Portal | NAU Nano Core</title>
+    <meta name="description"
+        content="Submit a service request for 3D Printing or Laser Structuring from the NAU Nano Core facility.">
+    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ============================================
+           SERVICE REQUEST PORTAL
+           ============================================ */
+
+        /* ---------- HERO SECTION ---------- */
+        .sr-hero {
+            background: linear-gradient(135deg, var(--nau-blue) 0%, #0a3366 100%);
+            color: white;
+            padding: 60px 0 50px;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .sr-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -10%;
+            width: 50%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(250, 192, 26, 0.08) 0%, transparent 70%);
+            transform: rotate(-15deg);
+            pointer-events: none;
+        }
+
+        .sr-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 999px;
+            padding: 5px 14px;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            font-weight: 700;
+            backdrop-filter: blur(4px);
+            background: rgba(255, 255, 255, 0.1);
+            animation: srSlideDown 0.6s cubic-bezier(0.25, 1, 0.5, 1) both;
+        }
+
+        .sr-hero h1 {
+            margin: 0 0 12px;
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            line-height: 1.1;
+            animation: srSlideUp 0.7s 0.1s both;
+        }
+
+        .sr-hero p {
+            margin: 0 auto;
+            max-width: 650px;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 1.05rem;
+            animation: srSlideUp 0.7s 0.2s both;
+        }
+
+        @keyframes srSlideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes srSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ---------- LAYOUT ---------- */
+        .sr-body {
+            background: #f8fafc;
+            padding: 40px 0 80px;
+            min-height: 60vh;
+        }
+
+        .sr-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        @media (max-width: 900px) {
+            .sr-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ---------- SIDEBAR ---------- */
+        .sr-sidebar {
+            position: sticky;
+            top: 100px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 36, 84, 0.05);
+            backdrop-filter: blur(12px);
+            overflow: hidden;
+        }
+
+        .sr-sidebar h3 {
+            margin: 0;
+            padding: 18px 20px;
+            background: linear-gradient(135deg, #0c3765 0%, #1a4f8a 100%);
+            color: white;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sr-nav {
+            display: flex;
+            flex-direction: column;
+            padding: 8px;
+            gap: 4px;
+        }
+
+        .sr-nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            background: transparent;
+            border: none;
+            padding: 14px 16px;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-family: var(--font-body);
+            color: var(--gray-700);
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.25s ease;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .sr-nav-btn i {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            background: rgba(0, 36, 84, 0.06);
+            color: var(--nau-blue);
+            transition: all 0.25s;
+            flex-shrink: 0;
+        }
+
+        .sr-nav-btn:hover {
+            background: rgba(0, 36, 84, 0.04);
+            color: var(--nau-blue);
+        }
+
+        .sr-nav-btn.active {
+            background: var(--nau-blue);
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 16px rgba(0, 36, 84, 0.2);
+        }
+
+        .sr-nav-btn.active i {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+        }
+
+        .sr-nav-btn .sr-nav-arrow {
+            margin-left: auto;
+            font-size: 0.8rem;
+            opacity: 0;
+            transform: translateX(-4px);
+            transition: all 0.25s;
+        }
+
+        .sr-nav-btn.active .sr-nav-arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        @media (max-width: 900px) {
+            .sr-sidebar {
+                position: static;
+            }
+
+            .sr-nav {
+                flex-direction: row;
+            }
+
+            .sr-nav-btn {
+                justify-content: center;
+                flex: 1;
+            }
+
+            .sr-nav-btn .sr-nav-arrow {
+                display: none;
+            }
+        }
+
+        /* ---------- FORM PANEL ---------- */
+        .sr-form-area {
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            border-radius: 18px;
+            box-shadow: 0 4px 20px rgba(0, 20, 50, 0.04);
+            overflow: hidden;
+        }
+
+        .sr-form-header {
+            padding: 28px 32px;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .sr-form-header i {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .sr-form-header.printing i {
+            background: linear-gradient(135deg, rgba(0, 36, 84, 0.1), rgba(0, 36, 84, 0.05));
+            color: var(--nau-blue);
+        }
+
+        .sr-form-header.laser i {
+            background: linear-gradient(135deg, rgba(250, 192, 26, 0.15), rgba(250, 192, 26, 0.08));
+            color: #b8860b;
+        }
+
+        .sr-form-header h2 {
+            margin: 0;
+            font-size: 1.4rem;
+            color: var(--nau-blue);
+            line-height: 1.2;
+        }
+
+        .sr-form-header .sr-form-sub {
+            font-size: 0.88rem;
+            color: var(--gray-500);
+            margin-top: 4px;
+        }
+
+        .sr-form-body {
+            padding: 32px;
+        }
+
+        /* Form panel (hidden by default) */
+        .sr-panel {
+            display: none;
+        }
+
+        .sr-panel.active {
+            display: block;
+            animation: srFadeIn 0.4s ease;
+        }
+
+        @keyframes srFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ---------- FORM STYLES ---------- */
+        .sr-form {
+            display: grid;
+            gap: 24px;
+        }
+
+        .sr-section {
+            background: #f8fafc;
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 24px;
+            display: grid;
+            gap: 20px;
+        }
+
+        .sr-section-title {
+            grid-column: 1 / -1;
+            font-size: 1.05rem;
+            color: var(--nau-blue);
+            margin: 0 0 4px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--nau-gold);
+            display: inline-block;
+            width: max-content;
+        }
+
+        .sr-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media (max-width: 600px) {
+            .sr-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .sr-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .sr-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .sr-label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--gray-700);
+        }
+
+        .sr-input,
+        .sr-select,
+        .sr-textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            background: #fff;
+            transition: all 0.3s;
+            color: var(--gray-800);
+        }
+
+        .sr-input:focus,
+        .sr-select:focus,
+        .sr-textarea:focus {
+            outline: none;
+            border-color: var(--nau-blue);
+            box-shadow: 0 0 0 3px rgba(0, 36, 84, 0.1);
+        }
+
+        .sr-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .sr-note {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            margin-top: 4px;
+        }
+
+        .text-gold {
+            color: var(--nau-gold-dark, #b8860b);
+        }
+
+        .sr-file-upload {
+            grid-column: 1 / -1;
+            border: 2px dashed var(--gray-300);
+            border-radius: 8px;
+            padding: 32px;
+            text-align: center;
+            background: white;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .sr-file-upload:hover {
+            border-color: var(--nau-blue);
+            background: rgba(0, 36, 84, 0.02);
+        }
+
+        .sr-file-upload i {
+            font-size: 2rem;
+            color: var(--gray-400);
+            margin-bottom: 12px;
+        }
+
+        .sr-file-upload p {
+            margin: 0;
+            color: var(--gray-600);
+            font-size: 0.9rem;
+        }
+
+        .sr-submit-area {
+            padding: 24px 0 0;
+            border-top: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .sr-submit-area .btn {
+            padding: 12px 32px;
+        }
+
+        /* Hidden conditional fields */
+        .sr-hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <site-header></site-header>
+
+    <main>
+        <!-- Hero -->
+        <section class="sr-hero">
+            <div class="container">
+                <div class="sr-kicker">
+                    <i class="fas fa-tools"></i>
+                    Staff-Assisted Services
+                </div>
+                <h1>Service Request Portal</h1>
+                <p>
+                    Select a service below and fill out the request form. Our staff will review your submission
+                    and follow up with a quote and timeline.
+                </p>
+            </div>
+        </section>
+
+        <!-- Body -->
+        <section class="sr-body">
+            <div class="container sr-layout">
+
+                <!-- Sidebar -->
+                <aside class="sr-sidebar">
+                    <h3><i class="fas fa-layer-group"></i> Select Service</h3>
+                    <div class="sr-nav">
+                        <button class="sr-nav-btn active" data-target="printing">
+                            <i class="fas fa-cube"></i>
+                            <span>3D Printing Services</span>
+                            <i class="fas fa-chevron-right sr-nav-arrow"></i>
+                        </button>
+                        <button class="sr-nav-btn" data-target="laser">
+                            <i class="fas fa-bolt"></i>
+                            <span>Laser Structuring</span>
+                            <i class="fas fa-chevron-right sr-nav-arrow"></i>
+                        </button>
+                    </div>
+                </aside>
+
+                <!-- Form Area -->
+                <div class="sr-form-area">
+
+                    <!-- ============ 3D PRINTING FORM ============ -->
+                    <div class="sr-panel active" id="panel-printing">
+                        <div class="sr-form-header printing">
+                            <i class="fas fa-cube"></i>
+                            <div>
+                                <h2>3D Printing Service Request</h2>
+                                <div class="sr-form-sub">Bambu Lab H2D — Multi-material FDM Printing</div>
+                            </div>
+                        </div>
+
+                        <div class="sr-form-body">
+                            <form id="printingForm" class="sr-form" novalidate>
+
+                                <!-- Section 1: Client Info -->
+                                <div class="sr-section">
+                                    <h3 class="sr-section-title">1. About You</h3>
+
+                                    <div class="sr-row">
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="p-fname">Full Name <span
+                                                    class="text-gold">*</span></label>
+                                            <input type="text" id="p-fname" name="name" class="sr-input" required
+                                                placeholder="Dr. Jane Doe">
+                                        </div>
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="p-email">Email <span
+                                                    class="text-gold">*</span></label>
+                                            <input type="email" id="p-email" name="email" class="sr-input" required
+                                                placeholder="jane.doe@nau.edu">
+                                        </div>
+                                    </div>
+
+                                    <div class="sr-row">
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="p-affiliation">I am a… <span
+                                                    class="text-gold">*</span></label>
+                                            <select id="p-affiliation" name="affiliation" class="sr-select" required>
+                                                <option value="" disabled selected>Select one…</option>
+                                                <option value="internal">NAU Student or Faculty</option>
+                                                <option value="external_academic">Researcher at Another University
+                                                </option>
+                                                <option value="industry">Industry / Company</option>
+                                            </select>
+                                        </div>
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="p-dept">Department / Organization <span
+                                                    class="text-gold">*</span></label>
+                                            <input type="text" id="p-dept" name="department" class="sr-input" required
+                                                placeholder="e.g. Mechanical Engineering">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Section 2: Print Details -->
+                                <div class="sr-section">
+                                    <h3 class="sr-section-title">2. Your Print</h3>
+
+                                    <div class="sr-file-upload" onclick="document.getElementById('p-file').click()">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                        <p><strong>Click to browse</strong> or drag and drop your STL / 3MF files</p>
+                                        <input type="file" id="p-file" name="files" accept=".stl,.3mf" multiple
+                                            style="display:none;">
+                                    </div>
+
+                                    <div class="sr-row">
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="p-size">Approximate Size (mm) <span
+                                                    class="text-gold">*</span></label>
+                                            <input type="text" id="p-size" name="print_size" class="sr-input" required
+                                                placeholder="e.g. 120 x 80 x 50">
+                                        </div>
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="p-qty">Quantity <span
+                                                    class="text-gold">*</span></label>
+                                            <input type="number" id="p-qty" name="quantity" class="sr-input" required
+                                                min="1" value="1">
+                                        </div>
+                                    </div>
+
+                                    <div class="sr-row">
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="p-material">Material <span
+                                                    class="text-gold">*</span></label>
+                                            <select id="p-material" name="material" class="sr-select" required>
+                                                <option value="" disabled selected>Select…</option>
+                                                <option value="PLA">PLA (Standard)</option>
+                                                <option value="PETG">PETG (Durable)</option>
+                                                <option value="TPU">TPU (Flexible)</option>
+                                            </select>
+                                        </div>
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="p-color">Preferred Color <span
+                                                    class="text-gold">*</span></label>
+                                            <input type="text" id="p-color" name="color" class="sr-input" required
+                                                placeholder="e.g. Black">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Section 3: Delivery & Notes -->
+                                <div class="sr-section">
+                                    <h3 class="sr-section-title">3. Delivery & Notes</h3>
+
+                                    <div class="sr-row">
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="p-deadline">When do you need it by?</label>
+                                            <input type="date" id="p-deadline" name="deadline" class="sr-input">
+                                            <span class="sr-note">Best effort, not guaranteed.</span>
+                                        </div>
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="p-delivery">Delivery Method <span
+                                                    class="text-gold">*</span></label>
+                                            <select id="p-delivery" name="delivery" class="sr-select" required>
+                                                <option value="" disabled selected>Select…</option>
+                                                <option value="pickup">I'll pick it up (free)</option>
+                                                <option value="ship">Ship it to me</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="sr-group full">
+                                        <label class="sr-label" for="p-notes">Additional Notes</label>
+                                        <textarea id="p-notes" name="notes" class="sr-textarea" rows="4"
+                                            placeholder="E.g. wall thickness, orientation, multi-color, or any special requirements."></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="sr-submit-area">
+                                    <button type="reset" class="btn btn-outline"
+                                        style="color: var(--gray-600); border-color: var(--gray-400);">Clear
+                                        Form</button>
+                                    <button type="submit" class="btn btn-primary">Submit Print Request</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- ============ LASER STRUCTURING FORM ============ -->
+                    <div class="sr-panel" id="panel-laser">
+                        <div class="sr-form-header laser">
+                            <i class="fas fa-bolt"></i>
+                            <div>
+                                <h2>Laser Structuring Service Request</h2>
+                                <div class="sr-form-sub">LPKF ProtoLaser R4 — Precision Cold Laser Ablation</div>
+                            </div>
+                        </div>
+
+                        <div class="sr-form-body">
+                            <form id="laserForm" class="sr-form" novalidate>
+
+                                <!-- Section 1: Client Info -->
+                                <div class="sr-section">
+                                    <h3 class="sr-section-title">1. Client & Affiliation</h3>
+
+                                    <div class="sr-row">
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="l-fname">First Name <span
+                                                    class="text-gold">*</span></label>
+                                            <input type="text" id="l-fname" name="first_name" class="sr-input" required>
+                                        </div>
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="l-lname">Last Name <span
+                                                    class="text-gold">*</span></label>
+                                            <input type="text" id="l-lname" name="last_name" class="sr-input" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="sr-row">
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="l-email">Email Address <span
+                                                    class="text-gold">*</span></label>
+                                            <input type="email" id="l-email" name="email" class="sr-input" required>
+                                        </div>
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="l-phone">Phone Number</label>
+                                            <input type="tel" id="l-phone" name="phone" class="sr-input">
+                                        </div>
+                                    </div>
+
+                                    <div class="sr-row">
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="l-affil">Client Affiliation <span
+                                                    class="text-gold">*</span></label>
+                                            <select id="l-affil" name="affiliation" class="sr-select" required>
+                                                <option value="" disabled selected>Select type…</option>
+                                                <option value="internal_research">NAU Internal Researcher/Faculty
+                                                </option>
+                                                <option value="internal_student">NAU Student</option>
+                                                <option value="external_academic">External Academic / Institute</option>
+                                                <option value="commercial">Industry / Commercial</option>
+                                            </select>
+                                        </div>
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="l-org">Organization / Department <span
+                                                    class="text-gold">*</span></label>
+                                            <input type="text" id="l-org" name="organization" class="sr-input" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Section 2: Project Details -->
+                                <div class="sr-section">
+                                    <h3 class="sr-section-title">2. Project Overview</h3>
+
+                                    <div class="sr-row">
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="l-title">Project Title <span
+                                                    class="text-gold">*</span></label>
+                                            <input type="text" id="l-title" name="project_title" class="sr-input"
+                                                required>
+                                        </div>
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="l-appcat">Application Category <span
+                                                    class="text-gold">*</span></label>
+                                            <select id="l-appcat" name="application_category" class="sr-select"
+                                                required>
+                                                <option value="" disabled selected>Select primary use…</option>
+                                                <option value="rf">RF & Microwave Circuits</option>
+                                                <option value="microfluidics">Microfluidics / Channels</option>
+                                                <option value="flex">Flexible Electronics</option>
+                                                <option value="thinfilm">Thin Film Removal / Coating Ablation</option>
+                                                <option value="ceramic">Ceramic Machining</option>
+                                                <option value="general">General PCB Prototyping</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="sr-group full">
+                                        <label class="sr-label" for="l-abstract">Project Abstract / End Goal <span
+                                                class="text-gold">*</span></label>
+                                        <span class="sr-note">Describe what you are trying to achieve with this service
+                                            request.</span>
+                                        <textarea id="l-abstract" name="project_abstract" class="sr-textarea" rows="3"
+                                            required></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- Section 3: Substrate & Processing -->
+                                <div class="sr-section">
+                                    <h3 class="sr-section-title">3. Substrate & Processing</h3>
+
+                                    <div class="sr-row">
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="l-substrate">Substrate Type <span
+                                                    class="text-gold">*</span></label>
+                                            <select id="l-substrate" name="substrate_type" class="sr-select" required>
+                                                <option value="" disabled selected>Select substrate…</option>
+                                                <option value="fr4">FR4 (Standard PCB)</option>
+                                                <option value="rogers">Rogers RF Laminate</option>
+                                                <option value="glass">Glass (Borosilicate/Soda-lime)</option>
+                                                <option value="pet">PET / Flexible Film</option>
+                                                <option value="ceramic">Ceramic (Alumina/LTCC)</option>
+                                                <option value="silicon">Silicon Wafer</option>
+                                                <option value="other">Other (specify below)</option>
+                                            </select>
+                                        </div>
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="l-targetmat">Target Material / Layer <span
+                                                    class="text-gold">*</span></label>
+                                            <select id="l-targetmat" name="target_material" class="sr-select" required>
+                                                <option value="" disabled selected>Select target…</option>
+                                                <option value="copper">Copper</option>
+                                                <option value="gold">Gold</option>
+                                                <option value="ito">ITO (Indium Tin Oxide)</option>
+                                                <option value="silver">Silver</option>
+                                                <option value="aluminum">Aluminum</option>
+                                                <option value="other">Other (specify below)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="sr-row">
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="l-dims">Substrate Dimensions (mm) <span
+                                                    class="text-gold">*</span></label>
+                                            <input type="text" id="l-dims" name="substrate_dimensions" class="sr-input"
+                                                required placeholder="e.g. 100 x 50 x 1.6">
+                                        </div>
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="l-minfeature">Minimum Feature Size (µm)</label>
+                                            <input type="text" id="l-minfeature" name="min_feature" class="sr-input"
+                                                placeholder="e.g. 50">
+                                        </div>
+                                    </div>
+
+                                    <div class="sr-file-upload" onclick="document.getElementById('l-file').click()">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                        <p><strong>Click to browse</strong> or drag and drop design files (Gerber, DXF,
+                                            etc.)</p>
+                                        <input type="file" id="l-file" name="design_files" multiple
+                                            style="display:none;">
+                                    </div>
+                                </div>
+
+                                <!-- Section 4: Delivery -->
+                                <div class="sr-section">
+                                    <h3 class="sr-section-title">4. Delivery & Notes</h3>
+
+                                    <div class="sr-row">
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="l-qty">Number of Units <span
+                                                    class="text-gold">*</span></label>
+                                            <input type="number" id="l-qty" name="quantity" class="sr-input" required
+                                                min="1" value="1">
+                                        </div>
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="l-delivery">Preferred Delivery <span
+                                                    class="text-gold">*</span></label>
+                                            <select id="l-delivery" name="delivery" class="sr-select" required>
+                                                <option value="" disabled selected>Select…</option>
+                                                <option value="pickup">Lab Pickup</option>
+                                                <option value="campus_mail">Campus Mail</option>
+                                                <option value="shipping">Ship to Address</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="sr-group full">
+                                        <label class="sr-label" for="l-notes">Additional Notes</label>
+                                        <textarea id="l-notes" name="notes" class="sr-textarea" rows="4"
+                                            placeholder="Any specific requirements: tolerances, cleaning protocols, alignment marks, etc."></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="sr-submit-area">
+                                    <button type="reset" class="btn btn-outline"
+                                        style="color: var(--gray-600); border-color: var(--gray-400);">Clear
+                                        Form</button>
+                                    <button type="submit" class="btn btn-primary">Submit Laser Request</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <site-footer></site-footer>
+
+    <script src="JS/layout.js"></script>
+    <script>
+        (function () {
+            'use strict';
+
+            // Sidebar toggle logic
+            const navBtns = document.querySelectorAll('.sr-nav-btn');
+            const panels = document.querySelectorAll('.sr-panel');
+
+            navBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const target = btn.dataset.target;
+
+                    // Update active nav button
+                    navBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    // Toggle panels
+                    panels.forEach(p => {
+                        if (p.id === `panel-${target}`) {
+                            p.classList.add('active');
+                        } else {
+                            p.classList.remove('active');
+                        }
+                    });
+
+                    // Scroll to form top on mobile
+                    if (window.innerWidth <= 900) {
+                        document.querySelector('.sr-form-area').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            // File upload label updates
+            document.querySelectorAll('.sr-file-upload').forEach(box => {
+                const input = box.querySelector('input[type="file"]');
+                const label = box.querySelector('p');
+                if (input && label) {
+                    input.addEventListener('change', () => {
+                        if (input.files.length > 0) {
+                            const names = Array.from(input.files).map(f => f.name).join(', ');
+                            label.innerHTML = `<strong>Selected:</strong> ${names}`;
+                            box.style.borderColor = 'var(--nau-green, #388e3c)';
+                            box.style.background = 'rgba(56, 142, 60, 0.05)';
+                        } else {
+                            label.innerHTML = `<strong>Click to browse</strong> or drag and drop files`;
+                            box.style.borderColor = '';
+                            box.style.background = '';
+                        }
+                    });
+                }
+            });
+
+            // Form submit handling (demo — prevents page reload)
+            document.querySelectorAll('.sr-form').forEach(form => {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const btn = form.querySelector('button[type="submit"]');
+                    const ogText = btn.textContent;
+                    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+                    setTimeout(() => {
+                        alert('Service Request Submitted Successfully!');
+                        btn.textContent = ogText;
+                        form.reset();
+                        // Reset file upload boxes
+                        form.querySelectorAll('.sr-file-upload').forEach(box => {
+                            const label = box.querySelector('p');
+                            if (label) label.innerHTML = `<strong>Click to browse</strong> or drag and drop files`;
+                            box.style.borderColor = '';
+                            box.style.background = '';
+                        });
+                    }, 800);
+                });
+            });
+        })();
+    </script>
+</body>
+
+</html>

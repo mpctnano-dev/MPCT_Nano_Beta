@@ -26,7 +26,8 @@
         <!-- Hero -->
         <section class="ml-hero ml-hero--compact print-hero-page">
             <div class="ml-hero__bg">
-                <img src="Images/3d_printer.png" alt="3D Printing at the MPaCT Lab" style="object-position: center 30%;">
+                <img src="Images/3d_printer.png" alt="3D Printing at the MPaCT Lab"
+                    style="object-position: center 30%;">
             </div>
             <div class="ml-hero__overlay"></div>
             <div class="ml-hero__noise"></div>
@@ -44,13 +45,18 @@
                             <h1 class="ml-hero__title" style="line-height: 1.1; margin-bottom: 24px;">
                                 Professional<br><em>3D Printing</em>
                             </h1>
-                            <p class="ml-hero__subtitle" style="font-size: 1.1rem; line-height: 1.7; max-width: 560px; color: rgba(255,255,255,0.85);">
-                                Upload your 3D models and our cleanroom-trained technicians will fabricate them to exact specifications. 
-                                <strong>No machine training required.</strong> Rapid turnaround, custom materials, and flawless execution.
+                            <p class="ml-hero__subtitle"
+                                style="font-size: 1.1rem; line-height: 1.7; max-width: 560px; color: rgba(255,255,255,0.85);">
+                                Upload your 3D models and our cleanroom-trained technicians will fabricate them to exact
+                                specifications.
+                                <strong>No machine training required.</strong> Rapid turnaround, custom materials, and
+                                flawless execution.
                             </p>
                             <div class="ml-hero__actions" style="margin-top: 40px;">
-                                <a href="#print-request-form" class="btn btn-primary" style="padding: 14px 36px; font-size: 1.1rem;">Start a Project</a>
-                                <a href="#how-it-works" class="btn btn-outline" style="padding: 14px 36px; font-size: 1.1rem;">Process Details</a>
+                                <a href="#print-request-form" class="btn btn-primary"
+                                    style="padding: 14px 36px; font-size: 1.1rem;">Start a Project</a>
+                                <a href="#how-it-works" class="btn btn-outline"
+                                    style="padding: 14px 36px; font-size: 1.1rem;">Process Details</a>
                             </div>
                         </div>
 
@@ -59,7 +65,7 @@
             </div>
         </section>
 
-        <!-- Intro -->
+        <!-- Intro (commented out per request)
         <section class="print-intro">
             <div class="container">
                 <div class="print-intro__split reveal-on-scroll">
@@ -84,11 +90,11 @@
                 </div>
             </div>
         </section>
+        -->
 
-        <!-- How It Works -->
+        <!-- How It Works (commented out per request)
         <section class="premium-section dark-steps" id="how-it-works"
             style="background: linear-gradient(180deg, var(--nau-blue-dark) 0%, var(--nau-blue) 100%); position: relative; overflow: hidden;">
-            <!-- Background grid -->
             <div style="position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; opacity: 0.8; pointer-events: none;"></div>
             
             <div class="container" style="position: relative; z-index: 2;">
@@ -129,6 +135,7 @@
                 </div>
             </div>
         </section>
+        -->
 
 
         <!-- Print Request Form -->
@@ -157,19 +164,22 @@
                         <div class="pf__row pf__row--2col">
                             <div class="pf__group">
                                 <label for="pf-name" class="pf__label">Full Name <span class="pf__req">*</span></label>
-                                <input type="text" id="pf-name" name="name" class="pf__input" required placeholder="Dr. Jane Doe">
+                                <input type="text" id="pf-name" name="name" class="pf__input" required
+                                    placeholder="Dr. Jane Doe">
                                 <span class="pf__error" id="pf-name-error"></span>
                             </div>
                             <div class="pf__group">
                                 <label for="pf-email" class="pf__label">Email <span class="pf__req">*</span></label>
-                                <input type="email" id="pf-email" name="email" class="pf__input" required placeholder="jane.doe@nau.edu">
+                                <input type="email" id="pf-email" name="email" class="pf__input" required
+                                    placeholder="jane.doe@nau.edu">
                                 <span class="pf__error" id="pf-email-error"></span>
                             </div>
                         </div>
 
                         <div class="pf__row pf__row--2col">
                             <div class="pf__group">
-                                <label for="pf-affiliation" class="pf__label">I am a… <span class="pf__req">*</span></label>
+                                <label for="pf-affiliation" class="pf__label">I am a… <span
+                                        class="pf__req">*</span></label>
                                 <select id="pf-affiliation" name="affiliation" class="pf__select" required>
                                     <option value="" disabled selected>Select one…</option>
                                     <option value="internal">NAU Student or Faculty</option>
@@ -179,15 +189,18 @@
                                 <span class="pf__error" id="pf-affiliation-error"></span>
                             </div>
                             <div class="pf__group">
-                                <label for="pf-department" class="pf__label">Department / Organization <span class="pf__req">*</span></label>
-                                <input type="text" id="pf-department" name="department" class="pf__input" required placeholder="e.g. Mechanical Engineering">
+                                <label for="pf-department" class="pf__label">Department / Organization <span
+                                        class="pf__req">*</span></label>
+                                <input type="text" id="pf-department" name="department" class="pf__input" required
+                                    placeholder="e.g. Mechanical Engineering">
                                 <span class="pf__error" id="pf-department-error"></span>
                             </div>
                         </div>
 
                         <div class="pf__row">
                             <div class="pf__group" style="max-width: 360px;">
-                                <label for="pf-project-type" class="pf__label">What is this for? <span class="pf__req">*</span></label>
+                                <label for="pf-project-type" class="pf__label">What is this for? <span
+                                        class="pf__req">*</span></label>
                                 <select id="pf-project-type" name="project_type" class="pf__select" required>
                                     <option value="" disabled selected>Select one…</option>
                                     <option value="class">Class Project</option>
@@ -195,7 +208,9 @@
                                     <option value="personal">Personal Project</option>
                                     <option value="industry_prototype">Industry Prototype</option>
                                 </select>
-                                <span class="pf__helper" style="font-size: 0.85rem; color: var(--gray-500); margin-top: 4px; display: block;">Helps us understand your timeline and requirements.</span>
+                                <span class="pf__helper"
+                                    style="font-size: 0.85rem; color: var(--gray-500); margin-top: 4px; display: block;">Helps
+                                    us understand your timeline and requirements.</span>
                                 <span class="pf__error" id="pf-project-type-error"></span>
                             </div>
                         </div>
@@ -210,17 +225,23 @@
                         <!-- File upload -->
                         <div class="pf__group">
                             <label class="pf__label">Upload Your 3D Model <span class="pf__req">*</span></label>
-                            <span class="pf__helper">We accept <strong>.stl</strong> and <strong>.3mf</strong> files (max 50 MB each).</span>
+                            <span class="pf__helper">We accept <strong>.stl</strong> and <strong>.3mf</strong> files
+                                (max 50 MB each).</span>
 
                             <div class="pf__dropzone" id="pf-dropzone">
-                                <input type="file" id="pf-files" name="files" class="pf__file-input" accept=".stl,.3mf" multiple>
+                                <input type="file" id="pf-files" name="files" class="pf__file-input" accept=".stl,.3mf"
+                                    multiple>
                                 <div class="pf__dropzone-content" style="text-align: center;">
-                                    <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="var(--nau-blue)" stroke-width="1.5" style="margin-bottom: 12px; opacity: 0.7;">
+                                    <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="var(--nau-blue)"
+                                        stroke-width="1.5" style="margin-bottom: 12px; opacity: 0.7;">
                                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                         <polyline points="17 8 12 3 7 8"></polyline>
                                         <line x1="12" y1="3" x2="12" y2="15"></line>
                                     </svg>
-                                    <p style="font-size: 1.1rem; color: var(--nau-blue); font-weight: 500;">Drag your files here or <span style="color: var(--nau-gold-dark); cursor: pointer; text-decoration: underline;">browse</span></p>
+                                    <p style="font-size: 1.1rem; color: var(--nau-blue); font-weight: 500;">Drag your
+                                        files here or <span
+                                            style="color: var(--nau-gold-dark); cursor: pointer; text-decoration: underline;">browse</span>
+                                    </p>
                                 </div>
                             </div>
                             <div class="pf__file-list" id="pf-file-list"></div>
@@ -230,13 +251,16 @@
                         <!-- Size -->
                         <div class="pf__row pf__row--2col" style="align-items: end;">
                             <div class="pf__group">
-                                <label for="pf-size" class="pf__label">Approximate Size (mm) <span class="pf__req">*</span></label>
-                                <input type="text" id="pf-size" name="print_size" class="pf__input" required placeholder="e.g. 120 x 80 x 50">
+                                <label for="pf-size" class="pf__label">Approximate Size (mm) <span
+                                        class="pf__req">*</span></label>
+                                <input type="text" id="pf-size" name="print_size" class="pf__input" required
+                                    placeholder="e.g. 120 x 80 x 50">
                                 <span class="pf__error" id="pf-size-error"></span>
                             </div>
                             <div class="pf__group" style="padding-bottom: 14px;">
                                 <label class="pf__checkbox-label">
-                                    <input type="checkbox" id="pf-default-scale" name="default_scale" class="pf__checkbox">
+                                    <input type="checkbox" id="pf-default-scale" name="default_scale"
+                                        class="pf__checkbox">
                                     <span style="font-weight: 500;">Maintain native CAD scale</span>
                                 </label>
                             </div>
@@ -245,14 +269,17 @@
                         <!-- Material and colors -->
                         <div class="pf__row">
                             <div class="pf__group" style="max-width: 200px;">
-                                <label for="pf-quantity" class="pf__label">Quantity <span class="pf__req">*</span></label>
-                                <input type="number" id="pf-quantity" name="quantity" class="pf__input" required min="1" value="1" placeholder="1">
+                                <label for="pf-quantity" class="pf__label">Quantity <span
+                                        class="pf__req">*</span></label>
+                                <input type="number" id="pf-quantity" name="quantity" class="pf__input" required min="1"
+                                    value="1" placeholder="1">
                                 <span class="pf__error" id="pf-quantity-error"></span>
                             </div>
                         </div>
                         <div class="pf__row pf__row--3col">
                             <div class="pf__group">
-                                <label for="pf-material" class="pf__label">Material <span class="pf__req">*</span></label>
+                                <label for="pf-material" class="pf__label">Material <span
+                                        class="pf__req">*</span></label>
                                 <select id="pf-material" name="material" class="pf__select" required>
                                     <option value="" disabled selected>Select…</option>
                                     <option value="PLA">PLA (Standard)</option>
@@ -262,13 +289,17 @@
                                 <span class="pf__error" id="pf-material-error"></span>
                             </div>
                             <div class="pf__group">
-                                <label for="pf-color1" class="pf__label">Preferred Color <span class="pf__req">*</span></label>
-                                <input type="text" id="pf-color1" name="color_primary" class="pf__input" required placeholder="e.g. Black">
+                                <label for="pf-color1" class="pf__label">Preferred Color <span
+                                        class="pf__req">*</span></label>
+                                <input type="text" id="pf-color1" name="color_primary" class="pf__input" required
+                                    placeholder="e.g. Black">
                                 <span class="pf__error" id="pf-color1-error"></span>
                             </div>
                             <div class="pf__group">
-                                <label for="pf-color2" class="pf__label">Backup Color <span class="pf__req">*</span></label>
-                                <input type="text" id="pf-color2" name="color_secondary" class="pf__input" required placeholder="e.g. White">
+                                <label for="pf-color2" class="pf__label">Backup Color <span
+                                        class="pf__req">*</span></label>
+                                <input type="text" id="pf-color2" name="color_secondary" class="pf__input" required
+                                    placeholder="e.g. White">
                                 <span class="pf__error" id="pf-color2-error"></span>
                             </div>
                         </div>
@@ -287,7 +318,8 @@
                                 <span class="pf__helper">Best effort, not guaranteed.</span>
                             </div>
                             <div class="pf__group">
-                                <label for="pf-delivery" class="pf__label">How should we get it to you? <span class="pf__req">*</span></label>
+                                <label for="pf-delivery" class="pf__label">How should we get it to you? <span
+                                        class="pf__req">*</span></label>
                                 <select id="pf-delivery" name="delivery_method" class="pf__select" required>
                                     <option value="" disabled selected>Select…</option>
                                     <option value="pickup">I'll pick it up from the lab (free)</option>
@@ -299,35 +331,45 @@
 
                         <!-- Shipping address (shown when "Ship" is selected) -->
                         <div class="pf__shipping" id="pf-shipping-section" style="display: none;">
-                            <p class="pf__shipping-label" style="font-weight: 700; color: var(--nau-blue); margin-bottom: 16px;">Shipping Address</p>
+                            <p class="pf__shipping-label"
+                                style="font-weight: 700; color: var(--nau-blue); margin-bottom: 16px;">Shipping Address
+                            </p>
                             <div class="pf__row">
                                 <div class="pf__group">
-                                    <label for="pf-street" class="pf__label">Street Address <span class="pf__req">*</span></label>
-                                    <input type="text" id="pf-street" name="ship_street" class="pf__input" placeholder="123 University Ave">
+                                    <label for="pf-street" class="pf__label">Street Address <span
+                                            class="pf__req">*</span></label>
+                                    <input type="text" id="pf-street" name="ship_street" class="pf__input"
+                                        placeholder="123 University Ave">
                                     <span class="pf__error" id="pf-street-error"></span>
                                 </div>
                             </div>
                             <div class="pf__row pf__row--2col">
                                 <div class="pf__group">
                                     <label for="pf-city" class="pf__label">City <span class="pf__req">*</span></label>
-                                    <input type="text" id="pf-city" name="ship_city" class="pf__input" placeholder="Flagstaff">
+                                    <input type="text" id="pf-city" name="ship_city" class="pf__input"
+                                        placeholder="Flagstaff">
                                     <span class="pf__error" id="pf-city-error"></span>
                                 </div>
                                 <div class="pf__group">
                                     <label for="pf-state" class="pf__label">State <span class="pf__req">*</span></label>
-                                    <input type="text" id="pf-state" name="ship_state" class="pf__input" placeholder="AZ">
+                                    <input type="text" id="pf-state" name="ship_state" class="pf__input"
+                                        placeholder="AZ">
                                     <span class="pf__error" id="pf-state-error"></span>
                                 </div>
                             </div>
                             <div class="pf__row pf__row--2col">
                                 <div class="pf__group">
-                                    <label for="pf-zip" class="pf__label">ZIP Code <span class="pf__req">*</span></label>
-                                    <input type="text" id="pf-zip" name="ship_zip" class="pf__input" placeholder="86001">
+                                    <label for="pf-zip" class="pf__label">ZIP Code <span
+                                            class="pf__req">*</span></label>
+                                    <input type="text" id="pf-zip" name="ship_zip" class="pf__input"
+                                        placeholder="86001">
                                     <span class="pf__error" id="pf-zip-error"></span>
                                 </div>
                                 <div class="pf__group">
-                                    <label for="pf-country" class="pf__label">Country <span class="pf__req">*</span></label>
-                                    <input type="text" id="pf-country" name="ship_country" class="pf__input" value="United States" placeholder="United States">
+                                    <label for="pf-country" class="pf__label">Country <span
+                                            class="pf__req">*</span></label>
+                                    <input type="text" id="pf-country" name="ship_country" class="pf__input"
+                                        value="United States" placeholder="United States">
                                     <span class="pf__error" id="pf-country-error"></span>
                                 </div>
                             </div>
@@ -336,22 +378,27 @@
                         <!-- Extra notes -->
                         <div class="pf__group">
                             <label for="pf-notes" class="pf__label">Anything else we should know?</label>
-                            <textarea id="pf-notes" name="notes" class="pf__textarea" rows="4" placeholder="E.g. specific dimensions that matter, how thick you want the walls, print orientation preferences, or if you need multiple colors."></textarea>
+                            <textarea id="pf-notes" name="notes" class="pf__textarea" rows="4"
+                                placeholder="E.g. specific dimensions that matter, how thick you want the walls, print orientation preferences, or if you need multiple colors."></textarea>
                         </div>
                     </fieldset>
 
                     <!-- Advanced options -->
                     <div class="pf__advanced-toggle" id="pf-advanced-toggle" style="margin-top: 24px;">
-                        <button type="button" class="pf__advanced-btn" id="pf-advanced-btn" style="display: flex; align-items: center; gap: 8px; background: none; border: none; font-weight: 600; color: var(--nau-blue); cursor: pointer; padding: 0;">
-                            <svg class="pf__advanced-chevron" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                        <button type="button" class="pf__advanced-btn" id="pf-advanced-btn"
+                            style="display: flex; align-items: center; gap: 8px; background: none; border: none; font-weight: 600; color: var(--nau-blue); cursor: pointer; padding: 0;">
+                            <svg class="pf__advanced-chevron" viewBox="0 0 24 24" width="18" height="18" fill="none"
+                                stroke="currentColor" stroke-width="2">
                                 <polyline points="6 9 12 15 18 9"></polyline>
                             </svg>
                             Advanced Print Options
-                            <span class="pf__advanced-badge" style="background: rgba(0,36,84,0.1); padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">Optional</span>
+                            <span class="pf__advanced-badge"
+                                style="background: rgba(0,36,84,0.1); padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">Optional</span>
                         </button>
                     </div>
 
-                    <fieldset class="pf__section pf__section--advanced" id="pf-advanced-panel" style="display: none; margin-top: 24px; padding-top: 24px; border-top: 1px dashed var(--gray-300);">
+                    <fieldset class="pf__section pf__section--advanced" id="pf-advanced-panel"
+                        style="display: none; margin-top: 24px; padding-top: 24px; border-top: 1px dashed var(--gray-300);">
                         <legend class="pf__legend">
                             <span class="pf__legend-num">4</span> Advanced Options
                         </legend>
@@ -364,7 +411,8 @@
                                 <label for="pf-quality" class="pf__label">Quality Preset</label>
                                 <select id="pf-quality" name="quality" class="pf__select">
                                     <option value="draft">Draft — Fastest, visible layer lines</option>
-                                    <option value="standard" selected>Standard — Good balance of speed and quality</option>
+                                    <option value="standard" selected>Standard — Good balance of speed and quality
+                                    </option>
                                     <option value="fine">Fine — Slowest, smoothest surface finish</option>
                                 </select>
                             </div>
@@ -382,7 +430,8 @@
                             <div class="pf__group">
                                 <label for="pf-supports" class="pf__label">Support Structures</label>
                                 <select id="pf-supports" name="supports" class="pf__select">
-                                    <option value="staff_decide" selected>Staff Decide — Let us choose the best approach</option>
+                                    <option value="staff_decide" selected>Staff Decide — Let us choose the best approach
+                                    </option>
                                     <option value="none">None — No support material</option>
                                     <option value="auto">Auto — Slicer-generated supports</option>
                                 </select>
@@ -398,22 +447,31 @@
                     </fieldset>
 
                     <!-- Policies and submit -->
-                    <fieldset class="pf__section pf__section--submit" style="margin-top: 40px; padding-top: 30px; border-top: 1px solid var(--gray-200);">
-                        <div class="pf__policies" style="background: var(--gray-50); padding: 24px; border-radius: 8px; margin-bottom: 30px;">
-                            <h4 style="font-size: 1rem; color: var(--nau-blue); margin-bottom: 12px;">Before You Submit</h4>
+                    <fieldset class="pf__section pf__section--submit"
+                        style="margin-top: 40px; padding-top: 30px; border-top: 1px solid var(--gray-200);">
+                        <div class="pf__policies"
+                            style="background: var(--gray-50); padding: 24px; border-radius: 8px; margin-bottom: 30px;">
+                            <h4 style="font-size: 1rem; color: var(--nau-blue); margin-bottom: 12px;">Before You Submit
+                            </h4>
                             <p style="font-size: 0.85rem; color: var(--gray-600); margin-bottom: 16px;">
-                                We'll review your files and send you a quote before printing anything — no surprises. We keep your designs confidential, but please double-check your models before uploading since we can't fix design issues on our end.
+                                We'll review your files and send you a quote before printing anything — no surprises. We
+                                keep your designs confidential, but please double-check your models before uploading
+                                since we can't fix design issues on our end.
                             </p>
                             <label class="pf__checkbox-label pf__checkbox-label--policy">
-                                <input type="checkbox" id="pf-policy-agree" name="policy_agree" class="pf__checkbox" required>
-                                <span style="font-weight: 600; color: var(--nau-blue);">I understand and want to proceed. <span class="pf__req">*</span></span>
+                                <input type="checkbox" id="pf-policy-agree" name="policy_agree" class="pf__checkbox"
+                                    required>
+                                <span style="font-weight: 600; color: var(--nau-blue);">I understand and want to
+                                    proceed. <span class="pf__req">*</span></span>
                             </label>
                             <span class="pf__error" id="pf-policy-error"></span>
                         </div>
 
-                        <button type="submit" class="btn btn-primary" id="pf-submit-btn" style="width: 100%; padding: 18px; font-size: 1.2rem; border-radius: 8px;">
+                        <button type="submit" class="btn btn-primary" id="pf-submit-btn"
+                            style="width: 100%; padding: 18px; font-size: 1.2rem; border-radius: 8px;">
                             Submit Print Request
-                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 8px;">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+                                stroke-width="2" style="margin-left: 8px;">
                                 <line x1="5" y1="12" x2="19" y2="12"></line>
                                 <polyline points="12 5 19 12 12 19"></polyline>
                             </svg>
@@ -422,19 +480,28 @@
                 </form>
 
                 <!-- Success state -->
-                <div class="pf__success" id="pf-success" style="display: none; background: var(--white); border-radius: 16px; box-shadow: 0 25px 50px rgba(0,36,84,0.05); border: 1px solid var(--gray-200); padding: 60px; max-width: 900px; margin: 0 auto; text-align: center;">
+                <div class="pf__success" id="pf-success"
+                    style="display: none; background: var(--white); border-radius: 16px; box-shadow: 0 25px 50px rgba(0,36,84,0.05); border: 1px solid var(--gray-200); padding: 60px; max-width: 900px; margin: 0 auto; text-align: center;">
                     <div class="pf__success-inner">
-                        <div style="width: 80px; height: 80px; background: rgba(0, 122, 51, 0.1); color: var(--nau-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
-                            <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2">
+                        <div
+                            style="width: 80px; height: 80px; background: rgba(0, 122, 51, 0.1); color: var(--nau-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
+                            <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor"
+                                stroke-width="2">
                                 <polyline points="20 6 9 17 4 12"></polyline>
                             </svg>
                         </div>
-                        <h2 style="font-size: 2.2rem; color: var(--nau-blue); margin-bottom: 16px;">We Got Your Request!</h2>
-                        <p style="font-size: 1.1rem; color: var(--gray-600); margin-bottom: 24px;">Your reference number: <strong id="pf-ticket-id" style="color: var(--nau-blue); font-family: monospace; font-size: 1.2rem; background: var(--gray-100); padding: 4px 8px; border-radius: 4px;"></strong></p>
-                        <p style="color: var(--gray-600); max-width: 500px; margin: 0 auto 40px; line-height: 1.6;">
-                            We'll review your files and email you a quote within a few business days. No printing happens until you approve it.
+                        <h2 style="font-size: 2.2rem; color: var(--nau-blue); margin-bottom: 16px;">We Got Your Request!
+                        </h2>
+                        <p style="font-size: 1.1rem; color: var(--gray-600); margin-bottom: 24px;">Your reference
+                            number: <strong id="pf-ticket-id"
+                                style="color: var(--nau-blue); font-family: monospace; font-size: 1.2rem; background: var(--gray-100); padding: 4px 8px; border-radius: 4px;"></strong>
                         </p>
-                        <button type="button" class="btn btn-outline" style="border-color: var(--nau-blue); color: var(--nau-blue);" id="pf-submit-another-btn">
+                        <p style="color: var(--gray-600); max-width: 500px; margin: 0 auto 40px; line-height: 1.6;">
+                            We'll review your files and email you a quote within a few business days. No printing
+                            happens until you approve it.
+                        </p>
+                        <button type="button" class="btn btn-outline"
+                            style="border-color: var(--nau-blue); color: var(--nau-blue);" id="pf-submit-another-btn">
                             Submit Another Project
                         </button>
                     </div>
@@ -447,7 +514,9 @@
         <section class="faq-section">
             <div class="container" style="max-width: 800px; position: relative; z-index: 2;">
                 <div class="reveal-on-scroll" style="text-align: center; margin-bottom: 48px;">
-                    <div class="ml-eyebrow ml-eyebrow--light" style="margin-bottom: 16px; background: rgba(250, 192, 26, 0.15); color: var(--nau-gold);">Questions</div>
+                    <div class="ml-eyebrow ml-eyebrow--light"
+                        style="margin-bottom: 16px; background: rgba(250, 192, 26, 0.15); color: var(--nau-gold);">
+                        Questions</div>
                     <h2 class="premium-section-title text-white">Frequently Asked Questions</h2>
                 </div>
 
@@ -455,50 +524,71 @@
                     <details class="faq-item">
                         <summary class="faq-item__question">
                             What file formats do you accept?
-                            <svg class="faq-item__chevron" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            <svg class="faq-item__chevron" viewBox="0 0 24 24" width="20" height="20" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
                         </summary>
                         <div class="faq-item__answer">
-                            <p>We accept <strong>STL</strong> and <strong>3MF</strong> files only. Most CAD programs (Fusion 360, SolidWorks, Blender, TinkerCAD) can export in these formats.</p>
+                            <p>We accept <strong>STL</strong> and <strong>3MF</strong> files only. Most CAD programs
+                                (Fusion 360, SolidWorks, Blender, TinkerCAD) can export in these formats.</p>
                         </div>
                     </details>
 
                     <details class="faq-item">
                         <summary class="faq-item__question">
                             How much does it cost?
-                            <svg class="faq-item__chevron" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            <svg class="faq-item__chevron" viewBox="0 0 24 24" width="20" height="20" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
                         </summary>
                         <div class="faq-item__answer">
-                            <p>Pricing is quote-based and depends on material, size, and print time. You'll receive a detailed estimate before any work begins — no surprises.</p>
+                            <p>Pricing is quote-based and depends on material, size, and print time. You'll receive a
+                                detailed estimate before any work begins — no surprises.</p>
                         </div>
                     </details>
 
                     <details class="faq-item">
                         <summary class="faq-item__question">
                             How long does printing take?
-                            <svg class="faq-item__chevron" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            <svg class="faq-item__chevron" viewBox="0 0 24 24" width="20" height="20" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
                         </summary>
                         <div class="faq-item__answer">
-                            <p>Most jobs are completed within <strong>3–5 business days</strong>. Larger or more complex prints may take longer — we'll include a timeline in your quote.</p>
+                            <p>Most jobs are completed within <strong>3–5 business days</strong>. Larger or more complex
+                                prints may take longer — we'll include a timeline in your quote.</p>
                         </div>
                     </details>
 
                     <details class="faq-item">
                         <summary class="faq-item__question">
                             Can I watch my print being made?
-                            <svg class="faq-item__chevron" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            <svg class="faq-item__chevron" viewBox="0 0 24 24" width="20" height="20" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
                         </summary>
                         <div class="faq-item__answer">
-                            <p>We don't currently offer live viewing, but you'll receive status updates by email at every stage of the process.</p>
+                            <p>We don't currently offer live viewing, but you'll receive status updates by email at
+                                every stage of the process.</p>
                         </div>
                     </details>
 
                     <details class="faq-item">
                         <summary class="faq-item__question">
                             What if my print fails?
-                            <svg class="faq-item__chevron" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            <svg class="faq-item__chevron" viewBox="0 0 24 24" width="20" height="20" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
                         </summary>
                         <div class="faq-item__answer">
-                            <p>If a print fails due to a machine error or issue on our end, we'll reprint it at no extra cost. If the failure is caused by a design issue, we'll contact you to discuss adjustments.</p>
+                            <p>If a print fails due to a machine error or issue on our end, we'll reprint it at no extra
+                                cost. If the failure is caused by a design issue, we'll contact you to discuss
+                                adjustments.</p>
                         </div>
                     </details>
                 </div>
