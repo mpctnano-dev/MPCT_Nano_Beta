@@ -23,9 +23,7 @@
     <site-header></site-header>
 
     <main>
-        <!-- ══════════════════════════════════════════════════════════
-             §1  CINEMATIC HERO
-        ══════════════════════════════════════════════════════════════ -->
+        <!-- Hero -->
         <section class="ml-hero ml-hero--compact">
             <div class="ml-hero__bg">
                 <img src="Images/lab_services.jpg" alt="MPaCT Lab Services and Prototyping">
@@ -37,7 +35,7 @@
                 <div class="container">
                     <div class="ml-hero__split">
 
-                        <!-- Left: text & CTAs -->
+                        <!-- Hero text -->
                         <div>
                             <div class="ml-hero__eyebrow">
                                 <span class="ml-hero__eyebrow-line"></span>
@@ -57,7 +55,7 @@
                             </div>
                         </div>
 
-                        <!-- Right: Service Highlights Panel -->
+                        <!-- Highlights panel -->
                         <div class="ml-hero__panel">
                             <div class="ml-hero__panel-label">Service Highlights</div>
 
@@ -117,14 +115,12 @@
         </section>
 
 
-        <!-- ══════════════════════════════════════════════════════════
-             §2  DESCRIPTION (Expertise On Demand)
-        ══════════════════════════════════════════════════════════════ -->
+        <!-- Expertise on Demand -->
         <section class="section-padding ml-access" id="how-to-use"
             style="background-color: var(--white); color: var(--text-main); position: relative; padding-bottom: 80px;">
             <div class="container">
 
-                <!-- Enhanced "What are these services?" Section -->
+                <!-- Intro text -->
                 <div class="reveal-on-scroll" style="margin: 0 auto 64px; max-width: 860px; text-align: center;">
                     <div class="ml-eyebrow" style="margin-bottom: 20px; display: inline-block;">Remote Fabrication</div>
                     <h2 class="ml-section-title" style="color: var(--nau-blue);">Expertise On Demand</h2>
@@ -141,7 +137,7 @@
                     </p>
                 </div>
 
-                <!-- Feature Callouts (Why Choose Us) -->
+                <!-- Why choose us cards -->
                 <div class="services-why-grid reveal-on-scroll">
                     <div class="s-why-card">
                             <div class="s-why-icon">
@@ -186,15 +182,13 @@
             </div>
         </section>
 
-        <!-- ══════════════════════════════════════════════════════════
-             §2.5  HOW IT WORKS (Dark Section)
-        ══════════════════════════════════════════════════════════════ -->
+        <!-- How It Works -->
         <section class="section-padding" style="background: linear-gradient(135deg, var(--nau-blue), var(--nau-blue-dark)); position: relative; overflow: hidden;">
-            <!-- Subtle noise/texture overlay -->
+            <!-- Background texture -->
             <div style="position: absolute; inset: 0; background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 32px 32px; opacity: 0.5;"></div>
             
             <div class="container" style="position: relative; z-index: 2;">
-                <!-- Process Steps (Adapted from ml-access) -->
+                <!-- Section header -->
                 <div class="reveal-on-scroll" style="text-align: center; margin-bottom: 60px;">
                     <div class="ml-eyebrow" style="margin-bottom: 20px; display: inline-block; background: rgba(250, 192, 26, 0.1); color: var(--nau-gold);">The Process</div>
                     <h2 class="ml-section-title" style="color: var(--white);">How It Works</h2>
@@ -203,7 +197,7 @@
                 </div>
 
                 <div class="ml-access__steps services-process-steps reveal-on-scroll dark-steps">
-                    <!-- Step 1 -->
+                    <!-- Submit -->
                     <div class="ml-access__step">
                         <div class="ml-access__step-badge">1</div>
                         <h3 class="ml-access__step-title" style="color: var(--white);">Submit Request</h3>
@@ -211,7 +205,7 @@
                             your design files, material requirements, and scope.</p>
                     </div>
 
-                    <!-- Step 2 -->
+                    <!-- Review -->
                     <div class="ml-access__step">
                         <div class="ml-access__step-badge">2</div>
                         <h3 class="ml-access__step-title" style="color: var(--white);">Review & Quote</h3>
@@ -219,7 +213,7 @@
                             provides a timeframe, and issues a cost estimate.</p>
                     </div>
 
-                    <!-- Step 3 -->
+                    <!-- Fabrication -->
                     <div class="ml-access__step">
                         <div class="ml-access__step-badge">3</div>
                         <h3 class="ml-access__step-title" style="color: var(--white);">Fabrication</h3>
@@ -227,7 +221,7 @@
                             request using our advanced instrumentation.</p>
                     </div>
 
-                    <!-- Step 4 -->
+                    <!-- Delivery -->
                     <div class="ml-access__step">
                         <div class="ml-access__step-badge">4</div>
                         <h3 class="ml-access__step-title" style="color: var(--white);">Delivery</h3>
@@ -240,9 +234,7 @@
         </section>
 
 
-        <!-- ══════════════════════════════════════════════════════════
-             §3  AVAILABLE SERVICES (Dynamic Layout)
-        ══════════════════════════════════════════════════════════════ -->
+        <!-- Service Cards -->
         <section class="services-directory" id="our-services">
             <div class="container">
                 <div class="reveal-on-scroll" style="text-align: center; margin-bottom: 48px;">
@@ -263,30 +255,66 @@
                             <span class="s-card__eyebrow">Rapid Prototyping</span>
                             <h3 class="s-card__title">3D Printing Services</h3>
                             <p class="s-card__desc">High-speed multi-color 3D printing using the Bambu Lab X1C for structural prototyping, custom enclosures, and mechanical parts.</p>
-                            <div class="s-card__tags" style="margin-bottom: 24px;">
+                            <div class="s-card__tags">
                                 <span>Multi-Material</span>
                                 <span>High-Speed</span>
                                 <span>PLA / PETG / ABS</span>
                             </div>
-                            <a href="3D_Printer.html" class="btn btn-primary" style="align-self: flex-start; margin-top: auto; padding: 12px 24px;">Request 3D Print <span>&rarr;</span></a>
+                            <a href="3D_Printer.html" class="btn btn-primary" style="align-self: flex-start; margin-top: auto; padding: 10px 20px; font-size: 0.82rem;">Request 3D Print &rarr;</a>
                         </div>
                     </article>
 
                     <!-- Laser Structuring -->
                     <article class="s-card reveal-on-scroll">
                         <div class="s-card__img-wrap">
-                            <img src="Images/LPKF_Service.jpg" alt="LPKF ProtoLaser R4 Service" class="s-card__img">
+                            <img src="Images/LPKF.png" alt="LPKF ProtoLaser R4 Service" class="s-card__img">
                         </div>
                         <div class="s-card__body">
                             <span class="s-card__eyebrow">Laser Processing</span>
                             <h3 class="s-card__title">Laser Structuring (LPKF)</h3>
                             <p class="s-card__desc">Ultra-short pulse cold laser ablation for structuring transparent films, precision glass cutting, and RF/microwave circuit fabrication.</p>
-                            <div class="s-card__tags" style="margin-bottom: 24px;">
+                            <div class="s-card__tags">
                                 <span>Picosecond Laser</span>
                                 <span>Microfluidics</span>
                                 <span>PCB Structuring</span>
                             </div>
-                            <a href="LPKF.html" class="s-card__cta s-card__cta--soon" style="align-self: flex-start; margin-top: auto;">Coming Soon</a>
+                            <a href="Contact_Us.html?category=services" class="btn btn-primary" style="align-self: flex-start; margin-top: auto; padding: 10px 20px; font-size: 0.82rem;">Request Laser Service &rarr;</a>
+                        </div>
+                    </article>
+
+                    <!-- TEM Prep - Dimple Grinder -->
+                    <article class="s-card reveal-on-scroll">
+                        <div class="s-card__img-wrap">
+                            <img src="Images/TEmprep_dimpleGrinder.jpeg" alt="Fischione Model 200 Dimple Grinder" class="s-card__img">
+                        </div>
+                        <div class="s-card__body">
+                            <span class="s-card__eyebrow">Sample Preparation</span>
+                            <h3 class="s-card__title">TEM Prep &mdash; Dimple Grinding</h3>
+                            <p class="s-card__desc">Precision thinning of 3 mm TEM specimen discs to just a few microns using the Fischione Model 200 rotary dimple grinder with abrasive slurry.</p>
+                            <div class="s-card__tags">
+                                <span>Fischione 200</span>
+                                <span>TEM Specimens</span>
+                                <span>Sub-Micron</span>
+                            </div>
+                            <a href="Contact_Us.html?category=services" class="btn btn-primary" style="align-self: flex-start; margin-top: auto; padding: 10px 20px; font-size: 0.82rem;">Request Sample Prep &rarr;</a>
+                        </div>
+                    </article>
+
+                    <!-- PELCO FlexScribe 300 -->
+                    <article class="s-card reveal-on-scroll">
+                        <div class="s-card__img-wrap">
+                            <img src="Images/PELCO_FLEXSCRIBE.jpg" alt="PELCO FlexScribe 300 Wafer Scribing" class="s-card__img">
+                        </div>
+                        <div class="s-card__body">
+                            <span class="s-card__eyebrow">Sample Preparation</span>
+                            <h3 class="s-card__title">Wafer Scribing (PELCO)</h3>
+                            <p class="s-card__desc">Precision diamond-tip scribing and cleaving of semiconductor wafers and substrates using the PELCO FlexScribe 300 for controlled sample sectioning.</p>
+                            <div class="s-card__tags">
+                                <span>FlexScribe 300</span>
+                                <span>Diamond Tip</span>
+                                <span>Wafer Cleaving</span>
+                            </div>
+                            <a href="Contact_Us.html?category=services" class="btn btn-primary" style="align-self: flex-start; margin-top: auto; padding: 10px 20px; font-size: 0.82rem;">Request Scribing &rarr;</a>
                         </div>
                     </article>
                 </div>
@@ -294,9 +322,7 @@
             </div>
         </section>
 
-        <!-- ══════════════════════════════════════════════════════════
-             §4  CALL TO ACTION
-        ══════════════════════════════════════════════════════════════ -->
+        <!-- CTA -->
         <div class="container reveal-on-scroll" style="padding-bottom: 60px;">
             <section class="ml-cta-premium">
                 <div class="container">
