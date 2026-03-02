@@ -116,95 +116,212 @@
         .sr-sidebar {
             position: sticky;
             top: 100px;
-            background: rgba(255, 255, 255, 0.9);
+            background: white;
             border: 1px solid rgba(0, 0, 0, 0.06);
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 36, 84, 0.05);
-            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            box-shadow: 0 12px 40px rgba(0, 36, 84, 0.06);
             overflow: hidden;
         }
 
-        .sr-sidebar h3 {
-            margin: 0;
-            padding: 18px 20px;
-            background: linear-gradient(135deg, #0c3765 0%, #1a4f8a 100%);
+        .sr-sidebar-header {
+            padding: 22px 24px 20px;
+            background: linear-gradient(135deg, #091f3d 0%, #0d3060 60%, #15447a 100%);
             color: white;
-            font-size: 0.95rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sr-sidebar-header::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(250, 192, 26, 0.12) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .sr-sidebar-header h3 {
+            margin: 0;
+            font-size: 0.78rem;
             text-transform: uppercase;
-            letter-spacing: 0.8px;
+            letter-spacing: 1.2px;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 600;
+        }
+
+        .sr-sidebar-header .sr-sidebar-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-top: 6px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+        }
+
+        .sr-sidebar-header .sr-sidebar-title i {
+            color: var(--nau-gold);
         }
 
         .sr-nav {
             display: flex;
             flex-direction: column;
-            padding: 8px;
-            gap: 4px;
+            padding: 12px;
+            gap: 6px;
         }
 
         .sr-nav-btn {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
             width: 100%;
             background: transparent;
-            border: none;
-            padding: 14px 16px;
-            border-radius: 10px;
-            font-size: 0.95rem;
+            border: 2px solid transparent;
+            padding: 16px;
+            border-radius: 14px;
             font-family: var(--font-body);
             color: var(--gray-700);
             cursor: pointer;
             text-align: left;
-            transition: all 0.25s ease;
-            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
             position: relative;
+            overflow: hidden;
         }
 
-        .sr-nav-btn i {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
+        .sr-nav-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1rem;
+            font-size: 1.15rem;
+            flex-shrink: 0;
+            transition: all 0.3s;
+        }
+
+        .sr-nav-btn[data-target="printing"] .sr-nav-icon {
+            background: rgba(0, 36, 84, 0.07);
+            color: var(--nau-blue);
+        }
+
+        .sr-nav-btn[data-target="laser"] .sr-nav-icon {
+            background: rgba(250, 192, 26, 0.1);
+            color: #a07800;
+        }
+
+        .sr-nav-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .sr-nav-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: inherit;
+            line-height: 1.3;
+        }
+
+        .sr-nav-desc {
+            font-size: 0.78rem;
+            color: var(--gray-500);
+            margin-top: 3px;
+            line-height: 1.35;
+            transition: color 0.3s;
+        }
+
+        .sr-nav-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.68rem;
+            font-weight: 600;
+            margin-top: 6px;
+            padding: 3px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .sr-nav-btn[data-target="printing"] .sr-nav-tag {
             background: rgba(0, 36, 84, 0.06);
             color: var(--nau-blue);
-            transition: all 0.25s;
-            flex-shrink: 0;
         }
 
-        .sr-nav-btn:hover {
-            background: rgba(0, 36, 84, 0.04);
-            color: var(--nau-blue);
+        .sr-nav-btn[data-target="laser"] .sr-nav-tag {
+            background: rgba(250, 192, 26, 0.1);
+            color: #8a6d00;
         }
 
-        .sr-nav-btn.active {
-            background: var(--nau-blue);
-            color: white;
-            font-weight: 600;
-            box-shadow: 0 4px 16px rgba(0, 36, 84, 0.2);
-        }
-
-        .sr-nav-btn.active i {
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
-        }
-
-        .sr-nav-btn .sr-nav-arrow {
-            margin-left: auto;
+        .sr-nav-arrow {
             font-size: 0.8rem;
             opacity: 0;
-            transform: translateX(-4px);
-            transition: all 0.25s;
+            transform: translateX(-6px);
+            transition: all 0.3s;
+            flex-shrink: 0;
+            color: var(--gray-400);
+        }
+
+        /* Hover */
+        .sr-nav-btn:hover {
+            background: rgba(0, 36, 84, 0.03);
+            border-color: rgba(0, 36, 84, 0.08);
+        }
+
+        .sr-nav-btn:hover .sr-nav-arrow {
+            opacity: 0.5;
+            transform: translateX(0);
+        }
+
+        /* Active */
+        .sr-nav-btn.active {
+            background: linear-gradient(135deg, #0c3060 0%, #15447a 100%);
+            border-color: transparent;
+            color: white;
+            box-shadow: 0 6px 20px rgba(0, 36, 84, 0.2);
+        }
+
+        .sr-nav-btn.active .sr-nav-icon {
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--nau-gold);
+        }
+
+        .sr-nav-btn.active .sr-nav-desc {
+            color: rgba(255, 255, 255, 0.65);
+        }
+
+        .sr-nav-btn.active .sr-nav-tag {
+            background: rgba(250, 192, 26, 0.15);
+            color: var(--nau-gold);
         }
 
         .sr-nav-btn.active .sr-nav-arrow {
             opacity: 1;
             transform: translateX(0);
+            color: var(--nau-gold);
+        }
+
+        /* Sidebar footer */
+        .sr-sidebar-footer {
+            padding: 16px 20px;
+            border-top: 1px solid var(--gray-200);
+            text-align: center;
+        }
+
+        .sr-sidebar-footer a {
+            font-size: 0.82rem;
+            color: var(--gray-500);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+
+        .sr-sidebar-footer a:hover {
+            color: var(--nau-blue);
         }
 
         @media (max-width: 900px) {
@@ -212,16 +329,34 @@
                 position: static;
             }
 
+            .sr-sidebar-header {
+                padding: 16px 20px;
+            }
+
             .sr-nav {
                 flex-direction: row;
+                padding: 8px;
+                gap: 8px;
             }
 
             .sr-nav-btn {
-                justify-content: center;
                 flex: 1;
+                padding: 12px;
             }
 
-            .sr-nav-btn .sr-nav-arrow {
+            .sr-nav-desc,
+            .sr-nav-tag,
+            .sr-nav-arrow {
+                display: none;
+            }
+
+            .sr-nav-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
+            }
+
+            .sr-sidebar-footer {
                 display: none;
             }
         }
@@ -467,18 +602,36 @@
 
                 <!-- Sidebar -->
                 <aside class="sr-sidebar">
-                    <h3><i class="fas fa-layer-group"></i> Select Service</h3>
+                    <div class="sr-sidebar-header">
+                        <h3>Service Menu</h3>
+                        <div class="sr-sidebar-title">
+                            <i class="fas fa-layer-group"></i> Select a Service
+                        </div>
+                    </div>
                     <div class="sr-nav">
                         <button class="sr-nav-btn active" data-target="printing">
-                            <i class="fas fa-cube"></i>
-                            <span>3D Printing Services</span>
+                            <div class="sr-nav-icon"><i class="fas fa-cube"></i></div>
+                            <div class="sr-nav-info">
+                                <div class="sr-nav-name">3D Printing Services</div>
+                                <div class="sr-nav-desc">Multi-material FDM prototyping with the Bambu Lab H2D</div>
+                                <span class="sr-nav-tag"><i class="fas fa-circle" style="font-size: 0.4rem;"></i> Bambu
+                                    Lab H2D</span>
+                            </div>
                             <i class="fas fa-chevron-right sr-nav-arrow"></i>
                         </button>
                         <button class="sr-nav-btn" data-target="laser">
-                            <i class="fas fa-bolt"></i>
-                            <span>Laser Structuring</span>
+                            <div class="sr-nav-icon"><i class="fas fa-bolt"></i></div>
+                            <div class="sr-nav-info">
+                                <div class="sr-nav-name">Laser Structuring</div>
+                                <div class="sr-nav-desc">Precision cold laser ablation for PCB, glass & ceramics</div>
+                                <span class="sr-nav-tag"><i class="fas fa-circle" style="font-size: 0.4rem;"></i> LPKF
+                                    ProtoLaser R4</span>
+                            </div>
                             <i class="fas fa-chevron-right sr-nav-arrow"></i>
                         </button>
+                    </div>
+                    <div class="sr-sidebar-footer">
+                        <a href="Contact_Us.html"><i class="fas fa-question-circle"></i> Need help choosing?</a>
                     </div>
                 </aside>
 
