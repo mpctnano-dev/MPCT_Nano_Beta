@@ -9749,9 +9749,10 @@ ul {
 
 /* ---------- GLOBAL SEARCH ---------- */
 .global-search-wrap {
-    margin-top: 28px;
+    margin-top: 10px;
+    margin-bottom: 24px;
     position: relative;
-    max-width: 600px;
+    max-width: 100%;
     animation: fadeSlideUp 0.7s 0.55s cubic-bezier(0.25, 1, 0.5, 1) both;
 }
 
@@ -9760,14 +9761,14 @@ ul {
     left: 18px;
     top: 50%;
     transform: translateY(-50%);
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--gray-500);
     font-size: 1rem;
     z-index: 2;
     transition: color 0.3s;
 }
 
 .global-search-wrap:focus-within i.search-icon {
-    color: var(--nau-gold);
+    color: var(--nau-blue);
 }
 
 #globalSearch {
@@ -9775,23 +9776,23 @@ ul {
     padding: 14px 110px 14px 46px;
     font-size: 1rem;
     font-family: var(--font-body);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(12px);
-    color: white;
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius-full);
+    background: var(--white);
+    color: var(--text-main);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
     outline: none;
     transition: all 0.35s ease;
 }
 
 #globalSearch::placeholder {
-    color: rgba(255, 255, 255, 0.45);
+    color: var(--gray-500);
 }
 
 #globalSearch:focus {
-    border-color: var(--nau-gold);
-    background: rgba(255, 255, 255, 0.16);
-    box-shadow: 0 0 0 3px var(--gold-glow), 0 8px 30px rgba(0, 0, 0, 0.18);
+    border-color: var(--nau-blue);
+    background: var(--white);
+    box-shadow: 0 0 0 3px rgba(0, 36, 84, 0.1), 0 8px 30px rgba(0, 0, 0, 0.08);
 }
 
 .global-search-meta {
@@ -9806,7 +9807,7 @@ ul {
 
 .search-count {
     font-size: 0.78rem;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--gray-600);
     font-weight: 600;
     white-space: nowrap;
     transition: opacity 0.3s;
@@ -9820,15 +9821,15 @@ ul {
     height: 30px;
     border-radius: 50%;
     border: none;
-    background: rgba(255, 255, 255, 0.18);
-    color: white;
+    background: var(--gray-200);
+    color: var(--gray-700);
     font-size: 0.8rem;
     cursor: pointer;
     transition: all 0.25s;
 }
 
 .search-clear-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: var(--gray-300);
 }
 
 .search-clear-btn.visible {
@@ -9952,6 +9953,8 @@ ul {
     display: flex;
     align-items: center;
     gap: 10px;
+    margin-top: 24px;
+    margin-bottom: 24px;
     animation: fadeSlideUp 0.5s 0.1s both;
 }
 
@@ -10092,8 +10095,17 @@ ul {
 
 .rates-table {
     width: 100%;
+    table-layout: fixed;
     min-width: 760px;
     border-collapse: collapse;
+}
+
+.rates-table th:nth-child(1) {
+    width: 40%;
+}
+
+.rates-table th:not(:first-child) {
+    width: 20%;
 }
 
 .rates-table th,
@@ -10199,6 +10211,62 @@ ul {
 .global-no-results.visible {
     display: block;
 }
+
+/* Category specific header colors */
+#mechatronics .category-head {
+    background: linear-gradient(90deg, var(--nau-blue) 0%, #003a85 100%);
+    color: var(--white);
+}
+
+#mechatronics .category-head i.cat-icon {
+    color: var(--white);
+}
+
+#electrical .category-head {
+    background: linear-gradient(90deg, var(--nau-gold) 0%, #fdd054 100%);
+    color: var(--nau-blue);
+}
+
+#electrical .category-head i.cat-icon {
+    color: var(--nau-blue);
+}
+
+#fabrication .category-head {
+    background: linear-gradient(90deg, var(--nau-green) 0%, #009940 100%);
+    color: var(--white);
+}
+
+#fabrication .category-head i.cat-icon {
+    color: var(--white);
+}
+
+#metrology .category-head {
+    background: linear-gradient(90deg, var(--nau-red) 0%, #d50000 100%);
+    color: var(--white);
+}
+
+#metrology .category-head i.cat-icon {
+    color: var(--white);
+}
+
+#sample-prep .category-head {
+    background: linear-gradient(90deg, var(--nau-blue-light) 0%, #0050b3 100%);
+    color: var(--white);
+}
+
+#sample-prep .category-head i.cat-icon {
+    color: var(--white);
+}
+
+#support-systems .category-head {
+    background: linear-gradient(90deg, var(--gray-800) 0%, var(--gray-600) 100%);
+    color: var(--white);
+}
+
+#support-systems .category-head i.cat-icon {
+    color: var(--white);
+}
+
 
 .global-no-results i {
     font-size: 3rem;
