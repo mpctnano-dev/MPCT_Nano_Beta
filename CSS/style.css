@@ -10302,6 +10302,8 @@ END DEPRECATED */
     overflow: hidden;
     box-shadow: 0 4px 24px rgba(0, 36, 84, 0.06);
     transition: transform 0.35s ease, box-shadow 0.35s ease;
+    display: flex;
+    flex-direction: column;
 }
 
 .s-card:hover {
@@ -10332,6 +10334,7 @@ END DEPRECATED */
     display: flex;
     flex-direction: column;
     gap: 10px;
+    flex: 1;
 }
 
 .s-card__eyebrow {
