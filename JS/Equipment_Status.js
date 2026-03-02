@@ -122,14 +122,12 @@
         const wrapper = document.querySelector('.status-indicator-wrapper');
         const dot = document.querySelector('.status-indicator-wrapper .status-dot');
         if (wrapper && dot) {
-            if (equipment.status === STATUS.EXPECTED) {
-                wrapper.style.display = 'none';
-            } else {
-                wrapper.style.display = '';
-                updateDotStatus(dot, statusClass);
-                if (!dot.classList.contains('pulse')) {
-                    dot.classList.add('pulse');
-                }
+            // About pages should show one status indicator only (status tag text),
+            // so hide the standalone dot wrapper to avoid duplicate "Available" UI.
+            wrapper.style.display = 'none';
+            updateDotStatus(dot, statusClass);
+            if (!dot.classList.contains('pulse')) {
+                dot.classList.add('pulse');
             }
         }
 
@@ -144,6 +142,28 @@
             tag.classList.remove('available', 'unavailable', 'expected');
             tag.classList.add(statusClass);
             tag.textContent = label;
+        }
+
+        const reserveBtn = document.querySelector('.hero-cta .btn.btn-primary');
+        if (reserveBtn) {
+            if (!reserveBtn.dataset.availableLabel) {
+                reserveBtn.dataset.availableLabel = reserveBtn.innerHTML.trim();
+            }
+
+            const contactHref = '../Contact_Us.html?category=equipment';
+            if (equipment.status === STATUS.AVAILABLE) {
+                reserveBtn.classList.remove('disabled');
+                reserveBtn.removeAttribute('aria-disabled');
+                reserveBtn.removeAttribute('tabindex');
+                reserveBtn.setAttribute('href', contactHref);
+                reserveBtn.innerHTML = reserveBtn.dataset.availableLabel;
+            } else {
+                reserveBtn.classList.add('disabled');
+                reserveBtn.setAttribute('aria-disabled', 'true');
+                reserveBtn.setAttribute('tabindex', '-1');
+                reserveBtn.setAttribute('href', '#');
+                reserveBtn.innerHTML = '<i class="fas fa-ban" style="margin-right: 8px;"></i> Currently Unavailable';
+            }
         }
 
         const subtitle = document.querySelector('.hero-subtitle');
