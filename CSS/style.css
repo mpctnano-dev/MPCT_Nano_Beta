@@ -10291,6 +10291,8 @@ END DEPRECATED */
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 24px;
+    max-width: 1020px;
+    margin: 0 auto;
 }
 
 .s-card {
