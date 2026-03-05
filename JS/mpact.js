@@ -18,6 +18,21 @@
     els.forEach(el => io.observe(el));
 })();
 
+/* Copy acknowledgement — event-delegated */
+document.addEventListener('click', function (e) {
+    const btn = e.target.closest('.btn-copy[data-copy-target]');
+    if (!btn) return;
+    const targetId = btn.getAttribute('data-copy-target');
+    const el = document.getElementById(targetId);
+    if (!el) return;
+    navigator.clipboard.writeText(el.innerText).then(function () {
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        setTimeout(function () {
+            btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+        }, 2000);
+    });
+});
+
 /* Sticky divider animation */
 (function () {
     const divider = document.querySelector('.hero-divider');
