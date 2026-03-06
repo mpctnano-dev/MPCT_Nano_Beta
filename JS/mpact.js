@@ -55,3 +55,81 @@ document.addEventListener('click', function (e) {
     window.addEventListener('scroll', updateDivider, { passive: true });
     updateDivider();
 })();
+
+/* Facility Buildout — GSAP ScrollTrigger pinned scroll-through */
+(function () {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+    var section = document.querySelector('.ml-buildout');
+    if (!section) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    var cards = section.querySelectorAll('.ml-buildout__card');
+    var dots = section.querySelectorAll('.ml-buildout__dot');
+    var phaseNum = document.getElementById('bo-number');
+    var progressFill = document.getElementById('bo-progress');
+    var blueprint = section.querySelector('.ml-buildout__blueprint');
+    var nums = ['01', '02', '03', '04'];
+    var total = cards.length;
+    var currentPhase = 0;
+
+    function setPhase(index) {
+        if (index === currentPhase) return;
+        currentPhase = index;
+
+        cards.forEach(function (card, i) {
+            if (i === index) {
+                card.classList.add('is-active');
+            } else {
+                card.classList.remove('is-active');
+            }
+        });
+
+        dots.forEach(function (dot, i) {
+            dot.classList.toggle('is-active', i <= index);
+        });
+
+        phaseNum.textContent = nums[index];
+    }
+
+    /* Pin the section and scrub through phases on scroll */
+    ScrollTrigger.create({
+        trigger: section,
+        start: 'top top',
+        /* Scroll distance = 4 viewports (one per phase) */
+        end: '+=' + (window.innerHeight * total),
+        pin: '.ml-buildout__pin',
+        pinSpacing: true,
+        onUpdate: function (self) {
+            var progress = self.progress;
+            var idx = Math.min(Math.floor(progress * total), total - 1);
+            setPhase(idx);
+            progressFill.style.width = (progress * 100) + '%';
+        }
+    });
+
+    /* Blueprint parallax zoom while scrolling through */
+    gsap.to(blueprint, {
+        scale: 1.25,
+        ease: 'none',
+        scrollTrigger: {
+            trigger: section,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true
+        }
+    });
+
+    /* Dot clicks scroll to respective phase */
+    dots.forEach(function (dot) {
+        dot.addEventListener('click', function () {
+            var idx = parseInt(dot.dataset.index, 10);
+            var trigger = ScrollTrigger.getAll().find(function (t) {
+                return t.trigger === section;
+            });
+            if (!trigger) return;
+            var targetScroll = trigger.start + (trigger.end - trigger.start) * (idx / total) + 1;
+            window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+        });
+    });
+})();

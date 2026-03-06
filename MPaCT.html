@@ -16,9 +16,10 @@
         rel="stylesheet">
 
     <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<body>
+<body class="mpact-page">
 
     <site-header></site-header>
 
@@ -189,6 +190,228 @@
             </div>
         </section>
 
+        <!-- Shared-use facility -->
+        <section class="about-shared-section">
+            <div class="container">
+                <div class="about-shared-grid ml-reveal">
+                    <div class="about-shared-text">
+                        <span class="section-eyebrow">Shared-Use Facility</span>
+                        <h2 class="section-title">Open Access. <span class="text-gold">World-Class Tools.</span></h2>
+                        <p class="about-shared-desc">
+                            The Microelectronics Processing and Characterization Testing Lab (MPaCT) is Northern
+                            Arizona University's centralized research facility for semiconductor and materials
+                            science work. Funded through a combination of state appropriations, federal grants, and
+                            industry partnerships, the lab houses over 25 instruments across a 1,500 sq ft
+                            Class 1000 cleanroom and adjacent characterization suites.
+                        </p>
+                        <p class="about-shared-desc">
+                            As a shared-use facility, the MPaCT Lab is not restricted to any single department or
+                            college. NAU students, faculty from any discipline, visiting researchers, and private-sector
+                            engineers all use the same equipment under the same roof. Staff handle instrument
+                            maintenance, calibration, and user training so researchers can focus on their work.
+                        </p>
+                        <div class="shared-highlights">
+                            <div class="shared-highlight-item">
+                                <div class="shared-highlight-icon blue">
+                                    <i class="fas fa-door-open"></i>
+                                </div>
+                                <div>
+                                    <h4>Open to All Researchers</h4>
+                                    <p>No departmental restrictions. NAU affiliates and external users gain access
+                                        after completing safety orientation.</p>
+                                </div>
+                            </div>
+                            <div class="shared-highlight-item">
+                                <div class="shared-highlight-icon gold">
+                                    <i class="fas fa-hands-helping"></i>
+                                </div>
+                                <div>
+                                    <h4>Staff-Supported Operations</h4>
+                                    <p>Full-time technicians provide training, run samples on request, and assist
+                                        with data collection and interpretation.</p>
+                                </div>
+                            </div>
+                            <div class="shared-highlight-item">
+                                <div class="shared-highlight-icon green">
+                                    <i class="fas fa-tools"></i>
+                                </div>
+                                <div>
+                                    <h4>Maintained & Calibrated</h4>
+                                    <p>All instruments are on active service contracts. Calibration records and
+                                        consumables are managed by lab staff.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="about-shared-image-col">
+                        <div class="about-shared-image-stack">
+                            <div class="about-shared-image-frame primary-frame">
+                                <img src="Images/microscopy_lab.jpg" alt="Students in the MPaCT cleanroom"
+                                    class="about-shared-img">
+                            </div>
+                            <div class="about-shared-image-frame secondary-frame">
+                                <img src="Images/students_lab.jpg" alt="Equipment training session"
+                                    class="about-shared-img">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- What the lab does -->
+        <section class="about-mission-section">
+            <div class="container">
+                <div class="about-content-grid ml-reveal">
+                    <div class="about-content-left">
+                        <div class="about-image-frame">
+                            <img src="Images/nano_fabrication.jpg" alt="Nano-Device Fabrication" class="about-image-v2">
+                            <div class="image-badge">
+                                <i class="fas fa-microscope"></i>
+                                <span>Advanced Capabilities</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="about-content-right">
+                        <h2 class="section-title">What the Lab Does</h2>
+                        <p class="about-mission">
+                            The MPaCT Lab supports research and instruction across electrical engineering, mechanical
+                            engineering, computer engineering, physics, and materials science. The facility handles
+                            everything from undergraduate coursework to federally funded research programs.
+                        </p>
+                        <p class="about-mission">
+                            Researchers use the lab to deposit and pattern thin films, characterize material
+                            properties at the nanoscale, fabricate prototype devices, and perform failure analysis.
+                            The lab also serves as the training ground for NAU's semiconductor workforce programs.
+                        </p>
+
+                        <h3 class="capabilities-title">Core Capabilities</h3>
+                        <div class="capabilities-grid">
+                            <div class="capability-card">
+                                <div class="capability-icon blue">
+                                    <i class="fas fa-microscope"></i>
+                                </div>
+                                <div class="capability-info">
+                                    <h4>Metrology</h4>
+                                    <p>AFM, SEM, Optical Profiling</p>
+                                </div>
+                            </div>
+                            <div class="capability-card">
+                                <div class="capability-icon gold">
+                                    <i class="fas fa-layer-group"></i>
+                                </div>
+                                <div class="capability-info">
+                                    <h4>Lithography</h4>
+                                    <p>Mask Aligner, Spin Coating</p>
+                                </div>
+                            </div>
+                            <div class="capability-card">
+                                <div class="capability-icon green">
+                                    <i class="fas fa-atom"></i>
+                                </div>
+                                <div class="capability-info">
+                                    <h4>Deposition</h4>
+                                    <p>Sputtering, Evaporation, ALD</p>
+                                </div>
+                            </div>
+                            <div class="capability-card">
+                                <div class="capability-icon purple">
+                                    <i class="fas fa-bolt"></i>
+                                </div>
+                                <div class="capability-info">
+                                    <h4>Characterization</h4>
+                                    <p>Electrical, Thermal, Optical</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Facility Buildout — GSAP ScrollTrigger pinned scroll-through -->
+        <section class="ml-buildout" id="facility-buildout">
+
+            <!-- Blueprint as ambient background texture -->
+            <div class="ml-buildout__bg">
+                <img src="Images/Blueprint.jpg" alt="" class="ml-buildout__blueprint" aria-hidden="true">
+                <div class="ml-buildout__overlay"></div>
+                <div class="ml-buildout__scanline"></div>
+            </div>
+
+            <!-- Pinned viewport -->
+            <div class="ml-buildout__pin">
+                <div class="container">
+
+                    <div class="ml-buildout__header">
+                        <div class="ml-eyebrow ml-eyebrow--light">Facility Buildout</div>
+                        <h2 class="ml-buildout__title">Building the <em>Future</em></h2>
+                    </div>
+
+                    <div class="ml-buildout__stage">
+                        <!-- Large phase number — visual anchor -->
+                        <div class="ml-buildout__number-wrap">
+                            <div class="ml-buildout__number" id="bo-number">01</div>
+                            <div class="ml-buildout__number-label">Phase</div>
+                        </div>
+
+                        <!-- Phase cards — stacked, one visible at a time -->
+                        <div class="ml-buildout__cards">
+                            <div class="ml-buildout__card is-active" data-phase="0">
+                                <span class="ml-buildout__tag ml-buildout__tag--blue">Planning</span>
+                                <h3>Design &amp; Engineering</h3>
+                                <p>Architectural and HVAC layout finalized to meet ISO 6 (Class 1000)
+                                    strict particulate standards. Specialized air handling, chemical
+                                    exhaust, and HEPA filtration systems engineered for cleanroom-grade
+                                    semiconductor research operations.</p>
+                            </div>
+                            <div class="ml-buildout__card" data-phase="1">
+                                <span class="ml-buildout__tag ml-buildout__tag--gold">Construction</span>
+                                <h3>Infrastructure Installation</h3>
+                                <p>High-purity gas lines, HEPA filtration ceilings, raised flooring,
+                                    and acid/base neutralization systems installed across 1,500 sq ft.
+                                    Every surface, seal, and duct built to maintain Class 1000
+                                    particulate control under continuous operation.</p>
+                            </div>
+                            <div class="ml-buildout__card" data-phase="2">
+                                <span class="ml-buildout__tag ml-buildout__tag--cyan">Integration</span>
+                                <h3>Equipment Calibration</h3>
+                                <p>Delivery and precision calibration of 25+ instruments &mdash; electron
+                                    microscopes, sputter deposition systems, photolithography aligners,
+                                    probe stations, and X-ray diffractometers. Each tool commissioned
+                                    to manufacturer specifications.</p>
+                            </div>
+                            <div class="ml-buildout__card" data-phase="3">
+                                <span class="ml-buildout__tag ml-buildout__tag--green">Operational</span>
+                                <h3>Full Operations</h3>
+                                <p>Facility active 24/7 supporting 5+ university departments, industry
+                                    partners including TSMC, Intel, and Microchip Technology, and
+                                    comprehensive workforce development training programs across
+                                    Northern Arizona.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Progress bar + phase dots -->
+                    <div class="ml-buildout__progress-row">
+                        <div class="ml-buildout__dots">
+                            <button class="ml-buildout__dot is-active" data-index="0" aria-label="Phase 1"></button>
+                            <button class="ml-buildout__dot" data-index="1" aria-label="Phase 2"></button>
+                            <button class="ml-buildout__dot" data-index="2" aria-label="Phase 3"></button>
+                            <button class="ml-buildout__dot" data-index="3" aria-label="Phase 4"></button>
+                        </div>
+                        <div class="ml-buildout__bar">
+                            <div class="ml-buildout__bar-fill" id="bo-progress"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
 
         <!-- How to access -->
         <section class="ml-access">
@@ -197,7 +420,7 @@
                 <div class="ml-access__header ml-reveal">
                     <div class="ml-eyebrow ml-eyebrow--light">Getting Started</div>
                     <h2 class="ml-access__title">How to <em>Access the Lab</em></h2>
-                    <p class="ml-access__sub" style="max-width:460px;margin:0 auto;">
+                    <p class="ml-access__sub">
                         Four clear steps to begin your research at the MPaCT facility.
                     </p>
                 </div>
@@ -230,10 +453,10 @@
                 </div>
 
                 <div class="ml-access__cta ml-reveal">
-                    <a href="Contact_Us.html?category=equipment" class="btn btn-primary"
-                        style="margin-right:14px;">Request Access Now</a>
-                    <a href="Safety_Training.html" class="btn btn-outline"
-                        style="border-color:rgba(255,255,255,0.3);color:#fff;">View Safety Requirements</a>
+                    <a href="Contact_Us.html?category=equipment" class="btn btn-primary ml-access__btn">Request Access
+                        Now</a>
+                    <a href="Safety_Training.html" class="btn btn-outline ml-access__btn-outline">View Safety
+                        Requirements</a>
                 </div>
 
             </div>
@@ -263,7 +486,7 @@
                 <div class="ml-research__header ml-reveal">
                     <div class="ml-eyebrow ml-eyebrow--light">Active Research</div>
                     <h2 class="ml-research__title">Areas of <em>Scientific Focus</em></h2>
-                    <p class="ml-section-sub" style="color:rgba(255,255,255,0.48);max-width:500px;margin:0 auto;">
+                    <p class="ml-section-sub ml-research__sub">
                         MPaCT enables research across a broad spectrum of materials science
                         and semiconductor engineering domains.
                     </p>
@@ -336,139 +559,6 @@
         </section>
 
 
-        <!-- Lab navigator -->
-        <section class="ml-nav">
-            <div class="container">
-
-                <div class="ml-nav__header ml-reveal">
-                    <div class="ml-eyebrow">Navigate</div>
-                    <h2 class="ml-section-title" style="color:var(--nau-blue);">Explore the MPaCT Lab</h2>
-                    <p class="ml-section-sub">
-                        Each section covers a key aspect of lab operations.
-                        Live sections are open now — others launching soon.
-                    </p>
-                </div>
-
-                <div class="ml-nav__grid">
-
-                    <!-- Current page card -->
-                    <div class="ml-nav-card ml-nav-card--here ml-reveal">
-                        <div class="ml-nav-card__icon">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                            </svg>
-                        </div>
-                        <div class="ml-nav-card__title">
-                            Lab Overview
-                            <span class="ml-nav-card__badge"
-                                style="background:rgba(250,192,26,0.2);color:var(--nau-gold);">You Are Here</span>
-                        </div>
-                        <p class="ml-nav-card__desc">Mission, facility overview, capability zones, and key stats
-                            about the MPaCT Lab.</p>
-                    </div>
-
-                    <!-- Equipment -->
-                    <a href="Equipment.html" class="ml-nav-card ml-reveal ml-d1">
-                        <div class="ml-nav-card__icon">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path
-                                    d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z">
-                                </path>
-                            </svg>
-                        </div>
-                        <div class="ml-nav-card__title">
-                            Equipment Catalog
-                            <span class="ml-nav-card__badge"
-                                style="background:rgba(0,122,51,0.1);color:#007a33;">Live</span>
-                        </div>
-                        <p class="ml-nav-card__desc">Browse all 25&plus; instruments — specs, availability,
-                            and booking details.</p>
-                    </a>
-
-                    <!-- Research -->
-                    <a href="Research_Publications.html" class="ml-nav-card ml-reveal ml-d2">
-                        <div class="ml-nav-card__icon">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-                            </svg>
-                        </div>
-                        <div class="ml-nav-card__title">
-                            Research &amp; Publications
-                            <span class="ml-nav-card__badge"
-                                style="background:rgba(250,192,26,0.1);color:#7a5e00;">Coming Soon</span>
-                        </div>
-                        <p class="ml-nav-card__desc">Lab publications, technical reports, and research spotlights
-                            from MPaCT users.</p>
-                    </a>
-
-                    <!-- Safety -->
-                    <a href="Safety_Training.html" class="ml-nav-card ml-reveal">
-                        <div class="ml-nav-card__icon">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                                <polyline points="9 12 11 14 15 10"></polyline>
-                            </svg>
-                        </div>
-                        <div class="ml-nav-card__title">
-                            Safety &amp; Training
-                            <span class="ml-nav-card__badge"
-                                style="background:rgba(250,192,26,0.1);color:#7a5e00;">Coming Soon</span>
-                        </div>
-                        <p class="ml-nav-card__desc">Required safety certifications, SOPs, and
-                            instrument-specific training modules.</p>
-                    </a>
-
-                    <!-- Calendar -->
-                    <a href="Lab_Calendar.html" class="ml-nav-card ml-reveal ml-d1">
-                        <div class="ml-nav-card__icon">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                                <line x1="16" y1="2" x2="16" y2="6"></line>
-                                <line x1="8" y1="2" x2="8" y2="6"></line>
-                                <line x1="3" y1="10" x2="21" y2="10"></line>
-                            </svg>
-                        </div>
-                        <div class="ml-nav-card__title">
-                            Lab Calendar
-                            <span class="ml-nav-card__badge"
-                                style="background:rgba(250,192,26,0.1);color:#7a5e00;">Coming Soon</span>
-                        </div>
-                        <p class="ml-nav-card__desc">Facility schedule, training sessions, and open-house events
-                            for prospective users.</p>
-                    </a>
-
-                    <!-- Cleanroom -->
-                    <div class="ml-nav-card ml-nav-card--disabled ml-reveal ml-d2">
-                        <div class="ml-nav-card__icon">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="3" width="7" height="7"></rect>
-                                <rect x="14" y="3" width="7" height="7"></rect>
-                                <rect x="14" y="14" width="7" height="7"></rect>
-                                <rect x="3" y="14" width="7" height="7"></rect>
-                            </svg>
-                        </div>
-                        <div class="ml-nav-card__title">
-                            Cleanroom Portal
-                            <span class="ml-nav-card__badge"
-                                style="background:rgba(108,117,125,0.1);color:var(--gray-500);">Planned</span>
-                        </div>
-                        <p class="ml-nav-card__desc">Class 1000 scheduling, protocols, gowning procedures,
-                            and access management.</p>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-
         <!-- Final CTA -->
         <section class="ml-cta">
             <div class="container">
@@ -491,7 +581,9 @@
     </main>
 
     <site-footer></site-footer>
-
+    <!-- GSAP 3 + ScrollTrigger — scroll-driven animations for buildout section -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="JS/layout.js"></script>
     <script src="JS/script.js"></script>
     <script src="JS/mpact.js"></script>
