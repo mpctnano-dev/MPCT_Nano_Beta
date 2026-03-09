@@ -148,7 +148,7 @@
 
                 <!-- Center brand -->
                 <div class="hd-brand">
-                    <span class="hd-i">i</span>
+                    <!-- brand only -->
                     <div class="hd-mpact-mask"></div>
                     <div class="hd-pulse hd-pulse--ltr"></div>
                     <div class="hd-pulse hd-pulse--rtl"></div>
@@ -213,7 +213,7 @@
                         <div class="shared-highlights">
                             <div class="shared-highlight-item">
                                 <div class="shared-highlight-icon blue">
-                                    <i class="fas fa-door-open"></i>
+                                    <i class="fas fa-users"></i>
                                 </div>
                                 <div>
                                     <h4>Open to All Researchers</h4>
@@ -332,83 +332,94 @@
         </section>
 
 
-        <!-- Facility Buildout — GSAP ScrollTrigger pinned scroll-through -->
+        <!-- Facility Buildout -->
         <section class="ml-buildout" id="facility-buildout">
+            <div class="container">
 
-            <!-- Blueprint as ambient background texture -->
-            <div class="ml-buildout__bg">
-                <img src="Images/Blueprint.jpg" alt="" class="ml-buildout__blueprint" aria-hidden="true">
-                <div class="ml-buildout__overlay"></div>
-                <div class="ml-buildout__scanline"></div>
-            </div>
+                <div class="ml-buildout__header ml-reveal">
+                    <div class="ml-eyebrow ml-eyebrow--light">Facility Buildout</div>
+                    <h2 class="ml-buildout__title">Building the <em>Future</em></h2>
+                    <p class="ml-buildout__subtitle">From blueprint to breakthrough &mdash; how the
+                        MPaCT Lab came to life.</p>
+                </div>
 
-            <!-- Pinned viewport -->
-            <div class="ml-buildout__pin">
-                <div class="container">
-
-                    <div class="ml-buildout__header">
-                        <div class="ml-eyebrow ml-eyebrow--light">Facility Buildout</div>
-                        <h2 class="ml-buildout__title">Building the <em>Future</em></h2>
+                <!-- Blueprint showcase -->
+                <div class="ml-buildout__showcase ml-reveal">
+                    <div class="ml-buildout__blueprint-frame">
+                        <img src="Images/Blueprint.jpg" alt="MPaCT Lab cleanroom blueprint"
+                            class="ml-buildout__blueprint">
+                        <div class="ml-buildout__blueprint-overlay"></div>
+                        <div class="ml-buildout__blueprint-corner ml-buildout__blueprint-corner--tl"></div>
+                        <div class="ml-buildout__blueprint-corner ml-buildout__blueprint-corner--tr"></div>
+                        <div class="ml-buildout__blueprint-corner ml-buildout__blueprint-corner--bl"></div>
+                        <div class="ml-buildout__blueprint-corner ml-buildout__blueprint-corner--br"></div>
+                        <div class="ml-buildout__blueprint-tag ml-buildout__blueprint-tag--tl">
+                            Cleanroom Layout</div>
+                        <div class="ml-buildout__blueprint-tag ml-buildout__blueprint-tag--br">ISO 6
+                            &bull; Class 1000</div>
                     </div>
+                </div>
 
-                    <div class="ml-buildout__stage">
-                        <!-- Large phase number — visual anchor -->
-                        <div class="ml-buildout__number-wrap">
-                            <div class="ml-buildout__number" id="bo-number">01</div>
-                            <div class="ml-buildout__number-label">Phase</div>
-                        </div>
+                <!-- Horizontal timeline track -->
+                <div class="ml-buildout__timeline ml-reveal">
+                    <div class="ml-buildout__track">
+                        <div class="ml-buildout__track-line"></div>
+                        <div class="ml-buildout__track-glow"></div>
 
-                        <!-- Phase cards — stacked, one visible at a time -->
-                        <div class="ml-buildout__cards">
-                            <div class="ml-buildout__card is-active" data-phase="0">
-                                <span class="ml-buildout__tag ml-buildout__tag--blue">Planning</span>
+                        <div class="ml-buildout__phase">
+                            <div class="ml-buildout__phase-dot ml-buildout__phase-dot--blue">
+                                <i class="fas fa-drafting-compass"></i>
+                            </div>
+                            <div class="ml-buildout__phase-card">
+                                <span class="ml-buildout__tag ml-buildout__tag--blue">Phase 1</span>
                                 <h3>Design &amp; Engineering</h3>
                                 <p>Architectural and HVAC layout finalized to meet ISO 6 (Class 1000)
-                                    strict particulate standards. Specialized air handling, chemical
-                                    exhaust, and HEPA filtration systems engineered for cleanroom-grade
-                                    semiconductor research operations.</p>
+                                    particulate standards. HEPA filtration and chemical exhaust
+                                    engineered for cleanroom-grade operations.</p>
                             </div>
-                            <div class="ml-buildout__card" data-phase="1">
-                                <span class="ml-buildout__tag ml-buildout__tag--gold">Construction</span>
-                                <h3>Infrastructure Installation</h3>
-                                <p>High-purity gas lines, HEPA filtration ceilings, raised flooring,
-                                    and acid/base neutralization systems installed across 1,500 sq ft.
-                                    Every surface, seal, and duct built to maintain Class 1000
-                                    particulate control under continuous operation.</p>
+                        </div>
+
+                        <div class="ml-buildout__phase">
+                            <div class="ml-buildout__phase-dot ml-buildout__phase-dot--gold">
+                                <i class="fas fa-hard-hat"></i>
                             </div>
-                            <div class="ml-buildout__card" data-phase="2">
-                                <span class="ml-buildout__tag ml-buildout__tag--cyan">Integration</span>
-                                <h3>Equipment Calibration</h3>
-                                <p>Delivery and precision calibration of 25+ instruments &mdash; electron
-                                    microscopes, sputter deposition systems, photolithography aligners,
-                                    probe stations, and X-ray diffractometers. Each tool commissioned
-                                    to manufacturer specifications.</p>
+                            <div class="ml-buildout__phase-card">
+                                <span class="ml-buildout__tag ml-buildout__tag--gold">Phase 2</span>
+                                <h3>Infrastructure</h3>
+                                <p>High-purity gas lines, HEPA ceilings, raised flooring, and
+                                    acid/base neutralization installed across 1,500 sq ft to maintain
+                                    Class 1000 particulate control.</p>
                             </div>
-                            <div class="ml-buildout__card" data-phase="3">
-                                <span class="ml-buildout__tag ml-buildout__tag--green">Operational</span>
+                        </div>
+
+                        <div class="ml-buildout__phase">
+                            <div class="ml-buildout__phase-dot ml-buildout__phase-dot--cyan">
+                                <i class="fas fa-cogs"></i>
+                            </div>
+                            <div class="ml-buildout__phase-card">
+                                <span class="ml-buildout__tag ml-buildout__tag--cyan">Phase 3</span>
+                                <h3>Calibration</h3>
+                                <p>Delivery and precision calibration of 25+ instruments &mdash;
+                                    electron microscopes, sputter systems, lithography aligners, and
+                                    X-ray diffractometers.</p>
+                            </div>
+                        </div>
+
+                        <div class="ml-buildout__phase">
+                            <div class="ml-buildout__phase-dot ml-buildout__phase-dot--green">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                            <div class="ml-buildout__phase-card">
+                                <span class="ml-buildout__tag ml-buildout__tag--green">Phase 4</span>
                                 <h3>Full Operations</h3>
-                                <p>Facility active 24/7 supporting 5+ university departments, industry
-                                    partners including TSMC, Intel, and Microchip Technology, and
-                                    comprehensive workforce development training programs across
-                                    Northern Arizona.</p>
+                                <p>Facility active 24/7 supporting 5+ departments, partners including
+                                    TSMC, Intel, and Microchip Technology, and workforce development
+                                    programs.</p>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Progress bar + phase dots -->
-                    <div class="ml-buildout__progress-row">
-                        <div class="ml-buildout__dots">
-                            <button class="ml-buildout__dot is-active" data-index="0" aria-label="Phase 1"></button>
-                            <button class="ml-buildout__dot" data-index="1" aria-label="Phase 2"></button>
-                            <button class="ml-buildout__dot" data-index="2" aria-label="Phase 3"></button>
-                            <button class="ml-buildout__dot" data-index="3" aria-label="Phase 4"></button>
-                        </div>
-                        <div class="ml-buildout__bar">
-                            <div class="ml-buildout__bar-fill" id="bo-progress"></div>
-                        </div>
-                    </div>
-
                 </div>
+
             </div>
         </section>
 
@@ -418,7 +429,7 @@
             <div class="container">
 
                 <div class="ml-access__header ml-reveal">
-                    <div class="ml-eyebrow ml-eyebrow--light">Getting Started</div>
+                    <div class="ml-eyebrow">Getting Started</div>
                     <h2 class="ml-access__title">How to <em>Access the Lab</em></h2>
                     <p class="ml-access__sub">
                         Four clear steps to begin your research at the MPaCT facility.
@@ -581,9 +592,6 @@
     </main>
 
     <site-footer></site-footer>
-    <!-- GSAP 3 + ScrollTrigger — scroll-driven animations for buildout section -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="JS/layout.js"></script>
     <script src="JS/script.js"></script>
     <script src="JS/mpact.js"></script>

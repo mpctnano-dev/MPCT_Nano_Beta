@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Process Technician Apprenticeship Program (PTAP) at NAU — a 2-year state-registered apprenticeship with TSMC Arizona. 600 hours coursework, 4,000 hours on-the-job training, and direct career pathways.">
+    <meta name="theme-color" content="#002454">
+    <title>PTAP Apprenticeship | Process Technician Apprenticeship Program — NAU Nano</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,400&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ================================================================
+           PTAP — PAGE-SPECIFIC STYLES
+           ================================================================ */
+
+        /* ── PARTNERSHIP STRIP ────────────────────────────────────────── */
+        .ptap-partners {
+            background: #ffffff;
+            border-bottom: 1px solid var(--gray-200);
+            padding: 36px 0;
+        }
+
+        .ptap-partners__inner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .ptap-partners__label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--gray-500);
+        }
+
+        .ptap-partners__logos {
+            display: flex;
+            align-items: center;
+            gap: 36px;
+            flex-wrap: wrap;
+        }
+
+        .ptap-partners__logo {
+            height: 30px;
+            opacity: 0.65;
+            transition: opacity 0.3s;
+        }
+
+        .ptap-partners__logo:hover {
+            opacity: 1;
+        }
+
+        /* ── PROGRAM OVERVIEW ─────────────────────────────────────────── */
+        .ptap-overview {
+            padding: 100px 0;
+            background: #f9f7f3;
+        }
+
+        .ptap-overview__grid {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .ptap-overview__eyebrow {
+            display: inline-block;
+            background: var(--nau-blue);
+            color: var(--nau-gold);
+            padding: 6px 16px;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 20px;
+        }
+
+        .ptap-overview__title {
+            font-size: clamp(2rem, 3.5vw, 2.8rem);
+            font-weight: 800;
+            color: var(--nau-blue);
+            margin-bottom: 24px;
+            line-height: 1.15;
+        }
+
+        .ptap-overview__title span {
+            color: var(--nau-gold);
+        }
+
+        .ptap-overview__desc {
+            font-size: 1.02rem;
+            color: var(--gray-700);
+            line-height: 1.75;
+            margin-bottom: 18px;
+        }
+
+        .ptap-overview__image-col {
+            position: relative;
+        }
+
+        .ptap-overview__image-frame {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 16px 48px rgba(0, 36, 84, 0.15);
+            border: 3px solid rgba(255, 255, 255, 0.9);
+        }
+
+        .ptap-overview__image-frame img {
+            width: 100%;
+            display: block;
+        }
+
+        .ptap-overview__badge {
+            position: absolute;
+            bottom: -18px;
+            right: 24px;
+            background: var(--nau-blue);
+            color: #fff;
+            padding: 12px 22px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            box-shadow: 0 8px 24px rgba(0, 36, 84, 0.25);
+        }
+
+        .ptap-overview__badge i {
+            color: var(--nau-gold);
+            font-size: 1rem;
+        }
+
+        @media (max-width: 992px) {
+            .ptap-overview__grid {
+                grid-template-columns: 1fr;
+                gap: 48px;
+            }
+
+            .ptap-overview__image-col {
+                order: -1;
+            }
+        }
+
+        /* ── BENTO GRID — Creative showcase layout ────────────────────── */
+        .ptap-bento {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--nau-blue) 0%, #001a3d 100%);
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ptap-bento::before {
+            content: '';
+            position: absolute;
+            top: -15%;
+            right: -8%;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(250, 192, 26, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .ptap-bento__header {
+            text-align: center;
+            margin-bottom: 56px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .ptap-bento__eyebrow {
+            display: inline-block;
+            background: rgba(250, 192, 26, 0.15);
+            color: var(--nau-gold);
+            padding: 6px 16px;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 20px;
+        }
+
+        .ptap-bento__title {
+            font-size: clamp(2rem, 3.5vw, 2.8rem);
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 14px;
+        }
+
+        .ptap-bento__title em {
+            color: var(--nau-gold);
+            font-style: normal;
+        }
+
+        .ptap-bento__sub {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.45);
+            max-width: 480px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* Bento grid layout */
+        .ptap-bento__grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-auto-rows: minmax(180px, auto);
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .ptap-bento__card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 20px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .ptap-bento__card:hover {
+            background: rgba(255, 255, 255, 0.065);
+            border-color: rgba(255, 255, 255, 0.12);
+            transform: translateY(-3px);
+        }
+
+        /* Card spanning — the bento magic */
+        .ptap-bento__card--wide {
+            grid-column: span 8;
+        }
+
+        .ptap-bento__card--narrow {
+            grid-column: span 4;
+        }
+
+        .ptap-bento__card--half {
+            grid-column: span 6;
+        }
+
+        .ptap-bento__card--third {
+            grid-column: span 4;
+        }
+
+        /* Card stat — large number */
+        .ptap-bento__stat {
+            font-family: var(--font-display);
+            font-size: clamp(2.8rem, 5vw, 4rem);
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -0.04em;
+            margin-bottom: 6px;
+        }
+
+        .ptap-bento__stat em {
+            font-style: normal;
+            font-size: 0.5em;
+            opacity: 0.6;
+            margin-left: 2px;
+        }
+
+        .ptap-bento__stat-label {
+            font-size: 0.78rem;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+        }
+
+        /* Card with accent — top color bar */
+        .ptap-bento__accent {
+            position: absolute;
+            top: 0;
+            left: 32px;
+            right: 32px;
+            height: 3px;
+            border-radius: 0 0 3px 3px;
+        }
+
+        .ptap-bento__accent--gold {
+            background: linear-gradient(90deg, var(--nau-gold), rgba(250, 192, 26, 0.3));
+        }
+
+        .ptap-bento__accent--blue {
+            background: linear-gradient(90deg, #60a5fa, rgba(96, 165, 250, 0.3));
+        }
+
+        .ptap-bento__accent--green {
+            background: linear-gradient(90deg, #2ecc71, rgba(46, 204, 113, 0.3));
+        }
+
+        .ptap-bento__accent--cyan {
+            background: linear-gradient(90deg, #22d3ee, rgba(34, 211, 238, 0.3));
+        }
+
+        /* Card icon */
+        .ptap-bento__icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .ptap-bento__icon--gold {
+            background: rgba(250, 192, 26, 0.1);
+            color: var(--nau-gold);
+        }
+
+        .ptap-bento__icon--blue {
+            background: rgba(96, 165, 250, 0.1);
+            color: #60a5fa;
+        }
+
+        .ptap-bento__icon--green {
+            background: rgba(46, 204, 113, 0.1);
+            color: #2ecc71;
+        }
+
+        .ptap-bento__icon--cyan {
+            background: rgba(34, 211, 238, 0.1);
+            color: #22d3ee;
+        }
+
+        .ptap-bento__card h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .ptap-bento__card p {
+            font-size: 0.88rem;
+            color: rgba(255, 255, 255, 0.45);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Large featured card — gold stat */
+        .ptap-bento__card--featured .ptap-bento__stat {
+            color: var(--nau-gold);
+        }
+
+        /* Watermark number in stat cards */
+        .ptap-bento__watermark {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            font-family: var(--font-display);
+            font-size: 7rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.02);
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        @media (max-width: 992px) {
+            .ptap-bento__grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .ptap-bento__card--wide,
+            .ptap-bento__card--narrow,
+            .ptap-bento__card--half,
+            .ptap-bento__card--third {
+                grid-column: span 1;
+            }
+
+            .ptap-bento__card--wide {
+                grid-column: span 2;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .ptap-bento__grid {
+                grid-template-columns: 1fr;
+            }
+
+            .ptap-bento__card--wide {
+                grid-column: span 1;
+            }
+        }
+
+        /* ── COURSEWORK ───────────────────────────────────────────────── */
+        .ptap-coursework {
+            padding: 100px 0;
+            background: #ffffff;
+        }
+
+        .ptap-coursework__grid {
+            display: grid;
+            grid-template-columns: 1fr 1.15fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .ptap-coursework__eyebrow {
+            display: inline-block;
+            background: var(--nau-blue);
+            color: var(--nau-gold);
+            padding: 6px 16px;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 20px;
+        }
+
+        .ptap-coursework__title {
+            font-size: clamp(2rem, 3.5vw, 2.8rem);
+            font-weight: 800;
+            color: var(--nau-blue);
+            margin-bottom: 16px;
+            line-height: 1.15;
+        }
+
+        .ptap-coursework__desc {
+            font-size: 1rem;
+            color: var(--gray-600);
+            line-height: 1.7;
+            margin-bottom: 36px;
+        }
+
+        .ptap-coursework__list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .ptap-coursework__item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 18px 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .ptap-coursework__item:first-child {
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .ptap-coursework__item-num {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: rgba(0, 36, 84, 0.06);
+            color: var(--nau-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.72rem;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .ptap-coursework__item-text {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--nau-blue);
+        }
+
+        .ptap-coursework__image-wrap {
+            position: relative;
+        }
+
+        .ptap-coursework__image-frame {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 16px 48px rgba(0, 36, 84, 0.12);
+        }
+
+        .ptap-coursework__image-frame img {
+            width: 100%;
+            display: block;
+        }
+
+        .ptap-coursework__note {
+            margin-top: 20px;
+            padding: 16px 20px;
+            background: #f5f3ef;
+            border-radius: 12px;
+            font-size: 0.82rem;
+            color: var(--gray-600);
+            line-height: 1.6;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .ptap-coursework__note i {
+            color: var(--nau-gold);
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 992px) {
+            .ptap-coursework__grid {
+                grid-template-columns: 1fr;
+                gap: 48px;
+            }
+        }
+
+        /* ── HOW IT WORKS ─────────────────────────────────────────────── */
+        .ptap-pathway {
+            padding: 96px 0;
+            background: #f9f7f3;
+        }
+
+        .ptap-pathway__header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .ptap-pathway__eyebrow {
+            display: inline-block;
+            background: var(--nau-blue);
+            color: var(--nau-gold);
+            padding: 6px 16px;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 20px;
+        }
+
+        .ptap-pathway__title {
+            font-size: clamp(2rem, 3.5vw, 2.8rem);
+            font-weight: 800;
+            color: var(--nau-blue);
+            line-height: 1.15;
+            margin-bottom: 14px;
+        }
+
+        .ptap-pathway__sub {
+            font-size: 1rem;
+            color: var(--gray-600);
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        .ptap-pathway__steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            position: relative;
+        }
+
+        .ptap-pathway__steps::before {
+            content: '';
+            position: absolute;
+            top: 36px;
+            left: calc(16.67% + 20px);
+            right: calc(16.67% + 20px);
+            height: 2px;
+            background: var(--gray-300);
+            z-index: 0;
+        }
+
+        .ptap-pathway__step {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .ptap-pathway__step-num {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--nau-blue);
+            color: var(--nau-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 800;
+            margin: 0 auto 24px;
+            box-shadow: 0 4px 16px rgba(0, 36, 84, 0.2);
+        }
+
+        .ptap-pathway__step h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--nau-blue);
+            margin-bottom: 10px;
+        }
+
+        .ptap-pathway__step p {
+            font-size: 0.88rem;
+            color: var(--gray-600);
+            line-height: 1.6;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .ptap-pathway__steps {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .ptap-pathway__steps::before {
+                display: none;
+            }
+        }
+
+        /* ── CTA ──────────────────────────────────────────────────────── */
+        .ptap-cta {
+            background: var(--nau-gold);
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ptap-cta::before {
+            content: 'PTAP';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 22vw;
+            color: rgba(0, 36, 84, 0.06);
+            white-space: nowrap;
+            pointer-events: none;
+            letter-spacing: -0.05em;
+        }
+
+        .ptap-cta__inner {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        .ptap-cta__eyebrow {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            color: var(--nau-blue);
+            opacity: 0.5;
+            margin-bottom: 16px;
+        }
+
+        .ptap-cta__title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 900;
+            color: var(--nau-blue);
+            letter-spacing: -0.03em;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .ptap-cta__desc {
+            font-size: 1.05rem;
+            color: var(--nau-blue);
+            opacity: 0.7;
+            line-height: 1.7;
+            margin-bottom: 36px;
+        }
+
+        .ptap-cta__actions {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .ptap-cta__actions .btn--cta-blue {
+            background: var(--nau-blue);
+            color: #fff;
+            padding: 14px 32px;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            font-size: 0.92rem;
+            text-decoration: none;
+            transition: all var(--trans-fast);
+            border: 2px solid var(--nau-blue);
+        }
+
+        .ptap-cta__actions .btn--cta-blue:hover {
+            background: var(--nau-blue-dark);
+            border-color: var(--nau-blue-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 36, 84, 0.3);
+        }
+
+        .ptap-cta__actions .btn--cta-outline {
+            background: transparent;
+            color: var(--nau-blue);
+            padding: 14px 32px;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            font-size: 0.92rem;
+            text-decoration: none;
+            transition: all var(--trans-fast);
+            border: 2px solid var(--nau-blue);
+        }
+
+        .ptap-cta__actions .btn--cta-outline:hover {
+            background: var(--nau-blue);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        /* ── REVEAL ANIMATION ─────────────────────────────────────────── */
+        .ptap-reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.65s cubic-bezier(0.25, 1, 0.5, 1),
+                transform 0.65s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .ptap-reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .ptap-d1 {
+            transition-delay: 0.08s;
+        }
+
+        .ptap-d2 {
+            transition-delay: 0.16s;
+        }
+
+        .ptap-d3 {
+            transition-delay: 0.24s;
+        }
+
+        .ptap-d4 {
+            transition-delay: 0.32s;
+        }
+
+        .ptap-d5 {
+            transition-delay: 0.40s;
+        }
+    </style>
+</head>
+
+<body>
+
+    <site-header></site-header>
+
+    <main>
+
+        <!-- ═══════════════════════════════════════════════════════════
+             §1  COMPACT HERO
+        ═══════════════════════════════════════════════════════════ -->
+        <section class="ml-hero ml-hero--compact">
+            <div class="ml-hero__bg">
+                <img src="Images/processing_lab.jpg"
+                    alt="Semiconductor processing and cleanroom training at Northern Arizona University">
+            </div>
+            <div class="ml-hero__overlay"></div>
+            <div class="ml-hero__noise"></div>
+
+            <div class="ml-hero__content">
+                <div class="container">
+                    <div class="ml-hero__split">
+
+                        <div>
+                            <div class="ml-hero__eyebrow">
+                                <span class="ml-hero__eyebrow-line"></span>
+                                NAU Nano &mdash; Workforce Development
+                            </div>
+                            <h1 class="ml-hero__title">
+                                <em>PTAP</em><br>Apprenticeship
+                            </h1>
+                            <p class="ml-hero__subtitle">
+                                The <strong>Process Technician Apprenticeship Program</strong> &mdash;
+                                a 2-year state-registered apprenticeship with TSMC Arizona, delivered by
+                                Northern Arizona University in partnership with Rio Salado College.
+                            </p>
+                            <div class="ml-hero__actions">
+                                <a href="Contact_Us.html?category=training" class="btn btn-primary">Get Started</a>
+                                <a href="WorkForceDevelopment.html" class="btn btn-outline">Workforce Home</a>
+                            </div>
+                        </div>
+
+                        <!-- Quick-info panel -->
+                        <div class="ml-hero__panel">
+                            <div class="ml-hero__panel-label">Program at a Glance</div>
+
+                            <div class="ml-service-highlight">
+                                <div class="ml-highlight__icon">
+                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none"
+                                        stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polyline points="12 6 12 12 16 14"></polyline>
+                                    </svg>
+                                </div>
+                                <div class="ml-highlight__text">
+                                    <span class="ml-highlight__title">2-Year Program</span>
+                                    <span class="ml-highlight__desc">600 hrs coursework + 4,000 hrs
+                                        on-the-job training</span>
+                                </div>
+                            </div>
+
+                            <div class="ml-service-highlight">
+                                <div class="ml-highlight__icon">
+                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none"
+                                        stroke="currentColor" stroke-width="2">
+                                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                        <polyline points="9 12 11 14 15 10"></polyline>
+                                    </svg>
+                                </div>
+                                <div class="ml-highlight__text">
+                                    <span class="ml-highlight__title">State Registered</span>
+                                    <span class="ml-highlight__desc">Official apprenticeship with TSMC
+                                        Arizona</span>
+                                </div>
+                            </div>
+
+                            <div class="ml-service-highlight">
+                                <div class="ml-highlight__icon">
+                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none"
+                                        stroke="currentColor" stroke-width="2">
+                                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                                        <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                                    </svg>
+                                </div>
+                                <div class="ml-highlight__text">
+                                    <span class="ml-highlight__title">Earn Credentials</span>
+                                    <span class="ml-highlight__desc">TSMC certs + Rio Salado certificate,
+                                        applicable to NAU degree</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════════
+             §2  PARTNERSHIP STRIP
+        ═══════════════════════════════════════════════════════════ -->
+        <div class="ptap-partners">
+            <div class="container">
+                <div class="ptap-partners__inner">
+                    <div class="ptap-partners__label">Offered in Partnership With</div>
+                    <div class="ptap-partners__logos">
+                        <img src="Images/TSMC.png" alt="TSMC" class="ptap-partners__logo">
+                        <img src="Images/intel.png" alt="Intel" class="ptap-partners__logo">
+                        <img src="Images/microchip.png" alt="Microchip Technology"
+                            class="ptap-partners__logo">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ═══════════════════════════════════════════════════════════
+             §3  PROGRAM OVERVIEW  (content from 76.jpeg)
+        ═══════════════════════════════════════════════════════════ -->
+        <section class="ptap-overview">
+            <div class="container">
+                <div class="ptap-overview__grid ptap-reveal">
+                    <div>
+                        <span class="ptap-overview__eyebrow">About the Program</span>
+                        <h2 class="ptap-overview__title">Building Arizona's <span>Semiconductor
+                                Workforce</span></h2>
+                        <p class="ptap-overview__desc">
+                            The PTAP is designed to strengthen Arizona's semiconductor talent pipeline.
+                            Supported by Taiwanese Semiconductor Manufacturing Company (TSMC Arizona) and
+                            the City of Phoenix, the educational component is delivered by Northern Arizona
+                            University in partnership with Rio Salado Community College.
+                        </p>
+                        <p class="ptap-overview__desc">
+                            Developed to address the critical demand for process technicians in the
+                            rapidly-expanding microelectronics sector, PTAP combines rigorous academic
+                            instruction with hands-on training. Over two years, apprentices complete
+                            approximately 600 hours of coursework at NAU's North Valley Campus, paired with
+                            4,000 hours of on-the-job training at TSMC Arizona's North Phoenix site.
+                        </p>
+                        <p class="ptap-overview__desc">
+                            NAU is proud to support this official state-registered apprenticeship program.
+                            PTAP demonstrates the collective commitment of higher education, industry, and
+                            local government to build a sustainable workforce for Arizona's semiconductor
+                            economy. The program not only develops skilled technicians aligned with real-time
+                            industry needs but also establishes a replicable model of collaboration that
+                            strengthens career pathways in semiconductor roles related to metrology,
+                            nanotechnology, and advanced manufacturing.
+                        </p>
+                    </div>
+
+                    <div class="ptap-overview__image-col">
+                        <div class="ptap-overview__image-frame">
+                            <img src="Images/students_lab.jpg"
+                                alt="Students training in NAU semiconductor laboratory">
+                        </div>
+                        <div class="ptap-overview__badge">
+                            <i class="fas fa-shield-alt"></i>
+                            State-Registered Apprenticeship
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════════
+             §4  BENTO GRID  (creative highlight cards — from 75.jpeg)
+        ═══════════════════════════════════════════════════════════ -->
+        <section class="ptap-bento">
+            <div class="container">
+                <div class="ptap-bento__header ptap-reveal">
+                    <span class="ptap-bento__eyebrow">Program Highlights</span>
+                    <h2 class="ptap-bento__title">Why <em>PTAP</em></h2>
+                    <p class="ptap-bento__sub">Classroom instruction meets real-world semiconductor
+                        manufacturing at one of the world's leading fabs.</p>
+                </div>
+
+                <div class="ptap-bento__grid">
+
+                    <!-- Row 1: wide + narrow -->
+                    <div class="ptap-bento__card ptap-bento__card--wide ptap-reveal">
+                        <div class="ptap-bento__accent ptap-bento__accent--gold"></div>
+                        <div class="ptap-bento__icon ptap-bento__icon--gold">
+                            <i class="fas fa-industry"></i>
+                        </div>
+                        <h3>On-the-Job Training at TSMC Arizona</h3>
+                        <p>Apprentices gain direct experience with semiconductor equipment and
+                            workflows at TSMC Arizona's North Phoenix fab and other industry sites.
+                            4,000 hours of hands-on training over two years.</p>
+                    </div>
+
+                    <div class="ptap-bento__card ptap-bento__card--narrow ptap-bento__card--featured ptap-reveal ptap-d1">
+                        <div class="ptap-bento__watermark">600</div>
+                        <div class="ptap-bento__stat">600<em>hrs</em></div>
+                        <div class="ptap-bento__stat-label">Coursework at NAU</div>
+                    </div>
+
+                    <!-- Row 2: third + third + third -->
+                    <div class="ptap-bento__card ptap-bento__card--third ptap-reveal ptap-d1">
+                        <div class="ptap-bento__accent ptap-bento__accent--blue"></div>
+                        <div class="ptap-bento__icon ptap-bento__icon--blue">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h3>Academic Instruction</h3>
+                        <p>Coursework emphasizes microelectronics fundamentals, safety, and advanced
+                            manufacturing processes delivered at NAU's North Valley Campus.</p>
+                    </div>
+
+                    <div class="ptap-bento__card ptap-bento__card--third ptap-reveal ptap-d2">
+                        <div class="ptap-bento__accent ptap-bento__accent--green"></div>
+                        <div class="ptap-bento__icon ptap-bento__icon--green">
+                            <i class="fas fa-certificate"></i>
+                        </div>
+                        <h3>Industry Recognition</h3>
+                        <p>Graduates earn TSMC Arizona certifications and a certificate of completion
+                            from Rio Salado College, applicable toward an Associate's degree or NAU
+                            Bachelor's degree.</p>
+                    </div>
+
+                    <div class="ptap-bento__card ptap-bento__card--third ptap-reveal ptap-d3">
+                        <div class="ptap-bento__accent ptap-bento__accent--cyan"></div>
+                        <div class="ptap-bento__icon ptap-bento__icon--cyan">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h3>Direct Recruitment</h3>
+                        <p>Apprenticeship candidates apply for employment directly through TSMC
+                            Arizona with a clear path to full-time positions in the semiconductor
+                            industry.</p>
+                    </div>
+
+                    <!-- Row 3: narrow stat + wide -->
+                    <div class="ptap-bento__card ptap-bento__card--narrow ptap-bento__card--featured ptap-reveal ptap-d2">
+                        <div class="ptap-bento__watermark">4K</div>
+                        <div class="ptap-bento__stat">4,000<em>hrs</em></div>
+                        <div class="ptap-bento__stat-label">On-the-Job Training</div>
+                    </div>
+
+                    <div class="ptap-bento__card ptap-bento__card--wide ptap-reveal ptap-d3">
+                        <div class="ptap-bento__accent ptap-bento__accent--gold"></div>
+                        <div class="ptap-bento__icon ptap-bento__icon--gold">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <h3>Multi-Partner Collaboration</h3>
+                        <p>A joint effort between NAU's Sanghi College of Engineering, TSMC Arizona,
+                            Rio Salado Community College, the City of Phoenix, and Arizona@Work &mdash;
+                            demonstrating the collective commitment of higher education, industry, and local
+                            government to Arizona's semiconductor economy.</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════════
+             §5  COURSEWORK  (content from 75.jpeg)
+        ═══════════════════════════════════════════════════════════ -->
+        <section class="ptap-coursework">
+            <div class="container">
+                <div class="ptap-coursework__grid ptap-reveal">
+                    <div>
+                        <span class="ptap-coursework__eyebrow">Curriculum</span>
+                        <h2 class="ptap-coursework__title">What You'll Learn</h2>
+                        <p class="ptap-coursework__desc">
+                            The PTAP curriculum covers the full spectrum of semiconductor manufacturing
+                            knowledge &mdash; from safety fundamentals to advanced process analysis.
+                        </p>
+
+                        <div class="ptap-coursework__list">
+                            <div class="ptap-coursework__item">
+                                <div class="ptap-coursework__item-num">01</div>
+                                <div class="ptap-coursework__item-text">Safety (OSHA 30)</div>
+                            </div>
+                            <div class="ptap-coursework__item">
+                                <div class="ptap-coursework__item-num">02</div>
+                                <div class="ptap-coursework__item-text">Semiconductor Industry Overview
+                                </div>
+                            </div>
+                            <div class="ptap-coursework__item">
+                                <div class="ptap-coursework__item-num">03</div>
+                                <div class="ptap-coursework__item-text">Introduction to Data
+                                    Visualization &amp; Analysis</div>
+                            </div>
+                            <div class="ptap-coursework__item">
+                                <div class="ptap-coursework__item-num">04</div>
+                                <div class="ptap-coursework__item-text">Introduction to Vacuum
+                                    Technology</div>
+                            </div>
+                            <div class="ptap-coursework__item">
+                                <div class="ptap-coursework__item-num">05</div>
+                                <div class="ptap-coursework__item-text">Mathematics for Semiconductor
+                                    Manufacturing Process Technicians</div>
+                            </div>
+                            <div class="ptap-coursework__item">
+                                <div class="ptap-coursework__item-num">06</div>
+                                <div class="ptap-coursework__item-text">Semiconductor Manufacturing
+                                    Processes</div>
+                            </div>
+                            <div class="ptap-coursework__item">
+                                <div class="ptap-coursework__item-num">07</div>
+                                <div class="ptap-coursework__item-text">Instrumentation &amp; Metrology
+                                    for Nanotechnology</div>
+                            </div>
+                            <div class="ptap-coursework__item">
+                                <div class="ptap-coursework__item-num">08</div>
+                                <div class="ptap-coursework__item-text">Advanced Manufacturing Process
+                                    Analysis</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ptap-coursework__image-wrap">
+                        <div class="ptap-coursework__image-frame">
+                            <img src="Images/cleanroom_technician.jpg"
+                                alt="Cleanroom technician operating semiconductor equipment at NAU">
+                        </div>
+                        <div class="ptap-coursework__note">
+                            <i class="fas fa-info-circle"></i>
+                            <span>Coursework delivered at NAU's North Valley Campus. Credentials may be
+                                applied toward a Rio Salado Associate's degree or an NAU Bachelor's
+                                degree in the Sanghi College of Engineering.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════════
+             §6  HOW IT WORKS
+        ═══════════════════════════════════════════════════════════ -->
+        <section class="ptap-pathway">
+            <div class="container">
+                <div class="ptap-pathway__header ptap-reveal">
+                    <span class="ptap-pathway__eyebrow">Your Path</span>
+                    <h2 class="ptap-pathway__title">How It Works</h2>
+                    <p class="ptap-pathway__sub">Three stages from application to a career in the
+                        semiconductor industry.</p>
+                </div>
+
+                <div class="ptap-pathway__steps ptap-reveal">
+                    <div class="ptap-pathway__step">
+                        <div class="ptap-pathway__step-num">1</div>
+                        <h3>Apply Through TSMC</h3>
+                        <p>Candidates apply for employment directly through TSMC Arizona's recruitment
+                            process. No prior semiconductor experience required.</p>
+                    </div>
+                    <div class="ptap-pathway__step">
+                        <div class="ptap-pathway__step-num">2</div>
+                        <h3>Learn &amp; Train</h3>
+                        <p>Complete 600 hours of coursework at NAU alongside 4,000 hours of on-the-job
+                            training at TSMC's North Phoenix facility over two years.</p>
+                    </div>
+                    <div class="ptap-pathway__step">
+                        <div class="ptap-pathway__step-num">3</div>
+                        <h3>Launch Your Career</h3>
+                        <p>Graduate with TSMC certifications, a Rio Salado certificate, and direct
+                            pathways to a full-time role or continued education at NAU.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ═══════════════════════════════════════════════════════════
+             §7  CTA
+        ═══════════════════════════════════════════════════════════ -->
+        <section class="ptap-cta">
+            <div class="container">
+                <div class="ptap-cta__inner ptap-reveal">
+                    <div class="ptap-cta__eyebrow">Now Enrolling</div>
+                    <h2 class="ptap-cta__title">Start Your Semiconductor Career</h2>
+                    <p class="ptap-cta__desc">
+                        Join the next cohort of PTAP apprentices. Build real-world skills with TSMC Arizona
+                        while earning academic credentials from NAU and Rio Salado College.
+                    </p>
+                    <div class="ptap-cta__actions">
+                        <a href="Contact_Us.html?category=training" class="btn--cta-blue">Contact Us</a>
+                        <a href="WorkForceDevelopment.html" class="btn--cta-outline">Workforce Home</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <site-footer></site-footer>
+
+    <script src="JS/layout.js"></script>
+    <script>
+        /* Scroll reveal for PTAP page */
+        (function () {
+            var els = document.querySelectorAll('.ptap-reveal');
+            if (!els.length) return;
+            var io = new IntersectionObserver(function (entries) {
+                entries.forEach(function (e) {
+                    if (e.isIntersecting) {
+                        e.target.classList.add('is-visible');
+                        io.unobserve(e.target);
+                    }
+                });
+            }, { threshold: 0.10, rootMargin: '0px 0px -36px 0px' });
+            els.forEach(function (el) { io.observe(el); });
+        })();
+    </script>
+
+</body>
+
+</html>

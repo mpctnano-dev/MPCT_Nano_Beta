@@ -328,8 +328,8 @@ class SiteHeader extends HTMLElement {
                                         </div>
                                     </a>
 
-                                    <a href="${basePath}WorkForceDevelopment.html#ptap" class="nav-dropdown-link"
-                                        data-path="WorkForceDevelopment.html" role="menuitem">
+                                    <a href="${basePath}PTAP.html" class="nav-dropdown-link"
+                                        data-path="PTAP.html" role="menuitem">
                                         <div class="nav-dropdown-icon">
                                             <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
                                                 stroke="currentColor" stroke-width="2" stroke-linecap="round"
