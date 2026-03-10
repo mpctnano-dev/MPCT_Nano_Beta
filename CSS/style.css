@@ -2295,12 +2295,27 @@ ul {
     margin-bottom: 25px;
 }
 
-/* MPaCT page — light mission section with clean styling */
-.mpact-page .about-mission-section {
-    background: #ffffff;
+/* MPaCT page — clean blue shared-use section */
+.mpact-page .about-shared-section {
+    background: var(--nau-blue);
     padding: 100px 0;
     position: relative;
     overflow: hidden;
+}
+
+.mpact-page .about-shared-section .section-title {
+    color: var(--nau-gold);
+}
+
+.mpact-page .about-shared-section .about-shared-text p,
+.mpact-page .about-shared-section .about-mission {
+    color: #ffffff;
+}
+
+.mpact-page .about-shared-section .section-eyebrow {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--nau-gold);
+    border: 1px solid rgba(250, 192, 26, 0.3);
 }
 
 .mpact-page .about-mission-section::before {
@@ -2698,11 +2713,6 @@ ul {
 .about-shared-section {
     padding: 100px 0;
     background: white;
-}
-
-/* MPaCT page — warm ivory background to break from pure white */
-.mpact-page .about-shared-section {
-    background: #f9f7f3;
 }
 
 .about-shared-grid {
@@ -12870,6 +12880,8 @@ END DEPRECATED */
 .ml-intro {
     padding: 88px 0 96px;
     background: #ffffff;
+    position: relative;
+    overflow: hidden;
 }
 
 .ml-intro__split {
@@ -12929,13 +12941,11 @@ END DEPRECATED */
 
 /* ═══════════════════════════════════════════════════════════════
    FACILITY BUILDOUT — Seamless blueprint showcase + horizontal timeline
-   Blends from about-mission (#002454) into ml-access (#002a5c)
    ═══════════════════════════════════════════════════════════════ */
 .ml-buildout {
     position: relative;
-    /* Seamless gradient: continues from mission section, flows into access section */
-    background: linear-gradient(180deg, #002454 0%, #002050 30%, #001e48 60%, #002a5c 100%);
-    color: #fff;
+    background: #ffffff;
+    color: var(--gray-800);
     overflow: hidden;
     padding: 120px 0 130px;
 }
@@ -12988,7 +12998,7 @@ END DEPRECATED */
 
 .ml-buildout__subtitle {
     font-size: 1.05rem;
-    color: rgba(255, 255, 255, 0.42);
+    color: var(--gray-600);
     line-height: 1.65;
     max-width: 460px;
     margin: 0 auto;
@@ -13008,29 +13018,25 @@ END DEPRECATED */
     position: relative;
     border-radius: 16px;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow:
-        0 0 0 1px rgba(255, 255, 255, 0.04),
-        0 32px 80px -12px rgba(0, 0, 0, 0.5),
-        0 0 120px -20px rgba(0, 36, 84, 0.3);
+    border: 1px solid var(--gray-200);
+    box-shadow: 0 12px 40px rgba(0, 36, 84, 0.08);
     aspect-ratio: 16 / 9;
-    background: #000a18;
+    background: #ffffff;
 }
 
 .ml-buildout__blueprint {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* White-bg architectural drawing → inverted to white-on-dark, then blue-tinted */
-    filter: invert(1) brightness(0.6) sepia(1) hue-rotate(180deg) saturate(3) contrast(0.9);
-    opacity: 0.8;
+    /* Multiply blend mode drops out the white background of the image, keeping dark lines */
+    mix-blend-mode: multiply;
+    opacity: 0.85;
     display: block;
-    transition: filter 0.8s ease, opacity 0.8s ease;
+    transition: opacity 0.8s ease;
 }
 
 .ml-buildout__blueprint-frame:hover .ml-buildout__blueprint {
-    filter: invert(1) brightness(0.7) sepia(1) hue-rotate(180deg) saturate(3) contrast(0.95);
-    opacity: 0.92;
+    opacity: 1;
 }
 
 /* Glass overlay — gradient vignette over the blueprint */
@@ -13190,10 +13196,8 @@ END DEPRECATED */
     align-items: center;
     justify-content: center;
     font-size: 1rem;
-    border: 2px solid rgba(255, 255, 255, 0.08);
-    background: rgba(0, 20, 50, 0.8);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    border: 2px solid var(--gray-200);
+    background: #ffffff;
     margin-bottom: 28px;
     position: relative;
     z-index: 2;
@@ -13217,13 +13221,30 @@ END DEPRECATED */
     pointer-events: none;
 }
 
-.ml-buildout__phase:nth-child(2) .ml-buildout__phase-dot::after { animation-delay: 0.4s; }
-.ml-buildout__phase:nth-child(3) .ml-buildout__phase-dot::after { animation-delay: 0.8s; }
-.ml-buildout__phase:nth-child(4) .ml-buildout__phase-dot::after { animation-delay: 1.2s; }
+.ml-buildout__phase:nth-child(2) .ml-buildout__phase-dot::after {
+    animation-delay: 0.4s;
+}
+
+.ml-buildout__phase:nth-child(3) .ml-buildout__phase-dot::after {
+    animation-delay: 0.8s;
+}
+
+.ml-buildout__phase:nth-child(4) .ml-buildout__phase-dot::after {
+    animation-delay: 1.2s;
+}
 
 @keyframes bo-ring-pulse {
-    0%, 100% { opacity: 0; transform: scale(1); }
-    50% { opacity: 0.25; transform: scale(1.15); }
+
+    0%,
+    100% {
+        opacity: 0;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.25;
+        transform: scale(1.15);
+    }
 }
 
 /* Dot color variants */
@@ -13300,7 +13321,7 @@ END DEPRECATED */
 .ml-buildout__phase-card h3 {
     font-size: clamp(1.05rem, 1.6vw, 1.3rem);
     font-weight: 800;
-    color: #fff;
+    color: var(--nau-blue);
     margin-bottom: 10px;
     line-height: 1.3;
     letter-spacing: -0.01em;
@@ -13308,7 +13329,7 @@ END DEPRECATED */
 
 .ml-buildout__phase-card p {
     font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.42);
+    color: var(--gray-600);
     line-height: 1.65;
     margin: 0;
 }
@@ -13392,12 +13413,13 @@ END DEPRECATED */
     }
 }
 
-/* How to access — slightly warmer navy, gold glow at top center */
+/* How to access — clean white base */
 .ml-access {
-    background: #f8f9fb;
+    background: #ffffff;
     padding: 96px 0;
     position: relative;
     overflow: hidden;
+    color: var(--gray-800);
 }
 
 .ml-access::before {
@@ -13409,8 +13431,13 @@ END DEPRECATED */
 }
 
 .ml-access__btn-outline {
-    border-color: var(--gray-300);
-    color: var(--nau-blue);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #fff;
+}
+
+.ml-access__btn-outline:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
 }
 
 /* Research section subtitle */
@@ -13442,9 +13469,27 @@ END DEPRECATED */
 
 .ml-access__sub {
     font-size: 1rem;
-    color: var(--gray-500);
+    color: var(--gray-600);
     max-width: 460px;
     margin: 0 auto;
+}
+
+/* Overrides for steps in light mode */
+.ml-access__step-title {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--nau-blue);
+    margin-bottom: 9px;
+    transition: color 0.3s;
+}
+
+.ml-access__step-desc {
+    font-size: 0.82rem;
+    color: var(--gray-600);
+    line-height: 1.65;
+    margin: 0;
+    max-width: none;
 }
 
 .ml-access__cta {
@@ -13456,7 +13501,7 @@ END DEPRECATED */
 
 /* Research areas — deepest dark */
 .ml-research {
-    background: var(--nau-blue-dark);
+    background: #000a18;
     padding: 96px 0;
     position: relative;
     overflow: hidden;
@@ -13579,11 +13624,9 @@ END DEPRECATED */
     }
 }
 
-/* Partners strip — clean, minimal */
+/* Partners strip — clean, continuous gray flow */
 .ml-partners {
-    background: #ffffff;
-    border-top: 1px solid var(--gray-200);
-    border-bottom: 1px solid var(--gray-200);
+    background: #f8f9fb;
     padding: 52px 0;
 }
 
@@ -13609,13 +13652,13 @@ END DEPRECATED */
     height: 34px;
     width: auto;
     object-fit: contain;
-    opacity: 0.4;
+    opacity: 0.45;
     filter: grayscale(1);
     transition: opacity 0.3s, filter 0.3s;
 }
 
 .ml-partners__logo:hover {
-    opacity: 0.85;
+    opacity: 0.9;
     filter: grayscale(0);
 }
 
@@ -14975,5 +15018,434 @@ END DEPRECATED */
 
     .cat-filter.expanded {
         width: 130px;
+    }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   MPaCT PAGE — NAU BLACK THEME
+   A unified dark experience with NAU gold accents.
+   Deep navy + near-black palette — finished, cohesive, premium.
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Page-level dark ground ─────────────────────────────────── */
+.mpact-page {
+    background-color: #030d1a;
+    background-image:
+        radial-gradient(circle at 15% 15%, rgba(0, 58, 133, 0.14) 0%, transparent 55%),
+        radial-gradient(circle at 85% 85%, rgba(250, 192, 26, 0.05) 0%, transparent 55%);
+}
+
+/* ── Section divider gold rule shared utility ────────────────── */
+.mpact-page section,
+.mpact-page .ml-partners {
+    position: relative;
+}
+
+/* ── INTRO SECTION ───────────────────────────────────────────── */
+.mpact-page .ml-intro {
+    background: linear-gradient(180deg, #04101f 0%, #050f1e 100%);
+    border-top: 1px solid rgba(250, 192, 26, 0.12);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.mpact-page .ml-intro__statement {
+    color: #ffffff;
+    letter-spacing: -0.025em;
+}
+
+.mpact-page .ml-intro__statement em {
+    color: var(--nau-gold);
+}
+
+.mpact-page .ml-intro__rule {
+    background: linear-gradient(to bottom, var(--nau-gold), rgba(250, 192, 26, 0.15));
+}
+
+.mpact-page .ml-intro__body p {
+    color: rgba(255, 255, 255, 0.58);
+}
+
+/* ── SHARED-USE FACILITY SECTION ─────────────────────────────── */
+.mpact-page .about-shared-section {
+    background: linear-gradient(160deg, #071a3e 0%, #030d1a 100%);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(250, 192, 26, 0.08);
+    padding: 100px 0;
+}
+
+/* Section eyebrow — gold on dark */
+.mpact-page .about-shared-section .section-eyebrow {
+    background: rgba(250, 192, 26, 0.08);
+    color: var(--nau-gold);
+    border: 1px solid rgba(250, 192, 26, 0.25);
+}
+
+/* Title */
+.mpact-page .about-shared-section .section-title {
+    color: #ffffff;
+}
+
+.mpact-page .about-shared-section .section-title .text-gold {
+    color: var(--nau-gold);
+}
+
+/* Body text */
+.mpact-page .about-shared-section .about-shared-text p,
+.mpact-page .about-shared-section .about-shared-desc {
+    color: rgba(255, 255, 255, 0.58);
+}
+
+/* Highlight icons — unified NAU gold glass */
+.mpact-page .about-shared-section .shared-highlight-icon,
+.mpact-page .about-shared-section .shared-highlight-icon.blue,
+.mpact-page .about-shared-section .shared-highlight-icon.gold,
+.mpact-page .about-shared-section .shared-highlight-icon.green {
+    background: rgba(250, 192, 26, 0.08);
+    border: 1px solid rgba(250, 192, 26, 0.22);
+    color: var(--nau-gold);
+}
+
+/* Highlight text */
+.mpact-page .about-shared-section .shared-highlight-item h4 {
+    color: #ffffff;
+}
+
+.mpact-page .about-shared-section .shared-highlight-item p {
+    color: rgba(255, 255, 255, 0.52);
+}
+
+/* Image frames on dark bg */
+.mpact-page .about-shared-section .about-shared-image-frame {
+    border: 1px solid rgba(250, 192, 26, 0.14);
+    box-shadow: 0 32px 72px rgba(0, 0, 0, 0.55);
+}
+
+.mpact-page .about-shared-section .about-shared-image-frame.primary-frame {
+    background: rgba(0, 36, 84, 0.4);
+}
+
+.mpact-page .about-shared-section .about-shared-image-frame.secondary-frame {
+    background: rgba(0, 36, 84, 0.3);
+    border-color: rgba(255, 255, 255, 0.06);
+}
+
+/* ── WHAT THE LAB DOES (MISSION/CAPABILITIES) ────────────────── */
+.mpact-page .about-mission-section {
+    background: #030d1a;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid rgba(250, 192, 26, 0.06);
+    padding: 80px 0;
+}
+
+.mpact-page .about-mission-section .section-title {
+    color: #ffffff;
+    font-size: 2rem;
+}
+
+.mpact-page .about-mission-section .about-mission {
+    color: rgba(255, 255, 255, 0.58);
+}
+
+.mpact-page .about-mission-section .capabilities-title {
+    color: var(--nau-gold);
+    letter-spacing: 2px;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+/* Capability cards — dark glass */
+.mpact-page .about-mission-section .capability-card {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.07) !important;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: none !important;
+    transition: background 0.3s, border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+.mpact-page .about-mission-section .capability-card:hover {
+    background: rgba(255, 255, 255, 0.06) !important;
+    border-color: rgba(250, 192, 26, 0.28) !important;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35) !important;
+}
+
+.mpact-page .about-mission-section .capability-info h4 {
+    color: #ffffff;
+}
+
+.mpact-page .about-mission-section .capability-info p {
+    color: rgba(255, 255, 255, 0.48);
+}
+
+/* All capability icons — unified NAU gold on dark glass */
+.mpact-page .about-mission-section .capability-icon,
+.mpact-page .about-mission-section .capability-icon.blue,
+.mpact-page .about-mission-section .capability-icon.gold,
+.mpact-page .about-mission-section .capability-icon.green,
+.mpact-page .about-mission-section .capability-icon.purple {
+    background: rgba(250, 192, 26, 0.08) !important;
+    border: 1px solid rgba(250, 192, 26, 0.2);
+    color: var(--nau-gold) !important;
+}
+
+/* Image frame */
+.mpact-page .about-mission-section .about-image-frame {
+    border: 1px solid rgba(250, 192, 26, 0.14);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+}
+
+/* Image badge */
+.mpact-page .about-mission-section .image-badge {
+    background: rgba(3, 13, 26, 0.92);
+    border: 1px solid rgba(250, 192, 26, 0.28);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.mpact-page .about-mission-section .image-badge span {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.mpact-page .about-mission-section .image-badge i {
+    color: var(--nau-gold);
+}
+
+/* ── FACILITY BUILDOUT ───────────────────────────────────────── */
+.mpact-page .ml-buildout {
+    background: #071525;
+    background-image:
+        radial-gradient(circle at 10% 20%, rgba(0, 58, 133, 0.4) 0%, transparent 50%),
+        radial-gradient(circle, rgba(250, 192, 26, 0.04) 1px, transparent 1px);
+    background-size: auto, 32px 32px;
+    color: var(--gray-200);
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.mpact-page .ml-buildout::before {
+    background: radial-gradient(circle, rgba(0, 58, 133, 0.4) 0%, transparent 70%);
+}
+
+.mpact-page .ml-buildout::after {
+    background: radial-gradient(circle, rgba(250, 192, 26, 0.06) 0%, transparent 70%);
+}
+
+.mpact-page .ml-buildout__title {
+    color: #ffffff;
+}
+
+.mpact-page .ml-buildout__subtitle {
+    color: rgba(255, 255, 255, 0.50);
+}
+
+/* Phase dots on dark bg */
+.mpact-page .ml-buildout__phase-dot {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Track connector line */
+.mpact-page .ml-buildout__track-line {
+    background: rgba(255, 255, 255, 0.07);
+}
+
+/* Phase card text */
+.mpact-page .ml-buildout__phase-card h3 {
+    color: #ffffff;
+}
+
+.mpact-page .ml-buildout__phase-card p {
+    color: rgba(255, 255, 255, 0.50);
+}
+
+/* Blueprint frame on dark bg */
+.mpact-page .ml-buildout__blueprint-frame {
+    background: rgba(255, 255, 255, 0.02);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55);
+}
+
+.mpact-page .ml-buildout__blueprint {
+    mix-blend-mode: screen;
+    opacity: 0.6;
+}
+
+/* ── HOW TO ACCESS (STEPS) ───────────────────────────────────── */
+.mpact-page .ml-access {
+    background: linear-gradient(180deg, #030d1a 0%, #050f1e 100%);
+    color: #ffffff;
+    border-top: 1px solid rgba(250, 192, 26, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.mpact-page .ml-access .ml-access__title {
+    color: #ffffff;
+}
+
+.mpact-page .ml-access .ml-access__sub {
+    color: rgba(255, 255, 255, 0.50);
+}
+
+/* Step text on dark */
+.mpact-page .ml-access .ml-access__step-title {
+    color: #ffffff;
+}
+
+.mpact-page .ml-access .ml-access__step-desc {
+    color: rgba(255, 255, 255, 0.50);
+}
+
+/* Connector line — gold on dark */
+.mpact-page .ml-access .ml-access__steps::before {
+    background: rgba(250, 192, 26, 0.2);
+}
+
+/* Eyebrow on dark */
+.mpact-page .ml-access .ml-eyebrow {
+    color: rgba(255, 255, 255, 0.50);
+}
+
+.mpact-page .ml-access .ml-eyebrow::before,
+.mpact-page .ml-access .ml-eyebrow::after {
+    background: rgba(250, 192, 26, 0.50);
+}
+
+/* CTA buttons within access */
+.mpact-page .ml-access__btn-outline {
+    border-color: rgba(255, 255, 255, 0.25);
+    color: rgba(255, 255, 255, 0.80);
+}
+
+.mpact-page .ml-access__btn-outline:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+}
+
+/* ── PARTNERS STRIP ──────────────────────────────────────────── */
+.mpact-page .ml-partners {
+    background: #071525;
+    border-top: 1px solid rgba(250, 192, 26, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.mpact-page .ml-partners__label {
+    color: rgba(255, 255, 255, 0.28);
+}
+
+.mpact-page .ml-partners__logo {
+    filter: grayscale(1) brightness(2.5);
+    opacity: 0.30;
+}
+
+.mpact-page .ml-partners__logo:hover {
+    filter: grayscale(0) brightness(1);
+    opacity: 0.90;
+}
+
+/* ── RESEARCH AREAS ──────────────────────────────────────────── */
+/* Already dark — refine glow and card borders */
+.mpact-page .ml-research {
+    background: #020b16;
+    background-image: radial-gradient(circle, rgba(250, 192, 26, 0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid rgba(250, 192, 26, 0.10);
+}
+
+.mpact-page .ml-research__glow-a {
+    background: radial-gradient(circle, rgba(0, 58, 133, 0.40) 0%, transparent 70%);
+}
+
+/* ── FINAL CTA ───────────────────────────────────────────────── */
+/* Gold CTA remains — perfect high-contrast endpoint */
+.mpact-page .ml-cta {
+    border-top: none;
+}
+
+.mpact-page .ml-cta__eyebrow {
+    color: rgba(0, 36, 84, 0.58);
+}
+
+/* ── HERO DIVIDER — already dark, no override needed ─────────── */
+
+/* ── SECTION TRANSITION BRIDGES ─────────────────────────────── */
+/* Subtle top-gradient fade bridges at section boundaries */
+.mpact-page .about-shared-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: linear-gradient(to bottom, #030d1a, transparent);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.mpact-page .about-mission-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: linear-gradient(to bottom, #071a3e, transparent);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* ── CONNECTING GOLD ACCENT LINES ────────────────────────────── */
+/* Gold accent left-border on eyebrow labels for visual rhythm */
+.mpact-page .ml-buildout .ml-eyebrow,
+.mpact-page .ml-research .ml-eyebrow,
+.mpact-page .ml-access .ml-eyebrow {
+    color: rgba(255, 255, 255, 0.50);
+}
+
+.mpact-page .ml-buildout .ml-eyebrow::before,
+.mpact-page .ml-buildout .ml-eyebrow::after,
+.mpact-page .ml-research .ml-eyebrow::before,
+.mpact-page .ml-research .ml-eyebrow::after {
+    background: rgba(250, 192, 26, 0.55);
+}
+
+/* ── BACKGROUND TEXTURE — subtle circuit dot grid ────────────── */
+.mpact-page .ml-intro::after,
+.mpact-page .ml-access::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(250, 192, 26, 0.06) 1px, transparent 1px);
+    background-size: 32px 32px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ── DARK STEPS OVERRIDE ─────────────────────────────────────── */
+.mpact-page .dark-steps .ml-access__step-badge {
+    background: var(--nau-gold);
+    color: var(--nau-blue);
+    box-shadow: 0 0 0 10px rgba(250, 192, 26, 0.12);
+}
+
+.mpact-page .dark-steps .ml-access__step:hover .ml-access__step-badge {
+    box-shadow: 0 0 0 14px rgba(250, 192, 26, 0.18),
+        0 8px 24px rgba(250, 192, 26, 0.30);
+}
+
+.mpact-page .dark-steps .ml-access__step:hover .ml-access__step-title {
+    color: var(--nau-gold);
+}
+
+/* ── RESPONSIVE ADJUSTMENTS ──────────────────────────────────── */
+@media (max-width: 768px) {
+    .mpact-page .about-shared-section::before,
+    .mpact-page .about-mission-section::before {
+        height: 48px;
+    }
+
+    .mpact-page .ml-intro__rule {
+        background: linear-gradient(to right, var(--nau-gold), rgba(250, 192, 26, 0.15));
     }
 }
