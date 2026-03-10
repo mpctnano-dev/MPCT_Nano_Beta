@@ -1,0 +1,2111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Pathways | NAU Nano Core</title>
+    <meta name="description" content="Explore career pathways in microelectronics and nanotechnology at NAU.">
+    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+    <style>
+        /* ========== CAREER PATHWAYS HEADER ========== */
+        .cp-hero {
+            position: relative;
+            background: linear-gradient(160deg, #000d1a 0%, #001a33 30%, #002454 60%, #0a3366 100%);
+            padding: 60px 0 75px;
+            overflow: hidden;
+            text-align: center;
+            border-top: 3px solid var(--nau-gold, #FFC600);
+        }
+
+        /* Canvas for animated paths */
+        .cp-hero-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Subtle grid overlay */
+        .cp-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(250, 192, 26, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(250, 192, 26, 0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 30%, transparent 100%);
+            -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 30%, transparent 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .cp-hero .container {
+            position: relative;
+            z-index: 3;
+        }
+
+        /* Glass card */
+        .cp-glass-card {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(250, 192, 26, 0.15);
+            border-top: 3px solid rgba(250, 192, 26, 0.5);
+            border-radius: 16px;
+            padding: 28px 48px;
+            max-width: 700px;
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                0 0 30px rgba(250, 192, 26, 0.04),
+                inset 0 1px 0 rgba(250, 192, 26, 0.08);
+            opacity: 0;
+        }
+
+        /* Kicker */
+        .cp-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(250, 192, 26, 0.12);
+            border: 1px solid rgba(250, 192, 26, 0.3);
+            color: var(--nau-gold, #FFC600);
+            border-radius: 999px;
+            padding: 5px 16px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+            opacity: 0;
+        }
+
+        .cp-hero h1 {
+            margin: 0 0 12px;
+            font-size: clamp(2rem, 4.5vw, 3rem);
+            font-weight: 800;
+            line-height: 1.25;
+            padding-bottom: 4px;
+            background: linear-gradient(180deg, #ffffff 30%, rgba(255, 255, 255, 0.7) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0;
+        }
+
+        .cp-hero p {
+            margin: 0 auto;
+            max-width: 520px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1rem;
+            line-height: 1.6;
+            opacity: 0;
+        }
+
+        /* Success beacon - icon where paths converge */
+        .cp-beacon {
+            position: absolute;
+            top: 40%;
+            right: 10%;
+            width: 44px;
+            height: 44px;
+            z-index: 2;
+            opacity: 0;
+            transform: translate(50%, -50%);
+            filter: drop-shadow(0 0 12px rgba(250, 192, 26, 0.6)) drop-shadow(0 0 40px rgba(250, 192, 26, 0.25));
+        }
+
+        .cp-beacon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Pulse ring around the icon */
+        .cp-beacon-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 44px;
+            height: 44px;
+            border: 2px solid rgba(250, 192, 26, 0.35);
+            border-radius: 50%;
+            animation: cpPulseRing 2.5s ease-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes cpPulseRing {
+            0% {
+                width: 44px;
+                height: 44px;
+                opacity: 0.8;
+            }
+
+            100% {
+                width: 90px;
+                height: 90px;
+                opacity: 0;
+            }
+        }
+
+        /* Milestone dots along paths */
+        .cp-milestone {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: rgba(250, 192, 26, 0.5);
+            border-radius: 50%;
+            z-index: 2;
+            opacity: 0;
+        }
+
+        /* Straight bottom edge */
+        .cp-hero__edge {
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, rgba(250, 192, 26, 0.0) 0%, rgba(250, 192, 26, 0.3) 50%, rgba(250, 192, 26, 0.0) 100%);
+            z-index: 4;
+        }
+
+        /* ========== TREE-VIEW BODY LAYOUT ========== */
+        .cp-body {
+            background: #f8fafc;
+            padding: 40px 0 80px;
+            min-height: 60vh;
+        }
+
+        .cp-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        @media (max-width: 900px) {
+            .cp-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* --- Tree Sidebar --- */
+        .cp-tree-sidebar {
+            position: sticky;
+            top: 100px;
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 36, 84, 0.05);
+            backdrop-filter: blur(12px);
+            overflow: hidden;
+        }
+
+        .cp-tree-header {
+            margin: 0;
+            padding: 18px 20px;
+            background: linear-gradient(135deg, #0c3765 0%, #1a4f8a 100%);
+            color: white;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cp-tree {
+            padding: 8px;
+        }
+
+        /* Root node */
+        .cp-tree-root {
+            margin-bottom: 4px;
+        }
+
+        .cp-tree-root-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            background: transparent;
+            border: none;
+            padding: 12px 14px;
+            border-radius: 10px;
+            font-size: 0.92rem;
+            font-family: var(--font-body, sans-serif);
+            color: var(--nau-blue, #002454);
+            cursor: pointer;
+            text-align: left;
+            font-weight: 700;
+            transition: all 0.25s;
+            letter-spacing: 0.3px;
+        }
+
+        .cp-tree-root-btn:hover {
+            background: rgba(0, 36, 84, 0.04);
+        }
+
+        .cp-tree-root-btn .cp-tree-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+            transition: all 0.25s;
+        }
+
+        .cp-tree-root-btn[data-root="degrees"] .cp-tree-icon {
+            background: rgba(0, 36, 84, 0.08);
+            color: var(--nau-blue, #002454);
+        }
+
+        .cp-tree-root-btn[data-root="professional"] .cp-tree-icon {
+            background: rgba(250, 192, 26, 0.12);
+            color: #b8860b;
+        }
+
+        .cp-tree-chevron {
+            margin-left: auto;
+            font-size: 0.7rem;
+            transition: transform 0.3s;
+            color: var(--gray-400, #9ca3af);
+        }
+
+        .cp-tree-root.is-open>.cp-tree-root-btn .cp-tree-chevron {
+            transform: rotate(90deg);
+        }
+
+        /* Leaf nodes container */
+        .cp-tree-leaves {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding-left: 18px;
+        }
+
+        .cp-tree-root.is-open>.cp-tree-leaves {
+            max-height: 500px;
+        }
+
+        .cp-tree-leaf {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            background: transparent;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-family: var(--font-body, sans-serif);
+            color: var(--gray-600, #4b5563);
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+            font-weight: 500;
+            border-left: 2px solid transparent;
+            margin: 1px 0;
+        }
+
+        .cp-tree-leaf:hover {
+            background: rgba(0, 36, 84, 0.03);
+            color: var(--nau-blue, #002454);
+        }
+
+        .cp-tree-leaf.active {
+            background: var(--nau-blue, #002454);
+            color: white;
+            font-weight: 600;
+            border-left-color: var(--nau-gold, #FFC600);
+            box-shadow: 0 2px 8px rgba(0, 36, 84, 0.15);
+        }
+
+        .cp-tree-leaf .cp-leaf-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--gray-300, #d1d5db);
+            flex-shrink: 0;
+            transition: background 0.2s;
+        }
+
+        .cp-tree-leaf.active .cp-leaf-dot {
+            background: var(--nau-gold, #FFC600);
+        }
+
+        /* --- Content Area --- */
+        .cp-content-area {
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            border-radius: 18px;
+            box-shadow: 0 4px 20px rgba(0, 20, 50, 0.04);
+            overflow: hidden;
+            min-height: 500px;
+        }
+
+        .cp-content-header {
+            padding: 28px 32px;
+            border-bottom: 1px solid var(--gray-200, #e5e7eb);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .cp-content-header i {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, rgba(0, 36, 84, 0.1), rgba(0, 36, 84, 0.05));
+            color: var(--nau-blue, #002454);
+        }
+
+        .cp-content-header h2 {
+            margin: 0;
+            font-size: 1.4rem;
+            color: var(--nau-blue, #002454);
+            line-height: 1.2;
+        }
+
+        .cp-content-header .cp-content-sub {
+            font-size: 0.85rem;
+            color: var(--gray-500, #6b7280);
+            margin-top: 4px;
+        }
+
+        .cp-content-body {
+            padding: 32px;
+        }
+
+        /* Content panels */
+        .cp-panel {
+            display: none;
+        }
+
+        .cp-panel.active {
+            display: block;
+            animation: cpFadeIn 0.4s ease;
+        }
+
+        @keyframes cpFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Welcome panel */
+        .cp-welcome {
+            text-align: center;
+            padding: 60px 32px;
+        }
+
+        .cp-welcome-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(0, 36, 84, 0.08), rgba(250, 192, 26, 0.08));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 24px;
+            color: var(--nau-blue, #002454);
+        }
+
+        .cp-welcome h3 {
+            font-size: 1.3rem;
+            color: var(--nau-blue, #002454);
+            margin: 0 0 12px;
+        }
+
+        .cp-welcome p {
+            color: var(--gray-500, #6b7280);
+            max-width: 450px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Program detail placeholder */
+        .cp-program-placeholder {
+            text-align: center;
+            padding: 40px;
+            color: var(--gray-500, #6b7280);
+        }
+
+        .cp-program-placeholder i {
+            font-size: 3rem;
+            color: var(--gray-300, #d1d5db);
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .cp-program-placeholder h3 {
+            font-size: 1.2rem;
+            color: var(--nau-blue, #002454);
+            margin: 0 0 8px;
+        }
+
+        .cp-program-placeholder p {
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 900px) {
+            .cp-tree-sidebar {
+                position: static;
+            }
+        }
+
+        /* ========== LAYOUT A — PROFILE CARD ========== */
+
+        /* Stat cards row */
+        .cp-stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .cp-stat-card {
+            background: linear-gradient(135deg, rgba(0, 36, 84, 0.04), rgba(0, 36, 84, 0.01));
+            border: 1px solid rgba(0, 36, 84, 0.08);
+            border-radius: 12px;
+            padding: 18px 16px;
+            text-align: center;
+        }
+
+        .cp-stat-card .cp-stat-num {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--nau-blue, #002454);
+            line-height: 1;
+        }
+
+        .cp-stat-card .cp-stat-label {
+            font-size: 0.72rem;
+            color: var(--gray-500, #6b7280);
+            margin-top: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        /* Program overview text */
+        .cp-overview {
+            color: var(--gray-600, #4b5563);
+            line-height: 1.75;
+            font-size: 0.95rem;
+            margin-bottom: 28px;
+        }
+
+        /* Shared Career Table */
+        .cp-career-section h3,
+        .cp-skills-section h3,
+        .cp-industries-section h3 {
+            font-size: 1rem;
+            color: var(--nau-blue, #002454);
+            margin: 0 0 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+        }
+
+        .cp-career-section h3 i,
+        .cp-skills-section h3 i,
+        .cp-industries-section h3 i {
+            color: var(--nau-gold, #FFC600);
+        }
+
+        .cp-career-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border: 1px solid var(--gray-200, #e5e7eb);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 28px;
+            font-size: 0.88rem;
+        }
+
+        .cp-career-table thead th {
+            background: linear-gradient(135deg, #0c3765, #1a4f8a);
+            color: white;
+            font-weight: 600;
+            padding: 13px 16px;
+            text-align: left;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: none;
+        }
+
+        .cp-career-table tbody tr {
+            transition: background 0.2s;
+        }
+
+        .cp-career-table tbody tr:hover {
+            background: rgba(0, 36, 84, 0.03);
+        }
+
+        .cp-career-table tbody td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--gray-100, #f3f4f6);
+            color: var(--gray-700, #374151);
+        }
+
+        .cp-career-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .cp-career-table .cp-role-title {
+            font-weight: 600;
+            color: var(--nau-blue, #002454);
+        }
+
+        .cp-career-table .cp-salary {
+            color: #059669;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .cp-career-table .cp-skills-cell {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .cp-skill-tag {
+            display: inline-block;
+            background: rgba(0, 36, 84, 0.06);
+            color: var(--nau-blue, #002454);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        /* Focus area pills (Layout A) */
+        .cp-focus-areas {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .cp-focus-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, rgba(0, 36, 84, 0.06), rgba(0, 36, 84, 0.02));
+            border: 1px solid rgba(0, 36, 84, 0.1);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--nau-blue, #002454);
+        }
+
+        .cp-focus-pill i {
+            font-size: 0.75rem;
+            color: var(--nau-gold, #FFC600);
+        }
+
+        /* NAU Advantage callout (Layout A) */
+        .cp-advantage {
+            background: linear-gradient(135deg, rgba(250, 192, 26, 0.08), rgba(250, 192, 26, 0.02));
+            border: 1px solid rgba(250, 192, 26, 0.2);
+            border-left: 4px solid var(--nau-gold, #FFC600);
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin-top: 4px;
+        }
+
+        .cp-advantage h4 {
+            margin: 0 0 8px;
+            font-size: 0.9rem;
+            color: var(--nau-blue, #002454);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cp-advantage h4 i {
+            color: var(--nau-gold, #FFC600);
+        }
+
+        .cp-advantage p {
+            margin: 0;
+            font-size: 0.88rem;
+            color: var(--gray-600, #4b5563);
+            line-height: 1.6;
+        }
+
+        /* ========== LAYOUT B — FEATURE SHOWCASE ========== */
+
+        /* Spotlight banner */
+        .cp-spotlight {
+            background: linear-gradient(135deg, #0c3765 0%, #1a4f8a 100%);
+            border-radius: 14px;
+            padding: 24px 28px;
+            color: white;
+            margin-bottom: 28px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .cp-spotlight-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: rgba(250, 192, 26, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--nau-gold, #FFC600);
+            flex-shrink: 0;
+        }
+
+        .cp-spotlight-text {
+            flex: 1;
+        }
+
+        .cp-spotlight-text .cp-spotlight-stat {
+            font-size: 1.6rem;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .cp-spotlight-text .cp-spotlight-label {
+            font-size: 0.82rem;
+            opacity: 0.7;
+            margin-top: 4px;
+        }
+
+        /* Skill icon grid (Layout B) */
+        .cp-skill-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .cp-skill-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px;
+            background: rgba(0, 36, 84, 0.03);
+            border: 1px solid rgba(0, 36, 84, 0.06);
+            border-radius: 10px;
+            transition: all 0.2s;
+        }
+
+        .cp-skill-item:hover {
+            background: rgba(0, 36, 84, 0.06);
+            transform: translateY(-2px);
+        }
+
+        .cp-skill-item i {
+            color: var(--nau-blue, #002454);
+            font-size: 0.9rem;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            background: rgba(0, 36, 84, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .cp-skill-item span {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--nau-blue, #002454);
+        }
+
+        /* Industry cards (Layout B) */
+        .cp-industries-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .cp-industry-card {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background: white;
+            border: 1px solid var(--gray-200, #e5e7eb);
+            border-radius: 10px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--gray-700, #374151);
+            transition: all 0.2s;
+        }
+
+        .cp-industry-card:hover {
+            border-color: var(--nau-blue, #002454);
+            box-shadow: 0 2px 8px rgba(0, 36, 84, 0.08);
+        }
+
+        .cp-industry-card i {
+            color: var(--nau-gold, #FFC600);
+            font-size: 0.85rem;
+        }
+
+        /* Why NAU feature list (Layout B) */
+        .cp-why-nau {
+            background: rgba(0, 36, 84, 0.03);
+            border: 1px solid rgba(0, 36, 84, 0.06);
+            border-radius: 12px;
+            padding: 20px 24px;
+        }
+
+        .cp-why-nau h4 {
+            margin: 0 0 14px;
+            font-size: 0.9rem;
+            color: var(--nau-blue, #002454);
+            font-weight: 700;
+        }
+
+        .cp-why-nau-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .cp-why-nau-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 8px 0;
+            font-size: 0.88rem;
+            color: var(--gray-600, #4b5563);
+            line-height: 1.5;
+        }
+
+        .cp-why-nau-list li i {
+            color: #059669;
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+
+        /* Responsive table */
+        @media (max-width: 700px) {
+            .cp-stats-row {
+                grid-template-columns: 1fr;
+            }
+
+            .cp-skill-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .cp-career-table {
+                font-size: 0.8rem;
+            }
+
+            .cp-career-table thead th,
+            .cp-career-table tbody td {
+                padding: 10px 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <site-header></site-header>
+
+    <main>
+        <section class="cp-hero">
+            <!-- Canvas for animated path lines -->
+            <canvas class="cp-hero-canvas" id="cpPaths"></canvas>
+
+            <!-- Success beacon (trophy icon) -->
+            <div class="cp-beacon" id="cpBeacon">
+                <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Trophy cup -->
+                    <path d="M20 8h24v4c0 8-4 16-12 20-8-4-12-12-12-20V8z" fill="rgba(250,192,26,0.9)"
+                        stroke="rgba(255,215,0,0.8)" stroke-width="1.5" />
+                    <!-- Left handle -->
+                    <path d="M20 12h-4c-3 0-5 2-5 5s2 6 5 7h4" fill="none" stroke="rgba(250,192,26,0.7)"
+                        stroke-width="1.5" stroke-linecap="round" />
+                    <!-- Right handle -->
+                    <path d="M44 12h4c3 0 5 2 5 5s-2 6-5 7h-4" fill="none" stroke="rgba(250,192,26,0.7)"
+                        stroke-width="1.5" stroke-linecap="round" />
+                    <!-- Stem -->
+                    <rect x="29" y="32" width="6" height="8" rx="1" fill="rgba(250,192,26,0.75)" />
+                    <!-- Base -->
+                    <rect x="22" y="40" width="20" height="4" rx="2" fill="rgba(250,192,26,0.8)" />
+                    <!-- Star on cup -->
+                    <path d="M32 14l2 4 4.5.7-3.2 3.2.8 4.5L32 24l-4.1 2.4.8-4.5-3.2-3.2L30 18z"
+                        fill="rgba(255,255,255,0.9)" />
+                </svg>
+                <div class="cp-beacon-ring"></div>
+            </div>
+
+            <!-- Milestone dots (positioned by JS) -->
+            <div class="cp-milestone" id="m1"></div>
+            <div class="cp-milestone" id="m2"></div>
+            <div class="cp-milestone" id="m3"></div>
+            <div class="cp-milestone" id="m4"></div>
+            <div class="cp-milestone" id="m5"></div>
+            <div class="cp-milestone" id="m6"></div>
+
+            <!-- Content -->
+            <div class="container">
+                <div class="cp-glass-card" id="cpCard">
+                    <div class="cp-kicker" id="cpKicker">
+                        <i class="fas fa-route"></i>
+                        Your Future Starts Here
+                    </div>
+                    <h1 id="cpTitle">Career Pathways</h1>
+                    <p id="cpSub">Discover the routes that lead from education to industry success in microelectronics,
+                        nanotechnology, and semiconductor manufacturing.</p>
+                </div>
+            </div>
+
+            <!-- Straight bottom edge -->
+            <div class="cp-hero__edge"></div>
+        </section>
+
+        <!-- Body: Tree-View Layout -->
+        <section class="cp-body">
+            <div class="container cp-layout">
+
+                <!-- Tree Sidebar -->
+                <aside class="cp-tree-sidebar">
+                    <h3 class="cp-tree-header"><i class="fas fa-sitemap"></i> Program Navigator</h3>
+                    <div class="cp-tree">
+
+                        <!-- Root: Degree Programs -->
+                        <div class="cp-tree-root is-open" id="root-degrees">
+                            <button class="cp-tree-root-btn" data-root="degrees">
+                                <span class="cp-tree-icon"><i class="fas fa-graduation-cap"></i></span>
+                                Degree Programs
+                                <i class="fas fa-chevron-right cp-tree-chevron"></i>
+                            </button>
+                            <div class="cp-tree-leaves">
+                                <button class="cp-tree-leaf" data-panel="ce">
+                                    <span class="cp-leaf-dot"></span> Computer Engineering
+                                </button>
+                                <button class="cp-tree-leaf" data-panel="cs">
+                                    <span class="cp-leaf-dot"></span> Computer Science
+                                </button>
+                                <button class="cp-tree-leaf" data-panel="ee">
+                                    <span class="cp-leaf-dot"></span> Electrical Engineering
+                                </button>
+                                <button class="cp-tree-leaf" data-panel="et">
+                                    <span class="cp-leaf-dot"></span> Engineering Technology
+                                </button>
+                                <button class="cp-tree-leaf" data-panel="me">
+                                    <span class="cp-leaf-dot"></span> Mechanical Engineering
+                                </button>
+                                <button class="cp-tree-leaf" data-panel="mre">
+                                    <span class="cp-leaf-dot"></span> Mechatronics & Robotics Engineering
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Root: Professional Development -->
+                        <div class="cp-tree-root is-open" id="root-professional">
+                            <button class="cp-tree-root-btn" data-root="professional">
+                                <span class="cp-tree-icon"><i class="fas fa-tools"></i></span>
+                                Professional Development
+                                <i class="fas fa-chevron-right cp-tree-chevron"></i>
+                            </button>
+                            <div class="cp-tree-leaves">
+                                <button class="cp-tree-leaf" data-panel="ptap">
+                                    <span class="cp-leaf-dot"></span> PTAP Apprenticeship
+                                </button>
+                                <button class="cp-tree-leaf" data-panel="metrology">
+                                    <span class="cp-leaf-dot"></span> Semiconductor Metrology
+                                </button>
+                                <button class="cp-tree-leaf" data-panel="short-courses">
+                                    <span class="cp-leaf-dot"></span> Short Courses & Workshops
+                                </button>
+                                <button class="cp-tree-leaf" data-panel="industry">
+                                    <span class="cp-leaf-dot"></span> Industry Partnerships
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </aside>
+
+                <!-- Content Area -->
+                <div class="cp-content-area">
+
+                    <!-- Welcome / Default Panel -->
+                    <div class="cp-panel active" id="panel-welcome">
+                        <div class="cp-welcome">
+                            <div class="cp-welcome-icon">
+                                <i class="fas fa-route"></i>
+                            </div>
+                            <h3>Explore Career Pathways</h3>
+                            <p>Select a program from the navigator to learn about degree tracks, professional
+                                certifications, workforce development opportunities, and more.</p>
+                        </div>
+                    </div>
+
+                    <!-- ========== LAYOUT A: Computer Engineering ========== -->
+                    <div class="cp-panel" id="panel-ce">
+                        <div class="cp-content-header">
+                            <i class="fas fa-microchip"></i>
+                            <div>
+                                <h2>Computer Engineering</h2>
+                                <div class="cp-content-sub">Bachelor of Science</div>
+                            </div>
+                        </div>
+                        <div class="cp-content-body">
+                            <div class="cp-stats-row">
+                                <div class="cp-stat-card">
+                                    <div class="cp-stat-num">120</div>
+                                    <div class="cp-stat-label">Credit Hours</div>
+                                </div>
+                                <div class="cp-stat-card">
+                                    <div class="cp-stat-num">$82K</div>
+                                    <div class="cp-stat-label">Median Starting Salary</div>
+                                </div>
+                                <div class="cp-stat-card">
+                                    <div class="cp-stat-num">4 yrs</div>
+                                    <div class="cp-stat-label">Program Length</div>
+                                </div>
+                            </div>
+
+                            <p class="cp-overview">
+                                NAU's Computer Engineering program bridges the gap between hardware and software,
+                                preparing graduates to design high-performance computing systems, embedded controllers,
+                                and advanced processor architectures essential for the AI and semiconductor era. The
+                                curriculum includes digital logic, VLSI circuits, computer architecture, FPGA design,
+                                and network systems &mdash; with hands-on lab experience throughout.
+                            </p>
+
+                            <div class="cp-career-section">
+                                <h3><i class="fas fa-briefcase"></i> Career Pathways &amp; Salary Ranges</h3>
+                                <table class="cp-career-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Role</th>
+                                            <th>Entry-Level</th>
+                                            <th>Mid-Level</th>
+                                            <th>Core Skills</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="cp-role-title">Embedded Systems Engineer</td>
+                                            <td class="cp-salary">$70K &ndash; $85K</td>
+                                            <td class="cp-salary">$100K &ndash; $130K</td>
+                                            <td class="cp-skills-cell"><span class="cp-skill-tag">C/C++</span><span
+                                                    class="cp-skill-tag">RTOS</span><span
+                                                    class="cp-skill-tag">FPGA</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cp-role-title">Hardware Design Engineer</td>
+                                            <td class="cp-salary">$75K &ndash; $90K</td>
+                                            <td class="cp-salary">$105K &ndash; $135K</td>
+                                            <td class="cp-skills-cell"><span class="cp-skill-tag">Verilog</span><span
+                                                    class="cp-skill-tag">PCB Design</span><span
+                                                    class="cp-skill-tag">Signal Integrity</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cp-role-title">FPGA / ASIC Engineer</td>
+                                            <td class="cp-salary">$80K &ndash; $95K</td>
+                                            <td class="cp-salary">$110K &ndash; $145K</td>
+                                            <td class="cp-skills-cell"><span class="cp-skill-tag">VHDL</span><span
+                                                    class="cp-skill-tag">Synthesis</span><span class="cp-skill-tag">RTL
+                                                    Design</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cp-role-title">Software Engineer</td>
+                                            <td class="cp-salary">$75K &ndash; $100K</td>
+                                            <td class="cp-salary">$110K &ndash; $140K</td>
+                                            <td class="cp-skills-cell"><span class="cp-skill-tag">Python</span><span
+                                                    class="cp-skill-tag">Java</span><span class="cp-skill-tag">System
+                                                    Architecture</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cp-role-title">IoT Solutions Engineer</td>
+                                            <td class="cp-salary">$70K &ndash; $88K</td>
+                                            <td class="cp-salary">$95K &ndash; $125K</td>
+                                            <td class="cp-skills-cell"><span class="cp-skill-tag">Sensors</span><span
+                                                    class="cp-skill-tag">Cloud</span><span class="cp-skill-tag">Edge
+                                                    Computing</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cp-role-title">Cybersecurity Engineer</td>
+                                            <td class="cp-salary">$72K &ndash; $90K</td>
+                                            <td class="cp-salary">$100K &ndash; $135K</td>
+                                            <td class="cp-skills-cell"><span class="cp-skill-tag">Network
+                                                    Security</span><span class="cp-skill-tag">Encryption</span><span
+                                                    class="cp-skill-tag">Pen Testing</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="cp-focus-areas">
+                                <span class="cp-focus-pill"><i class="fas fa-check-circle"></i> Computer
+                                    Architecture</span>
+                                <span class="cp-focus-pill"><i class="fas fa-check-circle"></i> Digital Logic &amp;
+                                    VLSI</span>
+                                <span class="cp-focus-pill"><i class="fas fa-check-circle"></i> FPGA Design</span>
+                                <span class="cp-focus-pill"><i class="fas fa-check-circle"></i> Network Systems</span>
+                                <span class="cp-focus-pill"><i class="fas fa-check-circle"></i> Embedded Systems</span>
+                            </div>
+
+                            <div class="cp-advantage">
+                                <h4><i class="fas fa-star"></i> NAU Advantage</h4>
+                                <p>Computer Engineering students gain hands-on access to Xilinx FPGA boards, ARM Cortex
+                                    development kits, and NAU's state-of-the-art MPaCT cleanroom. Top employers include
+                                    Raytheon, Northrop Grumman, General Dynamics, Hewlett Packard Enterprise, and
+                                    L3Harris.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ========== LAYOUT B: Computer Science ========== -->
+                    <div class="cp-panel" id="panel-cs">
+                        <div class="cp-content-header">
+                            <i class="fas fa-code"></i>
+                            <div>
+                                <h2>Computer Science</h2>
+                                <div class="cp-content-sub">Bachelor of Science</div>
+                            </div>
+                        </div>
+                        <div class="cp-content-body">
+                            <div class="cp-spotlight">
+                                <div class="cp-spotlight-icon"><i class="fas fa-dollar-sign"></i></div>
+                                <div class="cp-spotlight-text">
+                                    <div class="cp-spotlight-stat">$74,815</div>
+                                    <div class="cp-spotlight-label">Median starting salary for NAU CS graduates</div>
+                                </div>
+                            </div>
+
+                            <div class="cp-skills-section">
+                                <h3><i class="fas fa-th-large"></i> What You'll Learn</h3>
+                                <div class="cp-skill-grid">
+                                    <div class="cp-skill-item"><i class="fas fa-code"></i><span>Software
+                                            Engineering</span></div>
+                                    <div class="cp-skill-item"><i class="fas fa-project-diagram"></i><span>Algorithms
+                                            &amp; Data Structures</span></div>
+                                    <div class="cp-skill-item"><i class="fas fa-brain"></i><span>Artificial
+                                            Intelligence</span></div>
+                                    <div class="cp-skill-item"><i class="fas fa-server"></i><span>Operating
+                                            Systems</span></div>
+                                    <div class="cp-skill-item"><i class="fas fa-database"></i><span>Database
+                                            Systems</span></div>
+                                    <div class="cp-skill-item"><i
+                                            class="fas fa-shield-alt"></i><span>Cybersecurity</span></div>
+                                </div>
+                            </div>
+
+                            <div class="cp-career-section">
+                                <h3><i class="fas fa-briefcase"></i> Career Pathways &amp; Salary Ranges</h3>
+                                <table class="cp-career-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Role</th>
+                                            <th>Entry-Level</th>
+                                            <th>Mid-Level</th>
+                                            <th>Core Skills</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="cp-role-title">Software Developer</td>
+                                            <td class="cp-salary">$75K &ndash; $100K</td>
+                                            <td class="cp-salary">$110K &ndash; $145K</td>
+                                            <td class="cp-skills-cell"><span class="cp-skill-tag">Full-Stack</span><span
+                                                    class="cp-skill-tag">Agile</span><span
+                                                    class="cp-skill-tag">CI/CD</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cp-role-title">Data Scientist</td>
+                                            <td class="cp-salary">$78K &ndash; $95K</td>
+                                            <td class="cp-salary">$115K &ndash; $150K</td>
+                                            <td class="cp-skills-cell"><span class="cp-skill-tag">Python</span><span
+                                                    class="cp-skill-tag">ML/AI</span><span
+                                                    class="cp-skill-tag">Statistics</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cp-role-title">Cloud Engineer</td>
+                                            <td class="cp-salary">$80K &ndash; $100K</td>
+                                            <td class="cp-salary">$120K &ndash; $155K</td>
+                                            <td class="cp-skills-cell"><span class="cp-skill-tag">AWS/Azure</span><span
+                                                    class="cp-skill-tag">Kubernetes</span><span
+                                                    class="cp-skill-tag">Terraform</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cp-role-title">Cybersecurity Analyst</td>
+                                            <td class="cp-salary">$68K &ndash; $88K</td>
+                                            <td class="cp-salary">$95K &ndash; $130K</td>
+                                            <td class="cp-skills-cell"><span class="cp-skill-tag">SIEM</span><span
+                                                    class="cp-skill-tag">Threat Modeling</span><span
+                                                    class="cp-skill-tag">Incident Response</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cp-role-title">DevOps Engineer</td>
+                                            <td class="cp-salary">$75K &ndash; $95K</td>
+                                            <td class="cp-salary">$115K &ndash; $145K</td>
+                                            <td class="cp-skills-cell"><span class="cp-skill-tag">Docker</span><span
+                                                    class="cp-skill-tag">Jenkins</span><span
+                                                    class="cp-skill-tag">IaC</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cp-role-title">AI / ML Engineer</td>
+                                            <td class="cp-salary">$82K &ndash; $105K</td>
+                                            <td class="cp-salary">$125K &ndash; $165K</td>
+                                            <td class="cp-skills-cell"><span class="cp-skill-tag">TensorFlow</span><span
+                                                    class="cp-skill-tag">PyTorch</span><span
+                                                    class="cp-skill-tag">NLP</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="cp-industries-section">
+                                <h3><i class="fas fa-building"></i> Industries</h3>
+                                <div class="cp-industries-row">
+                                    <span class="cp-industry-card"><i class="fas fa-laptop-code"></i> Big Tech</span>
+                                    <span class="cp-industry-card"><i class="fas fa-shield-alt"></i>
+                                        Cybersecurity</span>
+                                    <span class="cp-industry-card"><i class="fas fa-cloud"></i> Cloud Computing</span>
+                                    <span class="cp-industry-card"><i class="fas fa-microchip"></i> Semiconductor</span>
+                                    <span class="cp-industry-card"><i class="fas fa-heartbeat"></i> Healthcare IT</span>
+                                    <span class="cp-industry-card"><i class="fas fa-rocket"></i> Defense &amp;
+                                        Aerospace</span>
+                                </div>
+                            </div>
+
+                            <div class="cp-why-nau">
+                                <h4>Why NAU for Computer Science?</h4>
+                                <ul class="cp-why-nau-list">
+                                    <li><i class="fas fa-check-circle"></i> Ranked #168 nationally and #3 in Arizona by
+                                        College Factual</li>
+                                    <li><i class="fas fa-check-circle"></i> 75% of graduates employed or in further
+                                        education within 6 months</li>
+                                    <li><i class="fas fa-check-circle"></i> Experiential learning through internships,
+                                        capstones, and undergraduate research</li>
+                                    <li><i class="fas fa-check-circle"></i> Graduates hired by Fast Enterprises, Procter
+                                        &amp; Gamble, HPE, and Arizona tech firms</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ========== LAYOUT A: Electrical Engineering ========== -->
+                    <div class="cp-panel" id="panel-ee">
+                        <div class="cp-content-header">
+                            <i class="fas fa-bolt"></i>
+                            <div>
+                                <h2>Electrical Engineering</h2>
+                                <div class="cp-content-sub">Bachelor of Science</div>
+                            </div>
+                        </div>
+                        <div class="cp-content-body">
+                            <div class="cp-stats-row">
+                                <div class="cp-stat-card">
+                                    <div class="cp-stat-num">120</div>
+                                    <div class="cp-stat-label">Credit Hours</div>
+                                </div>
+                                <div class="cp-stat-card">
+                                    <div class="cp-stat-num">$79K</div>
+                                    <div class="cp-stat-label">Median Starting Salary</div>
+                                </div>
+                                <div class="cp-stat-card">
+                                    <div class="cp-stat-num">4 yrs</div>
+                                    <div class="cp-stat-label">Program Length</div>
+                                </div>
+                            </div>
+
+                            <p class="cp-overview">
+                                NAU's Electrical Engineering program covers the design, development, and analysis of
+                                electrical and electronic systems used in semiconductor manufacturing, communications,
+                                energy systems, and embedded technologies. Students gain hands-on experience in
+                                state-of-the-art cleanrooms and labs, with specializations available in control systems,
+                                communication systems, digital signal processing, power systems, and VLSI circuits.
+                            </p>
+
+                            <div class="cp-career-section">
+                                <h3><i class="fas fa-briefcase"></i> Career Pathways &amp; Salary Ranges</h3>
+                                <table class="cp-career-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Role</th>
+                                            <th>Entry-Level</th>
+                                            <th>Mid-Level</th>
+                                            <th>Core Skills</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="cp-role-title">Power Systems Engineer</td>
+                                            <td class="cp-salary">$70K &ndash; $88K</td>
+                                            <td class="cp-salary">$95K &ndash; $130K</td>
+                                            <td class="cp-skills-cell"><span class="cp-skill-tag">Grid
+                                                    Design</span><span class="cp-skill-tag">SCADA</span><span
+                                                    class="cp-skill-tag">Power Electronics</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cp-role-title">RF / Microwave Engineer</td>
+                                            <td class="cp-salary">$75K &ndash; $92K</td>
+                                            <td class="cp-salary">$105K &ndash; $140K</td>
+                                            <td class="cp-skills-cell"><span class="cp-skill-tag">Antenna
+                                                    Design</span><span class="cp-skill-tag">EMC</span><span
+                                                    class="cp-skill-tag">Signal Processing</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cp-role-title">Control Systems Engineer</td>
+                                            <td class="cp-salary">$72K &ndash; $90K</td>
+                                            <td class="cp-salary">$100K &ndash; $135K</td>
+                                            <td class="cp-skills-cell"><span class="cp-skill-tag">PLC</span><span
+                                                    class="cp-skill-tag">PID</span><span
+                                                    class="cp-skill-tag">MATLAB/Simulink</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cp-role-title">Semiconductor Process Engineer</td>
+                                            <td class="cp-salary">$78K &ndash; $95K</td>
+                                            <td class="cp-salary">$110K &ndash; $145K</td>
+                                            <td class="cp-skills-cell"><span class="cp-skill-tag">Fab Ops</span><span
+                                                    class="cp-skill-tag">Thin-Film</span><span
+                                                    class="cp-skill-tag">Metrology</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cp-role-title">Signal Processing Engineer</td>
+                                            <td class="cp-salary">$75K &ndash; $90K</td>
+                                            <td class="cp-salary">$105K &ndash; $135K</td>
+                                            <td class="cp-skills-cell"><span class="cp-skill-tag">DSP</span><span
+                                                    class="cp-skill-tag">MATLAB</span><span
+                                                    class="cp-skill-tag">Algorithm Design</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cp-role-title">VLSI Design Engineer</td>
+                                            <td class="cp-salary">$80K &ndash; $98K</td>
+                                            <td class="cp-salary">$115K &ndash; $150K</td>
+                                            <td class="cp-skills-cell"><span class="cp-skill-tag">Cadence</span><span
+                                                    class="cp-skill-tag">CMOS</span><span class="cp-skill-tag">Layout
+                                                    Design</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="cp-focus-areas">
+                                <span class="cp-focus-pill"><i class="fas fa-check-circle"></i> Circuit Analysis &amp;
+                                    Design</span>
+                                <span class="cp-focus-pill"><i class="fas fa-check-circle"></i> Microelectronics</span>
+                                <span class="cp-focus-pill"><i class="fas fa-check-circle"></i> Embedded Systems</span>
+                                <span class="cp-focus-pill"><i class="fas fa-check-circle"></i> Signal Processing</span>
+                                <span class="cp-focus-pill"><i class="fas fa-check-circle"></i> IoT Design</span>
+                            </div>
+
+                            <div class="cp-advantage">
+                                <h4><i class="fas fa-star"></i> NAU Advantage</h4>
+                                <p>EE students work directly with semiconductor fabrication equipment in NAU's MPaCT
+                                    cleanroom, gaining practical experience with photolithography, thin-film deposition,
+                                    and metrology tools. The program prepares graduates for Arizona's booming
+                                    semiconductor sector with employers like TSMC, Arizona Public Service, and L3Harris.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ========== LAYOUT A: Engineering Technology ========== -->
+                    <div class="cp-panel" id="panel-et">
+                        <div class="cp-content-header">
+                            <i class="fas fa-cogs"></i>
+                            <div>
+                                <h2>Engineering Technology</h2>
+                                <div class="cp-content-sub">Bachelor of Science (BSET)</div>
+                            </div>
+                        </div>
+                        <div class="cp-content-body">
+                            <div class="cp-stats-row">
+                                <div class="cp-stat-card">
+                                    <div class="cp-stat-num">120</div>
+                                    <div class="cp-stat-label">Credit Hours</div>
+                                </div>
+                                <div class="cp-stat-card">
+                                    <div class="cp-stat-num">$62K</div>
+                                    <div class="cp-stat-label">Median Starting Salary</div>
+                                </div>
+                                <div class="cp-stat-card">
+                                    <div class="cp-stat-num">2&ndash;4 yrs</div>
+                                    <div class="cp-stat-label">Flexible Pathways</div>
+                                </div>
+                            </div>
+
+                            <p class="cp-overview">
+                                NAU's Engineering Technology program emphasizes the practical application of engineering
+                                principles to real-world problems. Unlike traditional engineering degrees, this program
+                                focuses on applied engineering practices and technical problem-solving. Two emphasis
+                                tracks are available: General Engineering and Semiconductor Fabrication. Flexible
+                                completion pathways include a 4-year standalone option, a 2-year completion track for
+                                community college transfers, and the 90-30 option for Pima CC students.
+                            </p>
+
+                            <div class="cp-career-section">
+                                <h3><i class="fas fa-briefcase"></i> Career Pathways &amp; Salary Ranges</h3>
+                                <table class="cp-career-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Role</th>
+                                            <th>Entry-Level</th>
+                                            <th>Mid-Level</th>
+                                            <th>Core Skills</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="cp-role-title">Manufacturing Engineer</td>
+                                            <td class="cp-salary">$60K &ndash; $75K</td>
+                                            <td class="cp-salary">$80K &ndash; $105K</td>
+                                            <td class="cp-skills-cell"><span class="cp-skill-tag">Lean Mfg</span><span
+                                                    class="cp-skill-tag">CAD</span><span class="cp-skill-tag">Process
+                                                    Optimization</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cp-role-title">Quality Engineer</td>
+                                            <td class="cp-salary">$58K &ndash; $72K</td>
+                                            <td class="cp-salary">$78K &ndash; $100K</td>
+                                            <td class="cp-skills-cell"><span class="cp-skill-tag">Six Sigma</span><span
+                                                    class="cp-skill-tag">SPC</span><span class="cp-skill-tag">Root Cause
+                                                    Analysis</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cp-role-title">Field Service Engineer</td>
+                                            <td class="cp-salary">$55K &ndash; $70K</td>
+                                            <td class="cp-salary">$75K &ndash; $95K</td>
+                                            <td class="cp-skills-cell"><span
+                                                    class="cp-skill-tag">Troubleshooting</span><span
+                                                    class="cp-skill-tag">Tech Support</span><span
+                                                    class="cp-skill-tag">Equipment</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cp-role-title">Process Technician</td>
+                                            <td class="cp-salary">$50K &ndash; $65K</td>
+                                            <td class="cp-salary">$70K &ndash; $90K</td>
+                                            <td class="cp-skills-cell"><span class="cp-skill-tag">Cleanroom</span><span
+                                                    class="cp-skill-tag">Metrology</span><span
+                                                    class="cp-skill-tag">SOP</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cp-role-title">Test Engineer</td>
+                                            <td class="cp-salary">$60K &ndash; $75K</td>
+                                            <td class="cp-salary">$82K &ndash; $108K</td>
+                                            <td class="cp-skills-cell"><span class="cp-skill-tag">Test
+                                                    Automation</span><span class="cp-skill-tag">LabVIEW</span><span
+                                                    class="cp-skill-tag">Data Analysis</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cp-role-title">Engineering Sales Engineer</td>
+                                            <td class="cp-salary">$55K &ndash; $70K</td>
+                                            <td class="cp-salary">$85K &ndash; $120K</td>
+                                            <td class="cp-skills-cell"><span class="cp-skill-tag">Tech
+                                                    Communication</span><span class="cp-skill-tag">CRM</span><span
+                                                    class="cp-skill-tag">Product Knowledge</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="cp-focus-areas">
+                                <span class="cp-focus-pill"><i class="fas fa-check-circle"></i> Manufacturing
+                                    Systems</span>
+                                <span class="cp-focus-pill"><i class="fas fa-check-circle"></i> Quality Assurance</span>
+                                <span class="cp-focus-pill"><i class="fas fa-check-circle"></i> Industrial
+                                    Systems</span>
+                                <span class="cp-focus-pill"><i class="fas fa-check-circle"></i> Semiconductor
+                                    Fabrication</span>
+                                <span class="cp-focus-pill"><i class="fas fa-check-circle"></i> Project
+                                    Management</span>
+                            </div>
+
+                            <div class="cp-advantage">
+                                <h4><i class="fas fa-star"></i> NAU Advantage</h4>
+                                <p>Engineering Technology students complete a capstone project in collaboration with
+                                    industry partners, building real-world experience and professional networks. The
+                                    Semiconductor Fabrication emphasis provides specialized training for the electronics
+                                    and semiconductor industry, directly relevant to Arizona's growing fab ecosystem.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ========== LAYOUT B: Mechanical Engineering ========== -->
+                    <div class="cp-panel" id="panel-me">
+                        <div class="cp-content-header">
+                            <i class="fas fa-drafting-compass"></i>
+                            <div>
+                                <h2>Mechanical Engineering</h2>
+                                <div class="cp-content-sub">Bachelor of Science</div>
+                            </div>
+                        </div>
+                        <div class="cp-content-body">
+                            <div class="cp-spotlight">
+                                <div class="cp-spotlight-icon"><i class="fas fa-dollar-sign"></i></div>
+                                <div class="cp-spotlight-text">
+                                    <div class="cp-spotlight-stat">$63,252</div>
+                                    <div class="cp-spotlight-label">Median salary for NAU ME graduates</div>
+                                </div>
+                            </div>
+
+                            <div class="cp-skills-section">
+                                <h3><i class="fas fa-th-large"></i> What You'll Learn</h3>
+                                <div class="cp-skill-grid">
+                                    <div class="cp-skill-item"><i class="fas fa-fire"></i><span>Thermodynamics</span>
+                                    </div>
+                                    <div class="cp-skill-item"><i class="fas fa-water"></i><span>Fluid Sciences</span>
+                                    </div>
+                                    <div class="cp-skill-item"><i class="fas fa-cube"></i><span>Solid Mechanics</span>
+                                    </div>
+                                    <div class="cp-skill-item"><i class="fas fa-atom"></i><span>Materials Science</span>
+                                    </div>
+                                    <div class="cp-skill-item"><i class="fas fa-cogs"></i><span>System Dynamics</span>
+                                    </div>
+                                    <div class="cp-skill-item"><i class="fas fa-pencil-ruler"></i><span>CAD &amp;
+                                            FEA</span></div>
+                                </div>
+                            </div>
+
+                            <div class="cp-career-section">
+                                <h3><i class="fas fa-briefcase"></i> Career Pathways &amp; Salary Ranges</h3>
+                                <table class="cp-career-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Role</th>
+                                            <th>Entry-Level</th>
+                                            <th>Mid-Level</th>
+                                            <th>Core Skills</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="cp-role-title">Mechanical Design Engineer</td>
+                                            <td class="cp-salary">$65K &ndash; $82K</td>
+                                            <td class="cp-salary">$90K &ndash; $120K</td>
+                                            <td class="cp-skills-cell"><span class="cp-skill-tag">SolidWorks</span><span
+                                                    class="cp-skill-tag">FEA</span><span
+                                                    class="cp-skill-tag">GD&amp;T</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cp-role-title">Aerospace Engineer</td>
+                                            <td class="cp-salary">$72K &ndash; $90K</td>
+                                            <td class="cp-salary">$100K &ndash; $135K</td>
+                                            <td class="cp-skills-cell"><span
+                                                    class="cp-skill-tag">Aerodynamics</span><span
+                                                    class="cp-skill-tag">CFD</span><span
+                                                    class="cp-skill-tag">Structures</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cp-role-title">Thermal / HVAC Engineer</td>
+                                            <td class="cp-salary">$62K &ndash; $78K</td>
+                                            <td class="cp-salary">$85K &ndash; $115K</td>
+                                            <td class="cp-skills-cell"><span class="cp-skill-tag">Heat
+                                                    Transfer</span><span class="cp-skill-tag">Fluid Dynamics</span><span
+                                                    class="cp-skill-tag">System Design</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cp-role-title">Manufacturing Engineer</td>
+                                            <td class="cp-salary">$63K &ndash; $80K</td>
+                                            <td class="cp-salary">$88K &ndash; $118K</td>
+                                            <td class="cp-skills-cell"><span class="cp-skill-tag">CNC</span><span
+                                                    class="cp-skill-tag">Lean</span><span class="cp-skill-tag">Process
+                                                    Engineering</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cp-role-title">Product Development Engineer</td>
+                                            <td class="cp-salary">$65K &ndash; $85K</td>
+                                            <td class="cp-salary">$92K &ndash; $125K</td>
+                                            <td class="cp-skills-cell"><span
+                                                    class="cp-skill-tag">Prototyping</span><span
+                                                    class="cp-skill-tag">DFM</span><span
+                                                    class="cp-skill-tag">Testing</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cp-role-title">Automotive Engineer</td>
+                                            <td class="cp-salary">$68K &ndash; $85K</td>
+                                            <td class="cp-salary">$95K &ndash; $128K</td>
+                                            <td class="cp-skills-cell"><span class="cp-skill-tag">EV Systems</span><span
+                                                    class="cp-skill-tag">Safety</span><span class="cp-skill-tag">Crash
+                                                    Simulation</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="cp-industries-section">
+                                <h3><i class="fas fa-building"></i> Industries</h3>
+                                <div class="cp-industries-row">
+                                    <span class="cp-industry-card"><i class="fas fa-plane"></i> Aerospace</span>
+                                    <span class="cp-industry-card"><i class="fas fa-car"></i> Automotive</span>
+                                    <span class="cp-industry-card"><i class="fas fa-bolt"></i> Energy</span>
+                                    <span class="cp-industry-card"><i class="fas fa-robot"></i> Robotics</span>
+                                    <span class="cp-industry-card"><i class="fas fa-heartbeat"></i> Healthcare</span>
+                                    <span class="cp-industry-card"><i class="fas fa-industry"></i> Advanced Mfg</span>
+                                </div>
+                            </div>
+
+                            <div class="cp-why-nau">
+                                <h4>Why NAU for Mechanical Engineering?</h4>
+                                <ul class="cp-why-nau-list">
+                                    <li><i class="fas fa-check-circle"></i> Strong core in thermodynamics, fluid
+                                        sciences, solid mechanics, and energy systems</li>
+                                    <li><i class="fas fa-check-circle"></i> 70% of graduates employed or in further
+                                        education within 6 months</li>
+                                    <li><i class="fas fa-check-circle"></i> Industry capstone projects with real-world
+                                        engineering challenges</li>
+                                    <li><i class="fas fa-check-circle"></i> Graduates hired by Kiewit, Procter &amp;
+                                        Gamble, Ames Construction, and defense contractors</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ========== LAYOUT B: Mechatronics & Robotics ========== -->
+                    <div class="cp-panel" id="panel-mre">
+                        <div class="cp-content-header">
+                            <i class="fas fa-robot"></i>
+                            <div>
+                                <h2>Mechatronics &amp; Robotics Engineering</h2>
+                                <div class="cp-content-sub">Bachelor of Science</div>
+                            </div>
+                        </div>
+                        <div class="cp-content-body">
+                            <div class="cp-spotlight">
+                                <div class="cp-spotlight-icon"><i class="fas fa-chart-line"></i></div>
+                                <div class="cp-spotlight-text">
+                                    <div class="cp-spotlight-stat">Faster Than Average</div>
+                                    <div class="cp-spotlight-label">Projected job growth for robotics and automation
+                                        engineers</div>
+                                </div>
+                            </div>
+
+                            <div class="cp-skills-section">
+                                <h3><i class="fas fa-th-large"></i> What You'll Learn</h3>
+                                <div class="cp-skill-grid">
+                                    <div class="cp-skill-item"><i class="fas fa-robot"></i><span>Robotics Design</span>
+                                    </div>
+                                    <div class="cp-skill-item"><i class="fas fa-sliders-h"></i><span>Control
+                                            Systems</span></div>
+                                    <div class="cp-skill-item"><i class="fas fa-microchip"></i><span>Embedded
+                                            Systems</span></div>
+                                    <div class="cp-skill-item"><i class="fas fa-broadcast-tower"></i><span>Sensors &amp;
+                                            Actuators</span></div>
+                                    <div class="cp-skill-item"><i class="fas fa-industry"></i><span>Industrial
+                                            Automation</span></div>
+                                    <div class="cp-skill-item"><i class="fas fa-eye"></i><span>Computer Vision</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="cp-career-section">
+                                <h3><i class="fas fa-briefcase"></i> Career Pathways &amp; Salary Ranges</h3>
+                                <table class="cp-career-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Role</th>
+                                            <th>Entry-Level</th>
+                                            <th>Mid-Level</th>
+                                            <th>Core Skills</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="cp-role-title">Robotics Engineer</td>
+                                            <td class="cp-salary">$72K &ndash; $92K</td>
+                                            <td class="cp-salary">$105K &ndash; $140K</td>
+                                            <td class="cp-skills-cell"><span class="cp-skill-tag">ROS</span><span
+                                                    class="cp-skill-tag">Motion Planning</span><span
+                                                    class="cp-skill-tag">Computer Vision</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cp-role-title">Automation Engineer</td>
+                                            <td class="cp-salary">$68K &ndash; $88K</td>
+                                            <td class="cp-salary">$95K &ndash; $130K</td>
+                                            <td class="cp-skills-cell"><span class="cp-skill-tag">PLCs</span><span
+                                                    class="cp-skill-tag">SCADA</span><span
+                                                    class="cp-skill-tag">Industrial IoT</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cp-role-title">Controls Engineer</td>
+                                            <td class="cp-salary">$70K &ndash; $90K</td>
+                                            <td class="cp-salary">$100K &ndash; $135K</td>
+                                            <td class="cp-skills-cell"><span class="cp-skill-tag">PID</span><span
+                                                    class="cp-skill-tag">MATLAB</span><span
+                                                    class="cp-skill-tag">Embedded</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cp-role-title">Mechatronics Engineer</td>
+                                            <td class="cp-salary">$70K &ndash; $88K</td>
+                                            <td class="cp-salary">$95K &ndash; $128K</td>
+                                            <td class="cp-skills-cell"><span class="cp-skill-tag">Sensor
+                                                    Integration</span><span class="cp-skill-tag">Actuators</span><span
+                                                    class="cp-skill-tag">System Design</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cp-role-title">R&amp;D Engineer</td>
+                                            <td class="cp-salary">$72K &ndash; $90K</td>
+                                            <td class="cp-salary">$100K &ndash; $135K</td>
+                                            <td class="cp-skills-cell"><span
+                                                    class="cp-skill-tag">Prototyping</span><span
+                                                    class="cp-skill-tag">Testing</span><span
+                                                    class="cp-skill-tag">Cross-Disciplinary</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="cp-role-title">Instrumentation Engineer</td>
+                                            <td class="cp-salary">$65K &ndash; $82K</td>
+                                            <td class="cp-salary">$90K &ndash; $120K</td>
+                                            <td class="cp-skills-cell"><span
+                                                    class="cp-skill-tag">Calibration</span><span
+                                                    class="cp-skill-tag">DAQ</span><span class="cp-skill-tag">Process
+                                                    Control</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="cp-industries-section">
+                                <h3><i class="fas fa-building"></i> Industries</h3>
+                                <div class="cp-industries-row">
+                                    <span class="cp-industry-card"><i class="fas fa-industry"></i> Advanced
+                                        Manufacturing</span>
+                                    <span class="cp-industry-card"><i class="fas fa-heartbeat"></i> Medical
+                                        Robotics</span>
+                                    <span class="cp-industry-card"><i class="fas fa-rocket"></i> Space
+                                        Exploration</span>
+                                    <span class="cp-industry-card"><i class="fas fa-shield-alt"></i> Defense</span>
+                                    <span class="cp-industry-card"><i class="fas fa-car"></i> Autonomous Vehicles</span>
+                                    <span class="cp-industry-card"><i class="fas fa-leaf"></i> Renewable Energy</span>
+                                </div>
+                            </div>
+
+                            <div class="cp-why-nau">
+                                <h4>Why NAU for Mechatronics &amp; Robotics?</h4>
+                                <ul class="cp-why-nau-list">
+                                    <li><i class="fas fa-check-circle"></i> Interdisciplinary program integrating
+                                        mechanical, electrical, computer, and control systems</li>
+                                    <li><i class="fas fa-check-circle"></i> Hands-on design, construction, and operation
+                                        of automated systems and robots</li>
+                                    <li><i class="fas fa-check-circle"></i> Directly relevant to semiconductor wafer
+                                        handling automation and manufacturing systems</li>
+                                    <li><i class="fas fa-check-circle"></i> Growing demand: robotics engineer roles
+                                        projected to increase faster than average</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Professional Development Panels -->
+                    <div class="cp-panel" id="panel-ptap">
+                        <div class="cp-content-header">
+                            <i class="fas fa-hard-hat"></i>
+                            <div>
+                                <h2>PTAP Apprenticeship</h2>
+                                <div class="cp-content-sub">Process Technician Apprenticeship Program</div>
+                            </div>
+                        </div>
+                        <div class="cp-content-body">
+                            <div class="cp-program-placeholder">
+                                <i class="fas fa-file-alt"></i>
+                                <h3>Program details coming soon</h3>
+                                <p>Apprenticeship details, enrollment info, and career outcomes will be added here.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cp-panel" id="panel-metrology">
+                        <div class="cp-content-header">
+                            <i class="fas fa-microscope"></i>
+                            <div>
+                                <h2>Semiconductor Metrology</h2>
+                                <div class="cp-content-sub">Semiconductor & Microelectronics Metrology</div>
+                            </div>
+                        </div>
+                        <div class="cp-content-body">
+                            <div class="cp-program-placeholder">
+                                <i class="fas fa-file-alt"></i>
+                                <h3>Program details coming soon</h3>
+                                <p>Metrology training, certification pathways, and course details will be added here.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cp-panel" id="panel-short-courses">
+                        <div class="cp-content-header">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                            <div>
+                                <h2>Short Courses & Workshops</h2>
+                                <div class="cp-content-sub">Professional Development</div>
+                            </div>
+                        </div>
+                        <div class="cp-content-body">
+                            <div class="cp-program-placeholder">
+                                <i class="fas fa-file-alt"></i>
+                                <h3>Program details coming soon</h3>
+                                <p>Available workshops, schedules, and registration information will be added here.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cp-panel" id="panel-industry">
+                        <div class="cp-content-header">
+                            <i class="fas fa-handshake"></i>
+                            <div>
+                                <h2>Industry Partnerships</h2>
+                                <div class="cp-content-sub">Professional Development</div>
+                            </div>
+                        </div>
+                        <div class="cp-content-body">
+                            <div class="cp-program-placeholder">
+                                <i class="fas fa-file-alt"></i>
+                                <h3>Program details coming soon</h3>
+                                <p>Partnership opportunities, co-op programs, and industry connections will be added
+                                    here.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <site-footer></site-footer>
+
+    <script src="JS/layout.js"></script>
+
+    <!-- GSAP Animated Paths Header -->
+    <script>
+        (function () {
+            'use strict';
+
+            const canvas = document.getElementById('cpPaths');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const hero = canvas.parentElement;
+            let W, H;
+
+            function resize() {
+                W = canvas.width = hero.offsetWidth;
+                H = canvas.height = hero.offsetHeight;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            // ===== Define 4 career path curves (start from edges, converge to beacon) =====
+            const beaconX = () => W * 0.90;
+            const beaconY = () => H * 0.40;
+
+            // Each path: array of {x, y} as fractions of W, H
+            function getPaths() {
+                const bx = beaconX(), by = beaconY();
+                return [
+                    // Path 1: Bottom-left sweeping up-right
+                    {
+                        color: 'rgba(250,192,26,0.35)',
+                        width: 2.5,
+                        points: [
+                            { x: -20, y: H * 0.95 },
+                            { x: W * 0.15, y: H * 0.75 },
+                            { x: W * 0.35, y: H * 0.60 },
+                            { x: W * 0.55, y: H * 0.48 },
+                            { x: bx, y: by }
+                        ]
+                    },
+                    // Path 2: Top-left swooping down then up to beacon
+                    {
+                        color: 'rgba(250,192,26,0.25)',
+                        width: 2,
+                        points: [
+                            { x: -20, y: H * 0.15 },
+                            { x: W * 0.12, y: H * 0.30 },
+                            { x: W * 0.30, y: H * 0.42 },
+                            { x: W * 0.50, y: H * 0.38 },
+                            { x: bx, y: by }
+                        ]
+                    },
+                    // Path 3: Bottom-center, gentle rise
+                    {
+                        color: 'rgba(255,255,255,0.15)',
+                        width: 1.5,
+                        points: [
+                            { x: W * 0.10, y: H + 20 },
+                            { x: W * 0.25, y: H * 0.80 },
+                            { x: W * 0.45, y: H * 0.55 },
+                            { x: W * 0.65, y: H * 0.42 },
+                            { x: bx, y: by }
+                        ]
+                    },
+                    // Path 4: Far left middle, winding
+                    {
+                        color: 'rgba(250,192,26,0.20)',
+                        width: 1.8,
+                        points: [
+                            { x: -20, y: H * 0.55 },
+                            { x: W * 0.18, y: H * 0.50 },
+                            { x: W * 0.40, y: H * 0.35 },
+                            { x: W * 0.60, y: H * 0.30 },
+                            { x: bx, y: by }
+                        ]
+                    }
+                ];
+            }
+
+            // ===== Draw a partial bezier path (0 to progress where 1 = full) =====
+            function drawPath(pathData, progress) {
+                const pts = pathData.points;
+                if (pts.length < 2) return;
+
+                ctx.beginPath();
+                ctx.strokeStyle = pathData.color;
+                ctx.lineWidth = pathData.width;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+
+                // Build the full path as cubic bezier through points
+                const totalSegments = pts.length - 1;
+                const drawnSegments = progress * totalSegments;
+
+                ctx.moveTo(pts[0].x, pts[0].y);
+
+                for (let i = 0; i < totalSegments; i++) {
+                    if (i >= drawnSegments) break;
+
+                    const segProgress = Math.min(1, drawnSegments - i);
+                    const p0 = pts[i];
+                    const p1 = pts[i + 1];
+
+                    // Create control points for smooth curves
+                    const cpx1 = p0.x + (p1.x - p0.x) * 0.5;
+                    const cpy1 = p0.y;
+                    const cpx2 = p0.x + (p1.x - p0.x) * 0.5;
+                    const cpy2 = p1.y;
+
+                    if (segProgress >= 1) {
+                        ctx.bezierCurveTo(cpx1, cpy1, cpx2, cpy2, p1.x, p1.y);
+                    } else {
+                        // Partial segment - approximate with subdivision
+                        const t = segProgress;
+                        const x = cubicBez(p0.x, cpx1, cpx2, p1.x, t);
+                        const y = cubicBez(p0.y, cpy1, cpy2, p1.y, t);
+                        ctx.bezierCurveTo(
+                            p0.x + (cpx1 - p0.x) * t,
+                            p0.y + (cpy1 - p0.y) * t,
+                            cpx1 + (cpx2 - cpx1) * t,
+                            cpy1 + (cpy2 - cpy1) * t,
+                            x, y
+                        );
+                    }
+                }
+
+                ctx.stroke();
+
+                // Draw a glowing dot at the "head" of the path
+                if (progress > 0 && progress < 1) {
+                    const headIdx = Math.min(Math.floor(drawnSegments), totalSegments - 1);
+                    const headT = drawnSegments - headIdx;
+                    const p0 = pts[headIdx];
+                    const p1 = pts[headIdx + 1];
+                    const cpx1 = p0.x + (p1.x - p0.x) * 0.5;
+                    const cpy1 = p0.y;
+                    const cpx2 = p0.x + (p1.x - p0.x) * 0.5;
+                    const cpy2 = p1.y;
+                    const hx = cubicBez(p0.x, cpx1, cpx2, p1.x, headT);
+                    const hy = cubicBez(p0.y, cpy1, cpy2, p1.y, headT);
+
+                    ctx.beginPath();
+                    ctx.arc(hx, hy, 4, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(250,192,26,0.8)';
+                    ctx.shadowColor = 'rgba(250,192,26,0.6)';
+                    ctx.shadowBlur = 15;
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                }
+            }
+
+            function cubicBez(p0, p1, p2, p3, t) {
+                const u = 1 - t;
+                return u * u * u * p0 + 3 * u * u * t * p1 + 3 * u * t * t * p2 + t * t * t * p3;
+            }
+
+            // ===== Animation state =====
+            const state = { p1: 0, p2: 0, p3: 0, p4: 0 };
+
+            function render() {
+                ctx.clearRect(0, 0, W, H);
+                const paths = getPaths();
+                drawPath(paths[0], state.p1);
+                drawPath(paths[1], state.p2);
+                drawPath(paths[2], state.p3);
+                drawPath(paths[3], state.p4);
+            }
+
+            // ===== GSAP Timeline =====
+            const tl = gsap.timeline({
+                onUpdate: render,
+                defaults: { ease: 'power2.inOut' }
+            });
+
+            // Stagger the 4 paths drawing on
+            tl.to(state, { p1: 1, duration: 1.8 }, 0)
+                .to(state, { p2: 1, duration: 1.6 }, 0.3)
+                .to(state, { p3: 1, duration: 2.0 }, 0.15)
+                .to(state, { p4: 1, duration: 1.5 }, 0.5)
+
+                // Beacon appears when first path reaches it
+                .to('#cpBeacon', {
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.5,
+                    ease: 'back.out(2)'
+                }, 1.3)
+
+                // Pulse ring starts
+                .set('#cpBeacon::after', { opacity: 1 }, 1.5)
+
+                // Milestone dots pop in along the paths
+                .to('.cp-milestone', {
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.3,
+                    stagger: 0.1,
+                    ease: 'back.out(3)'
+                }, 0.8)
+
+                // Card fades in
+                .to('#cpCard', {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.6,
+                    ease: 'power3.out'
+                }, 0.5)
+
+                // Text elements stagger in
+                .to('#cpKicker', {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.5,
+                    ease: 'power2.out'
+                }, 0.7)
+
+                .to('#cpTitle', {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.5,
+                    ease: 'power2.out'
+                }, 0.9)
+
+                .to('#cpSub', {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.5,
+                    ease: 'power2.out'
+                }, 1.1);
+
+            // Set initial states for elements that animate in
+            gsap.set('#cpCard', { y: 20 });
+            gsap.set('#cpKicker', { y: 10 });
+            gsap.set('#cpTitle', { y: 10 });
+            gsap.set('#cpSub', { y: 10 });
+            gsap.set('#cpBeacon', { scale: 0 });
+            gsap.set('.cp-milestone', { scale: 0 });
+
+            // Position milestone dots along paths
+            function positionMilestones() {
+                const bx = beaconX(), by = beaconY();
+                const milestones = [
+                    { el: '#m1', x: W * 0.15, y: H * 0.75 },
+                    { el: '#m2', x: W * 0.35, y: H * 0.60 },
+                    { el: '#m3', x: W * 0.12, y: H * 0.30 },
+                    { el: '#m4', x: W * 0.30, y: H * 0.42 },
+                    { el: '#m5', x: W * 0.45, y: H * 0.55 },
+                    { el: '#m6', x: W * 0.60, y: H * 0.30 }
+                ];
+
+                milestones.forEach(m => {
+                    const el = document.querySelector(m.el);
+                    if (el) {
+                        el.style.left = m.x + 'px';
+                        el.style.top = m.y + 'px';
+                    }
+                });
+            }
+
+            positionMilestones();
+            window.addEventListener('resize', () => {
+                resize();
+                positionMilestones();
+            });
+
+        })();
+    </script>
+
+    <!-- Tree-View Interaction -->
+    <script>
+        (function () {
+            // Root node expand/collapse
+            document.querySelectorAll('.cp-tree-root-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const root = btn.closest('.cp-tree-root');
+                    root.classList.toggle('is-open');
+                });
+            });
+
+            // Leaf node → switch panel
+            document.querySelectorAll('.cp-tree-leaf').forEach(leaf => {
+                leaf.addEventListener('click', () => {
+                    const panelId = 'panel-' + leaf.dataset.panel;
+                    const target = document.getElementById(panelId);
+                    if (!target) return;
+
+                    // Deactivate all leaves
+                    document.querySelectorAll('.cp-tree-leaf.active').forEach(l => l.classList.remove('active'));
+                    // Activate clicked leaf
+                    leaf.classList.add('active');
+
+                    // Switch panels
+                    document.querySelectorAll('.cp-panel.active').forEach(p => p.classList.remove('active'));
+                    target.classList.add('active');
+                });
+            });
+        })();
+    </script>
+</body>
+
+</html>
