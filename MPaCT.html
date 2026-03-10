@@ -12,422 +12,1405 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,400&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap"
         rel="stylesheet">
 
     <link rel="stylesheet" href="CSS/style.css">
+
+    <style>
+        /* ===================================================
+           MPaCT Homepage V2 — Fresh Glassmorphism Design
+           Inspired by modern product pages & floating panels
+           =================================================== */
+
+        /* --- FOUNDATIONAL OVERRIDE --- */
+        .mp2-page {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        .mp2-page *:not(.site-header *):not(.site-footer *):not(site-header):not(site-footer) {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        /* --- ANIMATED BACKGROUND GRID --- */
+        .mp2-grid-bg {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .mp2-grid-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(0, 36, 84, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 36, 84, 0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: mp2-gridDrift 20s linear infinite;
+        }
+
+        @keyframes mp2-gridDrift {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(60px, 60px);
+            }
+        }
+
+        /* Floating orbs */
+        .mp2-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.5;
+            animation: mp2-orbit 20s ease-in-out infinite alternate;
+        }
+
+        .mp2-orb--gold {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(250, 192, 26, 0.25), transparent 70%);
+            top: -100px;
+            right: -100px;
+        }
+
+        .mp2-orb--blue {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 36, 84, 0.12), transparent 70%);
+            bottom: -150px;
+            left: -100px;
+            animation-delay: -10s;
+        }
+
+        @keyframes mp2-orbit {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                transform: translate(40px, -30px) scale(1.1);
+            }
+        }
+
+
+        /* ==================== HERO ==================== */
+        .mp2-hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(160deg, #f8fafc 0%, #eef2f7 40%, #e2e8f0 100%);
+            overflow: hidden;
+            padding: 120px 24px 80px;
+        }
+
+        .mp2-hero__layout {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        /* Left: Title block */
+        .mp2-hero__text {
+            position: relative;
+        }
+
+        .mp2-hero__chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            background: rgba(0, 36, 84, 0.06);
+            border: 1px solid rgba(0, 36, 84, 0.1);
+            border-radius: 100px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--nau-blue);
+            margin-bottom: 28px;
+        }
+
+        .mp2-hero__chip::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--nau-gold);
+        }
+
+        .mp2-hero__title {
+            font-size: clamp(3.2rem, 7vw, 5.5rem);
+            font-weight: 900;
+            color: var(--nau-blue);
+            line-height: 1.0;
+            letter-spacing: -2px;
+            margin-bottom: 28px;
+        }
+
+        .mp2-hero__title span {
+            display: block;
+            background: linear-gradient(135deg, var(--nau-gold-dark), var(--nau-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .mp2-hero__desc {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #475569;
+            max-width: 480px;
+            margin-bottom: 36px;
+        }
+
+        .mp2-hero__desc strong {
+            color: var(--nau-blue);
+            font-weight: 600;
+        }
+
+        .mp2-hero__buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .mp2-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            border: 1px solid transparent;
+            cursor: pointer;
+        }
+
+        .mp2-btn--primary {
+            background: var(--nau-blue);
+            color: #fff;
+            border-color: var(--nau-blue);
+        }
+
+        .mp2-btn--primary:hover {
+            background: var(--nau-blue-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 36, 84, 0.2);
+        }
+
+        .mp2-btn--ghost {
+            background: transparent;
+            color: var(--nau-blue);
+            border-color: rgba(0, 36, 84, 0.15);
+        }
+
+        .mp2-btn--ghost:hover {
+            background: rgba(0, 36, 84, 0.04);
+            border-color: rgba(0, 36, 84, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Right: Floating glass dashboard */
+        .mp2-hero__dashboard {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .mp2-glass {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 36, 84, 0.06),
+                0 1px 4px rgba(0, 0, 0, 0.04);
+        }
+
+        .mp2-hero__main-panel {
+            padding: 32px;
+        }
+
+        .mp2-hero__panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .mp2-hero__panel-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--nau-gold-dark);
+        }
+
+        .mp2-hero__panel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22c55e;
+            box-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
+            animation: mp2-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes mp2-pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.4;
+            }
+        }
+
+        .mp2-stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .mp2-stat-cell {
+            padding: 16px;
+            background: rgba(0, 36, 84, 0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 36, 84, 0.05);
+        }
+
+        .mp2-stat-cell__value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--nau-blue);
+            line-height: 1;
+            margin-bottom: 4px;
+            letter-spacing: -1px;
+        }
+
+        .mp2-stat-cell__value em {
+            font-style: normal;
+            font-size: 0.55em;
+            color: var(--nau-gold-dark);
+        }
+
+        .mp2-stat-cell__label {
+            font-size: 0.72rem;
+            color: #64748b;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        /* Tag row */
+        .mp2-hero__tags-row {
+            padding: 16px 24px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .mp2-tag {
+            font-size: 0.68rem;
+            padding: 5px 14px;
+            border-radius: 100px;
+            background: rgba(0, 36, 84, 0.05);
+            color: #475569;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(0, 36, 84, 0.06);
+        }
+
+        /* Scroll hint */
+        .mp2-hero__scroll {
+            position: absolute;
+            bottom: 36px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .mp2-hero__scroll-text {
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: #94a3b8;
+        }
+
+        .mp2-hero__scroll-bar {
+            width: 1px;
+            height: 36px;
+            background: linear-gradient(to bottom, #94a3b8, transparent);
+            animation: mp2-scrollPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes mp2-scrollPulse {
+
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: scaleY(0.6);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scaleY(1);
+            }
+        }
+
+
+        /* ==================== MISSION ==================== */
+        .mp2-mission {
+            position: relative;
+            padding: 120px 24px;
+            background: #fff;
+            overflow: hidden;
+        }
+
+        .mp2-mission__inner {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .mp2-mission__quote {
+            font-size: clamp(1.6rem, 3vw, 2.4rem);
+            font-weight: 700;
+            color: var(--nau-blue);
+            line-height: 1.4;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .mp2-mission__quote em {
+            font-style: italic;
+            color: var(--nau-gold-dark);
+        }
+
+        .mp2-mission__divider {
+            width: 48px;
+            height: 3px;
+            background: var(--nau-gold);
+            margin: 32px auto;
+            border-radius: 100px;
+        }
+
+        .mp2-mission__body {
+            max-width: 620px;
+            margin: 0 auto;
+        }
+
+        .mp2-mission__body p {
+            font-size: 1.02rem;
+            line-height: 1.85;
+            color: #64748b;
+            max-width: 100%;
+        }
+
+
+        /* ==================== CAPABILITIES (BENTO) ==================== */
+        .mp2-capabilities {
+            position: relative;
+            padding: 100px 24px;
+            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+            overflow: hidden;
+        }
+
+        .mp2-capabilities__inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .mp2-section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--nau-gold-dark);
+            margin-bottom: 12px;
+        }
+
+        .mp2-section-heading {
+            font-size: clamp(2rem, 4vw, 2.6rem);
+            font-weight: 800;
+            color: var(--nau-blue);
+            letter-spacing: -1px;
+            margin-bottom: 12px;
+        }
+
+        .mp2-section-sub {
+            font-size: 1rem;
+            color: #64748b;
+            max-width: 480px;
+            margin-bottom: 48px;
+            line-height: 1.7;
+        }
+
+        .mp2-bento {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 16px;
+        }
+
+        .mp2-bento__card {
+            padding: 32px 28px;
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .mp2-bento__card:hover {
+            transform: translateY(-4px);
+        }
+
+        .mp2-bento__card--hero {
+            grid-row: span 2;
+            background: var(--nau-blue);
+            color: #fff;
+        }
+
+        .mp2-bento__card--hero::after {
+            content: '';
+            position: absolute;
+            bottom: -80px;
+            right: -80px;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(250, 192, 26, 0.12), transparent 70%);
+        }
+
+        .mp2-bento__card--hero .mp2-bento__num {
+            color: var(--nau-gold);
+        }
+
+        .mp2-bento__card--hero .mp2-bento__title {
+            color: #fff;
+        }
+
+        .mp2-bento__card--hero .mp2-bento__desc {
+            color: rgba(255, 255, 255, 0.65);
+        }
+
+        .mp2-bento__card--hero .mp2-bento__tag {
+            background: rgba(250, 192, 26, 0.15);
+            color: var(--nau-gold);
+            border-color: rgba(250, 192, 26, 0.2);
+        }
+
+        .mp2-bento__num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--nau-gold-dark);
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        .mp2-bento__title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--nau-blue);
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .mp2-bento__desc {
+            font-size: 0.88rem;
+            line-height: 1.7;
+            color: #64748b;
+            margin-bottom: 20px;
+        }
+
+        .mp2-bento__tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .mp2-bento__tag {
+            font-size: 0.68rem;
+            padding: 4px 12px;
+            border-radius: 100px;
+            background: rgba(0, 36, 84, 0.04);
+            color: #475569;
+            font-weight: 600;
+            border: 1px solid rgba(0, 36, 84, 0.06);
+        }
+
+
+        /* ==================== ACCESS STEPS ==================== */
+        .mp2-access {
+            padding: 100px 24px;
+            background: #fff;
+        }
+
+        .mp2-access__inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .mp2-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            margin-top: 48px;
+            position: relative;
+        }
+
+        /* Connector line */
+        .mp2-steps::before {
+            content: '';
+            position: absolute;
+            top: 28px;
+            left: calc(12.5% + 24px);
+            right: calc(12.5% + 24px);
+            height: 2px;
+            background: linear-gradient(90deg, var(--nau-gold), rgba(0, 36, 84, 0.1));
+            z-index: 0;
+        }
+
+        .mp2-step {
+            text-align: center;
+            position: relative;
+            padding: 0 20px;
+        }
+
+        .mp2-step__badge {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            position: relative;
+            z-index: 1;
+            font-weight: 800;
+            font-size: 1.1rem;
+            transition: all 0.5s ease;
+        }
+
+        .mp2-step.is-visible .mp2-step__badge {
+            background: var(--nau-gold);
+            color: var(--nau-blue);
+            box-shadow: 0 4px 20px rgba(250, 192, 26, 0.3);
+        }
+
+        .mp2-step:not(.is-visible) .mp2-step__badge {
+            background: #f1f5f9;
+            color: #94a3b8;
+            border: 2px solid #e2e8f0;
+        }
+
+        .mp2-step__title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--nau-blue);
+            margin-bottom: 8px;
+        }
+
+        .mp2-step__desc {
+            font-size: 0.82rem;
+            line-height: 1.6;
+            color: #64748b;
+            max-width: 200px;
+            margin: 0 auto;
+        }
+
+        .mp2-access__cta {
+            text-align: center;
+            margin-top: 56px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+
+        /* ==================== METRICS STRIP ==================== */
+        .mp2-metrics {
+            background: var(--nau-blue);
+            padding: 0;
+        }
+
+        .mp2-metrics__inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .mp2-metric-cell {
+            padding: 44px 24px;
+            text-align: center;
+            position: relative;
+        }
+
+        .mp2-metric-cell:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 30%;
+            height: 40%;
+            width: 1px;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .mp2-metric-cell__num {
+            font-size: clamp(2rem, 3vw, 2.6rem);
+            font-weight: 900;
+            color: #fff;
+            line-height: 1;
+            margin-bottom: 6px;
+            letter-spacing: -1px;
+        }
+
+        .mp2-metric-cell__num em {
+            font-style: normal;
+            color: var(--nau-gold);
+        }
+
+        .mp2-metric-cell__label {
+            font-size: 0.72rem;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+        }
+
+
+        /* ==================== PARTNERS ==================== */
+        .mp2-partners {
+            padding: 40px 0;
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+            overflow: hidden;
+        }
+
+        .mp2-partners__label {
+            text-align: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
+            font-weight: 500;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: #94a3b8;
+            margin-bottom: 24px;
+        }
+
+        .mp2-partners__track {
+            display: flex;
+            gap: 80px;
+            animation: mp2-marquee 25s linear infinite;
+            width: max-content;
+        }
+
+        .mp2-partners__track:hover {
+            animation-play-state: paused;
+        }
+
+        .mp2-partners__logo {
+            height: 32px;
+            opacity: 0.35;
+            filter: grayscale(100%);
+            transition: all 0.4s ease;
+            flex-shrink: 0;
+        }
+
+        .mp2-partners__logo:hover {
+            opacity: 1;
+            filter: grayscale(0%);
+        }
+
+        @keyframes mp2-marquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+
+        /* ==================== NAVIGATOR ==================== */
+        .mp2-navigator {
+            padding: 100px 24px;
+            background: #fff;
+        }
+
+        .mp2-navigator__inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .mp2-nav-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 48px;
+        }
+
+        .mp2-nav-card {
+            padding: 28px 24px;
+            border-radius: 16px;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mp2-nav-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0, 36, 84, 0.08);
+        }
+
+        .mp2-nav-card--here {
+            border-left: 3px solid var(--nau-gold);
+            background: linear-gradient(135deg, rgba(250, 192, 26, 0.04), transparent);
+        }
+
+        .mp2-nav-card--live {
+            border-left: 3px solid var(--nau-green);
+        }
+
+        .mp2-nav-card--disabled {
+            opacity: 0.45;
+            cursor: default;
+        }
+
+        .mp2-nav-card--disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .mp2-nav-card__icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--nau-blue);
+        }
+
+        .mp2-nav-card--here .mp2-nav-card__icon {
+            background: rgba(250, 192, 26, 0.12);
+            color: var(--nau-gold-dark);
+        }
+
+        .mp2-nav-card__title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--nau-blue);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .mp2-nav-card__badge {
+            font-size: 0.6rem;
+            padding: 3px 10px;
+            border-radius: 100px;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+
+        .mp2-nav-card__desc {
+            font-size: 0.82rem;
+            line-height: 1.6;
+            color: #64748b;
+        }
+
+
+        /* ==================== CTA ==================== */
+        .mp2-cta {
+            padding: 100px 24px;
+            background: linear-gradient(160deg, var(--nau-blue) 0%, var(--nau-blue-dark) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mp2-cta__glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(250, 192, 26, 0.08), transparent 65%);
+            pointer-events: none;
+        }
+
+        .mp2-cta__inner {
+            max-width: 640px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .mp2-cta__label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.68rem;
+            font-weight: 500;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--nau-gold);
+            margin-bottom: 20px;
+        }
+
+        .mp2-cta__title {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.2;
+            margin-bottom: 18px;
+            letter-spacing: -1px;
+        }
+
+        .mp2-cta__desc {
+            font-size: 1rem;
+            line-height: 1.75;
+            color: rgba(255, 255, 255, 0.55);
+            max-width: 500px;
+            margin: 0 auto 36px;
+        }
+
+        .mp2-cta__actions {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .mp2-btn--gold {
+            background: var(--nau-gold);
+            color: var(--nau-blue);
+            border-color: var(--nau-gold);
+            font-weight: 700;
+        }
+
+        .mp2-btn--gold:hover {
+            background: #fff;
+            border-color: #fff;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .mp2-btn--outline-white {
+            background: transparent;
+            color: rgba(255, 255, 255, 0.75);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .mp2-btn--outline-white:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.4);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+
+        /* ==================== SCROLL REVEAL ==================== */
+        .mp2-reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1),
+                transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .mp2-reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .mp2-d1 {
+            transition-delay: 0.08s;
+        }
+
+        .mp2-d2 {
+            transition-delay: 0.16s;
+        }
+
+        .mp2-d3 {
+            transition-delay: 0.24s;
+        }
+
+        .mp2-d4 {
+            transition-delay: 0.32s;
+        }
+
+
+        /* ==================== RESPONSIVE ==================== */
+        @media (max-width: 1024px) {
+            .mp2-hero__layout {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .mp2-bento {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .mp2-bento__card--hero {
+                grid-column: span 2;
+                grid-row: span 1;
+            }
+
+            .mp2-metrics__inner {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .mp2-nav-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mp2-hero {
+                padding: 100px 20px 60px;
+            }
+
+            .mp2-bento {
+                grid-template-columns: 1fr;
+            }
+
+            .mp2-bento__card--hero {
+                grid-column: span 1;
+            }
+
+            .mp2-steps {
+                grid-template-columns: 1fr;
+                gap: 32px;
+                padding-left: 48px;
+            }
+
+            .mp2-steps::before {
+                top: 0;
+                bottom: 0;
+                left: 28px;
+                right: auto;
+                width: 2px;
+                height: auto;
+                background: linear-gradient(180deg, var(--nau-gold), rgba(0, 36, 84, 0.1));
+            }
+
+            .mp2-step {
+                text-align: left;
+                padding: 0;
+            }
+
+            .mp2-step__badge {
+                position: absolute;
+                left: -48px;
+                top: 0;
+                margin: 0;
+                width: 40px;
+                height: 40px;
+                border-radius: 12px;
+                font-size: 0.9rem;
+            }
+
+            .mp2-step__desc {
+                max-width: 100%;
+            }
+
+            .mp2-metrics__inner {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .mp2-metric-cell::after {
+                display: none;
+            }
+
+            .mp2-nav-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
     <site-header></site-header>
 
-    <main>
+    <main class="mp2-page">
 
-        <!-- Hero -->
-        <section class="ml-hero">
-            <div class="ml-hero__bg">
-                <img src="Images/north_valley_campus.jpg"
-                    alt="MPaCT Lab Class 1000 cleanroom and semiconductor research at Northern Arizona University">
+        <!-- ==================== HERO ==================== -->
+        <section class="mp2-hero">
+            <!-- Abstract animated background -->
+            <div class="mp2-grid-bg">
+                <div class="mp2-orb mp2-orb--gold"></div>
+                <div class="mp2-orb mp2-orb--blue"></div>
             </div>
-            <div class="ml-hero__overlay"></div>
-            <div class="ml-hero__noise"></div>
 
-            <div class="ml-hero__content">
-                <div class="container">
-                    <div class="ml-hero__split">
+            <div class="mp2-hero__layout">
+                <!-- Left: Title -->
+                <div class="mp2-hero__text">
+                    <div class="mp2-hero__chip">NAU Nano — Flagstaff, Arizona</div>
+                    <h1 class="mp2-hero__title">
+                        MPaCT<br><span>Lab at NAU</span>
+                    </h1>
+                    <p class="mp2-hero__desc">
+                        The <strong>Microelectronics Processing, Characterization & Testing Lab</strong> —
+                        a $13M shared-use research facility with 25+ instruments, a Class 1000 cleanroom,
+                        and expert staff. Open to universities, industry, and government nationwide.
+                    </p>
+                    <div class="mp2-hero__buttons">
+                        <a href="Equipment.html" class="mp2-btn mp2-btn--primary">Explore Equipment →</a>
+                        <a href="Contact_Us.html?category=equipment" class="mp2-btn mp2-btn--ghost">Request Access</a>
+                    </div>
+                </div>
 
-                        <!-- Hero text -->
-                        <div>
-                            <div class="ml-hero__eyebrow">
-                                <span class="ml-hero__eyebrow-line"></span>
-                                NAU Nano &mdash; Flagstaff, Arizona
+                <!-- Right: Glass Dashboard -->
+                <div class="mp2-hero__dashboard">
+                    <div class="mp2-glass mp2-hero__main-panel">
+                        <div class="mp2-hero__panel-header">
+                            <div class="mp2-hero__panel-label">Lab at a Glance</div>
+                            <div class="mp2-hero__panel-dot" title="Facility Active"></div>
+                        </div>
+                        <div class="mp2-stats-grid">
+                            <div class="mp2-stat-cell">
+                                <div class="mp2-stat-cell__value" data-target="13" data-prefix="$" data-suffix="M">$0
+                                </div>
+                                <div class="mp2-stat-cell__label">Facility Investment</div>
                             </div>
-                            <h1 class="ml-hero__title">
-                                <em>MPaCT</em><br>Lab at NAU
-                            </h1>
-                            <p class="ml-hero__subtitle">
-                                The <strong>Microelectronics Processing, Characterization, and Testing Lab</strong> —
-                                a $13 million shared-use research facility housing 25&plus; advanced instruments,
-                                a Class 1000 cleanroom, and expert staff open to universities, companies,
-                                and government agencies nationwide.
-                            </p>
-                            <div class="ml-hero__actions">
-                                <a href="Equipment.html" class="btn btn-primary">Explore Equipment</a>
-                                <a href="Contact_Us.html?category=equipment" class="btn btn-outline">Request Access</a>
+                            <div class="mp2-stat-cell">
+                                <div class="mp2-stat-cell__value" data-target="25" data-suffix="+">0</div>
+                                <div class="mp2-stat-cell__label">Instruments</div>
+                            </div>
+                            <div class="mp2-stat-cell">
+                                <div class="mp2-stat-cell__value" data-target="1" data-suffix="K">0</div>
+                                <div class="mp2-stat-cell__label">Class Cleanroom</div>
+                            </div>
+                            <div class="mp2-stat-cell">
+                                <div class="mp2-stat-cell__value" data-target="1500" data-separator=","
+                                    data-suffix=" ft²">0</div>
+                                <div class="mp2-stat-cell__label">Cleanroom Area</div>
                             </div>
                         </div>
-
-                        <!-- Stats panel -->
-                        <div class="ml-hero__panel">
-                            <div class="ml-hero__panel-label">Lab at a Glance</div>
-                            <div class="ml-hero__panel-stats">
-                                <div>
-                                    <div class="ml-pstat__num">$13<em>M</em></div>
-                                    <div class="ml-pstat__label">Facility Investment</div>
-                                </div>
-                                <div>
-                                    <div class="ml-pstat__num">25<em>+</em></div>
-                                    <div class="ml-pstat__label">Advanced Instruments</div>
-                                </div>
-                                <div>
-                                    <div class="ml-pstat__num">1<em>K</em></div>
-                                    <div class="ml-pstat__label">Class Cleanroom</div>
-                                </div>
-                                <div>
-                                    <div class="ml-pstat__num">1,500<em>ft²</em></div>
-                                    <div class="ml-pstat__label">Cleanroom Area</div>
-                                </div>
-                            </div>
-                            <div class="ml-hero__panel-tags">
-                                <span class="ml-hero__panel-tag">Open Access</span>
-                                <span class="ml-hero__panel-tag">Building 98E</span>
-                                <span class="ml-hero__panel-tag">Class 1000</span>
-                                <span class="ml-hero__panel-tag">Industry Partners</span>
-                                <span class="ml-hero__panel-tag">Flagstaff, AZ</span>
-                            </div>
-                        </div>
-
+                    </div>
+                    <div class="mp2-glass mp2-hero__tags-row">
+                        <span class="mp2-tag">Open Access</span>
+                        <span class="mp2-tag">Building 98E</span>
+                        <span class="mp2-tag">Class 1000</span>
+                        <span class="mp2-tag">Industry Partners</span>
+                        <span class="mp2-tag">Flagstaff, AZ</span>
                     </div>
                 </div>
             </div>
 
-            <div class="ml-hero__scroll" aria-hidden="true">
-                <span>Scroll</span>
-                <div class="ml-hero__scroll-bar"></div>
+            <div class="mp2-hero__scroll" aria-hidden="true">
+                <span class="mp2-hero__scroll-text">Scroll</span>
+                <div class="mp2-hero__scroll-bar"></div>
             </div>
         </section>
 
-        <!-- Hero divider -->
-        <div class="hero-divider" aria-hidden="true">
-            <!-- Particles -->
-            <div class="hd-particles">
-                <span></span><span></span><span></span><span></span>
-                <span></span><span></span><span></span><span></span>
-                <span></span><span></span><span></span><span></span>
+
+        <!-- ==================== MISSION ==================== -->
+        <section class="mp2-mission">
+            <div class="mp2-mission__inner">
+                <h2 class="mp2-mission__quote mp2-reveal">
+                    One facility. <em>25+ instruments.</em><br>
+                    Open to every researcher who walks through the door.
+                </h2>
+                <div class="mp2-mission__divider mp2-reveal mp2-d1"></div>
+                <div class="mp2-mission__body mp2-reveal mp2-d2">
+                    <p>
+                        The MPaCT Lab is Northern Arizona University's shared-use research facility
+                        for semiconductor processing, materials characterization, and device testing.
+                        It serves NAU students, faculty from any department, visiting researchers, and
+                        industry engineers — all under the same roof, using the same tools.
+                    </p>
+                    <p>
+                        Full-time staff manage every instrument, run training sessions, and support
+                        projects from undergraduate coursework to federally funded research and
+                        industry contract work. You bring the science — we handle the rest.
+                    </p>
+                </div>
             </div>
+        </section>
 
-            <!-- PCB traces and vias -->
-            <div class="hd-circuit-field">
-                <div class="hd-field-line hd-field-line--h hd-field-line--h1"></div>
-                <div class="hd-field-line hd-field-line--h hd-field-line--h2"></div>
-                <div class="hd-field-line hd-field-line--h hd-field-line--h3"></div>
-                <div class="hd-field-line hd-field-line--h hd-field-line--h4"></div>
-                <div class="hd-field-line hd-field-line--h hd-field-line--h5"></div>
-                <div class="hd-field-line hd-field-line--h hd-field-line--h6"></div>
 
-                <div class="hd-field-line hd-field-line--v hd-field-line--v1"></div>
-                <div class="hd-field-line hd-field-line--v hd-field-line--v2"></div>
-                <div class="hd-field-line hd-field-line--v hd-field-line--v3"></div>
-                <div class="hd-field-line hd-field-line--v hd-field-line--v4"></div>
-                <div class="hd-field-line hd-field-line--v hd-field-line--v5"></div>
-                <div class="hd-field-line hd-field-line--v hd-field-line--v6"></div>
-
-                <div class="hd-field-via hd-field-via--1"></div>
-                <div class="hd-field-via hd-field-via--2"></div>
-                <div class="hd-field-via hd-field-via--3"></div>
-                <div class="hd-field-via hd-field-via--4"></div>
-                <div class="hd-field-via hd-field-via--5"></div>
-                <div class="hd-field-via hd-field-via--6"></div>
-                <div class="hd-field-via hd-field-via--7"></div>
-                <div class="hd-field-via hd-field-via--8"></div>
-                <div class="hd-field-via hd-field-via--9"></div>
-                <div class="hd-field-via hd-field-via--10"></div>
-                <div class="hd-field-via hd-field-via--11"></div>
-                <div class="hd-field-via hd-field-via--12"></div>
+        <!-- ==================== METRICS STRIP ==================== -->
+        <section class="mp2-metrics">
+            <div class="mp2-metrics__inner">
+                <div class="mp2-metric-cell mp2-reveal">
+                    <div class="mp2-metric-cell__num" data-target="13" data-prefix="$" data-suffix="M">$0</div>
+                    <div class="mp2-metric-cell__label">Facility Investment</div>
+                </div>
+                <div class="mp2-metric-cell mp2-reveal mp2-d1">
+                    <div class="mp2-metric-cell__num" data-target="25" data-suffix="+">0</div>
+                    <div class="mp2-metric-cell__label">Instruments</div>
+                </div>
+                <div class="mp2-metric-cell mp2-reveal mp2-d2">
+                    <div class="mp2-metric-cell__num" data-target="1500" data-separator="," data-suffix=" ft²">0</div>
+                    <div class="mp2-metric-cell__label">Cleanroom Area</div>
+                </div>
+                <div class="mp2-metric-cell mp2-reveal mp2-d3">
+                    <div class="mp2-metric-cell__num" data-target="1" data-suffix="K">0</div>
+                    <div class="mp2-metric-cell__label">Class Cleanroom</div>
+                </div>
             </div>
+        </section>
 
-            <div class="hd-circuit">
-                <!-- Left trace -->
-                <div class="hd-trace hd-trace--left">
-                    <div class="hd-node"></div>
-                    <div class="hd-node"></div>
-                    <div class="hd-node hd-node--branch"></div>
+
+        <!-- ==================== CAPABILITIES (BENTO) ==================== -->
+        <section class="mp2-capabilities">
+            <div class="mp2-grid-bg">
+                <div class="mp2-orb mp2-orb--gold" style="top:auto;bottom:-200px;right:auto;left:60%;"></div>
+            </div>
+            <div class="mp2-capabilities__inner">
+                <div class="mp2-section-label mp2-reveal">Research Domains</div>
+                <h2 class="mp2-section-heading mp2-reveal">Areas of <em>Scientific Focus</em></h2>
+                <p class="mp2-section-sub mp2-reveal mp2-d1">
+                    MPaCT enables research across materials science
+                    and semiconductor engineering.
+                </p>
+
+                <div class="mp2-bento">
+                    <!-- Featured hero card -->
+                    <div class="mp2-bento__card mp2-bento__card--hero mp2-glass mp2-reveal"
+                        style="background:var(--nau-blue);border-color:transparent;">
+                        <div class="mp2-bento__num">01</div>
+                        <div class="mp2-bento__title">Thin Film Deposition & Analysis</div>
+                        <div class="mp2-bento__desc">
+                            Investigation of PVD/CVD thin film properties — composition,
+                            thickness uniformity, crystal orientation, and stress — foundational for
+                            semiconductor and photovoltaic device engineering.
+                        </div>
+                        <div class="mp2-bento__tags">
+                            <span class="mp2-bento__tag">XRD</span>
+                            <span class="mp2-bento__tag">Ellipsometry</span>
+                            <span class="mp2-bento__tag">Sputtering</span>
+                        </div>
+                    </div>
+
+                    <div class="mp2-bento__card mp2-glass mp2-reveal mp2-d1">
+                        <div class="mp2-bento__num">02</div>
+                        <div class="mp2-bento__title">Micro & Nanofabrication</div>
+                        <div class="mp2-bento__desc">
+                            Photolithography, nanoimprint lithography, and laser ablation
+                            for micron and sub-micron device patterning.
+                        </div>
+                        <div class="mp2-bento__tags">
+                            <span class="mp2-bento__tag">Lithography</span>
+                            <span class="mp2-bento__tag">NIL</span>
+                            <span class="mp2-bento__tag">Laser Ablation</span>
+                        </div>
+                    </div>
+
+                    <div class="mp2-bento__card mp2-glass mp2-reveal mp2-d2">
+                        <div class="mp2-bento__num">03</div>
+                        <div class="mp2-bento__title">Materials Characterization</div>
+                        <div class="mp2-bento__desc">
+                            Structural and chemical analysis from bulk crystals to nanoparticles
+                            using advanced microscopy and spectroscopy.
+                        </div>
+                        <div class="mp2-bento__tags">
+                            <span class="mp2-bento__tag">SEM / TEM</span>
+                            <span class="mp2-bento__tag">SIMS</span>
+                            <span class="mp2-bento__tag">AFM</span>
+                        </div>
+                    </div>
+
+                    <div class="mp2-bento__card mp2-glass mp2-reveal mp2-d3">
+                        <div class="mp2-bento__num">04</div>
+                        <div class="mp2-bento__title">Semiconductor Device Testing</div>
+                        <div class="mp2-bento__desc">
+                            Wafer and die-level electrical characterization for transistor physics
+                            research and performance benchmarking.
+                        </div>
+                        <div class="mp2-bento__tags">
+                            <span class="mp2-bento__tag">Probe Station</span>
+                            <span class="mp2-bento__tag">I-V / C-V</span>
+                            <span class="mp2-bento__tag">RF Testing</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ==================== GET STARTED ==================== -->
+        <section class="mp2-access">
+            <div class="mp2-access__inner">
+                <div class="mp2-section-label mp2-reveal">Getting Started</div>
+                <h2 class="mp2-section-heading mp2-reveal">How to <em>Access the Lab</em></h2>
+                <p class="mp2-section-sub mp2-reveal mp2-d1">
+                    Four straightforward steps to begin your research.
+                </p>
+
+                <div class="mp2-steps">
+                    <div class="mp2-step mp2-reveal">
+                        <div class="mp2-step__badge">1</div>
+                        <div class="mp2-step__title">Submit a Request</div>
+                        <p class="mp2-step__desc">Fill out our equipment or facility access form with your project
+                            scope.</p>
+                    </div>
+                    <div class="mp2-step mp2-reveal mp2-d1">
+                        <div class="mp2-step__badge">2</div>
+                        <div class="mp2-step__title">Lab Review</div>
+                        <p class="mp2-step__desc">Staff reviews your request and follows up with access options and
+                            rates.</p>
+                    </div>
+                    <div class="mp2-step mp2-reveal mp2-d2">
+                        <div class="mp2-step__badge">3</div>
+                        <div class="mp2-step__title">Safety Orientation</div>
+                        <p class="mp2-step__desc">Complete general safety training and instrument-specific
+                            certification.</p>
+                    </div>
+                    <div class="mp2-step mp2-reveal mp2-d3">
+                        <div class="mp2-step__badge">4</div>
+                        <div class="mp2-step__title">Begin Research</div>
+                        <p class="mp2-step__desc">Schedule sessions with full staff support. Track time and generate
+                            reports.</p>
+                    </div>
                 </div>
 
-                <!-- Center brand -->
-                <div class="hd-brand">
-                    <span class="hd-i">i</span>
-                    <div class="hd-mpact-mask"></div>
-                    <div class="hd-pulse hd-pulse--ltr"></div>
-                    <div class="hd-pulse hd-pulse--rtl"></div>
+                <div class="mp2-access__cta mp2-reveal">
+                    <a href="Contact_Us.html?category=equipment" class="mp2-btn mp2-btn--primary">Request Access Now
+                        →</a>
+                    <a href="Safety_Training.html" class="mp2-btn mp2-btn--ghost">View Safety Requirements</a>
                 </div>
+            </div>
+        </section>
 
-                <!-- Right trace -->
-                <div class="hd-trace hd-trace--right">
-                    <div class="hd-node hd-node--branch"></div>
-                    <div class="hd-node"></div>
-                    <div class="hd-node"></div>
-                </div>
+
+        <!-- ==================== PARTNERS ==================== -->
+        <div class="mp2-partners">
+            <div class="mp2-partners__label">Industry Partners & Collaborators</div>
+            <div class="mp2-partners__track">
+                <img src="Images/intel.png" alt="Intel" class="mp2-partners__logo">
+                <img src="Images/TSMC.png" alt="TSMC" class="mp2-partners__logo">
+                <img src="Images/microchip.png" alt="Microchip Technology" class="mp2-partners__logo">
+                <img src="Images/NXP.png" alt="NXP Semiconductors" class="mp2-partners__logo">
+                <img src="Images/intel.png" alt="Intel" class="mp2-partners__logo">
+                <img src="Images/TSMC.png" alt="TSMC" class="mp2-partners__logo">
+                <img src="Images/microchip.png" alt="Microchip Technology" class="mp2-partners__logo">
+                <img src="Images/NXP.png" alt="NXP Semiconductors" class="mp2-partners__logo">
+                <img src="Images/intel.png" alt="Intel" class="mp2-partners__logo">
+                <img src="Images/TSMC.png" alt="TSMC" class="mp2-partners__logo">
+                <img src="Images/microchip.png" alt="Microchip Technology" class="mp2-partners__logo">
+                <img src="Images/NXP.png" alt="NXP Semiconductors" class="mp2-partners__logo">
             </div>
         </div>
 
 
-        <!-- Intro -->
-        <section class="ml-intro">
-            <div class="container">
-                <div class="ml-intro__split ml-reveal">
-                    <h2 class="ml-intro__statement">
-                        One facility. <em>25+ instruments.</em>
-                        Open to every researcher who walks through the door.
-                    </h2>
-                    <div class="ml-intro__rule" aria-hidden="true"></div>
-                    <div class="ml-intro__body">
-                        <p>
-                            The MPaCT Lab is Northern Arizona University's shared-use research facility
-                            for semiconductor processing, materials characterization, and device testing.
-                            It serves NAU students, faculty from any department, visiting researchers, and
-                            industry engineers — all under the same roof, using the same tools.
-                        </p>
-                        <p>
-                            Full-time staff manage every instrument, run training sessions, and support
-                            projects from undergraduate coursework to federally funded research and
-                            industry contract work. You bring the science — we handle the rest.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <!-- ==================== NAVIGATOR ==================== -->
+        <section class="mp2-navigator">
+            <div class="mp2-navigator__inner">
+                <div class="mp2-section-label mp2-reveal">Navigate</div>
+                <h2 class="mp2-section-heading mp2-reveal">Explore the <em>MPaCT Lab</em></h2>
+                <p class="mp2-section-sub mp2-reveal mp2-d1">
+                    Live sections are open — others launching soon.
+                </p>
 
-
-        <!-- How to access -->
-        <section class="ml-access">
-            <div class="container">
-
-                <div class="ml-access__header ml-reveal">
-                    <div class="ml-eyebrow ml-eyebrow--light">Getting Started</div>
-                    <h2 class="ml-access__title">How to <em>Access the Lab</em></h2>
-                    <p class="ml-access__sub" style="max-width:460px;margin:0 auto;">
-                        Four clear steps to begin your research at the MPaCT facility.
-                    </p>
-                </div>
-
-                <div class="ml-access__steps ml-reveal">
-                    <div class="ml-access__step">
-                        <div class="ml-access__step-badge">1</div>
-                        <div class="ml-access__step-title">Submit a Request</div>
-                        <p class="ml-access__step-desc">Fill out our equipment or facility access form. Describe
-                            your project scope and the instruments you need.</p>
-                    </div>
-                    <div class="ml-access__step">
-                        <div class="ml-access__step-badge">2</div>
-                        <div class="ml-access__step-title">Lab Review</div>
-                        <p class="ml-access__step-desc">Our staff reviews your request, confirms availability,
-                            and follows up with access options and rate estimates.</p>
-                    </div>
-                    <div class="ml-access__step">
-                        <div class="ml-access__step-badge">3</div>
-                        <div class="ml-access__step-title">Safety Orientation</div>
-                        <p class="ml-access__step-desc">Complete required general safety training and
-                            instrument-specific certification before your first session.</p>
-                    </div>
-                    <div class="ml-access__step">
-                        <div class="ml-access__step-badge">4</div>
-                        <div class="ml-access__step-title">Begin Research</div>
-                        <p class="ml-access__step-desc">Schedule and run sessions with staff support
-                            available throughout. Track time and generate data reports.</p>
-                    </div>
-                </div>
-
-                <div class="ml-access__cta ml-reveal">
-                    <a href="Contact_Us.html?category=equipment" class="btn btn-primary"
-                        style="margin-right:14px;">Request Access Now</a>
-                    <a href="Safety_Training.html" class="btn btn-outline"
-                        style="border-color:rgba(255,255,255,0.3);color:#fff;">View Safety Requirements</a>
-                </div>
-
-            </div>
-        </section>
-
-
-        <!-- Partners strip -->
-        <div class="ml-partners">
-            <div class="container">
-                <div class="ml-partners__label">Industry Partners &amp; Collaborators</div>
-                <div class="ml-partners__logos">
-                    <img src="Images/intel.png" alt="Intel" class="ml-partners__logo">
-                    <img src="Images/TSMC.png" alt="TSMC" class="ml-partners__logo">
-                    <img src="Images/microchip.png" alt="Microchip Technology" class="ml-partners__logo">
-                    <img src="Images/NXP.png" alt="NXP Semiconductors" class="ml-partners__logo">
-                </div>
-            </div>
-        </div>
-
-
-        <!-- Research areas -->
-        <section class="ml-research">
-            <div class="ml-research__glow-a"></div>
-            <div class="ml-research__glow-b"></div>
-            <div class="container">
-
-                <div class="ml-research__header ml-reveal">
-                    <div class="ml-eyebrow ml-eyebrow--light">Active Research</div>
-                    <h2 class="ml-research__title">Areas of <em>Scientific Focus</em></h2>
-                    <p class="ml-section-sub" style="color:rgba(255,255,255,0.48);max-width:500px;margin:0 auto;">
-                        MPaCT enables research across a broad spectrum of materials science
-                        and semiconductor engineering domains.
-                    </p>
-                </div>
-
-                <div class="ml-research__grid">
-
-                    <div class="ml-ra ml-reveal">
-                        <div class="ml-ra__num">01</div>
-                        <div>
-                            <div class="ml-ra__title">Thin Film Deposition &amp; Analysis</div>
-                            <p class="ml-ra__desc">Investigation of PVD/CVD thin film properties — composition,
-                                thickness uniformity, crystal orientation, and stress — foundational for
-                                semiconductor and photovoltaic device engineering.</p>
-                            <div class="ml-ra__tags">
-                                <span class="ml-ra__tag">XRD</span>
-                                <span class="ml-ra__tag">Ellipsometry</span>
-                                <span class="ml-ra__tag">Sputtering</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="ml-ra ml-reveal ml-d1">
-                        <div class="ml-ra__num">02</div>
-                        <div>
-                            <div class="ml-ra__title">Micro &amp; Nanofabrication</div>
-                            <p class="ml-ra__desc">Photolithography, nanoimprint lithography, and laser ablation
-                                for creating device patterns at micron and sub-micron scale — from academic
-                                prototypes to near-industrial specifications.</p>
-                            <div class="ml-ra__tags">
-                                <span class="ml-ra__tag">Lithography</span>
-                                <span class="ml-ra__tag">NIL</span>
-                                <span class="ml-ra__tag">Laser Ablation</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="ml-ra ml-reveal ml-d2">
-                        <div class="ml-ra__num">03</div>
-                        <div>
-                            <div class="ml-ra__title">Materials Characterization</div>
-                            <p class="ml-ra__desc">Structural and chemical analysis of materials from bulk
-                                crystals to nanoparticles — integrating SEM, TEM, XRD, SIMS, and surface
-                                profiling into comprehensive data packages.</p>
-                            <div class="ml-ra__tags">
-                                <span class="ml-ra__tag">SEM / TEM</span>
-                                <span class="ml-ra__tag">SIMS</span>
-                                <span class="ml-ra__tag">AFM</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="ml-ra ml-reveal ml-d3">
-                        <div class="ml-ra__num">04</div>
-                        <div>
-                            <div class="ml-ra__title">Semiconductor Device Testing</div>
-                            <p class="ml-ra__desc">Wafer-level and die-level electrical characterization of
-                                semiconductor devices — supporting transistor physics research, process
-                                development, and performance benchmarking.</p>
-                            <div class="ml-ra__tags">
-                                <span class="ml-ra__tag">Probe Station</span>
-                                <span class="ml-ra__tag">I-V / C-V</span>
-                                <span class="ml-ra__tag">RF Testing</span>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-
-        <!-- Lab navigator -->
-        <section class="ml-nav">
-            <div class="container">
-
-                <div class="ml-nav__header ml-reveal">
-                    <div class="ml-eyebrow">Navigate</div>
-                    <h2 class="ml-section-title" style="color:var(--nau-blue);">Explore the MPaCT Lab</h2>
-                    <p class="ml-section-sub">
-                        Each section covers a key aspect of lab operations.
-                        Live sections are open now — others launching soon.
-                    </p>
-                </div>
-
-                <div class="ml-nav__grid">
-
-                    <!-- Current page card -->
-                    <div class="ml-nav-card ml-nav-card--here ml-reveal">
-                        <div class="ml-nav-card__icon">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                <div class="mp2-nav-grid">
+                    <div class="mp2-nav-card mp2-glass mp2-nav-card--here mp2-reveal">
+                        <div class="mp2-nav-card__icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                                 <polyline points="9 22 9 12 15 12 15 22"></polyline>
                             </svg>
                         </div>
-                        <div class="ml-nav-card__title">
+                        <div class="mp2-nav-card__title">
                             Lab Overview
-                            <span class="ml-nav-card__badge"
-                                style="background:rgba(250,192,26,0.2);color:var(--nau-gold);">You Are Here</span>
+                            <span class="mp2-nav-card__badge"
+                                style="background:rgba(250,192,26,0.12);color:var(--nau-gold-dark);">You Are Here</span>
                         </div>
-                        <p class="ml-nav-card__desc">Mission, facility overview, capability zones, and key stats
-                            about the MPaCT Lab.</p>
+                        <p class="mp2-nav-card__desc">Mission, facility overview, and key stats about the MPaCT Lab.</p>
                     </div>
 
-                    <!-- Equipment -->
-                    <a href="Equipment.html" class="ml-nav-card ml-reveal ml-d1">
-                        <div class="ml-nav-card__icon">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    <a href="Equipment.html" class="mp2-nav-card mp2-glass mp2-nav-card--live mp2-reveal mp2-d1">
+                        <div class="mp2-nav-card__icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path
                                     d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z">
                                 </path>
                             </svg>
                         </div>
-                        <div class="ml-nav-card__title">
+                        <div class="mp2-nav-card__title">
                             Equipment Catalog
-                            <span class="ml-nav-card__badge"
-                                style="background:rgba(0,122,51,0.1);color:#007a33;">Live</span>
+                            <span class="mp2-nav-card__badge"
+                                style="background:rgba(0,122,51,0.08);color:#007a33;">Live</span>
                         </div>
-                        <p class="ml-nav-card__desc">Browse all 25&plus; instruments — specs, availability,
-                            and booking details.</p>
+                        <p class="mp2-nav-card__desc">Browse 25+ instruments — specs, availability, and booking.</p>
                     </a>
 
-                    <!-- Research -->
-                    <a href="Research_Publications.html" class="ml-nav-card ml-reveal ml-d2">
-                        <div class="ml-nav-card__icon">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    <a href="Research_Publications.html" class="mp2-nav-card mp2-glass mp2-reveal mp2-d2">
+                        <div class="mp2-nav-card__icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                                 <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                             </svg>
                         </div>
-                        <div class="ml-nav-card__title">
-                            Research &amp; Publications
-                            <span class="ml-nav-card__badge"
-                                style="background:rgba(250,192,26,0.1);color:#7a5e00;">Coming Soon</span>
+                        <div class="mp2-nav-card__title">
+                            Research & Publications
+                            <span class="mp2-nav-card__badge"
+                                style="background:rgba(250,192,26,0.08);color:#7a5e00;">Coming Soon</span>
                         </div>
-                        <p class="ml-nav-card__desc">Lab publications, technical reports, and research spotlights
-                            from MPaCT users.</p>
+                        <p class="mp2-nav-card__desc">Lab publications, technical reports, and research spotlights.</p>
                     </a>
 
-                    <!-- Safety -->
-                    <a href="Safety_Training.html" class="ml-nav-card ml-reveal">
-                        <div class="ml-nav-card__icon">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    <a href="Safety_Training.html" class="mp2-nav-card mp2-glass mp2-reveal mp2-d3">
+                        <div class="mp2-nav-card__icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                                 <polyline points="9 12 11 14 15 10"></polyline>
                             </svg>
                         </div>
-                        <div class="ml-nav-card__title">
-                            Safety &amp; Training
-                            <span class="ml-nav-card__badge"
-                                style="background:rgba(250,192,26,0.1);color:#7a5e00;">Coming Soon</span>
+                        <div class="mp2-nav-card__title">
+                            Safety & Training
+                            <span class="mp2-nav-card__badge"
+                                style="background:rgba(250,192,26,0.08);color:#7a5e00;">Coming Soon</span>
                         </div>
-                        <p class="ml-nav-card__desc">Required safety certifications, SOPs, and
-                            instrument-specific training modules.</p>
+                        <p class="mp2-nav-card__desc">Certifications, SOPs, and training modules.</p>
                     </a>
 
-                    <!-- Calendar -->
-                    <a href="Lab_Calendar.html" class="ml-nav-card ml-reveal ml-d1">
-                        <div class="ml-nav-card__icon">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    <a href="Lab_Calendar.html" class="mp2-nav-card mp2-glass mp2-reveal">
+                        <div class="mp2-nav-card__icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                                 <line x1="16" y1="2" x2="16" y2="6"></line>
@@ -435,19 +1418,17 @@
                                 <line x1="3" y1="10" x2="21" y2="10"></line>
                             </svg>
                         </div>
-                        <div class="ml-nav-card__title">
+                        <div class="mp2-nav-card__title">
                             Lab Calendar
-                            <span class="ml-nav-card__badge"
-                                style="background:rgba(250,192,26,0.1);color:#7a5e00;">Coming Soon</span>
+                            <span class="mp2-nav-card__badge"
+                                style="background:rgba(250,192,26,0.08);color:#7a5e00;">Coming Soon</span>
                         </div>
-                        <p class="ml-nav-card__desc">Facility schedule, training sessions, and open-house events
-                            for prospective users.</p>
+                        <p class="mp2-nav-card__desc">Schedule, training sessions, and open-house events.</p>
                     </a>
 
-                    <!-- Cleanroom -->
-                    <div class="ml-nav-card ml-nav-card--disabled ml-reveal ml-d2">
-                        <div class="ml-nav-card__icon">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    <div class="mp2-nav-card mp2-glass mp2-nav-card--disabled mp2-reveal mp2-d1">
+                        <div class="mp2-nav-card__icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="3" y="3" width="7" height="7"></rect>
                                 <rect x="14" y="3" width="7" height="7"></rect>
@@ -455,35 +1436,31 @@
                                 <rect x="3" y="14" width="7" height="7"></rect>
                             </svg>
                         </div>
-                        <div class="ml-nav-card__title">
+                        <div class="mp2-nav-card__title">
                             Cleanroom Portal
-                            <span class="ml-nav-card__badge"
-                                style="background:rgba(108,117,125,0.1);color:var(--gray-500);">Planned</span>
+                            <span class="mp2-nav-card__badge"
+                                style="background:rgba(108,117,125,0.08);color:#94a3b8;">Planned</span>
                         </div>
-                        <p class="ml-nav-card__desc">Class 1000 scheduling, protocols, gowning procedures,
-                            and access management.</p>
+                        <p class="mp2-nav-card__desc">Scheduling, protocols, and gowning procedures.</p>
                     </div>
-
                 </div>
             </div>
         </section>
 
 
-        <!-- Final CTA -->
-        <section class="ml-cta">
-            <div class="container">
-                <div class="ml-cta__inner ml-reveal">
-                    <div class="ml-cta__eyebrow">Open-Access Research Facility</div>
-                    <h2 class="ml-cta__title">Ready to Do Something Extraordinary?</h2>
-                    <p class="ml-cta__desc">
-                        The MPaCT Lab is open to NAU students, faculty, external researchers,
-                        and industry engineers. Reach out to discuss access, training requirements,
-                        and collaboration opportunities.
-                    </p>
-                    <div class="ml-cta__actions">
-                        <a href="Contact_Us.html?category=equipment" class="btn btn--cta-blue">Request Lab Access</a>
-                        <a href="Equipment.html" class="btn btn--cta-outline">Browse Equipment</a>
-                    </div>
+        <!-- ==================== CTA ==================== -->
+        <section class="mp2-cta">
+            <div class="mp2-cta__glow"></div>
+            <div class="mp2-cta__inner mp2-reveal">
+                <div class="mp2-cta__label">Open-Access Research Facility</div>
+                <h2 class="mp2-cta__title">Ready to Do Something Extraordinary?</h2>
+                <p class="mp2-cta__desc">
+                    The MPaCT Lab is open to NAU students, faculty, external researchers,
+                    and industry engineers. Let's talk about access and collaboration.
+                </p>
+                <div class="mp2-cta__actions">
+                    <a href="Contact_Us.html?category=equipment" class="mp2-btn mp2-btn--gold">Request Lab Access →</a>
+                    <a href="Equipment.html" class="mp2-btn mp2-btn--outline-white">Browse Equipment</a>
                 </div>
             </div>
         </section>
