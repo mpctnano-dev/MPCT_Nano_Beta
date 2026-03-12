@@ -1070,29 +1070,29 @@
 
                                 const stageData = [
                                     {
-                                        title: "1. Pure Silicon Substrate",
-                                        desc: "A pure single-crystal Czochralski silicon slice. Surface roughness is chemically-mechanically planarized (CMP) to sub-nanometer levels.",
-                                        detail: "Silicon boules are grown using the Czochralski method, drawing a seed crystal from molten silicon. The resulting ingot is sliced with diamond wire saws into wafers. To create functional transistors, the surface must be absolutely flawless, hence the rigorous CMP polishing process that flattens it to atomic levels."
+                                        title: "1. Monocrystalline Silicon Substrate",
+                                        desc: "An ultra-pure (11N) monocrystalline silicon wafer, grown via the Czochralski process and polished to atomic flatness.",
+                                        detail: "Foundry processes begin with electronic-grade silicon (99.999999999% pure). The substrate is sliced from a single-crystal boule and undergoes rigorous Chemical Mechanical Planarization (CMP). Surface roughness must be sub-nanometer to ensure extreme uniformity for advanced high-k metal gate (HKMG) transistor fabrication and precise photolithographic depth-of-focus."
                                     },
                                     {
-                                        title: "2. Actinic Spin Coating",
-                                        desc: "The cleanroom transitions to actinic safe-lighting. High-speed rotation distributes liquid resist into a uniform film.",
-                                        detail: "Photoresists are highly specialized polymer formulations sensitive to specific wavelengths of light. White light contains UV and would instantly ruin the unexposed resist, requiring fabs to use yellow 'actinic' lighting. Spin coating uses centripetal force at speeds up to 6000 RPM to sheer the liquid into an impossibly thin, perfectly planar film."
+                                        title: "2. Photoresist Spin Coating",
+                                        desc: "Under actinic yellow lighting, a Chemically Amplified Resist (CAR) is dispensed and spin-coated to a highly uniform nanometer-scale thickness.",
+                                        detail: "The cleanroom transitions to actinic (yellow) safe-lighting to prevent premature UV exposure. Advanced Extreme Ultraviolet (EUV) resists, such as metal-oxide or highly sensitive chemically amplified resists, are dispensed as a liquid. High-speed centripetal rotation (up to 6000 RPM) guarantees a perfectly planar, ultra-thin film critical for resolving sub-10nm critical dimensions (CD)."
                                     },
                                     {
-                                        title: "3. EUV Lithography",
-                                        desc: "Extreme Ultraviolet (13.5nm) light reflects off a multilayer mirror mask. Photons initiate an acid-catalyzed cascade in the resist.",
-                                        detail: "EUV light at 13.5nm is absorbed by virtually everything, including air and standard glass lenses. Therefore, modern lithography must occur in a hard vacuum using Bragg reflector mirrors (alternating atomic layers of Molybdenum and Silicon). When the EUV hits the photoresist, it generates acids that alter its solubility."
+                                        title: "3. EUV Lithography Exposure",
+                                        desc: "13.5nm Extreme Ultraviolet photons reflect off a Mo/Si multilayer mask, initiating a cascade of photoacid generators (PAGs) to pattern the resist.",
+                                        detail: "State-of-the-art TSMC nodes rely on EUV lithography. Because 13.5nm light is absorbed by all matter (including air and glass), the system operates in a hard vacuum using Bragg reflector optics (alternating layers of Molybdenum and Silicon). The photons strike the resist, creating a latent image via photoacids that drastically alters the polymer's solubility during the subsequent developer bake."
                                     },
                                     {
-                                        title: "4. Etch & BEOL Metallization",
-                                        desc: "Plasma etches the exposed silicon. Later, copper electroplating builds up the Back-End-Of-Line (BEOL) interconnects.",
-                                        detail: "Following the Front-End-Of-Line (FEOL) where the actual silicon transistor gates are formed, the chip must be wired together. This is the Back-End-Of-Line (BEOL). Trenches are etched into dielectric insulators and filled with copper via electroplating, then polished flat. This happens dozens of times to create a 3D highway of microscopic wires."
+                                        title: "4. Plasma Etch & BEOL Metallization",
+                                        desc: "Anisotropic Reactive Ion Etching (RIE) carves the silicon, followed by copper dual-damascene electroplating for the interconnect wiring.",
+                                        detail: "After the Front-End-Of-Line (FEOL) forms the actual FinFET/GAA transistor gates, the chip requires intricate wiring wiring. This Back-End-Of-Line (BEOL) uses a dual-damascene process. Trenches are carved into low-k dielectric insulators using highly directional plasma etching (RIE). These trenches are then seeded, electroplated with solid copper, and polished flat via CMP to build the 3D interconnect network."
                                     },
                                     {
-                                        title: "5. Tape Expansion & Singulation",
-                                        desc: "After the wafer is diced by lasers, the flexible UV-tape substrate is stretched radially to physically separate the dies.",
-                                        detail: "A single 300mm wafer contains thousands of microprocessors. They are separated using nanosecond UV lasers or ultra-thin diamond blades cutting along the 'scribe lines'. To prevent the freshly cut, fragile chips from grinding against each other, the wafer is mounted on a flexible polymer tape which is mechanically stretched outward, separating the dies for a robotic vacuum collet to pick them up."
+                                        title: "5. Wafer Dicing & Tape Expansion",
+                                        desc: "The wafer is singulated via laser grooving or mechanical blade dicing. The underlying UV-release tape is expanded radially to physically separate the dies.",
+                                        detail: "A standard 300mm wafer contains hundreds of microscopic dies. Post-fabrication, they are separated along 'scribe lines' using stealth dicing (lasers) or ultra-thin diamond blades. To prevent the brittle, high-value chips from fracturing against one another, the wafer sits on a flexible polymer dicing tape. This tape is mechanically stretched outward, safely separating the dies for automated robotic pick-and-place packaging."
                                     }
                                 ];
 
@@ -1131,9 +1131,10 @@
                                 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
                                 const ambientLight = new THREE.AmbientLight(0xffffff, 0.4); scene.add(ambientLight);
-                                const mainLight = new THREE.DirectionalLight(0xffffff, 1.0); mainLight.position.set(0, 20, 0); scene.add(mainLight);
-                                const exposureLight = new THREE.PointLight(0xd4f4ff, 0, 40); exposureLight.position.set(0, 15, 0); scene.add(exposureLight);
-                                const laserLight = new THREE.PointLight(0xff0000, 0, 15); scene.add(laserLight);
+                                const mainLight = new THREE.DirectionalLight(0xffffff, 1.2); mainLight.position.set(5, 20, 5); scene.add(mainLight);
+                                // EUV plasma is actually incredibly bright and high-energy (generated from tin plasma). Emulating that sharp burst:
+                                const exposureLight = new THREE.PointLight(0xa8e6ff, 0, 50); exposureLight.position.set(0, 15, 0); scene.add(exposureLight);
+                                const laserLight = new THREE.PointLight(0xff0000, 0, 20); scene.add(laserLight);
 
                                 function generateRadialRoughness() {
                                     const canvas = document.createElement('canvas'); canvas.width = 1024; canvas.height = 1024;
@@ -1148,31 +1149,102 @@
                                     return new THREE.CanvasTexture(canvas);
                                 }
 
-                                function generateEtchGridTexture() {
-                                    const canvas = document.createElement('canvas'); canvas.width = 1024; canvas.height = 1024;
+                                function generateCircuitPatternTexture() {
+                                    const canvas = document.createElement('canvas');
+                                    canvas.width = 1024; canvas.height = 1024;
                                     const ctx = canvas.getContext('2d');
-                                    ctx.fillStyle = '#b0bac6'; ctx.fillRect(0, 0, 1024, 1024); ctx.strokeStyle = '#8291a5';
-                                    ctx.lineWidth = 8;
-                                    for (let i = 0; i < 1024; i += 128) {
-                                        ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, 1024); ctx.stroke();
-                                        ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(1024, i); ctx.stroke();
-                                    }
+
+                                    // Base color
                                     ctx.fillStyle = '#64748b';
-                                    for (let x = 0; x < 1024; x += 128) {
-                                        for (let y = 0; y < 1024; y += 128) { ctx.fillRect(x + 8, y + 8, 112, 112); }
+                                    ctx.fillRect(0, 0, 1024, 1024);
+
+                                    // Trace styles
+                                    ctx.strokeStyle = '#b0bac6';
+                                    ctx.lineWidth = 12;
+                                    ctx.lineCap = 'round';
+                                    ctx.lineJoin = 'round';
+
+                                    // Seeded RNG for consistent patterns
+                                    let seed = 12345;
+                                    const random = () => {
+                                        let x = Math.sin(seed++) * 10000;
+                                        return x - Math.floor(x);
+                                    };
+
+                                    const gridSize = 64;
+                                    // Draw main traces
+                                    for (let i = 0; i < 60; i++) {
+                                        ctx.beginPath();
+                                        let startX = Math.floor(random() * (1024 / gridSize)) * gridSize;
+                                        let startY = Math.floor(random() * (1024 / gridSize)) * gridSize;
+                                        ctx.moveTo(startX, startY);
+
+                                        let segments = Math.floor(random() * 5) + 2;
+                                        let curX = startX, curY = startY;
+
+                                        for (let s = 0; s < segments; s++) {
+                                            let dir = Math.floor(random() * 4);
+                                            let len = (Math.floor(random() * 4) + 1) * gridSize;
+
+                                            if (dir === 0) curY -= len; // Up
+                                            else if (dir === 1) curX += len; // Right
+                                            else if (dir === 2) curY += len; // Down
+                                            else if (dir === 3) curX -= len; // Left
+
+                                            // 45 degree angle routing chance
+                                            if (random() > 0.7) {
+                                                curX += gridSize;
+                                                curY += gridSize;
+                                            }
+
+                                            // Clamp
+                                            curX = Math.max(0, Math.min(1024, curX));
+                                            curY = Math.max(0, Math.min(1024, curY));
+                                            ctx.lineTo(curX, curY);
+
+                                            // Draw nodes
+                                            if (random() > 0.6) {
+                                                ctx.fillStyle = '#b0bac6';
+                                                ctx.moveTo(curX, curY);
+                                                ctx.arc(curX, curY, 16, 0, Math.PI * 2);
+                                            }
+                                        }
+                                        ctx.stroke();
                                     }
+
+                                    // Draw dense logic blocks / IC pads
+                                    ctx.fillStyle = '#b0bac6';
+                                    for (let i = 0; i < 15; i++) {
+                                        let px = Math.floor(random() * (1024 / gridSize)) * gridSize;
+                                        let py = Math.floor(random() * (1024 / gridSize)) * gridSize;
+                                        let w = (Math.floor(random() * 3) + 1) * gridSize;
+                                        let h = (Math.floor(random() * 3) + 1) * gridSize;
+                                        ctx.fillRect(px + 8, py + 8, w - 16, h - 16);
+                                        // Internal pad vias
+                                        ctx.fillStyle = '#64748b';
+                                        ctx.beginPath();
+                                        ctx.arc(px + w / 2, py + h / 2, 8, 0, Math.PI * 2);
+                                        ctx.fill();
+                                        ctx.fillStyle = '#b0bac6';
+                                    }
+
                                     const tex = new THREE.CanvasTexture(canvas);
                                     tex.wrapS = THREE.RepeatWrapping; tex.wrapT = THREE.RepeatWrapping;
                                     return tex;
                                 }
 
                                 const radialRoughness = generateRadialRoughness();
-                                const etchGridTex = generateEtchGridTexture();
+                                const etchGridTex = generateCircuitPatternTexture();
 
-                                const matSilicon = new THREE.MeshPhysicalMaterial({ color: 0xa0aec0, metalness: 1.0, roughness: 0.1, roughnessMap: radialRoughness, clearcoat: 0.5, clearcoatRoughness: 0.05 });
-                                const matEtchOverlay = new THREE.MeshPhysicalMaterial({ color: 0xffffff, map: etchGridTex, metalness: 0.8, roughness: 0.2, transparent: true, opacity: 0, depthWrite: false });
-                                const matResist = new THREE.MeshPhysicalMaterial({ color: 0xd97700, metalness: 0.1, roughness: 0.05, transmission: 0.9, transparent: true, opacity: 0 });
-                                const matDie = new THREE.MeshPhysicalMaterial({ color: 0xcd7f32, metalness: 1.0, roughness: 0.3, transparent: true, opacity: 0 });
+                                // 11N Silicon: Highly reflective, metallic grey.
+                                const matSilicon = new THREE.MeshPhysicalMaterial({ color: 0x94a3b8, metalness: 0.9, roughness: 0.15, roughnessMap: radialRoughness, clearcoat: 1.0, clearcoatRoughness: 0.05 });
+                                // Exposed Resist/Etched SiO2: Slightly frosted transparent look.
+                                const matEtchOverlay = new THREE.MeshPhysicalMaterial({ color: 0xffffff, map: etchGridTex, metalness: 0.2, roughness: 0.6, transparent: true, opacity: 0, depthWrite: false });
+                                // CAR Photoresist: Thin, refractive polymer.
+                                const matResist = new THREE.MeshPhysicalMaterial({ color: 0xcc6600, metalness: 0.0, roughness: 0.1, transmission: 0.95, thickness: 0.05, transparent: true, opacity: 0 });
+                                // Copper BEOL (Backend of Line): Pure, polished copper.
+                                const matDie = new THREE.MeshPhysicalMaterial({ color: 0xb87333, metalness: 1.0, roughness: 0.2, clearcoat: 0.3, transparent: true, opacity: 0 });
+                                const matDiePatterned = new THREE.MeshPhysicalMaterial({ color: 0xe2e8f0, map: etchGridTex, metalness: 0.8, roughness: 0.3, transparent: true, opacity: 0 });
 
                                 const systemGroup = new THREE.Group(); scene.add(systemGroup);
                                 systemGroup.rotation.x = Math.PI / 16;
@@ -1217,7 +1289,10 @@
                                 }
 
                                 const chipGeo = new THREE.BoxGeometry(chipSize, 0.25, chipSize); chipGeo.translate(0, 0.125, 0);
-                                const chipInstanced = new THREE.InstancedMesh(chipGeo, matDie, validPositions.length);
+                                // Set multi-material: top face gets pattern, others get copper
+                                // Faces: right(0), left(1), top(2), bottom(3), front(4), back(5)
+                                const dieMaterials = [matDie, matDie, matDiePatterned, matDie, matDie, matDie];
+                                const chipInstanced = new THREE.InstancedMesh(chipGeo, dieMaterials, validPositions.length);
                                 chipInstanced.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
                                 chipInstanced.userData.name = "Copper BEOL Interconnects";
                                 waferGroup.add(chipInstanced);
@@ -1332,9 +1407,10 @@
                                 masterTl.to(controls.target, { x: 0, y: 5, z: 0, duration: 1.5, ease: "power2.inOut" }, "stage2");
                                 masterTl.set(maskGroup, { visible: true }, "stage2");
                                 masterTl.to(maskGroup.position, { y: 3, duration: 1.5, ease: "back.out(1.2)" }, "stage2");
-                                masterTl.to(exposureLight, { intensity: 20, duration: 0.1 }, "stage2+=1.5");
-                                masterTl.to(matResist.color, { r: 0.5, g: 0.1, b: 0.1, duration: 0.1 }, "stage2+=1.6");
-                                masterTl.to(exposureLight, { intensity: 0, duration: 0.5 }, "stage2+=1.6");
+                                // Sharp EUV burst
+                                masterTl.to(exposureLight, { intensity: 40, duration: 0.05 }, "stage2+=1.5");
+                                masterTl.to(matResist.color, { r: 0.3, g: 0.05, b: 0.05, duration: 0.1 }, "stage2+=1.55");
+                                masterTl.to(exposureLight, { intensity: 0, duration: 0.3 }, "stage2+=1.55");
                                 masterTl.to(maskGroup.position, { y: 20, duration: 1.5, ease: "power2.in" }, "stage2+=2.0");
                                 masterTl.set(maskGroup, { visible: false }, "stage2+=3.5");
                                 masterTl.addPause();
@@ -1346,7 +1422,7 @@
                                 masterTl.to(matEtchOverlay, { opacity: 0.8, duration: 0.5 }, "stage3+=1.0");
                                 masterTl.to(matResist, { opacity: 0, duration: 0.5 }, "stage3+=1.0");
                                 masterTl.set(resistFilm, { visible: false }, "stage3+=1.5");
-                                masterTl.to(matDie, { opacity: 1, duration: 0.5 }, "stage3+=1.5");
+                                masterTl.to([matDie, matDiePatterned], { opacity: 1, duration: 0.5 }, "stage3+=1.5");
                                 masterTl.to(chipsData, { scaleY: 1, duration: 1.0, ease: "back.out(1.5)", stagger: { amount: 1.5, from: "center" } }, "stage3+=1.5");
                                 masterTl.addPause();
 
@@ -1515,81 +1591,133 @@
                         MPaCT Lab came to life.</p>
                 </div>
 
-                <!-- Blueprint showcase -->
-                <div class="ml-buildout__showcase ml-reveal">
-                    <div class="ml-buildout__blueprint-frame">
-                        <img src="Images/Blueprint.jpg" alt="MPaCT Lab cleanroom blueprint"
-                            class="ml-buildout__blueprint">
-                        <div class="ml-buildout__blueprint-overlay"></div>
-                        <div class="ml-buildout__blueprint-corner ml-buildout__blueprint-corner--tl"></div>
-                        <div class="ml-buildout__blueprint-corner ml-buildout__blueprint-corner--tr"></div>
-                        <div class="ml-buildout__blueprint-corner ml-buildout__blueprint-corner--bl"></div>
-                        <div class="ml-buildout__blueprint-corner ml-buildout__blueprint-corner--br"></div>
-                        <div class="ml-buildout__blueprint-tag ml-buildout__blueprint-tag--tl">
-                            Cleanroom Layout</div>
-                        <div class="ml-buildout__blueprint-tag ml-buildout__blueprint-tag--br">ISO 6
-                            &bull; Class 1000</div>
+                <!-- Overview Panel: Image + Institutional Narrative -->
+                <div class="ml-buildout__overview ml-reveal">
+                    <!-- Left: Facility Image -->
+                    <div class="ml-buildout__image-section">
+                        <div class="ml-buildout__image-frame">
+                            <img src="Images/Blueprint.jpg" alt="MPaCT Lab cleanroom facility"
+                                class="ml-buildout__facility-image">
+                            <div class="ml-buildout__image-vignette"></div>
+                            <div class="ml-buildout__image-shimmer"></div>
+                            <div class="ml-buildout__image-corner ml-buildout__image-corner--tl"></div>
+                            <div class="ml-buildout__image-corner ml-buildout__image-corner--tr"></div>
+                            <div class="ml-buildout__image-corner ml-buildout__image-corner--bl"></div>
+                            <div class="ml-buildout__image-corner ml-buildout__image-corner--br"></div>
+                            <div class="ml-buildout__image-badge">
+                                <div class="ml-buildout__badge-stat">
+                                    <span class="ml-buildout__badge-value">1,500</span>
+                                    <span class="ml-buildout__badge-label">sq ft</span>
+                                </div>
+                                <div class="ml-buildout__badge-stat">
+                                    <span class="ml-buildout__badge-value">25+</span>
+                                    <span class="ml-buildout__badge-label">Instruments</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Text + Specs -->
+                    <div class="ml-buildout__info-section">
+                        <div class="ml-buildout__timeline-intro">
+                            <h3>A Research Milestone Built with Purpose</h3>
+                            <p>The MPaCT Lab represents NAU's commitment to next-generation materials and device research. Over four phases, we transformed a vision into a fully operational cleanroom facility — achieving ISO 6 standards and attracting partners including TSMC, Intel, and Microchip Technology.</p>
+                        </div>
+
+                        <!-- Key Specs -->
+                        <div class="ml-buildout__specs">
+                            <div class="ml-buildout__spec">
+                                <span class="ml-buildout__spec-label">Cleanroom Standard</span>
+                                <span class="ml-buildout__spec-value">ISO 6 &bull; Class 1000</span>
+                            </div>
+                            <div class="ml-buildout__spec">
+                                <span class="ml-buildout__spec-label">Primary Users</span>
+                                <span class="ml-buildout__spec-value">5+ NAU Departments</span>
+                            </div>
+                            <div class="ml-buildout__spec">
+                                <span class="ml-buildout__spec-label">Industry Partners</span>
+                                <span class="ml-buildout__spec-value">TSMC &bull; Intel &bull; Microchip</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Horizontal timeline track -->
-                <div class="ml-buildout__timeline ml-reveal">
-                    <div class="ml-buildout__track">
-                        <div class="ml-buildout__track-line"></div>
-                        <div class="ml-buildout__track-glow"></div>
+                <!-- Side-by-side: YouTube Player + Timeline Phases -->
+                <div class="ml-buildout__media ml-reveal" id="buildout-media">
 
-                        <div class="ml-buildout__phase">
-                            <div class="ml-buildout__phase-dot ml-buildout__phase-dot--blue">
-                                <i class="fas fa-drafting-compass"></i>
-                            </div>
-                            <div class="ml-buildout__phase-card">
-                                <span class="ml-buildout__tag ml-buildout__tag--blue">Phase 1</span>
-                                <h3>Design &amp; Engineering</h3>
-                                <p>Architectural and HVAC layout finalized to meet ISO 6 (Class 1000)
-                                    particulate standards. HEPA filtration and chemical exhaust
-                                    engineered for cleanroom-grade operations.</p>
-                            </div>
-                        </div>
-
-                        <div class="ml-buildout__phase">
-                            <div class="ml-buildout__phase-dot ml-buildout__phase-dot--gold">
-                                <i class="fas fa-hard-hat"></i>
-                            </div>
-                            <div class="ml-buildout__phase-card">
-                                <span class="ml-buildout__tag ml-buildout__tag--gold">Phase 2</span>
-                                <h3>Infrastructure</h3>
-                                <p>High-purity gas lines, HEPA ceilings, raised flooring, and
-                                    acid/base neutralization installed across 1,500 sq ft to maintain
-                                    Class 1000 particulate control.</p>
-                            </div>
-                        </div>
-
-                        <div class="ml-buildout__phase">
-                            <div class="ml-buildout__phase-dot ml-buildout__phase-dot--cyan">
-                                <i class="fas fa-cogs"></i>
-                            </div>
-                            <div class="ml-buildout__phase-card">
-                                <span class="ml-buildout__tag ml-buildout__tag--cyan">Phase 3</span>
-                                <h3>Calibration</h3>
-                                <p>Delivery and precision calibration of 25+ instruments &mdash;
-                                    electron microscopes, sputter systems, lithography aligners, and
-                                    X-ray diffractometers.</p>
-                            </div>
-                        </div>
-
-                        <div class="ml-buildout__phase">
-                            <div class="ml-buildout__phase-dot ml-buildout__phase-dot--green">
-                                <i class="fas fa-rocket"></i>
-                            </div>
-                            <div class="ml-buildout__phase-card">
-                                <span class="ml-buildout__tag ml-buildout__tag--green">Phase 4</span>
-                                <h3>Full Operations</h3>
-                                <p>Facility active 24/7 supporting 5+ departments, partners including
-                                    TSMC, Intel, and Microchip Technology, and workforce development
-                                    programs.</p>
-                            </div>
+                    <!-- Left: YouTube Player -->
+                    <div class="ml-buildout__yt-wrapper">
+                        <div class="ml-buildout__yt-stage">
+                            <div id="buildout-yt-player"></div>
                         </div>
                     </div>
+
+                    <!-- Mobile Phase Indicator Bar (hidden on desktop, shown on mobile below video) -->
+                    <div class="ml-buildout__phase-bar" aria-label="Construction phase indicator" role="navigation">
+                        <div class="ml-buildout__phase-bar-track"></div>
+                        <button class="ml-buildout__phase-dot" data-phase-index="0" data-seek-to="0"
+                                aria-label="Phase 1: Design &amp; Engineering">
+                            <span class="ml-buildout__phase-dot-circle">1</span>
+                            <span class="ml-buildout__phase-dot-label">Design</span>
+                        </button>
+                        <button class="ml-buildout__phase-dot" data-phase-index="1" data-seek-to="15"
+                                aria-label="Phase 2: Infrastructure">
+                            <span class="ml-buildout__phase-dot-circle">2</span>
+                            <span class="ml-buildout__phase-dot-label">Infrastructure</span>
+                        </button>
+                        <button class="ml-buildout__phase-dot" data-phase-index="2" data-seek-to="30"
+                                aria-label="Phase 3: Calibration">
+                            <span class="ml-buildout__phase-dot-circle">3</span>
+                            <span class="ml-buildout__phase-dot-label">Calibration</span>
+                        </button>
+                        <button class="ml-buildout__phase-dot" data-phase-index="3" data-seek-to="45"
+                                aria-label="Phase 4: Full Operations">
+                            <span class="ml-buildout__phase-dot-circle">4</span>
+                            <span class="ml-buildout__phase-dot-label">Operations</span>
+                        </button>
+                    </div>
+
+                    <!-- Right: Timeline Phases -->
+                    <div class="ml-buildout__timeline-panel">
+                        <p class="ml-buildout__media-label">Construction Phases</p>
+                        <div class="ml-buildout__timeline-track">
+                            <div class="ml-buildout__timeline-progress"></div>
+
+                            <div class="ml-buildout__timeline-item" data-phase="1" data-start="0" data-end="15">
+                                <div class="ml-buildout__timeline-phase">Phase 1</div>
+                                <div class="ml-buildout__timeline-content">
+                                    <h4>Design &amp; Engineering</h4>
+                                    <p>Architectural and HVAC layout finalized to meet ISO 6 (Class 1000) particulate standards...</p>
+                                </div>
+                            </div>
+
+                            <div class="ml-buildout__timeline-item" data-phase="2" data-start="15" data-end="30">
+                                <div class="ml-buildout__timeline-phase">Phase 2</div>
+                                <div class="ml-buildout__timeline-content">
+                                    <h4>Infrastructure</h4>
+                                    <p>High-purity gas lines, HEPA ceilings, raised flooring, and acid/base neutralization...</p>
+                                </div>
+                            </div>
+
+                            <div class="ml-buildout__timeline-item" data-phase="3" data-start="30" data-end="45">
+                                <div class="ml-buildout__timeline-phase">Phase 3</div>
+                                <div class="ml-buildout__timeline-content">
+                                    <h4>Calibration</h4>
+                                    <p>Delivery and precision calibration of 25+ instruments — electron microscopes, sputter systems...</p>
+                                </div>
+                            </div>
+
+                            <div class="ml-buildout__timeline-item" data-phase="4" data-start="45" data-end="9999">
+                                <div class="ml-buildout__timeline-phase">Phase 4</div>
+                                <div class="ml-buildout__timeline-content">
+                                    <h4>Full Operations</h4>
+                                    <p>Facility active 24/7 supporting 5+ departments, partners including TSMC, Intel, and Microchip...</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
                 </div>
 
             </div>
