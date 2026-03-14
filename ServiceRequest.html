@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -28,57 +28,48 @@
         .sr-hero {
             position: relative;
             background: linear-gradient(160deg, #000d1a 0%, #001a33 30%, #002454 60%, #0a3366 100%);
-            padding: 60px 0 75px;
+            padding: 40px 0 30px;
             overflow: hidden;
             text-align: center;
             border-top: 3px solid var(--nau-gold, #FFC600);
         }
 
-        .sr-hero-canvas {
-            position: absolute;
-            inset: 0;
+        /* ---------- SVG ANIMATION SHOWCASE ---------- */
+        .sr-animation-container {
             width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        /* Subtle grid overlay */
-        .sr-hero::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image:
-                linear-gradient(rgba(250, 192, 26, 0.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(250, 192, 26, 0.04) 1px, transparent 1px);
-            background-size: 60px 60px;
-            mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 30%, transparent 100%);
-            -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 30%, transparent 100%);
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .sr-hero .container {
+            max-width: 650px;
+            margin: -20px auto 0;
             position: relative;
             z-index: 3;
+            /* Container scales down nicely on mobile */
+        }
+        
+        .sr-svg-scene {
+            width: 100%;
+            height: auto;
+            display: block;
+            overflow: visible;
         }
 
-        /* Glass card */
-        .sr-glass-card {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            border: 1px solid rgba(250, 192, 26, 0.15);
-            border-top: 3px solid rgba(250, 192, 26, 0.5);
-            border-radius: 16px;
-            padding: 28px 48px;
-            max-width: 700px;
-            box-shadow:
-                0 8px 32px rgba(0, 0, 0, 0.3),
-                0 0 30px rgba(250, 192, 26, 0.04),
-                inset 0 1px 0 rgba(250, 192, 26, 0.08);
-            opacity: 0;
+        /* SVG Element Styles */
+        .blueprint-bg {
+            transition: fill 0.3s;
+        }
+        
+        .submit-btn {
+            cursor: pointer;
+            transition: filter 0.2s;
+        }
+        
+        .circuit-path-bg {
+            filter: drop-shadow(0 0 4px rgba(255,198,0,0.2));
+        }
+
+        /* Responsive hidden on small screens */
+        @media (max-width: 768px) {
+            .sr-animation-container {
+                display: none;
+            }
         }
 
         /* Kicker */
@@ -493,20 +484,95 @@
     <main>
         <!-- Hero -->
         <section class="sr-hero">
-            <canvas class="sr-hero-canvas" id="srCanvas"></canvas>
-
             <div class="container">
-                <div class="sr-glass-card" id="srCard">
-                    <div class="sr-kicker" id="srKicker">
-                        <i class="fas fa-bolt"></i>
-                        Staff-Assisted Services
-                    </div>
-                    <h1 id="srTitle">Service Request Portal</h1>
-                    <p id="srSub">
-                        Select a service below and fill out the request form. Our staff will review your submission
-                        and follow up with a quote and timeline.
-                    </p>
+                <div class="sr-kicker" id="srKicker" style="opacity: 1;">
+                    <i class="fas fa-bolt"></i>
+                    Staff-Assisted Services
                 </div>
+                <h1 id="srTitle" style="opacity: 1;">Service Request Portal</h1>
+                <p id="srSub" style="opacity: 1; margin-bottom: 15px;">
+                    From digital blueprints to physical reality. Submit a request and let our elite team fabricate your design.
+                </p>
+
+                <!-- SVG Animation Showcase -->
+                <div class="sr-animation-container" id="srAnimContainer">
+                    <svg class="sr-svg-scene" viewBox="0 0 1000 300" preserveAspectRatio="xMidYMid meet">
+                        <defs>
+                            <!-- Glow Filter -->
+                            <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                                <feGaussianBlur stdDeviation="5" result="blur" />
+                                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                            </filter>
+                            <!-- Gradient for final product -->
+                            <linearGradient id="product-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#FFC600" />
+                                <stop offset="100%" stop-color="#FF9900" />
+                            </linearGradient>
+                            <!-- Gradient for data beam -->
+                            <linearGradient id="beam-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="rgba(255,198,0,0)" />
+                                <stop offset="50%" stop-color="rgba(255,198,0,1)" />
+                                <stop offset="100%" stop-color="rgba(255,198,0,0)" />
+                            </linearGradient>
+                        </defs>
+
+                        <!-- ZONE 1: The Blueprint (Left) -->
+                        <g class="anim-zone-1" transform="translate(100, 150)">
+                            <!-- Document Backing -->
+                            <rect class="blueprint-bg" x="-40" y="-55" width="80" height="110" rx="4" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+                            <!-- Lines on Document -->
+                            <line class="bp-line" x1="-25" y1="-30" x2="25" y2="-30" stroke="rgba(255,255,255,0.5)" stroke-width="4" stroke-linecap="round"/>
+                            <line class="bp-line" x1="-25" y1="-15" x2="15" y2="-15" stroke="rgba(255,255,255,0.5)" stroke-width="4" stroke-linecap="round"/>
+                            <line class="bp-line" x1="-25" y1="0" x2="25" y2="0" stroke="rgba(255,255,255,0.5)" stroke-width="4" stroke-linecap="round"/>
+                            <line class="bp-line" x1="-25" y1="15" x2="5" y2="15" stroke="rgba(255,255,255,0.5)" stroke-width="4" stroke-linecap="round"/>
+                            <!-- Submit Button -->
+                            <rect class="submit-btn" x="-30" y="35" width="60" height="15" rx="7.5" fill="#007bff"/>
+                        </g>
+
+                        <!-- ZONE 2: Processing Circuit (Middle) -->
+                        <g class="anim-zone-2" transform="translate(0, 0)">
+                            <!-- Background Circuit Path -->
+                            <path class="circuit-path-bg" d="M 160 150 L 300 150 L 350 100 L 450 100 L 500 150 L 650 150 L 700 200 L 800 200 L 850 150" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="4" stroke-linejoin="round"/>
+                            <!-- Glowing Data Beam (Drawn by GSAP later) -->
+                            <path class="circuit-path-active" d="M 160 150 L 300 150 L 350 100 L 450 100 L 500 150 L 650 150 L 700 200 L 800 200 L 850 150" fill="none" stroke="var(--nau-gold)" stroke-width="4" stroke-linejoin="round" filter="url(#glow)"/>
+                            <!-- Processing Nodes -->
+                            <circle class="p-node node-1" cx="300" cy="150" r="0" fill="#fff" filter="url(#glow)"/>
+                            <circle class="p-node node-2" cx="450" cy="100" r="0" fill="#fff" filter="url(#glow)"/>
+                            <circle class="p-node node-3" cx="650" cy="150" r="0" fill="#fff" filter="url(#glow)"/>
+                            <circle class="p-node node-4" cx="800" cy="200" r="0" fill="#fff" filter="url(#glow)"/>
+                        </g>
+
+                        <!-- ZONE 3: Finished Product (Right) -->
+                        <g class="anim-zone-3" transform="translate(850, 150)">
+                            <!-- Assembly Platform -->
+                            <ellipse cx="0" cy="65" rx="70" ry="20" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+                            
+                            <!-- Isometric Microchip/Object Base Wireframe -->
+                            <g class="wireframe-obj">
+                                <path class="wf-path" d="M 0 -30 L 40 -10 L 0 10 L -40 -10 Z" fill="none" stroke="#007bff" stroke-width="2" stroke-linejoin="round"/>
+                                <path class="wf-path" d="M -40 -10 L -40 20 L 0 40 L 40 20 L 40 -10" fill="none" stroke="#007bff" stroke-width="2" stroke-linejoin="round"/>
+                                <path class="wf-path" d="M 0 10 L 0 40" fill="none" stroke="#007bff" stroke-width="2" stroke-linecap="round"/>
+                                
+                                <!-- Inner Circuit Details -->
+                                <circle class="wf-path" cx="0" cy="-10" r="5" fill="none" stroke="#007bff" stroke-width="1"/>
+                                <line class="wf-path" x1="-15" y1="-10" x2="-5" y2="-10" stroke="#007bff" stroke-width="1"/>
+                                <line class="wf-path" x1="15" y1="-10" x2="5" y2="-10" stroke="#007bff" stroke-width="1"/>
+                            </g>
+                            
+                            <!-- Solid Object (Fades in over wireframe) -->
+                            <g class="solid-obj" style="opacity: 0;">
+                                <path d="M 0 -30 L 40 -10 L 0 10 L -40 -10 Z" fill="url(#product-grad)"/>
+                                <path d="M -40 -10 L -40 20 L 0 40 L 0 10 Z" fill="#b8860b"/>
+                                <path d="M 0 10 L 0 40 L 40 20 L 40 -10 Z" fill="#d4af37"/>
+                                
+                                <!-- Floating Sparkles -->
+                                <circle class="sparkle" cx="-20" cy="-40" r="2" fill="#fff" filter="url(#glow)"/>
+                                <circle class="sparkle" cx="25" cy="-25" r="3" fill="#fff" filter="url(#glow)"/>
+                                <circle class="sparkle" cx="0" cy="-55" r="1.5" fill="#fff" filter="url(#glow)"/>
+                            </g>
+                        </g>
+                    </svg>
+                </div> <!-- End Animation Container -->
             </div>
 
             <!-- Straight bottom edge -->
@@ -1192,483 +1258,69 @@
 
     <!-- Storytelling Hero Animation -->
     <script>
-        (function () {
-            'use strict';
-            const canvas = document.getElementById('srCanvas');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
-            let W, H;
-
-            function resize() {
-                const hero = canvas.parentElement;
-                W = canvas.width = hero.offsetWidth;
-                H = canvas.height = hero.offsetHeight;
-            }
-            resize();
-            window.addEventListener('resize', resize);
-
-            // ===== Get card rect for clipping =====
-            function cardRect() {
-                const card = document.getElementById('srCard');
-                const hero = canvas.parentElement;
-                if (!card || !hero) return { l: W * 0.3, r: W * 0.7, t: H * 0.2, b: H * 0.8 };
-                const cr = card.getBoundingClientRect();
-                const hr = hero.getBoundingClientRect();
-                return {
-                    l: cr.left - hr.left,
-                    r: cr.right - hr.left,
-                    t: cr.top - hr.top,
-                    b: cr.bottom - hr.top
-                };
-            }
-
-            // ===== Animation state =====
-            const anim = {
-                // Figures
-                senderAlpha: 0, receiverAlpha: 0,
-                // Signal dot
-                signalX: 0, signalY: 0, signalAlpha: 0, signalPhase: 0, // 0=pre, 1=left, 2=hidden, 3=right
-                // Button press
-                buttonPressed: 0,
-                // Package
-                packageAlpha: 0, lidOpen: 0,
-                // Building reveal
-                buildingAlpha: 0,
-                // Card edge glows
-                leftGlow: 0, rightGlow: 0,
-                // Sparkles
-                sparkles: [],
-                // Ambient particles
-                particles: []
-            };
-
-            // Create ambient particles
-            function createParticles() {
-                anim.particles = [];
-                const count = Math.min(35, Math.floor((W * H) / 18000));
-                for (let i = 0; i < count; i++) {
-                    anim.particles.push({
-                        x: Math.random() * W, y: Math.random() * H,
-                        vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.2 - 0.1,
-                        r: Math.random() * 1.5 + 0.4, alpha: Math.random() * 0.3 + 0.1,
-                        gold: Math.random() > 0.5
-                    });
-                }
-            }
-            createParticles();
-
-            function spawnSparkle(x, y) {
-                if (anim.sparkles.length > 20) return;
-                for (let i = 0; i < 3; i++) {
-                    anim.sparkles.push({
-                        x, y, vx: (Math.random() - 0.5) * 2.5, vy: (Math.random() - 0.5) * 2.5,
-                        r: Math.random() * 2 + 0.5, life: 1, decay: Math.random() * 0.03 + 0.015
-                    });
-                }
-            }
-
-            // ===== Drawing helpers =====
-            function drawStickPerson(x, y, scale, alpha, armAngle) {
-                if (alpha < 0.01) return;
-                const s = scale;
-                ctx.save();
-                ctx.globalAlpha = alpha;
-                ctx.strokeStyle = 'rgba(250,192,26,0.8)';
-                ctx.fillStyle = 'rgba(250,192,26,0.8)';
-                ctx.lineWidth = 1.5;
-                ctx.lineCap = 'round';
-
-                // Head
-                ctx.beginPath();
-                ctx.arc(x, y - 28 * s, 6 * s, 0, Math.PI * 2);
-                ctx.stroke();
-
-                // Body
-                ctx.beginPath();
-                ctx.moveTo(x, y - 22 * s);
-                ctx.lineTo(x, y);
-                ctx.stroke();
-
-                // Legs
-                ctx.beginPath();
-                ctx.moveTo(x, y);
-                ctx.lineTo(x - 8 * s, y + 16 * s);
-                ctx.moveTo(x, y);
-                ctx.lineTo(x + 8 * s, y + 16 * s);
-                ctx.stroke();
-
-                // Arms
-                ctx.beginPath();
-                ctx.moveTo(x, y - 14 * s);
-                ctx.lineTo(x - 10 * s, y - 6 * s);
-                ctx.moveTo(x, y - 14 * s);
-                const armX = x + Math.cos(armAngle) * 12 * s;
-                const armY = (y - 14 * s) + Math.sin(armAngle) * 12 * s;
-                ctx.lineTo(armX, armY);
-                ctx.stroke();
-
-                ctx.restore();
-                return { armX, armY };
-            }
-
-            function drawDesk(x, y, scale, alpha) {
-                if (alpha < 0.01) return;
-                const s = scale;
-                ctx.save();
-                ctx.globalAlpha = alpha;
-                ctx.strokeStyle = 'rgba(250,192,26,0.5)';
-                ctx.lineWidth = 1.5;
-
-                // Desk surface
-                ctx.beginPath();
-                ctx.moveTo(x - 20 * s, y + 2 * s);
-                ctx.lineTo(x + 20 * s, y + 2 * s);
-                ctx.stroke();
-
-                // Desk legs
-                ctx.beginPath();
-                ctx.moveTo(x - 16 * s, y + 2 * s);
-                ctx.lineTo(x - 16 * s, y + 16 * s);
-                ctx.moveTo(x + 16 * s, y + 2 * s);
-                ctx.lineTo(x + 16 * s, y + 16 * s);
-                ctx.stroke();
-
-                // Monitor
-                ctx.strokeStyle = 'rgba(250,192,26,0.6)';
-                ctx.strokeRect(x - 10 * s, y - 16 * s, 20 * s, 14 * s);
-                // Monitor stand
-                ctx.beginPath();
-                ctx.moveTo(x, y - 2 * s);
-                ctx.lineTo(x, y + 2 * s);
-                ctx.stroke();
-
-                // Screen glow
-                ctx.fillStyle = `rgba(250,192,26,${0.08 * alpha})`;
-                ctx.fillRect(x - 9 * s, y - 15 * s, 18 * s, 12 * s);
-
-                ctx.restore();
-            }
-
-            function drawButton(x, y, scale, alpha, pressed) {
-                if (alpha < 0.01) return;
-                const s = scale;
-                ctx.save();
-                ctx.globalAlpha = alpha;
-                const yOff = pressed * 2;
-                ctx.fillStyle = pressed > 0.5 ? 'rgba(250,192,26,0.9)' : 'rgba(250,192,26,0.6)';
-                ctx.beginPath();
-                ctx.roundRect(x - 5 * s, y - 3 * s + yOff, 10 * s, 6 * s, 2);
-                ctx.fill();
-                if (pressed > 0.5) {
-                    // Pulse ring
-                    ctx.strokeStyle = `rgba(250,192,26,${(1 - pressed) * 0.8})`;
-                    ctx.lineWidth = 1;
-                    ctx.beginPath();
-                    ctx.arc(x, y + yOff, 8 * s * pressed, 0, Math.PI * 2);
-                    ctx.stroke();
-                }
-                ctx.restore();
-            }
-
-            function drawPackage(x, y, scale, alpha, lidOpen) {
-                if (alpha < 0.01) return;
-                const s = scale;
-                ctx.save();
-                ctx.globalAlpha = alpha;
-                ctx.strokeStyle = 'rgba(250,192,26,0.7)';
-                ctx.lineWidth = 1.5;
-
-                // Box body
-                const bw = 18 * s, bh = 14 * s;
-                ctx.strokeRect(x - bw / 2, y - bh / 2, bw, bh);
-                ctx.fillStyle = 'rgba(250,192,26,0.06)';
-                ctx.fillRect(x - bw / 2, y - bh / 2, bw, bh);
-
-                // Lid (opens upward)
-                const lidAngle = lidOpen * -1.2;
-                ctx.save();
-                ctx.translate(x - bw / 2, y - bh / 2);
-                ctx.rotate(lidAngle);
-                ctx.strokeStyle = 'rgba(250,192,26,0.7)';
-                ctx.beginPath();
-                ctx.moveTo(0, 0);
-                ctx.lineTo(bw, 0);
-                ctx.lineTo(bw - 3 * s, -5 * s);
-                ctx.lineTo(-3 * s, -5 * s);
-                ctx.closePath();
-                ctx.stroke();
-                ctx.fillStyle = 'rgba(250,192,26,0.1)';
-                ctx.fill();
-                ctx.restore();
-
-                ctx.restore();
-            }
-
-            function drawBuilding(x, y, scale, alpha) {
-                if (alpha < 0.01) return;
-                const s = scale;
-                ctx.save();
-                ctx.globalAlpha = alpha;
-                ctx.strokeStyle = 'rgba(250,192,26,0.85)';
-                ctx.lineWidth = 1.2;
-
-                // Main building body
-                ctx.strokeRect(x - 8 * s, y - 20 * s, 16 * s, 20 * s);
-                // Windows (2 rows)
-                for (let r = 0; r < 2; r++) {
-                    for (let c = 0; c < 2; c++) {
-                        const wx = x - 5 * s + c * 7 * s;
-                        const wy = y - 17 * s + r * 8 * s;
-                        ctx.fillStyle = `rgba(250,192,26,${0.3 * alpha})`;
-                        ctx.fillRect(wx, wy, 4 * s, 3 * s);
-                        ctx.strokeRect(wx, wy, 4 * s, 3 * s);
-                    }
-                }
-
-                // Door
-                ctx.strokeRect(x - 3 * s, y - 6 * s, 6 * s, 6 * s);
-                ctx.beginPath();
-                ctx.arc(x + 1.5 * s, y - 3 * s, 0.6 * s, 0, Math.PI * 2);
-                ctx.fill();
-
-                // Roof triangle
-                ctx.beginPath();
-                ctx.moveTo(x - 10 * s, y - 20 * s);
-                ctx.lineTo(x, y - 28 * s);
-                ctx.lineTo(x + 10 * s, y - 20 * s);
-                ctx.closePath();
-                ctx.stroke();
-                ctx.fillStyle = `rgba(250,192,26,${0.08 * alpha})`;
-                ctx.fill();
-
-                ctx.restore();
-            }
-
-            function drawSignalDot(x, y, alpha) {
-                if (alpha < 0.01) return;
-                ctx.save();
-                ctx.globalAlpha = alpha;
-                // Glow
-                const g = ctx.createRadialGradient(x, y, 0, x, y, 8);
-                g.addColorStop(0, 'rgba(250,192,26,0.8)');
-                g.addColorStop(0.5, 'rgba(250,192,26,0.2)');
-                g.addColorStop(1, 'rgba(250,192,26,0)');
-                ctx.fillStyle = g;
-                ctx.beginPath();
-                ctx.arc(x, y, 8, 0, Math.PI * 2);
-                ctx.fill();
-                // Core
-                ctx.fillStyle = 'rgba(255,220,50,0.9)';
-                ctx.beginPath();
-                ctx.arc(x, y, 3, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.restore();
-            }
-
-            function drawCardGlow(side, alpha) {
-                if (alpha < 0.01) return;
-                const cr = cardRect();
-                ctx.save();
-                ctx.globalAlpha = alpha;
-                const gx = side === 'left' ? cr.l : cr.r;
-                const g = ctx.createRadialGradient(gx, (cr.t + cr.b) / 2, 0, gx, (cr.t + cr.b) / 2, 40);
-                g.addColorStop(0, 'rgba(250,192,26,0.4)');
-                g.addColorStop(1, 'rgba(250,192,26,0)');
-                ctx.fillStyle = g;
-                ctx.beginPath();
-                ctx.arc(gx, (cr.t + cr.b) / 2, 40, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.restore();
-            }
-
-            // ===== Render loop =====
-            function render() {
-                ctx.clearRect(0, 0, W, H);
-                const cr = cardRect();
-                const midY = (cr.t + cr.b) / 2;
-
-                // Ambient particles
-                anim.particles.forEach(p => {
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                    ctx.fillStyle = p.gold
-                        ? `rgba(250,192,26,${p.alpha})` : `rgba(255,255,255,${p.alpha * 0.5})`;
-                    ctx.fill();
-                    p.x += p.vx; p.y += p.vy;
-                    if (p.x < -10) p.x = W + 10;
-                    if (p.x > W + 10) p.x = -10;
-                    if (p.y < -10) p.y = H + 10;
-                    if (p.y > H + 10) p.y = -10;
+        
+            // ----- 2. SVG GSAP ANIMATION LOGIC -----
+            const circuitPath = document.querySelector('.circuit-path-active');
+            if(circuitPath) {
+                const pathLength = circuitPath.getTotalLength();
+                
+                // Set up initial stroke arrays for the fake "DrawSVG" effect
+                gsap.set(circuitPath, {
+                    strokeDasharray: pathLength,
+                    strokeDashoffset: pathLength,
+                    opacity: 1
                 });
+                
+                // Hide elements initially
+                gsap.set('.bp-line', { scaleX: 0, transformOrigin: 'left center' });
+                gsap.set('.wf-path', { opacity: 0 });
+                gsap.set('.p-node', { r: 0 });
+                gsap.set('.solid-obj', { opacity: 0, y: 10 });
+                gsap.set('.sparkle', { scale: 0, opacity: 0, transformOrigin: 'center' });
 
-                // Positioning
-                const senderX = cr.l - 100;
-                const senderY = midY;
-                const deskX = cr.l - 65;
-                const deskY = midY + 4;
-                const receiverX = cr.r + 100;
-                const receiverY = midY;
+                // Create Master Timeline
+                const tl = gsap.timeline({ repeat: -1, repeatDelay: 1.5 });
 
-                // Draw sender person at desk
-                const armAngle = anim.buttonPressed > 0.3 ? 0.3 : 0.6;
-                drawStickPerson(senderX, senderY, 0.8, anim.senderAlpha, armAngle);
-                drawDesk(deskX, deskY, 0.8, anim.senderAlpha);
-                drawButton(deskX, deskY - 9 * 0.8, 0.8, anim.senderAlpha, anim.buttonPressed);
+                // 1. Order Phase (Left)
+                tl.to('.submit-btn', { scale: 0.9, y: 1, duration: 0.1, yoyo: true, repeat: 1, ease: "power2.inOut" }, 0.5)
+                  .to('.submit-btn', { fill: '#28a745', duration: 0.2 }, "+=0.1")
+                  .to('.bp-line', { scaleX: 1, duration: 0.4, stagger: 0.1, ease: "power2.out" }, "-=0.2")
+                  .to('.anim-zone-1', { x: 120, opacity: 0, duration: 0.5, ease: "power1.in" }, "+=0.3");
 
-                // Draw receiver person
-                drawStickPerson(receiverX, receiverY, 0.8, anim.receiverAlpha, 0.8);
+                // 2. Processing Phase (Middle)
+                // Fake DrawSVG by animating strokeDashoffset to 0
+                tl.to(circuitPath, { strokeDashoffset: 0, duration: 1.5, ease: "power1.inOut" }, "-=0.2")
+                  
+                  // Pop the nodes as the line passes them (approximated timing)
+                  .to('.node-1', { r: 8, duration: 0.3, ease: "back.out(1.7)" }, "-=1.3")
+                  .to('.node-2', { r: 8, duration: 0.3, ease: "back.out(1.7)" }, "-=1.0")
+                  .to('.node-3', { r: 8, duration: 0.3, ease: "back.out(1.7)" }, "-=0.7")
+                  .to('.node-4', { r: 8, duration: 0.3, ease: "back.out(1.7)" }, "-=0.4")
+                  
+                  // Fade out the line
+                  .to(circuitPath, { opacity: 0, duration: 0.3 }, "-=0.1");
 
-                // Signal dot — only draw outside the card area
-                if (anim.signalAlpha > 0.01) {
-                    const sx = anim.signalX;
-                    if (sx < cr.l || sx > cr.r) {
-                        drawSignalDot(sx, anim.signalY, anim.signalAlpha);
-                    }
-                }
-
-                // Card edge glows
-                drawCardGlow('left', anim.leftGlow);
-                drawCardGlow('right', anim.rightGlow);
-
-                // Signal trail line (only outside card)
-                if (anim.signalAlpha > 0.01) {
-                    ctx.save();
-                    ctx.globalAlpha = anim.signalAlpha * 0.25;
-                    ctx.strokeStyle = 'rgba(250,192,26,0.6)';
-                    ctx.lineWidth = 1;
-                    ctx.setLineDash([4, 4]);
-                    // Left trail
-                    if (anim.signalX > deskX + 10) {
-                        ctx.beginPath();
-                        ctx.moveTo(deskX + 16, midY);
-                        ctx.lineTo(Math.min(anim.signalX, cr.l), midY);
-                        ctx.stroke();
-                    }
-                    // Right trail
-                    if (anim.signalX > cr.r) {
-                        ctx.beginPath();
-                        ctx.moveTo(cr.r, midY);
-                        ctx.lineTo(Math.min(anim.signalX, receiverX - 20), midY);
-                        ctx.stroke();
-                    }
-                    ctx.setLineDash([]);
-                    ctx.restore();
-                }
-
-                // Package
-                const pkgX = receiverX + 25;
-                const pkgY = receiverY + 2;
-                drawPackage(pkgX, pkgY, 0.9, anim.packageAlpha, anim.lidOpen);
-
-                // Building from package
-                drawBuilding(pkgX, pkgY - 14 * anim.lidOpen, 0.7, anim.buildingAlpha);
-
-                // Sparkles
-                for (let i = anim.sparkles.length - 1; i >= 0; i--) {
-                    const sp = anim.sparkles[i];
-                    sp.x += sp.vx; sp.y += sp.vy;
-                    sp.life -= sp.decay;
-                    if (sp.life <= 0) { anim.sparkles.splice(i, 1); continue; }
-                    const sz = sp.r * sp.life;
-                    ctx.beginPath();
-                    ctx.moveTo(sp.x, sp.y - sz);
-                    ctx.lineTo(sp.x + sz * 0.3, sp.y - sz * 0.3);
-                    ctx.lineTo(sp.x + sz, sp.y);
-                    ctx.lineTo(sp.x + sz * 0.3, sp.y + sz * 0.3);
-                    ctx.lineTo(sp.x, sp.y + sz);
-                    ctx.lineTo(sp.x - sz * 0.3, sp.y + sz * 0.3);
-                    ctx.lineTo(sp.x - sz, sp.y);
-                    ctx.lineTo(sp.x - sz * 0.3, sp.y - sz * 0.3);
-                    ctx.closePath();
-                    ctx.fillStyle = `rgba(250,192,26,${sp.life * 0.7})`;
-                    ctx.fill();
-                }
-
-                requestAnimationFrame(render);
+                // 3. Assembly Phase (Right)
+                tl.to('.wf-path', { opacity: 1, duration: 0.1, stagger: 0.05 })
+                  .to('.solid-obj', { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, "+=0.2")
+                  // Floating effect for the finished product
+                  .to('.solid-obj', { y: -5, duration: 1.5, yoyo: true, repeat: 1, ease: "sine.inOut" }, "-=0.6")
+                  
+                  // Pop sparkles
+                  .to('.sparkle', { scale: 1, autoAlpha: 1, duration: 0.3, stagger: 0.1, ease: "back.out" }, "-=2.5")
+                  .to('.sparkle', { y: -15, duration: 1.5, ease: "power1.out" }, "-=2.5")
+                  .to('.sparkle', { opacity: 0, duration: 0.5 }, "-=1.5")
+                  
+                  // Cleanup/Reset to loop
+                  .to('.anim-zone-3', { opacity: 0, duration: 0.5 }, "+=1")
+                  .set('.anim-zone-1', { x: 100, opacity: 1 }) // Reset start position
+                  .set('.bp-line', { scaleX: 0 })
+                  .set('.submit-btn', { fill: '#007bff' })
+                  .set('.p-node', { r: 0 })
+                  .set('.wf-path', { opacity: 0 })
+                  .set(circuitPath, { strokeDashoffset: pathLength, opacity: 1 })
+                  .to('.anim-zone-3', { opacity: 1, duration: 0.1 });
             }
-            render();
-
-            // ===== GSAP Timeline =====
-            gsap.set('#srCard', { y: 20 });
-
-            const cr = cardRect();
-            const midY = (cr.t + cr.b) / 2;
-            const deskX = cr.l - 65;
-            const receiverX = cr.r + 100;
-            const pkgX = receiverX + 25;
-
-            anim.signalX = deskX + 16;
-            anim.signalY = midY;
-
-            const tl = gsap.timeline({ defaults: { ease: 'power2.inOut' } });
-
-            tl
-                // Card entrance
-                .to('#srCard', { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, 0.3)
-                .to('#srKicker', { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, 0.5)
-                .to('#srTitle', { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, 0.7)
-                .to('#srSub', { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, 0.9)
-
-                // Sender appears
-                .to(anim, { senderAlpha: 0.9, duration: 0.8, ease: 'power2.out' }, 1.3)
-
-                // Button press
-                .to(anim, { buttonPressed: 1, duration: 0.3, ease: 'power3.in' }, 2.2)
-                .to(anim, { buttonPressed: 0, duration: 0.5, ease: 'elastic.out(1, 0.5)' }, 2.5)
-
-                // Signal shoots right toward card
-                .to(anim, { signalAlpha: 1, duration: 0.2 }, 2.5)
-                .to(anim, {
-                    signalX: cr.l,
-                    duration: 0.8, ease: 'power2.in'
-                }, 2.6)
-
-                // Left card glow
-                .to(anim, { leftGlow: 0.8, duration: 0.3 }, 3.3)
-                .to(anim, { leftGlow: 0, duration: 0.6 }, 3.6)
-
-                // Signal hidden inside card, then exits right
-                .to(anim, { signalX: cr.r, duration: 0.6, ease: 'none' }, 3.4)
-
-                // Right card glow
-                .to(anim, { rightGlow: 0.8, duration: 0.3 }, 3.9)
-                .to(anim, { rightGlow: 0, duration: 0.6 }, 4.2)
-
-                // Signal continues to receiver
-                .to(anim, {
-                    signalX: receiverX - 20,
-                    duration: 0.8, ease: 'power2.out'
-                }, 4.0)
-
-                // Receiver appears
-                .to(anim, { receiverAlpha: 0.9, duration: 0.6 }, 4.2)
-
-                // Signal fades
-                .to(anim, { signalAlpha: 0, duration: 0.4 }, 4.8)
-
-                // Package appears
-                .to(anim, { packageAlpha: 1, duration: 0.5, ease: 'back.out(1.7)' }, 5.0)
-
-                // Lid opens
-                .to(anim, { lidOpen: 1, duration: 0.8, ease: 'power2.out' }, 5.6)
-
-                // Building revealed
-                .to(anim, {
-                    buildingAlpha: 1, duration: 0.6, ease: 'power2.out',
-                    onUpdate: function () {
-                        if (anim.buildingAlpha > 0.3 && Math.random() > 0.5) {
-                            spawnSparkle(pkgX + (Math.random() - 0.5) * 20, midY - 10 + (Math.random() - 0.5) * 20);
-                        }
-                    }
-                }, 6.2)
-
-                // Subtle fade to ambient
-                .to(anim, { senderAlpha: 0.35, duration: 1.5 }, 8.0)
-                .to(anim, { receiverAlpha: 0.35, duration: 1.5 }, 8.0)
-                .to(anim, { packageAlpha: 0.35, duration: 1.5 }, 8.0)
-                .to(anim, { buildingAlpha: 0.35, duration: 1.5 }, 8.0);
-
-        })();
     </script>
 </body>
 
