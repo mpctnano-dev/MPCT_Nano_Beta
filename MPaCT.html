@@ -402,73 +402,93 @@
                 <!-- Side-by-side: YouTube Player + Timeline Phases -->
                 <div class="ml-buildout__media ml-reveal" id="buildout-media">
 
-                    <!-- Left: YouTube Player -->
+                    <!-- Left: YouTube Player + mobile phase bar -->
                     <div class="ml-buildout__yt-wrapper">
                         <div class="ml-buildout__yt-stage">
                             <div id="buildout-yt-player"></div>
                         </div>
+
+                        <!-- Mobile Phase Indicator Bar (hidden on desktop, shown on mobile below video) -->
+                        <div class="ml-buildout__phase-bar" aria-label="Construction phase indicator" role="navigation">
+                            <div class="ml-buildout__phase-bar-track"></div>
+                            <button class="ml-buildout__phase-dot" data-phase-index="0" data-seek-to="0"
+                                    aria-label="Phase 1: Design &amp; Engineering">
+                                <span class="ml-buildout__phase-dot-circle">1</span>
+                                <span class="ml-buildout__phase-dot-label">Design</span>
+                            </button>
+                            <button class="ml-buildout__phase-dot" data-phase-index="1" data-seek-to="15"
+                                    aria-label="Phase 2: Infrastructure">
+                                <span class="ml-buildout__phase-dot-circle">2</span>
+                                <span class="ml-buildout__phase-dot-label">Infrastructure</span>
+                            </button>
+                            <button class="ml-buildout__phase-dot" data-phase-index="2" data-seek-to="30"
+                                    aria-label="Phase 3: Calibration">
+                                <span class="ml-buildout__phase-dot-circle">3</span>
+                                <span class="ml-buildout__phase-dot-label">Calibration</span>
+                            </button>
+                            <button class="ml-buildout__phase-dot" data-phase-index="3" data-seek-to="45"
+                                    aria-label="Phase 4: Full Operations">
+                                <span class="ml-buildout__phase-dot-circle">4</span>
+                                <span class="ml-buildout__phase-dot-label">Operations</span>
+                            </button>
+                        </div>
                     </div>
 
-                    <!-- Mobile Phase Indicator Bar (hidden on desktop, shown on mobile below video) -->
-                    <div class="ml-buildout__phase-bar" aria-label="Construction phase indicator" role="navigation">
-                        <div class="ml-buildout__phase-bar-track"></div>
-                        <button class="ml-buildout__phase-dot" data-phase-index="0" data-seek-to="0"
-                                aria-label="Phase 1: Design &amp; Engineering">
-                            <span class="ml-buildout__phase-dot-circle">1</span>
-                            <span class="ml-buildout__phase-dot-label">Design</span>
-                        </button>
-                        <button class="ml-buildout__phase-dot" data-phase-index="1" data-seek-to="15"
-                                aria-label="Phase 2: Infrastructure">
-                            <span class="ml-buildout__phase-dot-circle">2</span>
-                            <span class="ml-buildout__phase-dot-label">Infrastructure</span>
-                        </button>
-                        <button class="ml-buildout__phase-dot" data-phase-index="2" data-seek-to="30"
-                                aria-label="Phase 3: Calibration">
-                            <span class="ml-buildout__phase-dot-circle">3</span>
-                            <span class="ml-buildout__phase-dot-label">Calibration</span>
-                        </button>
-                        <button class="ml-buildout__phase-dot" data-phase-index="3" data-seek-to="45"
-                                aria-label="Phase 4: Full Operations">
-                            <span class="ml-buildout__phase-dot-circle">4</span>
-                            <span class="ml-buildout__phase-dot-label">Operations</span>
-                        </button>
-                    </div>
-
-                    <!-- Right: Timeline Phases -->
+                    <!-- Right: Construction Phases Timeline -->
                     <div class="ml-buildout__timeline-panel">
                         <p class="ml-buildout__media-label">Construction Phases</p>
                         <div class="ml-buildout__timeline-track">
                             <div class="ml-buildout__timeline-progress"></div>
 
                             <div class="ml-buildout__timeline-item" data-phase="1" data-start="0" data-end="15">
-                                <div class="ml-buildout__timeline-phase">Phase 1</div>
-                                <div class="ml-buildout__timeline-content">
-                                    <h4>Design &amp; Engineering</h4>
-                                    <p>Architectural and HVAC layout finalized to meet ISO 6 (Class 1000) particulate standards...</p>
+                                <div class="ml-buildout__tl-step">
+                                    <div class="ml-buildout__tl-circle">1</div>
+                                </div>
+                                <div class="ml-buildout__tl-body">
+                                    <div class="ml-buildout__timeline-phase">Phase 1</div>
+                                    <div class="ml-buildout__timeline-content">
+                                        <h4>Design &amp; Engineering</h4>
+                                        <p>Architectural and HVAC layout finalized to meet ISO 6 (Class 1000) particulate standards for the cleanroom envelope.</p>
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="ml-buildout__timeline-item" data-phase="2" data-start="15" data-end="30">
-                                <div class="ml-buildout__timeline-phase">Phase 2</div>
-                                <div class="ml-buildout__timeline-content">
-                                    <h4>Infrastructure</h4>
-                                    <p>High-purity gas lines, HEPA ceilings, raised flooring, and acid/base neutralization...</p>
+                                <div class="ml-buildout__tl-step">
+                                    <div class="ml-buildout__tl-circle">2</div>
+                                </div>
+                                <div class="ml-buildout__tl-body">
+                                    <div class="ml-buildout__timeline-phase">Phase 2</div>
+                                    <div class="ml-buildout__timeline-content">
+                                        <h4>Infrastructure</h4>
+                                        <p>High-purity gas lines, HEPA ceilings, raised flooring, and acid/base neutralization systems installed.</p>
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="ml-buildout__timeline-item" data-phase="3" data-start="30" data-end="45">
-                                <div class="ml-buildout__timeline-phase">Phase 3</div>
-                                <div class="ml-buildout__timeline-content">
-                                    <h4>Calibration</h4>
-                                    <p>Delivery and precision calibration of 25+ instruments — electron microscopes, sputter systems...</p>
+                                <div class="ml-buildout__tl-step">
+                                    <div class="ml-buildout__tl-circle">3</div>
+                                </div>
+                                <div class="ml-buildout__tl-body">
+                                    <div class="ml-buildout__timeline-phase">Phase 3</div>
+                                    <div class="ml-buildout__timeline-content">
+                                        <h4>Calibration</h4>
+                                        <p>Delivery and precision calibration of 25+ instruments — electron microscopes, sputter systems, and metrology tools.</p>
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="ml-buildout__timeline-item" data-phase="4" data-start="45" data-end="9999">
-                                <div class="ml-buildout__timeline-phase">Phase 4</div>
-                                <div class="ml-buildout__timeline-content">
-                                    <h4>Full Operations</h4>
-                                    <p>Facility active 24/7 supporting 5+ departments, partners including TSMC, Intel, and Microchip...</p>
+                                <div class="ml-buildout__tl-step">
+                                    <div class="ml-buildout__tl-circle">4</div>
+                                </div>
+                                <div class="ml-buildout__tl-body">
+                                    <div class="ml-buildout__timeline-phase">Phase 4</div>
+                                    <div class="ml-buildout__timeline-content">
+                                        <h4>Full Operations</h4>
+                                        <p>Facility active 24/7 supporting 5+ departments, partners including TSMC, Intel, and Microchip Technology.</p>
+                                    </div>
                                 </div>
                             </div>
 

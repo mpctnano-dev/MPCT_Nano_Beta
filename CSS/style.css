@@ -2295,17 +2295,32 @@ ul {
     margin-bottom: 25px;
 }
 
-/* MPaCT page — light mission section with clean styling */
+/* MPaCT page — cool blueprint slate section */
 .mpact-page .about-mission-section {
-    background: #ffffff;
+    background: #ebf2fc;
     padding: 100px 0;
     position: relative;
     overflow: hidden;
 }
 
+/* Subtle diagonal circuit-line texture overlay */
 .mpact-page .about-mission-section::before {
-    display: none;
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        repeating-linear-gradient(
+            -45deg,
+            rgba(0, 36, 84, 0.025) 0px,
+            rgba(0, 36, 84, 0.025) 1px,
+            transparent 1px,
+            transparent 40px
+        );
+    pointer-events: none;
+    z-index: 0;
 }
+
+.mpact-page .about-mission-section > * { position: relative; z-index: 1; }
 
 .mpact-page .about-mission-section .section-title {
     color: var(--nau-blue);
@@ -2324,21 +2339,23 @@ ul {
     font-weight: 700;
 }
 
-/* Clean solid capability cards */
+/* Capability cards on blue-slate background */
 .mpact-page .about-mission-section .capability-card {
-    background: #f8f9fb;
-    border: 1px solid var(--gray-200);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.9);
     border-radius: 14px;
     padding: 20px;
-    box-shadow: none;
+    box-shadow: 0 4px 16px rgba(0, 36, 84, 0.07);
     transition: background 0.3s, border-color 0.3s, transform 0.3s, box-shadow 0.3s;
 }
 
 .mpact-page .about-mission-section .capability-card:hover {
-    background: #fff;
-    border-color: rgba(0, 36, 84, 0.15);
+    background: rgba(255, 255, 255, 0.92);
+    border-color: rgba(0, 36, 84, 0.18);
     transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(0, 36, 84, 0.08);
+    box-shadow: 0 10px 28px rgba(0, 36, 84, 0.12);
 }
 
 .mpact-page .about-mission-section .capability-info h4 {
@@ -2702,7 +2719,20 @@ ul {
 
 /* MPaCT page — warm ivory background to break from pure white */
 .mpact-page .about-shared-section {
-    background: #f9f7f3;
+    background: #fdf7ec;
+    position: relative;
+}
+
+/* Warm bottom-fade into the cool-slate section below */
+.mpact-page .about-shared-section::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to bottom, transparent, rgba(235, 242, 252, 0.4));
+    pointer-events: none;
 }
 
 .about-shared-grid {
@@ -12928,19 +12958,19 @@ END DEPRECATED */
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   FACILITY BUILDOUT — Seamless blueprint showcase + horizontal timeline
+   FACILITY BUILDOUT — Blueprint showcase + vertical timeline phases
    Blends from about-mission (#002454) into ml-access (#002a5c)
    ═══════════════════════════════════════════════════════════════ */
+
 .ml-buildout {
     position: relative;
-    /* Seamless gradient: continues from mission section, flows into access section */
     background: linear-gradient(180deg, #002454 0%, #002050 30%, #001e48 60%, #002a5c 100%);
     color: #fff;
     overflow: hidden;
     padding: 120px 0 130px;
 }
 
-/* Ambient organic glows — depth without hard boundaries */
+/* Ambient organic glows */
 .ml-buildout::before {
     content: '';
     position: absolute;
@@ -12961,11 +12991,11 @@ END DEPRECATED */
     width: 450px;
     height: 450px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(250, 192, 26, 0.04) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(250, 192, 26, 0.05) 0%, transparent 70%);
     pointer-events: none;
 }
 
-/* ── Header ────────────────────────────────── */
+/* ── Header ── */
 .ml-buildout__header {
     text-align: center;
     margin-bottom: 72px;
@@ -12994,16 +13024,7 @@ END DEPRECATED */
     margin: 0 auto;
 }
 
-/* (Old horizontal timeline CSS removed — no longer referenced by HTML) */
-
-/* ═══════════════════════════════════════════════════════════════
-   REDESIGNED FACILITY BUILDOUT
-   — Two-section layout: Overview panel + Vertical timeline
-   — Navy + Gold NAU branding, academic aesthetic
-   ═══════════════════════════════════════════════════════════════ */
-
-/* SECTION A: OVERVIEW PANEL — Image + Institutional Narrative */
-
+/* ── OVERVIEW: Image + Narrative ── */
 .ml-buildout__overview {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -13014,204 +13035,27 @@ END DEPRECATED */
     margin-bottom: 100px;
 }
 
-/* Left: Facility Image */
-.ml-buildout__image-section {
-    position: relative;
-}
-
-/* .ml-buildout__image-frame — defined in polish section below */
-
-.ml-buildout__facility-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    /* Natural presentation: subtle darkening for cohesion, no industrial filter */
-    filter: brightness(0.95) contrast(1.05);
-    opacity: 0.95;
-    transition: filter 0.6s ease, opacity 0.6s ease;
-}
-
-.ml-buildout__image-frame:hover .ml-buildout__facility-image {
-    filter: brightness(1) contrast(1.08);
-    opacity: 1;
-}
-
-/* Soft vignette overlay */
-.ml-buildout__image-vignette {
-    position: absolute;
-    inset: 0;
-    background:
-        radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(0, 20, 50, 0.2) 100%),
-        linear-gradient(180deg, rgba(0, 36, 84, 0.08) 0%, transparent 50%, transparent 50%, rgba(0, 20, 50, 0.12) 100%);
-    pointer-events: none;
-    z-index: 1;
-}
-
-/* Stats badge — styles moved to polish section below */
-
-.ml-buildout__badge-stat {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.ml-buildout__badge-value {
-    font-size: 1.4rem;
-    font-weight: 900;
-    color: var(--nau-gold);
-    line-height: 1;
-    margin-bottom: 4px;
-}
-
-.ml-buildout__badge-label {
-    font-size: 0.65rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: rgba(255, 255, 255, 0.5);
-}
-
-/* Right: Institutional Narrative + Specs */
-.ml-buildout__info-section {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-}
-
-.ml-buildout__timeline-intro h3 {
-    font-size: clamp(1.3rem, 2vw, 1.6rem);
-    font-weight: 900;
-    color: #fff;
-    line-height: 1.2;
-    letter-spacing: -0.015em;
-    margin-bottom: 12px;
-}
-
-.ml-buildout__timeline-intro p {
-    font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.55);
-    line-height: 1.7;
-    margin: 0;
-}
-
-/* Key Specs Grid */
-.ml-buildout__specs {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-/* .ml-buildout__spec — defined in polish section below */
-
-.ml-buildout__spec:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-}
-
-.ml-buildout__spec-label {
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--nau-gold);
-}
-
-.ml-buildout__spec-value {
-    font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.85);
-    font-weight: 500;
-}
-
-/* SECTION B: VERTICAL TIMELINE */
-
-.ml-buildout__timeline {
-    position: relative;
-    z-index: 2;
-}
-
-.ml-buildout__timeline-track {
-    position: relative;
-    padding-left: 48px;
-    /* Vertical connector line will be ::before pseudo */
-}
-
-/* Vertical connector line on left side */
-.ml-buildout__timeline-track::before {
+.ml-buildout__overview::before {
     content: '';
     position: absolute;
-    left: 4px;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: linear-gradient(180deg,
-        rgba(250, 192, 26, 0.15) 0%,
-        rgba(250, 192, 26, 0.1) 50%,
-        rgba(250, 192, 26, 0.05) 100%);
-    z-index: 0;
-}
-
-/* .ml-buildout__timeline-item — defined in polish section below */
-
-.ml-buildout__timeline-item:last-child {
-    padding-bottom: 0;
-}
-
-/* Phase label — gold pill */
-.ml-buildout__timeline-phase {
-    font-size: 0.65rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--nau-gold);
-    background: rgba(250, 192, 26, 0.08);
-    border: 1px solid rgba(250, 192, 26, 0.18);
-    padding: 8px 12px;
-    border-radius: 6px;
-    display: inline-block;
-    white-space: nowrap;
-    position: relative;
-    z-index: 2;
-    margin-top: 4px;
-}
-
-/* Timeline dot on connector line */
-.ml-buildout__timeline-phase::before {
-    content: '';
-    position: absolute;
-    left: -44px;
     top: 50%;
-    transform: translateY(-50%);
-    width: 10px;
-    height: 10px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 400px;
     border-radius: 50%;
-    background: var(--nau-gold);
-    z-index: 2;
-    box-shadow: 0 0 16px rgba(250, 192, 26, 0.3);
+    background: radial-gradient(circle, rgba(250, 192, 26, 0.03) 0%, transparent 70%);
+    pointer-events: none;
+    animation: boOverviewGlow 8s ease-in-out infinite;
 }
 
-/* Content: heading + paragraph */
-.ml-buildout__timeline-content {
-    padding-top: 2px;
+@keyframes boOverviewGlow {
+    0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.06); }
 }
 
-.ml-buildout__timeline-content h4 {
-    font-size: clamp(1.1rem, 1.8vw, 1.3rem);
-    font-weight: 800;
-    color: #fff;
-    line-height: 1.3;
-    letter-spacing: -0.01em;
-    margin: 0 0 8px 0;
-}
-
-.ml-buildout__timeline-content p {
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.48);
-    line-height: 1.65;
-    margin: 0;
-}
-
-/* ── POLISH: Image Frame Effects ────────────── */
+/* Image frame */
+.ml-buildout__image-section { position: relative; }
 
 .ml-buildout__image-frame {
     position: relative;
@@ -13224,7 +13068,7 @@ END DEPRECATED */
         0 32px 80px -12px rgba(0, 0, 0, 0.5);
     background: #000a18;
     transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1),
-        box-shadow 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+                box-shadow 0.6s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .ml-buildout__image-frame:hover {
@@ -13235,7 +13079,31 @@ END DEPRECATED */
         0 0 60px -10px rgba(250, 192, 26, 0.08);
 }
 
-/* Gold shimmer sweep across blueprint */
+.ml-buildout__facility-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.95) contrast(1.05);
+    opacity: 0.95;
+    transition: filter 0.6s ease, opacity 0.6s ease;
+}
+
+.ml-buildout__image-frame:hover .ml-buildout__facility-image {
+    filter: brightness(1) contrast(1.08);
+    opacity: 1;
+}
+
+.ml-buildout__image-vignette {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(0, 20, 50, 0.2) 100%),
+        linear-gradient(180deg, rgba(0, 36, 84, 0.08) 0%, transparent 50%, rgba(0, 20, 50, 0.12) 100%);
+    pointer-events: none;
+    z-index: 1;
+}
+
 .ml-buildout__image-shimmer {
     position: absolute;
     inset: 0;
@@ -13258,7 +13126,7 @@ END DEPRECATED */
     100% { background-position: -200% 0; }
 }
 
-/* Technical gold corner brackets */
+/* Gold corner brackets */
 .ml-buildout__image-corner {
     position: absolute;
     width: 18px;
@@ -13269,53 +13137,27 @@ END DEPRECATED */
     transition: opacity 0.4s ease;
 }
 
-.ml-buildout__image-frame:hover .ml-buildout__image-corner {
-    opacity: 0.8;
-}
+.ml-buildout__image-frame:hover .ml-buildout__image-corner { opacity: 0.9; }
 
-.ml-buildout__image-corner--tl {
-    top: 12px;
-    left: 12px;
-    border-top: 2px solid rgba(250, 192, 26, 0.5);
-    border-left: 2px solid rgba(250, 192, 26, 0.5);
-}
+.ml-buildout__image-corner--tl { top: 12px; left: 12px; border-top: 2px solid rgba(250, 192, 26, 0.7); border-left: 2px solid rgba(250, 192, 26, 0.7); }
+.ml-buildout__image-corner--tr { top: 12px; right: 12px; border-top: 2px solid rgba(250, 192, 26, 0.7); border-right: 2px solid rgba(250, 192, 26, 0.7); }
+.ml-buildout__image-corner--bl { bottom: 12px; left: 12px; border-bottom: 2px solid rgba(250, 192, 26, 0.7); border-left: 2px solid rgba(250, 192, 26, 0.7); }
+.ml-buildout__image-corner--br { bottom: 12px; right: 12px; border-bottom: 2px solid rgba(250, 192, 26, 0.7); border-right: 2px solid rgba(250, 192, 26, 0.7); }
 
-.ml-buildout__image-corner--tr {
-    top: 12px;
-    right: 12px;
-    border-top: 2px solid rgba(250, 192, 26, 0.5);
-    border-right: 2px solid rgba(250, 192, 26, 0.5);
-}
-
-.ml-buildout__image-corner--bl {
-    bottom: 12px;
-    left: 12px;
-    border-bottom: 2px solid rgba(250, 192, 26, 0.5);
-    border-left: 2px solid rgba(250, 192, 26, 0.5);
-}
-
-.ml-buildout__image-corner--br {
-    bottom: 12px;
-    right: 12px;
-    border-bottom: 2px solid rgba(250, 192, 26, 0.5);
-    border-right: 2px solid rgba(250, 192, 26, 0.5);
-}
-
-/* Badge shimmer */
+/* Stats badge overlay */
 .ml-buildout__image-badge {
     position: absolute;
-    bottom: 24px;
-    left: 24px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    padding: 16px 20px;
-    background: rgba(0, 20, 50, 0.65);
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    gap: 24px;
+    padding: 14px 20px;
+    background: rgba(0, 15, 40, 0.75);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(250, 192, 26, 0.15);
-    border-radius: 12px;
-    z-index: 2;
+    border: 1px solid rgba(250, 192, 26, 0.2);
+    border-radius: 10px;
+    z-index: 4;
     overflow: hidden;
 }
 
@@ -13323,36 +13165,116 @@ END DEPRECATED */
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-        115deg,
-        transparent 30%,
-        rgba(250, 192, 26, 0.05) 45%,
-        rgba(250, 192, 26, 0.1) 50%,
-        rgba(250, 192, 26, 0.05) 55%,
-        transparent 70%
-    );
+    background: linear-gradient(115deg, transparent 30%, rgba(250, 192, 26, 0.08) 50%, transparent 70%);
     background-size: 300% 100%;
-    animation: boImageShimmer 8s ease-in-out infinite;
-    animation-delay: 2s;
+    animation: boImageShimmer 8s ease-in-out infinite 2s;
     pointer-events: none;
 }
 
-/* ── Media Section: Side-by-side YouTube + Timeline ── */
+.ml-buildout__badge-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.ml-buildout__badge-value {
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--nau-gold);
+    line-height: 1;
+    margin-bottom: 3px;
+}
+
+.ml-buildout__badge-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Narrative (right column) */
+.ml-buildout__info-section {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.ml-buildout__timeline-intro h3 {
+    font-size: clamp(1.3rem, 2vw, 1.65rem);
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 14px;
+}
+
+.ml-buildout__timeline-intro p {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.55);
+    line-height: 1.75;
+    margin: 0;
+}
+
+/* Key Specs */
+.ml-buildout__specs {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.ml-buildout__spec {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(250, 192, 26, 0.1);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.ml-buildout__spec:first-child {
+    border-top: 1px solid rgba(250, 192, 26, 0.1);
+}
+
+.ml-buildout__overview.is-visible .ml-buildout__spec {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.ml-buildout__overview.is-visible .ml-buildout__spec:nth-child(1) { transition-delay: 0.1s; }
+.ml-buildout__overview.is-visible .ml-buildout__spec:nth-child(2) { transition-delay: 0.25s; }
+.ml-buildout__overview.is-visible .ml-buildout__spec:nth-child(3) { transition-delay: 0.4s; }
+
+.ml-buildout__spec-label {
+    font-size: 0.62rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--nau-gold);
+    opacity: 0.8;
+}
+
+.ml-buildout__spec-value {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 500;
+}
+
+/* ── MEDIA SECTION: Video + Construction Phases ── */
 
 .ml-buildout__media {
     display: grid;
-    grid-template-columns: 58fr 42fr;
-    gap: 48px;
+    grid-template-columns: 56fr 44fr;
+    gap: 52px;
     align-items: flex-start;
     position: relative;
     z-index: 2;
-    margin-bottom: 0;
 }
 
-/* YouTube player wrapper — 16:9 aspect ratio */
-.ml-buildout__yt-wrapper {
-    position: relative;
-}
+/* YouTube wrapper */
+.ml-buildout__yt-wrapper { position: relative; }
 
 .ml-buildout__yt-stage {
     position: relative;
@@ -13375,36 +13297,52 @@ END DEPRECATED */
     height: 100%;
 }
 
-/* Timeline panel (right side) */
-.ml-buildout__timeline-panel {
-    padding-top: 8px;
-}
+/* ── Construction Phases Timeline Panel ── */
+
+.ml-buildout__timeline-panel { padding-top: 4px; }
 
 .ml-buildout__media-label {
-    font-size: 0.65rem;
-    font-weight: 700;
+    font-size: 0.62rem;
+    font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 2px;
-    color: rgba(255, 255, 255, 0.3);
-    margin: 0 0 20px 0;
-    padding-left: 48px;
+    color: rgba(255, 255, 255, 0.28);
+    margin: 0 0 20px 60px; /* aligns with body content: 44px step + 16px gap */
 }
 
-/* ── POLISH: Timeline Animation States ─────── */
+/* Track: vertical connector line + progress */
+.ml-buildout__timeline-track { position: relative; }
 
-/* Initial hidden state — animated in by GSAP */
-.ml-buildout__timeline-item {
-    display: grid;
-    grid-template-columns: 100px 1fr;
-    gap: 24px;
-    padding-bottom: 48px;
-    position: relative;
+/* No absolute track line — connectors live inside each .ml-buildout__tl-step instead */
+.ml-buildout__timeline-track::before { display: none; }
+
+/* Gold progress line — height driven by JS.
+   Starts at center of circle 1 (top: 19px).
+   max-height stops it at the last circle center (circle height = 38px from bottom). */
+.ml-buildout__timeline-progress {
+    position: absolute;
+    left: 21px;
+    top: 19px;
+    width: 2px;
+    height: 0%;
+    max-height: calc(100% - 38px); /* never extends past last circle center */
+    background: linear-gradient(180deg, var(--nau-gold) 0%, rgba(250, 192, 26, 0.45) 100%);
+    border-radius: 1px;
     z-index: 1;
-    align-items: flex-start;
+    transition: height 0.5s ease;
+    box-shadow: 0 0 10px rgba(250, 192, 26, 0.3);
+}
+
+/* ── Phase Item ── */
+.ml-buildout__timeline-item {
+    display: flex;
+    gap: 0;
+    position: relative;
+    z-index: 2;
     opacity: 0;
-    transform: translateX(-20px);
-    transition: opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1),
-        transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+    transform: translateX(-14px);
+    transition: opacity 0.55s cubic-bezier(0.25, 1, 0.5, 1),
+                transform 0.55s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .ml-buildout__timeline-item.is-visible {
@@ -13412,52 +13350,142 @@ END DEPRECATED */
     transform: translateX(0);
 }
 
-/* Progress line — grows as items reveal */
-.ml-buildout__timeline-progress {
-    position: absolute;
-    left: 4px;
-    top: 0;
+/* Stagger reveal delays */
+.ml-buildout__timeline-item:nth-child(2) { transition-delay: 0.12s; }
+.ml-buildout__timeline-item:nth-child(3) { transition-delay: 0.24s; }
+.ml-buildout__timeline-item:nth-child(4) { transition-delay: 0.36s; }
+
+/* Left: step number column — flex-direction column so ::after connector fills
+   the remaining vertical space exactly between this circle and the next */
+.ml-buildout__tl-step {
+    flex-shrink: 0;
+    width: 44px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 1px;
+}
+
+/* Connector line: fills from bottom of circle to bottom of this item.
+   Stops exactly where the next circle begins — never overshoots. */
+.ml-buildout__tl-step::after {
+    content: '';
+    flex: 1;
     width: 2px;
-    height: 0;
-    background: linear-gradient(180deg, var(--nau-gold) 0%, rgba(250, 192, 26, 0.6) 100%);
-    z-index: 1;
-    transition: height 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-    box-shadow: 0 0 8px rgba(250, 192, 26, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 1px;
+    min-height: 20px;
+    margin-top: 4px; /* small gap under the circle */
+    position: relative;
+    z-index: 0;
 }
 
-/* Breathing dot glow on visible items */
-.ml-buildout__timeline-item.is-visible .ml-buildout__timeline-phase::before {
-    animation: boDotGlow 3s ease-in-out infinite;
+/* Last circle has no item below it — no connector */
+.ml-buildout__timeline-item:last-child .ml-buildout__tl-step::after {
+    display: none;
 }
 
-@keyframes boDotGlow {
-    0%, 100% { box-shadow: 0 0 16px rgba(250, 192, 26, 0.3); }
-    50% { box-shadow: 0 0 24px rgba(250, 192, 26, 0.5), 0 0 40px rgba(250, 192, 26, 0.15); }
+/* Numbered circle */
+.ml-buildout__tl-circle {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 2px solid rgba(250, 192, 26, 0.22);
+    /* Fully opaque: prevents progress bar from bleeding through */
+    background: #001e50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.78rem;
+    font-weight: 900;
+    color: rgba(250, 192, 26, 0.5);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 3;
+    transition: background 0.35s ease, border-color 0.35s ease, color 0.35s ease, box-shadow 0.35s ease;
+    letter-spacing: 0;
 }
 
-/* Future video-sync: active phase highlighting */
+/* Active circle: gold fill + glow pulse */
+@keyframes boCirclePulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(250, 192, 26, 0), 0 0 16px rgba(250, 192, 26, 0.35); }
+    50%       { box-shadow: 0 0 0 5px rgba(250, 192, 26, 0.12), 0 0 28px rgba(250, 192, 26, 0.55); }
+}
+
+.ml-buildout__timeline-item[data-active="true"] .ml-buildout__tl-circle {
+    background: rgba(250, 192, 26, 0.18);
+    border-color: var(--nau-gold);
+    color: var(--nau-gold);
+    animation: boCirclePulse 2.4s ease-in-out infinite;
+}
+
+/* Right: body content */
+.ml-buildout__tl-body {
+    flex: 1;
+    padding: 0 8px 44px 16px;
+    min-width: 0;
+    border-left: 2px solid transparent;
+    margin-left: 1px;
+    border-radius: 0 8px 8px 0;
+    transition: border-color 0.35s ease, background 0.35s ease;
+}
+
+.ml-buildout__timeline-item:last-child .ml-buildout__tl-body {
+    padding-bottom: 8px;
+}
+
+.ml-buildout__timeline-item[data-active="true"] .ml-buildout__tl-body {
+    border-left-color: rgba(250, 192, 26, 0.4);
+    background: rgba(250, 192, 26, 0.04);
+}
+
+/* Phase label (small gold tag above h4) */
+.ml-buildout__timeline-phase {
+    font-size: 0.6rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: rgba(250, 192, 26, 0.4);
+    display: block;
+    margin-top: 6px;
+    margin-bottom: 5px;
+    transition: color 0.35s ease;
+}
+
 .ml-buildout__timeline-item[data-active="true"] .ml-buildout__timeline-phase {
-    background: rgba(250, 192, 26, 0.15);
-    border-color: rgba(250, 192, 26, 0.4);
-}
-
-.ml-buildout__timeline-item[data-active="true"] .ml-buildout__timeline-content h4 {
     color: var(--nau-gold);
 }
 
+/* Content */
+.ml-buildout__timeline-content h4 {
+    font-size: clamp(0.92rem, 1.4vw, 1.05rem);
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.65);
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    margin: 0 0 6px 0;
+    transition: color 0.35s ease;
+}
+
+.ml-buildout__timeline-content p {
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.32);
+    line-height: 1.65;
+    margin: 0;
+    transition: color 0.35s ease;
+}
+
+.ml-buildout__timeline-item[data-active="true"] .ml-buildout__timeline-content h4 {
+    color: rgba(255, 255, 255, 0.95);
+}
+
 .ml-buildout__timeline-item[data-active="true"] .ml-buildout__timeline-content p {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.62);
 }
 
-.ml-buildout__timeline-item[data-active="true"] .ml-buildout__timeline-phase::before {
-    background: rgba(250, 192, 26, 1);
-    box-shadow: 0 0 20px rgba(250, 192, 26, 0.7), 0 0 36px rgba(250, 192, 26, 0.3);
-}
-
-/* ── Mobile Phase Indicator Bar ────────────── */
-.ml-buildout__phase-bar {
-    display: none; /* Desktop: not in layout */
-}
+/* ── Mobile Phase Bar (inside .ml-buildout__yt-wrapper) ── */
+.ml-buildout__phase-bar { display: none; }
 
 @media (max-width: 768px) {
     .ml-buildout__phase-bar {
@@ -13465,20 +13493,20 @@ END DEPRECATED */
         align-items: flex-start;
         justify-content: space-between;
         position: relative;
-        padding: 20px 16px 12px;
+        padding: 20px 16px 14px;
         background: rgba(255, 255, 255, 0.03);
         border-radius: 12px;
-        border: 1px solid rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        margin-top: 16px;
     }
 
-    /* Horizontal line threading through all dot circles */
     .ml-buildout__phase-bar-track {
         position: absolute;
-        top: 36px; /* 20px top padding + 16px (half of 32px circle) */
-        left: calc(16px + 16px);  /* padding + circle-radius */
+        top: 36px;
+        left: calc(16px + 16px);
         right: calc(16px + 16px);
         height: 2px;
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.08);
         border-radius: 1px;
         z-index: 0;
     }
@@ -13513,9 +13541,8 @@ END DEPRECATED */
         justify-content: center;
         font-size: 0.7rem;
         font-weight: 800;
-        color: rgba(255, 255, 255, 0.45);
-        transition: background 0.25s ease, border-color 0.25s ease,
-                    color 0.25s ease, box-shadow 0.25s ease;
+        color: rgba(255, 255, 255, 0.42);
+        transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
     }
 
     .ml-buildout__phase-dot-label {
@@ -13523,7 +13550,7 @@ END DEPRECATED */
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 1px;
-        color: rgba(255, 255, 255, 0.3);
+        color: rgba(255, 255, 255, 0.28);
         text-align: center;
         transition: color 0.25s ease;
         white-space: nowrap;
@@ -13531,13 +13558,13 @@ END DEPRECATED */
 
     .ml-buildout__phase-dot[data-active="true"] .ml-buildout__phase-dot-circle {
         background: rgba(250, 192, 26, 0.15);
-        border-color: rgba(250, 192, 26, 0.6);
+        border-color: rgba(250, 192, 26, 0.65);
         color: var(--nau-gold);
-        box-shadow: 0 0 16px rgba(250, 192, 26, 0.3), 0 0 4px rgba(250, 192, 26, 0.15);
+        box-shadow: 0 0 16px rgba(250, 192, 26, 0.3);
     }
 
     .ml-buildout__phase-dot[data-active="true"] .ml-buildout__phase-dot-label {
-        color: var(--nau-gold);
+        color: rgba(250, 192, 26, 0.85);
     }
 
     .ml-buildout__phase-dot:hover .ml-buildout__phase-dot-circle {
@@ -13547,209 +13574,89 @@ END DEPRECATED */
     }
 }
 
-/* ── POLISH: Spec Stagger Animation ────────── */
+/* ── Responsive ── */
 
-.ml-buildout__spec {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid rgba(250, 192, 26, 0.1);
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-.ml-buildout__overview.is-visible .ml-buildout__spec {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.ml-buildout__overview.is-visible .ml-buildout__spec:nth-child(1) { transition-delay: 0.1s; }
-.ml-buildout__overview.is-visible .ml-buildout__spec:nth-child(2) { transition-delay: 0.25s; }
-.ml-buildout__overview.is-visible .ml-buildout__spec:nth-child(3) { transition-delay: 0.4s; }
-
-/* ── POLISH: Overview Ambient Glow ─────────── */
-
-.ml-buildout__overview::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 600px;
-    height: 400px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(250, 192, 26, 0.03) 0%, transparent 70%);
-    pointer-events: none;
-    animation: boOverviewGlow 8s ease-in-out infinite;
-}
-
-@keyframes boOverviewGlow {
-    0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
-    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
-}
-
-/* ── Accessibility ─────────────────────────── */
-
-@media (prefers-reduced-motion: reduce) {
-    .ml-buildout__image-shimmer,
-    .ml-buildout__image-badge::after {
-        animation: none !important;
-    }
-
-    .ml-buildout__timeline-item {
-        opacity: 1 !important;
-        transform: none !important;
-        transition: none !important;
-    }
-
-    .ml-buildout__timeline-progress {
-        transition: none !important;
-    }
-
-    .ml-buildout__image-frame {
-        transition: none !important;
-    }
-
-    .ml-buildout__spec {
-        opacity: 1 !important;
-        transform: none !important;
-        transition: none !important;
-    }
-
-    .ml-buildout__timeline-item.is-visible .ml-buildout__timeline-phase::before {
-        animation: none !important;
-    }
-
-    .ml-buildout__overview::before {
-        animation: none !important;
-    }
-
-    .ml-buildout__phase-dot-circle,
-    .ml-buildout__phase-dot-label {
-        transition: none !important;
+@media (max-width: 1024px) {
+    .ml-buildout__media {
+        grid-template-columns: 55fr 45fr;
+        gap: 40px;
     }
 }
 
-/* ── Responsive ───────────────────────────── */
-
-/* Desktop: 900px and up — standard layout */
 @media (max-width: 900px) {
     .ml-buildout__overview {
         grid-template-columns: 1fr;
         gap: 48px;
         margin-bottom: 80px;
     }
-
-    .ml-buildout__image-frame {
-        aspect-ratio: 16 / 9;
-    }
-
+    .ml-buildout__image-frame { aspect-ratio: 16 / 9; }
 }
 
-/* Tablet: 768px and below — stack sections */
 @media (max-width: 768px) {
     .ml-buildout__overview {
         grid-template-columns: 1fr;
         gap: 40px;
         margin-bottom: 64px;
     }
+    .ml-buildout__image-badge { bottom: 16px; left: 16px; padding: 12px 16px; gap: 16px; }
+    .ml-buildout__badge-value { font-size: 1.2rem; }
+    .ml-buildout__timeline-intro h3 { font-size: 1.35rem; }
+    .ml-buildout__timeline-intro p { font-size: 0.9rem; }
+    .ml-buildout__media { grid-template-columns: 1fr; gap: 32px; }
 
-    .ml-buildout__image-badge {
-        bottom: 16px;
-        left: 16px;
-        padding: 12px 16px;
-        gap: 16px;
-    }
-
-    .ml-buildout__badge-value {
-        font-size: 1.2rem;
-    }
-
-    .ml-buildout__timeline-intro h3 {
-        font-size: 1.35rem;
-    }
-
-    .ml-buildout__timeline-intro p {
-        font-size: 0.9rem;
-    }
-
-    .ml-buildout__media {
-        grid-template-columns: 1fr;
-        gap: 40px;
-    }
-
-    .ml-buildout__media-label {
-        padding-left: 0;
-    }
+    /* On mobile: phase bar (inside yt-wrapper) handles navigation —
+       hide the full timeline panel so it doesn't duplicate content */
+    .ml-buildout__timeline-panel { display: none; }
 }
 
-/* Mobile: 600px and below — full-width timeline */
 @media (max-width: 600px) {
+    .ml-buildout { padding: 80px 0 100px; }
+}
+
+/* ── Accessibility: reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+    .ml-buildout__image-shimmer,
+    .ml-buildout__image-badge::after,
+    .ml-buildout__overview::before { animation: none !important; }
+
     .ml-buildout__timeline-item {
-        grid-template-columns: 1fr;
-        gap: 12px;
-        padding-bottom: 40px;
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
     }
 
-    .ml-buildout__timeline-phase {
-        font-size: 0.6rem;
-        padding: 6px 10px;
-        margin-top: 0;
-    }
+    .ml-buildout__timeline-item:nth-child(2),
+    .ml-buildout__timeline-item:nth-child(3),
+    .ml-buildout__timeline-item:nth-child(4) { transition-delay: 0s !important; }
 
-    .ml-buildout__timeline-phase::before {
-        left: -26px;
-        width: 8px;
-        height: 8px;
-    }
-
-    .ml-buildout__timeline-track::before {
-        left: -12px;
-    }
-
-    .ml-buildout__timeline-progress {
-        left: -12px;
-    }
-
-    .ml-buildout__timeline-content h4 {
-        font-size: 1.1rem;
-    }
-
-    .ml-buildout__timeline-content p {
-        font-size: 0.85rem;
-    }
-
-    .ml-buildout__spec-value {
-        font-size: 0.9rem;
-    }
-
-    .ml-buildout__timeline-panel .ml-buildout__timeline-track {
-        padding-left: 32px;
-    }
-    .ml-buildout__timeline-panel .ml-buildout__timeline-track::before {
-        left: 4px;
-    }
-    .ml-buildout__timeline-panel .ml-buildout__timeline-progress {
-        left: 4px;
-    }
-    .ml-buildout__timeline-panel .ml-buildout__timeline-phase::before {
-        left: -28px; /* 32 - 28 = 4px → aligns with connector */
-    }
-
+    .ml-buildout__timeline-progress { transition: none !important; }
+    .ml-buildout__image-frame { transition: none !important; }
+    .ml-buildout__spec { opacity: 1 !important; transform: none !important; transition: none !important; }
+    .ml-buildout__tl-circle { animation: none !important; }
+    .ml-buildout__phase-dot-circle,
+    .ml-buildout__phase-dot-label { transition: none !important; }
 }
 
 /* How to access — slightly warmer navy, gold glow at top center */
 .ml-access {
-    background: #f8f9fb;
+    background: #ffffff;
     padding: 96px 0;
     position: relative;
     overflow: hidden;
 }
 
+/* Subtle gold top-line accent — echoes the gold CTA below */
 .ml-access::before {
-    display: none;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 3px;
+    background: linear-gradient(to right, transparent, var(--nau-gold), transparent);
+    border-radius: 2px;
+    opacity: 0.5;
 }
 
 .ml-access__btn {
@@ -15328,9 +15235,24 @@ END DEPRECATED */
 /* Extracted from MPaCT.html */
 /* ── Page-level showcase wrapper ───────────────────────── */
                 .fab-showcase-section {
-                    background: #030d1a;
+                    background: linear-gradient(170deg, #0c2040 0%, #0d2545 40%, #091b35 100%);
                     padding: 4rem 0 5rem;
+                    position: relative;
+                    overflow: hidden;
                 }
+
+                /* Subtle dot-grid texture overlay for depth */
+                .fab-showcase-section::before {
+                    content: '';
+                    position: absolute;
+                    inset: 0;
+                    background-image: radial-gradient(circle, rgba(250, 192, 26, 0.06) 1px, transparent 1px);
+                    background-size: 32px 32px;
+                    pointer-events: none;
+                    z-index: 0;
+                }
+
+                .fab-showcase-section > * { position: relative; z-index: 1; }
 
                 .fab-showcase-header {
                     text-align: center;

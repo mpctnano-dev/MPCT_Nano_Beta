@@ -145,26 +145,10 @@ document.addEventListener('click', function (e) {
             if (entry.isIntersecting && !animated) {
                 animated = true;
                 observer.unobserve(entry.target);
-                if (prefersReducedMotion) {
-                    phaseItems.forEach(function (item) { item.classList.add('is-visible'); });
-                    return;
-                }
-                if (typeof gsap !== 'undefined') {
-                    gsap.fromTo(phaseItems,
-                        { opacity: 0, x: -30, scale: 0.97 },
-                        { opacity: 1, x: 0, scale: 1, duration: 0.7, stagger: 0.18, ease: 'power3.out',
-                          onStart: function () {
-                              phaseItems.forEach(function (item, i) {
-                                  setTimeout(function () { item.classList.add('is-visible'); }, i * 180);
-                              });
-                          }
-                        }
-                    );
-                } else {
-                    phaseItems.forEach(function (item, i) {
-                        setTimeout(function () { item.classList.add('is-visible'); }, i * 200);
-                    });
-                }
+                // CSS transition drives the reveal — stagger via setTimeout
+                phaseItems.forEach(function (item, i) {
+                    setTimeout(function () { item.classList.add('is-visible'); }, i * 160);
+                });
             }
         });
     }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
@@ -236,6 +220,21 @@ const fabSection = document.getElementById('cleanroom-fab');
                                 controls.maxDistance = 45;
                                 controls.minDistance = 8;
                                 controls.maxPolarAngle = Math.PI / 2 - 0.05;
+
+                                // Scroll-capture fix: OrbitControls calls preventDefault() on every
+                                // wheel event, hijacking page scroll. Standard fix for embedded 3D
+                                // viewers — require an explicit click into the canvas before zoom
+                                // activates (same pattern Sketchfab and Google model-viewer use).
+                                controls.enableZoom = false;
+
+                                renderer.domElement.addEventListener('pointerdown', function () {
+                                    controls.enableZoom = true;
+                                });
+                                document.addEventListener('pointerdown', function (e) {
+                                    if (!renderer.domElement.contains(e.target)) {
+                                        controls.enableZoom = false;
+                                    }
+                                });
 
                                 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
