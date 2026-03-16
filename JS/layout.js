@@ -362,8 +362,8 @@ class SiteHeader extends HTMLElement {
                                         </div>
                                     </a>
 
-                                    <a href="${basePath}WorkForceDevelopment.html#careers" class="nav-dropdown-link"
-                                        data-path="WorkForceDevelopment.html" role="menuitem">
+                                    <a href="${basePath}CareerPathways.html" class="nav-dropdown-link"
+                                        data-path="CareerPathways.html" role="menuitem">
                                         <div class="nav-dropdown-icon">
                                             <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
                                                 stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -423,12 +423,12 @@ class SiteHeader extends HTMLElement {
                     <!-- About Us -->
                     <div class="nav-item">
                         <a href="${basePath}About_Us.html" class="nav-link"
-                            data-path="About_Us.html">About Us</a>
+                            data-path="About_Us.html">About</a>
                     </div>
 
                     <!-- Static CTA button -->
                     <div class="nav-item">
-                        <a href="${basePath}Contact_Us.html" class="btn btn-sm btn-gold">Contact Us</a>
+                        <a href="${basePath}Contact_Us.html" class="btn btn-sm btn-gold">Contact</a>
                     </div>
 
                 </nav>

@@ -15095,7 +15095,7 @@ body {
 }
 
 #metrology .category-head {
-    background: linear-gradient(90deg, var(--nau-red) 0%, #d50000 100%);
+    background: linear-gradient(90deg, #475569 0%, #334155 100%);
     color: var(--white);
 }
 
