@@ -4,8 +4,9 @@
  * Defines custom web components <site-header> and <site-footer>
  * to ensure consistency across all pages without server-side includes.
  *  - Home nav item displays as house icon (no text)
- *  - Nav order: Home (icon) | MPaCT Lab | Degree Programs | WFD | Resources ▾
- *  - Resources dropdown: About Us, Contact Us, Careers
+ *  - Nav order: Home (icon) | MPaCT Lab | Degree Programs ▾ | Workforce ▾ | About Us | Contact Us
+ *  - Degree Programs dropdown: Home, Career Tracks, Labs, + individual programs
+ *  - Workforce dropdown (renamed from Workforce Development)
  *  - Active nav link highlighting
  *  - MPaCT Lab mega-menu (icon grid)
 
@@ -211,16 +212,96 @@ class SiteHeader extends HTMLElement {
                     </div>
                     <!-- End MPaCT Lab Mega-Menu -->
 
-                    <!-- Degree Programs -->
-                    <div class="nav-item">
-                        <a href="${basePath}degree-programs.html" class="nav-link"
-                            data-path="degree-programs.html">Degree Programs</a>
+                    <!-- ═══════ Degree Programs Mega-Menu (icon grid) ═══════ -->
+                    <div class="nav-item nav-item--has-dropdown" id="degreeDropdownItem">
+                        <button class="nav-dropdown-btn" aria-expanded="false" aria-haspopup="true">
+                            Degree Programs
+                            <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </button>
+
+                        <div class="nav-mega-panel" role="menu" aria-label="Degree Programs navigation">
+                            <div class="nav-mega-inner">
+                                <div class="nav-dropdown-grid">
+
+                                    <a href="${basePath}degree-programs.html" class="nav-dropdown-link"
+                                        data-path="degree-programs.html" role="menuitem">
+                                        <div class="nav-dropdown-icon">
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                            </svg>
+                                        </div>
+                                        <div class="nav-dropdown-text">
+                                            <strong>Home</strong>
+                                            <small>Degree Programs Overview</small>
+                                        </div>
+                                    </a>
+
+                                    <a href="${basePath}degree-programs.html#career-tracks" class="nav-dropdown-link"
+                                        data-path="degree-programs.html" role="menuitem">
+                                        <div class="nav-dropdown-icon">
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                                            </svg>
+                                        </div>
+                                        <div class="nav-dropdown-text">
+                                            <strong>Career Tracks</strong>
+                                            <small>Explore career directions</small>
+                                        </div>
+                                    </a>
+
+                                    <a href="${basePath}degree-programs.html#labs" class="nav-dropdown-link"
+                                        data-path="degree-programs.html" role="menuitem">
+                                        <div class="nav-dropdown-icon">
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <path d="M9 3v7.09A6 6 0 0 0 6 16a6 6 0 0 0 12 0 6 6 0 0 0-3-5.18V3"></path>
+                                                <line x1="9" y1="3" x2="15" y2="3"></line>
+                                                <line x1="10" y1="7" x2="14" y2="7"></line>
+                                            </svg>
+                                        </div>
+                                        <div class="nav-dropdown-text">
+                                            <strong>Labs</strong>
+                                            <small>Research & teaching labs</small>
+                                        </div>
+                                    </a>
+
+                                    <a href="${basePath}degree-programs-grid.html" class="nav-dropdown-link"
+                                        data-path="degree-programs-grid.html" role="menuitem">
+                                        <div class="nav-dropdown-icon">
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <rect x="3" y="3" width="7" height="7"></rect>
+                                                <rect x="14" y="3" width="7" height="7"></rect>
+                                                <rect x="14" y="14" width="7" height="7"></rect>
+                                                <rect x="3" y="14" width="7" height="7"></rect>
+                                            </svg>
+                                        </div>
+                                        <div class="nav-dropdown-text">
+                                            <strong>Degree Catalog</strong>
+                                            <small>Browse all programs</small>
+                                        </div>
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    <!-- End Degree Programs Mega-Menu -->
 
                     <!-- ═══════ WFD Split-Panel Mega-Menu ═══════ -->
                     <div class="nav-item nav-item--has-dropdown" id="wfdDropdownItem">
                         <button class="nav-dropdown-btn" aria-expanded="false" aria-haspopup="true">
-                            WFD
+                            Workforce
                             <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                 <polyline points="6 9 12 15 18 9"></polyline>
@@ -231,8 +312,24 @@ class SiteHeader extends HTMLElement {
                             <div class="nav-mega-inner">
                                 <div class="nav-dropdown-grid">
 
-                                    <a href="${basePath}WorkForceDevelopment.html#ptap" class="nav-dropdown-link"
+                                    <a href="${basePath}WorkForceDevelopment.html" class="nav-dropdown-link"
                                         data-path="WorkForceDevelopment.html" role="menuitem">
+                                        <div class="nav-dropdown-icon">
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                            </svg>
+                                        </div>
+                                        <div class="nav-dropdown-text">
+                                            <strong>Home</strong>
+                                            <small>Workforce Overview</small>
+                                        </div>
+                                    </a>
+
+                                    <a href="${basePath}PTAP.html" class="nav-dropdown-link"
+                                        data-path="PTAP.html" role="menuitem">
                                         <div class="nav-dropdown-icon">
                                             <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
                                                 stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -247,21 +344,7 @@ class SiteHeader extends HTMLElement {
                                         </div>
                                     </a>
 
-                                    <a href="${basePath}degree-programs.html" class="nav-dropdown-link"
-                                        data-path="degree-programs.html" role="menuitem">
-                                        <div class="nav-dropdown-icon">
-                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-                                            </svg>
-                                        </div>
-                                        <div class="nav-dropdown-text">
-                                            <strong>Degree Programs <span class="nav-soon-badge" style="background: rgba(52, 152, 219, 0.15); color: #3498db; border: 1px solid rgba(52, 152, 219, 0.3);">6 Tracks</span></strong>
-                                            <small>EE, CS, CE, ME, BSET</small>
-                                        </div>
-                                    </a>
+
 
                                     <a href="${basePath}WorkForceDevelopment.html#industry" class="nav-dropdown-link"
                                         data-path="WorkForceDevelopment.html" role="menuitem">
@@ -292,8 +375,24 @@ class SiteHeader extends HTMLElement {
                                             </svg>
                                         </div>
                                         <div class="nav-dropdown-text">
-                                            <strong>Career Pathways</strong>
-                                            <small>Job placement &amp; internships</small>
+                                            <strong>Professional Development <span class="nav-soon-badge">Soon</span></strong>
+                                            <small>Skills training &amp; growth</small>
+                                        </div>
+                                    </a>
+
+                                    <a href="${basePath}WorkForceDevelopment.html#training" class="nav-dropdown-link"
+                                        data-path="WorkForceDevelopment.html" role="menuitem">
+                                        <div class="nav-dropdown-icon">
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                                            </svg>
+                                        </div>
+                                        <div class="nav-dropdown-text">
+                                            <strong>Training Programs</strong>
+                                            <small>Certifications &amp; workshops</small>
                                         </div>
                                     </a>
 
@@ -359,8 +458,14 @@ class SiteHeader extends HTMLElement {
             }
         });
 
-        // Highlight WFD trigger when on WFD or CareerPathways page
-        if (currentPath === 'WorkForceDevelopment.html' || currentPath === 'CareerPathways.html') {
+        // Highlight Degree Programs trigger when on degree-programs page
+        if (currentPath === 'degree-programs.html' || currentPath === 'degree-programs-grid.html') {
+            const degreeBtn = this.querySelector('#degreeDropdownItem .nav-dropdown-btn');
+            if (degreeBtn) degreeBtn.classList.add('active');
+        }
+
+        // Highlight WFD trigger when on WFD page
+        if (currentPath === 'WorkForceDevelopment.html') {
             const wfdBtn = this.querySelector('#wfdDropdownItem .nav-dropdown-btn');
             if (wfdBtn) wfdBtn.classList.add('active');
         }
