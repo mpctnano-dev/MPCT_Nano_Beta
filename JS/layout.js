@@ -5,7 +5,7 @@
  * to ensure consistency across all pages without server-side includes.
  *  - Home nav item displays as house icon (no text)
  *  - Nav order: Home (icon) | MPaCT Lab | Degree Programs ▾ | Workforce ▾ | About Us | Contact Us
- *  - Degree Programs dropdown: Home, Career Tracks, Labs, + individual programs
+ *  - Degree Programs dropdown: Home, Career Pathways, Labs, + individual programs
  *  - Workforce dropdown (renamed from Workforce Development)
  *  - Active nav link highlighting
  *  - MPaCT Lab mega-menu (icon grid)
@@ -242,8 +242,8 @@ class SiteHeader extends HTMLElement {
                                         </div>
                                     </a>
 
-                                    <a href="${basePath}degree-programs.html#career-tracks" class="nav-dropdown-link"
-                                        data-path="degree-programs.html" role="menuitem">
+                                    <a href="${basePath}CareerPathways.html#degree-programs" class="nav-dropdown-link"
+                                        data-path="CareerPathways.html" role="menuitem">
                                         <div class="nav-dropdown-icon">
                                             <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
                                                 stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -252,7 +252,7 @@ class SiteHeader extends HTMLElement {
                                             </svg>
                                         </div>
                                         <div class="nav-dropdown-text">
-                                            <strong>Career Tracks</strong>
+                                            <strong>Career Pathways</strong>
                                             <small>Explore career directions</small>
                                         </div>
                                     </a>
@@ -362,7 +362,7 @@ class SiteHeader extends HTMLElement {
                                         </div>
                                     </a>
 
-                                    <a href="${basePath}CareerPathways.html" class="nav-dropdown-link"
+                                    <a href="${basePath}CareerPathways.html#professional-development" class="nav-dropdown-link"
                                         data-path="CareerPathways.html" role="menuitem">
                                         <div class="nav-dropdown-icon">
                                             <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
