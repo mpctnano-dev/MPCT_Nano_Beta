@@ -10,46 +10,49 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Open+Sans:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700;900&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Open+Sans:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="CSS/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         /* ================================================================
-           FACILITY EXPLORER — INTERACTIVE FLOOR PLAN  v2
+           FACILITY EXPLORER — INTERACTIVE SHOWCASE MAP  v3
+           Clean facility showcase. No construction artifacts.
            ================================================================ */
 
         .fex {
             padding: 100px 0 80px;
-            background: #f4f5f8;
+            background: linear-gradient(180deg, #f7f5f0 0%, #f0ede6 100%);
             position: relative; overflow: hidden;
         }
         .fex::before {
             content: ''; position: absolute; inset: 0;
-            background-image:
-                radial-gradient(circle, rgba(0,36,84,0.035) 1px, transparent 1px);
-            background-size: 24px 24px; pointer-events: none;
+            background-image: radial-gradient(circle, rgba(0,36,84,0.02) 1px, transparent 1px);
+            background-size: 28px 28px; pointer-events: none;
         }
 
         /* ── Header ────────────────────────────────────────── */
-        .fex__header { text-align: center; margin-bottom: 40px; position: relative; z-index: 1; }
+        .fex__header { text-align: center; margin-bottom: 44px; position: relative; z-index: 1; }
         .fex__eyebrow {
             display: inline-flex; align-items: center; gap: 10px;
-            font-size: 0.68rem; font-weight: 700; letter-spacing: 2.2px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem; font-weight: 600; letter-spacing: 2.5px;
             text-transform: uppercase; color: var(--nau-gold); margin-bottom: 14px;
         }
         .fex__eyebrow::before, .fex__eyebrow::after {
-            content: ''; width: 20px; height: 2px;
-            background: rgba(250,192,26,0.55); border-radius: 2px;
+            content: ''; width: 24px; height: 2px;
+            background: rgba(250,192,26,0.5); border-radius: 2px;
         }
         .fex__title {
-            font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800;
-            color: var(--nau-blue); letter-spacing: -0.025em; margin: 0 0 14px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 800;
+            color: var(--nau-blue); letter-spacing: -0.03em; margin: 0 0 14px;
         }
         .fex__title em { font-style: normal; color: var(--nau-gold); }
         .fex__subtitle {
-            font-size: 1rem; color: var(--gray-500); line-height: 1.75;
-            max-width: 520px; margin: 0 auto;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.05rem; color: #6b7280; line-height: 1.75;
+            max-width: 540px; margin: 0 auto;
         }
 
         /* ── Layout ────────────────────────────────────────── */
@@ -60,48 +63,46 @@
             flex: 1; min-width: 0;
             background: #fff;
             border-radius: 20px;
-            border: 1px solid rgba(0,0,0,0.06);
-            box-shadow: 0 8px 40px rgba(0,0,0,0.06);
+            border: 1px solid rgba(0,36,84,0.06);
+            box-shadow: 0 4px 24px rgba(0,36,84,0.04), 0 12px 48px rgba(0,36,84,0.03);
             padding: 20px 24px 16px;
             position: relative;
             transition: border-radius 0.4s;
         }
         .fex__map-wrap.panel-open { border-radius: 20px 0 0 20px; }
 
-        /* Map toolbar */
+        /* ── Toolbar ───────────────────────────────────────── */
         .fex__toolbar {
             display: flex; align-items: center; justify-content: space-between;
-            margin-bottom: 12px; padding: 0 4px;
+            margin-bottom: 12px; padding: 0 4px; gap: 12px;
         }
         .fex__toolbar-title {
-            font-family: 'Roboto Mono', monospace; font-size: 0.68rem;
-            font-weight: 500; color: var(--gray-400); text-transform: uppercase;
-            letter-spacing: 1.5px;
+            font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem;
+            font-weight: 500; color: #9ca3af; text-transform: uppercase;
+            letter-spacing: 1.5px; white-space: nowrap;
         }
         .fex__zoom-controls { display: flex; gap: 4px; }
         .fex__zoom-btn {
             width: 32px; height: 32px; border-radius: 8px;
-            background: #f0f2f5; border: 1px solid rgba(0,0,0,0.06);
-            cursor: pointer; font-size: 1rem; color: var(--gray-500);
+            background: #f5f3ee; border: 1px solid rgba(0,36,84,0.06);
+            cursor: pointer; font-size: 1rem; color: #9ca3af;
             display: flex; align-items: center; justify-content: center;
-            transition: all 0.2s; font-family: 'Roboto', sans-serif; font-weight: 500;
+            transition: all 0.2s; font-family: 'DM Sans', sans-serif; font-weight: 500;
         }
         .fex__zoom-btn:hover { background: var(--nau-blue); color: #fff; border-color: var(--nau-blue); }
         .fex__zoom-level {
-            font-family: 'Roboto Mono', monospace; font-size: 0.65rem;
-            color: var(--gray-400); min-width: 40px; text-align: center;
-            line-height: 32px;
+            font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem;
+            color: #9ca3af; min-width: 40px; text-align: center; line-height: 32px;
         }
 
-        /* SVG container with zoom/pan */
+        /* ── SVG viewport ──────────────────────────────────── */
         .fex__map-viewport {
             position: relative; overflow: hidden;
-            border-radius: 12px; border: 1px solid rgba(0,0,0,0.04);
-            background: #fbfbfd;
+            border-radius: 14px; border: 1px solid rgba(0,36,84,0.04);
+            background: #faf8f4;
             cursor: grab;
         }
-        .fex__map-viewport:active { cursor: grabbing; }
-        .fex__map-viewport.is-dragging { cursor: grabbing; }
+        .fex__map-viewport:active, .fex__map-viewport.is-dragging { cursor: grabbing; }
         .fex__map {
             width: 100%; height: auto; display: block;
             transition: transform 0.3s cubic-bezier(0.25,1,0.5,1);
@@ -110,143 +111,188 @@
 
         /* ── SVG Room Styles ───────────────────────────────── */
         .fex-room { cursor: pointer; outline: none; }
-        .fex-room > rect {
-            stroke-width: 1.8;
-            transition: fill 0.25s, stroke 0.25s, filter 0.25s, stroke-width 0.2s;
+        .fex-room > rect:first-of-type {
+            stroke-width: 1.5;
+            transition: fill 0.3s, stroke 0.3s, filter 0.3s, stroke-width 0.2s;
         }
-        .fex-room:hover > rect, .fex-room:focus > rect {
-            filter: brightness(0.93);
-            stroke-width: 2.2;
+        .fex-room:hover > rect:first-of-type {
+            stroke-width: 2;
         }
-        .fex-room.is-active > rect {
+        .fex-room.is-active > rect:first-of-type {
             stroke: var(--nau-gold) !important;
-            stroke-width: 2.8;
-            filter: drop-shadow(0 0 8px rgba(250,192,26,0.4));
+            stroke-width: 2.5;
+            filter: drop-shadow(0 0 12px rgba(250,192,26,0.35));
         }
         .fex-room__name {
-            font-family: 'Roboto', sans-serif; font-size: 12px;
-            font-weight: 700; fill: var(--nau-blue); text-anchor: middle;
+            font-family: 'DM Sans', sans-serif; font-size: 13px;
+            font-weight: 700; fill: #1e293b; text-anchor: middle;
             pointer-events: none;
         }
         .fex-room__num {
-            font-family: 'Roboto Mono', monospace; font-size: 9px;
-            font-weight: 400; fill: rgba(0,36,84,0.4); text-anchor: middle;
+            font-family: 'IBM Plex Mono', monospace; font-size: 9px;
+            font-weight: 500; fill: #94a3b8; text-anchor: middle;
+            pointer-events: none;
+        }
+        .fex-room__icon {
+            font-family: 'Font Awesome 6 Free'; font-weight: 900;
+            text-anchor: middle; dominant-baseline: central;
+            pointer-events: none; opacity: 0.12;
+        }
+
+        /* Room type fills — warm, inviting */
+        .fex-room--lab > rect:first-of-type        { fill: #dbeafe; stroke: #3b82f6; }
+        .fex-room--cleanroom > rect:first-of-type   { fill: #fef3c7; stroke: #f59e0b; }
+        .fex-room--instrument > rect:first-of-type  { fill: #ede9fe; stroke: #8b5cf6; }
+        .fex-room--workspace > rect:first-of-type   { fill: #dcfce7; stroke: #22c55e; }
+        .fex-room--support > rect:first-of-type     { fill: #f1f5f9; stroke: #94a3b8; }
+
+        /* Room hover glow per type */
+        .fex-room--lab:hover > rect:first-of-type        { filter: drop-shadow(0 0 10px rgba(59,130,246,0.25)); }
+        .fex-room--cleanroom:hover > rect:first-of-type   { filter: drop-shadow(0 0 10px rgba(245,158,11,0.3)); }
+        .fex-room--instrument:hover > rect:first-of-type  { filter: drop-shadow(0 0 10px rgba(139,92,246,0.25)); }
+        .fex-room--workspace:hover > rect:first-of-type   { filter: drop-shadow(0 0 10px rgba(34,197,94,0.25)); }
+        .fex-room--support:hover > rect:first-of-type     { filter: drop-shadow(0 0 8px rgba(148,163,184,0.25)); }
+
+        /* Cleanroom subtle pulse */
+        .fex-room--cleanroom > rect:first-of-type {
+            animation: fexCleanPulse 5s ease-in-out infinite;
+        }
+        @keyframes fexCleanPulse {
+            0%, 100% { fill: #fef3c7; }
+            50%      { fill: #fde68a; }
+        }
+        .fex-room--cleanroom:hover > rect:first-of-type { animation: none !important; }
+
+        /* Search highlight / dim */
+        .fex-room.is-highlight > rect:first-of-type {
+            stroke-width: 2.5;
+            animation: fexPulse 1.2s ease-in-out infinite !important;
+        }
+        @keyframes fexPulse {
+            0%, 100% { filter: drop-shadow(0 0 4px rgba(250,192,26,0.4)); }
+            50%      { filter: drop-shadow(0 0 16px rgba(250,192,26,0.7)); }
+        }
+        .fex-room.is-dimmed { opacity: 0.15; transition: opacity 0.3s; }
+        .fex-room.is-dimmed:hover { opacity: 0.4; }
+
+        /* Room entrance animation */
+        .fex-room { opacity: 0; animation: fexRoomIn 0.5s ease forwards; }
+        @keyframes fexRoomIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── Building outline ─────────────────────────────── */
+        .fex-building {
+            fill: #faf8f3; stroke: #002454; stroke-width: 2.5;
+            stroke-linejoin: round;
+        }
+
+        /* ── Corridor labels ──────────────────────────────── */
+        .fex-corridor-label {
+            font-family: 'IBM Plex Mono', monospace; font-size: 9px;
+            font-weight: 500; fill: #c4b5a0; text-anchor: middle;
+            letter-spacing: 2px; text-transform: uppercase;
             pointer-events: none;
         }
 
-        /* Room type fills */
-        .fex-room--lab > rect         { fill: #dce8f7; stroke: #4a7cc5; }
-        .fex-room--cleanroom > rect   { fill: #fef3cd; stroke: #c9a227; }
-        .fex-room--instrument > rect  { fill: #e8def8; stroke: #7c5cbf; }
-        .fex-room--workspace > rect   { fill: #d4edda; stroke: #3a8f5c; }
-        .fex-room--support > rect     { fill: #ecedf0; stroke: #8a8d95; }
+        /* ── Corridor fill ────────────────────────────────── */
+        .fex-corridor-fill {
+            fill: #f0ece3; stroke: none; pointer-events: none;
+        }
 
-        /* Equipment inside rooms */
-        .fex-equip { fill: none; stroke-width: 0.8; pointer-events: none; }
-        .fex-equip--lab       { stroke: rgba(74,124,197,0.3); }
-        .fex-equip--cleanroom { stroke: rgba(201,162,39,0.35); }
-        .fex-equip--instrument{ stroke: rgba(124,92,191,0.3); }
-        .fex-equip--workspace { stroke: rgba(58,143,92,0.3); }
-        .fex-equip--support   { stroke: rgba(138,141,149,0.25); }
-        .fex-equip-fill { fill: rgba(0,36,84,0.03); pointer-events: none; }
+        /* ── Entrance markers ─────────────────────────────── */
+        .fex-entrance polygon { fill: var(--nau-blue); }
+        .fex-entrance text {
+            font-family: 'IBM Plex Mono', monospace; font-size: 8px;
+            font-weight: 600; fill: var(--nau-blue); text-anchor: middle;
+            letter-spacing: 1px; text-transform: uppercase;
+        }
 
-        /* Door arcs */
-        .fex-door { fill: none; stroke: rgba(0,36,84,0.2); stroke-width: 0.8; pointer-events: none; }
-        .fex-door-gap { stroke: none; pointer-events: none; }
-
-        /* Occupancy circles */
-        .fex-occ { pointer-events: none; }
-        .fex-occ circle { fill: #fff; stroke: rgba(0,36,84,0.25); stroke-width: 1; }
-        .fex-occ text {
-            font-family: 'Roboto', sans-serif; font-size: 7.5px;
-            font-weight: 700; fill: rgba(0,36,84,0.45); text-anchor: middle;
+        /* ── Stairwell ────────────────────────────────────── */
+        .fex-stairwell rect {
+            fill: #f5f3ee; stroke: #d1cdc4; stroke-width: 1.2;
+            stroke-dasharray: 6,4; rx: 8;
+        }
+        .fex-stairwell text {
+            font-family: 'DM Sans', sans-serif; font-size: 11px;
+            font-weight: 600; fill: #b8b0a2; text-anchor: middle;
+        }
+        .fex-stairwell .fex-stair-icon {
+            font-family: 'Font Awesome 6 Free'; font-weight: 900;
+            font-size: 20px; fill: #d1cdc4; text-anchor: middle;
             dominant-baseline: central;
         }
 
-        /* Building outline */
-        .fex-building { fill: #f0f2f5; stroke: #002454; stroke-width: 3; stroke-linejoin: miter; }
+        /* ── Search Bar ───────────────────────────────────── */
+        .fex__search-wrap { position: relative; flex: 1; max-width: 240px; }
+        .fex__search {
+            width: 100%; height: 34px;
+            padding: 0 32px 0 34px;
+            border: 1.5px solid rgba(0,36,84,0.06);
+            border-radius: 10px; background: #f5f3ee;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.8rem; color: var(--nau-blue);
+            outline: none; transition: all 0.25s;
+        }
+        .fex__search:focus {
+            border-color: var(--nau-blue); background: #fff;
+            box-shadow: 0 0 0 3px rgba(0,36,84,0.05);
+        }
+        .fex__search::placeholder { color: #c4b5a0; }
+        .fex__search-icon {
+            position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
+            font-size: 0.72rem; color: #c4b5a0; pointer-events: none;
+        }
+        .fex__search-clear {
+            position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+            width: 20px; height: 20px; border-radius: 50%;
+            background: rgba(0,36,84,0.06); border: none; cursor: pointer;
+            font-size: 0.6rem; color: #9ca3af;
+            display: none; align-items: center; justify-content: center;
+        }
+        .fex__search-clear.is-visible { display: flex; }
+        .fex__search-clear:hover { background: rgba(0,36,84,0.12); }
 
-        /* Internal walls */
-        .fex-wall { fill: none; stroke: #002454; stroke-width: 2; stroke-linecap: round; }
-        .fex-wall--thin { stroke-width: 1.2; }
-        .fex-wall--partition { stroke-width: 1; stroke-dasharray: 3,2; stroke: rgba(0,36,84,0.3); }
-
-        /* Corridors */
-        .fex-corridor { fill: none; stroke: rgba(0,36,84,0.12); stroke-width: 1.2; stroke-dasharray: 8,5; }
-
-        /* Exits */
-        .fex-exit line { stroke: #dc3545; stroke-width: 2; stroke-linecap: round; }
-        .fex-exit__label {
-            font-family: 'Roboto Mono', monospace; font-size: 7px;
-            font-weight: 700; fill: rgba(220,53,69,0.6); text-anchor: middle;
+        /* ── Category Filter ──────────────────────────────── */
+        .fex__filters {
+            display: flex; gap: 6px; flex-wrap: wrap;
+            margin-bottom: 14px; padding: 0 4px;
+        }
+        .fex__filter-btn {
+            padding: 5px 14px; border-radius: 100px;
+            border: 1.5px solid rgba(0,36,84,0.06);
+            background: #f5f3ee; cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.68rem; font-weight: 600;
+            color: #9ca3af; transition: all 0.2s; white-space: nowrap;
+        }
+        .fex__filter-btn:hover { border-color: var(--nau-blue); color: var(--nau-blue); }
+        .fex__filter-btn.is-active {
+            background: var(--nau-blue); color: #fff; border-color: var(--nau-blue);
         }
 
-        /* North arrow */
-        .fex-north__letter {
-            font-family: 'Montserrat', sans-serif; font-size: 14px;
-            font-weight: 900; fill: #002454; text-anchor: middle;
-        }
-
-        /* Title block */
-        .fex-title-block rect { fill: none; stroke: #002454; stroke-width: 1.5; }
-        .fex-title-block text {
-            font-family: 'Roboto', sans-serif; fill: #002454; text-anchor: start;
-        }
-        .fex-title-block__main { font-size: 9px; font-weight: 700; letter-spacing: 1px; }
-        .fex-title-block__sub  { font-size: 6.5px; font-weight: 400; fill: rgba(0,36,84,0.5) !important; }
-        .fex-title-block__id   { font-size: 7px; font-weight: 700; }
-        .fex-title-block__scale{ font-family: 'Roboto Mono', monospace; font-size: 6.5px; font-weight: 400; fill: rgba(0,36,84,0.5) !important; }
-
-        /* Stairwell */
-        .fex-stairwell rect { fill: #e8e8e8; stroke: #999; stroke-width: 1; stroke-dasharray: 4,3; }
-        .fex-stairwell text {
-            font-family: 'Roboto', sans-serif; font-size: 10px;
-            font-weight: 500; fill: rgba(0,0,0,0.25); text-anchor: middle;
-        }
-        .fex-stairwell line { stroke: #bbb; stroke-width: 0.7; }
-
-        /* Dimension lines */
-        .fex-dim line { stroke: rgba(0,36,84,0.2); stroke-width: 0.8; }
-        .fex-dim text {
-            font-family: 'Roboto Mono', monospace; font-size: 7px;
-            fill: rgba(0,36,84,0.3); text-anchor: middle;
-        }
-
-        /* Scale bar */
-        .fex-scale text {
-            font-family: 'Roboto Mono', monospace; font-size: 7px;
-            fill: rgba(0,36,84,0.4); text-anchor: middle;
-        }
-        .fex-scale line { stroke: #002454; stroke-width: 1.5; stroke-opacity: 0.35; }
-
-        /* FEC markers */
-        .fex-fec rect { fill: none; stroke: rgba(0,36,84,0.15); stroke-width: 0.7; }
-        .fex-fec text {
-            font-family: 'Roboto Mono', monospace; font-size: 5.5px;
-            fill: rgba(0,36,84,0.2); text-anchor: middle; font-weight: 500;
-        }
-
-        /* ── Hover Tooltip ─────────────────────────────────── */
+        /* ── Hover Tooltip ────────────────────────────────── */
         .fex__tooltip {
             position: absolute; z-index: 20;
-            background: rgba(0,24,56,0.92);
-            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-            color: #fff; padding: 8px 14px;
-            border-radius: 8px; pointer-events: none;
+            background: rgba(0,24,56,0.94);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            color: #fff; padding: 10px 16px;
+            border-radius: 10px; pointer-events: none;
             transform: translate(-50%, -120%);
             opacity: 0; transition: opacity 0.18s;
             white-space: nowrap;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.25);
-            border: 1px solid rgba(250,192,26,0.15);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            border: 1px solid rgba(250,192,26,0.12);
         }
         .fex__tooltip.is-visible { opacity: 1; }
         .fex__tooltip-name {
-            font-family: 'Roboto', sans-serif; font-size: 0.78rem;
+            font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
             font-weight: 700; margin-bottom: 2px;
         }
         .fex__tooltip-type {
-            font-family: 'Roboto Mono', monospace; font-size: 0.6rem;
-            color: rgba(250,192,26,0.8); text-transform: uppercase;
+            font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem;
+            color: rgba(250,192,26,0.85); text-transform: uppercase;
             letter-spacing: 0.5px;
         }
         .fex__tooltip::after {
@@ -254,34 +300,35 @@
             transform: translateX(-50%);
             border-left: 5px solid transparent;
             border-right: 5px solid transparent;
-            border-top: 5px solid rgba(0,24,56,0.92);
+            border-top: 5px solid rgba(0,24,56,0.94);
         }
 
-        /* ── Legend ─────────────────────────────────────────── */
+        /* ── Legend ────────────────────────────────────────── */
         .fex__legend {
-            display: flex; flex-wrap: wrap; gap: 16px; justify-content: center;
-            margin-top: 16px; padding-top: 16px;
-            border-top: 1px solid rgba(0,0,0,0.06);
+            display: flex; flex-wrap: wrap; gap: 18px; justify-content: center;
+            margin-top: 18px; padding-top: 18px;
+            border-top: 1px solid rgba(0,36,84,0.05);
         }
         .fex__legend-item {
-            display: flex; align-items: center; gap: 7px;
-            font-size: 0.72rem; font-weight: 600; color: var(--gray-500);
+            display: flex; align-items: center; gap: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.72rem; font-weight: 600; color: #6b7280;
         }
         .fex__legend-swatch {
             width: 14px; height: 14px; border-radius: 4px; border: 1.5px solid;
         }
-        .fex__legend-swatch--lab        { background: #dce8f7; border-color: #4a7cc5; }
-        .fex__legend-swatch--cleanroom  { background: #fef3cd; border-color: #c9a227; }
-        .fex__legend-swatch--instrument { background: #e8def8; border-color: #7c5cbf; }
-        .fex__legend-swatch--workspace  { background: #d4edda; border-color: #3a8f5c; }
-        .fex__legend-swatch--support    { background: #ecedf0; border-color: #8a8d95; }
+        .fex__legend-swatch--lab        { background: #dbeafe; border-color: #3b82f6; }
+        .fex__legend-swatch--cleanroom  { background: #fef3c7; border-color: #f59e0b; }
+        .fex__legend-swatch--instrument { background: #ede9fe; border-color: #8b5cf6; }
+        .fex__legend-swatch--workspace  { background: #dcfce7; border-color: #22c55e; }
+        .fex__legend-swatch--support    { background: #f1f5f9; border-color: #94a3b8; }
 
-        /* ── Info Panel ────────────────────────────────────── */
+        /* ── Info Panel ───────────────────────────────────── */
         .fex__panel {
             width: 380px; flex-shrink: 0;
             background: #fff; border-radius: 0 20px 20px 0;
-            border: 1px solid rgba(0,0,0,0.06); border-left: none;
-            box-shadow: 8px 0 40px rgba(0,0,0,0.06);
+            border: 1px solid rgba(0,36,84,0.06); border-left: none;
+            box-shadow: 8px 0 40px rgba(0,36,84,0.04);
             transform: translateX(-100%); opacity: 0;
             max-height: 0; overflow: hidden;
             transition: transform 0.4s cubic-bezier(0.25,1,0.5,1),
@@ -297,8 +344,8 @@
         .fex__panel-close {
             position: sticky; top: 12px; float: right; margin: 12px 12px 0 0;
             width: 36px; height: 36px; border-radius: 50%;
-            background: #f0f2f5; border: none; cursor: pointer;
-            font-size: 1.2rem; color: var(--gray-500);
+            background: #f5f3ee; border: none; cursor: pointer;
+            font-size: 1.2rem; color: #9ca3af;
             display: flex; align-items: center; justify-content: center;
             transition: background 0.2s, color 0.2s; z-index: 2;
         }
@@ -309,180 +356,83 @@
             display: flex; align-items: center; justify-content: center;
             font-size: 1.3rem; margin-bottom: 18px;
         }
-        .fex__panel-icon--lab        { background: rgba(74,124,197,0.12); color: #4a7cc5; }
-        .fex__panel-icon--cleanroom  { background: rgba(201,162,39,0.12); color: #c9a227; }
-        .fex__panel-icon--instrument { background: rgba(124,92,191,0.12); color: #7c5cbf; }
-        .fex__panel-icon--workspace  { background: rgba(58,143,92,0.12); color: #3a8f5c; }
-        .fex__panel-icon--support    { background: rgba(138,141,149,0.12); color: #8a8d95; }
+        .fex__panel-icon--lab        { background: rgba(59,130,246,0.1); color: #3b82f6; }
+        .fex__panel-icon--cleanroom  { background: rgba(245,158,11,0.1); color: #f59e0b; }
+        .fex__panel-icon--instrument { background: rgba(139,92,246,0.1); color: #8b5cf6; }
+        .fex__panel-icon--workspace  { background: rgba(34,197,94,0.1); color: #22c55e; }
+        .fex__panel-icon--support    { background: rgba(148,163,184,0.1); color: #94a3b8; }
         .fex__panel-type {
-            display: inline-block; font-size: 0.62rem; font-weight: 700;
+            display: inline-block; font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.62rem; font-weight: 600;
             text-transform: uppercase; letter-spacing: 1.5px; color: var(--nau-gold);
-            background: rgba(250,192,26,0.10); border: 1px solid rgba(250,192,26,0.22);
+            background: rgba(250,192,26,0.08); border: 1px solid rgba(250,192,26,0.18);
             padding: 4px 12px; border-radius: 100px; margin-bottom: 14px;
         }
         .fex__panel-name {
-            font-family: var(--font-display); font-size: 1.5rem; font-weight: 800;
+            font-family: 'Montserrat', sans-serif; font-size: 1.5rem; font-weight: 800;
             color: var(--nau-blue); letter-spacing: -0.02em; margin: 0 0 4px;
         }
         .fex__panel-num {
-            font-family: 'Roboto Mono', monospace;
-            font-size: 0.78rem; font-weight: 500; color: var(--gray-400); margin-bottom: 18px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.78rem; font-weight: 500; color: #94a3b8; margin-bottom: 18px;
         }
         .fex__panel-desc {
-            font-size: 0.9rem; color: var(--gray-600); line-height: 1.75; margin-bottom: 24px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem; color: #6b7280; line-height: 1.75; margin-bottom: 24px;
         }
         .fex__panel-features-title {
-            font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
-            letter-spacing: 1.5px; color: var(--gray-400); margin-bottom: 12px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.62rem; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 1.5px; color: #94a3b8; margin-bottom: 12px;
         }
         .fex__panel-features { list-style: none; padding: 0; margin: 0 0 24px; }
         .fex__panel-features li {
             display: flex; align-items: center; gap: 10px;
-            font-size: 0.85rem; font-weight: 500; color: var(--nau-blue);
-            padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.04);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.85rem; font-weight: 500; color: #1e293b;
+            padding: 8px 0; border-bottom: 1px solid rgba(0,36,84,0.04);
         }
         .fex__panel-features li:last-child { border-bottom: none; }
         .fex__panel-features li i { color: var(--nau-gold); font-size: 0.7rem; width: 16px; text-align: center; }
         .fex__panel-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .fex__panel-meta-item { background: #f8f9fb; border-radius: 10px; padding: 14px 16px; }
+        .fex__panel-meta-item { background: #f5f3ee; border-radius: 12px; padding: 14px 16px; }
         .fex__panel-meta-label {
-            font-size: 0.62rem; font-weight: 700; text-transform: uppercase;
-            letter-spacing: 1px; color: var(--gray-400); margin-bottom: 4px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.6rem; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 1px; color: #94a3b8; margin-bottom: 4px;
         }
         .fex__panel-meta-value {
-            font-family: var(--font-display); font-size: 1.1rem;
+            font-family: 'Montserrat', sans-serif; font-size: 1.1rem;
             font-weight: 800; color: var(--nau-blue);
         }
 
-        /* ── Room entrance animation ───────────────────────── */
-        .fex-room { opacity: 0; animation: fexRoomIn 0.5s ease forwards; }
-        @keyframes fexRoomIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Cleanroom subtle pulse */
-        .fex-room--cleanroom > rect:first-of-type {
-            animation: fexCleanPulse 4s ease-in-out infinite;
-        }
-        @keyframes fexCleanPulse {
-            0%, 100% { fill: #fef3cd; }
-            50%      { fill: #fdf0b8; }
-        }
-
-        /* ── Room Hover Glow ──────────────────────────────── */
-        .fex-room--lab:hover > rect:first-of-type        { filter: drop-shadow(0 0 8px rgba(74,124,197,0.35)); }
-        .fex-room--cleanroom:hover > rect:first-of-type  { filter: drop-shadow(0 0 8px rgba(201,162,39,0.4)); animation: none !important; }
-        .fex-room--instrument:hover > rect:first-of-type { filter: drop-shadow(0 0 8px rgba(124,92,191,0.35)); }
-        .fex-room--workspace:hover > rect:first-of-type  { filter: drop-shadow(0 0 8px rgba(58,143,92,0.35)); }
-        .fex-room--support:hover > rect:first-of-type    { filter: drop-shadow(0 0 6px rgba(138,141,149,0.3)); }
-        .fex-room.is-highlight > rect:first-of-type {
-            stroke-width: 3;
-            animation: fexSearchPulse 1.2s ease-in-out infinite !important;
-        }
-        @keyframes fexSearchPulse {
-            0%, 100% { filter: drop-shadow(0 0 4px rgba(250,192,26,0.4)); }
-            50%      { filter: drop-shadow(0 0 14px rgba(250,192,26,0.7)); }
-        }
-        .fex-room.is-dimmed { opacity: 0.2; transition: opacity 0.3s; }
-        .fex-room.is-dimmed:hover { opacity: 0.5; }
-
-        /* ── Search Bar ───────────────────────────────────── */
-        .fex__search-wrap {
-            position: relative; flex: 1; max-width: 240px;
-        }
-        .fex__search {
-            width: 100%; height: 34px;
-            padding: 0 32px 0 34px;
-            border: 1.5px solid rgba(0,0,0,0.08);
-            border-radius: 10px; background: #f8f9fb;
-            font-family: 'Roboto', sans-serif;
-            font-size: 0.78rem; color: var(--nau-blue);
-            outline: none; transition: all 0.25s;
-        }
-        .fex__search:focus {
-            border-color: var(--nau-blue);
-            background: #fff;
-            box-shadow: 0 0 0 3px rgba(0,36,84,0.06);
-        }
-        .fex__search::placeholder { color: var(--gray-300); }
-        .fex__search-icon {
-            position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
-            font-size: 0.72rem; color: var(--gray-300); pointer-events: none;
-        }
-        .fex__search-clear {
-            position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
-            width: 20px; height: 20px; border-radius: 50%;
-            background: rgba(0,0,0,0.06); border: none; cursor: pointer;
-            font-size: 0.6rem; color: var(--gray-400);
-            display: none; align-items: center; justify-content: center;
-            transition: background 0.2s;
-        }
-        .fex__search-clear.is-visible { display: flex; }
-        .fex__search-clear:hover { background: rgba(0,0,0,0.12); }
-
-        /* ── Category Filter ──────────────────────────────── */
-        .fex__filters {
-            display: flex; gap: 6px; flex-wrap: wrap;
-            margin-bottom: 12px; padding: 0 4px;
-        }
-        .fex__filter-btn {
-            padding: 5px 13px; border-radius: 100px;
-            border: 1.5px solid rgba(0,0,0,0.06);
-            background: #f8f9fb; cursor: pointer;
-            font-family: 'Roboto', sans-serif;
-            font-size: 0.65rem; font-weight: 600;
-            color: var(--gray-500);
-            transition: all 0.2s; white-space: nowrap;
-        }
-        .fex__filter-btn:hover { border-color: var(--nau-blue); color: var(--nau-blue); }
-        .fex__filter-btn.is-active {
-            background: var(--nau-blue); color: #fff;
-            border-color: var(--nau-blue);
-        }
-
-        /* ── Internal Walls ───────────────────────────────── */
-        .fex-iwall { fill: none; stroke: #002454; stroke-width: 2.2; stroke-linecap: butt; }
-        .fex-iwall--thin { stroke-width: 1.4; }
-        .fex-iwall--light { stroke-width: 1; stroke: rgba(0,36,84,0.45); }
-
-        /* ── REF label ────────────────────────────────────── */
-        .fex-ref text {
-            font-family: 'Roboto Mono', monospace; font-size: 7px;
-            fill: rgba(0,36,84,0.3); text-anchor: middle; font-weight: 500;
-        }
-        .fex-ref rect {
-            fill: #f0f2f5; stroke: rgba(0,36,84,0.2); stroke-width: 0.8;
-        }
-
-        /* ── Mini-map (zoomed overlay) ────────────────────── */
+        /* ── Mini-map ─────────────────────────────────────── */
         .fex__minimap {
             position: absolute; bottom: 14px; left: 14px;
             width: 150px; height: 96px;
-            background: rgba(255,255,255,0.94);
-            backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-            border: 1.5px solid rgba(0,0,0,0.08);
-            border-radius: 8px; overflow: hidden;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            border: 1.5px solid rgba(0,36,84,0.06);
+            border-radius: 10px; overflow: hidden;
             opacity: 0; pointer-events: none;
             transition: opacity 0.3s;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
             z-index: 15;
         }
         .fex__minimap.is-visible { opacity: 1; pointer-events: auto; }
         .fex__minimap svg { width: 100%; height: 100%; }
         .fex__minimap-vp {
-            fill: rgba(250,192,26,0.12); stroke: var(--nau-gold);
+            fill: rgba(250,192,26,0.1); stroke: var(--nau-gold);
             stroke-width: 3; rx: 2;
         }
 
-        /* ── Room count badge ─────────────────────────────── */
+        /* ── Room count ───────────────────────────────────── */
         .fex__room-count {
-            font-family: 'Roboto Mono', monospace;
-            font-size: 0.62rem; color: var(--gray-400);
-            line-height: 34px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.62rem; color: #94a3b8; line-height: 34px;
         }
 
-        /* ── Mobile ────────────────────────────────────────── */
+        /* ── Mobile ───────────────────────────────────────── */
         @media (max-width: 900px) {
             .fex { padding: 60px 0 40px; }
             .fex__layout { flex-direction: column; }
@@ -493,7 +443,7 @@
                 border-radius: 0 0 16px 16px;
                 border: 1px solid rgba(0,0,0,0.06); border-top: none;
                 transform: translateY(-20px);
-                box-shadow: 0 8px 40px rgba(0,0,0,0.06);
+                box-shadow: 0 8px 40px rgba(0,0,0,0.04);
             }
             .fex__panel.is-open { transform: translateY(0); }
             .fex__panel-content { padding: 24px 20px 32px; }
@@ -566,615 +516,193 @@
                             <div class="fex__tooltip-type" id="fex-tooltip-type"></div>
                         </div>
 
-                        <!-- Map viewport -->
+                        <!-- ════════════════════════════════════════════════════
+                             SVG FACILITY MAP — Clean showcase, no construction
+                             ════════════════════════════════════════════════════ -->
                         <div class="fex__map-viewport" id="fex-viewport">
                         <svg class="fex__map" id="fex-svg" viewBox="0 0 1200 760" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="MPaCT Lab floor plan">
-                            <defs>
-                                <pattern id="fex-grid" width="20" height="20" patternUnits="userSpaceOnUse">
-                                    <circle cx="10" cy="10" r="0.5" fill="rgba(0,36,84,0.05)"/>
-                                </pattern>
-                                <marker id="fex-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-                                    <path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(0,36,84,0.12)"/>
-                                </marker>
-                                <!-- Cleanroom hatching -->
-                                <pattern id="fex-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-                                    <line x1="0" y1="0" x2="0" y2="6" stroke="rgba(201,162,39,0.08)" stroke-width="1"/>
-                                </pattern>
-                            </defs>
 
-                            <!-- Background grid -->
-                            <rect width="1200" height="760" fill="url(#fex-grid)"/>
+                            <!-- ═══ BUILDING OUTLINE ═══ -->
+                            <path class="fex-building" d="M 30,50 L 992,50 L 992,490 L 1170,490 L 1170,700 L 992,700 L 992,650 L 30,650 Z"/>
 
-                            <!-- ═══ BUILDING OUTLINE (L-shape) ═══ -->
-                            <!-- Main body top-left to stairwell annex lower-right -->
-                            <path class="fex-building" d="
-                                M 30,55
-                                L 990,55
-                                L 990,490
-                                L 1170,490
-                                L 1170,700
-                                L 890,700
-                                L 890,655
-                                L 30,655
-                                Z
-                            "/>
+                            <!-- ═══ CORRIDOR FILLS (warm walkway areas) ═══ -->
+                            <!-- Vertical corridor east of labs -->
+                            <rect class="fex-corridor-fill" x="228" y="50" width="55" height="600" rx="0"/>
+                            <!-- Horizontal corridor between upper and lower sections -->
+                            <rect class="fex-corridor-fill" x="228" y="268" width="465" height="36" rx="0"/>
+                            <!-- Horizontal corridor above lower rooms -->
+                            <rect class="fex-corridor-fill" x="228" y="424" width="424" height="14" rx="0"/>
+                            <!-- Corridor between TEM and lower rooms -->
+                            <rect class="fex-corridor-fill" x="283" y="424" width="222" height="14" rx="0"/>
+                            <!-- Right side corridor between rooms -->
+                            <rect class="fex-corridor-fill" x="500" y="268" width="8" height="170" rx="0"/>
+                            <!-- Corridor near Flex Space / Storage -->
+                            <rect class="fex-corridor-fill" x="680" y="228" width="312" height="52" rx="0"/>
+                            <!-- Lower right corridor -->
+                            <rect class="fex-corridor-fill" x="618" y="438" width="36" height="212" rx="0"/>
+                            <!-- Stairwell connection -->
+                            <rect class="fex-corridor-fill" x="960" y="490" width="40" height="210" rx="0"/>
 
-                            <!-- ═══ INTERNAL WALLS ═══ -->
-                            <g class="fex-walls">
-                                <!-- Left column east wall (corridor side of labs) -->
-                                <line class="fex-iwall" x1="230" y1="55" x2="230" y2="655"/>
+                            <!-- ═══ CORRIDOR LABELS ═══ -->
+                            <text class="fex-corridor-label" x="256" y="360" transform="rotate(-90,256,360)">Main Corridor</text>
+                            <text class="fex-corridor-label" x="460" y="290">Hallway</text>
+                            <text class="fex-corridor-label" x="836" y="258">Hallway</text>
 
-                                <!-- Lab 3 / Lab 2 divider -->
-                                <line class="fex-iwall" x1="30" y1="210" x2="230" y2="210"/>
-
-                                <!-- Lab 2 / Lab 1 divider (also top of lower corridor) -->
-                                <line class="fex-iwall" x1="30" y1="385" x2="230" y2="385"/>
-
-                                <!-- Corridor horizontal wall - top of lower section rooms -->
-                                <line class="fex-iwall" x1="230" y1="430" x2="990" y2="430"/>
-
-                                <!-- Central vertical corridor wall (west side of Lab 4 / TEM) -->
-                                <line class="fex-iwall" x1="280" y1="55" x2="280" y2="430"/>
-
-                                <!-- Top wall below Storage/Mother's rooms -->
-                                <line class="fex-iwall" x1="280" y1="95" x2="680" y2="95"/>
-
-                                <!-- Storage 112A / Mother's Room divider -->
-                                <line class="fex-iwall--thin" x1="370" y1="55" x2="370" y2="95"/>
-
-                                <!-- Mother's Room right wall -->
-                                <line class="fex-iwall--thin" x1="470" y1="55" x2="470" y2="95"/>
-
-                                <!-- Lab 4 right wall -->
-                                <line class="fex-iwall" x1="500" y1="95" x2="500" y2="270"/>
-
-                                <!-- Lab 4 bottom wall -->
-                                <line class="fex-iwall" x1="280" y1="270" x2="500" y2="270"/>
-
-                                <!-- TEM Room walls -->
-                                <line class="fex-iwall--thin" x1="280" y1="300" x2="470" y2="300"/>
-                                <line class="fex-iwall--thin" x1="470" y1="300" x2="470" y2="430"/>
-
-                                <!-- Yellow Light Room left wall (shared with Lab 4 area) -->
-                                <line class="fex-iwall" x1="560" y1="55" x2="560" y2="230"/>
-
-                                <!-- Yellow Light Room bottom wall -->
-                                <line class="fex-iwall" x1="560" y1="230" x2="680" y2="230"/>
-
-                                <!-- Yellow Light Room right wall / Flex Space left wall -->
-                                <line class="fex-iwall" x1="680" y1="55" x2="680" y2="430"/>
-
-                                <!-- Equip Rm top wall -->
-                                <line class="fex-iwall--thin" x1="500" y1="200" x2="660" y2="200"/>
-
-                                <!-- Equip Rm right wall -->
-                                <line class="fex-iwall--thin" x1="660" y1="200" x2="660" y2="310"/>
-
-                                <!-- Equip Rm bottom wall -->
-                                <line class="fex-iwall--thin" x1="500" y1="310" x2="660" y2="310"/>
-
-                                <!-- Storage 120C top wall -->
-                                <line class="fex-iwall--thin" x1="680" y1="280" x2="870" y2="280"/>
-
-                                <!-- Storage 120C bottom wall -->
-                                <line class="fex-iwall--thin" x1="680" y1="370" x2="870" y2="370"/>
-
-                                <!-- Storage 120C right wall -->
-                                <line class="fex-iwall--thin" x1="870" y1="280" x2="870" y2="370"/>
-
-                                <!-- Flex Space bottom wall -->
-                                <line class="fex-iwall" x1="680" y1="230" x2="990" y2="230"/>
-
-                                <!-- Janitor left wall -->
-                                <line class="fex-iwall--thin" x1="310" y1="430" x2="310" y2="530"/>
-                                <!-- Janitor bottom wall -->
-                                <line class="fex-iwall--thin" x1="310" y1="530" x2="430" y2="530"/>
-                                <!-- Janitor right wall -->
-                                <line class="fex-iwall--thin" x1="430" y1="430" x2="430" y2="530"/>
-
-                                <!-- Mech left wall -->
-                                <line class="fex-iwall--thin" x1="280" y1="540" x2="280" y2="655"/>
-                                <!-- Mech right wall -->
-                                <line class="fex-iwall--thin" x1="430" y1="540" x2="430" y2="655"/>
-                                <!-- Mech top wall -->
-                                <line class="fex-iwall--thin" x1="280" y1="540" x2="430" y2="540"/>
-
-                                <!-- Elect top-left wall to separate from janitor area -->
-                                <line class="fex-iwall--thin" x1="500" y1="430" x2="500" y2="530"/>
-                                <!-- Elect right wall -->
-                                <line class="fex-iwall--thin" x1="620" y1="430" x2="620" y2="530"/>
-                                <!-- Elect bottom wall -->
-                                <line class="fex-iwall--thin" x1="500" y1="530" x2="620" y2="530"/>
-
-                                <!-- IT left wall -->
-                                <line class="fex-iwall--thin" x1="500" y1="555" x2="500" y2="655"/>
-                                <!-- IT right wall -->
-                                <line class="fex-iwall--thin" x1="620" y1="555" x2="620" y2="655"/>
-                                <!-- IT top wall -->
-                                <line class="fex-iwall--thin" x1="500" y1="555" x2="620" y2="555"/>
-
-                                <!-- Open Work Area left wall -->
-                                <line class="fex-iwall" x1="650" y1="430" x2="650" y2="655"/>
+                            <!-- ═══ ENTRANCE MARKERS ═══ -->
+                            <g class="fex-entrance" transform="translate(30,150)">
+                                <polygon points="-2,-6 10,0 -2,6"/>
+                                <text x="4" y="18">Enter</text>
                             </g>
-
-                            <!-- ═══ CORRIDOR PATHS (dashed arrows) ═══ -->
-                            <g opacity="0.6">
-                                <!-- Vertical corridor east of left labs -->
-                                <polyline class="fex-corridor" points="240,120 260,120 260,620" marker-end="url(#fex-arrow)"/>
-                                <!-- Horizontal from corridor to Lab4 area and Yellow Light -->
-                                <polyline class="fex-corridor" points="260,275 510,275 510,200 560,200" marker-end="url(#fex-arrow)"/>
-                                <!-- Horizontal corridor below main rooms -->
-                                <polyline class="fex-corridor" points="260,435 650,435" marker-end="url(#fex-arrow)"/>
-                                <!-- Vertical connector from corridor to lower rooms -->
-                                <polyline class="fex-corridor" points="475,275 475,425" marker-end="url(#fex-arrow)"/>
-                                <!-- Right side path to stairwell -->
-                                <polyline class="fex-corridor" points="870,380 870,440 990,440 990,500" marker-end="url(#fex-arrow)"/>
-                                <!-- Stairwell entrance -->
-                                <polyline class="fex-corridor" points="960,600 1000,600" marker-end="url(#fex-arrow)"/>
+                            <g class="fex-entrance" transform="translate(530,50)">
+                                <polygon points="-5,2 0,-10 5,2"/>
+                                <text x="0" y="-14">Enter</text>
+                            </g>
+                            <g class="fex-entrance" transform="translate(680,50)">
+                                <polygon points="-5,2 0,-10 5,2"/>
+                                <text x="0" y="-14">Enter</text>
+                            </g>
+                            <g class="fex-entrance" transform="translate(992,100)">
+                                <polygon points="2,-6 14,0 2,6"/>
+                                <text x="8" y="18">Enter</text>
                             </g>
 
                             <!-- ═══ ROOMS ═══ -->
                             <g class="fex-rooms">
 
-                                <!-- ── Lab 3 (104) ── upper left -->
+                                <!-- Lab 3 (104) — upper left -->
                                 <g class="fex-room fex-room--lab" data-room="lab-3" tabindex="0" role="button" aria-label="Lab 3, Room 104" style="animation-delay:0.05s">
-                                    <rect x="35" y="60" width="190" height="145" rx="3"/>
-                                    <!-- Equipment: benches along top wall -->
-                                    <rect class="fex-equip fex-equip--lab fex-equip-fill" x="42" y="66" width="120" height="8" rx="1"/>
-                                    <rect class="fex-equip fex-equip--lab fex-equip-fill" x="42" y="80" width="120" height="8" rx="1"/>
-                                    <!-- Fume hood on left wall -->
-                                    <rect class="fex-equip fex-equip--lab fex-equip-fill" x="38" y="100" width="10" height="60" rx="1"/>
-                                    <!-- Equipment bench right side -->
-                                    <rect class="fex-equip fex-equip--lab fex-equip-fill" x="175" y="100" width="42" height="35" rx="2"/>
-                                    <line class="fex-equip fex-equip--lab" x1="175" y1="103" x2="217" y2="103"/>
-                                    <!-- Center table -->
-                                    <rect class="fex-equip fex-equip--lab fex-equip-fill" x="90" y="140" width="55" height="25" rx="2"/>
-                                    <!-- Door arc -->
-                                    <path class="fex-door" d="M 190,205 A 18,18 0 0 1 208,187"/>
-                                    <text class="fex-room__name" x="130" y="125">Lab 3</text>
-                                    <text class="fex-room__num" x="130" y="140">104</text>
+                                    <rect x="35" y="56" width="188" height="148" rx="8"/>
+                                    <text class="fex-room__icon" font-size="36" x="130" y="108">&#xf0c3;</text>
+                                    <text class="fex-room__name" x="130" y="145">Lab 3</text>
+                                    <text class="fex-room__num" x="130" y="160">Room 104</text>
                                 </g>
 
-                                <!-- ── Lab 2 (103) ── middle left -->
+                                <!-- Lab 2 (103) — middle left -->
                                 <g class="fex-room fex-room--lab" data-room="lab-2" tabindex="0" role="button" aria-label="Lab 2, Room 103" style="animation-delay:0.1s">
-                                    <rect x="35" y="215" width="190" height="165" rx="3"/>
-                                    <!-- SEM / AFM equipment -->
-                                    <circle class="fex-equip fex-equip--lab fex-equip-fill" cx="100" cy="290" r="20"/>
-                                    <rect class="fex-equip fex-equip--lab fex-equip-fill" x="140" y="240" width="50" height="30" rx="2"/>
-                                    <!-- Bench left wall -->
-                                    <rect class="fex-equip fex-equip--lab fex-equip-fill" x="38" y="225" width="10" height="80" rx="1"/>
-                                    <!-- Bench bottom -->
-                                    <rect class="fex-equip fex-equip--lab fex-equip-fill" x="45" y="345" width="110" height="8" rx="1"/>
-                                    <!-- Door arc -->
-                                    <path class="fex-door" d="M 190,380 A 18,18 0 0 1 208,362"/>
-                                    <text class="fex-room__name" x="130" y="295">Lab 2</text>
-                                    <text class="fex-room__num" x="130" y="310">103</text>
+                                    <rect x="35" y="210" width="188" height="176" rx="8"/>
+                                    <text class="fex-room__icon" font-size="36" x="130" y="278">&#xf610;</text>
+                                    <text class="fex-room__name" x="130" y="316">Lab 2</text>
+                                    <text class="fex-room__num" x="130" y="332">Room 103</text>
                                 </g>
 
-                                <!-- ── Lab 1 (102) ── lower left -->
+                                <!-- Lab 1 (102) — lower left -->
                                 <g class="fex-room fex-room--lab" data-room="lab-1" tabindex="0" role="button" aria-label="Lab 1, Room 102" style="animation-delay:0.15s">
-                                    <rect x="35" y="440" width="190" height="210" rx="3"/>
-                                    <!-- Benches top -->
-                                    <rect class="fex-equip fex-equip--lab fex-equip-fill" x="42" y="448" width="130" height="8" rx="1"/>
-                                    <!-- Fume hood left wall -->
-                                    <rect class="fex-equip fex-equip--lab fex-equip-fill" x="38" y="475" width="10" height="90" rx="1"/>
-                                    <!-- Microscope station -->
-                                    <circle class="fex-equip fex-equip--lab fex-equip-fill" cx="155" cy="540" r="16"/>
-                                    <!-- Bench bottom -->
-                                    <rect class="fex-equip fex-equip--lab fex-equip-fill" x="80" y="600" width="80" height="10" rx="1"/>
-                                    <!-- Door arc -->
-                                    <path class="fex-door" d="M 190,440 A 18,18 0 0 0 208,458"/>
-                                    <text class="fex-room__name" x="130" y="535">Lab 1</text>
-                                    <text class="fex-room__num" x="130" y="550">102</text>
+                                    <rect x="35" y="392" width="188" height="254" rx="8"/>
+                                    <text class="fex-room__icon" font-size="40" x="130" y="500">&#xf492;</text>
+                                    <text class="fex-room__name" x="130" y="545">Lab 1</text>
+                                    <text class="fex-room__num" x="130" y="562">Room 102</text>
                                 </g>
 
-                                <!-- ── Storage 112A ── top center-left (above Lab 4) -->
-                                <g class="fex-room fex-room--support" data-room="storage-a" tabindex="0" role="button" aria-label="Storage, Room 112A" style="animation-delay:0.2s">
-                                    <rect x="285" y="58" width="80" height="33" rx="3"/>
-                                    <!-- Shelving -->
-                                    <rect class="fex-equip fex-equip--support fex-equip-fill" x="292" y="63" width="6" height="22" rx="1"/>
-                                    <rect class="fex-equip fex-equip--support fex-equip-fill" x="303" y="63" width="6" height="22" rx="1"/>
-                                    <text class="fex-room__name" x="335" y="73" font-size="7">Storage</text>
-                                    <text class="fex-room__num" x="335" y="83" font-size="7">112A</text>
+                                <!-- Storage 112A — top center -->
+                                <g class="fex-room fex-room--support" data-room="storage-a" tabindex="0" role="button" aria-label="Storage, Room 112A" style="animation-delay:0.18s">
+                                    <rect x="288" y="56" width="85" height="36" rx="6"/>
+                                    <text class="fex-room__name" x="330" y="75" font-size="8">Storage</text>
+                                    <text class="fex-room__num" x="330" y="86" font-size="7">112A</text>
                                 </g>
 
-                                <!-- ── Mother's Room 112 ── top center (above Lab 4) -->
-                                <g class="fex-room fex-room--support" data-room="mothers-room" tabindex="0" role="button" aria-label="Mother's Room, Room 112" style="animation-delay:0.25s">
-                                    <rect x="375" y="58" width="90" height="33" rx="3"/>
-                                    <text class="fex-room__name" x="420" y="72" font-size="7">Mother's</text>
-                                    <text class="fex-room__name" x="420" y="82" font-size="7">Room</text>
-                                    <text class="fex-room__num" x="420" y="90" font-size="6">112</text>
+                                <!-- Mother's Room 112 — top center -->
+                                <g class="fex-room fex-room--support" data-room="mothers-room" tabindex="0" role="button" aria-label="Mother's Room, Room 112" style="animation-delay:0.2s">
+                                    <rect x="379" y="56" width="90" height="36" rx="6"/>
+                                    <text class="fex-room__name" x="424" y="72" font-size="8">Mother's Rm</text>
+                                    <text class="fex-room__num" x="424" y="86" font-size="7">112</text>
                                 </g>
 
-                                <!-- ── Lab 4 / Cleanroom (105) ── center upper -->
-                                <g class="fex-room fex-room--cleanroom" data-room="lab-4" tabindex="0" role="button" aria-label="Lab 4 Cleanroom, Room 105" style="animation-delay:0.3s">
-                                    <rect x="285" y="100" width="210" height="165" rx="3"/>
-                                    <rect x="285" y="100" width="210" height="165" rx="3" fill="url(#fex-hatch)"/>
-                                    <!-- Mask aligner -->
-                                    <rect class="fex-equip fex-equip--cleanroom fex-equip-fill" x="298" y="110" width="40" height="30" rx="2"/>
-                                    <!-- Spin coater -->
-                                    <circle class="fex-equip fex-equip--cleanroom fex-equip-fill" cx="410" cy="135" r="16"/>
-                                    <!-- Sputter system -->
-                                    <rect class="fex-equip fex-equip--cleanroom fex-equip-fill" x="440" y="160" width="35" height="45" rx="2"/>
-                                    <!-- E-Beam evaporator -->
-                                    <rect class="fex-equip fex-equip--cleanroom fex-equip-fill" x="295" y="175" width="70" height="10" rx="1"/>
-                                    <!-- Process bench -->
-                                    <rect class="fex-equip fex-equip--cleanroom fex-equip-fill" x="295" y="150" width="28" height="20" rx="2"/>
-                                    <!-- Door arc -->
-                                    <path class="fex-door" d="M 350,265 A 18,18 0 0 1 368,247"/>
-                                    <text class="fex-room__name" x="390" y="175" font-size="13">Lab 4</text>
-                                    <text class="fex-room__num" x="390" y="192">105</text>
+                                <!-- Lab 4 / Cleanroom (105) — center upper -->
+                                <g class="fex-room fex-room--cleanroom" data-room="lab-4" tabindex="0" role="button" aria-label="Lab 4 Cleanroom, Room 105" style="animation-delay:0.25s">
+                                    <rect x="288" y="98" width="208" height="166" rx="8"/>
+                                    <text class="fex-room__icon" font-size="40" x="392" y="165">&#xf2db;</text>
+                                    <text class="fex-room__name" x="392" y="208" font-size="14">Lab 4</text>
+                                    <text class="fex-room__num" x="392" y="226">Room 105 &middot; Cleanroom</text>
                                 </g>
 
-                                <!-- ── TEM Room (106) ── center -->
-                                <g class="fex-room fex-room--instrument" data-room="tem-room" tabindex="0" role="button" aria-label="TEM Room, Room 106" style="animation-delay:0.35s">
-                                    <rect x="285" y="305" width="180" height="120" rx="3"/>
-                                    <!-- TEM instrument (concentric circles) -->
-                                    <circle class="fex-equip fex-equip--instrument fex-equip-fill" cx="375" cy="365" r="26"/>
-                                    <circle class="fex-equip fex-equip--instrument" cx="375" cy="365" r="13"/>
-                                    <!-- Vibration isolation pad (dashed) -->
-                                    <rect x="342" y="332" width="66" height="66" rx="2" fill="none" stroke="rgba(124,92,191,0.15)" stroke-width="0.8" stroke-dasharray="3,2"/>
-                                    <!-- Sample prep bench -->
-                                    <rect class="fex-equip fex-equip--instrument fex-equip-fill" x="295" y="312" width="36" height="16" rx="1"/>
-                                    <!-- Door arc -->
-                                    <path class="fex-door" d="M 330,300 A 18,18 0 0 0 348,282"/>
-                                    <text class="fex-room__name" x="375" y="358" font-size="10">TEM</text>
-                                    <text class="fex-room__name" x="375" y="372" font-size="10">Room</text>
-                                    <text class="fex-room__num" x="375" y="385">106</text>
+                                <!-- TEM Room (106) — center -->
+                                <g class="fex-room fex-room--instrument" data-room="tem-room" tabindex="0" role="button" aria-label="TEM Room, Room 106" style="animation-delay:0.3s">
+                                    <rect x="288" y="310" width="205" height="110" rx="8"/>
+                                    <text class="fex-room__icon" font-size="34" x="390" y="355">&#xf5d2;</text>
+                                    <text class="fex-room__name" x="390" y="385">TEM Room</text>
+                                    <text class="fex-room__num" x="390" y="400">Room 106</text>
                                 </g>
 
-                                <!-- ── Yellow Light Room (120B) ── upper center-right -->
-                                <g class="fex-room fex-room--cleanroom" data-room="yellow-light" tabindex="0" role="button" aria-label="Yellow Light Room, Room 120B" style="animation-delay:0.4s">
-                                    <rect x="565" y="60" width="110" height="165" rx="3"/>
-                                    <rect x="565" y="60" width="110" height="165" rx="3" fill="url(#fex-hatch)"/>
-                                    <!-- Spin coater -->
-                                    <circle class="fex-equip fex-equip--cleanroom fex-equip-fill" cx="600" cy="100" r="14"/>
-                                    <!-- Hot plates top -->
-                                    <rect class="fex-equip fex-equip--cleanroom fex-equip-fill" x="630" y="75" width="35" height="10" rx="1"/>
-                                    <rect class="fex-equip fex-equip--cleanroom fex-equip-fill" x="630" y="92" width="35" height="10" rx="1"/>
-                                    <!-- Develop station -->
-                                    <rect class="fex-equip fex-equip--cleanroom fex-equip-fill" x="575" y="140" width="45" height="22" rx="2"/>
-                                    <!-- Bench right -->
-                                    <rect class="fex-equip fex-equip--cleanroom fex-equip-fill" x="640" y="130" width="28" height="30" rx="2"/>
-                                    <!-- Door arc -->
-                                    <path class="fex-door" d="M 590,225 A 16,16 0 0 1 606,209"/>
-                                    <text class="fex-room__name" x="620" y="115" font-size="9">Yellow</text>
-                                    <text class="fex-room__name" x="620" y="127" font-size="9">Light</text>
-                                    <text class="fex-room__name" x="620" y="139" font-size="9">Room</text>
-                                    <text class="fex-room__num" x="620" y="152">120B</text>
+                                <!-- Yellow Light Room (120B) — upper center-right -->
+                                <g class="fex-room fex-room--cleanroom" data-room="yellow-light" tabindex="0" role="button" aria-label="Yellow Light Room, Room 120B" style="animation-delay:0.35s">
+                                    <rect x="508" y="56" width="168" height="168" rx="8"/>
+                                    <text class="fex-room__icon" font-size="36" x="592" y="118">&#xf0eb;</text>
+                                    <text class="fex-room__name" x="592" y="155" font-size="11">Yellow Light</text>
+                                    <text class="fex-room__name" x="592" y="170" font-size="11">Room</text>
+                                    <text class="fex-room__num" x="592" y="186">Room 120B</text>
                                 </g>
 
-                                <!-- ── Equipment Room (120A) ── center right -->
-                                <g class="fex-room fex-room--support" data-room="equip-room" tabindex="0" role="button" aria-label="Equipment Room, Room 120A" style="animation-delay:0.45s">
-                                    <rect x="505" y="205" width="150" height="100" rx="3"/>
-                                    <!-- Vacuum pumps -->
-                                    <rect class="fex-equip fex-equip--support fex-equip-fill" x="513" y="215" width="12" height="35" rx="1"/>
-                                    <rect class="fex-equip fex-equip--support fex-equip-fill" x="513" y="258" width="12" height="35" rx="1"/>
-                                    <!-- Gas distribution -->
-                                    <circle class="fex-equip fex-equip--support fex-equip-fill" cx="590" cy="255" r="14"/>
-                                    <circle class="fex-equip fex-equip--support fex-equip-fill" cx="625" cy="255" r="10"/>
-                                    <!-- Chilled water unit -->
-                                    <rect class="fex-equip fex-equip--support fex-equip-fill" x="600" y="215" width="35" height="18" rx="2"/>
-                                    <!-- Door arc -->
-                                    <path class="fex-door" d="M 545,200 A 16,16 0 0 0 561,184"/>
-                                    <text class="fex-room__name" x="580" y="248" font-size="10">Equip.</text>
-                                    <text class="fex-room__name" x="580" y="262" font-size="10">Rm.</text>
-                                    <text class="fex-room__num" x="580" y="275">120A</text>
+                                <!-- Equipment Room (120A) — center -->
+                                <g class="fex-room fex-room--support" data-room="equip-room" tabindex="0" role="button" aria-label="Equipment Room, Room 120A" style="animation-delay:0.38s">
+                                    <rect x="508" y="310" width="140" height="110" rx="8"/>
+                                    <text class="fex-room__icon" font-size="28" x="578" y="350">&#xf085;</text>
+                                    <text class="fex-room__name" x="578" y="382" font-size="10">Equip. Room</text>
+                                    <text class="fex-room__num" x="578" y="396">120A</text>
                                 </g>
 
-                                <!-- ── Flex Space (120) ── upper right -->
-                                <g class="fex-room fex-room--workspace" data-room="flex-space" tabindex="0" role="button" aria-label="Flex Space, Room 120" style="animation-delay:0.5s">
-                                    <rect x="685" y="60" width="300" height="165" rx="3"/>
-                                    <!-- Modular benches top row -->
-                                    <rect class="fex-equip fex-equip--workspace fex-equip-fill" x="700" y="68" width="90" height="10" rx="1"/>
-                                    <rect class="fex-equip fex-equip--workspace fex-equip-fill" x="700" y="85" width="90" height="10" rx="1"/>
-                                    <!-- Equipment block right -->
-                                    <rect class="fex-equip fex-equip--workspace fex-equip-fill" x="900" y="70" width="55" height="40" rx="3"/>
-                                    <!-- Large work table bottom-left -->
-                                    <rect class="fex-equip fex-equip--workspace fex-equip-fill" x="695" y="150" width="60" height="45" rx="2"/>
-                                    <!-- Benches bottom-right -->
-                                    <rect class="fex-equip fex-equip--workspace fex-equip-fill" x="840" y="145" width="80" height="12" rx="1"/>
-                                    <rect class="fex-equip fex-equip--workspace fex-equip-fill" x="840" y="165" width="80" height="12" rx="1"/>
-                                    <!-- Door arc -->
-                                    <path class="fex-door" d="M 685,130 A 18,18 0 0 1 703,112"/>
-                                    <text class="fex-room__name" x="835" y="120" font-size="13">Flex Space</text>
-                                    <text class="fex-room__num" x="835" y="138">120</text>
+                                <!-- Flex Space (120) — upper right -->
+                                <g class="fex-room fex-room--workspace" data-room="flex-space" tabindex="0" role="button" aria-label="Flex Space, Room 120" style="animation-delay:0.4s">
+                                    <rect x="682" y="56" width="304" height="168" rx="8"/>
+                                    <text class="fex-room__icon" font-size="44" x="834" y="120">&#xf31e;</text>
+                                    <text class="fex-room__name" x="834" y="160" font-size="15">Flex Space</text>
+                                    <text class="fex-room__num" x="834" y="178">Room 120</text>
                                 </g>
 
-                                <!-- ── Storage 120C ── middle right -->
-                                <g class="fex-room fex-room--support" data-room="storage-c" tabindex="0" role="button" aria-label="Storage, Room 120C" style="animation-delay:0.55s">
-                                    <rect x="685" y="285" width="180" height="80" rx="3"/>
-                                    <!-- Shelving racks -->
-                                    <rect class="fex-equip fex-equip--support fex-equip-fill" x="695" y="295" width="10" height="55" rx="1"/>
-                                    <rect class="fex-equip fex-equip--support fex-equip-fill" x="712" y="295" width="10" height="55" rx="1"/>
-                                    <rect class="fex-equip fex-equip--support fex-equip-fill" x="729" y="295" width="10" height="55" rx="1"/>
-                                    <!-- Pallet storage -->
-                                    <rect class="fex-equip fex-equip--support fex-equip-fill" x="800" y="295" width="40" height="22" rx="2"/>
-                                    <!-- Door arc -->
-                                    <path class="fex-door" d="M 750,280 A 14,14 0 0 0 764,266"/>
-                                    <text class="fex-room__name" x="780" y="325">Storage</text>
-                                    <text class="fex-room__num" x="780" y="342">120C</text>
+                                <!-- Storage 120C — right middle -->
+                                <g class="fex-room fex-room--support" data-room="storage-c" tabindex="0" role="button" aria-label="Storage, Room 120C" style="animation-delay:0.42s">
+                                    <rect x="682" y="284" width="270" height="86" rx="8"/>
+                                    <text class="fex-room__icon" font-size="26" x="817" y="320">&#xf468;</text>
+                                    <text class="fex-room__name" x="817" y="342">Chemical Storage</text>
+                                    <text class="fex-room__num" x="817" y="358">Room 120C</text>
                                 </g>
 
-                                <!-- ── Janitor (110) ── center below corridor -->
-                                <g class="fex-room fex-room--support" data-room="janitor" tabindex="0" role="button" aria-label="Janitorial, Room 110" style="animation-delay:0.6s">
-                                    <rect x="315" y="435" width="110" height="90" rx="3"/>
-                                    <!-- Cleaning supplies / shelving -->
-                                    <rect class="fex-equip fex-equip--support fex-equip-fill" x="322" y="443" width="8" height="60" rx="1"/>
-                                    <rect class="fex-equip fex-equip--support fex-equip-fill" x="336" y="443" width="8" height="60" rx="1"/>
-                                    <!-- Sink -->
-                                    <rect class="fex-equip fex-equip--support fex-equip-fill" x="380" y="443" width="25" height="15" rx="2"/>
-                                    <!-- Door arc -->
-                                    <path class="fex-door" d="M 385,430 A 14,14 0 0 0 399,416"/>
-                                    <text class="fex-room__name" x="370" y="483">Janitor</text>
-                                    <text class="fex-room__num" x="370" y="498">110</text>
+                                <!-- Janitor (110) — lower center-left -->
+                                <g class="fex-room fex-room--support" data-room="janitor" tabindex="0" role="button" aria-label="Janitorial, Room 110" style="animation-delay:0.45s">
+                                    <rect x="288" y="438" width="116" height="90" rx="8"/>
+                                    <text class="fex-room__icon" font-size="22" x="346" y="472">&#xf51a;</text>
+                                    <text class="fex-room__name" x="346" y="498" font-size="10">Janitorial</text>
+                                    <text class="fex-room__num" x="346" y="514">110</text>
                                 </g>
 
-                                <!-- ── Mechanical (111) ── bottom center-left -->
-                                <g class="fex-room fex-room--support" data-room="mech" tabindex="0" role="button" aria-label="Mechanical Room, Room 111" style="animation-delay:0.65s">
-                                    <rect x="285" y="545" width="140" height="105" rx="3"/>
-                                    <!-- HVAC unit (with fan circle) -->
-                                    <rect class="fex-equip fex-equip--support fex-equip-fill" x="298" y="558" width="50" height="40" rx="3"/>
-                                    <circle class="fex-equip fex-equip--support" cx="323" cy="578" r="13"/>
-                                    <!-- Compressor / pump -->
-                                    <rect class="fex-equip fex-equip--support fex-equip-fill" x="365" y="558" width="42" height="30" rx="2"/>
-                                    <!-- Piping run -->
-                                    <rect class="fex-equip fex-equip--support fex-equip-fill" x="298" y="615" width="100" height="12" rx="1"/>
-                                    <!-- Downward arrows (ventilation) -->
-                                    <line class="fex-equip fex-equip--support" x1="335" y1="635" x2="335" y2="650" stroke-width="1.5"/>
-                                    <line class="fex-equip fex-equip--support" x1="330" y1="645" x2="335" y2="650" stroke-width="1.5"/>
-                                    <line class="fex-equip fex-equip--support" x1="340" y1="645" x2="335" y2="650" stroke-width="1.5"/>
-                                    <line class="fex-equip fex-equip--support" x1="360" y1="635" x2="360" y2="650" stroke-width="1.5"/>
-                                    <line class="fex-equip fex-equip--support" x1="355" y1="645" x2="360" y2="650" stroke-width="1.5"/>
-                                    <line class="fex-equip fex-equip--support" x1="365" y1="645" x2="360" y2="650" stroke-width="1.5"/>
-                                    <text class="fex-room__name" x="355" y="600">Mech.</text>
-                                    <text class="fex-room__num" x="355" y="614">111</text>
+                                <!-- Mechanical (111) — bottom center -->
+                                <g class="fex-room fex-room--support" data-room="mech" tabindex="0" role="button" aria-label="Mechanical Room, Room 111" style="animation-delay:0.48s">
+                                    <rect x="288" y="534" width="116" height="112" rx="8"/>
+                                    <text class="fex-room__icon" font-size="26" x="346" y="575">&#xf863;</text>
+                                    <text class="fex-room__name" x="346" y="608" font-size="10">Mechanical</text>
+                                    <text class="fex-room__num" x="346" y="624">111</text>
                                 </g>
 
-                                <!-- ── Electrical (114) ── lower center -->
-                                <g class="fex-room fex-room--support" data-room="elect" tabindex="0" role="button" aria-label="Electrical Room, Room 114" style="animation-delay:0.7s">
-                                    <rect x="505" y="435" width="110" height="90" rx="3"/>
-                                    <!-- Electrical panels -->
-                                    <rect class="fex-equip fex-equip--support fex-equip-fill" x="515" y="443" width="26" height="55" rx="1"/>
-                                    <line class="fex-equip fex-equip--support" x1="523" y1="453" x2="533" y2="453"/>
-                                    <line class="fex-equip fex-equip--support" x1="523" y1="463" x2="533" y2="463"/>
-                                    <line class="fex-equip fex-equip--support" x1="523" y1="473" x2="533" y2="473"/>
-                                    <line class="fex-equip fex-equip--support" x1="523" y1="483" x2="533" y2="483"/>
-                                    <!-- Second panel -->
-                                    <rect class="fex-equip fex-equip--support fex-equip-fill" x="555" y="443" width="26" height="55" rx="1"/>
-                                    <!-- Door arc -->
-                                    <path class="fex-door" d="M 555,430 A 14,14 0 0 0 569,416"/>
-                                    <text class="fex-room__name" x="560" y="478">Elect.</text>
-                                    <text class="fex-room__num" x="560" y="493">114</text>
+                                <!-- Electrical (114) — lower center -->
+                                <g class="fex-room fex-room--support" data-room="elect" tabindex="0" role="button" aria-label="Electrical Room, Room 114" style="animation-delay:0.5s">
+                                    <rect x="410" y="438" width="112" height="90" rx="8"/>
+                                    <text class="fex-room__icon" font-size="22" x="466" y="472">&#xf0e7;</text>
+                                    <text class="fex-room__name" x="466" y="498" font-size="10">Electrical</text>
+                                    <text class="fex-room__num" x="466" y="514">114</text>
                                 </g>
 
-                                <!-- ── I.T. (115) ── bottom center -->
-                                <g class="fex-room fex-room--support" data-room="it" tabindex="0" role="button" aria-label="IT Room, Room 115" style="animation-delay:0.75s">
-                                    <rect x="505" y="560" width="110" height="90" rx="3"/>
-                                    <!-- Server racks -->
-                                    <rect class="fex-equip fex-equip--support fex-equip-fill" x="515" y="570" width="14" height="40" rx="1"/>
-                                    <rect class="fex-equip fex-equip--support fex-equip-fill" x="535" y="570" width="14" height="40" rx="1"/>
-                                    <rect class="fex-equip fex-equip--support fex-equip-fill" x="555" y="570" width="14" height="40" rx="1"/>
-                                    <!-- Network switch / UPS -->
-                                    <rect class="fex-equip fex-equip--support fex-equip-fill" x="520" y="622" width="60" height="16" rx="2"/>
-                                    <!-- Door arc -->
-                                    <path class="fex-door" d="M 550,555 A 14,14 0 0 0 564,541"/>
-                                    <text class="fex-room__name" x="560" y="600">I.T.</text>
-                                    <text class="fex-room__num" x="560" y="615">115</text>
+                                <!-- I.T. (115) — bottom center -->
+                                <g class="fex-room fex-room--support" data-room="it" tabindex="0" role="button" aria-label="IT Room, Room 115" style="animation-delay:0.52s">
+                                    <rect x="410" y="534" width="112" height="112" rx="8"/>
+                                    <text class="fex-room__icon" font-size="24" x="466" y="575">&#xf233;</text>
+                                    <text class="fex-room__name" x="466" y="608" font-size="10">I.T. Room</text>
+                                    <text class="fex-room__num" x="466" y="624">115</text>
                                 </g>
 
-                                <!-- ── Open Work Area (113) ── lower right -->
-                                <g class="fex-room fex-room--workspace" data-room="open-work" tabindex="0" role="button" aria-label="Open Work Area, Room 113" style="animation-delay:0.8s">
-                                    <rect x="655" y="435" width="315" height="215" rx="3"/>
-                                    <!-- Workstation desks (2 rows of 3) -->
-                                    <rect class="fex-equip fex-equip--workspace fex-equip-fill" x="675" y="450" width="36" height="25" rx="2"/>
-                                    <rect class="fex-equip fex-equip--workspace fex-equip-fill" x="720" y="450" width="36" height="25" rx="2"/>
-                                    <rect class="fex-equip fex-equip--workspace fex-equip-fill" x="765" y="450" width="36" height="25" rx="2"/>
-                                    <rect class="fex-equip fex-equip--workspace fex-equip-fill" x="675" y="490" width="36" height="25" rx="2"/>
-                                    <rect class="fex-equip fex-equip--workspace fex-equip-fill" x="720" y="490" width="36" height="25" rx="2"/>
-                                    <rect class="fex-equip fex-equip--workspace fex-equip-fill" x="765" y="490" width="36" height="25" rx="2"/>
-                                    <!-- Meeting table -->
-                                    <rect class="fex-equip fex-equip--workspace fex-equip-fill" x="860" y="460" width="70" height="50" rx="4"/>
-                                    <!-- Printer/copier -->
-                                    <rect class="fex-equip fex-equip--workspace fex-equip-fill" x="905" y="570" width="30" height="22" rx="2"/>
-                                    <!-- Bench along bottom -->
-                                    <rect class="fex-equip fex-equip--workspace fex-equip-fill" x="675" y="600" width="180" height="10" rx="1"/>
-                                    <!-- Door arc -->
-                                    <path class="fex-door" d="M 655,500 A 20,20 0 0 1 675,480"/>
-                                    <text class="fex-room__name" x="810" y="545" font-size="13">Open Work</text>
-                                    <text class="fex-room__name" x="810" y="562" font-size="13">Area</text>
-                                    <text class="fex-room__num" x="810" y="578">113</text>
+                                <!-- Open Work Area (113) — lower right -->
+                                <g class="fex-room fex-room--workspace" data-room="open-work" tabindex="0" role="button" aria-label="Open Work Area, Room 113" style="animation-delay:0.55s">
+                                    <rect x="660" y="376" width="326" height="270" rx="8"/>
+                                    <text class="fex-room__icon" font-size="48" x="823" y="480">&#xf108;</text>
+                                    <text class="fex-room__name" x="823" y="540" font-size="15">Open Work Area</text>
+                                    <text class="fex-room__num" x="823" y="560">Room 113</text>
                                 </g>
 
                             </g>
 
-                            <!-- ═══ OCCUPANCY CIRCLES (from blueprint) ═══ -->
-                            <g class="fex-occ">
-                                <!-- Lab 3: 13 -->
-                                <circle cx="105" cy="175" r="10"/><text x="105" y="175">13</text>
-                                <!-- Lab 2: 13 -->
-                                <circle cx="105" cy="350" r="10"/><text x="105" y="350">13</text>
-                                <!-- Lab 1: 13 -->
-                                <circle cx="105" cy="580" r="10"/><text x="105" y="580">13</text>
-                                <!-- Lab 4: 9.7 -->
-                                <circle cx="420" cy="230" r="10"/><text x="420" y="230">9.7</text>
-                                <!-- TEM Room: 9.7 -->
-                                <circle cx="370" cy="400" r="10"/><text x="370" y="400">9.7</text>
-                                <!-- Yellow Light: 13 -->
-                                <circle cx="620" cy="180" r="10"/><text x="620" y="180">13</text>
-                                <!-- Equip Rm: 1.9 -->
-                                <circle cx="580" cy="280" r="10"/><text x="580" y="280">1.9</text>
-                                <!-- Flex Space: 64 (large value) -->
-                                <circle cx="770" cy="170" r="12"/><text x="770" y="170">64</text>
-                                <!-- Storage 120C: 0.2 -->
-                                <circle cx="780" cy="335" r="10"/><text x="780" y="335">0.2</text>
-                                <!-- Janitor: 0.4 -->
-                                <circle cx="370" cy="505" r="10"/><text x="370" y="505">0.4</text>
-                                <!-- Mech: 0.1 (at bottom) -->
-                                <circle cx="355" cy="640" r="10"/><text x="355" y="640">0.1</text>
-                                <!-- Elect: 0.8 -->
-                                <circle cx="560" cy="505" r="10"/><text x="560" y="505">0.8</text>
-                                <!-- IT: 0.8 -->
-                                <circle cx="560" cy="630" r="10"/><text x="560" y="630">0.8</text>
-                                <!-- Open Work Area: 19.3 -->
-                                <circle cx="810" cy="610" r="10"/><text x="810" y="610">19.3</text>
-                            </g>
-
-                            <!-- ═══ STAIRWELL (annex lower-right) ═══ -->
+                            <!-- ═══ STAIRWELL ═══ -->
                             <g class="fex-stairwell">
-                                <rect x="1000" y="495" width="165" height="200" rx="3"/>
-                                <text x="1082" y="600">Stairwell</text>
-                                <!-- Stair treads -->
-                                <line x1="1020" y1="520" x2="1145" y2="520"/>
-                                <line x1="1020" y1="537" x2="1145" y2="537"/>
-                                <line x1="1020" y1="554" x2="1145" y2="554"/>
-                                <line x1="1020" y1="571" x2="1145" y2="571"/>
-                                <line x1="1020" y1="588" x2="1145" y2="588"/>
-                                <line x1="1020" y1="605" x2="1145" y2="605"/>
-                                <line x1="1020" y1="622" x2="1145" y2="622"/>
-                                <line x1="1020" y1="639" x2="1145" y2="639"/>
-                                <line x1="1020" y1="656" x2="1145" y2="656"/>
-                                <line x1="1020" y1="673" x2="1145" y2="673"/>
-                            </g>
-
-                            <!-- ═══ EXIT MARKERS (TXD) ═══ -->
-                            <g class="fex-exits">
-                                <!-- TXD-1: far left wall, mid-height of Lab 3 -->
-                                <g class="fex-exit" transform="translate(32, 150)">
-                                    <line x1="-6" y1="-6" x2="6" y2="6"/><line x1="6" y1="-6" x2="-6" y2="6"/>
-                                    <text class="fex-exit__label" x="0" y="17">TXD-1</text>
-                                    <text class="fex-exit__label" x="0" y="26" font-size="5.5">39'-6"</text>
-                                </g>
-                                <!-- TXD-2: top wall between Lab 4 and Yellow Light -->
-                                <g class="fex-exit" transform="translate(530, 57)">
-                                    <line x1="-6" y1="-6" x2="6" y2="6"/><line x1="6" y1="-6" x2="-6" y2="6"/>
-                                    <text class="fex-exit__label" x="0" y="-10">TXD-2</text>
-                                    <text class="fex-exit__label" x="0" y="-3" font-size="5.5">90'-1"</text>
-                                </g>
-                                <!-- TXD-3: top wall at right edge of Yellow Light -->
-                                <g class="fex-exit" transform="translate(678, 57)">
-                                    <line x1="-6" y1="-6" x2="6" y2="6"/><line x1="6" y1="-6" x2="-6" y2="6"/>
-                                    <text class="fex-exit__label" x="-2" y="-10">TXD-3</text>
-                                    <text class="fex-exit__label" x="-2" y="-3" font-size="5.5">90'-1"</text>
-                                </g>
-                                <!-- TXD-4: far right wall -->
-                                <g class="fex-exit" transform="translate(988, 100)">
-                                    <line x1="-6" y1="-6" x2="6" y2="6"/><line x1="6" y1="-6" x2="-6" y2="6"/>
-                                    <text class="fex-exit__label" x="18" y="0">TXD-4</text>
-                                    <text class="fex-exit__label" x="18" y="9" font-size="5.5">91'-0"</text>
-                                </g>
-                            </g>
-
-                            <!-- ═══ FEC MARKERS ═══ -->
-                            <g class="fex-fec">
-                                <!-- FEC near Lab 3 bottom -->
-                                <g><rect x="188" y="192" width="18" height="10" rx="1.5"/><text x="197" y="213">FEC</text></g>
-                                <!-- FEC on corridor wall near Lab 2 top -->
-                                <g><rect x="235" y="250" width="18" height="10" rx="1.5"/><text x="244" y="272">FEC</text></g>
-                                <!-- FEC on corridor wall near Lab 2 mid -->
-                                <g><rect x="235" y="310" width="18" height="10" rx="1.5"/><text x="244" y="332">FEC</text></g>
-                                <!-- FEC on corridor wall near Lab 2/Lab 1 -->
-                                <g><rect x="235" y="375" width="18" height="10" rx="1.5"/><text x="244" y="397">FEC</text></g>
-                                <!-- FEC below Lab 1 area -->
-                                <g><rect x="235" y="595" width="18" height="10" rx="1.5"/><text x="244" y="617">FEC</text></g>
-                                <!-- FEC near Open Work Area -->
-                                <g><rect x="930" y="610" width="18" height="10" rx="1.5"/><text x="939" y="632">FEC</text></g>
-                                <!-- FEC above Lab 4 -->
-                                <g><rect x="415" y="82" width="18" height="10" rx="1.5"/><text x="424" y="79">FEC</text></g>
-                            </g>
-
-                            <!-- ═══ DIMENSION LINES ═══ -->
-                            <g class="fex-dim">
-                                <!-- Bottom dimension: 80' -->
-                                <line x1="280" y1="670" x2="430" y2="670"/>
-                                <line x1="280" y1="665" x2="280" y2="675"/>
-                                <line x1="430" y1="665" x2="430" y2="675"/>
-                                <text x="355" y="682">80'</text>
-                                <!-- Bottom dimension: 12' -->
-                                <line x1="430" y1="670" x2="465" y2="670"/>
-                                <line x1="465" y1="665" x2="465" y2="675"/>
-                                <text x="448" y="682">12'</text>
-                                <!-- Right dimension: 14' -->
-                                <line x1="900" y1="680" x2="900" y2="700"/>
-                                <text x="908" y="688" text-anchor="start" font-size="6">14'</text>
-                                <!-- Right dimension: 19' -->
-                                <line x1="900" y1="700" x2="900" y2="720"/>
-                                <text x="908" y="712" text-anchor="start" font-size="6">19'</text>
-                            </g>
-
-                            <!-- ═══ TITLE BLOCK ═══ -->
-                            <g class="fex-title-block" transform="translate(30, 722)">
-                                <rect x="0" y="0" width="220" height="26" rx="2"/>
-                                <line x1="20" y1="0" x2="20" y2="26" stroke="#002454" stroke-width="1"/>
-                                <text class="fex-title-block__id" x="10" y="14" text-anchor="middle">1</text>
-                                <text class="fex-title-block__sub" x="10" y="23" text-anchor="middle" font-size="4.5">G101</text>
-                                <text class="fex-title-block__main" x="27" y="13">FIRST FLOOR LIFE SAFETY PLAN</text>
-                                <text class="fex-title-block__scale" x="27" y="22">1/8" = 1'-0"</text>
-                            </g>
-
-                            <!-- ═══ NORTH ARROW ═══ -->
-                            <g class="fex-north" transform="translate(1140, 720)">
-                                <circle cx="0" cy="0" r="14" fill="none" stroke="#002454" stroke-width="1.5"/>
-                                <text class="fex-north__letter" x="0" y="-20">N</text>
-                                <path d="M 0,-12 L 5,4 L 0,-4 L -5,4 Z" fill="#002454"/>
-                                <line x1="-12" y1="0" x2="12" y2="0" stroke="#002454" stroke-width="1"/>
-                                <line x1="0" y1="-12" x2="0" y2="12" stroke="#002454" stroke-width="1"/>
-                            </g>
-
-                            <!-- ═══ SCALE BAR ═══ -->
-                            <g class="fex-scale" transform="translate(1040, 740)">
-                                <line x1="0" y1="0" x2="80" y2="0"/>
-                                <line x1="0" y1="-4" x2="0" y2="4"/>
-                                <line x1="40" y1="-3" x2="40" y2="3"/>
-                                <line x1="80" y1="-4" x2="80" y2="4"/>
-                                <text x="0" y="12">0</text>
-                                <text x="80" y="12">10 ft</text>
-                            </g>
-
-                            <!-- ═══ REF MARKER (near stairwell) ═══ -->
-                            <g class="fex-ref" transform="translate(960, 620)">
-                                <rect x="-14" y="-7" width="28" height="14" rx="2"/>
-                                <text x="0" y="4">REF</text>
-                            </g>
-
-                            <!-- ═══ ADDITIONAL OCCUPANCY (from blueprint) ═══ -->
-                            <g class="fex-occ">
-                                <!-- Occupancy 60 near bottom dimension -->
-                                <circle cx="355" cy="695" r="10"/><text x="355" y="695">60</text>
-                                <!-- Occupancy 94 near stairwell -->
-                                <circle cx="900" cy="715" r="10"/><text x="900" y="715">94</text>
-                                <!-- Storage 112A: 0.1 -->
-                                <circle cx="325" cy="80" r="8"/><text x="325" y="80" font-size="6.5">0.1</text>
-                                <!-- Mother's Room: 0.4 -->
-                                <circle cx="420" cy="80" r="8"/><text x="420" y="80" font-size="6.5">0.4</text>
-                            </g>
-
-                            <!-- ═══ DOOR GAPS (wall openings) ═══ -->
-                            <g class="fex-door-gaps" opacity="0.35">
-                                <!-- Lab 3 door gap on south wall -->
-                                <line x1="185" y1="208" x2="215" y2="208" stroke="#4a7cc5" stroke-width="2.5"/>
-                                <!-- Lab 2 door gap on south wall -->
-                                <line x1="185" y1="383" x2="215" y2="383" stroke="#4a7cc5" stroke-width="2.5"/>
-                                <!-- Lab 1 door gap on north wall -->
-                                <line x1="185" y1="440" x2="215" y2="440" stroke="#4a7cc5" stroke-width="2"/>
-                                <!-- Lab 4 door gap on south wall -->
-                                <line x1="345" y1="268" x2="375" y2="268" stroke="#c9a227" stroke-width="2"/>
-                                <!-- TEM Room door gap on north wall -->
-                                <line x1="325" y1="298" x2="355" y2="298" stroke="#7c5cbf" stroke-width="2"/>
-                                <!-- Equip Rm door gap on north wall -->
-                                <line x1="540" y1="198" x2="570" y2="198" stroke="#8a8d95" stroke-width="2"/>
-                                <!-- Yellow Light door gap on south wall -->
-                                <line x1="585" y1="228" x2="615" y2="228" stroke="#c9a227" stroke-width="2"/>
-                                <!-- Flex Space door gap on left wall -->
-                                <line x1="683" y1="125" x2="683" y2="155" stroke="#3a8f5c" stroke-width="2"/>
-                                <!-- Janitor door gap on top wall -->
-                                <line x1="380" y1="428" x2="405" y2="428" stroke="#8a8d95" stroke-width="2"/>
-                                <!-- Elect door gap on top wall -->
-                                <line x1="550" y1="428" x2="575" y2="428" stroke="#8a8d95" stroke-width="2"/>
-                                <!-- IT door gap -->
-                                <line x1="545" y1="553" x2="570" y2="553" stroke="#8a8d95" stroke-width="2"/>
-                                <!-- Open Work Area door gap -->
-                                <line x1="648" y1="475" x2="648" y2="505" stroke="#3a8f5c" stroke-width="2"/>
+                                <rect x="998" y="496" width="166" height="198"/>
+                                <text class="fex-stair-icon" x="1081" y="580">&#xf54b;</text>
+                                <text x="1081" y="620">Stairs</text>
                             </g>
 
                         </svg>
@@ -1183,9 +711,9 @@
                         <!-- Mini-map overlay -->
                         <div class="fex__minimap" id="fex-minimap">
                             <svg viewBox="0 0 1200 760" xmlns="http://www.w3.org/2000/svg">
-                                <rect width="1200" height="760" fill="#f8f9fb"/>
-                                <path d="M 30,55 L 990,55 L 990,490 L 1170,490 L 1170,700 L 890,700 L 890,655 L 30,655 Z"
-                                      fill="#e8eaef" stroke="#002454" stroke-width="4"/>
+                                <rect width="1200" height="760" fill="#faf8f4"/>
+                                <path d="M 30,50 L 992,50 L 992,490 L 1170,490 L 1170,700 L 992,700 L 992,650 L 30,650 Z"
+                                      fill="#ede9df" stroke="#002454" stroke-width="4"/>
                                 <rect class="fex__minimap-vp" id="fex-minimap-vp"
                                       x="0" y="0" width="1200" height="760"/>
                             </svg>
@@ -1265,7 +793,7 @@
                 capacity: 13, sqft: '~380 sq ft'
             },
             'equip-room': {
-                name: 'Equipment Room', number: 'Room 120A', type: 'Support', typeClass: 'support',
+                name: 'Equipment Room', number: 'Room 120A', type: 'Support Systems', typeClass: 'support',
                 icon: 'fas fa-cogs',
                 desc: 'Houses vacuum pumps, gas distribution panels, and support systems that serve cleanroom instruments. Temperature controlled with emergency gas shutoff capability.',
                 features: ['Vacuum Pumps', 'Gas Distribution', 'Chilled Water', 'Emergency Shutoff'],
@@ -1279,7 +807,7 @@
                 capacity: 64, sqft: '~600 sq ft'
             },
             'storage-c': {
-                name: 'Chemical Storage', number: 'Room 120C', type: 'Storage', typeClass: 'support',
+                name: 'Chemical Storage', number: 'Room 120C', type: 'Hazmat Storage', typeClass: 'support',
                 icon: 'fas fa-boxes-stacked',
                 desc: 'Chemical and supply storage with proper ventilation, secondary containment, and inventory management for lab consumables and hazardous materials.',
                 features: ['Ventilated Cabinets', 'Spill Containment', 'Inventory System'],
@@ -1375,7 +903,7 @@
                 '<div class="fex__panel-features-title">Key Features &amp; Equipment</div>' +
                 '<ul class="fex__panel-features">' + fl + '</ul>' +
                 '<div class="fex__panel-meta">' +
-                    '<div class="fex__panel-meta-item"><div class="fex__panel-meta-label">Occupancy</div><div class="fex__panel-meta-value">' + d.capacity + '</div></div>' +
+                    '<div class="fex__panel-meta-item"><div class="fex__panel-meta-label">Capacity</div><div class="fex__panel-meta-value">' + d.capacity + '</div></div>' +
                     '<div class="fex__panel-meta-item"><div class="fex__panel-meta-label">Area</div><div class="fex__panel-meta-value">' + d.sqft + '</div></div>' +
                 '</div>';
 
@@ -1521,7 +1049,6 @@
             applyTransform();
         });
 
-        // Mouse wheel zoom
         viewport.addEventListener('wheel', function (e) {
             e.preventDefault();
             var delta = e.deltaY > 0 ? -0.1 : 0.1;
@@ -1530,7 +1057,6 @@
             applyTransform();
         }, { passive: false });
 
-        // Pan via drag (only when zoomed in)
         viewport.addEventListener('mousedown', function (e) {
             if (scale <= 1 || e.target.closest('.fex-room')) return;
             isDragging = true;
