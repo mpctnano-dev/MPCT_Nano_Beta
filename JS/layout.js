@@ -121,42 +121,8 @@ class SiteHeader extends HTMLElement {
                                         </div>
                                     </a>
 
-                                    <a href="${basePath}Research_Publications.html" class="nav-dropdown-link"
-                                        data-path="Research_Publications.html" role="menuitem">
-                                        <div class="nav-dropdown-icon">
-                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-                                            </svg>
-                                        </div>
-                                        <div class="nav-dropdown-text">
-                                            <strong>Research &amp; Publications</strong>
-                                            <small>Lab output &amp; papers</small>
-                                        </div>
-                                    </a>
-
-                                    <a href="${basePath}Lab_Calendar.html" class="nav-dropdown-link"
-                                        data-path="Lab_Calendar.html" role="menuitem">
-                                        <div class="nav-dropdown-icon">
-                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                                                <line x1="16" y1="2" x2="16" y2="6"></line>
-                                                <line x1="8" y1="2" x2="8" y2="6"></line>
-                                                <line x1="3" y1="10" x2="21" y2="10"></line>
-                                            </svg>
-                                        </div>
-                                        <div class="nav-dropdown-text">
-                                            <strong>Lab Calendar</strong>
-                                            <small>Schedule &amp; events</small>
-                                        </div>
-                                    </a>
-
-                                    <a href="${basePath}Safety_Training.html" class="nav-dropdown-link"
-                                        data-path="Safety_Training.html" role="menuitem">
+                                    <div class="nav-dropdown-link nav-dropdown-link--disabled"
+                                        role="menuitem" aria-disabled="true">
                                         <div class="nav-dropdown-icon">
                                             <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
                                                 stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -166,10 +132,10 @@ class SiteHeader extends HTMLElement {
                                             </svg>
                                         </div>
                                         <div class="nav-dropdown-text">
-                                            <strong>Safety &amp; Training</strong>
+                                            <strong>Safety &amp; Training <span class="nav-soon-badge">Soon</span></strong>
                                             <small>Certifications &amp; SOPs</small>
                                         </div>
-                                    </a>
+                                    </div>
 
                                     <a href="${basePath}services.html" class="nav-dropdown-link"
                                         data-path="services.html" role="menuitem">
@@ -222,9 +188,9 @@ class SiteHeader extends HTMLElement {
                             </svg>
                         </button>
 
-                        <div class="nav-mega-panel" role="menu" aria-label="Degree Programs navigation">
+                        <div class="nav-mega-panel nav-mega-panel--narrow" role="menu" aria-label="Degree Programs navigation">
                             <div class="nav-mega-inner">
-                                <div class="nav-dropdown-grid">
+                                <div class="nav-dropdown-grid nav-dropdown-grid--single">
 
                                     <a href="${basePath}degree-programs.html" class="nav-dropdown-link"
                                         data-path="degree-programs.html" role="menuitem">
@@ -270,25 +236,7 @@ class SiteHeader extends HTMLElement {
                                         </div>
                                         <div class="nav-dropdown-text">
                                             <strong>Labs</strong>
-                                            <small>Research & teaching labs</small>
-                                        </div>
-                                    </a>
-
-                                    <a href="${basePath}degree-programs-grid.html" class="nav-dropdown-link"
-                                        data-path="degree-programs-grid.html" role="menuitem">
-                                        <div class="nav-dropdown-icon">
-                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                                <rect x="3" y="3" width="7" height="7"></rect>
-                                                <rect x="14" y="3" width="7" height="7"></rect>
-                                                <rect x="14" y="14" width="7" height="7"></rect>
-                                                <rect x="3" y="14" width="7" height="7"></rect>
-                                            </svg>
-                                        </div>
-                                        <div class="nav-dropdown-text">
-                                            <strong>Degree Catalog</strong>
-                                            <small>Browse all programs</small>
+                                            <small>Research &amp; teaching labs</small>
                                         </div>
                                     </a>
 
@@ -308,9 +256,9 @@ class SiteHeader extends HTMLElement {
                             </svg>
                         </button>
 
-                        <div class="nav-mega-panel" role="menu" aria-label="Workforce Development navigation">
+                        <div class="nav-mega-panel nav-mega-panel--narrow" role="menu" aria-label="Workforce Development navigation">
                             <div class="nav-mega-inner">
-                                <div class="nav-dropdown-grid">
+                                <div class="nav-dropdown-grid nav-dropdown-grid--single">
 
                                     <a href="${basePath}WorkForceDevelopment.html" class="nav-dropdown-link"
                                         data-path="WorkForceDevelopment.html" role="menuitem">
@@ -345,22 +293,6 @@ class SiteHeader extends HTMLElement {
                                     </a>
 
 
-
-                                    <a href="${basePath}WorkForceDevelopment.html#industry" class="nav-dropdown-link"
-                                        data-path="WorkForceDevelopment.html" role="menuitem">
-                                        <div class="nav-dropdown-icon">
-                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                                                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-                                            </svg>
-                                        </div>
-                                        <div class="nav-dropdown-text">
-                                            <strong>Industry Partnerships</strong>
-                                            <small>Sponsored research &amp; co-ops</small>
-                                        </div>
-                                    </a>
 
                                     <a href="${basePath}CareerPathways.html" class="nav-dropdown-link"
                                         data-path="CareerPathways.html" role="menuitem">
