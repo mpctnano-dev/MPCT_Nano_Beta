@@ -623,39 +623,53 @@
                         <div class="sr-form-body">
                             <form id="printingForm" class="sr-form" novalidate>
 
-                                <!-- Section 1: Client Info -->
+                                <!-- Section 1: Client & Affiliation -->
                                 <div class="sr-section">
-                                    <h3 class="sr-section-title">1. About You</h3>
+                                    <h3 class="sr-section-title">1. Client & Affiliation</h3>
 
                                     <div class="sr-row">
                                         <div class="sr-group">
-                                            <label class="sr-label" for="p-fname">Full Name <span
+                                            <label class="sr-label" for="p-fname">First Name <span
                                                     class="text-gold">*</span></label>
-                                            <input type="text" id="p-fname" name="name" class="sr-input" required
-                                                placeholder="Dr. Jane Doe">
+                                            <input type="text" id="p-fname" name="first_name" class="sr-input" required
+                                                placeholder="Jane">
                                         </div>
                                         <div class="sr-group">
-                                            <label class="sr-label" for="p-email">Email <span
+                                            <label class="sr-label" for="p-lname">Last Name <span
                                                     class="text-gold">*</span></label>
-                                            <input type="email" id="p-email" name="email" class="sr-input" required
-                                                placeholder="jane.doe@nau.edu">
+                                            <input type="text" id="p-lname" name="last_name" class="sr-input" required
+                                                placeholder="Doe">
                                         </div>
                                     </div>
 
                                     <div class="sr-row">
                                         <div class="sr-group">
-                                            <label class="sr-label" for="p-affiliation">I am a… <span
+                                            <label class="sr-label" for="p-email">Email Address <span
+                                                    class="text-gold">*</span></label>
+                                            <input type="email" id="p-email" name="email" class="sr-input" required
+                                                placeholder="jane.doe@nau.edu">
+                                        </div>
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="p-phone">Phone Number</label>
+                                            <input type="tel" id="p-phone" name="phone" class="sr-input"
+                                                placeholder="(555) 123-4567">
+                                        </div>
+                                    </div>
+
+                                    <div class="sr-row">
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="p-affiliation">Client Affiliation <span
                                                     class="text-gold">*</span></label>
                                             <select id="p-affiliation" name="affiliation" class="sr-select" required>
-                                                <option value="" disabled selected>Select one…</option>
-                                                <option value="internal">NAU Student or Faculty</option>
-                                                <option value="external_academic">Researcher at Another University
-                                                </option>
-                                                <option value="industry">Industry / Company</option>
+                                                <option value="" disabled selected>Select type…</option>
+                                                <option value="internal_research">NAU Internal Researcher/Faculty</option>
+                                                <option value="internal_student">NAU Student</option>
+                                                <option value="external_academic">External Academic / Institute</option>
+                                                <option value="commercial">Industry / Commercial</option>
                                             </select>
                                         </div>
                                         <div class="sr-group">
-                                            <label class="sr-label" for="p-dept">Department / Organization <span
+                                            <label class="sr-label" for="p-dept">Organization / Department <span
                                                     class="text-gold">*</span></label>
                                             <input type="text" id="p-dept" name="department" class="sr-input" required
                                                 placeholder="e.g. Mechanical Engineering">
@@ -663,9 +677,46 @@
                                     </div>
                                 </div>
 
-                                <!-- Section 2: Print Details -->
+                                <!-- Section 2: Project Overview -->
                                 <div class="sr-section">
-                                    <h3 class="sr-section-title">2. Your Print</h3>
+                                    <h3 class="sr-section-title">2. Project Overview</h3>
+
+                                    <div class="sr-row">
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="p-title">Project Title <span
+                                                    class="text-gold">*</span></label>
+                                            <input type="text" id="p-title" name="project_title" class="sr-input"
+                                                required>
+                                        </div>
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="p-appcat">Application Category <span
+                                                    class="text-gold">*</span></label>
+                                            <select id="p-appcat" name="application_category" class="sr-select" required>
+                                                <option value="" disabled selected>Select primary use…</option>
+                                                <option value="prototype">Prototype Development</option>
+                                                <option value="functional">Functional Part</option>
+                                                <option value="research">Educational / Research</option>
+                                                <option value="art">Art & Custom Design</option>
+                                                <option value="medical">Medical / Prosthetics</option>
+                                                <option value="tooling">Tooling / Fixtures</option>
+                                                <option value="other">Other</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="sr-group full">
+                                        <label class="sr-label" for="p-abstract">Project Abstract / End Goal <span
+                                                class="text-gold">*</span></label>
+                                        <span class="sr-note">Describe what you are trying to achieve with this print
+                                            request.</span>
+                                        <textarea id="p-abstract" name="project_abstract" class="sr-textarea" rows="3"
+                                            required></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- Section 3: Print Details -->
+                                <div class="sr-section">
+                                    <h3 class="sr-section-title">3. Print Details</h3>
 
                                     <div class="sr-file-upload" onclick="document.getElementById('p-file').click()">
                                         <i class="fas fa-cloud-upload-alt"></i>
@@ -709,9 +760,9 @@
                                     </div>
                                 </div>
 
-                                <!-- Section 3: Delivery & Notes -->
+                                <!-- Section 4: Delivery & Notes -->
                                 <div class="sr-section">
-                                    <h3 class="sr-section-title">3. Delivery & Notes</h3>
+                                    <h3 class="sr-section-title">4. Delivery & Notes</h3>
 
                                     <div class="sr-row">
                                         <div class="sr-group">
@@ -724,8 +775,9 @@
                                                     class="text-gold">*</span></label>
                                             <select id="p-delivery" name="delivery" class="sr-select" required>
                                                 <option value="" disabled selected>Select…</option>
-                                                <option value="pickup">I'll pick it up (free)</option>
-                                                <option value="ship">Ship it to me</option>
+                                                <option value="pickup">Lab Pickup (free)</option>
+                                                <option value="campus_mail">Campus Mail</option>
+                                                <option value="ship">Ship to Address</option>
                                             </select>
                                         </div>
                                     </div>
