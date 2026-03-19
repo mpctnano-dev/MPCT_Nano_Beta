@@ -18,6 +18,21 @@ function scrollGrid(amount) {
     }
 }
 
+// =============================================================================
+// HERO PAGE HEADER — suppress gradient bar + box-shadow under site-header
+// Applies on index.html and MPaCT.html where a full-bleed hero makes the
+// gradient line look detached/floating. Add or remove paths from the array
+// below to control which pages get the suppression.
+// =============================================================================
+(function () {
+    const heroPages = ['index.html', 'MPaCT.html', ''];   // '' = domain root
+    const currentPage = window.location.pathname.split('/').pop();
+    if (heroPages.includes(currentPage)) {
+        const header = document.getElementById('mainHeader');
+        if (header) header.classList.add('site-header--hero-page');
+    }
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
     // -------------------------------------------------------------------------
     // Sticky Header Logic
@@ -844,22 +859,3 @@ if (searchInput) {
 buildSearchSuggestions();
 applyFilters();
 
-// -------------------------------------------------------------------------
-// Hero Divider: Re-trigger animations on bfcache restore
-// The iMPaCT brand elements (.hd-i, .hd-mpact-mask) start at opacity:0
-// and use one-shot 'forwards' animations to appear. On back/forward
-// navigation the browser may restore from bfcache without replaying
-// those animations, leaving the divider invisible.
-// -------------------------------------------------------------------------
-window.addEventListener('pageshow', (event) => {
-    if (event.persisted) {
-        const animatedEls = document.querySelectorAll('.hd-i, .hd-mpact-mask');
-        animatedEls.forEach(el => {
-            const saved = el.style.animation;
-            el.style.animation = 'none';
-            // Force reflow so the browser acknowledges the reset
-            void el.offsetWidth;
-            el.style.animation = saved || '';
-        });
-    }
-});
