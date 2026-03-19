@@ -254,6 +254,11 @@
             background: rgba(0, 36, 84, 0.04);
         }
 
+        .cp-tree-root-btn.active {
+            background: rgba(0, 36, 84, 0.1);
+            box-shadow: inset 0 0 0 1px rgba(0, 36, 84, 0.12);
+        }
+
         .cp-tree-root-btn .cp-tree-icon {
             width: 32px;
             height: 32px;
@@ -1068,6 +1073,105 @@
         }
     
 .cp-header-link:hover { text-decoration: underline !important; opacity: 0.9; }
+
+        /* ========== DATA CITATION / DISCLAIMER ========== */
+        .cp-citation {
+            padding: 28px 32px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-top: 1px solid #e2e8f0;
+            border-bottom-left-radius: 18px;
+            border-bottom-right-radius: 18px;
+        }
+
+        .cp-citation__header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .cp-citation__icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(0, 36, 84, 0.08), rgba(250, 192, 26, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: var(--nau-blue, #002454);
+            flex-shrink: 0;
+        }
+
+        .cp-citation__title {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--nau-blue, #002454);
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+
+        .cp-citation__body {
+            font-size: 0.78rem;
+            line-height: 1.7;
+            color: #64748b;
+        }
+
+        .cp-citation__body p {
+            margin: 0 0 10px;
+        }
+
+        .cp-citation__body p:last-child {
+            margin-bottom: 0;
+        }
+
+        .cp-citation__body a {
+            color: var(--nau-blue, #002454);
+            text-decoration: underline;
+            text-decoration-color: rgba(0, 36, 84, 0.25);
+            text-underline-offset: 2px;
+            font-weight: 600;
+            transition: text-decoration-color 0.2s;
+        }
+
+        .cp-citation__body a:hover {
+            text-decoration-color: var(--nau-blue, #002454);
+        }
+
+        .cp-citation__sources {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .cp-citation__badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            background: white;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .cp-citation__badge:hover {
+            border-color: var(--nau-blue, #002454);
+            color: var(--nau-blue, #002454);
+            box-shadow: 0 2px 8px rgba(0, 36, 84, 0.08);
+        }
+
+        .cp-citation__badge i {
+            font-size: 0.65rem;
+            color: var(--nau-gold-dark, #b8860b);
+        }
 </style>
 </head>
 <body>
@@ -1195,7 +1299,7 @@
 <div class="cp-stat-label">Credit Hours</div>
 </div>
 <div class="cp-stat-card grad-gold">
-<div class="cp-stat-num">$82K</div>
+<div class="cp-stat-num">$93K</div>
 <div class="cp-stat-label">Median Starting Salary</div>
 </div>
 <div class="cp-stat-card grad-green">
@@ -1271,8 +1375,10 @@
 </div>
 <div class="cp-advantage">
 <h4><i class="fas fa-star"></i> NAU Advantage</h4>
-<p>Computer Engineering students gain hands-on access to Xilinx FPGA boards, ARM Cortex
-                                    development kits, and NAU's state-of-the-art MPaCT cleanroom. Top employers include
+<p>Computer Engineering students gain hands-on access to FPGA development boards, ARM Cortex
+                                    development kits, and the MPaCT cleanroom for semiconductor fabrication research.
+                                    The program emphasizes digital design, microcontrollers, and computing systems.
+                                    Top employers include
                                     Raytheon, Northrop Grumman, General Dynamics, Hewlett Packard Enterprise, and
                                     L3Harris.</p>
 </div>
@@ -1294,7 +1400,7 @@
 <div class="cp-stat-label">Credit Hours</div>
 </div>
 <div class="cp-stat-card grad-gold">
-<div class="cp-stat-num">$74K</div>
+<div class="cp-stat-num">$80K</div>
 <div class="cp-stat-label">Median Starting Salary</div>
 </div>
 <div class="cp-stat-card grad-green">
@@ -1364,10 +1470,10 @@
 </div>
 <div class="cp-advantage">
 <h4><i class="fas fa-star"></i> NAU Advantage</h4>
-<p>Ranked #168 nationally and #3 in Arizona by
-                                        College Factual. 75% of graduates employed or in further
-                                        education within 6 months. Experiential learning through internships,
-                                        capstones, and undergraduate research. Graduates hired by Fast Enterprises, Procter
+<p>The Computer Science curriculum combines strong theoretical foundations with
+                                        practical application through internships, capstones, and undergraduate research.
+                                        Specializations span software development, cybersecurity, AI/ML, and cloud computing.
+                                        Graduates are hired by Fast Enterprises, Procter
                                         &amp; Gamble, HPE, and Arizona tech firms.</p>
 </div>
 </div>
@@ -1464,9 +1570,10 @@
 <div class="cp-advantage">
 <h4><i class="fas fa-star"></i> NAU Advantage</h4>
 <p>EE students work directly with semiconductor fabrication equipment in NAU's MPaCT
-                                    cleanroom, gaining practical experience with photolithography, thin-film deposition,
-                                    and metrology tools. The program prepares graduates for Arizona's booming
-                                    semiconductor sector with employers like TSMC, Arizona Public Service, and L3Harris.
+                                    cleanroom — a $13M shared-use facility with 25+ advanced instruments.
+                                    The program covers analog and digital microelectronics, power systems,
+                                    communications, and embedded technologies. The program prepares graduates for Arizona's growing
+                                    semiconductor sector, supporting employers like TSMC, Arizona Public Service, and L3Harris.
                                 </p>
 </div>
 </div>
@@ -1564,10 +1671,10 @@
 </div>
 <div class="cp-advantage">
 <h4><i class="fas fa-star"></i> NAU Advantage</h4>
-<p>Engineering Technology students complete a capstone project in collaboration with
-                                    industry partners, building real-world experience and professional networks. The
+<p>Engineering Technology students complete a one-semester capstone project in collaboration with
+                                    industry partners, providing job preparation and networking opportunities. The
                                     Semiconductor Fabrication emphasis provides specialized training for the electronics
-                                    and semiconductor industry, directly relevant to Arizona's growing fab ecosystem.
+                                    and semiconductor industry. Flexible pathways include the 90-30 option for Pima Community College transfers.
                                 </p>
 </div>
 </div>
@@ -1662,10 +1769,10 @@
 <div class="cp-advantage">
 <h4><i class="fas fa-star"></i> NAU Advantage</h4>
 <p>Strong core in thermodynamics, fluid
-                                        sciences, solid mechanics, and energy systems. 70% of graduates employed or in further
-                                        education within 6 months. Industry capstone projects with real-world
-                                        engineering challenges. Graduates hired by Kiewit, Procter &amp;
-                                        Gamble, Ames Construction, and defense contractors.</p>
+                                        sciences, solid mechanics, and energy systems. Emphasis on experiential learning
+                                        through internships, research, and industry capstone projects with real-world
+                                        engineering challenges. Graduates are hired by Procter
+                                        &amp; Gamble, defense contractors, and Arizona engineering firms.</p>
 </div>
 </div>
 </div>
@@ -1685,7 +1792,7 @@
 <div class="cp-stat-label">Credit Hours</div>
 </div>
 <div class="cp-stat-card grad-gold">
-<div class="cp-stat-num">$95K</div>
+<div class="cp-stat-num">$85K</div>
 <div class="cp-stat-label">Median Starting Salary</div>
 </div>
 <div class="cp-stat-card grad-green">
@@ -1759,9 +1866,9 @@
 <h4><i class="fas fa-star"></i> NAU Advantage</h4>
 <p>Interdisciplinary program integrating
                                         mechanical, electrical, computer, and control systems. Hands-on design, construction, and operation
-                                        of automated systems and robots. Directly relevant to semiconductor wafer
-                                        handling automation and manufacturing systems. Growing demand: robotics engineer roles
-                                        projected to increase faster than average.</p>
+                                        of robotic and mechatronic systems including autonomous vehicles, drones, and automated assembly lines.
+                                        Applicable to semiconductor manufacturing automation. BLS projects robotics-related roles
+                                        to grow faster than average through 2034.</p>
 </div>
 </div>
 </div>
@@ -1874,8 +1981,20 @@
 <!-- Semiconductor Metrology -->
 <!-- Short Courses & Workshops -->
 <!-- Industry Partnerships -->
-<div id="salary-disclaimer" style="padding: 24px 32px; background: #fffcf0; border-top: 1px solid #fdf5d3; color: #6b7280; font-size: 0.8rem; line-height: 1.5; border-bottom-left-radius: 18px; border-bottom-right-radius: 18px;">
-<em>Disclaimer: The median salary figures featured above are generalized estimations based on the latest available market data, historical NAU alumni statistics, and recent industry job postings. Real-world starting salaries may fluctuate actively based on geographic location, prior experience, and prevailing macroeconomic trends.</em>
+<div class="cp-citation" id="salary-disclaimer">
+    <div class="cp-citation__header">
+        <div class="cp-citation__icon"><i class="fas fa-shield-alt"></i></div>
+        <div class="cp-citation__title">Data Sources & Disclaimer</div>
+    </div>
+    <div class="cp-citation__body">
+        <p>Salary ranges and median starting salary figures are sourced from the <a href="https://www.bls.gov/oes/" target="_blank" rel="noopener">U.S. Bureau of Labor Statistics (BLS)</a> Occupational Employment & Wage Statistics (May 2024), the <a href="https://www.onetonline.org/" target="_blank" rel="noopener">O*NET</a> program (sponsored by USDOL/ETA), and <a href="https://www.salary.com/" target="_blank" rel="noopener">Salary.com</a> compensation data (2025–2026). Core skills reflect the most frequently required qualifications observed across current job postings and O*NET assessments (2024–2026). All figures represent national estimates; actual compensation varies by location, employer, and experience.</p>
+    </div>
+    <div class="cp-citation__sources">
+        <a class="cp-citation__badge" href="https://www.bls.gov/ooh/" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> BLS Occupational Outlook (2024)</a>
+        <a class="cp-citation__badge" href="https://www.onetonline.org/" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> O*NET OnLine (2024–2026)</a>
+        <a class="cp-citation__badge" href="https://www.bls.gov/oes/current/oes_nat.htm" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> BLS OES May 2024</a>
+        <a class="cp-citation__badge" href="https://www.salary.com/" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> Salary.com (March 2026)</a>
+    </div>
 </div>
 </div>
 </div>
@@ -2151,31 +2270,84 @@
 <!-- Tree-View Interaction -->
 <script>
         (function () {
+            const leaves = Array.from(document.querySelectorAll('.cp-tree-leaf'));
+            const roots = Array.from(document.querySelectorAll('.cp-tree-root'));
+
+            function activateRoot(rootName) {
+                roots.forEach(root => {
+                    const rootBtn = root.querySelector('.cp-tree-root-btn');
+                    const isTarget = rootBtn?.dataset.root === rootName;
+                    if (rootBtn) rootBtn.classList.toggle('active', isTarget);
+                    root.classList.toggle('is-open', isTarget);
+                });
+            }
+
+            function showPanel(panelKey) {
+                const panelId = 'panel-' + panelKey;
+                const target = document.getElementById(panelId);
+                if (!target) return;
+
+                document.querySelectorAll('.cp-tree-leaf.active').forEach(l => l.classList.remove('active'));
+                leaves.forEach(leaf => {
+                    leaf.classList.toggle('active', leaf.dataset.panel === panelKey);
+                });
+
+                document.querySelectorAll('.cp-panel.active').forEach(p => p.classList.remove('active'));
+                target.classList.add('active');
+            }
+
+            function setRootOnly(rootName) {
+                activateRoot(rootName);
+                document.querySelectorAll('.cp-tree-leaf.active').forEach(l => l.classList.remove('active'));
+                document.querySelectorAll('.cp-panel.active').forEach(p => p.classList.remove('active'));
+                const welcome = document.getElementById('panel-welcome');
+                if (welcome) welcome.classList.add('active');
+            }
+
+            function applyHashSelection() {
+                const hash = (window.location.hash || '').toLowerCase();
+
+                if (hash === '#professional-development' || hash === '#professional') {
+                    activateRoot('professional');
+                    showPanel('ptap');
+                    return;
+                }
+
+                if (hash === '#degree-programs' || hash === '#degrees' || hash === '#career-tracks') {
+                    activateRoot('degrees');
+                    showPanel('ce');
+                    return;
+                }
+            }
+
             // Root node expand/collapse
             document.querySelectorAll('.cp-tree-root-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const root = btn.closest('.cp-tree-root');
+                    const rootName = btn.dataset.root;
+                    if (!rootName) return;
+
+                    if (!btn.classList.contains('active')) {
+                        activateRoot(rootName);
+                        return;
+                    }
+
                     root.classList.toggle('is-open');
                 });
             });
 
             // Leaf node → switch panel
-            document.querySelectorAll('.cp-tree-leaf').forEach(leaf => {
+            leaves.forEach(leaf => {
                 leaf.addEventListener('click', () => {
-                    const panelId = 'panel-' + leaf.dataset.panel;
-                    const target = document.getElementById(panelId);
-                    if (!target) return;
-
-                    // Deactivate all leaves
-                    document.querySelectorAll('.cp-tree-leaf.active').forEach(l => l.classList.remove('active'));
-                    // Activate clicked leaf
-                    leaf.classList.add('active');
-
-                    // Switch panels
-                    document.querySelectorAll('.cp-panel.active').forEach(p => p.classList.remove('active'));
-                    target.classList.add('active');
+                    const panelKey = leaf.dataset.panel;
+                    const rootName = leaf.closest('.cp-tree-root')?.querySelector('.cp-tree-root-btn')?.dataset.root;
+                    if (rootName) activateRoot(rootName);
+                    if (panelKey) showPanel(panelKey);
                 });
             });
+
+            applyHashSelection();
+            window.addEventListener('hashchange', applyHashSelection);
         })();
     </script>
 </body>
