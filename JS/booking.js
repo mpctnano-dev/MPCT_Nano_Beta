@@ -1,0 +1,893 @@
+/* ==========================================================================
+   booking.js — Equipment Booking Page Logic
+   NAU Nano Core / MPCT_Nano_Beta
+   Handles: equipment data loading, dynamic form fields, validation,
+            URL pre-selection, and form submission.
+   ========================================================================== */
+
+(function () {
+    'use strict';
+
+    /* ===================================================================
+       CONSTANTS
+    =================================================================== */
+
+    /** Equipment IDs that are educational-only and cannot be booked */
+    const EDUCATIONAL_IDS = ['EQ-001', 'EQ-002', 'EQ-003', 'EQ-004', 'EQ-025', 'EQ-040'];
+
+    /** Equipment that has bookable accessories */
+    const ACCESSORIES = {
+        'EQ-006': ['3D Scanner'],
+        'EQ-020': ['LPKF MultiPress S', 'LPKF Electroplater', 'LPKF Pick & Place', 'LPKF Reflow Oven', 'Wave Solder'],
+        'EQ-037': ['Backscattered Detector', 'Electron Biprism'],
+    };
+
+    /** Material / process restrictions for specific machines */
+    const MATERIAL_WARNINGS = {
+        'EQ-012': 'Haas Desktop Lathe: Soft materials only (brass, plastics, wax). Hard metals and steel are strictly prohibited.',
+        'EQ-013': 'Haas Desktop Mill: Plastics and wax only. No aluminum, steel, or hardened materials.',
+    };
+
+    /** Equipment IDs that expose the cryogenic cooling checkbox */
+    const CRYO_EQUIPMENT = ['EQ-036'];
+
+    /**
+     * Equipment billing rates — maps equipment ID to { unit, internal, external }.
+     * Values are in USD. `null` means TBD / not yet published.
+     * Unit is the billing period (e.g. 'hour', 'sample', 'run').
+     * Update these values as rates are finalized in Rates.html.
+     */
+    const EQUIPMENT_RATES = {
+        // ---- Electrical ----
+        'EQ-009': { unit: 'hour', internal: null, external: null },  // CSZ Environmental Chamber
+        'EQ-014': { unit: 'hour', internal: null, external: null },  // Keithley 2110
+        'EQ-018': { unit: 'hour', internal: null, external: null },  // Keysight Impedance Analyzer
+        'EQ-021': { unit: 'hour', internal: null, external: null },  // Montana CryoAdvance 50
+        'EQ-022': { unit: 'hour', internal: null, external: null },  // MPI TS200 Probe Station
+        'EQ-028': { unit: 'hour', internal: null, external: null },  // Seebeck
+        'EQ-032': { unit: 'hour', internal: null, external: null },  // Tektronix AFG
+        'EQ-033': { unit: 'hour', internal: null, external: null },  // Tektronix Oscilloscope
+        'EQ-039': { unit: 'hour', internal: null, external: null },  // VNA
+        // ---- Fabrication ----
+        'EQ-006': { unit: 'hour', internal: null, external: null },  // Bambu H2D
+        'EQ-012': { unit: 'hour', internal: null, external: null },  // Haas Desktop Lathe
+        'EQ-013': { unit: 'hour', internal: null, external: null },  // Haas Desktop Mill
+        'EQ-020': { unit: 'hour', internal: null, external: null },  // LPKF ProtoLaser
+        'EQ-023': { unit: 'hour', internal: null, external: null },  // NIL Technology
+        'EQ-031': { unit: 'hour', internal: null, external: null },  // SUSS Mask Aligner
+        'EQ-038': { unit: 'hour', internal: null, external: null },  // Tresky Die Bonder
+        'EQ-041': { unit: 'hour', internal: null, external: null },  // West-Bond Wire Bonder
+        // ---- Metrology ----
+        'EQ-005': { unit: 'hour', internal: null, external: null },  // AFM
+        'EQ-007': { unit: 'hour', internal: null, external: null },  // SmartVacPrep
+        'EQ-008': { unit: 'hour', internal: null, external: null },  // TriStar II Plus
+        'EQ-010': { unit: 'hour', internal: null, external: null },  // Ellipsometer
+        'EQ-011': { unit: 'hour', internal: null, external: null },  // Fluke Calibrator
+        'EQ-015': { unit: 'hour', internal: null, external: null },  // Keyence VHX-7000
+        'EQ-016': { unit: 'hour', internal: null, external: null },  // Keyence VK-X3000
+        'EQ-017': { unit: 'hour', internal: null, external: null },  // Keyence XM-5000
+        'EQ-026': { unit: 'hour', internal: null, external: null },  // PL Spectrometer
+        'EQ-027': { unit: 'hour', internal: null, external: null },  // SEM
+        'EQ-029': { unit: 'hour', internal: null, external: null },  // SIMS
+        'EQ-030': { unit: 'hour', internal: null, external: null },  // SLM
+        'EQ-037': { unit: 'hour', internal: null, external: null },  // TEM
+        'EQ-042': { unit: 'hour', internal: null, external: null },  // XRD
+        // ---- Sample Prep ----
+        'EQ-034': { unit: 'hour', internal: null, external: null },  // Dimple Grinder
+        'EQ-035': { unit: 'hour', internal: null, external: null },  // Disc Grinder
+        'EQ-036': { unit: 'hour', internal: null, external: null },  // Ion Beam Mill
+        // ---- Support Systems ----
+        'EQ-019': { unit: 'hour', internal: null, external: null },  // LN2 Generator
+    };
+
+    /** Maps duration select values to numeric hours for cost calculation */
+    const DURATION_HOURS = {
+        '30min':     0.5,
+        '1hr':       1,
+        '2hr':       2,
+        '4hr':       4,
+        'full_day':  8,
+        'multi_day': null, // cannot calculate — show note
+    };
+
+    /* ===================================================================
+       OPERATING MODES  (4 modes per equipment, sourced from About pages)
+    =================================================================== */
+    const OPERATING_MODES = {
+        // ---- Metrology ----
+        'EQ-005': ['Contact Mode', 'Tapping Mode', 'Force Spectroscopy', 'Phase Imaging'],
+        'EQ-007': ['Vacuum Degassing', 'Flow Degassing', 'Bake-Out Pretreatment', 'Multi-Port Batch Processing'],
+        'EQ-008': ['BET Surface Area', 'Adsorption Isotherm', 'Micro / Mesopore Analysis', 'Vapor Sorption'],
+        'EQ-010': ['Spectroscopic Scan', 'Variable-Angle Measurement', 'Mapping Mode', 'In-Situ Monitoring'],
+        'EQ-011': ['Gauge Calibration', 'Differential Calibration', 'Transducer Verification', 'Linearity Check'],
+        'EQ-015': ['High-Magnification Imaging', 'Wide-Area Inspection', 'Measurement & Analysis', 'Documentation / Report'],
+        'EQ-016': ['Laser Confocal', 'Focus Variation', 'White-Light Interferometry', 'Spectral Interference'],
+        'EQ-017': ['Touch Probing', '3D Laser Scanning', 'Comparative Measurement', 'GD&T Analysis'],
+        'EQ-026': ['Steady-State PL Spectra', 'TCSPC Lifetime Measurement', 'MCS Phosphorescence', 'Anisotropy Measurement'],
+        'EQ-027': ['Secondary Electron Imaging', 'Backscatter Imaging', 'EDS Analysis', 'Low-Vacuum Mode'],
+        'EQ-029': ['Dynamic SIMS Profiling', 'Static SIMS', 'SNMS Mode', 'EQP Plasma Analysis'],
+        'EQ-030': ['Video Input Mode', 'Static Pattern Mode', 'CGH / Diffraction', 'Trigger Output Mode'],
+        'EQ-037': ['TEM Imaging (BF / DF)', 'STEM-HAADF', 'EDS Analysis', 'EELS'],
+        'EQ-042': ['Powder XRD (\u03b8-2\u03b8)', 'Grazing Incidence XRD', 'X-Ray Reflectivity (XRR)', 'Texture / Pole Figures'],
+        // ---- Electrical ----
+        'EQ-009': ['Temperature Cycling', 'Humidity Control', 'Steady-State Soak', 'Programmable Profiles'],
+        'EQ-014': ['DC / AC Voltage & Current', 'Resistance & Continuity', 'Frequency & Period', 'Temperature (Thermocouple)'],
+        'EQ-018': ['LCR Frequency Sweep', 'DC Bias Sweep', 'Equivalent Circuit Analysis', 'Limit Line Test'],
+        'EQ-021': ['Electrical Transport', 'Optical Spectroscopy', 'Quantum Characterization', 'Automated Temperature Cycling'],
+        'EQ-022': ['DC Probing', 'RF Probing', 'mmW Probing', 'Thermal Probing (up to 300 \u00b0C)'],
+        'EQ-028': ['Seebeck Coefficient', 'Resistivity (4-Terminal)', 'High-Resistance Option', 'Thin-Film Adapter Mode'],
+        'EQ-032': ['Standard Waveform Output', 'Arbitrary Waveform Output', 'Dual-Channel Mode', 'Frequency Counter'],
+        'EQ-033': ['Time-Domain Viewing', 'Triggering & Gating', 'Automated Measurements', 'USB Data Capture'],
+        'EQ-039': ['Frequency Sweep (S-Parameters)', 'Time-Domain Analysis', 'Calibration & De-Embedding', 'Port Extension'],
+        // ---- Fabrication ----
+        'EQ-006': ['Single-Extrusion Printing', 'Dual-Extrusion (Multi-Material)', 'AMS-Assisted Printing', 'Laser / Cutting Module'],
+        'EQ-012': ['Facing', 'Turning', 'Grooving', 'Educational G-Code Programming'],
+        'EQ-013': ['Face Milling', 'Contour Milling', 'Drilling / Pocketing', '2.5D Profiling'],
+        'EQ-020': ['Trace Structuring', 'Via Drilling', 'Contour Routing', 'Fiducial Marking'],
+        'EQ-023': ['Thermal NIL', 'UV NIL', 'Hot Embossing', 'Vacuum Imprint'],
+        'EQ-031': ['Soft Contact', 'Hard Contact', 'Vacuum Contact', 'Proximity / Gap'],
+        'EQ-038': ['Manual Pick & Place', 'Epoxy Bonding', 'Eutectic Bonding', 'Flip-Chip Assembly'],
+        'EQ-041': ['Ball-Wedge Bonding', 'Manual XYZ Control', 'Stitch Bonding', 'Programmable Logic'],
+        // ---- Sample Prep ----
+        'EQ-034': ['Single-Sided Dimpling', 'Double-Sided Dimpling', 'Depth-Controlled Dimpling', 'Final Prep (pre-ion mill)'],
+        'EQ-035': ['Coarse Grinding', 'Fine Grinding', 'Thickness Control', 'Platen Transfer (to Model 200)'],
+        'EQ-036': ['High-Energy Milling', 'Low-Energy Polishing', 'Double-Sided Milling', 'Automated Recipes'],
+        // ---- Support Systems ----
+        'EQ-019': ['LN\u2082 Dispensing', 'Storage / Inventory Management', 'Transfer Operations', 'Generator Production Mode'],
+    };
+
+    /* ===================================================================
+       CATEGORY-SPECIFIC DYNAMIC FIELD TEMPLATES
+    =================================================================== */
+    const CATEGORY_FIELDS = {
+        'Metrology': `
+            <div class="pf__row--2col">
+                <div class="pf__group">
+                    <label class="pf__label">Sample Type <span class="pf__req">*</span></label>
+                    <select name="sample_type" class="pf__select" required>
+                        <option value="" disabled selected>Select type\u2026</option>
+                        <option value="thin_film">Thin Film / Coating</option>
+                        <option value="wafer">Wafer</option>
+                        <option value="bulk">Bulk Solid</option>
+                        <option value="powder">Powder</option>
+                        <option value="liquid">Liquid / Solution</option>
+                        <option value="biological">Biological</option>
+                        <option value="device">Packaged Device</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <span class="pf__error" id="err_sample_type">Please select a sample type.</span>
+                </div>
+                <div class="pf__group">
+                    <label class="pf__label">Sample Dimensions</label>
+                    <input type="text" name="sample_dimensions" class="pf__input"
+                        placeholder="e.g. 10 mm \u00d7 10 mm \u00d7 0.5 mm">
+                </div>
+            </div>
+            <div class="pf__row--2col">
+                <div class="pf__group">
+                    <label class="pf__label">Conductivity (if relevant)</label>
+                    <select name="sample_conductivity" class="pf__select">
+                        <option value="" selected>Not applicable</option>
+                        <option value="conductive">Conductive</option>
+                        <option value="non_conductive">Non-Conductive</option>
+                        <option value="coated">Sputter-Coated</option>
+                        <option value="semiconductor">Semiconductor</option>
+                    </select>
+                </div>
+                <div class="pf__group bk-checkbox-mid">
+                    <label class="pf__checkbox-label">
+                        <input type="checkbox" name="vacuum_compatible" class="pf__checkbox" value="yes">
+                        Sample is vacuum compatible
+                    </label>
+                </div>
+            </div>`,
+
+        'Electrical': `
+            <div class="pf__row">
+                <div class="pf__group">
+                    <label class="pf__label">Device / DUT Description <span class="pf__req">*</span></label>
+                    <input type="text" name="dut_description" class="pf__input" required
+                        placeholder="e.g. GaN HEMT on SiC substrate, 5 \u00d7 5 mm die">
+                    <span class="pf__error" id="err_dut_description">Please describe your device or DUT.</span>
+                </div>
+            </div>
+            <div class="pf__row--2col">
+                <div class="pf__group">
+                    <label class="pf__label">Temperature Requirements</label>
+                    <input type="text" name="temperature_requirements" class="pf__input"
+                        placeholder="e.g. RT only, or 4\u00a0K \u2013 300\u00a0K sweep">
+                </div>
+                <div class="pf__group">
+                    <label class="pf__label">Atmosphere / Environment</label>
+                    <select name="atmosphere_requirements" class="pf__select">
+                        <option value="ambient" selected>Ambient (air)</option>
+                        <option value="inert">Inert Gas (N\u2082 / Ar)</option>
+                        <option value="vacuum">Vacuum</option>
+                        <option value="reducing">Reducing Atmosphere</option>
+                    </select>
+                </div>
+            </div>`,
+
+        'Fabrication': `
+            <div class="pf__row--2col">
+                <div class="pf__group">
+                    <label class="pf__label">Material / Substrate Type <span class="pf__req">*</span></label>
+                    <input type="text" name="material_type" class="pf__input" required
+                        placeholder="e.g. FR-4, silicon wafer, PLA filament, polyimide">
+                    <span class="pf__error" id="err_material_type">Please specify your material or substrate.</span>
+                </div>
+                <div class="pf__group">
+                    <label class="pf__label">Material Dimensions</label>
+                    <input type="text" name="material_dimensions" class="pf__input"
+                        placeholder="e.g. 150\u00a0mm wafer, 100 \u00d7 100\u00a0mm board">
+                </div>
+            </div>
+            <div class="pf__row">
+                <div class="pf__group">
+                    <label class="pf__label">Consumables / Special Materials Needed</label>
+                    <input type="text" name="consumables_needed" class="pf__input"
+                        placeholder="e.g. positive photoresist, 25\u00a0\u00b5m Au wire, epoxy adhesive, PLA filament color">
+                </div>
+            </div>
+            <div id="materialWarningBanner" class="bk-field-warning" style="display:none;"></div>`,
+
+        'Sample Prep': `
+            <div class="pf__row--2col">
+                <div class="pf__group">
+                    <label class="pf__label">Specimen Material <span class="pf__req">*</span></label>
+                    <input type="text" name="specimen_material" class="pf__input" required
+                        placeholder="e.g. Silicon, GaAs, stainless steel">
+                    <span class="pf__error" id="err_specimen_material">Please specify the specimen material.</span>
+                </div>
+                <div class="pf__group">
+                    <label class="pf__label">Specimen Dimensions</label>
+                    <input type="text" name="specimen_dimensions" class="pf__input"
+                        placeholder="e.g. 3\u00a0mm disc, 10\u00a0mm \u00d7 5\u00a0mm">
+                </div>
+            </div>
+            <div class="pf__row--2col">
+                <div class="pf__group">
+                    <label class="pf__label">Target Final Thickness</label>
+                    <input type="text" name="target_thickness" class="pf__input"
+                        placeholder="e.g. &lt;\u00a0100\u00a0nm for TEM electron transparency">
+                </div>
+                <div class="pf__group">
+                    <label class="pf__label">Processing Type</label>
+                    <select name="processing_type" class="pf__select">
+                        <option value="single_sided">Single-Sided</option>
+                        <option value="double_sided">Double-Sided</option>
+                    </select>
+                </div>
+            </div>
+            <div id="cryoCoolingRow" class="pf__row" style="display:none;">
+                <div class="pf__group">
+                    <label class="pf__checkbox-label">
+                        <input type="checkbox" name="cryogenic_cooling" class="pf__checkbox" value="yes">
+                        Cryogenic LN\u2082 cooling required (Ion Beam Mill only)
+                    </label>
+                    <span class="pf__helper">LN\u2082 cooling minimizes amorphization during milling. Requires advance scheduling.</span>
+                </div>
+            </div>`,
+
+        'Support Systems': `
+            <div class="pf__row--2col">
+                <div class="pf__group">
+                    <label class="pf__label">Quantity / Volume Needed <span class="pf__req">*</span></label>
+                    <input type="text" name="quantity_needed" class="pf__input" required
+                        placeholder="e.g. 5 liters, 1 dewar fill">
+                    <span class="pf__error" id="err_quantity_needed">Please specify the quantity required.</span>
+                </div>
+                <div class="pf__group">
+                    <label class="pf__label">Container Type</label>
+                    <input type="text" name="container_type" class="pf__input"
+                        placeholder="e.g. 4\u00a0L personal dewar, transfer vessel">
+                </div>
+            </div>`,
+    };
+
+    /* ===================================================================
+       STATE
+    =================================================================== */
+    let equipmentData = [];
+    let isEducationalMode = false;
+
+    /* ===================================================================
+       INIT
+    =================================================================== */
+    document.addEventListener('DOMContentLoaded', async () => {
+        await loadEquipmentData();
+        populateCategoryDropdown();
+        readUrlParams();
+        bindEvents();
+    });
+
+    /* ===================================================================
+       DATA LOADING
+    =================================================================== */
+    async function loadEquipmentData() {
+        try {
+            const res = await fetch('equipment.json', { cache: 'no-store' });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const data = await res.json();
+            // Keep all equipment; tag educational ones with a virtual category
+            equipmentData = (data.equipment || []).map(item => {
+                if (EDUCATIONAL_IDS.includes(item.id)) {
+                    return Object.assign({}, item, { category: 'Educational' });
+                }
+                return item;
+            });
+        } catch (e) {
+            console.error('booking.js: failed to load equipment.json', e);
+        }
+    }
+
+    /* ===================================================================
+       CATEGORY DROPDOWN
+    =================================================================== */
+    function populateCategoryDropdown() {
+        const catSel = document.getElementById('bkCategory');
+        if (!catSel) return;
+        const cats = [...new Set(equipmentData.map(i => i.category))].sort();
+        cats.forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c;
+            opt.textContent = c;
+            catSel.appendChild(opt);
+        });
+    }
+
+    /* ===================================================================
+       EQUIPMENT DROPDOWN
+    =================================================================== */
+    function populateEquipmentDropdown(category) {
+        const eqSel = document.getElementById('bkEquipment');
+        if (!eqSel) return;
+        eqSel.innerHTML = '<option value="" disabled selected>-- Select Equipment --</option>';
+
+        const filtered = category
+            ? equipmentData.filter(i => i.category === category)
+            : equipmentData;
+
+        [...filtered].sort((a, b) => a.name.localeCompare(b.name)).forEach(item => {
+            const opt = document.createElement('option');
+            opt.value = item.id;
+            opt.textContent = item.name;
+            eqSel.appendChild(opt);
+        });
+    }
+
+    /* ===================================================================
+       URL PARAM PRE-SELECTION
+    =================================================================== */
+    function readUrlParams() {
+        const params = new URLSearchParams(window.location.search);
+        const eqId = params.get('equipment');
+        if (!eqId) return;
+
+        const item = equipmentData.find(i => i.id === eqId);
+        if (!item) return;
+
+        const catSel = document.getElementById('bkCategory');
+        const eqSel  = document.getElementById('bkEquipment');
+        if (!catSel || !eqSel) return;
+
+        catSel.value = item.category;
+        populateEquipmentDropdown(item.category);
+        eqSel.value = item.id;
+        onEquipmentChange(item);
+    }
+
+    /* ===================================================================
+       EVENT BINDING
+    =================================================================== */
+    function bindEvents() {
+        const catSel = document.getElementById('bkCategory');
+        const eqSel  = document.getElementById('bkEquipment');
+        const form   = document.getElementById('bookingForm');
+
+        if (catSel) {
+            catSel.addEventListener('change', () => {
+                populateEquipmentDropdown(catSel.value);
+                clearEquipmentSelection();
+            });
+        }
+
+        if (eqSel) {
+            eqSel.addEventListener('change', () => {
+                const item = equipmentData.find(i => i.id === eqSel.value);
+                if (item) onEquipmentChange(item);
+            });
+        }
+
+        if (form) {
+            form.addEventListener('submit', handleBookingSubmit);
+        }
+
+        const userTypeSel = document.getElementById('bkUserType');
+        if (userTypeSel) {
+            userTypeSel.addEventListener('change', () => {
+                if (isEducationalMode) checkEducationalAccess();
+                updateCostDisplay();
+            });
+        }
+
+        const durationSel = document.getElementById('bkDuration');
+        if (durationSel) {
+            durationSel.addEventListener('change', () => updateCostDisplay());
+        }
+    }
+
+    /* ===================================================================
+       EQUIPMENT CHANGE HANDLER — orchestrates all UI updates
+    =================================================================== */
+    function onEquipmentChange(item) {
+        setHidden('bk_equipment_id',       item.id);
+        setHidden('bk_equipment_name',     item.name);
+        setHidden('bk_equipment_category', item.category);
+        setHidden('bk_equipment_status',   item.status);
+
+        const isEduc = EDUCATIONAL_IDS.includes(item.id);
+        setFormMode(isEduc);
+
+        renderInfoCard(item);
+
+        if (!isEduc) {
+            renderDynamicFields(item);
+            renderAccessories(item);
+            updateCostDisplay(item);
+        }
+
+        const card = document.getElementById('equipmentInfoCard');
+        if (card) {
+            setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+        }
+    }
+
+    /** Toggle between standard booking (sections 4-6) and educational request.
+     *  Section 3 (Scheduling) is always visible for both modes. */
+    function setFormMode(educational) {
+        isEducationalMode = educational;
+        const bookingSections = document.getElementById('bookingSections');  // sections 4-6
+        const eduSection      = document.getElementById('educationalRequestSection');
+        const submitBtn       = document.getElementById('bkSubmitBtn');
+        const categoryField   = document.getElementById('bk_form_category');
+
+        if (bookingSections) bookingSections.style.display = educational ? 'none' : '';
+        if (eduSection)      eduSection.style.display      = educational ? '' : 'none';
+        if (submitBtn)       submitBtn.textContent          = educational ? 'Submit Course Request' : 'Submit Booking Request';
+        if (categoryField)   categoryField.value            = educational ? 'educational' : 'booking';
+
+        // Toggle required attributes: disable validation on hidden sections
+        toggleRequiredInSection('bookingSections', !educational);
+        toggleRequiredInSection('educationalRequestSection', educational);
+
+        if (educational) {
+            checkEducationalAccess();
+        } else {
+            disableSubmit(false);
+        }
+    }
+
+    /** Enable/disable required attributes on fields inside a container */
+    function toggleRequiredInSection(containerId, enable) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        container.querySelectorAll('[data-bk-required]').forEach(el => {
+            if (enable) {
+                el.setAttribute('required', '');
+            } else {
+                el.removeAttribute('required');
+                el.style.borderColor = '';
+                const errEl = document.getElementById('err_' + el.name);
+                if (errEl) errEl.style.display = 'none';
+            }
+        });
+    }
+
+    /** Check if current user type allows educational requests */
+    function checkEducationalAccess() {
+        const userType = document.getElementById('bkUserType');
+        const val = userType ? userType.value : '';
+        const isNAU = (val === 'nau_student' || val === 'nau_faculty_staff');
+        const isExternal = (val === 'external_academic' || val === 'industry');
+
+        const externalBlock = document.getElementById('eduExternalBlock');
+        const eduFields     = document.getElementById('eduFields');
+
+        if (isExternal) {
+            if (externalBlock) externalBlock.style.display = 'flex';
+            if (eduFields)     eduFields.style.display     = 'none';
+            disableSubmit(true);
+        } else {
+            if (externalBlock) externalBlock.style.display = 'none';
+            if (eduFields)     eduFields.style.display     = '';
+            disableSubmit(false);
+        }
+    }
+
+    function clearEquipmentSelection() {
+        setHidden('bk_equipment_id', '');
+        setHidden('bk_equipment_name', '');
+        setHidden('bk_equipment_category', '');
+        setHidden('bk_equipment_status', '');
+
+        const card = document.getElementById('equipmentInfoCard');
+        if (card) card.style.display = 'none';
+
+        const dynFields = document.getElementById('dynamicFields');
+        if (dynFields) {
+            dynFields.innerHTML = '<p class="bk-fields-placeholder"><i class="fas fa-info-circle"></i> Select equipment above to see technical detail fields.</p>';
+        }
+
+        const modeCont = document.getElementById('modesContainer');
+        if (modeCont) modeCont.innerHTML = '';
+
+        const accGroup = document.getElementById('accessoriesGroup');
+        if (accGroup) accGroup.style.display = 'none';
+
+        setFormMode(false);
+        disableSubmit(false);
+    }
+
+    /* ===================================================================
+       INFO CARD
+    =================================================================== */
+    function renderInfoCard(item) {
+        const card = document.getElementById('equipmentInfoCard');
+        if (!card) return;
+
+        const isEduc = EDUCATIONAL_IDS.includes(item.id);
+        const badgeClass = {
+            'Metrology':       'badge-blue',
+            'Electrical':      'badge-purple',
+            'Fabrication':     'badge-gold',
+            'Sample Prep':     'badge-green',
+            'Support Systems': 'badge-purple',
+            'Educational':     'badge-blue',
+        }[item.category] || 'badge-blue';
+
+        if (isEduc) {
+            card.className = 'bk-info-card bk-info-card--educational';
+            card.innerHTML = `
+                <div class="bk-info-header">
+                    <div class="bk-info-meta">
+                        <span class="badge badge-blue">Educational</span>
+                        <h3 class="bk-info-name">${esc(item.name)}</h3>
+                    </div>
+                    <div class="bk-info-status">
+                        <i class="fas fa-graduation-cap" style="color: var(--nau-blue);"></i>
+                        <span class="bk-status-label">Course Use Only</span>
+                    </div>
+                </div>
+                <div class="bk-info-alert bk-info-alert--educational">
+                    <i class="fas fa-info-circle"></i>
+                    <div><strong>Educational Equipment</strong><br>This equipment is reserved for NAU coursework. Complete the course request form below to arrange access for your class.</div>
+                </div>`;
+            card.style.display = 'block';
+            return;
+        }
+
+        const { cls, label } = getStatusInfo(item);
+        const accs = ACCESSORIES[item.id] || [];
+        const accsHtml = accs.length
+            ? `<div class="bk-info-accessories"><i class="fas fa-puzzle-piece"></i> Accessories available: ${accs.map(esc).join(', ')}</div>`
+            : '';
+
+        let alertHtml = '';
+        if (item.status !== 'AVAILABLE') {
+            const dateStr = item.expectedDate ? ` Expected: ${formatDate(item.expectedDate)}.` : '';
+            alertHtml = `
+                <div class="bk-info-alert bk-info-alert--warning">
+                    <i class="fas fa-clock"></i>
+                    <div><strong>Equipment Unavailable</strong> \u2014 your request will be queued for when it becomes available.${dateStr}</div>
+                </div>`;
+        }
+
+        card.className = 'bk-info-card';
+        card.innerHTML = `
+            <div class="bk-info-header">
+                <div class="bk-info-meta">
+                    <span class="badge ${badgeClass}">${esc(item.category)}</span>
+                    <h3 class="bk-info-name">${esc(item.name)}</h3>
+                </div>
+                <div class="bk-info-status">
+                    <span class="status-dot ${cls}"></span>
+                    <span class="bk-status-label">${esc(label)}</span>
+                </div>
+            </div>
+            ${accsHtml}
+            ${alertHtml}`;
+
+        card.style.display = 'block';
+        disableSubmit(false);
+    }
+
+    function getStatusInfo(item) {
+        if (item.status === 'AVAILABLE') return { cls: 'available', label: 'Available' };
+        if (item.status === 'EXPECTED')  return { cls: 'expected',  label: 'Expected' + (item.expectedDate ? ': ' + formatDate(item.expectedDate) : '') };
+        return { cls: 'busy', label: 'Unavailable' };
+    }
+
+    function formatDate(raw) {
+        if (!raw) return '';
+        const [m, d, y] = raw.split('/');
+        const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        const mo = parseInt(m, 10) - 1;
+        const yr = y ? (y.length === 2 ? '20' + y : y) : '';
+        return `${months[mo] || m} ${parseInt(d, 10)}${yr ? ', ' + yr : ''}`;
+    }
+
+    /* ===================================================================
+       DYNAMIC FIELDS
+    =================================================================== */
+    function renderDynamicFields(item) {
+        const container = document.getElementById('dynamicFields');
+        if (!container) return;
+
+        const template = CATEGORY_FIELDS[item.category];
+        if (template) {
+            container.innerHTML = `<div class="bk-dynamic-fields">${template}</div>`;
+        } else {
+            container.innerHTML = '<p class="bk-fields-placeholder"><i class="fas fa-check-circle"></i> No additional technical fields required for this category.</p>';
+        }
+
+        // Show material warning for Haas machines
+        if (MATERIAL_WARNINGS[item.id]) {
+            const warn = document.getElementById('materialWarningBanner');
+            if (warn) {
+                warn.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${esc(MATERIAL_WARNINGS[item.id])}`;
+                warn.style.display = 'flex';
+            }
+        }
+
+        // Show cryo cooling for Ion Beam Mill
+        const cryoRow = document.getElementById('cryoCoolingRow');
+        if (cryoRow) {
+            cryoRow.style.display = CRYO_EQUIPMENT.includes(item.id) ? '' : 'none';
+        }
+
+        renderModes(item);
+    }
+
+    function renderModes(item) {
+        const container = document.getElementById('modesContainer');
+        if (!container) return;
+        const modes = OPERATING_MODES[item.id];
+        if (!modes || !modes.length) {
+            container.innerHTML = '';
+            return;
+        }
+        container.innerHTML = `
+            <div class="pf__row">
+                <div class="pf__group">
+                    <label class="pf__label">Preferred Operating Mode(s)</label>
+                    <div class="bk-modes-grid">
+                        ${modes.map(m => `
+                        <label class="pf__checkbox-label">
+                            <input type="checkbox" name="operating_modes" class="pf__checkbox" value="${esc(m)}">
+                            ${esc(m)}
+                        </label>`).join('')}
+                    </div>
+                    <span class="pf__helper">Select all that apply. Lab staff will confirm available modes during scheduling.</span>
+                </div>
+            </div>`;
+    }
+
+    /* ===================================================================
+       ACCESSORIES
+    =================================================================== */
+    function renderAccessories(item) {
+        const group = document.getElementById('accessoriesGroup');
+        if (!group) return;
+        const accs = ACCESSORIES[item.id];
+        if (!accs || !accs.length) {
+            group.style.display = 'none';
+            return;
+        }
+        const container = group.querySelector('.bk-accessories-checkboxes');
+        if (container) {
+            container.innerHTML = accs.map(a => `
+                <label class="pf__checkbox-label">
+                    <input type="checkbox" name="accessories" class="pf__checkbox" value="${esc(a)}">
+                    ${esc(a)}
+                </label>`).join('');
+        }
+        group.style.display = '';
+    }
+
+    /* ===================================================================
+       COST DISPLAY — dynamic rate calculation
+    =================================================================== */
+    function updateCostDisplay(itemOverride) {
+        const pendingEl    = document.getElementById('costPending');
+        const tbdEl        = document.getElementById('costTBD');
+        const calculatedEl = document.getElementById('costCalculated');
+        if (!pendingEl || !tbdEl || !calculatedEl) return;
+
+        // Determine which equipment is selected
+        const item = itemOverride || equipmentData.find(i => i.id === (document.getElementById('bk_equipment_id') || {}).value);
+        if (!item || EDUCATIONAL_IDS.includes(item.id)) {
+            pendingEl.style.display = '';
+            tbdEl.style.display = 'none';
+            calculatedEl.style.display = 'none';
+            return;
+        }
+
+        const rate = EQUIPMENT_RATES[item.id];
+        const userType = (document.getElementById('bkUserType') || {}).value || '';
+        const isInternal = (userType === 'nau_student' || userType === 'nau_faculty_staff');
+        const isExternal = (userType === 'external_academic' || userType === 'industry');
+        const durationVal = (document.getElementById('bkDuration') || {}).value || '1hr';
+        const hours = DURATION_HOURS[durationVal];
+
+        // No rate data at all for this equipment
+        if (!rate) {
+            pendingEl.style.display = 'none';
+            tbdEl.style.display = 'flex';
+            calculatedEl.style.display = 'none';
+            return;
+        }
+
+        // Determine which rate column to use
+        const perUnit = isInternal ? rate.internal : (isExternal ? rate.external : null);
+
+        // Rate is TBD (null)
+        if (perUnit === null || perUnit === undefined) {
+            pendingEl.style.display = 'none';
+            tbdEl.style.display = 'flex';
+            calculatedEl.style.display = 'none';
+            return;
+        }
+
+        // User type not selected yet
+        if (!userType) {
+            pendingEl.style.display = '';
+            tbdEl.style.display = 'none';
+            calculatedEl.style.display = 'none';
+            return;
+        }
+
+        // Multi-day: can't calculate
+        if (hours === null) {
+            pendingEl.style.display = 'none';
+            tbdEl.style.display = 'flex';
+            calculatedEl.style.display = 'none';
+            const tbdBody = tbdEl.querySelector('.bk-cost-tbd__body');
+            if (tbdBody) {
+                tbdBody.querySelector('strong').textContent = 'Multi-Day Estimate';
+                tbdBody.querySelector('p').textContent = 'For multi-day sessions, please contact the lab for a custom quote. Rate: $' + perUnit.toFixed(2) + ' per ' + rate.unit + '.';
+            }
+            return;
+        }
+
+        // We have a rate and a calculable duration — show cost breakdown
+        const total = perUnit * hours;
+        const userLabel = isInternal ? 'Internal (NAU)' : 'External';
+        const durationLabel = document.querySelector('#bkDuration option:checked');
+
+        pendingEl.style.display = 'none';
+        tbdEl.style.display = 'none';
+        calculatedEl.style.display = '';
+
+        const costUserTypeLabel = document.getElementById('costUserTypeLabel');
+        const costUnit     = document.getElementById('costUnit');
+        const costRate     = document.getElementById('costRate');
+        const costDuration = document.getElementById('costDuration');
+        const costTotal    = document.getElementById('costTotal');
+
+        if (costUserTypeLabel) costUserTypeLabel.textContent = userLabel;
+        if (costUnit)     costUnit.textContent     = rate.unit;
+        if (costRate)     costRate.textContent     = '$' + perUnit.toFixed(2);
+        if (costDuration) costDuration.textContent = durationLabel ? durationLabel.textContent : durationVal;
+        if (costTotal)    costTotal.textContent    = '$' + total.toFixed(2);
+    }
+
+    /* ===================================================================
+       FORM SUBMISSION
+    =================================================================== */
+    async function handleBookingSubmit(e) {
+        e.preventDefault();
+        if (!validateForm()) return;
+
+        const submitBtn = document.getElementById('bkSubmitBtn');
+        const feedback  = document.getElementById('formFeedback');
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting\u2026';
+
+        const formData = new FormData(e.target);
+        collapseCheckboxes(formData, 'operating_modes');
+        collapseCheckboxes(formData, 'accessories');
+
+        try {
+            const res  = await fetch('FormSubmission.php', { method: 'POST', body: formData });
+            const json = await res.json();
+            if (json.success) {
+                const msg = isEducationalMode
+                    ? '<i class="fas fa-check-circle"></i> Course request submitted! The lab team will contact you to discuss scheduling for your class.'
+                    : '<i class="fas fa-check-circle"></i> Booking request submitted! The lab team will contact you to confirm your session.';
+                showFeedback(feedback, true, msg);
+                e.target.reset();
+                clearEquipmentSelection();
+                setTimeout(() => hideFeedback(feedback), 8000);
+            } else {
+                showFeedback(feedback, false,
+                    '<i class="fas fa-times-circle"></i> ' + (json.message || 'Submission failed. Please try again or email mpct.nano@gmail.com.'));
+            }
+        } catch (err) {
+            showFeedback(feedback, false,
+                '<i class="fas fa-times-circle"></i> Network error. Please check your connection and try again.');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Submit Booking Request';
+        }
+    }
+
+    function collapseCheckboxes(formData, fieldName) {
+        const values = formData.getAll(fieldName);
+        formData.delete(fieldName);
+        if (values.length) formData.set(fieldName, values.join(', '));
+    }
+
+    /* ===================================================================
+       VALIDATION
+    =================================================================== */
+    function validateForm() {
+        let valid = true;
+        document.querySelectorAll('#bookingForm [required]').forEach(el => {
+            // Skip validation for fields inside hidden containers
+            if (el.closest('[style*="display: none"]') || el.closest('[style*="display:none"]')) return;
+            const errEl = document.getElementById('err_' + el.name);
+            if (!el.value.trim()) {
+                valid = false;
+                el.style.borderColor = 'var(--nau-red)';
+                if (errEl) errEl.style.display = 'block';
+            } else {
+                el.style.borderColor = '';
+                if (errEl) errEl.style.display = 'none';
+            }
+        });
+        if (!valid) {
+            const firstErr = document.querySelector('#bookingForm [required]:invalid, #bookingForm [style*="--nau-red"]');
+            if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return valid;
+    }
+
+    /* ===================================================================
+       UTILITIES
+    =================================================================== */
+    function setHidden(id, value) {
+        const el = document.getElementById(id);
+        if (el) el.value = value;
+    }
+
+    function disableSubmit(disabled) {
+        const btn = document.getElementById('bkSubmitBtn');
+        if (!btn) return;
+        btn.disabled = disabled;
+        btn.style.opacity = disabled ? '0.5' : '';
+        btn.style.cursor  = disabled ? 'not-allowed' : '';
+    }
+
+    function esc(str) {
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
+    }
+
+    function showFeedback(el, success, msg) {
+        if (!el) return;
+        el.innerHTML   = msg;
+        el.className   = 'bk-feedback ' + (success ? 'bk-feedback--success' : 'bk-feedback--error');
+        el.style.display = 'block';
+        el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function hideFeedback(el) {
+        if (el) el.style.display = 'none';
+    }
+
+})();
