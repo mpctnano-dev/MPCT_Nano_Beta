@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Equipment | NAU Nano Core</title>
     <link rel="stylesheet" href="CSS/style.css">
-    <link rel="stylesheet" href="CSS/booking.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
@@ -15,9 +14,7 @@
 
     <main>
 
-        <!-- ============================================================
-             HERO  (ml-hero--compact pattern, matches Equipment.html / PTAP.html)
-        ============================================================ -->
+        <!-- Page header -->
         <section class="ml-hero ml-hero--compact" style="height: 50vh; min-height: 360px; max-height: 500px;">
             <div class="ml-hero__bg">
                 <img src="Images/microscopy_lab.jpg" alt="NAU Nano Core equipment reservation and lab booking">
@@ -46,33 +43,27 @@
             </div>
         </section>
 
-        <!-- ============================================================
-             EQUIPMENT INFO CARD (shown after equipment is selected)
-        ============================================================ -->
+        <!-- booking.js fills this card after an equipment choice is made -->
         <div class="container" style="padding-top: 32px;">
             <div id="equipmentInfoCard" class="bk-info-card" style="display:none;" aria-live="polite">
                 <!-- Populated dynamically by booking.js -->
             </div>
         </div>
 
-        <!-- ============================================================
-             BOOKING FORM
-        ============================================================ -->
+        <!-- Main booking form -->
         <section class="section-padding" style="padding-top: 0;">
             <div class="bk-form-wrap">
 
                 <form id="bookingForm" novalidate>
 
-                    <!-- Hidden tracking fields -->
+                    <!-- Hidden inputs keep the selected equipment metadata in sync with the form -->
                     <input type="hidden" name="category"           value="booking" id="bk_form_category">
                     <input type="hidden" name="equipment_id"       id="bk_equipment_id">
                     <input type="hidden" name="equipment_name"     id="bk_equipment_name">
                     <input type="hidden" name="equipment_category" id="bk_equipment_category">
                     <input type="hidden" name="equipment_status"   id="bk_equipment_status">
 
-                    <!-- =============================================
-                         SECTION 1 — Equipment Selection
-                    ============================================= -->
+                    <!-- Equipment picker -->
                     <div class="pf__section">
                         <fieldset style="border:0; padding:0; margin:0;">
                             <legend class="pf__legend">
@@ -85,14 +76,14 @@
                                     <label class="pf__label" for="bkCategory">Category</label>
                                     <select id="bkCategory" name="equipment_category_filter" class="pf__select">
                                         <option value="" disabled selected>-- All Categories --</option>
-                                        <!-- Populated by booking.js -->
+                                        <!-- booking.js adds the category list from equipment.json -->
                                     </select>
                                 </div>
                                 <div class="pf__group">
                                     <label class="pf__label" for="bkEquipment">Equipment <span class="pf__req">*</span></label>
                                     <select id="bkEquipment" name="equipment_name_display" class="pf__select" required>
                                         <option value="" disabled selected>-- Select Equipment --</option>
-                                        <!-- Populated by booking.js -->
+                                        <!-- booking.js rebuilds this list when the category changes -->
                                     </select>
                                     <span class="pf__helper">Select a category first to filter the list, or browse all equipment.</span>
                                 </div>
@@ -101,9 +92,7 @@
                         </fieldset>
                     </div>
 
-                    <!-- =============================================
-                         SECTION 2 — Your Information
-                    ============================================= -->
+                    <!-- Requester contact and billing details -->
                     <div class="pf__section">
                         <fieldset style="border:0; padding:0; margin:0;">
                             <legend class="pf__legend">
@@ -168,10 +157,7 @@
                         </fieldset>
                     </div>
 
-                    <!-- =============================================
-                         SECTION 3 — Scheduling
-                         Always visible (both booking and educational modes).
-                    ============================================= -->
+                    <!-- Scheduling fields stay visible for both standard and educational flows -->
                     <div class="pf__section">
                         <fieldset style="border:0; padding:0; margin:0;">
                             <legend class="pf__legend">
@@ -237,15 +223,10 @@
                         </fieldset>
                     </div>
 
-                    <!-- =============================================
-                         STANDARD BOOKING SECTIONS (4–6)
-                         Hidden when educational equipment is selected.
-                    ============================================= -->
+                    <!-- Standard booking sections; hidden when an educational-only instrument is selected -->
                     <div id="bookingSections">
 
-                        <!-- =============================================
-                             SECTION 4 — Technical Details
-                        ============================================= -->
+                        <!-- Section 4 uses the selected equipment category to decide which inputs to show -->
                         <div class="pf__section" id="technicalSection">
                             <fieldset style="border:0; padding:0; margin:0;">
                                 <legend class="pf__legend">
@@ -253,7 +234,7 @@
                                     Technical Details
                                 </legend>
 
-                                <!-- Universal fields -->
+                                <!-- Base fields that apply to all standard bookings -->
                                 <div class="pf__row">
                                     <div class="pf__group">
                                         <label class="pf__label" for="bkSampleDesc">Sample / Specimen Description <span class="pf__req">*</span></label>
@@ -270,22 +251,20 @@
                                     </div>
                                 </div>
 
-                                <!-- Category-specific dynamic fields (injected by booking.js) -->
+                                <!-- booking.js injects the category-specific fields here -->
                                 <div id="dynamicFields">
                                     <p class="bk-fields-placeholder">
                                         <i class="fas fa-info-circle"></i> Select equipment in Section 1 to see additional technical fields.
                                     </p>
                                 </div>
 
-                                <!-- Operating mode checkboxes (injected by booking.js) -->
+                                <!-- booking.js adds mode checkboxes here when the equipment has defined modes -->
                                 <div id="modesContainer"></div>
 
                             </fieldset>
                         </div>
 
-                        <!-- =============================================
-                             SECTION 5 — Additional Options
-                        ============================================= -->
+                        <!-- Optional training, staff help, and notes -->
                         <div class="pf__section">
                             <fieldset style="border:0; padding:0; margin:0;">
                                 <legend class="pf__legend">
@@ -312,17 +291,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Accessories group (shown only for equipment with accessories) -->
-                                <div id="accessoriesGroup" class="pf__row" style="display:none;">
-                                    <div class="pf__group">
-                                        <label class="pf__label">Accessories Requested</label>
-                                        <div class="bk-accessories-checkboxes">
-                                            <!-- Populated by booking.js -->
-                                        </div>
-                                        <span class="pf__helper">Select any accessories you need for your session. Availability is not guaranteed.</span>
-                                    </div>
-                                </div>
-
                                 <div class="pf__row">
                                     <div class="pf__group">
                                         <label class="pf__label" for="bkSpecial">Special Requirements or Notes</label>
@@ -334,9 +302,7 @@
                             </fieldset>
                         </div>
 
-                        <!-- =============================================
-                             SECTION 6 — Estimated Cost (dynamic)
-                        ============================================= -->
+                        <!-- Cost panel switches between waiting, quote-required, and calculated states -->
                         <div class="pf__section">
                             <fieldset style="border:0; padding:0; margin:0;">
                                 <legend class="pf__legend">
@@ -345,18 +311,18 @@
                                 </legend>
 
                                 <div id="costDisplay" class="bk-cost-display">
-                                    <!-- Default: no equipment selected yet -->
+                                    <!-- Shown until the page has enough information to calculate pricing -->
                                     <div class="bk-cost-pending" id="costPending">
                                         <div><i class="fas fa-receipt"></i></div>
-                                        <p><strong>Select equipment and duration to see estimated cost.</strong></p>
-                                        <p style="font-size: 0.9rem;">Rates are based on your user type (internal vs. external) and session duration.</p>
+                                        <p><strong id="costPendingTitle">Select equipment and duration to see estimated cost.</strong></p>
+                                        <p id="costPendingText" style="font-size: 0.9rem;">Rates are based on your user type (internal vs. external) and session duration. Date and start time do not change the estimate.</p>
                                         <a href="Rates.html" class="btn btn-sm btn-outline-blue" style="margin-top: 8px;">
                                             <i class="fas fa-file-invoice-dollar" style="margin-right: 6px;"></i>
                                             View Full Rate Sheet
                                         </a>
                                     </div>
 
-                                    <!-- Shown when rate is TBD -->
+                                    <!-- Used when the selected equipment needs a manual quote -->
                                     <div id="costTBD" class="bk-cost-tbd" style="display: none;">
                                         <div class="bk-cost-tbd__icon"><i class="fas fa-calculator"></i></div>
                                         <div class="bk-cost-tbd__body">
@@ -369,7 +335,7 @@
                                         </div>
                                     </div>
 
-                                    <!-- Shown when rate is available -->
+                                    <!-- Shows the final single-rate estimate once user type is known -->
                                     <div id="costCalculated" class="bk-cost-calculated" style="display: none;">
                                         <div class="bk-cost-header">
                                             <i class="fas fa-calculator"></i>
@@ -400,13 +366,9 @@
                             </fieldset>
                         </div>
 
-                    </div><!-- /bookingSections -->
+                    </div><!-- End standard booking sections -->
 
-                    <!-- =============================================
-                         EDUCATIONAL COURSE REQUEST SECTION
-                         Shown only when educational equipment is selected.
-                         Replaces sections 4–6. Section 3 (Scheduling) stays visible.
-                    ============================================= -->
+                    <!-- Replaces the standard booking sections for educational-only equipment -->
                     <div id="educationalRequestSection">
 
                         <div class="pf__section">
@@ -528,14 +490,12 @@
                             </fieldset>
                         </div>
 
-                    </div><!-- /educationalRequestSection -->
+                    </div><!-- End educational request section -->
 
-                    <!-- =============================================
-                         SUBMIT
-                    ============================================= -->
+                    <!-- Submit controls and inline feedback -->
                     <div class="pf__section pf__section--submit">
 
-                        <!-- Feedback message -->
+                        <!-- booking.js writes success and error messages here -->
                         <div id="formFeedback" class="bk-feedback" style="display:none;" role="alert"></div>
 
                         <p style="font-size: 0.85rem; color: var(--gray-500); margin-bottom: 20px;">

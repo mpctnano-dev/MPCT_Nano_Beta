@@ -1,42 +1,33 @@
-/* ==========================================================================
-   booking.js — Equipment Booking Page Logic
-   NAU Nano Core / MPCT_Nano_Beta
-   Handles: equipment data loading, dynamic form fields, validation,
-            URL pre-selection, and form submission.
-   ========================================================================== */
+/* booking.js drives the Book Equipment page. It loads equipment data,
+   swaps in category-specific fields, switches between standard and
+   educational flows, calculates estimated cost, validates visible fields,
+   and submits the form. */
 
 (function () {
     'use strict';
 
-    /* ===================================================================
-       CONSTANTS
-    =================================================================== */
+    // Static data used to build the form and pricing states.
 
-    /** Equipment IDs that are educational-only and cannot be booked */
+    // These IDs use the course-request flow instead of the standard booking flow.
     const EDUCATIONAL_IDS = ['EQ-001', 'EQ-002', 'EQ-003', 'EQ-004', 'EQ-025', 'EQ-040'];
 
-    /** Equipment that has bookable accessories */
+    // Show accessory availability on the info card for equipment that supports add-ons.
     const ACCESSORIES = {
         'EQ-006': ['3D Scanner'],
         'EQ-020': ['LPKF MultiPress S', 'LPKF Electroplater', 'LPKF Pick & Place', 'LPKF Reflow Oven', 'Wave Solder'],
         'EQ-037': ['Backscattered Detector', 'Electron Biprism'],
     };
 
-    /** Material / process restrictions for specific machines */
+    // Material warnings appear when an equipment choice has known restrictions.
     const MATERIAL_WARNINGS = {
         'EQ-012': 'Haas Desktop Lathe: Soft materials only (brass, plastics, wax). Hard metals and steel are strictly prohibited.',
         'EQ-013': 'Haas Desktop Mill: Plastics and wax only. No aluminum, steel, or hardened materials.',
     };
 
-    /** Equipment IDs that expose the cryogenic cooling checkbox */
+    // Only these machines show the optional cryogenic cooling control.
     const CRYO_EQUIPMENT = ['EQ-036'];
 
-    /**
-     * Equipment billing rates — maps equipment ID to { unit, internal, external }.
-     * Values are in USD. `null` means TBD / not yet published.
-     * Unit is the billing period (e.g. 'hour', 'sample', 'run').
-     * Update these values as rates are finalized in Rates.html.
-     */
+    // Rate data mirrors the published values in Rates.html.
     const EQUIPMENT_RATES = {
         // ---- Electrical ----
         'EQ-009': { unit: 'hour', internal: null, external: null },  // CSZ Environmental Chamber
@@ -44,7 +35,7 @@
         'EQ-018': { unit: 'hour', internal: null, external: null },  // Keysight Impedance Analyzer
         'EQ-021': { unit: 'hour', internal: null, external: null },  // Montana CryoAdvance 50
         'EQ-022': { unit: 'hour', internal: null, external: null },  // MPI TS200 Probe Station
-        'EQ-028': { unit: 'hour', internal: null, external: null },  // Seebeck
+        'EQ-028': { unit: 'hour', internal: 7.85, external: 11.97 },  // Seebeck
         'EQ-032': { unit: 'hour', internal: null, external: null },  // Tektronix AFG
         'EQ-033': { unit: 'hour', internal: null, external: null },  // Tektronix Oscilloscope
         'EQ-039': { unit: 'hour', internal: null, external: null },  // VNA
@@ -66,12 +57,12 @@
         'EQ-015': { unit: 'hour', internal: null, external: null },  // Keyence VHX-7000
         'EQ-016': { unit: 'hour', internal: null, external: null },  // Keyence VK-X3000
         'EQ-017': { unit: 'hour', internal: null, external: null },  // Keyence XM-5000
-        'EQ-026': { unit: 'hour', internal: null, external: null },  // PL Spectrometer
+        'EQ-026': { unit: 'hour', internal: 14.87, external: 22.67 },  // PL Spectrometer
         'EQ-027': { unit: 'hour', internal: null, external: null },  // SEM
         'EQ-029': { unit: 'hour', internal: null, external: null },  // SIMS
         'EQ-030': { unit: 'hour', internal: null, external: null },  // SLM
         'EQ-037': { unit: 'hour', internal: null, external: null },  // TEM
-        'EQ-042': { unit: 'hour', internal: null, external: null },  // XRD
+        'EQ-042': { unit: 'hour', internal: 14.87, external: 22.67 },  // XRD
         // ---- Sample Prep ----
         'EQ-034': { unit: 'hour', internal: null, external: null },  // Dimple Grinder
         'EQ-035': { unit: 'hour', internal: null, external: null },  // Disc Grinder
@@ -80,7 +71,7 @@
         'EQ-019': { unit: 'hour', internal: null, external: null },  // LN2 Generator
     };
 
-    /** Maps duration select values to numeric hours for cost calculation */
+    // Converts the duration select values into billable hours.
     const DURATION_HOURS = {
         '30min':     0.5,
         '1hr':       1,
@@ -90,9 +81,7 @@
         'multi_day': null, // cannot calculate — show note
     };
 
-    /* ===================================================================
-       OPERATING MODES  (4 modes per equipment, sourced from About pages)
-    =================================================================== */
+    // Optional operating-mode checkboxes shown for supported instruments.
     const OPERATING_MODES = {
         // ---- Metrology ----
         'EQ-005': ['Contact Mode', 'Tapping Mode', 'Force Spectroscopy', 'Phase Imaging'],
@@ -136,9 +125,7 @@
         'EQ-019': ['LN\u2082 Dispensing', 'Storage / Inventory Management', 'Transfer Operations', 'Generator Production Mode'],
     };
 
-    /* ===================================================================
-       CATEGORY-SPECIFIC DYNAMIC FIELD TEMPLATES
-    =================================================================== */
+    // Section 4 templates keyed by equipment category.
     const CATEGORY_FIELDS = {
         'Metrology': `
             <div class="pf__row--2col">
@@ -285,15 +272,11 @@
             </div>`,
     };
 
-    /* ===================================================================
-       STATE
-    =================================================================== */
+    // Runtime state for the current page session.
     let equipmentData = [];
     let isEducationalMode = false;
 
-    /* ===================================================================
-       INIT
-    =================================================================== */
+    // Load data first so dropdowns and URL preselection have the catalog available.
     document.addEventListener('DOMContentLoaded', async () => {
         await loadEquipmentData();
         populateCategoryDropdown();
@@ -301,15 +284,13 @@
         bindEvents();
     });
 
-    /* ===================================================================
-       DATA LOADING
-    =================================================================== */
+    // Pull the equipment list used by the category and equipment dropdowns.
     async function loadEquipmentData() {
         try {
             const res = await fetch('equipment.json', { cache: 'no-store' });
             if (!res.ok) throw new Error('HTTP ' + res.status);
             const data = await res.json();
-            // Keep all equipment; tag educational ones with a virtual category
+            // Keep a dedicated Educational category so those machines can share the same picker.
             equipmentData = (data.equipment || []).map(item => {
                 if (EDUCATIONAL_IDS.includes(item.id)) {
                     return Object.assign({}, item, { category: 'Educational' });
@@ -321,9 +302,7 @@
         }
     }
 
-    /* ===================================================================
-       CATEGORY DROPDOWN
-    =================================================================== */
+    // Build the category filter from the loaded equipment catalog.
     function populateCategoryDropdown() {
         const catSel = document.getElementById('bkCategory');
         if (!catSel) return;
@@ -336,9 +315,7 @@
         });
     }
 
-    /* ===================================================================
-       EQUIPMENT DROPDOWN
-    =================================================================== */
+    // Rebuild the equipment dropdown after the category changes.
     function populateEquipmentDropdown(category) {
         const eqSel = document.getElementById('bkEquipment');
         if (!eqSel) return;
@@ -356,9 +333,7 @@
         });
     }
 
-    /* ===================================================================
-       URL PARAM PRE-SELECTION
-    =================================================================== */
+    // Support Equipment.html links that pass ?equipment=EQ-... into this page.
     function readUrlParams() {
         const params = new URLSearchParams(window.location.search);
         const eqId = params.get('equipment');
@@ -377,9 +352,7 @@
         onEquipmentChange(item);
     }
 
-    /* ===================================================================
-       EVENT BINDING
-    =================================================================== */
+    // Attach the form event handlers once the DOM and equipment catalog are ready.
     function bindEvents() {
         const catSel = document.getElementById('bkCategory');
         const eqSel  = document.getElementById('bkEquipment');
@@ -417,9 +390,7 @@
         }
     }
 
-    /* ===================================================================
-       EQUIPMENT CHANGE HANDLER — orchestrates all UI updates
-    =================================================================== */
+    // Keep the hidden fields, info card, dynamic fields, and cost panel in sync.
     function onEquipmentChange(item) {
         setHidden('bk_equipment_id',       item.id);
         setHidden('bk_equipment_name',     item.name);
@@ -433,7 +404,6 @@
 
         if (!isEduc) {
             renderDynamicFields(item);
-            renderAccessories(item);
             updateCostDisplay(item);
         }
 
@@ -443,11 +413,10 @@
         }
     }
 
-    /** Toggle between standard booking (sections 4-6) and educational request.
-     *  Section 3 (Scheduling) is always visible for both modes. */
+    // Swap between the standard booking flow and the educational request flow.
     function setFormMode(educational) {
         isEducationalMode = educational;
-        const bookingSections = document.getElementById('bookingSections');  // sections 4-6
+        const bookingSections = document.getElementById('bookingSections');
         const eduSection      = document.getElementById('educationalRequestSection');
         const submitBtn       = document.getElementById('bkSubmitBtn');
         const categoryField   = document.getElementById('bk_form_category');
@@ -457,7 +426,7 @@
         if (submitBtn)       submitBtn.textContent          = educational ? 'Submit Course Request' : 'Submit Booking Request';
         if (categoryField)   categoryField.value            = educational ? 'educational' : 'booking';
 
-        // Toggle required attributes: disable validation on hidden sections
+        // Hidden sections should not keep their required rules active.
         toggleRequiredInSection('bookingSections', !educational);
         toggleRequiredInSection('educationalRequestSection', educational);
 
@@ -468,7 +437,7 @@
         }
     }
 
-    /** Enable/disable required attributes on fields inside a container */
+    // Turn data-bk-required fields on or off when a section is hidden.
     function toggleRequiredInSection(containerId, enable) {
         const container = document.getElementById(containerId);
         if (!container) return;
@@ -484,7 +453,7 @@
         });
     }
 
-    /** Check if current user type allows educational requests */
+    // Educational requests accept internal NAU users only.
     function checkEducationalAccess() {
         const userType = document.getElementById('bkUserType');
         const val = userType ? userType.value : '';
@@ -505,6 +474,7 @@
         }
     }
 
+    // Reset all equipment-dependent UI when the selection is cleared.
     function clearEquipmentSelection() {
         setHidden('bk_equipment_id', '');
         setHidden('bk_equipment_name', '');
@@ -522,16 +492,11 @@
         const modeCont = document.getElementById('modesContainer');
         if (modeCont) modeCont.innerHTML = '';
 
-        const accGroup = document.getElementById('accessoriesGroup');
-        if (accGroup) accGroup.style.display = 'none';
-
         setFormMode(false);
         disableSubmit(false);
     }
 
-    /* ===================================================================
-       INFO CARD
-    =================================================================== */
+    // Render the status card above the form for the selected instrument.
     function renderInfoCard(item) {
         const card = document.getElementById('equipmentInfoCard');
         if (!card) return;
@@ -617,9 +582,7 @@
         return `${months[mo] || m} ${parseInt(d, 10)}${yr ? ', ' + yr : ''}`;
     }
 
-    /* ===================================================================
-       DYNAMIC FIELDS
-    =================================================================== */
+    // Insert Section 4 inputs that match the selected equipment category.
     function renderDynamicFields(item) {
         const container = document.getElementById('dynamicFields');
         if (!container) return;
@@ -631,7 +594,7 @@
             container.innerHTML = '<p class="bk-fields-placeholder"><i class="fas fa-check-circle"></i> No additional technical fields required for this category.</p>';
         }
 
-        // Show material warning for Haas machines
+        // Material warnings are attached only to the machines that need them.
         if (MATERIAL_WARNINGS[item.id]) {
             const warn = document.getElementById('materialWarningBanner');
             if (warn) {
@@ -640,7 +603,7 @@
             }
         }
 
-        // Show cryo cooling for Ion Beam Mill
+        // The cryogenic option only applies to the Ion Beam Mill flow.
         const cryoRow = document.getElementById('cryoCoolingRow');
         if (cryoRow) {
             cryoRow.style.display = CRYO_EQUIPMENT.includes(item.id) ? '' : 'none';
@@ -649,6 +612,7 @@
         renderModes(item);
     }
 
+    // Add preferred operating mode checkboxes when the selected tool defines them.
     function renderModes(item) {
         const container = document.getElementById('modesContainer');
         if (!container) return;
@@ -673,38 +637,18 @@
             </div>`;
     }
 
-    /* ===================================================================
-       ACCESSORIES
-    =================================================================== */
-    function renderAccessories(item) {
-        const group = document.getElementById('accessoriesGroup');
-        if (!group) return;
-        const accs = ACCESSORIES[item.id];
-        if (!accs || !accs.length) {
-            group.style.display = 'none';
-            return;
-        }
-        const container = group.querySelector('.bk-accessories-checkboxes');
-        if (container) {
-            container.innerHTML = accs.map(a => `
-                <label class="pf__checkbox-label">
-                    <input type="checkbox" name="accessories" class="pf__checkbox" value="${esc(a)}">
-                    ${esc(a)}
-                </label>`).join('');
-        }
-        group.style.display = '';
-    }
-
-    /* ===================================================================
-       COST DISPLAY — dynamic rate calculation
-    =================================================================== */
+    // Update the estimate panel from the current equipment, user type, and duration.
     function updateCostDisplay(itemOverride) {
         const pendingEl    = document.getElementById('costPending');
         const tbdEl        = document.getElementById('costTBD');
         const calculatedEl = document.getElementById('costCalculated');
         if (!pendingEl || !tbdEl || !calculatedEl) return;
+        const pendingTitle = document.getElementById('costPendingTitle');
+        const pendingText  = document.getElementById('costPendingText');
+        const tbdTitle = tbdEl.querySelector('.bk-cost-tbd__body strong');
+        const tbdText  = tbdEl.querySelector('.bk-cost-tbd__body p');
 
-        // Determine which equipment is selected
+        // Read the selected equipment from the hidden field unless a fresh item was passed in.
         const item = itemOverride || equipmentData.find(i => i.id === (document.getElementById('bk_equipment_id') || {}).value);
         if (!item || EDUCATIONAL_IDS.includes(item.id)) {
             pendingEl.style.display = '';
@@ -719,8 +663,20 @@
         const isExternal = (userType === 'external_academic' || userType === 'industry');
         const durationVal = (document.getElementById('bkDuration') || {}).value || '1hr';
         const hours = DURATION_HOURS[durationVal];
+        const perUnit = isInternal ? rate && rate.internal : (isExternal ? rate && rate.external : null);
+        const durationLabel = document.querySelector('#bkDuration option:checked');
 
-        // No rate data at all for this equipment
+        if (pendingTitle) pendingTitle.textContent = 'Select equipment and duration to see estimated cost.';
+        if (pendingText) {
+            pendingText.textContent = 'Rates are based on your user type (internal vs. external) and session duration. Date and start time do not change the estimate.';
+        }
+
+        if (tbdTitle) tbdTitle.textContent = 'Rate Not Yet Published';
+        if (tbdText) {
+            tbdText.textContent = 'Billing rates for this equipment are currently under review. The lab team will provide a cost estimate when confirming your session.';
+        }
+
+        // No rate mapping exists yet for this tool.
         if (!rate) {
             pendingEl.style.display = 'none';
             tbdEl.style.display = 'flex';
@@ -728,10 +684,30 @@
             return;
         }
 
-        // Determine which rate column to use
-        const perUnit = isInternal ? rate.internal : (isExternal ? rate.external : null);
+        // Without a user type, show the preview text instead of a single final number.
+        if (!userType) {
+            pendingEl.style.display = '';
+            tbdEl.style.display = 'none';
+            calculatedEl.style.display = 'none';
+            if (rate.internal !== null && rate.internal !== undefined && rate.external !== null && rate.external !== undefined) {
+                if (hours === null) {
+                    if (pendingTitle) pendingTitle.textContent = 'Select user type to confirm your multi-day estimate.';
+                    if (pendingText) {
+                        pendingText.textContent = 'Published hourly rates for this equipment are $' + rate.internal.toFixed(2) + ' internal and $' + rate.external.toFixed(2) + ' external. Multi-day sessions require a custom quote.';
+                    }
+                } else {
+                    const internalTotal = rate.internal * hours;
+                    const externalTotal = rate.external * hours;
+                    if (pendingTitle) pendingTitle.textContent = 'Select user type to confirm your estimated cost.';
+                    if (pendingText) {
+                        pendingText.textContent = (durationLabel ? durationLabel.textContent : durationVal) + ': Internal estimate $' + internalTotal.toFixed(2) + ', External estimate $' + externalTotal.toFixed(2) + '. Date and start time do not change the estimate.';
+                    }
+                }
+            }
+            return;
+        }
 
-        // Rate is TBD (null)
+        // The rate row exists, but this tool still needs a manual quote.
         if (perUnit === null || perUnit === undefined) {
             pendingEl.style.display = 'none';
             tbdEl.style.display = 'flex';
@@ -739,31 +715,19 @@
             return;
         }
 
-        // User type not selected yet
-        if (!userType) {
-            pendingEl.style.display = '';
-            tbdEl.style.display = 'none';
-            calculatedEl.style.display = 'none';
-            return;
-        }
-
-        // Multi-day: can't calculate
+        // Multi-day sessions still need a manual quote even when the hourly rate is published.
         if (hours === null) {
             pendingEl.style.display = 'none';
             tbdEl.style.display = 'flex';
             calculatedEl.style.display = 'none';
-            const tbdBody = tbdEl.querySelector('.bk-cost-tbd__body');
-            if (tbdBody) {
-                tbdBody.querySelector('strong').textContent = 'Multi-Day Estimate';
-                tbdBody.querySelector('p').textContent = 'For multi-day sessions, please contact the lab for a custom quote. Rate: $' + perUnit.toFixed(2) + ' per ' + rate.unit + '.';
-            }
+            if (tbdTitle) tbdTitle.textContent = 'Multi-Day Estimate';
+            if (tbdText) tbdText.textContent = 'For multi-day sessions, please contact the lab for a custom quote. Rate: $' + perUnit.toFixed(2) + ' per ' + rate.unit + '.';
             return;
         }
 
-        // We have a rate and a calculable duration — show cost breakdown
+        // Show the final calculated estimate once the rate and duration are known.
         const total = perUnit * hours;
         const userLabel = isInternal ? 'Internal (NAU)' : 'External';
-        const durationLabel = document.querySelector('#bkDuration option:checked');
 
         pendingEl.style.display = 'none';
         tbdEl.style.display = 'none';
@@ -782,9 +746,7 @@
         if (costTotal)    costTotal.textContent    = '$' + total.toFixed(2);
     }
 
-    /* ===================================================================
-       FORM SUBMISSION
-    =================================================================== */
+    // Submit through FormSubmission.php and show inline success or error feedback.
     async function handleBookingSubmit(e) {
         e.preventDefault();
         if (!validateForm()) return;
@@ -797,8 +759,6 @@
 
         const formData = new FormData(e.target);
         collapseCheckboxes(formData, 'operating_modes');
-        collapseCheckboxes(formData, 'accessories');
-
         try {
             const res  = await fetch('FormSubmission.php', { method: 'POST', body: formData });
             const json = await res.json();
@@ -823,19 +783,18 @@
         }
     }
 
+    // Join repeated checkbox values into a single comma-separated field for email output.
     function collapseCheckboxes(formData, fieldName) {
         const values = formData.getAll(fieldName);
         formData.delete(fieldName);
         if (values.length) formData.set(fieldName, values.join(', '));
     }
 
-    /* ===================================================================
-       VALIDATION
-    =================================================================== */
+    // Validate only the required fields that are currently visible.
     function validateForm() {
         let valid = true;
         document.querySelectorAll('#bookingForm [required]').forEach(el => {
-            // Skip validation for fields inside hidden containers
+            // Ignore inputs inside hidden sections because their flow is inactive.
             if (el.closest('[style*="display: none"]') || el.closest('[style*="display:none"]')) return;
             const errEl = document.getElementById('err_' + el.name);
             if (!el.value.trim()) {
@@ -854,9 +813,7 @@
         return valid;
     }
 
-    /* ===================================================================
-       UTILITIES
-    =================================================================== */
+    // Small DOM and text helpers used across the page.
     function setHidden(id, value) {
         const el = document.getElementById(id);
         if (el) el.value = value;
