@@ -435,6 +435,10 @@
 
         .sr-file-upload {
             grid-column: 1 / -1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             border: 2px dashed var(--gray-300);
             border-radius: 8px;
             padding: 32px;
@@ -459,6 +463,7 @@
             margin: 0;
             color: var(--gray-600);
             font-size: 0.9rem;
+            text-align: center;
         }
 
         .sr-submit-area {
@@ -476,6 +481,98 @@
         /* Hidden conditional fields */
         .sr-hidden {
             display: none !important;
+        }
+
+        /* 3D Scanning — drop-off/pickup workflow strip */
+        .sr-workflow {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            background: #fff;
+            border: 1px solid var(--gray-200);
+            border-top: 3px solid var(--nau-blue);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .sr-workflow-step {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 24px 18px;
+            gap: 12px;
+        }
+
+        .sr-workflow-step i {
+            font-size: 1.3rem;
+            color: #fff;
+            background: var(--nau-blue);
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .sr-workflow-step p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: var(--gray-600);
+            line-height: 1.45;
+        }
+
+        .sr-workflow-step strong {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--nau-blue);
+            margin-bottom: 4px;
+        }
+
+        .sr-workflow-divider {
+            width: 1px;
+            background: var(--nau-gold);
+            opacity: 0.5;
+            flex-shrink: 0;
+            align-self: stretch;
+        }
+
+        .sr-check-block {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            background: #f0f4fa;
+            border: 1px solid #c5d8f0;
+            border-left: 3px solid var(--nau-blue);
+            border-radius: 8px;
+            padding: 13px 16px;
+            font-size: 0.9rem;
+            color: var(--gray-700);
+            cursor: pointer;
+        }
+
+        .sr-check-block input[type="checkbox"] {
+            margin-top: 2px;
+            flex-shrink: 0;
+            width: 16px;
+            height: 16px;
+            accent-color: var(--nau-blue);
+        }
+
+        @media (max-width: 600px) {
+            .sr-workflow {
+                flex-direction: column;
+            }
+            .sr-workflow-divider {
+                width: auto;
+                height: 1px;
+            }
         }
     </style>
 </head>
@@ -632,13 +729,13 @@
                                             <label class="sr-label" for="p-fname">First Name <span
                                                     class="text-gold">*</span></label>
                                             <input type="text" id="p-fname" name="first_name" class="sr-input" required
-                                                placeholder="Jane">
+                                                placeholder="Alex">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="p-lname">Last Name <span
                                                     class="text-gold">*</span></label>
                                             <input type="text" id="p-lname" name="last_name" class="sr-input" required
-                                                placeholder="Doe">
+                                                placeholder="Morgan">
                                         </div>
                                     </div>
 
@@ -647,7 +744,7 @@
                                             <label class="sr-label" for="p-email">Email Address <span
                                                     class="text-gold">*</span></label>
                                             <input type="email" id="p-email" name="email" class="sr-input" required
-                                                placeholder="jane.doe@nau.edu">
+                                                placeholder="alex.morgan@nau.edu">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="p-phone">Phone Number</label>
@@ -686,7 +783,7 @@
                                             <label class="sr-label" for="p-title">Project Title <span
                                                     class="text-gold">*</span></label>
                                             <input type="text" id="p-title" name="project_title" class="sr-input"
-                                                required>
+                                                required placeholder="e.g. Functional Bracket for Lab Fixture">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="p-appcat">Application Category <span
@@ -696,10 +793,11 @@
                                                 <option value="prototype">Prototype Development</option>
                                                 <option value="functional">Functional Part</option>
                                                 <option value="research">Educational / Research</option>
-                                                <option value="art">Art & Custom Design</option>
+                                                <option value="art">Art &amp; Custom Design</option>
                                                 <option value="medical">Medical / Prosthetics</option>
                                                 <option value="tooling">Tooling / Fixtures</option>
                                                 <option value="other">Other</option>
+                                                <option value="unsure">Not sure — Let staff recommend</option>
                                             </select>
                                         </div>
                                     </div>
@@ -749,6 +847,7 @@
                                                 <option value="PLA">PLA (Standard)</option>
                                                 <option value="PETG">PETG (Durable)</option>
                                                 <option value="TPU">TPU (Flexible)</option>
+                                                <option value="unsure">Not sure — Let staff recommend</option>
                                             </select>
                                         </div>
                                         <div class="sr-group">
@@ -766,7 +865,7 @@
 
                                     <div class="sr-row">
                                         <div class="sr-group">
-                                            <label class="sr-label" for="p-deadline">When do you need it by?</label>
+                                            <label class="sr-label" for="p-deadline">Requested Completion Date</label>
                                             <input type="date" id="p-deadline" name="deadline" class="sr-input">
                                             <span class="sr-note">Best effort, not guaranteed.</span>
                                         </div>
@@ -776,9 +875,70 @@
                                             <select id="p-delivery" name="delivery" class="sr-select" required>
                                                 <option value="" disabled selected>Select…</option>
                                                 <option value="pickup">Lab Pickup (free)</option>
-                                                <option value="campus_mail">Campus Mail</option>
                                                 <option value="ship">Ship to Address</option>
                                             </select>
+                                        </div>
+                                    </div>
+
+                                    <div id="p-ship-fields" class="sr-hidden">
+                                        <div class="sr-row" style="margin-top: 4px;">
+                                            <div class="sr-group">
+                                                <label class="sr-label" for="p-ship-contact">Shipping Contact Name <span class="text-gold">*</span></label>
+                                                <input type="text" id="p-ship-contact" name="shipping_contact_name"
+                                                    class="sr-input" placeholder="Full name for delivery">
+                                            </div>
+                                            <div class="sr-group">
+                                                <label class="sr-label" for="p-ship-speed">Shipping Speed <span class="text-gold">*</span></label>
+                                                <select id="p-ship-speed" name="shipping_speed" class="sr-select">
+                                                    <option value="" disabled selected>Select speed…</option>
+                                                    <option value="standard">Standard</option>
+                                                    <option value="expedited">Expedited</option>
+                                                    <option value="overnight">Overnight</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="sr-group" style="margin-top: 16px;">
+                                            <label class="sr-label" for="p-ship-address1">Shipping Address Line 1 <span class="text-gold">*</span></label>
+                                            <input type="text" id="p-ship-address1" name="shipping_address_line1"
+                                                class="sr-input" placeholder="Street address, P.O. box, company name">
+                                        </div>
+
+                                        <div class="sr-group" style="margin-top: 16px;">
+                                            <label class="sr-label" for="p-ship-address2">Shipping Address Line 2
+                                                (Optional)</label>
+                                            <input type="text" id="p-ship-address2" name="shipping_address_line2"
+                                                class="sr-input" placeholder="Apartment, suite, unit, building, floor">
+                                        </div>
+
+                                        <div class="sr-row" style="margin-top: 16px;">
+                                            <div class="sr-group">
+                                                <label class="sr-label" for="p-ship-city">City <span class="text-gold">*</span></label>
+                                                <input type="text" id="p-ship-city" name="shipping_city" class="sr-input">
+                                            </div>
+                                            <div class="sr-group">
+                                                <label class="sr-label" for="p-ship-state">State / Province <span class="text-gold">*</span></label>
+                                                <input type="text" id="p-ship-state" name="shipping_state" class="sr-input">
+                                            </div>
+                                        </div>
+
+                                        <div class="sr-row" style="margin-top: 16px;">
+                                            <div class="sr-group">
+                                                <label class="sr-label" for="p-ship-zip">ZIP / Postal Code <span class="text-gold">*</span></label>
+                                                <input type="text" id="p-ship-zip" name="shipping_zip" class="sr-input">
+                                            </div>
+                                            <div class="sr-group">
+                                                <label class="sr-label" for="p-ship-country">Country</label>
+                                                <input type="text" id="p-ship-country" name="shipping_country"
+                                                    class="sr-input" value="United States" readonly>
+                                            </div>
+                                        </div>
+
+                                        <div class="sr-group" style="margin-top: 16px;">
+                                            <label class="sr-label" for="p-ship-carrier">Carrier Preference
+                                                (Optional)</label>
+                                            <input type="text" id="p-ship-carrier" name="carrier_preference"
+                                                class="sr-input" placeholder="e.g. UPS, FedEx, USPS">
                                         </div>
                                     </div>
 
@@ -819,12 +979,12 @@
                                         <div class="sr-group">
                                             <label class="sr-label" for="l-fname">First Name <span
                                                     class="text-gold">*</span></label>
-                                            <input type="text" id="l-fname" name="first_name" class="sr-input" required>
+                                            <input type="text" id="l-fname" name="first_name" class="sr-input" required placeholder="Alex">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="l-lname">Last Name <span
                                                     class="text-gold">*</span></label>
-                                            <input type="text" id="l-lname" name="last_name" class="sr-input" required>
+                                            <input type="text" id="l-lname" name="last_name" class="sr-input" required placeholder="Morgan">
                                         </div>
                                     </div>
 
@@ -832,11 +992,11 @@
                                         <div class="sr-group">
                                             <label class="sr-label" for="l-email">Email Address <span
                                                     class="text-gold">*</span></label>
-                                            <input type="email" id="l-email" name="email" class="sr-input" required>
+                                            <input type="email" id="l-email" name="email" class="sr-input" required placeholder="alex.morgan@nau.edu">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="l-phone">Phone Number</label>
-                                            <input type="tel" id="l-phone" name="phone" class="sr-input">
+                                            <input type="tel" id="l-phone" name="phone" class="sr-input" placeholder="(555) 123-4567">
                                         </div>
                                     </div>
 
@@ -856,7 +1016,7 @@
                                         <div class="sr-group">
                                             <label class="sr-label" for="l-org">Organization / Department <span
                                                     class="text-gold">*</span></label>
-                                            <input type="text" id="l-org" name="organization" class="sr-input" required>
+                                            <input type="text" id="l-org" name="organization" class="sr-input" required placeholder="e.g. Mechanical Engineering">
                                         </div>
                                     </div>
                                 </div>
@@ -870,7 +1030,7 @@
                                             <label class="sr-label" for="l-title">Project Title <span
                                                     class="text-gold">*</span></label>
                                             <input type="text" id="l-title" name="project_title" class="sr-input"
-                                                required>
+                                                required placeholder="e.g. RF Circuit Prototype on Rogers Laminate">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="l-appcat">Application Category <span
@@ -878,12 +1038,13 @@
                                             <select id="l-appcat" name="application_category" class="sr-select"
                                                 required>
                                                 <option value="" disabled selected>Select primary use…</option>
-                                                <option value="rf">RF & Microwave Circuits</option>
+                                                <option value="rf">RF &amp; Microwave Circuits</option>
                                                 <option value="microfluidics">Microfluidics / Channels</option>
                                                 <option value="flex">Flexible Electronics</option>
                                                 <option value="thinfilm">Thin Film Removal / Coating Ablation</option>
                                                 <option value="ceramic">Ceramic Machining</option>
                                                 <option value="general">General PCB Prototyping</option>
+                                                <option value="unsure">Not sure — Let staff recommend</option>
                                             </select>
                                         </div>
                                     </div>
@@ -915,6 +1076,7 @@
                                                 <option value="ceramic">Ceramic (Alumina/LTCC)</option>
                                                 <option value="silicon">Silicon Wafer</option>
                                                 <option value="other">Other (specify below)</option>
+                                                <option value="unsure">Not sure — Let staff recommend</option>
                                             </select>
                                         </div>
                                         <div class="sr-group">
@@ -928,6 +1090,7 @@
                                                 <option value="silver">Silver</option>
                                                 <option value="aluminum">Aluminum</option>
                                                 <option value="other">Other (specify below)</option>
+                                                <option value="unsure">Not sure — Let staff recommend</option>
                                             </select>
                                         </div>
                                     </div>
@@ -968,14 +1131,83 @@
                                                 min="1" value="1">
                                         </div>
                                         <div class="sr-group">
+                                            <label class="sr-label" for="l-deadline">Requested Completion Date</label>
+                                            <input type="date" id="l-deadline" name="deadline" class="sr-input">
+                                            <span class="sr-note">Best effort, not guaranteed.</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="sr-row">
+                                        <div class="sr-group">
                                             <label class="sr-label" for="l-delivery">Preferred Delivery <span
                                                     class="text-gold">*</span></label>
                                             <select id="l-delivery" name="delivery" class="sr-select" required>
                                                 <option value="" disabled selected>Select…</option>
                                                 <option value="pickup">Lab Pickup</option>
-                                                <option value="campus_mail">Campus Mail</option>
-                                                <option value="shipping">Ship to Address</option>
+                                                <option value="ship">Ship to Address</option>
                                             </select>
+                                        </div>
+                                    </div>
+
+                                    <div id="l-ship-fields" class="sr-hidden">
+                                        <div class="sr-row" style="margin-top: 4px;">
+                                            <div class="sr-group">
+                                                <label class="sr-label" for="l-ship-contact">Shipping Contact Name <span class="text-gold">*</span></label>
+                                                <input type="text" id="l-ship-contact" name="shipping_contact_name"
+                                                    class="sr-input" placeholder="Full name for delivery">
+                                            </div>
+                                            <div class="sr-group">
+                                                <label class="sr-label" for="l-ship-speed">Shipping Speed <span class="text-gold">*</span></label>
+                                                <select id="l-ship-speed" name="shipping_speed" class="sr-select">
+                                                    <option value="" disabled selected>Select speed…</option>
+                                                    <option value="standard">Standard</option>
+                                                    <option value="expedited">Expedited</option>
+                                                    <option value="overnight">Overnight</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="sr-group" style="margin-top: 16px;">
+                                            <label class="sr-label" for="l-ship-address1">Shipping Address Line 1 <span class="text-gold">*</span></label>
+                                            <input type="text" id="l-ship-address1" name="shipping_address_line1"
+                                                class="sr-input" placeholder="Street address, P.O. box, company name">
+                                        </div>
+
+                                        <div class="sr-group" style="margin-top: 16px;">
+                                            <label class="sr-label" for="l-ship-address2">Shipping Address Line 2
+                                                (Optional)</label>
+                                            <input type="text" id="l-ship-address2" name="shipping_address_line2"
+                                                class="sr-input" placeholder="Apartment, suite, unit, building, floor">
+                                        </div>
+
+                                        <div class="sr-row" style="margin-top: 16px;">
+                                            <div class="sr-group">
+                                                <label class="sr-label" for="l-ship-city">City <span class="text-gold">*</span></label>
+                                                <input type="text" id="l-ship-city" name="shipping_city" class="sr-input">
+                                            </div>
+                                            <div class="sr-group">
+                                                <label class="sr-label" for="l-ship-state">State / Province <span class="text-gold">*</span></label>
+                                                <input type="text" id="l-ship-state" name="shipping_state" class="sr-input">
+                                            </div>
+                                        </div>
+
+                                        <div class="sr-row" style="margin-top: 16px;">
+                                            <div class="sr-group">
+                                                <label class="sr-label" for="l-ship-zip">ZIP / Postal Code <span class="text-gold">*</span></label>
+                                                <input type="text" id="l-ship-zip" name="shipping_zip" class="sr-input">
+                                            </div>
+                                            <div class="sr-group">
+                                                <label class="sr-label" for="l-ship-country">Country</label>
+                                                <input type="text" id="l-ship-country" name="shipping_country"
+                                                    class="sr-input" value="United States" readonly>
+                                            </div>
+                                        </div>
+
+                                        <div class="sr-group" style="margin-top: 16px;">
+                                            <label class="sr-label" for="l-ship-carrier">Carrier Preference
+                                                (Optional)</label>
+                                            <input type="text" id="l-ship-carrier" name="carrier_preference"
+                                                class="sr-input" placeholder="e.g. UPS, FedEx, USPS">
                                         </div>
                                     </div>
 
@@ -1017,12 +1249,12 @@
                                             <label class="sr-label" for="sc-fname">First Name <span
                                                     class="text-gold">*</span></label>
                                             <input type="text" id="sc-fname" name="first_name" class="sr-input"
-                                                required>
+                                                required placeholder="Alex">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="sc-lname">Last Name <span
                                                     class="text-gold">*</span></label>
-                                            <input type="text" id="sc-lname" name="last_name" class="sr-input" required>
+                                            <input type="text" id="sc-lname" name="last_name" class="sr-input" required placeholder="Morgan">
                                         </div>
                                     </div>
 
@@ -1030,11 +1262,11 @@
                                         <div class="sr-group">
                                             <label class="sr-label" for="sc-email">Email Address <span
                                                     class="text-gold">*</span></label>
-                                            <input type="email" id="sc-email" name="email" class="sr-input" required>
+                                            <input type="email" id="sc-email" name="email" class="sr-input" required placeholder="alex.morgan@nau.edu">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="sc-phone">Phone Number</label>
-                                            <input type="tel" id="sc-phone" name="phone" class="sr-input">
+                                            <input type="tel" id="sc-phone" name="phone" class="sr-input" placeholder="(555) 123-4567">
                                         </div>
                                     </div>
 
@@ -1055,7 +1287,7 @@
                                             <label class="sr-label" for="sc-org">Organization / Department <span
                                                     class="text-gold">*</span></label>
                                             <input type="text" id="sc-org" name="organization" class="sr-input"
-                                                required>
+                                                required placeholder="e.g. Mechanical Engineering">
                                         </div>
                                     </div>
                                 </div>
@@ -1069,7 +1301,7 @@
                                             <label class="sr-label" for="sc-title">Project Title <span
                                                     class="text-gold">*</span></label>
                                             <input type="text" id="sc-title" name="project_title" class="sr-input"
-                                                required>
+                                                required placeholder="e.g. Reverse Engineering of Legacy Component">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="sc-appcat">Application Category <span
@@ -1083,8 +1315,9 @@
                                                 </option>
                                                 <option value="3d_printing_prep">3D Print File Preparation</option>
                                                 <option value="research">Research / Academic Study</option>
-                                                <option value="art_design">Art & Custom Design</option>
+                                                <option value="art_design">Art &amp; Custom Design</option>
                                                 <option value="other">Other</option>
+                                                <option value="unsure">Not sure — Let staff recommend</option>
                                             </select>
                                         </div>
                                     </div>
@@ -1162,6 +1395,7 @@
                                                 <option value="3mf">3MF</option>
                                                 <option value="asc">ASC (ASCII point cloud)</option>
                                                 <option value="multiple">Multiple formats</option>
+                                                <option value="unsure">Not sure — Let staff recommend</option>
                                             </select>
                                         </div>
                                         <div class="sr-group">
@@ -1171,22 +1405,40 @@
                                                 <option value="" disabled selected>Select…</option>
                                                 <option value="yes">Yes — Full-color texture (2.3 MP RGB)</option>
                                                 <option value="no">No — Geometry only</option>
+                                                <option value="unsure">Not sure — Let staff recommend</option>
                                             </select>
                                         </div>
                                     </div>
 
                                     <div class="sr-file-upload" onclick="document.getElementById('sc-file').click()">
                                         <i class="fas fa-cloud-upload-alt"></i>
-                                        <p><strong>Click to browse</strong> or drag and drop reference files (photos,
-                                            CAD, drawings)</p>
+                                        <p><strong>Click to browse</strong> or drag and drop files for the item being
+                                            scanned (photos, CAD, drawings)</p>
                                         <input type="file" id="sc-file" name="reference_files" multiple
                                             style="display:none;">
                                     </div>
                                 </div>
 
-                                <!-- Section 4: Delivery -->
+                                <!-- Section 4: Sample Drop-off & Pickup -->
                                 <div class="sr-section">
-                                    <h3 class="sr-section-title">4. Delivery & Notes</h3>
+                                    <h3 class="sr-section-title">4. Sample Drop-off &amp; Pickup</h3>
+
+                                    <div class="sr-workflow">
+                                        <div class="sr-workflow-step">
+                                            <i class="fa-solid fa-box-open"></i>
+                                            <p><strong>1. Drop Off</strong>Bring your sample or object to the lab at your scheduled time. Staff will hold it securely.</p>
+                                        </div>
+                                        <div class="sr-workflow-divider"></div>
+                                        <div class="sr-workflow-step">
+                                            <i class="fa-solid fa-cube"></i>
+                                            <p><strong>2. We Scan</strong>Lab staff will process your object and notify you by email when the scan is complete.</p>
+                                        </div>
+                                        <div class="sr-workflow-divider"></div>
+                                        <div class="sr-workflow-step">
+                                            <i class="fa-solid fa-hand-holding-box"></i>
+                                            <p><strong>3. Pick Up</strong>Return to the lab to collect your sample and scanned files. Bring a USB flash drive.</p>
+                                        </div>
+                                    </div>
 
                                     <div class="sr-row">
                                         <div class="sr-group">
@@ -1196,15 +1448,24 @@
                                                 min="1" value="1">
                                         </div>
                                         <div class="sr-group">
-                                            <label class="sr-label" for="sc-delivery">File Delivery Method <span
-                                                    class="text-gold">*</span></label>
-                                            <select id="sc-delivery" name="delivery" class="sr-select" required>
-                                                <option value="" disabled selected>Select…</option>
-                                                <option value="email">Email (small files)</option>
-                                                <option value="cloud">Cloud Share (OneDrive/Google Drive)</option>
-                                                <option value="usb">USB Drive (pickup)</option>
-                                            </select>
+                                            <label class="sr-label" for="sc-dropoff-date">Preferred Drop-off Date</label>
+                                            <input type="date" id="sc-dropoff-date" name="dropoff_date" class="sr-input">
+                                            <span class="sr-note">Optional. Subject to staff availability — we will confirm via email.</span>
                                         </div>
+                                    </div>
+
+                                    <div class="sr-group full">
+                                        <label class="sr-check-block">
+                                            <input type="checkbox" id="sc-dropoff-confirm" name="dropoff_confirm" required>
+                                            <span>I understand I must physically bring my sample or object to the lab for scanning, and that it will be held by staff until I return for pickup. <span class="text-gold">*</span></span>
+                                        </label>
+                                    </div>
+
+                                    <div class="sr-group full">
+                                        <label class="sr-check-block">
+                                            <input type="checkbox" id="sc-usb-confirm" name="usb_confirm" required>
+                                            <span>I understand I must return to the lab to pick up both my sample and scanned files, and will bring a USB flash drive for file transfer. <span class="text-gold">*</span></span>
+                                        </label>
                                     </div>
 
                                     <div class="sr-group full">
@@ -1282,6 +1543,61 @@
                         }
                     });
                 }
+            });
+
+            function setupShippingFields(config) {
+                const deliverySelect = document.getElementById(config.deliveryId);
+                const shippingWrapper = document.getElementById(config.wrapperId);
+                const shippingRequiredFields = config.requiredFieldIds
+                    .map(id => document.getElementById(id))
+                    .filter(Boolean);
+
+                if (!deliverySelect || !shippingWrapper) return;
+
+                const toggleShipping = () => {
+                    const showShipping = deliverySelect.value === 'ship';
+                    shippingWrapper.classList.toggle('sr-hidden', !showShipping);
+                    shippingRequiredFields.forEach(field => {
+                        field.required = showShipping;
+                    });
+                };
+
+                deliverySelect.addEventListener('change', toggleShipping);
+
+                const parentForm = deliverySelect.closest('form');
+                if (parentForm) {
+                    parentForm.addEventListener('reset', () => {
+                        requestAnimationFrame(toggleShipping);
+                    });
+                }
+
+                toggleShipping();
+            }
+
+            setupShippingFields({
+                deliveryId: 'p-delivery',
+                wrapperId: 'p-ship-fields',
+                requiredFieldIds: [
+                    'p-ship-contact',
+                    'p-ship-speed',
+                    'p-ship-address1',
+                    'p-ship-city',
+                    'p-ship-state',
+                    'p-ship-zip'
+                ]
+            });
+
+            setupShippingFields({
+                deliveryId: 'l-delivery',
+                wrapperId: 'l-ship-fields',
+                requiredFieldIds: [
+                    'l-ship-contact',
+                    'l-ship-speed',
+                    'l-ship-address1',
+                    'l-ship-city',
+                    'l-ship-state',
+                    'l-ship-zip'
+                ]
             });
 
             // Form submit handling (demo — prevents page reload)
