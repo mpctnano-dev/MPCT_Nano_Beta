@@ -294,7 +294,7 @@ class SiteHeader extends HTMLElement {
 
 
 
-                                    <a href="${basePath}CareerPathways.html" class="nav-dropdown-link"
+                                    <a href="${basePath}CareerPathways.html#professional-development" class="nav-dropdown-link"
                                         data-path="CareerPathways.html" role="menuitem">
                                         <div class="nav-dropdown-icon">
                                             <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
