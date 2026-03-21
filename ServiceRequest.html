@@ -1602,25 +1602,64 @@
                 ]
             });
 
-            // Form submit handling (demo — prevents page reload)
+            function resetFileUploadUI(form) {
+                form.querySelectorAll('.sr-file-upload').forEach(box => {
+                    const label = box.querySelector('p');
+                    if (label) {
+                        label.innerHTML = '<strong>Click to browse</strong> or drag and drop files';
+                    }
+                    box.style.borderColor = '';
+                    box.style.background = '';
+                });
+            }
+
+            const serviceTypeByFormId = {
+                printingForm: 'printing',
+                laserForm: 'laser',
+                scanningForm: 'scanning'
+            };
+
+            // Real form submission to ServiceRequestSubmission.php
             document.querySelectorAll('.sr-form').forEach(form => {
-                form.addEventListener('submit', (e) => {
+                form.addEventListener('submit', async (e) => {
                     e.preventDefault();
+
+                    if (!form.checkValidity()) {
+                        form.reportValidity();
+                        return;
+                    }
+
                     const btn = form.querySelector('button[type="submit"]');
-                    const ogText = btn.textContent;
+                    const originalLabel = btn.innerHTML;
+                    const serviceType = serviceTypeByFormId[form.id] || '';
+                    const formData = new FormData(form);
+                    formData.append('service_type', serviceType);
+
+                    btn.disabled = true;
                     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
-                    setTimeout(() => {
-                        alert('Service Request Submitted Successfully!');
-                        btn.textContent = ogText;
-                        form.reset();
-                        // Reset file upload boxes
-                        form.querySelectorAll('.sr-file-upload').forEach(box => {
-                            const label = box.querySelector('p');
-                            if (label) label.innerHTML = `<strong>Click to browse</strong> or drag and drop files`;
-                            box.style.borderColor = '';
-                            box.style.background = '';
+
+                    try {
+                        const response = await fetch('ServiceRequestSubmission.php', {
+                            method: 'POST',
+                            body: formData
                         });
-                    }, 800);
+
+                        const result = await response.json();
+
+                        if (!response.ok || !result.success) {
+                            throw new Error(result.message || 'Unable to submit your request at this time.');
+                        }
+
+                        alert(result.message || 'Service Request Submitted Successfully!');
+                        form.reset();
+                        resetFileUploadUI(form);
+                    } catch (err) {
+                        console.error('Service request submission error:', err);
+                        alert(err.message || 'Unable to connect to the server. Please try again later.');
+                    } finally {
+                        btn.disabled = false;
+                        btn.innerHTML = originalLabel;
+                    }
                 });
             });
         })();
