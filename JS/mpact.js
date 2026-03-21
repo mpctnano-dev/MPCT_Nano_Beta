@@ -1,29 +1,37 @@
 /* Hero Divider — dynamic sticky activation
- * Starts as position:relative (static) while the hero is visible.
- * The moment the hero section fully exits the viewport (scrolled past),
- * --static is removed so the divider locks under the header via position:sticky.
- * Reverses when scrolling back up into the hero.
+ * A zero-height sentinel is inserted immediately before the divider.
+ * Because the sentinel is never sticky, its getBoundingClientRect().top
+ * always reflects the divider's natural scroll position.
+ * The moment the sentinel reaches the header, sticky activates — no lag.
+ * Reverses cleanly when scrolling back up.
  */
 (function () {
     const divider = document.querySelector('.hero-divider--static');
-    const hero = document.querySelector('.ml-hero');
-    if (!divider || !hero) return;
+    if (!divider) return;
 
-    const io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) {
-            if (e.isIntersecting) {
-                // Hero back in view — return divider to flow
-                divider.classList.add('hero-divider--static');
-                divider.classList.remove('is-stuck');
-            } else {
-                // Hero scrolled past — activate sticky under header
-                divider.classList.remove('hero-divider--static');
-                divider.classList.add('is-stuck');
-            }
-        });
-    }, { threshold: 0 });
+    // Sentinel: zero-height, non-sticky — tracks the divider's natural position.
+    const sentinel = document.createElement('div');
+    sentinel.setAttribute('aria-hidden', 'true');
+    divider.parentNode.insertBefore(sentinel, divider);
 
-    io.observe(hero);
+    let stuck = false;
+
+    function getHeaderH() {
+        return parseFloat(
+            getComputedStyle(document.documentElement).getPropertyValue('--site-header-height')
+        ) || 64;
+    }
+
+    function check() {
+        const shouldStick = sentinel.getBoundingClientRect().top <= getHeaderH();
+        if (shouldStick === stuck) return;
+        stuck = shouldStick;
+        divider.classList.toggle('hero-divider--static', !stuck);
+        divider.classList.toggle('is-stuck', stuck);
+    }
+
+    window.addEventListener('scroll', check, { passive: true });
+    check(); // Correct initial state on load / back-navigation
 })();
 
 /* Scroll reveal */
