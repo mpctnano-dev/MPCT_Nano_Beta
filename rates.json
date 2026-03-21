@@ -1,0 +1,45 @@
+{
+    "lastUpdated": "2026-03-20",
+    "notes": "All rates are per billable unit. null means rate is pending management approval (shown as TBD). Update this file to reflect any rate changes — both Book_Equipment.html and Rates.html will automatically reflect the update.",
+    "rates": [
+        { "id": "EQ-009", "name": "CSZ Environmental Chamber",             "category": "Electrical",       "unit": "hour", "internal": null,  "external": null  },
+        { "id": "EQ-014", "name": "Keithley 2110 5.5 Digit Multimeter",    "category": "Electrical",       "unit": "hour", "internal": null,  "external": null  },
+        { "id": "EQ-018", "name": "Keysight E4990A Impedance Analyzer",    "category": "Electrical",       "unit": "hour", "internal": null,  "external": null  },
+        { "id": "EQ-021", "name": "Montana CryoAdvance 50",                "category": "Electrical",       "unit": "hour", "internal": null,  "external": null  },
+        { "id": "EQ-022", "name": "MPI TS200 Probe Station",               "category": "Electrical",       "unit": "hour", "internal": null,  "external": null  },
+        { "id": "EQ-028", "name": "Seebeck and Resistivity Instrument",    "category": "Electrical",       "unit": "hour", "internal": 7.85,  "external": 11.97 },
+        { "id": "EQ-032", "name": "Tektronix AFG1022 Function Generator",  "category": "Electrical",       "unit": "hour", "internal": null,  "external": null  },
+        { "id": "EQ-033", "name": "Tektronix TBS1052C Digital Oscilloscope","category": "Electrical",      "unit": "hour", "internal": null,  "external": null  },
+        { "id": "EQ-039", "name": "Vector Network Analyzer (VNA)",         "category": "Electrical",       "unit": "hour", "internal": null,  "external": null  },
+
+        { "id": "EQ-006", "name": "Bambu Lab H2D 3D Printer",              "category": "Fabrication",      "unit": "hour", "internal": null,  "external": null  },
+        { "id": "EQ-012", "name": "Haas Desktop Lathe",                    "category": "Fabrication",      "unit": "hour", "internal": null,  "external": null  },
+        { "id": "EQ-013", "name": "Haas Desktop Mill",                     "category": "Fabrication",      "unit": "hour", "internal": null,  "external": null  },
+        { "id": "EQ-020", "name": "LPKF ProtoLaser R4",                    "category": "Fabrication",      "unit": "hour", "internal": null,  "external": null  },
+        { "id": "EQ-023", "name": "NIL Technology CNI v3.0",               "category": "Fabrication",      "unit": "hour", "internal": null,  "external": null  },
+        { "id": "EQ-031", "name": "SUSS Mask Aligner",                     "category": "Fabrication",      "unit": "hour", "internal": null,  "external": null  },
+        { "id": "EQ-038", "name": "Tresky T-4909 Die Bonder",              "category": "Fabrication",      "unit": "hour", "internal": null,  "external": null  },
+        { "id": "EQ-041", "name": "West-Bond Wire Bonder",                 "category": "Fabrication",      "unit": "hour", "internal": null,  "external": null  },
+
+        { "id": "EQ-005", "name": "B-2 Atomic Force Microscope (AFM)",     "category": "Metrology",        "unit": "hour", "internal": null,  "external": null  },
+        { "id": "EQ-007", "name": "BELPREP VAC Series",                    "category": "Metrology",        "unit": "hour", "internal": null,  "external": null  },
+        { "id": "EQ-008", "name": "BELSORP MAX X Surface and Pore Analyzer","category": "Metrology",       "unit": "hour", "internal": null,  "external": null  },
+        { "id": "EQ-010", "name": "Ellipsometer",                          "category": "Metrology",        "unit": "hour", "internal": null,  "external": null  },
+        { "id": "EQ-011", "name": "Fluke P3114 Oil Deadweight Tester",     "category": "Metrology",        "unit": "hour", "internal": null,  "external": null  },
+        { "id": "EQ-015", "name": "Keyence VHX-7000 Digital Microscope",   "category": "Metrology",        "unit": "hour", "internal": null,  "external": null  },
+        { "id": "EQ-016", "name": "Keyence VK-X3000 3D Surface Profiler",  "category": "Metrology",        "unit": "hour", "internal": null,  "external": null  },
+        { "id": "EQ-017", "name": "Keyence WM-6000 Wide Area CMM",         "category": "Metrology",        "unit": "hour", "internal": null,  "external": null  },
+        { "id": "EQ-026", "name": "Photoluminescence Spectrometer",        "category": "Metrology",        "unit": "hour", "internal": 14.87, "external": 22.67 },
+        { "id": "EQ-027", "name": "Scanning Electron Microscope (SEM)",    "category": "Metrology",        "unit": "hour", "internal": null,  "external": null  },
+        { "id": "EQ-029", "name": "SIMS Workstation",                      "category": "Metrology",        "unit": "hour", "internal": null,  "external": null  },
+        { "id": "EQ-030", "name": "Spatial Light Modulator",               "category": "Metrology",        "unit": "hour", "internal": null,  "external": null  },
+        { "id": "EQ-037", "name": "Transmission Electron Microscope (TEM)","category": "Metrology",        "unit": "hour", "internal": null,  "external": null  },
+        { "id": "EQ-042", "name": "XRD (X-Ray Diffraction)",               "category": "Metrology",        "unit": "hour", "internal": 14.87, "external": 22.67 },
+
+        { "id": "EQ-034", "name": "TEM Prep - Dimple Grinder",             "category": "Sample Prep",      "unit": "hour", "internal": null,  "external": null  },
+        { "id": "EQ-035", "name": "TEM Prep - Disk Grinder",               "category": "Sample Prep",      "unit": "hour", "internal": null,  "external": null  },
+        { "id": "EQ-036", "name": "TEM Prep - Ion Beam Mill",              "category": "Sample Prep",      "unit": "hour", "internal": null,  "external": null  },
+
+        { "id": "EQ-019", "name": "LN2 Storage and Dewars",                "category": "Support Systems",  "unit": "hour", "internal": null,  "external": null  }
+    ]
+}

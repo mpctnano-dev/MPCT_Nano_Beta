@@ -145,13 +145,72 @@
                                 </div>
                             </div>
 
-                            <div class="pf__row">
-                                <div class="pf__group">
-                                    <label class="pf__label" for="bkUserId">NAU EMPLID or Billing Account / Department</label>
-                                    <input type="text" id="bkUserId" name="user_id" class="pf__input"
-                                        placeholder="NAU EMPLID (e.g. 12345678) or department / billing code">
-                                    <span class="pf__helper">Optional — helps the lab assign costs to your account.</span>
+                            <!-- Conditional fields based on User Type -->
+                            <div id="bkUserTypeFields" style="display:none;">
+
+                                <div class="pf__row--2col">
+                                    <div class="pf__group">
+                                        <label class="pf__label" for="bkNauId">NAU ID <span class="pf__req">*</span></label>
+                                        <input type="text" id="bkNauId" name="nau_id" class="pf__input"
+                                            data-bk-required placeholder="e.g. 12345678">
+                                        <span class="pf__error" id="err_nau_id">Please enter your NAU ID.</span>
+                                    </div>
+                                    <div class="pf__group">
+                                        <label class="pf__label" for="bkNauEmail">NAU Email <span class="pf__req">*</span></label>
+                                        <input type="email" id="bkNauEmail" name="nau_email" class="pf__input"
+                                            data-bk-required placeholder="jd1234@nau.edu">
+                                        <span class="pf__error" id="err_nau_email">Please enter your NAU email.</span>
+                                    </div>
                                 </div>
+
+                                <div class="pf__row--2col">
+                                    <div class="pf__group">
+                                        <label class="pf__label" for="bkDepartment">Department <span class="pf__req">*</span></label>
+                                        <input type="text" id="bkDepartment" name="department" class="pf__input"
+                                            data-bk-required placeholder="e.g. Mechanical Engineering">
+                                        <span class="pf__error" id="err_department">Please enter your department.</span>
+                                    </div>
+                                    <div class="pf__group">
+                                        <label class="pf__label" for="bkSchool">School / College <span class="pf__req">*</span></label>
+                                        <select id="bkSchool" name="school" class="pf__select" data-bk-required>
+                                            <option value="" disabled selected>Select school&hellip;</option>
+                                            <option value="sanghi_engineering">Steve Sanghi College of Engineering</option>
+                                            <option value="ceias">College of Engineering, Informatics &amp; Applied Sciences</option>
+                                            <option value="cefns">College of the Environment, Forestry &amp; Natural Sciences</option>
+                                            <option value="franke_business">W.A. Franke College of Business</option>
+                                            <option value="education">College of Education</option>
+                                            <option value="arts_letters">College of Arts &amp; Letters</option>
+                                            <option value="social_behavioral">College of Social &amp; Behavioral Sciences</option>
+                                            <option value="health_human">College of Health &amp; Human Services</option>
+                                            <option value="graduate">Graduate College</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                        <span class="pf__error" id="err_school">Please select your school.</span>
+                                    </div>
+                                </div>
+
+                                <div class="pf__row--2col">
+                                    <div class="pf__group">
+                                        <label class="pf__label" for="bkSpeedChart">Speed Chart / Account Number</label>
+                                        <input type="text" id="bkSpeedChart" name="speed_chart" class="pf__input"
+                                            placeholder="Speed chart or billing account number">
+                                        <span class="pf__helper">Used for internal billing — check with your department admin if unsure.</span>
+                                    </div>
+                                    <!-- Student only: Supervisor -->
+                                    <div class="pf__group" id="bkSupervisorGroup" style="display:none;">
+                                        <label class="pf__label" for="bkSupervisor">Supervisor / Working Under <span class="pf__req">*</span></label>
+                                        <input type="text" id="bkSupervisor" name="supervisor" class="pf__input"
+                                            data-bk-required placeholder="Name of faculty advisor or PI">
+                                        <span class="pf__error" id="err_supervisor">Please enter your supervisor's name.</span>
+                                    </div>
+                                    <!-- Faculty only: Job Title -->
+                                    <div class="pf__group" id="bkJobTitleGroup" style="display:none;">
+                                        <label class="pf__label" for="bkJobTitle">Job Title</label>
+                                        <input type="text" id="bkJobTitle" name="job_title" class="pf__input"
+                                            placeholder="e.g. Associate Professor, Research Scientist">
+                                    </div>
+                                </div>
+
                             </div>
 
                         </fieldset>
@@ -358,7 +417,7 @@
                                         </div>
                                         <p class="bk-cost-disclaimer">
                                             <i class="fas fa-circle-info"></i>
-                                            This is an estimate only. Final billing may vary based on actual usage, consumables, and staff time. The lab manager will confirm the final cost.
+                                            This is an estimate only. If billing for the selected instrument is not hourly (e.g., per sample, per gram, or per run), a lab coordinator will contact you with a full itemized quote. Final charges are not confirmed until you receive written notification from lab staff.
                                         </p>
                                     </div>
                                 </div>
@@ -495,13 +554,54 @@
                     <!-- Submit controls and inline feedback -->
                     <div class="pf__section pf__section--submit">
 
-                        <!-- booking.js writes success and error messages here -->
-                        <div id="formFeedback" class="bk-feedback" style="display:none;" role="alert"></div>
+                        <!-- Billing notice -->
+                    <div class="bk-billing-notice">
+                        <div class="bk-billing-notice__header">
+                            <div class="bk-billing-notice__icon-wrap">
+                                <i class="fas fa-file-invoice-dollar"></i>
+                            </div>
+                            <div>
+                                <div class="bk-billing-notice__title">Billing Notice &amp; Disclaimer</div>
+                                <div class="bk-billing-notice__subtitle">Please review the following before submitting</div>
+                            </div>
+                        </div>
 
-                        <p style="font-size: 0.85rem; color: var(--gray-500); margin-bottom: 20px;">
-                            By submitting this form you agree that your contact information and project details
-                            may be used by NAU Nano Core staff to process your request.
-                        </p>
+                        <div class="bk-billing-notice__grid">
+                            <div class="bk-billing-notice__clause">
+                                <i class="fas fa-tag bk-billing-notice__clause-icon"></i>
+                                <div class="bk-billing-notice__clause-label">Estimates Only</div>
+                                <p>Published rates are subject to change without prior notice. This form is not a confirmed reservation or a binding quote.</p>
+                            </div>
+                            <div class="bk-billing-notice__clause">
+                                <i class="fas fa-scale-balanced bk-billing-notice__clause-icon"></i>
+                                <div class="bk-billing-notice__clause-label">Non-Hourly Billing</div>
+                                <p>Some equipment is billed per sample, gram, or run. A coordinator will contact you with a full itemized quote if applicable.</p>
+                            </div>
+                            <div class="bk-billing-notice__clause">
+                                <i class="fas fa-receipt bk-billing-notice__clause-icon"></i>
+                                <div class="bk-billing-notice__clause-label">Additional Charges</div>
+                                <p>Final charges may include taxes, consumables, chemical or gas usage, setup fees, or other costs incurred during operation.</p>
+                            </div>
+                            <div class="bk-billing-notice__clause">
+                                <i class="fas fa-shield-halved bk-billing-notice__clause-icon"></i>
+                                <div class="bk-billing-notice__clause-label">Written Confirmation</div>
+                                <p>No charges are confirmed until written notification from NAU Nano Core staff. Lab manager approval required before invoicing.</p>
+                            </div>
+                        </div>
+
+                        <div class="bk-billing-notice__agree">
+                            <label for="bkAgreeTerms">
+                                <input type="checkbox" id="bkAgreeTerms" name="agreeTerms">
+                                I have read and understand the billing notice above. I acknowledge that rates are subject to change, non-hourly charges may apply, and no costs are confirmed until written notification from NAU Nano Core staff.
+                            </label>
+                            <p id="bkAgreeError" class="bk-billing-notice__agree-error" style="display:none;">
+                                <i class="fas fa-exclamation-circle"></i> You must acknowledge the billing notice before submitting.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- booking.js writes success and error messages here -->
+                        <div id="formFeedback" class="bk-feedback" style="display:none;" role="alert"></div>
 
                         <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
                             <button type="reset" class="btn btn-outline btn-outline-gray"

@@ -27,49 +27,7 @@
     // Only these machines show the optional cryogenic cooling control.
     const CRYO_EQUIPMENT = ['EQ-036'];
 
-    // Rate data mirrors the published values in Rates.html.
-    const EQUIPMENT_RATES = {
-        // ---- Electrical ----
-        'EQ-009': { unit: 'hour', internal: null, external: null },  // CSZ Environmental Chamber
-        'EQ-014': { unit: 'hour', internal: null, external: null },  // Keithley 2110
-        'EQ-018': { unit: 'hour', internal: null, external: null },  // Keysight Impedance Analyzer
-        'EQ-021': { unit: 'hour', internal: null, external: null },  // Montana CryoAdvance 50
-        'EQ-022': { unit: 'hour', internal: null, external: null },  // MPI TS200 Probe Station
-        'EQ-028': { unit: 'hour', internal: 7.85, external: 11.97 },  // Seebeck
-        'EQ-032': { unit: 'hour', internal: null, external: null },  // Tektronix AFG
-        'EQ-033': { unit: 'hour', internal: null, external: null },  // Tektronix Oscilloscope
-        'EQ-039': { unit: 'hour', internal: null, external: null },  // VNA
-        // ---- Fabrication ----
-        'EQ-006': { unit: 'hour', internal: null, external: null },  // Bambu H2D
-        'EQ-012': { unit: 'hour', internal: null, external: null },  // Haas Desktop Lathe
-        'EQ-013': { unit: 'hour', internal: null, external: null },  // Haas Desktop Mill
-        'EQ-020': { unit: 'hour', internal: null, external: null },  // LPKF ProtoLaser
-        'EQ-023': { unit: 'hour', internal: null, external: null },  // NIL Technology
-        'EQ-031': { unit: 'hour', internal: null, external: null },  // SUSS Mask Aligner
-        'EQ-038': { unit: 'hour', internal: null, external: null },  // Tresky Die Bonder
-        'EQ-041': { unit: 'hour', internal: null, external: null },  // West-Bond Wire Bonder
-        // ---- Metrology ----
-        'EQ-005': { unit: 'hour', internal: null, external: null },  // AFM
-        'EQ-007': { unit: 'hour', internal: null, external: null },  // SmartVacPrep
-        'EQ-008': { unit: 'hour', internal: null, external: null },  // TriStar II Plus
-        'EQ-010': { unit: 'hour', internal: null, external: null },  // Ellipsometer
-        'EQ-011': { unit: 'hour', internal: null, external: null },  // Fluke Calibrator
-        'EQ-015': { unit: 'hour', internal: null, external: null },  // Keyence VHX-7000
-        'EQ-016': { unit: 'hour', internal: null, external: null },  // Keyence VK-X3000
-        'EQ-017': { unit: 'hour', internal: null, external: null },  // Keyence XM-5000
-        'EQ-026': { unit: 'hour', internal: 14.87, external: 22.67 },  // PL Spectrometer
-        'EQ-027': { unit: 'hour', internal: null, external: null },  // SEM
-        'EQ-029': { unit: 'hour', internal: null, external: null },  // SIMS
-        'EQ-030': { unit: 'hour', internal: null, external: null },  // SLM
-        'EQ-037': { unit: 'hour', internal: null, external: null },  // TEM
-        'EQ-042': { unit: 'hour', internal: 14.87, external: 22.67 },  // XRD
-        // ---- Sample Prep ----
-        'EQ-034': { unit: 'hour', internal: null, external: null },  // Dimple Grinder
-        'EQ-035': { unit: 'hour', internal: null, external: null },  // Disc Grinder
-        'EQ-036': { unit: 'hour', internal: null, external: null },  // Ion Beam Mill
-        // ---- Support Systems ----
-        'EQ-019': { unit: 'hour', internal: null, external: null },  // LN2 Generator
-    };
+    // Rate data is loaded at runtime from rates.json — do not hardcode rates here.
 
     // Converts the duration select values into billable hours.
     const DURATION_HOURS = {
@@ -274,11 +232,12 @@
 
     // Runtime state for the current page session.
     let equipmentData = [];
+    let ratesData     = {};   // ID-keyed map built from rates.json on load
     let isEducationalMode = false;
 
     // Load data first so dropdowns and URL preselection have the catalog available.
     document.addEventListener('DOMContentLoaded', async () => {
-        await loadEquipmentData();
+        await Promise.all([loadEquipmentData(), loadRatesData()]);
         populateCategoryDropdown();
         readUrlParams();
         bindEvents();
@@ -299,6 +258,18 @@
             });
         } catch (e) {
             console.error('booking.js: failed to load equipment.json', e);
+        }
+    }
+
+    // Pull billing rates from rates.json and index by equipment ID for O(1) lookup.
+    async function loadRatesData() {
+        try {
+            const res = await fetch('rates.json', { cache: 'no-store' });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const data = await res.json();
+            (data.rates || []).forEach(r => { ratesData[r.id] = r; });
+        } catch (e) {
+            console.error('booking.js: failed to load rates.json', e);
         }
     }
 
@@ -379,6 +350,7 @@
         const userTypeSel = document.getElementById('bkUserType');
         if (userTypeSel) {
             userTypeSel.addEventListener('change', () => {
+                updateUserTypeFields();
                 if (isEducationalMode) checkEducationalAccess();
                 updateCostDisplay();
             });
@@ -451,6 +423,45 @@
                 if (errEl) errEl.style.display = 'none';
             }
         });
+    }
+
+    // Show / hide NAU-specific fields based on the selected user type.
+    function updateUserTypeFields() {
+        const userType        = document.getElementById('bkUserType')?.value;
+        const fields          = document.getElementById('bkUserTypeFields');
+        const supervisorGroup = document.getElementById('bkSupervisorGroup');
+        const jobTitleGroup   = document.getElementById('bkJobTitleGroup');
+
+        if (!fields) return;
+
+        const isNau = userType === 'nau_student' || userType === 'nau_faculty_staff';
+
+        fields.style.display = isNau ? '' : 'none';
+
+        // Toggle required on NAU fields.
+        fields.querySelectorAll('[data-bk-required]').forEach(el => {
+            if (isNau) {
+                el.setAttribute('required', '');
+            } else {
+                el.removeAttribute('required');
+                el.style.borderColor = '';
+                const errEl = document.getElementById('err_' + el.name);
+                if (errEl) errEl.style.display = 'none';
+            }
+        });
+
+        // Supervisor (student only) vs. Job Title (faculty only).
+        if (supervisorGroup) {
+            supervisorGroup.style.display = userType === 'nau_student' ? '' : 'none';
+            const supInput = supervisorGroup.querySelector('[data-bk-required]');
+            if (supInput) {
+                if (userType === 'nau_student') supInput.setAttribute('required', '');
+                else { supInput.removeAttribute('required'); supInput.style.borderColor = ''; }
+            }
+        }
+        if (jobTitleGroup) {
+            jobTitleGroup.style.display = userType === 'nau_faculty_staff' ? '' : 'none';
+        }
     }
 
     // Educational requests accept internal NAU users only.
@@ -532,7 +543,7 @@
             return;
         }
 
-        const { cls, label } = getStatusInfo(item);
+        const { cls, label, sub } = getStatusInfo(item);
         const accs = ACCESSORIES[item.id] || [];
         const accsHtml = accs.length
             ? `<div class="bk-info-accessories"><i class="fas fa-puzzle-piece"></i> Accessories available: ${accs.map(esc).join(', ')}</div>`
@@ -557,7 +568,10 @@
                 </div>
                 <div class="bk-info-status">
                     <span class="status-dot ${cls}"></span>
-                    <span class="bk-status-label">${esc(label)}</span>
+                    <div class="bk-status-text">
+                        <span class="bk-status-label">${esc(label)}</span>
+                        <span class="bk-status-sub">${esc(sub)}</span>
+                    </div>
                 </div>
             </div>
             ${accsHtml}
@@ -568,9 +582,18 @@
     }
 
     function getStatusInfo(item) {
-        if (item.status === 'AVAILABLE') return { cls: 'available', label: 'Available' };
-        if (item.status === 'EXPECTED')  return { cls: 'expected',  label: 'Expected' + (item.expectedDate ? ': ' + formatDate(item.expectedDate) : '') };
-        return { cls: 'busy', label: 'Unavailable' };
+        if (item.status === 'AVAILABLE') {
+            return { cls: 'available', label: 'Available Now', sub: 'Ready to reserve' };
+        }
+        if (item.status === 'EXPECTED') {
+            const date = item.expectedDate ? formatDate(item.expectedDate) : null;
+            return {
+                cls:   'expected',
+                label: 'Not Yet Available',
+                sub:   date ? 'Expected online: ' + date : 'Availability date TBD',
+            };
+        }
+        return { cls: 'busy', label: 'Currently Unavailable', sub: 'Your request will be queued' };
     }
 
     function formatDate(raw) {
@@ -657,7 +680,7 @@
             return;
         }
 
-        const rate = EQUIPMENT_RATES[item.id];
+        const rate = ratesData[item.id];
         const userType = (document.getElementById('bkUserType') || {}).value || '';
         const isInternal = (userType === 'nau_student' || userType === 'nau_faculty_staff');
         const isExternal = (userType === 'external_academic' || userType === 'industry');
@@ -806,6 +829,24 @@
                 if (errEl) errEl.style.display = 'none';
             }
         });
+
+        // Billing notice checkbox — must be acknowledged before submitting.
+        const agreeBox   = document.getElementById('bkAgreeTerms');
+        const agreeError = document.getElementById('bkAgreeError');
+        if (agreeBox && !agreeBox.checked) {
+            valid = false;
+            if (agreeError) agreeError.style.display = 'flex';
+            agreeBox.closest('.bk-billing-notice__agree').style.outline = '2px solid #ff7b7b';
+            agreeBox.closest('.bk-billing-notice__agree').style.outlineOffset = '-2px';
+            if (!document.querySelector('#bookingForm [style*="border-color"]')) {
+                agreeBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        } else if (agreeBox) {
+            if (agreeError) agreeError.style.display = 'none';
+            agreeBox.closest('.bk-billing-notice__agree').style.outline = '';
+            agreeBox.closest('.bk-billing-notice__agree').style.outlineOffset = '';
+        }
+
         if (!valid) {
             const firstErr = document.querySelector('#bookingForm [required]:invalid, #bookingForm [style*="--nau-red"]');
             if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });

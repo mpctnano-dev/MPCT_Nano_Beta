@@ -1,3 +1,31 @@
+/* Hero Divider — dynamic sticky activation
+ * Starts as position:relative (static) while the hero is visible.
+ * The moment the hero section fully exits the viewport (scrolled past),
+ * --static is removed so the divider locks under the header via position:sticky.
+ * Reverses when scrolling back up into the hero.
+ */
+(function () {
+    const divider = document.querySelector('.hero-divider--static');
+    const hero = document.querySelector('.ml-hero');
+    if (!divider || !hero) return;
+
+    const io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+            if (e.isIntersecting) {
+                // Hero back in view — return divider to flow
+                divider.classList.add('hero-divider--static');
+                divider.classList.remove('is-stuck');
+            } else {
+                // Hero scrolled past — activate sticky under header
+                divider.classList.remove('hero-divider--static');
+                divider.classList.add('is-stuck');
+            }
+        });
+    }, { threshold: 0 });
+
+    io.observe(hero);
+})();
+
 /* Scroll reveal */
 (function () {
     const els = document.querySelectorAll('.ml-reveal');
