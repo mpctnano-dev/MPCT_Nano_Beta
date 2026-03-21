@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Preview internal and external NAU Nano email templates for contact, service, and equipment booking workflows.">
+    <title>Email Templates | NAU Nano</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="CSS/style.css">
+
+    <style>
+        .email-templates-hero {
+            background: linear-gradient(135deg, #001838 0%, #002454 50%, #003a85 100%);
+            color: #ffffff;
+            padding: 72px 0 56px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .email-templates-hero::before {
+            content: "";
+            position: absolute;
+            right: -140px;
+            top: -120px;
+            width: 360px;
+            height: 360px;
+            background: radial-gradient(circle, rgba(250, 192, 26, 0.28) 0%, rgba(250, 192, 26, 0) 70%);
+        }
+
+        .email-templates-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin: 0 0 12px;
+            color: #ffffff;
+        }
+
+        .email-templates-subtitle {
+            margin: 0;
+            max-width: 760px;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 18px;
+            margin-top: 28px;
+        }
+
+        .template-card {
+            background: #ffffff;
+            border: 1px solid #e9ecef;
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: 0 10px 24px rgba(0, 36, 84, 0.07);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .template-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 30px rgba(0, 36, 84, 0.14);
+        }
+
+        .template-card h3 {
+            margin: 0;
+            color: #002454;
+            font-size: 1.05rem;
+            line-height: 1.4;
+        }
+
+        .template-card p {
+            margin: 0;
+            color: #495057;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            flex-grow: 1;
+        }
+
+        .template-badge {
+            align-self: flex-start;
+            background: #f1f3f5;
+            color: #495057;
+            border-radius: 999px;
+            padding: 5px 10px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .template-link {
+            display: inline-block;
+            margin-top: 2px;
+            font-weight: 700;
+            text-decoration: none;
+            color: #003a85;
+        }
+
+        .template-link:hover {
+            color: #001838;
+            text-decoration: underline;
+        }
+
+        .template-section-title {
+            margin: 0 0 10px;
+            font-size: 1.45rem;
+            color: #002454;
+        }
+
+        .template-note {
+            margin-top: 20px;
+            background: #fffbea;
+            border: 1px solid #fac01a;
+            border-radius: 10px;
+            padding: 14px 16px;
+            color: #495057;
+            line-height: 1.6;
+            font-size: 0.94rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <site-header></site-header>
+
+    <main>
+        <section class="email-templates-hero">
+            <div class="container">
+                <h1 class="email-templates-title">Email Template Previews</h1>
+                <p class="email-templates-subtitle">
+                    Central preview page for all current internal and external email templates used by Contact,
+                    Service Request, and Equipment Booking workflows.
+                </p>
+            </div>
+        </section>
+
+        <section class="section-padding">
+            <div class="container">
+                <h2 class="template-section-title">Available Templates</h2>
+
+                <div class="template-grid">
+                    <article class="template-card">
+                        <span class="template-badge">Contact · Internal</span>
+                        <h3>Contact Form Notification (Lab Team)</h3>
+                        <p>NAU Navy/Gold branded staff alert with inquiry details, keyword urgency state, and one-click triage actions.</p>
+                        <!-- <a class="template-link" href="Email_Templates/Template_Contact_Internal.html" target="_blank" rel="noopener">Open Template</a> -->
+                    </article>
+
+                    <article class="template-card">
+                        <span class="template-badge">Contact · External</span>
+                        <h3>Contact Confirmation (User)</h3>
+                        <p>User receipt with thank-you messaging, dynamic attachment section, and optional calendar invite callout.</p>
+                        <!-- <a class="template-link" href="Email_Templates/Template_Contact_External.html" target="_blank" rel="noopener">Open Template</a> -->
+                    </article>
+
+                    <article class="template-card">
+                        <span class="template-badge">Services · Internal</span>
+                        <h3>Service Request Notification (Lab Team)</h3>
+                        <p>Technical style notification with client/spec sections, CAD references, estimate block, and workflow buttons.</p>
+                        <!-- <a class="template-link" href="Email_Templates/Template_Service_Internal.html" target="_blank" rel="noopener">Open Template</a> -->
+                    </article>
+
+                    <article class="template-card">
+                        <span class="template-badge">Services · External</span>
+                        <h3>Service Request Confirmation (User)</h3>
+                        <p>Includes tracking ID, status link, 3-step progress visualization, and project receipt summary.</p>
+                        <!-- <a class="template-link" href="Email_Templates/Template_Service_External.html" target="_blank" rel="noopener">Open Template</a> -->
+                    </article>
+
+                    <article class="template-card">
+                        <span class="template-badge">Booking · Internal</span>
+                        <h3>Equipment Booking Alert (Manager)</h3>
+                        <p>Scannable manager alert with who/what/when, certification check state, and direct approve/deny action links.</p>
+                        <!-- <a class="template-link" href="Email_Templates/Template_Booking_Internal.html" target="_blank" rel="noopener">Open Template</a> -->
+                    </article>
+
+                    <article class="template-card">
+                        <span class="template-badge">Booking · External</span>
+                        <h3>Equipment Reservation Confirmation (User)</h3>
+                        <p>Booking summary, QR boarding pass section, SOP attachment notice, and modify/cancel pathway.</p>
+                        <!-- <a class="template-link" href="Email_Templates/Template_Booking_External.html" target="_blank" rel="noopener">Open Template</a> -->
+                    </article>
+                </div>
+
+                <div class="template-note">
+                    Template preview links are intentionally hidden in this branch.
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <site-footer></site-footer>
+
+    <script src="JS/layout.js"></script>
+</body>
+
+</html>

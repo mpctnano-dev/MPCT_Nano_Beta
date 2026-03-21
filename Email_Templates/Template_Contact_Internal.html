@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab Team Notification – New Contact Inquiry</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f1f3f5;font-family:'Segoe UI',Arial,sans-serif;">
+
+  <!-- Outer wrapper -->
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f1f3f5;padding:32px 0;">
+    <tr>
+      <td align="center">
+
+        <!-- Email card -->
+        <table width="640" cellpadding="0" cellspacing="0" border="0"
+               style="background-color:#ffffff;border-radius:10px;overflow:hidden;
+                      box-shadow:0 4px 20px rgba(0,0,0,0.10);max-width:640px;width:100%;">
+
+          <!-- ═══════════════════════════════════════════
+               TOP HEADER BAR – NAU Navy + Gold accent
+          ═══════════════════════════════════════════ -->
+          <tr>
+            <td style="background-color:#002454;padding:0;">
+              <!-- Gold accent line at top -->
+              <div style="height:5px;background-color:#FAC01A;"></div>
+              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="padding:20px 32px;">
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td>
+                          <span style="font-size:11px;font-weight:700;letter-spacing:2px;
+                                       color:#FAC01A;text-transform:uppercase;">
+                            NAU NANO CORE FACILITY
+                          </span><br/>
+                          <span style="font-size:20px;font-weight:700;color:#ffffff;
+                                       line-height:1.3;margin-top:4px;display:block;">
+                            STAFF NOTIFICATION
+                          </span>
+                        </td>
+                        <td align="right" style="vertical-align:top;">
+                          <span style="background-color:#FAC01A;color:#002454;font-size:10px;
+                                       font-weight:800;letter-spacing:1px;padding:4px 10px;
+                                       border-radius:4px;text-transform:uppercase;">
+                            INTERNAL USE ONLY
+                          </span>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ═══════════════════════════════════════════
+               BANNER – "New Inquiry: [Category]"
+               NOTE: Background turns RED (#bb0000) if
+               keywords "urgent / deadline / broken"
+               are detected in the message body.
+               Default (no flag): NAU Navy (#002454)
+          ═══════════════════════════════════════════ -->
+          <tr>
+            <td style="background-color:#002454;padding:18px 32px;">
+              <!-- ─── NORMAL STATE (default) ─── -->
+              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td>
+                    <span style="font-size:22px;font-weight:800;color:#FAC01A;
+                                 letter-spacing:0.5px;">
+                      🔔 New Inquiry: Facility Tour
+                    </span><br/>
+                    <span style="font-size:13px;color:#c8d8f0;margin-top:6px;display:block;">
+                      Received: <strong style="color:#ffffff;">March 20, 2026 — 10:47 AM (MST)</strong>
+                    </span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ─── URGENT / RED FLAG STATE (example) ─── -->
+          <!-- When keywords like "urgent", "deadline", "broken" are found,
+               the PHP script replaces the banner above with this block:
+
+          <tr>
+            <td style="background-color:#bb0000;border-left:6px solid #ff6b6b;padding:18px 32px;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td>
+                    <span style="font-size:14px;font-weight:800;color:#ffdddd;
+                                 letter-spacing:1px;text-transform:uppercase;">
+                      ⚠ URGENT FLAG DETECTED
+                    </span><br/>
+                    <span style="font-size:22px;font-weight:800;color:#ffffff;">
+                      🔔 New Inquiry: General Question
+                    </span><br/>
+                    <span style="font-size:13px;color:#ffcccc;margin-top:4px;display:block;">
+                      Keyword detected: "urgent" — Immediate attention may be required
+                    </span>
+                    <span style="font-size:12px;color:#ffaaaa;margin-top:4px;display:block;">
+                      Received: March 20, 2026 — 10:47 AM (MST)
+                    </span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          -->
+
+          <!-- ═══════════════════════════════════════════
+               SECTION 1 — CONTACT INFORMATION
+          ═══════════════════════════════════════════ -->
+          <tr>
+            <td style="padding:28px 32px 0 32px;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="padding-bottom:10px;border-bottom:2px solid #FAC01A;">
+                    <span style="font-size:11px;font-weight:700;letter-spacing:2px;
+                                 color:#FAC01A;text-transform:uppercase;">
+                      Section 1
+                    </span>
+                    <span style="font-size:15px;font-weight:700;color:#002454;
+                                 margin-left:8px;">
+                      Contact Information
+                    </span>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Data rows -->
+              <table width="100%" cellpadding="0" cellspacing="0" border="0"
+                     style="margin-top:14px;border:1px solid #dee2e6;border-radius:8px;
+                            overflow:hidden;">
+                <tr style="background-color:#f8f9fa;">
+                  <td style="padding:10px 16px;width:38%;font-size:12px;font-weight:700;
+                             color:#6c757d;text-transform:uppercase;letter-spacing:0.8px;
+                             border-bottom:1px solid #dee2e6;">
+                    Full Name
+                  </td>
+                  <td style="padding:10px 16px;font-size:14px;color:#212529;font-weight:600;
+                             border-bottom:1px solid #dee2e6;">
+                    Jane Doe
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:10px 16px;font-size:12px;font-weight:700;color:#6c757d;
+                             text-transform:uppercase;letter-spacing:0.8px;
+                             border-bottom:1px solid #dee2e6;background-color:#ffffff;">
+                    Email Address
+                  </td>
+                  <td style="padding:10px 16px;font-size:14px;color:#003a85;
+                             border-bottom:1px solid #dee2e6;background-color:#ffffff;">
+                    <a href="mailto:jane.doe@nau.edu" style="color:#003a85;">jane.doe@nau.edu</a>
+                  </td>
+                </tr>
+                <tr style="background-color:#f8f9fa;">
+                  <td style="padding:10px 16px;font-size:12px;font-weight:700;color:#6c757d;
+                             text-transform:uppercase;letter-spacing:0.8px;
+                             border-bottom:1px solid #dee2e6;">
+                    Phone
+                  </td>
+                  <td style="padding:10px 16px;font-size:14px;color:#212529;
+                             border-bottom:1px solid #dee2e6;">
+                    (928) 555-0192
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:10px 16px;font-size:12px;font-weight:700;color:#6c757d;
+                             text-transform:uppercase;letter-spacing:0.8px;
+                             border-bottom:1px solid #dee2e6;background-color:#ffffff;">
+                    Affiliation
+                  </td>
+                  <td style="padding:10px 16px;font-size:14px;color:#212529;
+                             border-bottom:1px solid #dee2e6;background-color:#ffffff;">
+                    Northern Arizona University — Dept. of Physics
+                  </td>
+                </tr>
+                <tr style="background-color:#f8f9fa;">
+                  <td style="padding:10px 16px;font-size:12px;font-weight:700;color:#6c757d;
+                             text-transform:uppercase;letter-spacing:0.8px;">
+                    Inquiry Category
+                  </td>
+                  <td style="padding:10px 16px;">
+                    <span style="background-color:#002454;color:#FAC01A;font-size:12px;
+                                 font-weight:700;padding:3px 10px;border-radius:20px;
+                                 letter-spacing:0.5px;">
+                      Facility Tour
+                    </span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ═══════════════════════════════════════════
+               SECTION 2 — INQUIRY DETAILS
+          ═══════════════════════════════════════════ -->
+          <tr>
+            <td style="padding:24px 32px 0 32px;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="padding-bottom:10px;border-bottom:2px solid #FAC01A;">
+                    <span style="font-size:11px;font-weight:700;letter-spacing:2px;
+                                 color:#FAC01A;text-transform:uppercase;">
+                      Section 2
+                    </span>
+                    <span style="font-size:15px;font-weight:700;color:#002454;margin-left:8px;">
+                      Inquiry Details
+                    </span>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Preferred Date/Time (dynamic — shown for Tour/Training categories) -->
+              <table width="100%" cellpadding="0" cellspacing="0" border="0"
+                     style="margin-top:14px;border:1px solid #dee2e6;border-radius:8px;
+                            overflow:hidden;">
+                <tr style="background-color:#f8f9fa;">
+                  <td style="padding:10px 16px;width:38%;font-size:12px;font-weight:700;
+                             color:#6c757d;text-transform:uppercase;letter-spacing:0.8px;
+                             border-bottom:1px solid #dee2e6;">
+                    Preferred Date
+                  </td>
+                  <td style="padding:10px 16px;font-size:14px;color:#212529;font-weight:600;
+                             border-bottom:1px solid #dee2e6;">
+                    April 5, 2026
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:10px 16px;font-size:12px;font-weight:700;color:#6c757d;
+                             text-transform:uppercase;letter-spacing:0.8px;
+                             border-bottom:1px solid #dee2e6;background-color:#ffffff;">
+                    Preferred Time
+                  </td>
+                  <td style="padding:10px 16px;font-size:14px;color:#212529;
+                             border-bottom:1px solid #dee2e6;background-color:#ffffff;">
+                    10:00 AM
+                  </td>
+                </tr>
+                <tr style="background-color:#f8f9fa;">
+                  <td style="padding:10px 16px;font-size:12px;font-weight:700;color:#6c757d;
+                             text-transform:uppercase;letter-spacing:0.8px;">
+                    Group Size
+                  </td>
+                  <td style="padding:10px 16px;font-size:14px;color:#212529;">
+                    8 people
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Message block -->
+              <div style="margin-top:14px;padding:16px 20px;background-color:#f8f9fa;
+                          border-left:4px solid #002454;border-radius:0 8px 8px 0;">
+                <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;letter-spacing:1.5px;
+                           color:#6c757d;text-transform:uppercase;">Message</p>
+                <p style="margin:0;font-size:14px;color:#343a40;line-height:1.7;">
+                  "Hello, I am a professor in the Physics department and would like to schedule
+                  a lab tour for a group of undergraduate students. We are interested in seeing
+                  the cleanroom and SEM facilities. Please let me know your availability."
+                </p>
+              </div>
+            </td>
+          </tr>
+
+          <!-- ═══════════════════════════════════════════
+               ONE-CLICK TRIAGE BUTTONS
+          ═══════════════════════════════════════════ -->
+          <tr>
+            <td style="padding:28px 32px 0 32px;">
+              <p style="margin:0 0 12px 0;font-size:11px;font-weight:700;letter-spacing:2px;
+                         color:#6c757d;text-transform:uppercase;">
+                Quick Triage Actions
+              </p>
+              <table cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <!-- Forward to Admin -->
+                  <td style="padding-right:10px;">
+                    <a href="mailto:nano-admin@nau.edu?subject=FWD%3A%20Facility%20Tour%20Inquiry%20%E2%80%94%20Jane%20Doe&body=Please%20see%20the%20forwarded%20inquiry%20below%3A%0A%0AName%3A%20Jane%20Doe%0AEmail%3A%20jane.doe%40nau.edu%0ACategory%3A%20Facility%20Tour%0A%0AMessage%3A%0A%22Hello%2C%20I%20am%20a%20professor..."
+                       style="display:inline-block;background-color:#002454;color:#FAC01A;
+                              font-size:12px;font-weight:700;padding:10px 18px;text-decoration:none;
+                              border-radius:6px;letter-spacing:0.5px;">
+                      📤 Forward to Admin
+                    </a>
+                  </td>
+                  <!-- Reply: Request More Info -->
+                  <td style="padding-right:10px;">
+                    <a href="mailto:jane.doe@nau.edu?subject=Re%3A%20Your%20Facility%20Tour%20Inquiry&body=Hi%20Jane%2C%0A%0AThank%20you%20for%20reaching%20out%20to%20the%20NAU%20Nano%20Core%20Facility.%0A%0AWe%20received%20your%20Facility%20Tour%20inquiry%20and%20would%20love%20to%20accommodate%20your%20group.%20Could%20you%20please%20provide%20a%20few%20more%20details%3F%0A%0A-%20..."
+                       style="display:inline-block;background-color:#495057;color:#ffffff;
+                              font-size:12px;font-weight:700;padding:10px 18px;text-decoration:none;
+                              border-radius:6px;letter-spacing:0.5px;">
+                      ❓ Reply: Need More Info
+                    </a>
+                  </td>
+                  <!-- Reply: Setup Call -->
+                  <td>
+                    <a href="mailto:jane.doe@nau.edu?subject=Re%3A%20Your%20Facility%20Tour%20Inquiry%20%E2%80%94%20Schedule%20a%20Call&body=Hi%20Jane%2C%0A%0AThank%20you%20for%20your%20interest%20in%20a%20Facility%20Tour%20at%20the%20NAU%20Nano%20Core%20Facility.%0A%0AWe%20would%20love%20to%20connect%20and%20confirm%20your%20group%20visit.%20Please%20let%20us%20know%20a%20good%20time%20for%20a%20quick%20call%3A%0A%0AOption%201%3A%20...%0AOption%202%3A%20..."
+                       style="display:inline-block;background-color:#007a33;color:#ffffff;
+                              font-size:12px;font-weight:700;padding:10px 18px;text-decoration:none;
+                              border-radius:6px;letter-spacing:0.5px;">
+                      📅 Reply: Setup a Call
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ═══════════════════════════════════════════
+               DIVIDER
+          ═══════════════════════════════════════════ -->
+          <tr>
+            <td style="padding:28px 32px 0 32px;">
+              <div style="height:1px;background-color:#dee2e6;"></div>
+            </td>
+          </tr>
+
+          <!-- ═══════════════════════════════════════════
+               FOOTER
+          ═══════════════════════════════════════════ -->
+          <tr>
+            <td style="padding:20px 32px 28px 32px;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="font-size:11px;color:#adb5bd;line-height:1.6;">
+                    This is an automated internal notification from the NAU Nano Core Facility web system.<br/>
+                    Form submitted from: <strong>Contact_Us.html</strong> &nbsp;|&nbsp; 
+                    Server Timestamp: March 20, 2026 10:47:32 AM MST<br/>
+                    <span style="color:#ced4da;">Do not forward this email outside the lab team.</span>
+                  </td>
+                  <td align="right" style="vertical-align:bottom;">
+                    <span style="font-size:18px;font-weight:900;color:#dee2e6;
+                                 letter-spacing:1px;">NANO</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Bottom gold bar -->
+          <tr>
+            <td style="height:5px;background-color:#FAC01A;"></td>
+          </tr>
+
+        </table>
+        <!-- /Email card -->
+
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>
