@@ -150,7 +150,7 @@
                 reserveBtn.dataset.availableLabel = reserveBtn.innerHTML.trim();
             }
 
-            const contactHref = '../Contact_Us.html?category=equipment';
+            const contactHref = `../Book_Equipment.html?equipment=${equipment.id}`;
             if (equipment.status === STATUS.AVAILABLE) {
                 reserveBtn.classList.remove('disabled');
                 reserveBtn.removeAttribute('aria-disabled');

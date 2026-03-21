@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Equipment | NAU Nano Core</title>
+    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <site-header></site-header>
+
+    <main>
+
+        <!-- Page header -->
+        <section class="ml-hero ml-hero--compact" style="height: 50vh; min-height: 360px; max-height: 500px;">
+            <div class="ml-hero__bg">
+                <img src="Images/microscopy_lab.jpg" alt="NAU Nano Core equipment reservation and lab booking">
+            </div>
+            <div class="ml-hero__overlay"></div>
+            <div class="ml-hero__noise"></div>
+
+            <div class="ml-hero__content" style="padding-bottom: 40px;">
+                <div class="container">
+                    <div class="ml-hero__eyebrow">
+                        <span class="ml-hero__eyebrow-line"></span>
+                        Equipment Reservation
+                    </div>
+                    <h1 class="ml-hero__title">
+                        Book<br><em>Equipment</em>
+                    </h1>
+                    <p class="ml-hero__subtitle">
+                        Reserve instruments for your research or coursework. Select your equipment, provide project
+                        details, and submit your request &mdash; lab staff will confirm your session.
+                    </p>
+                    <div class="ml-hero__actions">
+                        <a href="Equipment.html" class="btn btn-outline">Back to Equipment Catalog</a>
+                        <a href="Rates.html" class="btn btn-outline">View Rates</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- booking.js fills this card after an equipment choice is made -->
+        <div class="container" style="padding-top: 32px;">
+            <div id="equipmentInfoCard" class="bk-info-card" style="display:none;" aria-live="polite">
+                <!-- Populated dynamically by booking.js -->
+            </div>
+        </div>
+
+        <!-- Main booking form -->
+        <section class="section-padding" style="padding-top: 0;">
+            <div class="bk-form-wrap">
+
+                <form id="bookingForm" novalidate>
+
+                    <!-- Hidden inputs keep the selected equipment metadata in sync with the form -->
+                    <input type="hidden" name="category"           value="booking" id="bk_form_category">
+                    <input type="hidden" name="equipment_id"       id="bk_equipment_id">
+                    <input type="hidden" name="equipment_name"     id="bk_equipment_name">
+                    <input type="hidden" name="equipment_category" id="bk_equipment_category">
+                    <input type="hidden" name="equipment_status"   id="bk_equipment_status">
+
+                    <!-- Equipment picker -->
+                    <div class="pf__section">
+                        <fieldset style="border:0; padding:0; margin:0;">
+                            <legend class="pf__legend">
+                                <span class="pf__legend-num">1</span>
+                                Equipment Selection
+                            </legend>
+
+                            <div class="pf__row--2col">
+                                <div class="pf__group">
+                                    <label class="pf__label" for="bkCategory">Category</label>
+                                    <select id="bkCategory" name="equipment_category_filter" class="pf__select">
+                                        <option value="" disabled selected>-- All Categories --</option>
+                                        <!-- booking.js adds the category list from equipment.json -->
+                                    </select>
+                                </div>
+                                <div class="pf__group">
+                                    <label class="pf__label" for="bkEquipment">Equipment <span class="pf__req">*</span></label>
+                                    <select id="bkEquipment" name="equipment_name_display" class="pf__select" required>
+                                        <option value="" disabled selected>-- Select Equipment --</option>
+                                        <!-- booking.js rebuilds this list when the category changes -->
+                                    </select>
+                                    <span class="pf__helper">Select a category first to filter the list, or browse all equipment.</span>
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    </div>
+
+                    <!-- Requester contact and billing details -->
+                    <div class="pf__section">
+                        <fieldset style="border:0; padding:0; margin:0;">
+                            <legend class="pf__legend">
+                                <span class="pf__legend-num">2</span>
+                                Your Information
+                            </legend>
+
+                            <div class="pf__row--2col">
+                                <div class="pf__group">
+                                    <label class="pf__label" for="bkFirstName">First Name <span class="pf__req">*</span></label>
+                                    <input type="text" id="bkFirstName" name="first_name" class="pf__input" required
+                                        autocomplete="given-name" placeholder="Jane">
+                                </div>
+                                <div class="pf__group">
+                                    <label class="pf__label" for="bkLastName">Last Name <span class="pf__req">*</span></label>
+                                    <input type="text" id="bkLastName" name="last_name" class="pf__input" required
+                                        autocomplete="family-name" placeholder="Doe">
+                                </div>
+                            </div>
+
+                            <div class="pf__row--2col">
+                                <div class="pf__group">
+                                    <label class="pf__label" for="bkEmail">Email <span class="pf__req">*</span></label>
+                                    <input type="email" id="bkEmail" name="email" class="pf__input" required
+                                        autocomplete="email" placeholder="jane.doe@nau.edu">
+                                </div>
+                                <div class="pf__group">
+                                    <label class="pf__label" for="bkPhone">Phone</label>
+                                    <input type="tel" id="bkPhone" name="phone" class="pf__input"
+                                        autocomplete="tel" placeholder="(555) 123-4567">
+                                </div>
+                            </div>
+
+                            <div class="pf__row--2col">
+                                <div class="pf__group">
+                                    <label class="pf__label" for="bkOrg">Organization / Affiliation <span class="pf__req">*</span></label>
+                                    <input type="text" id="bkOrg" name="organization" class="pf__input" required
+                                        autocomplete="organization" placeholder="Northern Arizona University">
+                                </div>
+                                <div class="pf__group">
+                                    <label class="pf__label" for="bkUserType">User Type <span class="pf__req">*</span></label>
+                                    <select id="bkUserType" name="user_type" class="pf__select" required>
+                                        <option value="" disabled selected>Select user type…</option>
+                                        <option value="nau_student">NAU Student</option>
+                                        <option value="nau_faculty_staff">NAU Faculty / Staff</option>
+                                        <option value="external_academic">External Academic / Researcher</option>
+                                        <option value="industry">Industry / Commercial</option>
+                                    </select>
+                                    <span class="pf__helper">User type determines your billing rate (internal vs. external).</span>
+                                </div>
+                            </div>
+
+                            <!-- Conditional fields based on User Type -->
+                            <div id="bkUserTypeFields" style="display:none;">
+
+                                <div class="pf__row--2col">
+                                    <div class="pf__group">
+                                        <label class="pf__label" for="bkNauId">NAU ID <span class="pf__req">*</span></label>
+                                        <input type="text" id="bkNauId" name="nau_id" class="pf__input"
+                                            data-bk-required placeholder="e.g. 12345678">
+                                        <span class="pf__error" id="err_nau_id">Please enter your NAU ID.</span>
+                                    </div>
+                                    <div class="pf__group">
+                                        <label class="pf__label" for="bkNauEmail">NAU Email <span class="pf__req">*</span></label>
+                                        <input type="email" id="bkNauEmail" name="nau_email" class="pf__input"
+                                            data-bk-required placeholder="jd1234@nau.edu">
+                                        <span class="pf__error" id="err_nau_email">Please enter your NAU email.</span>
+                                    </div>
+                                </div>
+
+                                <div class="pf__row--2col">
+                                    <div class="pf__group">
+                                        <label class="pf__label" for="bkDepartment">Department <span class="pf__req">*</span></label>
+                                        <input type="text" id="bkDepartment" name="department" class="pf__input"
+                                            data-bk-required placeholder="e.g. Mechanical Engineering">
+                                        <span class="pf__error" id="err_department">Please enter your department.</span>
+                                    </div>
+                                    <div class="pf__group">
+                                        <label class="pf__label" for="bkSchool">School / College <span class="pf__req">*</span></label>
+                                        <select id="bkSchool" name="school" class="pf__select" data-bk-required>
+                                            <option value="" disabled selected>Select school&hellip;</option>
+                                            <option value="sanghi_engineering">Steve Sanghi College of Engineering</option>
+                                            <option value="ceias">College of Engineering, Informatics &amp; Applied Sciences</option>
+                                            <option value="cefns">College of the Environment, Forestry &amp; Natural Sciences</option>
+                                            <option value="franke_business">W.A. Franke College of Business</option>
+                                            <option value="education">College of Education</option>
+                                            <option value="arts_letters">College of Arts &amp; Letters</option>
+                                            <option value="social_behavioral">College of Social &amp; Behavioral Sciences</option>
+                                            <option value="health_human">College of Health &amp; Human Services</option>
+                                            <option value="graduate">Graduate College</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                        <span class="pf__error" id="err_school">Please select your school.</span>
+                                    </div>
+                                </div>
+
+                                <div class="pf__row--2col">
+                                    <div class="pf__group">
+                                        <label class="pf__label" for="bkSpeedChart">Speed Chart / Account Number</label>
+                                        <input type="text" id="bkSpeedChart" name="speed_chart" class="pf__input"
+                                            placeholder="Speed chart or billing account number">
+                                        <span class="pf__helper">Used for internal billing — check with your department admin if unsure.</span>
+                                    </div>
+                                    <!-- Student only: Supervisor -->
+                                    <div class="pf__group" id="bkSupervisorGroup" style="display:none;">
+                                        <label class="pf__label" for="bkSupervisor">Supervisor / Working Under <span class="pf__req">*</span></label>
+                                        <input type="text" id="bkSupervisor" name="supervisor" class="pf__input"
+                                            data-bk-required placeholder="Name of faculty advisor or PI">
+                                        <span class="pf__error" id="err_supervisor">Please enter your supervisor's name.</span>
+                                    </div>
+                                    <!-- Faculty only: Job Title -->
+                                    <div class="pf__group" id="bkJobTitleGroup" style="display:none;">
+                                        <label class="pf__label" for="bkJobTitle">Job Title</label>
+                                        <input type="text" id="bkJobTitle" name="job_title" class="pf__input"
+                                            placeholder="e.g. Associate Professor, Research Scientist">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </fieldset>
+                    </div>
+
+                    <!-- Scheduling fields stay visible for both standard and educational flows -->
+                    <div class="pf__section">
+                        <fieldset style="border:0; padding:0; margin:0;">
+                            <legend class="pf__legend">
+                                <span class="pf__legend-num">3</span>
+                                Scheduling Preferences
+                            </legend>
+
+                            <div class="pf__row--2col">
+                                <div class="pf__group">
+                                    <label class="pf__label" for="bkDate">Preferred Date <span class="pf__req">*</span></label>
+                                    <input type="date" id="bkDate" name="preferred_date" class="pf__input" required>
+                                </div>
+                                <div class="pf__group">
+                                    <label class="pf__label" for="bkTime">Preferred Start Time</label>
+                                    <select id="bkTime" name="preferred_time" class="pf__select">
+                                        <option value="" selected>Flexible</option>
+                                        <option value="08:00">8:00 AM</option>
+                                        <option value="08:30">8:30 AM</option>
+                                        <option value="09:00">9:00 AM</option>
+                                        <option value="09:30">9:30 AM</option>
+                                        <option value="10:00">10:00 AM</option>
+                                        <option value="10:30">10:30 AM</option>
+                                        <option value="11:00">11:00 AM</option>
+                                        <option value="11:30">11:30 AM</option>
+                                        <option value="12:00">12:00 PM</option>
+                                        <option value="12:30">12:30 PM</option>
+                                        <option value="13:00">1:00 PM</option>
+                                        <option value="13:30">1:30 PM</option>
+                                        <option value="14:00">2:00 PM</option>
+                                        <option value="14:30">2:30 PM</option>
+                                        <option value="15:00">3:00 PM</option>
+                                        <option value="15:30">3:30 PM</option>
+                                        <option value="16:00">4:00 PM</option>
+                                        <option value="16:30">4:30 PM</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="pf__row--2col">
+                                <div class="pf__group">
+                                    <label class="pf__label" for="bkDuration">Estimated Duration</label>
+                                    <select id="bkDuration" name="estimated_duration" class="pf__select">
+                                        <option value="30min">30 minutes</option>
+                                        <option value="1hr" selected>1 hour</option>
+                                        <option value="2hr">2 hours</option>
+                                        <option value="4hr">4 hours (half day)</option>
+                                        <option value="full_day">Full day (8 hours)</option>
+                                        <option value="multi_day">Multiple days — specify in notes</option>
+                                    </select>
+                                </div>
+                                <div class="pf__group">
+                                    <label class="pf__label" for="bkAltDate">Alternative Date</label>
+                                    <input type="date" id="bkAltDate" name="alternative_date" class="pf__input">
+                                    <span class="pf__helper">In case your preferred date is unavailable.</span>
+                                </div>
+                            </div>
+
+                            <div class="bk-section-note">
+                                <i class="fas fa-circle-info"></i>
+                                Dates are requests, not confirmed reservations. The lab manager will review availability and contact you to finalize your session.
+                            </div>
+
+                        </fieldset>
+                    </div>
+
+                    <!-- Standard booking sections; hidden when an educational-only instrument is selected -->
+                    <div id="bookingSections">
+
+                        <!-- Section 4 uses the selected equipment category to decide which inputs to show -->
+                        <div class="pf__section" id="technicalSection">
+                            <fieldset style="border:0; padding:0; margin:0;">
+                                <legend class="pf__legend">
+                                    <span class="pf__legend-num">4</span>
+                                    Technical Details
+                                </legend>
+
+                                <!-- Base fields that apply to all standard bookings -->
+                                <div class="pf__row">
+                                    <div class="pf__group">
+                                        <label class="pf__label" for="bkSampleDesc">Sample / Specimen Description <span class="pf__req">*</span></label>
+                                        <input type="text" id="bkSampleDesc" name="sample_description" class="pf__input" required
+                                            placeholder="e.g. Silicon wafer with TiN thin film, ~200 nm thick">
+                                    </div>
+                                </div>
+
+                                <div class="pf__row">
+                                    <div class="pf__group">
+                                        <label class="pf__label" for="bkPurpose">Purpose of Use <span class="pf__req">*</span></label>
+                                        <textarea id="bkPurpose" name="purpose_of_use" class="pf__textarea" required rows="3"
+                                            placeholder="Briefly describe your research goals and what measurements / processes you need (2–4 sentences)."></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- booking.js injects the category-specific fields here -->
+                                <div id="dynamicFields">
+                                    <p class="bk-fields-placeholder">
+                                        <i class="fas fa-info-circle"></i> Select equipment in Section 1 to see additional technical fields.
+                                    </p>
+                                </div>
+
+                                <!-- booking.js adds mode checkboxes here when the equipment has defined modes -->
+                                <div id="modesContainer"></div>
+
+                            </fieldset>
+                        </div>
+
+                        <!-- Optional training, staff help, and notes -->
+                        <div class="pf__section">
+                            <fieldset style="border:0; padding:0; margin:0;">
+                                <legend class="pf__legend">
+                                    <span class="pf__legend-num">5</span>
+                                    Additional Options
+                                </legend>
+
+                                <div class="pf__row--2col">
+                                    <div class="pf__group">
+                                        <label class="pf__label" for="bkTraining">Training Needed?</label>
+                                        <select id="bkTraining" name="training_needed" class="pf__select">
+                                            <option value="no" selected>No — I have prior experience</option>
+                                            <option value="new_user">Yes — I am a first-time user</option>
+                                            <option value="refresher">Yes — I need a refresher</option>
+                                        </select>
+                                    </div>
+                                    <div class="pf__group">
+                                        <label class="pf__label" for="bkAssistance">Lab Assistance Needed?</label>
+                                        <select id="bkAssistance" name="lab_assistance" class="pf__select">
+                                            <option value="self_service" selected>No — Self-service</option>
+                                            <option value="staff_assisted">Yes — Staff-assisted session</option>
+                                            <option value="full_service">Yes — Full service (sample-in / data-out)</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="pf__row">
+                                    <div class="pf__group">
+                                        <label class="pf__label" for="bkSpecial">Special Requirements or Notes</label>
+                                        <textarea id="bkSpecial" name="special_requirements" class="pf__textarea" rows="3"
+                                            placeholder="Any hazardous materials, special atmosphere needs, data format requirements, or other notes for the lab staff."></textarea>
+                                    </div>
+                                </div>
+
+                            </fieldset>
+                        </div>
+
+                        <!-- Cost panel switches between waiting, quote-required, and calculated states -->
+                        <div class="pf__section">
+                            <fieldset style="border:0; padding:0; margin:0;">
+                                <legend class="pf__legend">
+                                    <span class="pf__legend-num">6</span>
+                                    Estimated Cost
+                                </legend>
+
+                                <div id="costDisplay" class="bk-cost-display">
+                                    <!-- Shown until the page has enough information to calculate pricing -->
+                                    <div class="bk-cost-pending" id="costPending">
+                                        <div><i class="fas fa-receipt"></i></div>
+                                        <p><strong id="costPendingTitle">Select equipment and duration to see estimated cost.</strong></p>
+                                        <p id="costPendingText" style="font-size: 0.9rem;">Rates are based on your user type (internal vs. external) and session duration. Date and start time do not change the estimate.</p>
+                                        <a href="Rates.html" class="btn btn-sm btn-outline-blue" style="margin-top: 8px;">
+                                            <i class="fas fa-file-invoice-dollar" style="margin-right: 6px;"></i>
+                                            View Full Rate Sheet
+                                        </a>
+                                    </div>
+
+                                    <!-- Used when the selected equipment needs a manual quote -->
+                                    <div id="costTBD" class="bk-cost-tbd" style="display: none;">
+                                        <div class="bk-cost-tbd__icon"><i class="fas fa-calculator"></i></div>
+                                        <div class="bk-cost-tbd__body">
+                                            <strong>Rate Not Yet Published</strong>
+                                            <p>Billing rates for this equipment are currently under review. The lab team will provide a cost estimate when confirming your session.</p>
+                                            <a href="Rates.html" class="btn btn-sm btn-outline-blue">
+                                                <i class="fas fa-file-invoice-dollar" style="margin-right: 6px;"></i>
+                                                View Rate Sheet
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <!-- Shows the final single-rate estimate once user type is known -->
+                                    <div id="costCalculated" class="bk-cost-calculated" style="display: none;">
+                                        <div class="bk-cost-header">
+                                            <i class="fas fa-calculator"></i>
+                                            <strong>Estimated Cost</strong>
+                                            <span class="bk-cost-badge" id="costUserTypeLabel"></span>
+                                        </div>
+                                        <div class="bk-cost-breakdown">
+                                            <div class="bk-cost-row">
+                                                <span>Rate per <span id="costUnit">hour</span></span>
+                                                <span id="costRate">—</span>
+                                            </div>
+                                            <div class="bk-cost-row">
+                                                <span>Duration</span>
+                                                <span id="costDuration">—</span>
+                                            </div>
+                                            <div class="bk-cost-row bk-cost-row--total">
+                                                <span>Estimated Total</span>
+                                                <span id="costTotal">—</span>
+                                            </div>
+                                        </div>
+                                        <p class="bk-cost-disclaimer">
+                                            <i class="fas fa-circle-info"></i>
+                                            This is an estimate only. If billing for the selected instrument is not hourly (e.g., per sample, per gram, or per run), a lab coordinator will contact you with a full itemized quote. Final charges are not confirmed until you receive written notification from lab staff.
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </fieldset>
+                        </div>
+
+                    </div><!-- End standard booking sections -->
+
+                    <!-- Replaces the standard booking sections for educational-only equipment -->
+                    <div id="educationalRequestSection">
+
+                        <div class="pf__section">
+                            <fieldset style="border:0; padding:0; margin:0;">
+                                <legend class="pf__legend">
+                                    <span class="pf__legend-num">4</span>
+                                    Course Request Details
+                                </legend>
+
+                                <div class="bk-edu-notice">
+                                    <i class="fas fa-graduation-cap"></i>
+                                    <div>
+                                        <strong>Educational Equipment — Course Use Only</strong><br>
+                                        This equipment is designated for NAU coursework. Only NAU faculty and staff may submit a course request.
+                                        Students should coordinate with their instructor.
+                                    </div>
+                                </div>
+
+                                <div id="eduExternalBlock" class="bk-edu-external-block">
+                                    <i class="fas fa-ban"></i>
+                                    <div>
+                                        <strong>NAU Internal Only</strong><br>
+                                        Educational equipment is available only to NAU students, faculty, and staff.
+                                        External users cannot request access to these instruments.
+                                    </div>
+                                </div>
+
+                                <div id="eduFields">
+                                    <div class="pf__row--2col">
+                                        <div class="pf__group">
+                                            <label class="pf__label" for="bkCourseNumber">Course Number <span class="pf__req">*</span></label>
+                                            <input type="text" id="bkCourseNumber" name="course_number" class="pf__input"
+                                                data-bk-required placeholder="e.g. EE 310, ME 476C, MFG 386">
+                                            <span class="pf__error" id="err_course_number">Please enter the course number.</span>
+                                        </div>
+                                        <div class="pf__group">
+                                            <label class="pf__label" for="bkCourseName">Course Name</label>
+                                            <input type="text" id="bkCourseName" name="course_name" class="pf__input"
+                                                placeholder="e.g. Introduction to Mechatronics">
+                                        </div>
+                                    </div>
+
+                                    <div class="pf__row--2col">
+                                        <div class="pf__group">
+                                            <label class="pf__label" for="bkInstructor">Instructor Name <span class="pf__req">*</span></label>
+                                            <input type="text" id="bkInstructor" name="instructor_name" class="pf__input"
+                                                data-bk-required placeholder="Full name of the course instructor">
+                                            <span class="pf__error" id="err_instructor_name">Please enter the instructor's name.</span>
+                                        </div>
+                                        <div class="pf__group">
+                                            <label class="pf__label" for="bkInstructorEmail">Instructor Email</label>
+                                            <input type="email" id="bkInstructorEmail" name="instructor_email" class="pf__input"
+                                                placeholder="instructor@nau.edu">
+                                        </div>
+                                    </div>
+
+                                    <div class="pf__row--2col">
+                                        <div class="pf__group">
+                                            <label class="pf__label" for="bkGroupSize">Group / Class Size <span class="pf__req">*</span></label>
+                                            <input type="number" id="bkGroupSize" name="group_size" class="pf__input"
+                                                data-bk-required min="1" max="200" placeholder="e.g. 24">
+                                            <span class="pf__error" id="err_group_size">Please enter the group size.</span>
+                                        </div>
+                                        <div class="pf__group">
+                                            <label class="pf__label" for="bkSemester">Semester <span class="pf__req">*</span></label>
+                                            <select id="bkSemester" name="semester" class="pf__select" data-bk-required>
+                                                <option value="" disabled selected>Select semester…</option>
+                                                <option value="fall_2025">Fall 2025</option>
+                                                <option value="spring_2026">Spring 2026</option>
+                                                <option value="summer_2026">Summer 2026</option>
+                                                <option value="fall_2026">Fall 2026</option>
+                                                <option value="spring_2027">Spring 2027</option>
+                                            </select>
+                                            <span class="pf__error" id="err_semester">Please select a semester.</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="pf__row">
+                                        <div class="pf__group">
+                                            <label class="pf__label" for="bkClassUse">Intended Use / Learning Objectives <span class="pf__req">*</span></label>
+                                            <textarea id="bkClassUse" name="class_use" class="pf__textarea" rows="4"
+                                                data-bk-required placeholder="Describe how the equipment will be used in the course: lab exercises, demonstrations, student projects, assessment activities, etc."></textarea>
+                                            <span class="pf__error" id="err_class_use">Please describe the intended use.</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="pf__row--2col">
+                                        <div class="pf__group">
+                                            <label class="pf__label" for="bkSessionsNeeded">Number of Sessions Needed</label>
+                                            <input type="text" id="bkSessionsNeeded" name="sessions_needed" class="pf__input"
+                                                placeholder="e.g. 6 lab sessions (weekly), or 1 demo">
+                                        </div>
+                                        <div class="pf__group">
+                                            <label class="pf__label" for="bkSessionDuration">Session Duration</label>
+                                            <select id="bkSessionDuration" name="session_duration" class="pf__select">
+                                                <option value="" selected>Not sure yet</option>
+                                                <option value="1hr">1 hour</option>
+                                                <option value="2hr">2 hours</option>
+                                                <option value="3hr">3 hours (typical lab section)</option>
+                                                <option value="full_day">Full day</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="pf__row">
+                                        <div class="pf__group">
+                                            <label class="pf__label" for="bkEduNotes">Additional Notes</label>
+                                            <textarea id="bkEduNotes" name="edu_notes" class="pf__textarea" rows="2"
+                                                placeholder="Any special scheduling constraints, prerequisite training needs, or other notes."></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="bk-section-note">
+                                        <i class="fas fa-circle-info"></i>
+                                        Course requests are reviewed by the lab manager. You will be contacted to discuss scheduling, training requirements, and any setup needed for your class.
+                                    </div>
+                                </div>
+
+                            </fieldset>
+                        </div>
+
+                    </div><!-- End educational request section -->
+
+                    <!-- Submit controls and inline feedback -->
+                    <div class="pf__section pf__section--submit">
+
+                        <!-- Billing notice -->
+                    <div class="bk-billing-notice">
+                        <div class="bk-billing-notice__header">
+                            <div class="bk-billing-notice__icon-wrap">
+                                <i class="fas fa-file-invoice-dollar"></i>
+                            </div>
+                            <div>
+                                <div class="bk-billing-notice__title">Billing Notice &amp; Disclaimer</div>
+                                <div class="bk-billing-notice__subtitle">Please review the following before submitting</div>
+                            </div>
+                        </div>
+
+                        <div class="bk-billing-notice__grid">
+                            <div class="bk-billing-notice__clause">
+                                <i class="fas fa-tag bk-billing-notice__clause-icon"></i>
+                                <div class="bk-billing-notice__clause-label">Estimates Only</div>
+                                <p>Published rates are subject to change without prior notice. This form is not a confirmed reservation or a binding quote.</p>
+                            </div>
+                            <div class="bk-billing-notice__clause">
+                                <i class="fas fa-scale-balanced bk-billing-notice__clause-icon"></i>
+                                <div class="bk-billing-notice__clause-label">Non-Hourly Billing</div>
+                                <p>Some equipment is billed per sample, gram, or run. A coordinator will contact you with a full itemized quote if applicable.</p>
+                            </div>
+                            <div class="bk-billing-notice__clause">
+                                <i class="fas fa-receipt bk-billing-notice__clause-icon"></i>
+                                <div class="bk-billing-notice__clause-label">Additional Charges</div>
+                                <p>Final charges may include taxes, consumables, chemical or gas usage, setup fees, or other costs incurred during operation.</p>
+                            </div>
+                            <div class="bk-billing-notice__clause">
+                                <i class="fas fa-shield-halved bk-billing-notice__clause-icon"></i>
+                                <div class="bk-billing-notice__clause-label">Written Confirmation</div>
+                                <p>No charges are confirmed until written notification from NAU Nano Core staff. Lab manager approval required before invoicing.</p>
+                            </div>
+                        </div>
+
+                        <div class="bk-billing-notice__agree">
+                            <label for="bkAgreeTerms">
+                                <input type="checkbox" id="bkAgreeTerms" name="agreeTerms">
+                                I have read and understand the billing notice above. I acknowledge that rates are subject to change, non-hourly charges may apply, and no costs are confirmed until written notification from NAU Nano Core staff.
+                            </label>
+                            <p id="bkAgreeError" class="bk-billing-notice__agree-error" style="display:none;">
+                                <i class="fas fa-exclamation-circle"></i> You must acknowledge the billing notice before submitting.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- booking.js writes success and error messages here -->
+                        <div id="formFeedback" class="bk-feedback" style="display:none;" role="alert"></div>
+
+                        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                            <button type="reset" class="btn btn-outline btn-outline-gray"
+                                onclick="if(confirm('Clear all form fields?')) return true; else return false;">
+                                <i class="fas fa-rotate-left" style="margin-right: 6px;"></i>
+                                Clear Form
+                            </button>
+                            <button type="submit" id="bkSubmitBtn" class="btn btn-primary">
+                                Submit Booking Request
+                            </button>
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+        </section>
+
+    </main>
+
+    <site-footer></site-footer>
+
+    <script src="JS/layout.js"></script>
+    <script src="JS/booking.js"></script>
+
+</body>
+
+</html>
