@@ -628,6 +628,28 @@
     <script src="JS/layout.js"></script>
     <script src="JS/booking.js"></script>
 
+    <script>
+        document.getElementById("bookingForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+
+            fetch("TestSubmission.php", {
+                method: "POST",
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                alert(data.message);
+                if (data.success) {
+                    this.reset();
+                }
+            })
+            .catch(() => alert("Something went wrong."));
+        });
+    </script>
+
+
 </body>
 
 </html>
