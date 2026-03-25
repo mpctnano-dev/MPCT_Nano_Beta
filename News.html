@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Access advanced fabrication and analysis services from the MPaCT Lab at Northern Arizona University.">
+    <meta name="theme-color" content="#002454">
+    
+    <title>News | MPaCT News |Facility Renovation News</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,400&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="CSS/style.css">
+     <script src="https://unpkg.com/lucide@latest"></script>
+  
+     <style>
+        .news-container { max-width: 900px; margin: 0 auto; position: relative; }
+
+        .hidden { display: none !important; }
+        #listView, #articleView { animation: fadeIn 0.4s ease-out; }
+
+        .title { font-size: 3rem; font-weight: 900; letter-spacing: -1px; margin: 0; }
+
+        .status-bars { margin: 20px 0 40px; }
+        .bar { height: 3px; background: #eee; margin-bottom: 6px; overflow: hidden; }
+        .bar-fill { height: 100%; width: 100%; background: black; transform: translateX(-100%); transition: 1.5s; }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .news-card {
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .category {
+            color: var(--accent);
+            font-weight: 800;
+            font-size: 12px;
+        }
+
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: none;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        .back-link:hover { color: black; }
+        .back-link i { width: 18px; }
+    </style>
+
+
+</head>
+
+<body>
+
+    <site-header></site-header>
+
+    <main>
+        <!-- Hero -->
+        <section class="ml-hero ml-hero--compact" style="height: 55vh; min-height: 380px; max-height: 550px;">
+            <div class="ml-hero__bg">
+                <img src="Images/lab_services.jpg" alt="MPaCT Lab Services and Prototyping">
+            </div>
+            <div class="ml-hero__overlay"></div>
+            <div class="ml-hero__noise"></div>
+
+            <div class="ml-hero__content" style="padding-bottom: 40px;">
+                <div class="container">
+                    <h1 class="ml-hero__title">
+                        <em>MPaCT</em><br>News
+                    </h1>
+                     <div class="ml-hero__eyebrow">
+                                <span class="ml-hero__eyebrow-line"></span>
+                                What's Happening Inside the Lab — Innovation, Projects, and Progress
+                            </div>
+                    <p class="ml-hero__subtitle">
+                        Stay up to date with the <strong>latest breakthroughs, facility updates, and real-world</strong> applications coming out of MPaCT. 
+                        From cutting-edge fabrication to hands-on student projects, this is where ideas turn into results.
+                    </p>
+                    <div class="ml-hero__actions">
+                        <a href="#our-services" class="btn btn-primary">View Services</a>
+                        <a href="#how-to-use" class="btn btn-outline">How It Works</a>
+                    </div>
+
+                    <!-- Highlights panel (commented out) -->
+                    <!--
+                    <div class="ml-hero__panel">
+                        ...
+                    </div>
+                    -->
+                </div>
+            </div>
+        </section>
+
+         <section class="news-container">
+
+        <!-- LIST VIEW -->
+        <div id="listView">
+            <header class="news-header">
+                <h1 class="title">Inside MPaCT</h1>
+                <p class="subtitle">Latest News & Developments</p>
+
+                <div class="status-bars">
+                    <div class="bar"><div class="bar-fill"></div></div>
+                    <div class="bar" style="opacity:.5"><div class="bar-fill"></div></div>
+                </div>
+            </header>
+
+            <div class="news-grid">
+
+                <article class="news-card">
+                    <div class="card-image">
+                        <img src="https://images.unsplash.com/photo-1560472355-536de3962603?w=800">
+                    </div>
+                    <div class="card-content">
+                        <span class="category">FACILITY</span>
+                        <h3 class="card-title">MPaCT Lab Renovation Phase 1 Completed</h3>
+                        <div class="card-footer">Today • NAU</div>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+
+        <!-- ARTICLE VIEW -->
+        <div id="articleView" class="hidden">
+            <button id="backBtn" class="back-link">
+                <i data-lucide="arrow-left"></i> Back to news
+            </button>
+
+            <div id="articleContent"></div>
+        </div>
+
+    </section>
+
+    </main>
+
+         
+   
+     <site-footer></site-footer>
+     <script src="news.js"></script>
+    <script src="JS/layout.js"></script>
+    <script src="JS/script.js"></script>
+
+</body>
+
+</html>    

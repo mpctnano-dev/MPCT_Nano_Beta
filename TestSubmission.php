@@ -32,8 +32,10 @@ requireFields([
     'last_name',
     'email',
     'equipment_name',
-    'start_time',
-    'end_time'
+    'preferred_date',
+    'preferred_time',
+    'sample_description',
+    'purpose'
 ]);
 
 $firstName = post('first_name');
@@ -43,11 +45,11 @@ $phone = post('phone');
 $organization = post('organization');
 
 // Booking-specific fields
-$equipment = post('equipment_name');
-$date = post('booking_date');
-$start = post('start_time');
-$end = post('end_time');
-$purpose = post('purpose');
+$equipment = post('equipment_name') ?: post('bk_equipment_name');
+$date = post('preferred_date') ?: post('booking_date');
+$preferredTime = post('preferred_time');
+$duration = post('estimated_duration') ?: post('end_time');
+$purpose = post('purpose_of_use') ?: post('purpose');
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     respond(false, 'Invalid email address.');
@@ -60,11 +62,11 @@ $timestamp = date("F j, Y \a\\t g:i A T");
 // BOOKING DETAILS (keeps SAME TABLE DESIGN)
 // ---------------------------------------------------------------
 $fields = [
-    'equipment_name' => 'Equipment',
-    'booking_date'   => 'Date',
-    'start_time'     => 'Start Time',
-    'end_time'       => 'End Time',
-    'purpose'        => 'Purpose'
+    'equipment_name'     => 'Equipment',
+    'preferred_date'     => 'Date',
+    'preferred_time'     => 'Preferred Time',
+    'estimated_duration' => 'Duration',
+    'purpose_of_use'     => 'Purpose'
 ];
 
 $detailRows = '';
