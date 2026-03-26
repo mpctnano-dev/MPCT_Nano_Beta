@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const cards = Array.from(document.querySelectorAll('.news-card'));
     const emptyState = document.getElementById('newsEmptyState');
     const searchInput = document.getElementById('newsSearch');
-    const filterBtns = document.querySelectorAll('.news-filter-btn');
+    const filterBtns = document.querySelectorAll('.news-filter-btn[data-tag]');
 
     let activeTag = 'all';
     let searchQuery = '';
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let visibleCount = 0;
 
         cards.forEach(card => {
-            const tags = card.dataset.tags ? card.dataset.tags.split(',') : [];
+            const tags = card.dataset.tags ? card.dataset.tags.split(',').map(t => t.trim()) : [];
             const title = card.querySelector('.news-card__title')?.textContent.toLowerCase() || '';
             const excerpt = card.querySelector('.news-card__excerpt')?.textContent.toLowerCase() || '';
             const hashtags = Array.from(card.querySelectorAll('.news-card__hashtag'))
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', () => {
             filterBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            activeTag = btn.dataset.tag;
+            activeTag = btn.dataset.tag.toLowerCase();
             applyFilters();
         });
     });
