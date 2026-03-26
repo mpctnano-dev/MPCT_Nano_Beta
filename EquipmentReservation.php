@@ -444,9 +444,9 @@ try {
     // First: send the notification to the lab inbox
     $labMail = createMailer();
     $labMail->addAddress(LAB_EMAIL);
-    //$labMail->addCC('Akhil.Kinnera@nau.edu');
+    $labMail->addCC('Akhil.Kinnera@nau.edu');
     $labMail->addCC('Sethuprasad.Gorantla@nau.edu');
-    //$labMail->addCC('Krishna-Dev.Palem@nau.edu');
+    $labMail->addCC('Krishna-Dev.Palem@nau.edu');
     $labMail->addReplyTo($email, $fullName);  // so Reply goes to the user
     $labMail->Subject = $labSubject;
     $labMail->Body = $labBody;
