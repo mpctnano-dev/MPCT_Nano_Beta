@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News &amp; Updates | NAU Nano Core</title>
+    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <site-header></site-header>
+
+    <main>
+
+        <!-- Hero -->
+        <section class="ml-hero ml-hero--compact" style="height: 50vh; min-height: 360px; max-height: 500px;">
+            <div class="ml-hero__bg">
+                <img src="Images/nano_fabrication.jpg" alt="MPaCT Lab News and Updates">
+            </div>
+            <div class="ml-hero__overlay"></div>
+            <div class="ml-hero__noise"></div>
+
+            <div class="ml-hero__content" style="padding-bottom: 40px;">
+                <div class="container">
+                    <div class="ml-hero__eyebrow">
+                        <span class="ml-hero__eyebrow-line"></span>
+                        Latest Updates
+                    </div>
+                    <h1 class="ml-hero__title">
+                        Lab<br><em>News</em>
+                    </h1>
+                    <p class="ml-hero__subtitle">
+                        Equipment installations, facility updates, training announcements, and
+                        research milestones from the MPaCT Lab at Northern Arizona University.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filter bar -->
+        <section class="filter-section" style="border-bottom: 1px solid var(--gray-200); padding: 20px 0;">
+            <div class="container d-flex justify-between align-center" style="gap: 20px; flex-wrap: wrap;">
+
+                <div class="search-wrapper" style="position: relative; flex-grow: 1; max-width: 300px;">
+                    <i class="fas fa-search"
+                        style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--gray-400);"></i>
+                    <input type="text" id="newsSearch" placeholder="Search news..."
+                        style="width: 100%; padding: 10px 10px 10px 40px; border: 1px solid var(--gray-300); border-radius: 20px; background: var(--gray-50);">
+                </div>
+
+                <div class="filter-group">
+                    <button class="news-filter-btn active" data-tag="all">All</button>
+                    <button class="news-filter-btn" data-tag="facility">Facility</button>
+                    <button class="news-filter-btn" data-tag="equipment">Equipment</button>
+                    <button class="news-filter-btn" data-tag="training">Training</button>
+                    <button class="news-filter-btn" data-tag="installation">Installation</button>
+                    <button class="news-filter-btn" data-tag="announcement">Announcement</button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- News grid -->
+        <section style="padding: 40px 0; background-color: var(--gray-50); min-height: 400px;">
+            <div class="container">
+
+                <div class="news-grid" id="newsGrid">
+                    <!-- Cards added in next task -->
+                </div>
+
+                <div class="news-empty-state" id="newsEmptyState" style="display: none;">
+                    <i class="fas fa-newspaper"></i>
+                    <p>No articles match your search.</p>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <site-footer></site-footer>
+
+    <script src="JS/layout.js"></script>
+    <script src="JS/news.js"></script>
+</body>
+
+</html>
