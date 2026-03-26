@@ -86,6 +86,7 @@
     const applyCardStatus = (card, equipment) => {
         if (!card || !equipment) return;
         const dot = card.querySelector('.status-dot');
+        const bookBtn = card.querySelector('.tech-actions .btn-tech-fill');
         if (!dot) return;
 
         const statusClass = STATUS_CLASS[equipment.status] || STATUS_CLASS.UNAVAILABLE;
@@ -110,6 +111,26 @@
             }
         } else if (existingText) {
             existingText.remove();
+        }
+
+        if (bookBtn) {
+            if (!bookBtn.dataset.originalLabel) {
+                bookBtn.dataset.originalLabel = bookBtn.textContent.trim() || 'Book';
+            }
+
+            if (equipment.status === STATUS.AVAILABLE) {
+                bookBtn.classList.remove('disabled');
+                bookBtn.removeAttribute('aria-disabled');
+                bookBtn.removeAttribute('tabindex');
+                bookBtn.style.pointerEvents = '';
+                bookBtn.textContent = bookBtn.dataset.originalLabel;
+            } else {
+                bookBtn.classList.add('disabled');
+                bookBtn.setAttribute('aria-disabled', 'true');
+                bookBtn.setAttribute('tabindex', '-1');
+                bookBtn.style.pointerEvents = 'none';
+                bookBtn.textContent = 'Unavailable';
+            }
         }
     };
 

@@ -749,7 +749,7 @@
                                         <div class="sr-group">
                                             <label class="sr-label" for="p-phone">Phone Number</label>
                                             <input type="tel" id="p-phone" name="phone" class="sr-input"
-                                                placeholder="(555) 123-4567">
+                                                placeholder="(555) 123-4567" inputmode="numeric" maxlength="14">
                                         </div>
                                     </div>
 
@@ -997,7 +997,7 @@
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="l-phone">Phone Number</label>
-                                            <input type="tel" id="l-phone" name="phone" class="sr-input" placeholder="(555) 123-4567">
+                                            <input type="tel" id="l-phone" name="phone" class="sr-input" placeholder="(555) 123-4567" inputmode="numeric" maxlength="14">
                                         </div>
                                     </div>
 
@@ -1268,7 +1268,7 @@
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="sc-phone">Phone Number</label>
-                                            <input type="tel" id="sc-phone" name="phone" class="sr-input" placeholder="(555) 123-4567">
+                                            <input type="tel" id="sc-phone" name="phone" class="sr-input" placeholder="(555) 123-4567" inputmode="numeric" maxlength="14">
                                         </div>
                                     </div>
 
@@ -1503,22 +1503,19 @@
             const navBtns = document.querySelectorAll('.sr-nav-btn');
             const panels = document.querySelectorAll('.sr-panel');
 
+            function activatePanel(target) {
+                navBtns.forEach(b => b.classList.remove('active'));
+                panels.forEach(p => p.classList.remove('active'));
+                const btn = document.querySelector(`.sr-nav-btn[data-target="${target}"]`);
+                const panel = document.getElementById(`panel-${target}`);
+                if (btn) btn.classList.add('active');
+                if (panel) panel.classList.add('active');
+            }
+
             navBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
                     const target = btn.dataset.target;
-
-                    // Update active nav button
-                    navBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-
-                    // Toggle panels
-                    panels.forEach(p => {
-                        if (p.id === `panel-${target}`) {
-                            p.classList.add('active');
-                        } else {
-                            p.classList.remove('active');
-                        }
-                    });
+                    activatePanel(target);
 
                     // Scroll to form top on mobile
                     if (window.innerWidth <= 900) {
@@ -1526,6 +1523,12 @@
                     }
                 });
             });
+
+            // Deep-link from services.html: ServiceRequest.html#scanning etc.
+            const hashTarget = window.location.hash.replace('#', '');
+            if (hashTarget && document.querySelector(`.sr-nav-btn[data-target="${hashTarget}"]`)) {
+                activatePanel(hashTarget);
+            }
 
             // File upload label updates
             document.querySelectorAll('.sr-file-upload').forEach(box => {
@@ -1601,6 +1604,61 @@
                     'l-ship-zip'
                 ]
             });
+
+            function formatUsPhone(value) {
+                const digits = value.replace(/\D/g, '').slice(0, 10);
+                if (!digits) return '';
+                if (digits.length < 3) return `(${digits}`;
+                if (digits.length === 3) return `(${digits}) `;
+                if (digits.length < 7) return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
+                return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+            }
+
+            function setupPhoneAutoFormat(fieldIds) {
+                fieldIds.forEach(id => {
+                    const input = document.getElementById(id);
+                    if (!input) return;
+
+                    input.addEventListener('input', () => {
+                        input.value = formatUsPhone(input.value);
+                    });
+
+                    input.addEventListener('blur', () => {
+                        input.value = formatUsPhone(input.value);
+                    });
+                });
+            }
+
+            function setupDimensionsAutoFormat(fieldIds) {
+                fieldIds.forEach(id => {
+                    const input = document.getElementById(id);
+                    if (!input) return;
+
+                    input.addEventListener('input', () => {
+                        const cleaned = input.value.replace(/[×X]/g, 'x').replace(/^\s+/, '');
+                        const onlyFirstDimension = /^\d+(?:\.\d+)?$/.test(cleaned.trim());
+
+                        if (onlyFirstDimension) {
+                            input.value = `${cleaned.trim()} x `;
+                            return;
+                        }
+
+                        input.value = cleaned.replace(/\s*x\s*/g, ' x ');
+                    });
+
+                    input.addEventListener('blur', () => {
+                        const normalized = input.value
+                            .replace(/[×X]/g, 'x')
+                            .replace(/\s*x\s*/g, ' x ')
+                            .replace(/\s{2,}/g, ' ')
+                            .trim();
+                        input.value = normalized;
+                    });
+                });
+            }
+
+            setupPhoneAutoFormat(['p-phone', 'l-phone', 'sc-phone']);
+            setupDimensionsAutoFormat(['p-size', 'l-dims', 'sc-objdims']);
 
             function resetFileUploadUI(form) {
                 form.querySelectorAll('.sr-file-upload').forEach(box => {
