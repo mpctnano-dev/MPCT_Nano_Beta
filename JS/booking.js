@@ -783,7 +783,7 @@
         const formData = new FormData(e.target);
         collapseCheckboxes(formData, 'operating_modes');
         try {
-            const res  = await fetch('FormSubmission.php', { method: 'POST', body: formData });
+            const res  = await fetch('EquipmentReservation.php', { method: 'POST', body: formData });
             const json = await res.json();
             if (json.success) {
                 const msg = isEducationalMode
