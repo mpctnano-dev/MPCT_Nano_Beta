@@ -16710,3 +16710,236 @@ body.workforce-development-page {
     margin: 0 auto;
     padding: 0 var(--space-md);
 }
+
+
+/* ═══════════════════════════════════════════════════════════════
+   News Page
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Filter buttons ─────────────────────────────────────────── */
+.news-filter-btn {
+    padding: 6px 16px;
+    border: 1.5px solid var(--gray-300);
+    border-radius: var(--radius-full);
+    background: var(--white);
+    color: var(--gray-700);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.news-filter-btn:hover {
+    border-color: var(--nau-blue);
+    color: var(--nau-blue);
+}
+
+.news-filter-btn.active {
+    background: var(--nau-blue);
+    border-color: var(--nau-blue);
+    color: var(--white);
+}
+
+/* ── Grid ───────────────────────────────────────────────────── */
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+@media (max-width: 1024px) {
+    .news-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .news-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ── Card container ─────────────────────────────────────────── */
+.news-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.news-card:hover {
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+}
+
+/* ── Gold corner fold ───────────────────────────────────────── */
+.news-corner-fold {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 58px 58px 0;
+    border-color: transparent var(--nau-gold) transparent transparent;
+    border-radius: 0 var(--radius-md) 0 0;
+    z-index: 2;
+    transition: border-width 0.2s;
+}
+
+.news-card:hover .news-corner-fold {
+    border-width: 0 64px 64px 0;
+}
+
+.news-corner-icon {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    z-index: 3;
+    color: var(--nau-blue);
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ── Banner ─────────────────────────────────────────────────── */
+.news-card__banner {
+    height: 100px;
+    display: flex;
+    align-items: flex-end;
+    padding: 10px 12px;
+}
+
+.news-card__banner--facility {
+    background: linear-gradient(135deg, #002454, #001838);
+}
+
+.news-card__banner--equipment {
+    background: linear-gradient(135deg, #003a85, #002454);
+}
+
+.news-card__banner--training {
+    background: linear-gradient(135deg, #005a27, #007a33);
+}
+
+.news-card__banner--installation {
+    background: linear-gradient(135deg, #7a0000, #bb0000);
+}
+
+.news-card__banner--announcement {
+    background: linear-gradient(135deg, #1a1a2e, #002454);
+}
+
+/* ── Category badge on banner ───────────────────────────────── */
+.news-card__badge {
+    background: var(--nau-gold);
+    color: var(--nau-blue);
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 3px 9px;
+    border-radius: var(--radius-full);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ── Card body ──────────────────────────────────────────────── */
+.news-card__body {
+    padding: 12px 14px 14px;
+}
+
+.news-card__meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.news-card__title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--nau-blue);
+    margin: 0 0 6px;
+    line-height: 1.4;
+}
+
+.news-card__excerpt {
+    font-size: 0.78rem;
+    color: var(--gray-600);
+    margin: 0 0 10px;
+    line-height: 1.55;
+}
+
+.news-card__hashtags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.news-card__hashtag {
+    font-size: 0.72rem;
+    color: var(--nau-blue-light);
+    font-weight: 700;
+}
+
+.news-card__timestamp {
+    font-size: 0.7rem;
+    color: var(--gray-500);
+    white-space: nowrap;
+}
+
+/* ── Tag pills ──────────────────────────────────────────────── */
+.news-card__tag {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 2px 9px;
+    border-radius: var(--radius-full);
+}
+
+.news-card__tag--facility {
+    background: rgba(0, 36, 84, 0.08);
+    color: var(--nau-blue);
+}
+
+.news-card__tag--equipment {
+    background: rgba(250, 192, 26, 0.18);
+    color: #7a5e00;
+}
+
+.news-card__tag--training {
+    background: rgba(0, 122, 51, 0.10);
+    color: var(--nau-green);
+}
+
+.news-card__tag--installation {
+    background: rgba(187, 0, 0, 0.08);
+    color: var(--nau-red);
+}
+
+.news-card__tag--announcement {
+    background: rgba(0, 58, 133, 0.08);
+    color: var(--nau-blue-light);
+}
+
+/* ── Empty state ────────────────────────────────────────────── */
+.news-empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--gray-500);
+}
+
+.news-empty-state i {
+    font-size: 2.5rem;
+    margin-bottom: 12px;
+    display: block;
+}
+
+.news-empty-state p {
+    font-size: 1rem;
+    font-weight: 600;
+}
