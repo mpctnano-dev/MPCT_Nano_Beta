@@ -56,7 +56,7 @@ const ARTICLES = [
         },
         cta: { text: 'Interested in using the shared facility?', label: 'Learn About MPaCT', href: 'MPaCT.html' },
         gallery: [
-            { src: 'Images/Blueprint.jpg', alt: 'Facility floor plan', caption: 'Detailed facility floor plan and layout' },
+            { src: 'Images/blueprint_1.jpeg', alt: 'Facility floor plan', caption: 'Detailed facility floor plan and layout' },
             { src: 'Images/engineering_building.jpg', alt: 'NAU Engineering Building', caption: 'NAU Engineering Building — home of MPaCT Lab' }
         ]
     },
@@ -159,8 +159,8 @@ const ARTICLES = [
         tagLabel: 'Bookings',
         date: '2026-03-01',
         readTime: '3 min read',
-        heroImage: 'Images/industrial_lab.jpg',
-        heroAlt: 'MPaCT shared facility interior',
+        heroImage: 'Images/lab_services.jpg',
+        heroAlt: 'MPaCT lab services and equipment',
         statusBadge: 'Open Now',
         stats: [
             { value: 'Open', label: 'Booking Status' },
@@ -202,8 +202,8 @@ const ARTICLES = [
         tagLabel: 'Facility',
         date: '2025-12-10',
         readTime: '4 min read',
-        heroImage: 'Images/engineering_lab_hero.jpg',
-        heroAlt: 'MPaCT Lab engineering facility',
+        heroImage: 'Images/processing_lab.jpg',
+        heroAlt: 'MPaCT processing lab infrastructure',
         statusBadge: 'Milestone',
         stats: [
             { value: 'Multi-Phase', label: 'Development Plan' },
@@ -234,10 +234,7 @@ const ARTICLES = [
             ]
         },
         cta: { text: 'Explore the full instrument catalog.', label: 'View Equipment', href: 'Equipment.html' },
-        gallery: [
-            { src: 'Images/processing_lab.jpg', alt: 'Advanced processing lab', caption: 'Processing lab infrastructure upgrades underway' },
-            { src: 'Images/dark_room.jpg', alt: 'Optical characterization lab', caption: 'Optical and photonic characterization suite' }
-        ]
+        gallery: []
     },
 
     {
@@ -317,7 +314,7 @@ const renderFeatured = (featured) => {
                         <div class="acc-info">
                             <div class="acc-title">${item.name}</div>
                             <span class="acc-desc">${item.desc || item.category || ''}</span>
-                            <div class="acc-status available"><span class="dot green"></span> Commissioned</div>
+                            <div class="acc-status available"><span class="dot green"></span> Available</div>
                         </div>
                     </a>
                 `;}).join('') + `</div>`;
