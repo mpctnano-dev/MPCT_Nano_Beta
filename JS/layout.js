@@ -287,7 +287,7 @@ class SiteHeader extends HTMLElement {
                                             </svg>
                                         </div>
                                         <div class="nav-dropdown-text">
-                                            <strong>PTAP Apprenticeship <span class="nav-soon-badge" style="background: rgba(46, 204, 113, 0.15); color: #2ecc71; border: 1px solid rgba(46, 204, 113, 0.3);">Enrolling</span></strong>
+                                                <strong>PTAP Apprenticeship</strong>
                                             <small>2-year program with TSMC</small>
                                         </div>
                                     </a>
@@ -541,71 +541,76 @@ class SiteFooter extends HTMLElement {
         this.innerHTML = `
         <footer class="site-footer">
             <div class="container">
+
+                <div class="footer-cmd-bar">
+                    <p class="footer-cmd-bar__text">Need access, training, or a program pathway? <strong>Start here.</strong></p>
+                    <a href="${basePath}Contact_Us.html" class="footer-cmd-bar__cta">Get Started &rarr;</a>
+                </div>
+
                 <div class="footer-grid">
                     <div class="footer-brand">
                         <img src="${basePath}Images/NAU.png" class="footer-logo" alt="NAU Logo"
                             onerror="this.style.display='none'">
-                        <p style="color: rgba(255,255,255,0.7); max-width: 300px; margin-bottom: 25px;">
-                            The Microelectronics Processing, Characterization, and Testing Lab is dedicated
-                            to advancing semiconductor education and research.</p>
+                        <div class="footer-brand__eyebrow">NAU Nano Initiative</div>
+                        <h3 class="footer-brand__title">MPaCT Lab</h3>
+                        <p class="footer-brand__copy">
+                            A shared-use hub for microelectronics research, semiconductor workforce
+                            training, and industry collaboration across Arizona.
+                        </p>
                         <div class="social-row">
                             <a href="https://twitter.com/NAU" target="_blank" class="social-icon" aria-label="X (Twitter)">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
-                                </svg>
+                                <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
                             </a>
                             <a href="https://www.facebook.com/NAU/" target="_blank" class="social-icon" aria-label="Facebook">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-                                </svg>
+                                <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
                             </a>
                             <a href="https://www.instagram.com/nauflagstaff/" target="_blank" class="social-icon" aria-label="Instagram">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M7 2C4.243 2 2 4.243 2 7v10c0 2.757 2.243 5 5 5h10c2.757 0 5-2.243 5-5V7c0-2.757-2.243-5-5-5H7zm10 2c1.654 0 3 1.346 3 3v10c0 1.654-1.346 3-3 3H7c-1.654 0-3-1.346-3-3V7c0-1.654 1.346-3 3-3h10zm-5 3a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6zm4.5-2.5a1 1 0 100 2 1 1 0 000-2z"></path>
-                                </svg>
+                                <svg viewBox="0 0 24 24"><path d="M7 2C4.243 2 2 4.243 2 7v10c0 2.757 2.243 5 5 5h10c2.757 0 5-2.243 5-5V7c0-2.757-2.243-5-5-5H7zm10 2c1.654 0 3 1.346 3 3v10c0 1.654-1.346 3-3 3H7c-1.654 0-3-1.346-3-3V7c0-1.654 1.346-3 3-3h10zm-5 3a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6zm4.5-2.5a1 1 0 100 2 1 1 0 000-2z"></path></svg>
                             </a>
-                            <a href="https://www.linkedin.com/school/northern-arizona-university/" target="_blank"
-                                class="social-icon" aria-label="LinkedIn">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                                    <rect x="2" y="9" width="4" height="12"></rect>
-                                    <circle cx="4" cy="4" r="2"></circle>
-                                </svg>
+                            <a href="https://www.linkedin.com/school/northern-arizona-university/" target="_blank" class="social-icon" aria-label="LinkedIn">
+                                <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
                             </a>
                         </div>
                     </div>
 
                     <div class="footer-col">
-                        <h4>User Portal</h4>
+                        <div class="footer-col__label"><span class="footer-col__num">01</span> Lab Access</div>
                         <ul class="footer-links">
-                            <li><a href="${basePath}Book_Equipment.html">Book Equipment</a></li>
-                            <li><a href="${basePath}Contact_Us.html?category=issue">Report an Issue</a></li>
-                            <li><a href="${basePath}Safety_Training.html">Safety Training</a></li>
-                            <li><a href="#">SDS Database</a></li>
-                            <li><a href="#">Lab Policies</a></li>
+                            <li><a href="${basePath}MPaCT.html">Lab Overview</a></li>
+                            <li><a href="${basePath}Equipment.html">Equipment Catalog</a></li>
+                            <li><a href="${basePath}Book_Equipment.html">Reserve Equipment</a></li>
+                            <li><a href="${basePath}Rates.html">Rates</a></li>
+                            <li><a href="${basePath}services.html">Services</a></li>
                         </ul>
                     </div>
 
                     <div class="footer-col">
-                        <h4>Academics</h4>
+                        <div class="footer-col__label"><span class="footer-col__num">02</span> Programs</div>
                         <ul class="footer-links">
-                            <li><a href="https://catalog.nau.edu/Catalog/">Undergraduate Courses</a></li>
-                            <li><a href="${basePath}degree-programs.html">Graduate Research</a></li>
-                            <li><a href="${basePath}degree-programs.html">Certificate Programs</a></li>
+                            <li><a href="${basePath}degree-programs.html">Degree Programs</a></li>
+                            <li><a href="${basePath}CareerPathways.html">Career Pathways</a></li>
                             <li><a href="${basePath}WorkForceDevelopment.html">Workforce Development</a></li>
+                            <li><a href="${basePath}PTAP.html">PTAP Apprenticeship</a></li>
+                            <li><a href="${basePath}Safety_Training.html">Safety Training</a></li>
                         </ul>
                     </div>
 
                     <div class="footer-col">
-                        <h4>Connect</h4>
+                        <div class="footer-col__label"><span class="footer-col__num">03</span> Connect</div>
                         <ul class="footer-links">
-                            <li><a href="${basePath}Contact_Us.html">Contact Us</a></li>
+                            <li><a href="${basePath}About_Us.html">About the Initiative</a></li>
+                            <li><a href="${basePath}Research_Publications.html">News &amp; Publications</a></li>
+                            <li><a href="${basePath}Contact_Us.html?category=other">Request Lab Access</a></li>
                             <li><a href="${basePath}Contact_Us.html?category=research">Partner With Us</a></li>
-                            <li><a href="https://nau.edu/alumni/">Alumni Network</a></li>
-                            <li><a href="https://foundation.nau.edu/">Support NAU Nano</a></li>
+                            <li><a href="${basePath}Contact_Us.html">Contact Us</a></li>
                         </ul>
                     </div>
                 </div>
+
+                <div class="footer-meta">
+                    <p class="footer-meta__text">For students, researchers, industry partners, and workforce trainees across Arizona.</p>
+                </div>
+
             </div>
 
             <div class="footer-bottom">
