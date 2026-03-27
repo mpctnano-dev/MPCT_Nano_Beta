@@ -605,7 +605,7 @@ class SiteFooter extends HTMLElement {
                         <div class="footer-col__label"><span class="footer-col__num">03</span> Connect</div>
                         <ul class="footer-links">
                             <li><a href="${basePath}About_Us.html">About the Initiative</a></li>
-                            <li><a href="${basePath}Research_Publications.html">News &amp; Publications</a></li>
+                            <li><a href="${basePath}News.html">News &amp; Publications</a></li>
                             <li><a href="${basePath}Contact_Us.html?category=other">Request Lab Access</a></li>
                             <li><a href="${basePath}Contact_Us.html?category=research">Partner With Us</a></li>
                             <li><a href="${basePath}Contact_Us.html">Contact Us</a></li>
