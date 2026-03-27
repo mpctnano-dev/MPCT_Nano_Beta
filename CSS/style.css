@@ -1039,6 +1039,12 @@ ul {
     border-color: #bbf7d0;
 }
 
+.status-badge.unavailable {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border-color: #fecaca;
+}
+
 .status-badge.limited {
     background-color: #fef9c3;
     color: #854d0e;
