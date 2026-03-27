@@ -584,17 +584,6 @@ ul {
     z-index: 1001;
 }
 
-
-/* Hero pages: suppress the gradient bar and box-shadow under the header.
-   Applied via JS on index.html and MPaCT.html (see script.js — "HERO PAGE HEADER"). */
-.site-header--hero-page::after {
-    display: none;
-}
-
-.site-header--hero-page {
-    box-shadow: none;
-}
-
 .site-header.scrolled {
     background-color: rgba(255, 255, 255, 0.95);
     /* More opaque on scroll */
@@ -17036,12 +17025,14 @@ body.workforce-development-page {
 /* ── Back bar + prev/next nav ───────────────────────────────── */
 .nar-back-bar {
     padding: 12px 0;
+    margin-bottom: 18px;
     border-bottom: 1px solid var(--gray-200);
-    background: var(--white);
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(10px);
     position: sticky;
     top: 0;
     z-index: 100;
-    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
 }
 
 .nar-back-bar__inner {
@@ -17052,8 +17043,8 @@ body.workforce-development-page {
 }
 
 .nar-back-btn {
-    background: none;
-    border: none;
+    background: rgba(0, 36, 84, 0.06);
+    border: 1px solid rgba(0, 36, 84, 0.14);
     color: var(--nau-blue);
     font-size: 0.82rem;
     font-weight: 700;
@@ -17061,13 +17052,19 @@ body.workforce-development-page {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 4px 0;
-    transition: gap 0.15s;
+    padding: 8px 14px;
+    border-radius: var(--radius-full);
+    transition: gap 0.15s, background 0.15s, border-color 0.15s, transform 0.15s;
     font-family: inherit;
     white-space: nowrap;
 }
 
-.nar-back-btn:hover { gap: 10px; }
+.nar-back-btn:hover {
+    gap: 10px;
+    background: rgba(250, 192, 26, 0.14);
+    border-color: rgba(250, 192, 26, 0.68);
+    transform: translateY(-1px);
+}
 
 .nar-back-btn::before {
     content: '\2190';
@@ -17081,31 +17078,36 @@ body.workforce-development-page {
 }
 
 .nar-nav-btn {
-    background: none;
-    border: 1.5px solid var(--gray-300);
-    color: var(--gray-600);
+    background: var(--white);
+    border: 1.5px solid rgba(0, 36, 84, 0.14);
+    color: var(--nau-blue);
     font-size: 0.75rem;
     font-weight: 700;
     padding: 4px 12px;
     border-radius: var(--radius-full);
     cursor: pointer;
-    transition: border-color 0.15s, color 0.15s, background 0.15s;
+    transition: border-color 0.15s, color 0.15s, background 0.15s, transform 0.15s;
     font-family: inherit;
 }
 
 .nar-nav-btn:hover:not(:disabled) {
-    border-color: var(--nau-blue);
+    border-color: rgba(250, 192, 26, 0.76);
+    background: rgba(250, 192, 26, 0.14);
     color: var(--nau-blue);
+    transform: translateY(-1px);
 }
 
 .nar-nav-btn:disabled {
-    opacity: 0.3;
+    opacity: 0.38;
+    background: var(--gray-50);
+    border-color: var(--gray-200);
+    color: var(--gray-400);
     cursor: default;
 }
 
 .nar-nav-counter {
     font-size: 0.72rem;
-    color: var(--gray-400);
+    color: var(--gray-500);
     font-weight: 600;
     min-width: 36px;
     text-align: center;
@@ -17115,8 +17117,12 @@ body.workforce-development-page {
 .nar-hero {
     position: relative;
     height: 420px;
+    width: calc(100% - 56px);
+    max-width: 860px;
+    margin: 0 auto;
     overflow: hidden;
     background: var(--nau-blue);
+    border-radius: var(--radius-md);
 }
 
 .nar-hero__img {
@@ -17129,7 +17135,10 @@ body.workforce-development-page {
 .nar-hero__overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(0deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.12) 55%, transparent 100%);
+    background: linear-gradient(to top,
+            rgba(0, 18, 48, 0.95) 0%,
+            rgba(0, 24, 56, 0.80) 40%,
+            rgba(0, 24, 56, 0.55) 100%);
 }
 
 .nar-hero__meta {
@@ -17713,7 +17722,10 @@ body.workforce-development-page {
 /* ── Responsive ──────────────────────────────────────────────── */
 @media (max-width: 700px) {
     .nar-title { font-size: 1.5rem; }
-    .nar-hero { height: 260px; }
+    .nar-hero {
+        height: 260px;
+        width: calc(100% - 36px);
+    }
     .nar-stats { grid-template-columns: 1fr; }
     .nar-stat-box { border-right: none; border-bottom: 1px solid var(--gray-200); }
     .nar-stat-box:last-child { border-bottom: none; }

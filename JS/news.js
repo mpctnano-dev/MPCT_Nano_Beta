@@ -11,6 +11,12 @@ const EQUIPMENT_LINKS = {
     'HAAS Desktop CNC': 'About_Equipment/Haas_DesktopMill.html',
     'LPKF ProtoLaser': 'About_Equipment/LPKF_ProtoLaser.html',
     'LPKF ProtoLaser R4': 'About_Equipment/LPKF_ProtoLaser.html',
+    'West-Bond Wire Bonder': 'About_Equipment/WestBond_WireBonder.html',
+    'Bambu Lab H2D 3D Printer': 'About_Equipment/Bambu_H2D.html',
+    'Photoluminescence Spectrometer': 'About_Equipment/Photoluminescence_Spectrometer.html',
+    'Seebeck and Resistivity Instrument': 'About_Equipment/Seebeck_Resistivity_Instrument.html',
+    'Tresky T-4909 Die Bonder': 'About_Equipment/Tresky_DieBonder.html',
+    'BELSORP MAX X Surface and Pore Analyzer': 'About_Equipment/BELSORP_MAX_X.html',
     'SEM': 'About_Equipment/SEM.html',
     'TEM': 'About_Equipment/TEM.html',
     'XRD': 'About_Equipment/XRD.html'
@@ -147,10 +153,7 @@ const ARTICLES = [
             ]
         },
         cta: { text: 'Want to bring MPaCT to your school or event?', label: 'Request a Visit', href: 'Contact_Us.html' },
-        gallery: [
-            { src: 'Images/students_lab.jpg', alt: 'Students in hands-on lab session', caption: 'Hands-on STEM engagement in action' },
-            { src: 'Images/drone_engineering.jpg', alt: 'Engineering demonstration', caption: 'Engineering demonstrations with portable equipment' }
-        ]
+        gallery: []
     },
 
     {
@@ -164,7 +167,7 @@ const ARTICLES = [
         statusBadge: 'Open Now',
         stats: [
             { value: 'Open', label: 'Booking Status' },
-            { value: '8+', label: 'Services Available' },
+            { value: '7', label: 'Services Available' },
             { value: 'All Users', label: 'Access Level' }
         ],
         sections: [
@@ -182,20 +185,24 @@ const ARTICLES = [
             type: 'service-grid',
             heading: 'Available Services',
             items: [
-                { icon: '🔬', name: 'SEM', img: 'Images/SEM.jpg', desc: 'Scanning electron microscopy, EDS analysis' },
-                { icon: '⚛️', name: 'TEM', img: 'Images/TEM.jpg', desc: 'Atomic-resolution imaging, SAED' },
-                { icon: '📊', name: 'XRD', img: 'Images/XRD.jpg', desc: 'Phase ID, Rietveld, thin-film GIXRD' },
-                { icon: '📐', name: 'AFM', img: 'Images/atomic_force_microscope.jpg', desc: 'Surface topography, roughness, force curves' },
-                { icon: '🔭', name: 'Profilometry', img: 'Images/VKX_3000.png', desc: '3D surface profiling and step height' },
-                { icon: '🔌', name: 'PCB Proto', img: 'Images/LPKF.png', desc: 'Rapid PCB isolation and drilling' },
-                { icon: '🔆', name: 'Laser Machining', img: 'Images/FLS1000.png', desc: 'Microfabrication and ablation' },
-                { icon: '⚙️', name: 'CNC Machining', img: 'Images/DeskMill.png', desc: 'Precision mill and lathe operations' }
+                { icon: '🔌', name: 'LPKF ProtoLaser R4', img: 'Images/LPKF.png', desc: 'Rapid PCB prototyping and laser structuring' },
+                { icon: '🧵', name: 'West-Bond Wire Bonder', img: 'Images/bond.jpg', desc: 'Fine-pitch wire bonding for advanced packaging' },
+                { icon: '🖨️', name: 'Bambu Lab H2D 3D Printer', img: 'Images/3d_printer.png', desc: 'Rapid additive manufacturing and part iteration' },
+                { icon: '🔆', name: 'Photoluminescence Spectrometer', img: 'Images/FLS1000.png', desc: 'Optical emission and lifetime characterization' },
+                { icon: '📈', name: 'Seebeck and Resistivity Instrument', img: 'Images/Seebeck.png', desc: 'Thermoelectric and electrical transport testing' },
+                { icon: '🧩', name: 'Tresky T-4909 Die Bonder', img: 'Images/Die_B.png', desc: 'Precision die attach and packaging assembly' },
+                { icon: '🧪', name: 'BELSORP MAX X Surface and Pore Analyzer', img: 'Images/SurfaceandPore.jpg', desc: 'Surface area and pore-size characterization' }
             ]
         },
         cta: { text: 'Ready to get started?', label: 'Book Now', href: 'Book_Equipment.html' },
         gallery: []
     },
 
+    /*
+     * Advancing Shared Facility Vision is temporarily hidden while the published set stays focused on
+     * the current five stories. Keep the full object nearby so the article can be restored without
+     * rebuilding its roadmap structure or copy.
+     *
     {
         id: 'advancing-shared-facility',
         title: 'Advancing Shared Facility Vision',
@@ -236,12 +243,13 @@ const ARTICLES = [
         cta: { text: 'Explore the full instrument catalog.', label: 'View Equipment', href: 'Equipment.html' },
         gallery: []
     },
+    */
 
     {
         id: 'lpkf-protolaser-r4-commissioned',
         title: 'LPKF ProtoLaser R4 Commissioned',
         tagLabel: 'Installation',
-        date: '2025-11-28',
+        date: '2026-03-20',
         readTime: '4 min read',
         heroImage: 'Images/LPKF.png',
         heroAlt: 'LPKF ProtoLaser R4 at MPaCT Lab',
@@ -336,7 +344,6 @@ const renderFeatured = (featured) => {
                         </div>
                         <div class="acc-info">
                             <div class="acc-title">${item.name}</div>
-                            <span class="acc-desc">${item.desc}</span>
                             <div class="acc-status available"><span class="dot green"></span> Available</div>
                         </div>
                     </a>`;
