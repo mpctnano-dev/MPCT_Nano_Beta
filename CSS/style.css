@@ -17002,11 +17002,13 @@ body.workforce-development-page {
 }
 
 /* ── Grid + filter hide transitions ─────────────────────────── */
+#newsHeroSection,
 #newsFilterSection,
 #newsGridSection {
     transition: opacity 0.28s ease, transform 0.28s ease;
 }
 
+#newsHeroSection.is-hidden,
 #newsFilterSection.is-hidden,
 #newsGridSection.is-hidden {
     opacity: 0;

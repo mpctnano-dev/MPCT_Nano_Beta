@@ -225,8 +225,8 @@ const ARTICLES = [
             type: 'progress',
             heading: 'Facility Roadmap',
             items: [
-                { status: 'done', icon: '✓', label: 'SEM & TEM Commissioned', detail: 'High-resolution electron microscopy operational', statusLabel: 'Complete' },
-                { status: 'done', icon: '✓', label: 'XRD System Commissioned', detail: 'Phase ID, Rietveld, and thin-film GIXRD available', statusLabel: 'Complete' },
+                { status: 'active', icon: '→', label: 'SEM & TEM Commissioned', detail: 'High-resolution electron microscopy operational', statusLabel: 'In Progress' },
+                { status: 'active', icon: '→', label: 'XRD System Commissioned', detail: 'Phase ID, Rietveld, and thin-film GIXRD available', statusLabel: 'In Progress' },
                 { status: 'done', icon: '✓', label: 'FLs1000, HAAS & LPKF Installed', detail: 'Laser, CNC, and PCB prototyping systems live', statusLabel: 'Complete' },
                 { status: 'active', icon: '→', label: '$2.5M Facility Renovation', detail: 'Vibration isolation, HVAC, cleanroom fit-out — phased through 2026', statusLabel: 'In Progress' },
                 { status: 'planned', icon: '◦', label: 'Surface Analysis Tools', detail: 'XPS, Auger, and SIMS capabilities planned', statusLabel: 'Planned' },
@@ -373,6 +373,7 @@ const renderFeatured = (featured) => {
 
 document.addEventListener('DOMContentLoaded', () => {
 
+    const heroSection   = document.getElementById('newsHeroSection');
     const filterSection = document.getElementById('newsFilterSection');
     const gridSection   = document.getElementById('newsGridSection');
     const articleReader = document.getElementById('newsArticleReader');
@@ -441,10 +442,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         populateArticleReader(ARTICLES[idx]);
 
+        if (heroSection) heroSection.classList.add('is-hidden');
         gridSection.classList.add('is-hidden');
         filterSection.classList.add('is-hidden');
 
         setTimeout(() => {
+            if (heroSection) heroSection.style.display = 'none';
             gridSection.style.display   = 'none';
             filterSection.style.display = 'none';
             articleReader.style.display = 'block';
@@ -461,9 +464,12 @@ document.addEventListener('DOMContentLoaded', () => {
             articleReader.innerHTML     = '';
             currentArticleIdx           = -1;
 
+            if (heroSection) heroSection.style.display = '';
             gridSection.style.display   = '';
             filterSection.style.display = '';
+            if (heroSection) heroSection.offsetHeight; // Force layout before restoring the hero so the entry animation can run.
             gridSection.offsetHeight;   // Force layout before restoring the grid so the re-entry animation actually runs.
+            if (heroSection) heroSection.classList.remove('is-hidden');
             gridSection.classList.remove('is-hidden');
             filterSection.classList.remove('is-hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
