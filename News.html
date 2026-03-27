@@ -14,7 +14,7 @@
 
     <main>
 
-        <!-- Hero -->
+        <!-- Hero establishes page identity without consuming the vertical space needed for the filter bar and news grid. -->
         <section class="ml-hero ml-hero--compact" style="height: 50vh; min-height: 360px; max-height: 500px;">
             <div class="ml-hero__bg">
                 <img src="Images/nano_fabrication.jpg" alt="MPaCT Lab News and Updates">
@@ -39,8 +39,8 @@
             </div>
         </section>
 
-        <!-- Filter bar -->
-        <section class="filter-section" style="border-bottom: 1px solid var(--gray-200); padding: 20px 0;">
+        <!-- Filters stay declarative here. JS/news.js reads the button data-tags and search input to drive client-side filtering. -->
+        <section id="newsFilterSection" class="filter-section" style="border-bottom: 1px solid var(--gray-200); padding: 20px 0;">
             <div class="container d-flex justify-between align-center" style="gap: 20px; flex-wrap: wrap;">
 
                 <div class="search-wrapper" style="position: relative; flex-grow: 1; max-width: 300px;">
@@ -54,7 +54,6 @@
                     <button class="news-filter-btn active" data-tag="all">All</button>
                     <button class="news-filter-btn" data-tag="facility">Facility</button>
                     <button class="news-filter-btn" data-tag="equipment">Equipment</button>
-                    <button class="news-filter-btn" data-tag="training">Training</button>
                     <button class="news-filter-btn" data-tag="installation">Installation</button>
                     <button class="news-filter-btn" data-tag="announcement">Announcement</button>
                 </div>
@@ -62,14 +61,14 @@
             </div>
         </section>
 
-        <!-- News grid -->
-        <section style="padding: 40px 0; background-color: var(--gray-50); min-height: 400px;">
+        <!-- Grid cards stay intentionally compact. The full article payload lives in JS/news.js and is resolved through data-article-id. -->
+        <section id="newsGridSection" style="padding: 40px 0; background-color: var(--gray-50); min-height: 400px;">
             <div class="container">
 
                 <div class="news-grid" id="newsGrid">
 
-                    <!-- Card 1: Cleanroom Expansion Complete -->
-                    <article class="news-card" data-tags="facility" aria-label="Cleanroom Expansion Complete">
+                    <!-- Facility renovation milestone card. Keep the article id aligned with the article record in JS/news.js. -->
+                    <article class="news-card" data-tags="facility" data-article-id="facility-renovation" aria-label="Facility Renovation Milestone">
                         <div class="news-corner-fold"></div>
                         <div class="news-corner-icon">
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#002454" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -80,26 +79,26 @@
                             </svg>
                         </div>
                         <div class="news-card__banner news-card__banner--facility">
-                            <img src="Images/cleanroom.png" alt="New Cleanroom Facility" class="news-card__image">
-                            <span class="news-card__badge">Facility</span>
+                            <img src="Images/blueprint_1.jpeg" alt="Facility Renovation Blueprint" class="news-card__image">
+                            <span class="news-card__badge news-card__badge--milestone">Milestone</span>
                         </div>
                         <div class="news-card__body">
                             <div class="news-card__meta">
                                 <span class="news-card__tag news-card__tag--facility">Facility</span>
-                                <span class="news-card__timestamp" data-date="2026-03-26">Today</span>
+                                <span class="news-card__timestamp" data-date="2026-01-15">Jan 15, 2026</span>
                             </div>
-                            <h3 class="news-card__title">Cleanroom Expansion Complete</h3>
-                            <p class="news-card__excerpt">The Class 1000 cleanroom expansion doubles our nano-fabrication capacity, adding new wet and dry processing bays with dedicated gowning stations.</p>
+                            <h3 class="news-card__title">Facility Renovation Milestone</h3>
+                            <p class="news-card__excerpt">A major renovation project is underway to develop a state-of-the-art shared metrology facility — advancing research infrastructure for academic and industry partners.</p>
                             <div class="news-card__hashtags">
                                 <span class="news-card__hashtag">#MPaCT</span>
-                                <span class="news-card__hashtag">#Cleanroom</span>
-                                <span class="news-card__hashtag">#NanoFab</span>
+                                <span class="news-card__hashtag">#Renovation</span>
+                                <span class="news-card__hashtag">#Metrology</span>
                             </div>
                         </div>
                     </article>
 
-                    <!-- Card 2: TEM Arrives at MPaCT -->
-                    <article class="news-card" data-tags="equipment,installation" aria-label="TEM Arrives at MPaCT">
+                    <!-- January achievements card. The teaser stays short because the expanded reader carries the full commissioned-systems detail. -->
+                    <article class="news-card" data-tags="equipment,installation" data-article-id="january-2026-achievements" aria-label="January 2026 Achievements">
                         <div class="news-corner-fold"></div>
                         <div class="news-corner-icon">
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#002454" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -109,27 +108,27 @@
                                 <line x1="3" y1="21" x2="10" y2="14"></line>
                             </svg>
                         </div>
-                        <div class="news-card__banner news-card__banner--equipment">
-                            <img src="Images/TEM.jpg" alt="Transmission Electron Microscope" class="news-card__image">
-                            <span class="news-card__badge">Equipment</span>
+                        <div class="news-card__banner news-card__banner--installation">
+                            <img src="Images/FLS1000.png" alt="FLs1000 Fiber Laser System" class="news-card__image">
+                            <span class="news-card__badge news-card__badge--new">New Systems</span>
                         </div>
                         <div class="news-card__body">
                             <div class="news-card__meta">
                                 <span class="news-card__tag news-card__tag--installation">Installation</span>
-                                <span class="news-card__timestamp" data-date="2026-03-10">Mar 10, 2026</span>
+                                <span class="news-card__timestamp" data-date="2026-01-31">Jan 31, 2026</span>
                             </div>
-                            <h3 class="news-card__title">TEM Arrives at MPaCT</h3>
-                            <p class="news-card__excerpt">Our new Transmission Electron Microscope is installed and operational, enabling atomic-resolution imaging and advanced materials characterization.</p>
+                            <h3 class="news-card__title">January 2026 Achievements</h3>
+                            <p class="news-card__excerpt">Successful installation and commissioning of the FLs1000, HAAS, and LPKF systems — strengthening MPaCT's technical capabilities across fabrication and characterization.</p>
                             <div class="news-card__hashtags">
                                 <span class="news-card__hashtag">#MPaCT</span>
-                                <span class="news-card__hashtag">#TEM</span>
-                                <span class="news-card__hashtag">#Microscopy</span>
+                                <span class="news-card__hashtag">#Installation</span>
+                                <span class="news-card__hashtag">#Equipment</span>
                             </div>
                         </div>
                     </article>
 
-                    <!-- Card 3: Mobile Outreach Van Unveiled -->
-                    <article class="news-card" data-tags="facility,announcement" aria-label="Mobile Outreach Van Unveiled">
+                    <!-- Mobile outreach card. The cover image should remain the van exterior shot so the outreach story reads immediately in the grid. -->
+                    <article class="news-card" data-tags="outreach,education,community" data-article-id="mobile-van" aria-label="Mobile Van">
                         <div class="news-corner-fold"></div>
                         <div class="news-corner-icon">
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#002454" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -139,27 +138,27 @@
                                 <line x1="3" y1="21" x2="10" y2="14"></line>
                             </svg>
                         </div>
-                        <div class="news-card__banner news-card__banner--facility">
-                            <img src="Images/group_instruction.jpg" alt="Mobile Outreach Van" class="news-card__image">
-                            <span class="news-card__badge">Facility</span>
+                        <div class="news-card__banner news-card__banner--announcement">
+                            <img src="Images/Van_Image.jpeg" alt="NAU mobile outreach van" class="news-card__image">
+                            <span class="news-card__badge news-card__badge--announcement">Mobile Unit</span>
                         </div>
                         <div class="news-card__body">
                             <div class="news-card__meta">
-                                <span class="news-card__tag news-card__tag--announcement">Announcement</span>
+                                <span class="news-card__tag news-card__tag--announcement">Community</span>
                                 <span class="news-card__timestamp" data-date="2026-02-15">Feb 15, 2026</span>
                             </div>
-                            <h3 class="news-card__title">Mobile Outreach Van Unveiled</h3>
-                            <p class="news-card__excerpt">Our fully equipped mobile STEM unit is complete — featuring portable microscopy, 3D printing, and hands-on demos for schools across northern Arizona.</p>
+                            <h3 class="news-card__title">Mobile Van</h3>
+                            <p class="news-card__excerpt">A fully equipped mobile STEM unit featuring a custom van build with awning, roof rack, and branded wrap — expanding outreach and educational programs across northern Arizona.</p>
                             <div class="news-card__hashtags">
                                 <span class="news-card__hashtag">#MPaCT</span>
                                 <span class="news-card__hashtag">#MobileUnit</span>
-                                <span class="news-card__hashtag">#Outreach</span>
+                                <span class="news-card__hashtag">#STEM</span>
                             </div>
                         </div>
                     </article>
 
-                    <!-- Card 4: Shared Facility Now Open for Bookings -->
-                    <article class="news-card" data-tags="announcement" aria-label="Shared Facility Now Open for Bookings">
+                    <!-- Booking launch card. The announcement styling stays shared, but the labels should describe booking availability rather than a generic announcement. -->
+                    <article class="news-card" data-tags="facility,bookings,services" data-article-id="open-for-bookings" aria-label="Now Open for Bookings">
                         <div class="news-corner-fold"></div>
                         <div class="news-corner-icon">
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#002454" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -171,15 +170,15 @@
                         </div>
                         <div class="news-card__banner news-card__banner--announcement">
                             <img src="Images/industrial_lab.jpg" alt="MPaCT Shared Facility" class="news-card__image">
-                            <span class="news-card__badge">Announcement</span>
+                            <span class="news-card__badge news-card__badge--announcement">Open Now</span>
                         </div>
                         <div class="news-card__body">
                             <div class="news-card__meta">
-                                <span class="news-card__tag news-card__tag--announcement">Announcement</span>
+                                <span class="news-card__tag news-card__tag--announcement">Reservations</span>
                                 <span class="news-card__timestamp" data-date="2026-03-01">Mar 1, 2026</span>
                             </div>
-                            <h3 class="news-card__title">Shared Facility Now Open for Bookings</h3>
-                            <p class="news-card__excerpt">Equipment bookings and metrology services are now available. External industry partners can reserve instruments through our online booking portal.</p>
+                            <h3 class="news-card__title">Now Open for Bookings</h3>
+                            <p class="news-card__excerpt">Equipment bookings and metrology services are now available through MPaCT. External industry partners and academic users can reserve instruments via the online portal.</p>
                             <div class="news-card__hashtags">
                                 <span class="news-card__hashtag">#MPaCT</span>
                                 <span class="news-card__hashtag">#Bookings</span>
@@ -188,8 +187,8 @@
                         </div>
                     </article>
 
-                    <!-- Card 5: SEM & XRD Lab Renovation -->
-                    <article class="news-card" data-tags="facility" aria-label="SEM and XRD Lab Renovation">
+                    <!-- Long-horizon facility roadmap card. This one anchors the strategic narrative for the rest of the news feed. -->
+                    <article class="news-card" data-tags="facility" data-article-id="advancing-shared-facility" aria-label="Advancing Shared Facility Vision">
                         <div class="news-corner-fold"></div>
                         <div class="news-corner-icon">
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#002454" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -200,56 +199,26 @@
                             </svg>
                         </div>
                         <div class="news-card__banner news-card__banner--facility">
-                            <img src="Images/blueprint_1.jpeg" alt="Renovation Blueprint" class="news-card__image">
-                            <span class="news-card__badge">Facility</span>
+                            <img src="Images/engineering_lab_hero.jpg" alt="MPaCT Shared Facility Vision" class="news-card__image">
+                            <span class="news-card__badge news-card__badge--milestone">Milestone</span>
                         </div>
                         <div class="news-card__body">
                             <div class="news-card__meta">
                                 <span class="news-card__tag news-card__tag--facility">Facility</span>
-                                <span class="news-card__timestamp" data-date="2026-01-20">Jan 20, 2026</span>
+                                <span class="news-card__timestamp" data-date="2025-12-10">Dec 10, 2025</span>
                             </div>
-                            <h3 class="news-card__title">SEM &amp; XRD Lab Renovation</h3>
-                            <p class="news-card__excerpt">Phase 2 renovation begins — the SEM suite and XRD room will undergo vibration-isolated flooring, upgraded HVAC, and new power conditioning.</p>
+                            <h3 class="news-card__title">Advancing Shared Facility Vision</h3>
+                            <p class="news-card__excerpt">Continued progress in building the future shared facility through strategic equipment acquisitions and infrastructure development across the 2025–2026 academic period.</p>
                             <div class="news-card__hashtags">
                                 <span class="news-card__hashtag">#MPaCT</span>
-                                <span class="news-card__hashtag">#Renovation</span>
-                                <span class="news-card__hashtag">#Infrastructure</span>
+                                <span class="news-card__hashtag">#Facility</span>
+                                <span class="news-card__hashtag">#Strategy</span>
                             </div>
                         </div>
                     </article>
 
-                    <!-- Card 6: Advanced SEM Training Workshop -->
-                    <article class="news-card" data-tags="training" aria-label="Advanced SEM Training Workshop">
-                        <div class="news-corner-fold"></div>
-                        <div class="news-corner-icon">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#002454" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                <polyline points="15 3 21 3 21 9"></polyline>
-                                <polyline points="9 21 3 21 3 15"></polyline>
-                                <line x1="21" y1="3" x2="14" y2="10"></line>
-                                <line x1="3" y1="21" x2="10" y2="14"></line>
-                            </svg>
-                        </div>
-                        <div class="news-card__banner news-card__banner--training">
-                            <img src="Images/SEM.jpg" alt="SEM Training Workshop" class="news-card__image">
-                            <span class="news-card__badge">Training</span>
-                        </div>
-                        <div class="news-card__body">
-                            <div class="news-card__meta">
-                                <span class="news-card__tag news-card__tag--training">Training</span>
-                                <span class="news-card__timestamp" data-date="2025-12-05">Dec 5, 2025</span>
-                            </div>
-                            <h3 class="news-card__title">Advanced SEM Training Workshop</h3>
-                            <p class="news-card__excerpt">Register for the spring SEM operator certification. Covers EDS analysis, low-voltage imaging, and sample preparation for cross-sections.</p>
-                            <div class="news-card__hashtags">
-                                <span class="news-card__hashtag">#NAU</span>
-                                <span class="news-card__hashtag">#SEM</span>
-                                <span class="news-card__hashtag">#Certification</span>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- Card 7: XRD System Commissioned -->
-                    <article class="news-card" data-tags="equipment,installation" aria-label="XRD System Commissioned">
+                    <!-- Recent equipment commissioning card. This slot should stay reserved for the latest instrument launch story. -->
+                    <article class="news-card" data-tags="equipment,installation,pcb" data-article-id="lpkf-protolaser-r4-commissioned" aria-label="LPKF ProtoLaser R4 Commissioned">
                         <div class="news-corner-fold"></div>
                         <div class="news-corner-icon">
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#002454" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -260,80 +229,20 @@
                             </svg>
                         </div>
                         <div class="news-card__banner news-card__banner--installation">
-                            <img src="Images/XRD.jpg" alt="XRD System" class="news-card__image">
-                            <span class="news-card__badge">Installation</span>
+                            <img src="Images/LPKF.png" alt="LPKF ProtoLaser R4 at MPaCT" class="news-card__image">
+                            <span class="news-card__badge news-card__badge--new">New System</span>
                         </div>
                         <div class="news-card__body">
                             <div class="news-card__meta">
                                 <span class="news-card__tag news-card__tag--installation">Installation</span>
                                 <span class="news-card__timestamp" data-date="2025-11-28">Nov 28, 2025</span>
                             </div>
-                            <h3 class="news-card__title">XRD System Commissioned</h3>
-                            <p class="news-card__excerpt">The new X-Ray Diffraction system is fully operational, providing phase identification, crystallite size, and thin-film analysis capabilities.</p>
+                            <h3 class="news-card__title">LPKF ProtoLaser R4 Commissioned</h3>
+                            <p class="news-card__excerpt">The LPKF ProtoLaser R4 is now commissioned for rapid PCB prototyping, laser structuring, drilling, and precision cutting across FR4, ceramics, glass, and flexible substrates.</p>
                             <div class="news-card__hashtags">
                                 <span class="news-card__hashtag">#MPaCT</span>
-                                <span class="news-card__hashtag">#XRD</span>
-                                <span class="news-card__hashtag">#Materials</span>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- Card 8: 3D Print Lab Grand Opening -->
-                    <article class="news-card" data-tags="facility,equipment" aria-label="3D Print Lab Grand Opening">
-                        <div class="news-corner-fold"></div>
-                        <div class="news-corner-icon">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#002454" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                <polyline points="15 3 21 3 21 9"></polyline>
-                                <polyline points="9 21 3 21 3 15"></polyline>
-                                <line x1="21" y1="3" x2="14" y2="10"></line>
-                                <line x1="3" y1="21" x2="10" y2="14"></line>
-                            </svg>
-                        </div>
-                        <div class="news-card__banner news-card__banner--equipment">
-                            <img src="Images/3d_printer.png" alt="3D Printing Lab" class="news-card__image">
-                            <span class="news-card__badge">Equipment</span>
-                        </div>
-                        <div class="news-card__body">
-                            <div class="news-card__meta">
-                                <span class="news-card__tag news-card__tag--equipment">Equipment</span>
-                                <span class="news-card__timestamp" data-date="2025-11-14">Nov 14, 2025</span>
-                            </div>
-                            <h3 class="news-card__title">3D Print Lab Grand Opening</h3>
-                            <p class="news-card__excerpt">The dedicated additive manufacturing suite is open — featuring FDM, SLA, and multi-material printers available for booking by students and researchers.</p>
-                            <div class="news-card__hashtags">
-                                <span class="news-card__hashtag">#NAU</span>
-                                <span class="news-card__hashtag">#3DPrint</span>
-                                <span class="news-card__hashtag">#Additive</span>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- Card 9: NSF Equipment Grant Awarded -->
-                    <article class="news-card" data-tags="announcement" aria-label="NSF Equipment Grant Awarded">
-                        <div class="news-corner-fold"></div>
-                        <div class="news-corner-icon">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#002454" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                <polyline points="15 3 21 3 21 9"></polyline>
-                                <polyline points="9 21 3 21 3 15"></polyline>
-                                <line x1="21" y1="3" x2="14" y2="10"></line>
-                                <line x1="3" y1="21" x2="10" y2="14"></line>
-                            </svg>
-                        </div>
-                        <div class="news-card__banner news-card__banner--announcement">
-                            <img src="Images/engineering_building.jpg" alt="NAU Engineering Building" class="news-card__image">
-                            <span class="news-card__badge">Announcement</span>
-                        </div>
-                        <div class="news-card__body">
-                            <div class="news-card__meta">
-                                <span class="news-card__tag news-card__tag--announcement">Announcement</span>
-                                <span class="news-card__timestamp" data-date="2025-10-30">Oct 30, 2025</span>
-                            </div>
-                            <h3 class="news-card__title">NSF Equipment Grant Awarded</h3>
-                            <p class="news-card__excerpt">A $2.1M NSF MRI grant will fund three new metrology instruments arriving Spring 2026, expanding atomic-scale characterization capabilities.</p>
-                            <div class="news-card__hashtags">
-                                <span class="news-card__hashtag">#NAU</span>
-                                <span class="news-card__hashtag">#NSF</span>
-                                <span class="news-card__hashtag">#Research</span>
+                                <span class="news-card__hashtag">#LPKF</span>
+                                <span class="news-card__hashtag">#PCBPrototyping</span>
                             </div>
                         </div>
                     </article>
@@ -348,6 +257,9 @@
             </div>
         </section>
 
+        <!-- Reader container stays empty in the base HTML. JS/news.js replaces this region with the selected long-form article view. -->
+        <section id="newsArticleReader" class="news-article-reader"></section>
+
     </main>
 
     <site-footer></site-footer>
@@ -357,3 +269,4 @@
 </body>
 
 </html>
+>
