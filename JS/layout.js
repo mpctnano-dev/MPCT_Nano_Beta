@@ -352,6 +352,12 @@ class SiteHeader extends HTMLElement {
                     </div>
                     <!-- End WFD Mega-Menu -->
 
+                    <!-- News -->
+                    <div class="nav-item">
+                        <a href="${basePath}News.html" class="nav-link"
+                            data-path="News.html">News</a>
+                    </div>
+
                     <!-- About Us -->
                     <div class="nav-item">
                         <a href="${basePath}About_Us.html" class="nav-link"

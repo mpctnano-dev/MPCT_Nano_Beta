@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News &amp; Updates | NAU Nano Core</title>
+    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <site-header></site-header>
+
+    <main>
+
+        <!-- Hero establishes page identity without consuming the vertical space needed for the filter bar and news grid. -->
+        <section id="newsHeroSection" class="ml-hero ml-hero--compact" style="height: 50vh; min-height: 360px; max-height: 500px;">
+            <div class="ml-hero__bg">
+                <img src="Images/nano_fabrication.jpg" alt="MPaCT News and Updates">
+            </div>
+            <div class="ml-hero__overlay"></div>
+            <div class="ml-hero__noise"></div>
+
+            <div class="ml-hero__content" style="padding-bottom: 40px;">
+                <div class="container">
+                    <div class="ml-hero__eyebrow">
+                        <span class="ml-hero__eyebrow-line"></span>
+                        Latest Updates
+                    </div>
+                    <h1 class="ml-hero__title">
+                        MPaCT<br><em>News</em>
+                    </h1>
+                    <p class="ml-hero__subtitle">
+                        Equipment installations, facility updates, training announcements, and
+                        research milestones from the MPaCT Lab at Northern Arizona University.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filters stay declarative here. JS/news.js reads the button data-tags and search input to drive client-side filtering. -->
+        <section id="newsFilterSection" class="filter-section" style="border-bottom: 1px solid var(--gray-200); padding: 20px 0;">
+            <div class="container d-flex justify-between align-center" style="gap: 20px; flex-wrap: wrap;">
+
+                <div class="search-wrapper" style="position: relative; flex-grow: 1; max-width: 300px;">
+                    <i class="fas fa-search"
+                        style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--gray-400);"></i>
+                    <input type="text" id="newsSearch" placeholder="Search news..."
+                        style="width: 100%; padding: 10px 10px 10px 40px; border: 1px solid var(--gray-300); border-radius: 20px; background: var(--gray-50);">
+                </div>
+
+                <div class="filter-group">
+                    <button class="news-filter-btn active" data-tag="all">All</button>
+                    <button class="news-filter-btn" data-tag="facility">Facility</button>
+                    <button class="news-filter-btn" data-tag="equipment">Equipment</button>
+                    <button class="news-filter-btn" data-tag="installation">Installation</button>
+                    <button class="news-filter-btn" data-tag="announcement">Announcement</button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Grid cards stay intentionally compact. The full article payload lives in JS/news.js and is resolved through data-article-id. -->
+        <section id="newsGridSection" style="padding: 40px 0; background-color: var(--gray-50); min-height: 400px;">
+            <div class="container">
+
+                <div class="news-grid" id="newsGrid">
+
+                    <!-- Facility renovation milestone card. Keep the article id aligned with the article record in JS/news.js. -->
+                    <article class="news-card" data-tags="facility" data-article-id="facility-renovation" aria-label="Facility Renovation Milestone">
+                        <div class="news-corner-fold"></div>
+                        <div class="news-corner-icon">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#002454" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <polyline points="9 21 3 21 3 15"></polyline>
+                                <line x1="21" y1="3" x2="14" y2="10"></line>
+                                <line x1="3" y1="21" x2="10" y2="14"></line>
+                            </svg>
+                        </div>
+                        <div class="news-card__banner news-card__banner--facility">
+                            <img src="Images/blueprint_1.jpeg" alt="Facility Renovation Blueprint" class="news-card__image">
+                            <span class="news-card__badge news-card__badge--milestone">Milestone</span>
+                        </div>
+                        <div class="news-card__body">
+                            <div class="news-card__meta">
+                                <span class="news-card__tag news-card__tag--facility">Facility</span>
+                                <span class="news-card__timestamp" data-date="2026-01-15">Jan 15, 2026</span>
+                            </div>
+                            <h3 class="news-card__title">Facility Renovation Milestone</h3>
+                            <p class="news-card__excerpt">A major renovation project is underway to develop a state-of-the-art shared metrology facility — advancing research infrastructure for academic and industry partners.</p>
+                            <div class="news-card__hashtags">
+                                <span class="news-card__hashtag">#MPaCT</span>
+                                <span class="news-card__hashtag">#Renovation</span>
+                                <span class="news-card__hashtag">#Metrology</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- January achievements card. The teaser stays short because the expanded reader carries the full commissioned-systems detail. -->
+                    <article class="news-card" data-tags="equipment,installation" data-article-id="january-2026-achievements" aria-label="January 2026 Achievements">
+                        <div class="news-corner-fold"></div>
+                        <div class="news-corner-icon">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#002454" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <polyline points="9 21 3 21 3 15"></polyline>
+                                <line x1="21" y1="3" x2="14" y2="10"></line>
+                                <line x1="3" y1="21" x2="10" y2="14"></line>
+                            </svg>
+                        </div>
+                        <div class="news-card__banner news-card__banner--equipment">
+                            <img src="Images/FLS1000.png" alt="FLs1000 Fiber Laser System" class="news-card__image">
+                            <span class="news-card__badge news-card__badge--new">New Systems</span>
+                        </div>
+                        <div class="news-card__body">
+                            <div class="news-card__meta">
+                                <span class="news-card__tag news-card__tag--installation">Installation</span>
+                                <span class="news-card__timestamp" data-date="2026-01-31">Jan 31, 2026</span>
+                            </div>
+                            <h3 class="news-card__title">January 2026 Achievements</h3>
+                            <p class="news-card__excerpt">Successful installation and commissioning of the FLs1000, HAAS, and LPKF systems — strengthening MPaCT's technical capabilities across fabrication and characterization.</p>
+                            <div class="news-card__hashtags">
+                                <span class="news-card__hashtag">#MPaCT</span>
+                                <span class="news-card__hashtag">#Installation</span>
+                                <span class="news-card__hashtag">#Equipment</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Mobile outreach card. The cover image should remain the van exterior shot so the outreach story reads immediately in the grid. -->
+                    <article class="news-card" data-tags="outreach,education,community" data-article-id="mobile-van" aria-label="Mobile Van">
+                        <div class="news-corner-fold"></div>
+                        <div class="news-corner-icon">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#002454" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <polyline points="9 21 3 21 3 15"></polyline>
+                                <line x1="21" y1="3" x2="14" y2="10"></line>
+                                <line x1="3" y1="21" x2="10" y2="14"></line>
+                            </svg>
+                        </div>
+                        <div class="news-card__banner news-card__banner--announcement">
+                            <img src="Images/Van_Image.jpeg" alt="NAU mobile outreach van" class="news-card__image">
+                            <span class="news-card__badge news-card__badge--announcement">Mobile Unit</span>
+                        </div>
+                        <div class="news-card__body">
+                            <div class="news-card__meta">
+                                <span class="news-card__tag news-card__tag--announcement">Community</span>
+                                <span class="news-card__timestamp" data-date="2026-02-15">Feb 15, 2026</span>
+                            </div>
+                            <h3 class="news-card__title">Mobile Van</h3>
+                            <p class="news-card__excerpt">A fully equipped mobile STEM unit featuring a custom van build with awning, roof rack, and branded wrap — expanding outreach and educational programs across northern Arizona.</p>
+                            <div class="news-card__hashtags">
+                                <span class="news-card__hashtag">#MPaCT</span>
+                                <span class="news-card__hashtag">#MobileUnit</span>
+                                <span class="news-card__hashtag">#STEM</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Booking launch card. The announcement styling stays shared, but the labels should describe booking availability rather than a generic announcement. -->
+                    <article class="news-card" data-tags="facility,bookings,services" data-article-id="open-for-bookings" aria-label="Now Open for Bookings">
+                        <div class="news-corner-fold"></div>
+                        <div class="news-corner-icon">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#002454" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <polyline points="9 21 3 21 3 15"></polyline>
+                                <line x1="21" y1="3" x2="14" y2="10"></line>
+                                <line x1="3" y1="21" x2="10" y2="14"></line>
+                            </svg>
+                        </div>
+                        <div class="news-card__banner news-card__banner--announcement">
+                            <img src="Images/lab_services.jpg" alt="MPaCT lab services and equipment" class="news-card__image">
+                            <span class="news-card__badge news-card__badge--announcement">Open Now</span>
+                        </div>
+                        <div class="news-card__body">
+                            <div class="news-card__meta">
+                                <span class="news-card__tag news-card__tag--announcement">Reservations</span>
+                                <span class="news-card__timestamp" data-date="2026-03-01">Mar 1, 2026</span>
+                            </div>
+                            <h3 class="news-card__title">Now Open for Bookings</h3>
+                            <p class="news-card__excerpt">Equipment bookings and metrology services are now available through MPaCT. External industry partners and academic users can reserve instruments via the online portal.</p>
+                            <div class="news-card__hashtags">
+                                <span class="news-card__hashtag">#MPaCT</span>
+                                <span class="news-card__hashtag">#Bookings</span>
+                                <span class="news-card__hashtag">#Metrology</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Advancing Shared Facility Vision is temporarily hidden while the article set stays focused on five stories. -->
+
+                    <!-- Recent equipment commissioning card. This slot should stay reserved for the latest instrument launch story. -->
+                    <article class="news-card" data-tags="equipment,installation,pcb" data-article-id="lpkf-protolaser-r4-commissioned" aria-label="LPKF ProtoLaser R4 Commissioned">
+                        <div class="news-corner-fold"></div>
+                        <div class="news-corner-icon">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#002454" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <polyline points="9 21 3 21 3 15"></polyline>
+                                <line x1="21" y1="3" x2="14" y2="10"></line>
+                                <line x1="3" y1="21" x2="10" y2="14"></line>
+                            </svg>
+                        </div>
+                        <div class="news-card__banner news-card__banner--equipment">
+                            <img src="Images/LPKF.png" alt="LPKF ProtoLaser R4 at MPaCT" class="news-card__image">
+                            <span class="news-card__badge news-card__badge--new">New System</span>
+                        </div>
+                        <div class="news-card__body">
+                            <div class="news-card__meta">
+                                <span class="news-card__tag news-card__tag--installation">Installation</span>
+                                <span class="news-card__timestamp" data-date="2026-03-20">Mar 20, 2026</span>
+                            </div>
+                            <h3 class="news-card__title">LPKF ProtoLaser R4 Commissioned</h3>
+                            <p class="news-card__excerpt">The LPKF ProtoLaser R4 is now commissioned for rapid PCB prototyping, laser structuring, drilling, and precision cutting across FR4, ceramics, glass, and flexible substrates.</p>
+                            <div class="news-card__hashtags">
+                                <span class="news-card__hashtag">#MPaCT</span>
+                                <span class="news-card__hashtag">#LPKF</span>
+                                <span class="news-card__hashtag">#PCBPrototyping</span>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+
+                <div class="news-empty-state" id="newsEmptyState" style="display: none;">
+                    <i class="fas fa-newspaper"></i>
+                    <p>No articles match your search.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Reader container stays empty in the base HTML. JS/news.js replaces this region with the selected long-form article view. -->
+        <section id="newsArticleReader" class="news-article-reader"></section>
+
+    </main>
+
+    <site-footer></site-footer>
+
+    <script src="JS/layout.js"></script>
+    <script src="JS/news.js"></script>
+</body>
+
+</html>
+>

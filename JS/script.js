@@ -18,21 +18,6 @@ function scrollGrid(amount) {
     }
 }
 
-// =============================================================================
-// HERO PAGE HEADER — suppress gradient bar + box-shadow under site-header
-// Applies on index.html and MPaCT.html where a full-bleed hero makes the
-// gradient line look detached/floating. Add or remove paths from the array
-// below to control which pages get the suppression.
-// =============================================================================
-(function () {
-    const heroPages = ['index.html', 'MPaCT.html', ''];   // '' = domain root
-    const currentPage = window.location.pathname.split('/').pop();
-    if (heroPages.includes(currentPage)) {
-        const header = document.getElementById('mainHeader');
-        if (header) header.classList.add('site-header--hero-page');
-    }
-})();
-
 document.addEventListener('DOMContentLoaded', () => {
     // -------------------------------------------------------------------------
     // Sticky Header Logic
@@ -861,4 +846,3 @@ if (searchInput) {
 
 buildSearchSuggestions();
 applyFilters();
-
