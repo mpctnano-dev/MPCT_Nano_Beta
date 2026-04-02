@@ -29,15 +29,25 @@ define('SENDER_NAME', 'MPaCT Nano Lab');
 define('SMTP_HOST', 'mailgate.nau.edu');
 define('SMTP_PORT', 25);
 define('MAX_FILE_SIZE_BYTES', 10 * 1024 * 1024); // 10 MB per file
-
+define('MAX_FILES_PER_UPLOAD', 10);
 define('DEFAULT_UPLOAD_HINT', 'No files uploaded');
 
-$allowedExtensions = [
-    'stl', '3mf', 'obj', 'ply', 'step', 'stp', 'iges', 'igs',
-    'dxf', 'dwg', 'gbr', 'gerber', 'zip', 'pdf',
-    'jpg', 'jpeg', 'png', 'tif', 'tiff', 'svg',
-    'csv', 'txt', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx'
-];
+// MIME types whose magic bytes indicate executable or script content.
+// Files whose detected MIME matches any of these are rejected regardless of extension.
+define('BLOCKED_MIME_TYPES', serialize([
+    'application/x-php',
+    'application/x-httpd-php',
+    'application/x-sh',
+    'application/x-shellscript',
+    'application/x-executable',
+    'application/x-elf',
+    'application/x-msdos-program',
+    'application/x-msdownload',
+    'text/x-php',
+    'text/x-script.phyton',
+    'text/x-perl',
+    'text/x-ruby',
+]));
 
 $services = [
     'printing' => [
@@ -77,7 +87,9 @@ $services = [
             'carrier_preference' => 'Carrier Preference',
             'notes' => 'Additional Notes'
         ],
-        'uploadField' => 'files'
+        'uploadField' => 'files',
+        // Only 3D model and reference image formats; no office docs.
+        'allowedExtensions' => ['stl', '3mf', 'obj', 'ply', 'step', 'stp', 'iges', 'igs', 'pdf', 'jpg', 'jpeg', 'png', 'zip']
     ],
     'laser' => [
         'title' => 'Laser Structuring Service Request',
@@ -118,7 +130,9 @@ $services = [
             'carrier_preference' => 'Carrier Preference',
             'notes' => 'Additional Notes'
         ],
-        'uploadField' => 'design_files'
+        'uploadField' => 'design_files',
+        // Gerber/CAD formats for PCB/laser work; no office docs.
+        'allowedExtensions' => ['gbr', 'gerber', 'dxf', 'dwg', 'svg', 'pdf', 'jpg', 'jpeg', 'png', 'zip', 'step', 'stp']
     ],
     'scanning' => [
         'title' => '3D Scanning Service Request',
@@ -151,7 +165,9 @@ $services = [
             'usb_confirm' => 'USB Confirmation',
             'notes' => 'Additional Notes'
         ],
-        'uploadField' => 'reference_files'
+        'uploadField' => 'reference_files',
+        // Reference photos and drawings only; no CAD or office docs.
+        'allowedExtensions' => ['jpg', 'jpeg', 'png', 'tif', 'tiff', 'pdf', 'zip']
     ]
 ];
 
@@ -181,6 +197,25 @@ function requireFields(array $keys): void
     }
 }
 
+/**
+ * Strip everything unsafe from a user-supplied filename.
+ *
+ * basename() removes path components (including ../ traversal).
+ * The preg_replace removes null bytes, CRLF sequences (MIME header injection),
+ * and any character outside printable ASCII so the name is safe to embed
+ * in email headers and HTML without further escaping surprises.
+ * The result is truncated to 200 characters to stay within MIME header limits.
+ */
+function sanitizeFilename(string $raw): string
+{
+    $name = basename($raw);                          // drop any path component
+    $name = preg_replace('/[\x00-\x1F\x7F\r\n]/', '', $name); // strip control chars + CRLF
+    $name = preg_replace('/[^\x20-\x7E]/', '', $name);         // printable ASCII only
+    $name = trim($name, ". \t");                     // no leading/trailing dots or spaces
+    $name = substr($name, 0, 200);
+    return $name === '' ? 'upload' : $name;
+}
+
 function normalizeUploadFiles(string $fieldName): array
 {
     if (!isset($_FILES[$fieldName])) {
@@ -191,27 +226,25 @@ function normalizeUploadFiles(string $fieldName): array
     $files = [];
 
     if (is_array($f['name'])) {
-        $count = count($f['name']);
+        $count = min(count($f['name']), MAX_FILES_PER_UPLOAD);
         for ($i = 0; $i < $count; $i++) {
             if (empty($f['name'][$i])) {
                 continue;
             }
             $files[] = [
-                'name' => (string) $f['name'][$i],
-                'type' => (string) $f['type'][$i],
+                'name'     => sanitizeFilename((string) $f['name'][$i]),
                 'tmp_name' => (string) $f['tmp_name'][$i],
-                'error' => (int) $f['error'][$i],
-                'size' => (int) $f['size'][$i]
+                'error'    => (int)    $f['error'][$i],
+                'size'     => (int)    $f['size'][$i],
             ];
         }
     } else {
         if (!empty($f['name'])) {
             $files[] = [
-                'name' => (string) $f['name'],
-                'type' => (string) $f['type'],
+                'name'     => sanitizeFilename((string) $f['name']),
                 'tmp_name' => (string) $f['tmp_name'],
-                'error' => (int) $f['error'],
-                'size' => (int) $f['size']
+                'error'    => (int)    $f['error'],
+                'size'     => (int)    $f['size'],
             ];
         }
     }
@@ -221,6 +254,13 @@ function normalizeUploadFiles(string $fieldName): array
 
 function validateUploads(array $files, array $allowedExtensions): array
 {
+    if (count($files) > MAX_FILES_PER_UPLOAD) {
+        respond(false, 'Too many files uploaded. Maximum is ' . MAX_FILES_PER_UPLOAD . ' files per submission.');
+    }
+
+    $blockedMimes = unserialize(BLOCKED_MIME_TYPES);
+    $finfo = function_exists('finfo_open') ? finfo_open(FILEINFO_MIME_TYPE) : null;
+
     $validated = [];
 
     foreach ($files as $file) {
@@ -231,18 +271,33 @@ function validateUploads(array $files, array $allowedExtensions): array
             continue;
         }
         if ($file['size'] > MAX_FILE_SIZE_BYTES) {
-            respond(false, 'Each uploaded file must be 15 MB or smaller.');
+            respond(false, 'Each uploaded file must be 10 MB or smaller.');
         }
         if (!is_uploaded_file($file['tmp_name'])) {
             respond(false, 'Invalid file upload detected.');
         }
 
+        // Extension check against per-service allowlist.
         $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
         if ($extension === '' || !in_array($extension, $allowedExtensions, true)) {
-            respond(false, 'Unsupported file type uploaded: ' . clean($file['name']));
+            respond(false, 'File type not accepted for this service: ' . clean($file['name'])
+                . '. Allowed: ' . implode(', ', $allowedExtensions) . '.');
+        }
+
+        // Magic-byte MIME check: reject known dangerous signatures even if the
+        // extension passed. finfo reads the actual file bytes, not the name.
+        if ($finfo !== null) {
+            $detectedMime = finfo_file($finfo, $file['tmp_name']);
+            if ($detectedMime !== false && in_array($detectedMime, $blockedMimes, true)) {
+                respond(false, 'File rejected due to unsafe content type: ' . clean($file['name']) . '.');
+            }
         }
 
         $validated[] = $file;
+    }
+
+    if ($finfo !== null) {
+        finfo_close($finfo);
     }
 
     return $validated;
@@ -251,6 +306,7 @@ function validateUploads(array $files, array $allowedExtensions): array
 function attachUploads(PHPMailer $mail, array $files): void
 {
     foreach ($files as $file) {
+        // $file['name'] is already sanitized by normalizeUploadFiles.
         $mail->addAttachment($file['tmp_name'], $file['name']);
     }
 }
@@ -316,7 +372,7 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 }
 
 $uploadedFiles = normalizeUploadFiles($meta['uploadField']);
-$validatedFiles = validateUploads($uploadedFiles, $allowedExtensions);
+$validatedFiles = validateUploads($uploadedFiles, $meta['allowedExtensions']);
 
 $uploadedFilesDisplay = DEFAULT_UPLOAD_HINT;
 if (!empty($validatedFiles)) {
@@ -332,12 +388,31 @@ $timestamp = date('F j, Y \a\\t g:i A T');
 $detailRows = '';
 $plainDetails = '';
 
+$isPickup = (post('delivery') === 'pickup');
+$shippingOnlyFields = [
+    'shipping_contact_name', 'shipping_speed',
+    'shipping_address_line1', 'shipping_address_line2',
+    'shipping_city', 'shipping_state', 'shipping_zip',
+    'shipping_country', 'carrier_preference'
+];
+
 foreach ($meta['fields'] as $field) {
+    // Skip shipping address rows entirely when delivery is lab pickup
+    if ($isPickup && in_array($field, $shippingOnlyFields, true)) {
+        continue;
+    }
+
     $label = $meta['labels'][$field] ?? $field;
     $value = post($field);
 
     if ($field === 'dropoff_confirm' || $field === 'usb_confirm') {
         $value = !empty($value) ? 'Confirmed' : 'Not confirmed';
+    }
+
+    if ($field === 'delivery' && $value === 'pickup') {
+        $value = 'Lab Pickup (Free)';
+    } elseif ($field === 'delivery' && $value === 'ship') {
+        $value = 'Ship to Address';
     }
 
     if ($value === '') {

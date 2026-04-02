@@ -40,29 +40,56 @@
         </section>
 
         <!-- Filters stay declarative here. JS/news.js reads the button data-tags and search input to drive client-side filtering. -->
-        <section id="newsFilterSection" class="filter-section" style="border-bottom: 1px solid var(--gray-200); padding: 20px 0;">
-            <div class="container d-flex justify-between align-center" style="gap: 20px; flex-wrap: wrap;">
+        <section id="newsFilterSection" class="filter-section news-filter-bar">
+            <div class="container">
+                <div class="news-toolbar">
+                    <div class="news-toolbar__top">
+                        <div class="news-toolbar__controls">
+                            <label class="news-search-field" for="newsSearch">
+                                <i class="fas fa-search news-search-field__icon" aria-hidden="true"></i>
+                                <input class="news-search-field__input" type="text" id="newsSearch" placeholder="Search news...">
+                            </label>
 
-                <div class="search-wrapper" style="position: relative; flex-grow: 1; max-width: 300px;">
-                    <i class="fas fa-search"
-                        style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--gray-400);"></i>
-                    <input type="text" id="newsSearch" placeholder="Search news..."
-                        style="width: 100%; padding: 10px 10px 10px 40px; border: 1px solid var(--gray-300); border-radius: 20px; background: var(--gray-50);">
+                            <div class="news-calendar-wrap">
+                                <div class="news-calendar-trigger" id="newsCalendarTrigger">
+                                    <i class="far fa-calendar-alt news-calendar-trigger__icon" aria-hidden="true"></i>
+                                    <span class="news-calendar-trigger__label" id="newsCalendarLabel">Any date</span>
+                                    <i class="fas fa-chevron-down news-calendar-trigger__caret" aria-hidden="true"></i>
+                                </div>
+                                <div class="news-calendar-popover" id="newsCalendarPopover" role="dialog" aria-label="Select month and year">
+                                    <div class="news-calendar-popover__header">
+                                        <button class="news-calendar-popover__nav" id="calendarPrevYear" type="button" aria-label="Previous year">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </button>
+                                        <span class="news-calendar-popover__year" id="calendarYear"></span>
+                                        <button class="news-calendar-popover__nav" id="calendarNextYear" type="button" aria-label="Next year">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                    <div class="news-calendar-popover__grid" id="calendarMonthGrid"></div>
+                                    <button class="news-calendar-popover__clear" id="calendarClear" type="button">Clear selection</button>
+                                </div>
+                            </div>
+
+                            <button id="newsResetFilters" class="news-reset-btn" type="button">Reset</button>
+                        </div>
+
+                        <div class="filter-group">
+                            <button class="news-filter-btn active" data-tag="all">All</button>
+                            <button class="news-filter-btn" data-tag="facility">Facility</button>
+                            <button class="news-filter-btn" data-tag="equipment">Equipment</button>
+                            <button class="news-filter-btn" data-tag="installation">Installation</button>
+                            <button class="news-filter-btn" data-tag="announcement">Announcement</button>
+                        </div>
+                    </div>
+
+                    <p id="newsResultsLabel" class="news-results-label" aria-live="polite"></p>
                 </div>
-
-                <div class="filter-group">
-                    <button class="news-filter-btn active" data-tag="all">All</button>
-                    <button class="news-filter-btn" data-tag="facility">Facility</button>
-                    <button class="news-filter-btn" data-tag="equipment">Equipment</button>
-                    <button class="news-filter-btn" data-tag="installation">Installation</button>
-                    <button class="news-filter-btn" data-tag="announcement">Announcement</button>
-                </div>
-
             </div>
         </section>
 
         <!-- Grid cards stay intentionally compact. The full article payload lives in JS/news.js and is resolved through data-article-id. -->
-        <section id="newsGridSection" style="padding: 40px 0; background-color: var(--gray-50); min-height: 400px;">
+        <section id="newsGridSection" style="padding: 40px 0; background-color: #f5f5f7; min-height: 400px;">
             <div class="container">
 
                 <div class="news-grid" id="newsGrid">
@@ -226,6 +253,14 @@
                     <p>No articles match your search.</p>
                 </div>
 
+                <div id="newsMoreStories" class="news-more-stories" aria-live="polite">
+                    <div class="news-more-stories__header">
+                        <h2 class="news-more-stories__title">More to explore</h2>
+                        <p id="newsMoreSummary" class="news-more-stories__subtitle">Related stories from the MPaCT feed</p>
+                    </div>
+                    <div id="newsMoreGrid" class="news-more-stories__grid"></div>
+                </div>
+
             </div>
         </section>
 
@@ -234,11 +269,12 @@
 
     </main>
 
+    <div class="news-calendar-scrim" id="newsCalendarScrim"></div>
     <site-footer></site-footer>
 
     <script src="JS/layout.js"></script>
+    <script src="JS/news-filtering.js"></script>
     <script src="JS/news.js"></script>
 </body>
 
 </html>
->
