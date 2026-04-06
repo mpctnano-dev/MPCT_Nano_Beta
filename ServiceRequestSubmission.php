@@ -260,7 +260,11 @@ function validateUploads(array $files, array $allowedExtensions): array
 
     $blockedMimes = unserialize(BLOCKED_MIME_TYPES);
     $finfo = function_exists('finfo_open') ? finfo_open(FILEINFO_MIME_TYPE) : null;
+    if ($finfo === null) {
+        error_log('MPCT Upload Warning: finfo_open unavailable — magic-byte MIME check skipped.');
+    }
 
+    $totalSize = 0;
     $validated = [];
 
     foreach ($files as $file) {
@@ -272,6 +276,10 @@ function validateUploads(array $files, array $allowedExtensions): array
         }
         if ($file['size'] > MAX_FILE_SIZE_BYTES) {
             respond(false, 'Each uploaded file must be 10 MB or smaller.');
+        }
+        $totalSize += $file['size'];
+        if ($totalSize > 25 * 1024 * 1024) {
+            respond(false, 'Total upload size must not exceed 25 MB across all files.');
         }
         if (!is_uploaded_file($file['tmp_name'])) {
             respond(false, 'Invalid file upload detected.');
@@ -364,7 +372,7 @@ if (post('delivery') === 'ship') {
 $firstName = post('first_name');
 $lastName = post('last_name');
 $email = post('email');
-$phone = post('phone');
+$phone = mb_substr(post('phone'), 0, 255);
 $fullName = trim($firstName . ' ' . $lastName);
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {

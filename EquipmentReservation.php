@@ -20,29 +20,37 @@ define('SMTP_HOST', 'mailgate.nau.edu');
 define('SMTP_PORT', 25);
 
 function post($key) {
-    return isset($_POST[$key]) ? trim($_POST[$key]) : null;
+    return isset($_POST[$key]) ? htmlspecialchars(trim((string) $_POST[$key]), ENT_QUOTES, 'UTF-8') : '';
+}
+
+function requireFields(array $keys): void
+{
+    foreach ($keys as $key) {
+        if (empty(post($key))) {
+            respond(false, "Missing required field: $key");
+        }
+    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     respond(false, 'Invalid request method.');
 }
 
-//requireFields(['first_name', 'last_name', 'email', 'category']);
-$firstName = $_POST['first_name'] ?? '';
-$lastName  = $_POST['last_name'] ?? '';
+requireFields(['first_name', 'last_name', 'email']);
+$firstName = post('first_name');
+$lastName  = post('last_name');
 
 $category            = post('category');
 $equipment_id        = post('equipment_id');
 $equipment_name      = post('equipment_name');
 $equipment_category  = post('equipment_category');
 $equipment_status    = post('equipment_status');
-//$equipment_filter    = post('equipment_category_filter');
 $equipment_display   = post('equipment_name_display');
 
-$first_name   = post('first_name');
-$last_name    = post('last_name');
+$first_name   = $firstName;
+$last_name    = $lastName;
 $email        = post('email');
-$phone        = post('phone');
+$phone        = mb_substr(post('phone'), 0, 255);
 
 $preferred_date     = post('preferred_date');
 $preferred_time     = post('preferred_time');
@@ -113,10 +121,7 @@ foreach ($fields as $field => $label) {
 }
 
 
-//$organization = post('organization');
-//$category = post('category');
-
-$organization = post('organization');
+$organization = mb_substr(post('organization'), 0, 255);
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     respond(false, 'Invalid email address.');
