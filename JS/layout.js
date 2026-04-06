@@ -167,8 +167,8 @@ class SiteHeader extends HTMLElement {
                                             </svg>
                                         </div>
                                         <div class="nav-dropdown-text">
-                                            <strong>Cleanroom <span class="nav-soon-badge">Soon</span></strong>
-                                            <small>Class 1000 access</small>
+                                            <strong>Controlled Environment <span class="nav-soon-badge">Soon</span></strong>
+                                            <small>Facility Access</small>
                                         </div>
                                     </div>
 

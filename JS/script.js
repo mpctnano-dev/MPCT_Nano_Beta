@@ -406,7 +406,7 @@ const fieldData = {
                     <label class="block font-bold mb-1 required">Training Specifics</label>
                     <select name="training_specifics" class="form-control" required>
                         <option>EHS Basic Safety</option>
-                        <option>Cleanroom Gowning</option>
+                        <option>Lab Gowning and Entry Protocol</option>
                         <option>Specific Tool (Describe below)</option>
                         <option>Custom Workshop</option>
                     </select>

@@ -46,7 +46,7 @@ const ARTICLES = [
             },
             {
                 heading: 'What\'s Being Built',
-                body: 'The renovation covers vibration-isolated flooring designed to protect sensitive metrology instruments, upgraded HVAC systems with precision humidity and temperature control, new power conditioning units, and expanded cleanroom-adjacent workspace. These upgrades meet the strict environmental requirements of electron microscopes, surface profilers, X-ray diffraction systems, and atomic force microscopes.'
+                body: 'The renovation covers vibration-isolated flooring designed to protect sensitive metrology instruments, upgraded HVAC systems with precision humidity and temperature control, new power conditioning units, and expanded process-support workspace. These upgrades meet the strict environmental requirements of electron microscopes, surface profilers, X-ray diffraction systems, and atomic force microscopes.'
             }
         ],
         // This article uses a dated milestone timeline so the reader can show renovation sequencing, not just prose.
@@ -56,7 +56,7 @@ const ARTICLES = [
             items: [
                 { period: 'Q1 2026', title: 'Site Preparation & Demolition', desc: 'Structural reinforcement and vibration-isolation foundation prep' },
                 { period: 'Q2 2026', title: 'HVAC & Electrical Upgrades', desc: 'Precision environmental controls and power conditioning installation' },
-                { period: 'Q3 2026', title: 'Cleanroom Fit-Out', desc: 'Cleanroom partition walls, gowning anteroom, and HEPA filtration systems' },
+                { period: 'Q3 2026', title: 'Facility Fit-Out', desc: 'Controlled-environment partition walls, gowning area, and HEPA filtration systems' },
                 { period: 'Q4 2026', title: 'Equipment Move-In', desc: 'Instrument relocation, commissioning, and user access launch' }
             ]
         },
@@ -235,7 +235,7 @@ const ARTICLES = [
                 { status: 'active', icon: '→', label: 'SEM & TEM Commissioned', detail: 'High-resolution electron microscopy operational', statusLabel: 'In Progress' },
                 { status: 'active', icon: '→', label: 'XRD System Commissioned', detail: 'Phase ID, Rietveld, and thin-film GIXRD available', statusLabel: 'In Progress' },
                 { status: 'done', icon: '✓', label: 'FLs1000, HAAS & LPKF Installed', detail: 'Laser, CNC, and PCB prototyping systems live', statusLabel: 'Complete' },
-                { status: 'active', icon: '→', label: '$2.5M Facility Renovation', detail: 'Vibration isolation, HVAC, cleanroom fit-out — phased through 2026', statusLabel: 'In Progress' },
+                { status: 'active', icon: '→', label: '$2.5M Facility Renovation', detail: 'Vibration isolation, HVAC, facility fit-out — phased through 2026', statusLabel: 'In Progress' },
                 { status: 'planned', icon: '◦', label: 'Surface Analysis Tools', detail: 'XPS, Auger, and SIMS capabilities planned', statusLabel: 'Planned' },
                 { status: 'planned', icon: '◦', label: 'Lab Automation & Robotics', detail: 'Automated sample handling and scheduling integration', statusLabel: 'Planned' }
             ]
