@@ -202,8 +202,8 @@ requireFields(['first_name', 'last_name', 'email', 'category']);
 $firstName = post('first_name');
 $lastName = post('last_name');
 $email = post('email');
-$phone = post('phone');
-$organization = post('organization');
+$phone = mb_substr(post('phone'), 0, 255);
+$organization = mb_substr(post('organization'), 0, 255);
 $category = post('category');
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {

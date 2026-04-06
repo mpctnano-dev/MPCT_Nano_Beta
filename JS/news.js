@@ -380,16 +380,53 @@ const renderFeatured = (featured) => {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    const heroSection   = document.getElementById('newsHeroSection');
-    const filterSection = document.getElementById('newsFilterSection');
-    const gridSection   = document.getElementById('newsGridSection');
-    const articleReader = document.getElementById('newsArticleReader');
-    const emptyState    = document.getElementById('newsEmptyState');
-    const searchInput   = document.getElementById('newsSearch');
-    const filterBtns    = document.querySelectorAll('.news-filter-btn[data-tag]');
-    const gridCards     = Array.from(document.querySelectorAll('#newsGrid .news-card'));
+    const newsFiltering = window.NewsFiltering;
+    if (!newsFiltering) return;
+
+    const {
+        buildNewsRadarItems,
+        filterNewsCards,
+        formatMonthLabel,
+        getAvailableMonths
+    } = newsFiltering;
+
+    const heroSection     = document.getElementById('newsHeroSection');
+    const filterSection   = document.getElementById('newsFilterSection');
+    const gridSection     = document.getElementById('newsGridSection');
+    const articleReader   = document.getElementById('newsArticleReader');
+    const emptyState      = document.getElementById('newsEmptyState');
+    const searchInput     = document.getElementById('newsSearch');
+    const resetBtn        = document.getElementById('newsResetFilters');
+    const resultsLabel    = document.getElementById('newsResultsLabel');
+    const moreSection     = document.getElementById('newsMoreStories');
+    const moreGrid        = document.getElementById('newsMoreGrid');
+    const moreSummary     = document.getElementById('newsMoreSummary');
+    const calendarTrigger = document.getElementById('newsCalendarTrigger');
+    const calendarPopover = document.getElementById('newsCalendarPopover');
+    const calendarLabel   = document.getElementById('newsCalendarLabel');
+    const calendarYear    = document.getElementById('calendarYear');
+    const calendarMonthGrid = document.getElementById('calendarMonthGrid');
+    const calendarPrevYear  = document.getElementById('calendarPrevYear');
+    const calendarNextYear  = document.getElementById('calendarNextYear');
+    const calendarClear     = document.getElementById('calendarClear');
+    const calendarScrim     = document.getElementById('newsCalendarScrim');
+    const filterBtns     = Array.from(document.querySelectorAll('.news-filter-btn[data-tag]'));
+    const gridCards      = Array.from(document.querySelectorAll('#newsGrid .news-card'));
+    const availableMonths = getAvailableMonths(ARTICLES);
+    const cardModels = gridCards.map(card => ({
+        element: card,
+        id: card.dataset.articleId || '',
+        tags: card.dataset.tags || '',
+        text: [
+            card.querySelector('.news-card__title')?.textContent || '',
+            card.querySelector('.news-card__excerpt')?.textContent || '',
+            Array.from(card.querySelectorAll('.news-card__hashtag')).map(node => node.textContent || '').join(' ')
+        ].join(' '),
+        date: card.querySelector('.news-card__timestamp')?.dataset.date || ''
+    }));
 
     let activeTag         = 'all';
+    let activeMonth       = '';
     let searchQuery       = '';
     let currentArticleIdx = -1;
 
@@ -407,38 +444,172 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    /* Filter against both tag membership and visible card text so search behaves the way users expect from a compact feed. */
-
-    const applyFilters = () => {
-        let visible = 0;
-        gridCards.forEach(card => {
-            const tags     = (card.dataset.tags || '').split(',').map(t => t.trim());
-            const text     = (card.querySelector('.news-card__title')?.textContent || '') +
-                             (card.querySelector('.news-card__excerpt')?.textContent || '') +
-                             Array.from(card.querySelectorAll('.news-card__hashtag')).map(h => h.textContent).join(' ');
-            const tagMatch = activeTag === 'all' || tags.includes(activeTag);
-            const qMatch   = !searchQuery || text.toLowerCase().includes(searchQuery);
-            card.style.display = (tagMatch && qMatch) ? '' : 'none';
-            if (tagMatch && qMatch) visible++;
-        });
-        if (emptyState) emptyState.style.display = visible === 0 ? 'block' : 'none';
+    const getActiveTagLabel = () => {
+        const activeBtn = filterBtns.find(btn => btn.classList.contains('active'));
+        return activeBtn ? activeBtn.textContent.trim() : 'All';
     };
 
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            filterBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            activeTag = btn.dataset.tag.toLowerCase();
-            applyFilters();
-        });
-    });
+    const updateResultsLabel = (visibleCount) => {
+        if (!resultsLabel) return;
 
-    if (searchInput) {
-        searchInput.addEventListener('input', () => {
-            searchQuery = searchInput.value.trim().toLowerCase();
-            applyFilters();
+        const parts = [`Showing ${visibleCount} ${visibleCount === 1 ? 'story' : 'stories'}`];
+        if (activeMonth) parts.push(formatMonthLabel(activeMonth));
+        if (activeTag !== 'all') parts.push(getActiveTagLabel());
+        if (searchQuery) parts.push(`Search: "${searchInput.value.trim()}"`);
+        resultsLabel.textContent = parts.join(' | ');
+    };
+
+    const getRadarExcerpt = (article) => {
+        const summary = article.sections?.[0]?.body || '';
+        return summary.length > 168 ? `${summary.slice(0, 165).trimEnd()}...` : summary;
+    };
+
+    const bindArticleTriggers = (cards) => {
+        cards.forEach(card => {
+            if (!card.hasAttribute('tabindex')) card.setAttribute('tabindex', '0');
+
+            const trigger = () => {
+                const id = card.dataset.articleId;
+                if (id) openArticle(id);
+            };
+
+            card.addEventListener('click', trigger);
+            card.addEventListener('keydown', event => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    trigger();
+                }
+            });
+        });
+    };
+
+    /* ── Calendar picker ────────────────────────────────────────── */
+
+    const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const availableMonthSet = new Set(availableMonths.map(m => m.value));
+    let calendarViewYear = new Date().getFullYear();
+
+    const renderCalendarGrid = () => {
+        if (!calendarMonthGrid || !calendarYear) return;
+        calendarYear.textContent = calendarViewYear;
+
+        calendarMonthGrid.innerHTML = MONTH_NAMES.map((name, i) => {
+            const val = `${calendarViewYear}-${String(i + 1).padStart(2, '0')}`;
+            const isAvailable = availableMonthSet.has(val);
+            const isSelected = activeMonth === val;
+            const cls = ['news-calendar-month'];
+            if (isSelected) cls.push('is-selected');
+            if (!isAvailable) cls.push('is-disabled');
+            return `<button class="${cls.join(' ')}" type="button" data-month="${val}">${name}</button>`;
+        }).join('');
+
+        calendarMonthGrid.querySelectorAll('.news-calendar-month:not(.is-disabled)').forEach(btn => {
+            btn.addEventListener('click', () => {
+                activeMonth = btn.dataset.month;
+                calendarLabel.textContent = formatMonthLabel(activeMonth);
+                closeCalendar();
+                applyFilters();
+            });
+        });
+    };
+
+    const isMobile = () => window.matchMedia('(max-width: 760px)').matches;
+
+    const openCalendar = () => {
+        calendarPopover.classList.add('is-open');
+        calendarTrigger.classList.add('is-active');
+        if (isMobile() && calendarScrim) calendarScrim.classList.add('is-visible');
+        renderCalendarGrid();
+    };
+
+    const closeCalendar = () => {
+        calendarPopover.classList.remove('is-open');
+        calendarTrigger.classList.remove('is-active');
+        if (calendarScrim) calendarScrim.classList.remove('is-visible');
+    };
+
+    if (calendarTrigger) {
+        calendarTrigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            calendarPopover.classList.contains('is-open') ? closeCalendar() : openCalendar();
         });
     }
+
+    if (calendarPrevYear) calendarPrevYear.addEventListener('click', (e) => { e.stopPropagation(); calendarViewYear--; renderCalendarGrid(); });
+    if (calendarNextYear) calendarNextYear.addEventListener('click', (e) => { e.stopPropagation(); calendarViewYear++; renderCalendarGrid(); });
+    if (calendarClear) calendarClear.addEventListener('click', (e) => {
+        e.stopPropagation();
+        activeMonth = '';
+        calendarLabel.textContent = 'Any date';
+        closeCalendar();
+        applyFilters();
+    });
+
+    document.addEventListener('click', (e) => {
+        if (calendarPopover && !calendarPopover.contains(e.target) && !calendarTrigger.contains(e.target)) {
+            closeCalendar();
+        }
+    });
+
+    if (calendarScrim) calendarScrim.addEventListener('click', closeCalendar);
+
+    /* ── More Stories (bottom suggestion bar) ──────────────────── */
+
+    const renderMoreStories = (visibleArticleIds) => {
+        if (!moreSection || !moreGrid) return;
+
+        if (!visibleArticleIds.length) {
+            moreSection.style.display = 'none';
+            moreGrid.innerHTML = '';
+            return;
+        }
+
+        const moreItems = buildNewsRadarItems(ARTICLES, { visibleArticleIds });
+
+        if (!moreItems.length) {
+            moreSection.style.display = 'none';
+            return;
+        }
+
+        if (moreSummary) {
+            moreSummary.textContent = 'Related stories from the MPaCT feed';
+        }
+
+        moreGrid.innerHTML = moreItems.map(article => `
+            <div class="news-more-card" data-article-id="${article.id}" role="button" tabindex="0" aria-label="Read ${article.title}">
+                <div class="news-more-card__icon">
+                    <img src="${article.heroImage}" alt="${article.heroAlt}" loading="lazy">
+                </div>
+                <div class="news-more-card__body">
+                    <span class="news-more-card__tag">${article.tagLabel}</span>
+                    <p class="news-more-card__title">${article.title}</p>
+                </div>
+                <span class="news-more-card__arrow"><i class="fas fa-arrow-right"></i></span>
+            </div>
+        `).join('');
+
+        moreSection.style.display = '';
+        bindArticleTriggers(Array.from(moreGrid.querySelectorAll('.news-more-card')));
+    };
+
+    /* Filter against tag, search text, and month so the grid and the lower signal board stay synchronized. */
+
+    const applyFilters = () => {
+        const visibleCards = filterNewsCards(cardModels, {
+            activeTag,
+            activeMonth,
+            searchQuery
+        });
+        const visibleIds = new Set(visibleCards.map(card => card.id));
+
+        cardModels.forEach(card => {
+            card.element.style.display = visibleIds.has(card.id) ? '' : 'none';
+        });
+
+        if (emptyState) emptyState.style.display = visibleCards.length === 0 ? 'block' : 'none';
+        updateResultsLabel(visibleCards.length);
+        renderMoreStories(visibleCards.map(card => card.id));
+    };
 
     /* Opening an article swaps the grid for the reader while preserving enough state for prev/next navigation. */
 
@@ -632,18 +803,40 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    /* Grid cards map click and keyboard activation to the same article-open path for consistent behavior. */
-
-    gridCards.forEach(card => {
-        const trigger = () => {
-            const id = card.dataset.articleId;
-            if (id) openArticle(id);
-        };
-        card.addEventListener('click', trigger);
-        card.addEventListener('keydown', e => {
-            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); trigger(); }
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(button => button.classList.remove('active'));
+            btn.classList.add('active');
+            activeTag = btn.dataset.tag.toLowerCase();
+            applyFilters();
         });
     });
+
+    if (searchInput) {
+        searchInput.addEventListener('input', () => {
+            searchQuery = searchInput.value.trim().toLowerCase();
+            applyFilters();
+        });
+    }
+
+    if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+            activeTag = 'all';
+            activeMonth = '';
+            searchQuery = '';
+
+            filterBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.tag === 'all'));
+            if (searchInput) searchInput.value = '';
+            if (calendarLabel) calendarLabel.textContent = 'Any date';
+            closeCalendar();
+
+            applyFilters();
+        });
+    }
+
+    /* Grid cards map click and keyboard activation to the same article-open path for consistent behavior. */
+
+    bindArticleTriggers(gridCards);
 
     /* Initialize derived UI state after the static markup is in place. */
     renderTimestamps();
