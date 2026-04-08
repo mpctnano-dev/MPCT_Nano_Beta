@@ -720,9 +720,9 @@
                         <div class="sr-form-body">
                             <form id="printingForm" class="sr-form" novalidate>
 
-                                <!-- Section 1: Client & Affiliation -->
+                                <!-- Section 1: Your Information -->
                                 <div class="sr-section">
-                                    <h3 class="sr-section-title">1. Client & Affiliation</h3>
+                                    <h3 class="sr-section-title">1. Your Information</h3>
 
                                     <div class="sr-row">
                                         <div class="sr-group">
@@ -755,7 +755,7 @@
 
                                     <div class="sr-row">
                                         <div class="sr-group">
-                                            <label class="sr-label" for="p-affiliation">Client Affiliation <span
+                                            <label class="sr-label" for="p-affiliation">Affiliation <span
                                                     class="text-gold">*</span></label>
                                             <select id="p-affiliation" name="affiliation" class="sr-select" required>
                                                 <option value="" disabled selected>Select type…</option>
@@ -818,18 +818,33 @@
 
                                     <div class="sr-file-upload" onclick="document.getElementById('p-file').click()">
                                         <i class="fas fa-cloud-upload-alt"></i>
-                                        <p><strong>Click to browse</strong> or drag and drop your STL / 3MF files</p>
-                                        <input type="file" id="p-file" name="files" accept=".stl,.3mf" multiple
+                                        <p><strong>Click to browse</strong> or drag and drop your 3D model files (STL, 3MF, OBJ, STEP, PDF, etc.)</p>
+                                        <input type="file" id="p-file" name="files" accept=".stl,.3mf,.obj,.ply,.step,.stp,.iges,.igs,.pdf,.jpg,.jpeg,.png,.zip" multiple
                                             style="display:none;">
                                     </div>
 
-                                    <div class="sr-row">
+                                    <div class="sr-row" style="grid-template-columns: 1fr 1fr 1fr;">
                                         <div class="sr-group">
-                                            <label class="sr-label" for="p-size">Approximate Size (mm) <span
+                                            <label class="sr-label" for="p-size-l">Length (mm) <span
                                                     class="text-gold">*</span></label>
-                                            <input type="text" id="p-size" name="print_size" class="sr-input" required
-                                                placeholder="e.g. 120 x 80 x 50">
+                                            <input type="number" id="p-size-l" name="print_size_length" class="sr-input" required
+                                                min="0" step="any" placeholder="e.g. 120">
                                         </div>
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="p-size-w">Width (mm) <span
+                                                    class="text-gold">*</span></label>
+                                            <input type="number" id="p-size-w" name="print_size_width" class="sr-input" required
+                                                min="0" step="any" placeholder="e.g. 80">
+                                        </div>
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="p-size-h">Height (mm) <span
+                                                    class="text-gold">*</span></label>
+                                            <input type="number" id="p-size-h" name="print_size_height" class="sr-input" required
+                                                min="0" step="any" placeholder="e.g. 50">
+                                        </div>
+                                    </div>
+
+                                    <div class="sr-row">
                                         <div class="sr-group">
                                             <label class="sr-label" for="p-qty">Quantity <span
                                                     class="text-gold">*</span></label>
@@ -972,9 +987,9 @@
                         <div class="sr-form-body">
                             <form id="laserForm" class="sr-form" novalidate>
 
-                                <!-- Section 1: Client Info -->
+                                <!-- Section 1: Your Information -->
                                 <div class="sr-section">
-                                    <h3 class="sr-section-title">1. Client & Affiliation</h3>
+                                    <h3 class="sr-section-title">1. Your Information</h3>
 
                                     <div class="sr-row">
                                         <div class="sr-group">
@@ -1003,7 +1018,7 @@
 
                                     <div class="sr-row">
                                         <div class="sr-group">
-                                            <label class="sr-label" for="l-affil">Client Affiliation <span
+                                            <label class="sr-label" for="l-affil">Affiliation <span
                                                     class="text-gold">*</span></label>
                                             <select id="l-affil" name="affiliation" class="sr-select" required>
                                                 <option value="" disabled selected>Select type…</option>
@@ -1096,13 +1111,28 @@
                                         </div>
                                     </div>
 
-                                    <div class="sr-row">
+                                    <div class="sr-row" style="grid-template-columns: 1fr 1fr 1fr;">
                                         <div class="sr-group">
-                                            <label class="sr-label" for="l-dims">Substrate Dimensions (mm) <span
+                                            <label class="sr-label" for="l-dims-l">Length (mm) <span
                                                     class="text-gold">*</span></label>
-                                            <input type="text" id="l-dims" name="substrate_dimensions" class="sr-input"
-                                                required placeholder="e.g. 100 x 50 x 1.6">
+                                            <input type="number" id="l-dims-l" name="substrate_dim_length" class="sr-input"
+                                                required min="0" step="any" placeholder="e.g. 100">
                                         </div>
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="l-dims-w">Width (mm) <span
+                                                    class="text-gold">*</span></label>
+                                            <input type="number" id="l-dims-w" name="substrate_dim_width" class="sr-input"
+                                                required min="0" step="any" placeholder="e.g. 50">
+                                        </div>
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="l-dims-t">Thickness (mm) <span
+                                                    class="text-gold">*</span></label>
+                                            <input type="number" id="l-dims-t" name="substrate_dim_thickness" class="sr-input"
+                                                required min="0" step="any" placeholder="e.g. 1.6">
+                                        </div>
+                                    </div>
+
+                                    <div class="sr-row">
                                         <div class="sr-group">
                                             <label class="sr-label" for="l-minfeature">Minimum Feature Size
                                                 (µm)</label>
@@ -1115,7 +1145,7 @@
                                         <i class="fas fa-cloud-upload-alt"></i>
                                         <p><strong>Click to browse</strong> or drag and drop design files (Gerber, DXF,
                                             etc.)</p>
-                                        <input type="file" id="l-file" name="design_files" multiple
+                                        <input type="file" id="l-file" name="design_files" accept=".gbr,.gerber,.dxf,.dwg,.svg,.pdf,.jpg,.jpeg,.png,.zip,.step,.stp" multiple
                                             style="display:none;">
                                     </div>
                                 </div>
@@ -1242,9 +1272,9 @@
                         <div class="sr-form-body">
                             <form id="scanningForm" class="sr-form" novalidate>
 
-                                <!-- Section 1: Client Info -->
+                                <!-- Section 1: Your Information -->
                                 <div class="sr-section">
-                                    <h3 class="sr-section-title">1. Client & Affiliation</h3>
+                                    <h3 class="sr-section-title">1. Your Information</h3>
 
                                     <div class="sr-row">
                                         <div class="sr-group">
@@ -1274,7 +1304,7 @@
 
                                     <div class="sr-row">
                                         <div class="sr-group">
-                                            <label class="sr-label" for="sc-affil">Client Affiliation <span
+                                            <label class="sr-label" for="sc-affil">Affiliation <span
                                                     class="text-gold">*</span></label>
                                             <select id="sc-affil" name="affiliation" class="sr-select" required>
                                                 <option value="" disabled selected>Select type…</option>
@@ -1379,9 +1409,22 @@
                                             </select>
                                         </div>
                                         <div class="sr-group">
-                                            <label class="sr-label" for="sc-objdims">Approximate Dimensions (mm)</label>
-                                            <input type="text" id="sc-objdims" name="object_dimensions" class="sr-input"
-                                                placeholder="e.g. 200 x 150 x 80">
+                                            <label class="sr-label" for="sc-objdims-l">Length (mm)</label>
+                                            <input type="number" id="sc-objdims-l" name="object_dim_length" class="sr-input"
+                                                min="0" step="any" placeholder="e.g. 200">
+                                        </div>
+                                    </div>
+
+                                    <div class="sr-row">
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="sc-objdims-w">Width (mm)</label>
+                                            <input type="number" id="sc-objdims-w" name="object_dim_width" class="sr-input"
+                                                min="0" step="any" placeholder="e.g. 150">
+                                        </div>
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="sc-objdims-h">Height (mm)</label>
+                                            <input type="number" id="sc-objdims-h" name="object_dim_height" class="sr-input"
+                                                min="0" step="any" placeholder="e.g. 80">
                                         </div>
                                     </div>
 
@@ -1416,7 +1459,7 @@
                                         <i class="fas fa-cloud-upload-alt"></i>
                                         <p><strong>Click to browse</strong> or drag and drop files for the item being
                                             scanned (photos, CAD, drawings)</p>
-                                        <input type="file" id="sc-file" name="reference_files" multiple
+                                        <input type="file" id="sc-file" name="reference_files" accept=".jpg,.jpeg,.png,.tif,.tiff,.pdf,.zip" multiple
                                             style="display:none;">
                                     </div>
                                 </div>
@@ -1530,13 +1573,34 @@
                 activatePanel(hashTarget);
             }
 
-            // File upload label updates
+            // Allowed file extensions per service (must match PHP allowedExtensions)
+            const allowedExtensions = {
+                'p-file': ['stl', '3mf', 'obj', 'ply', 'step', 'stp', 'iges', 'igs', 'pdf', 'jpg', 'jpeg', 'png', 'zip'],
+                'l-file': ['gbr', 'gerber', 'dxf', 'dwg', 'svg', 'pdf', 'jpg', 'jpeg', 'png', 'zip', 'step', 'stp'],
+                'sc-file': ['jpg', 'jpeg', 'png', 'tif', 'tiff', 'pdf', 'zip']
+            };
+
+            function validateFileExtensions(input) {
+                const allowed = allowedExtensions[input.id];
+                if (!allowed) return true;
+                for (const file of input.files) {
+                    const ext = file.name.split('.').pop().toLowerCase();
+                    if (!allowed.includes(ext)) {
+                        alert(`File type not accepted: ${file.name}\nAllowed: ${allowed.join(', ')}`);
+                        input.value = '';
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            // File upload label updates + validation
             document.querySelectorAll('.sr-file-upload').forEach(box => {
                 const input = box.querySelector('input[type="file"]');
                 const label = box.querySelector('p');
                 if (input && label) {
                     input.addEventListener('change', () => {
-                        if (input.files.length > 0) {
+                        if (input.files.length > 0 && validateFileExtensions(input)) {
                             const names = Array.from(input.files).map(f => f.name).join(', ');
                             label.innerHTML = `<strong>Selected:</strong> ${names}`;
                             box.style.borderColor = 'var(--nau-green, #388e3c)';
@@ -1629,36 +1693,7 @@
                 });
             }
 
-            function setupDimensionsAutoFormat(fieldIds) {
-                fieldIds.forEach(id => {
-                    const input = document.getElementById(id);
-                    if (!input) return;
-
-                    input.addEventListener('input', () => {
-                        const cleaned = input.value.replace(/[×X]/g, 'x').replace(/^\s+/, '');
-                        const onlyFirstDimension = /^\d+(?:\.\d+)?$/.test(cleaned.trim());
-
-                        if (onlyFirstDimension) {
-                            input.value = `${cleaned.trim()} x `;
-                            return;
-                        }
-
-                        input.value = cleaned.replace(/\s*x\s*/g, ' x ');
-                    });
-
-                    input.addEventListener('blur', () => {
-                        const normalized = input.value
-                            .replace(/[×X]/g, 'x')
-                            .replace(/\s*x\s*/g, ' x ')
-                            .replace(/\s{2,}/g, ' ')
-                            .trim();
-                        input.value = normalized;
-                    });
-                });
-            }
-
             setupPhoneAutoFormat(['p-phone', 'l-phone', 'sc-phone']);
-            setupDimensionsAutoFormat(['p-size', 'l-dims', 'sc-objdims']);
 
             function resetFileUploadUI(form) {
                 form.querySelectorAll('.sr-file-upload').forEach(box => {

@@ -55,22 +55,26 @@ $services = [
         'required' => [
             'first_name', 'last_name', 'email', 'affiliation', 'department',
             'project_title', 'application_category', 'project_abstract',
-            'print_size', 'quantity', 'material', 'color', 'delivery'
+            'print_size_length', 'print_size_width', 'print_size_height',
+            'quantity', 'material', 'color', 'delivery'
         ],
         'fields' => [
             'affiliation', 'department', 'project_title', 'application_category', 'project_abstract',
-            'print_size', 'quantity', 'material', 'color', 'deadline', 'delivery',
+            'print_size_length', 'print_size_width', 'print_size_height',
+            'quantity', 'material', 'color', 'deadline', 'delivery',
             'shipping_contact_name', 'shipping_speed', 'shipping_address_line1', 'shipping_address_line2',
             'shipping_city', 'shipping_state', 'shipping_zip', 'shipping_country', 'carrier_preference',
             'notes'
         ],
         'labels' => [
-            'affiliation' => 'Client Affiliation',
+            'affiliation' => 'Affiliation',
             'department' => 'Organization / Department',
             'project_title' => 'Project Title',
             'application_category' => 'Application Category',
             'project_abstract' => 'Project Abstract / End Goal',
-            'print_size' => 'Approximate Size (mm)',
+            'print_size_length' => 'Length (mm)',
+            'print_size_width' => 'Width (mm)',
+            'print_size_height' => 'Height (mm)',
             'quantity' => 'Quantity',
             'material' => 'Material',
             'color' => 'Preferred Color',
@@ -96,25 +100,30 @@ $services = [
         'required' => [
             'first_name', 'last_name', 'email', 'affiliation', 'organization',
             'project_title', 'application_category', 'project_abstract',
-            'substrate_type', 'target_material', 'substrate_dimensions', 'quantity', 'delivery'
+            'substrate_type', 'target_material',
+            'substrate_dim_length', 'substrate_dim_width', 'substrate_dim_thickness',
+            'quantity', 'delivery'
         ],
         'fields' => [
             'affiliation', 'organization', 'project_title', 'application_category', 'project_abstract',
-            'substrate_type', 'target_material', 'substrate_dimensions', 'min_feature',
-            'quantity', 'deadline', 'delivery',
+            'substrate_type', 'target_material',
+            'substrate_dim_length', 'substrate_dim_width', 'substrate_dim_thickness',
+            'min_feature', 'quantity', 'deadline', 'delivery',
             'shipping_contact_name', 'shipping_speed', 'shipping_address_line1', 'shipping_address_line2',
             'shipping_city', 'shipping_state', 'shipping_zip', 'shipping_country', 'carrier_preference',
             'notes'
         ],
         'labels' => [
-            'affiliation' => 'Client Affiliation',
+            'affiliation' => 'Affiliation',
             'organization' => 'Organization / Department',
             'project_title' => 'Project Title',
             'application_category' => 'Application Category',
             'project_abstract' => 'Project Abstract / End Goal',
             'substrate_type' => 'Substrate Type',
             'target_material' => 'Target Material / Layer',
-            'substrate_dimensions' => 'Substrate Dimensions (mm)',
+            'substrate_dim_length' => 'Substrate Length (mm)',
+            'substrate_dim_width' => 'Substrate Width (mm)',
+            'substrate_dim_thickness' => 'Substrate Thickness (mm)',
             'min_feature' => 'Minimum Feature Size (um)',
             'quantity' => 'Number of Units',
             'deadline' => 'Requested Completion Date',
@@ -144,11 +153,12 @@ $services = [
         ],
         'fields' => [
             'affiliation', 'organization', 'project_title', 'application_category', 'project_abstract',
-            'scan_mode', 'object_size', 'surface_type', 'object_dimensions', 'output_format',
-            'color_capture', 'quantity', 'dropoff_date', 'dropoff_confirm', 'usb_confirm', 'notes'
+            'scan_mode', 'object_size', 'surface_type',
+            'object_dim_length', 'object_dim_width', 'object_dim_height',
+            'output_format', 'color_capture', 'quantity', 'dropoff_date', 'dropoff_confirm', 'usb_confirm', 'notes'
         ],
         'labels' => [
-            'affiliation' => 'Client Affiliation',
+            'affiliation' => 'Affiliation',
             'organization' => 'Organization / Department',
             'project_title' => 'Project Title',
             'application_category' => 'Application Category',
@@ -156,7 +166,9 @@ $services = [
             'scan_mode' => 'Scan Mode',
             'object_size' => 'Object Size Category',
             'surface_type' => 'Object Surface Type',
-            'object_dimensions' => 'Approximate Dimensions (mm)',
+            'object_dim_length' => 'Object Length (mm)',
+            'object_dim_width' => 'Object Width (mm)',
+            'object_dim_height' => 'Object Height (mm)',
             'output_format' => 'Output Format',
             'color_capture' => 'Color Capture',
             'quantity' => 'Number of Objects to Scan',
