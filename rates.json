@@ -1,6 +1,6 @@
 {
     "lastUpdated": "2026-03-20",
-    "notes": "All rates are per billable unit. null means rate is pending management approval (shown as TBD). Update this file to reflect any rate changes — both Book_Equipment.html and Rates.html will automatically reflect the update.",
+    "notes": "All rates are per billable unit. null means rate is pending management approval (shown as TBD). Update this file to reflect any rate changes — both Reserve_Equipment.html and Rates.html will automatically reflect the update.",
     "rates": [
         { "id": "EQ-009", "name": "CSZ Environmental Chamber",             "category": "Electrical",       "unit": "hour", "internal": null,  "external": null  },
         { "id": "EQ-014", "name": "Keithley 2110 5.5 Digit Multimeter",    "category": "Electrical",       "unit": "hour", "internal": null,  "external": null  },

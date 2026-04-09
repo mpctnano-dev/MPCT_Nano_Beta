@@ -1,0 +1,33 @@
+# robots.txt for https://nano.nau.edu
+
+User-agent: *
+
+# Block PHP form processors — no indexable content
+Disallow: /FormSubmission.php
+Disallow: /EquipmentReservation.php
+Disallow: /ServiceRequestSubmission.php
+
+# Block third-party library source
+Disallow: /PHPMailer/
+
+# Block version control directory
+Disallow: /.git/
+
+# Block internal developer documentation
+Disallow: /README.md
+Disallow: /CSS_GUIDE.md
+Disallow: /JS_GUIDE.md
+
+# Block internal data files
+Disallow: /equipment.json
+Disallow: /rates.json
+
+# Allow all public content, including assets needed for rendering
+Allow: /*.html
+Allow: /CSS/
+Allow: /JS/
+Allow: /Images/
+Allow: /About_Equipment/
+Allow: /Manuals_and_Specs/
+
+Sitemap: https://nano.nau.edu/sitemap_mpact.xml

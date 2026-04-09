@@ -277,8 +277,8 @@ document.addEventListener('DOMContentLoaded', () => {
             reserveBtn.removeAttribute('tabindex');
             if (reserveBtn.tagName.toLowerCase() === 'a') {
                 const currentHref = reserveBtn.getAttribute('href') || '';
-                if (!currentHref.includes('Book_Equipment.html')) {
-                    reserveBtn.setAttribute('href', '../Book_Equipment.html');
+                if (!currentHref.includes('Reserve_Equipment.html')) {
+                    reserveBtn.setAttribute('href', '../Reserve_Equipment.html');
                 }
             }
             reserveBtn.innerHTML = reserveBtn.dataset.availableLabel;

@@ -103,8 +103,8 @@ class SiteHeader extends HTMLElement {
                                         </div>
                                     </a>
 
-                                    <a href="${basePath}Book_Equipment.html" class="nav-dropdown-link"
-                                        data-path="Book_Equipment.html" role="menuitem">
+                                    <a href="${basePath}Reserve_Equipment.html" class="nav-dropdown-link"
+                                        data-path="Reserve_Equipment.html" role="menuitem">
                                         <div class="nav-dropdown-icon">
                                             <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
                                                 stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -584,7 +584,7 @@ class SiteFooter extends HTMLElement {
                         <ul class="footer-links">
                             <li><a href="${basePath}MPaCT.html">Lab Overview</a></li>
                             <li><a href="${basePath}Equipment.html">Equipment Catalog</a></li>
-                            <li><a href="${basePath}Book_Equipment.html">Reserve Equipment</a></li>
+                            <li><a href="${basePath}Reserve_Equipment.html">Reserve Equipment</a></li>
                             <li><a href="${basePath}Rates.html">Rates</a></li>
                             <li><a href="${basePath}services.html">Services</a></li>
                         </ul>
