@@ -18577,3 +18577,184 @@ body.workforce-development-page {
     .nar-cta-section { flex-direction: column; align-items: flex-start; }
     .nar-article-nav { display: none; }
 }
+
+/* ==========================================================================
+   WARNING BANNER COMPONENTS
+   Three distinct designs for equipment warning/notification messages.
+   These will be connected to equipment.json "warningMessage" field.
+   ========================================================================== */
+
+/* ---- Design 1: Notice Banner — Between Hero & Specs Bar (Amatrol) ---- */
+/* ---- Design 3: Notice Banner — Inside Hero below grid (SUSS, --in-hero variant) ---- */
+.warning-notice {
+    background: #fffdf5;
+    border-left: 4px solid var(--nau-gold);
+    border-bottom: 1px solid rgba(250, 192, 26, 0.2);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.warning-notice__icon {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    background: var(--nau-gold);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--nau-blue-dark);
+    font-size: 0.75rem;
+}
+
+.warning-notice__body {
+    flex: 1;
+    min-width: 0;
+}
+
+.warning-notice__body strong {
+    display: inline;
+    color: var(--nau-blue);
+    font-size: 0.86rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-right: 6px;
+}
+
+.warning-notice__body p {
+    display: inline;
+    color: var(--gray-700);
+    font-size: 0.86rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Variant: banner inside the dark hero section */
+.warning-notice--in-hero {
+    background: rgba(255, 255, 255, 0.08);
+    border-left: 4px solid var(--nau-gold);
+    border-bottom: none;
+    border-radius: 8px;
+    margin-top: 24px;
+}
+
+.warning-notice--in-hero .warning-notice__body strong {
+    color: var(--nau-gold);
+}
+
+.warning-notice--in-hero .warning-notice__body p {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+@media (max-width: 768px) {
+    .warning-notice {
+        padding: 10px 14px;
+        gap: 10px;
+    }
+    .warning-notice__icon {
+        width: 26px;
+        height: 26px;
+        font-size: 0.65rem;
+    }
+    .warning-notice__body p {
+        font-size: 0.8rem;
+    }
+}
+
+
+/* ---- Design 2: Scrolling Ticker (LPKF) — Above Hero ---- */
+.warning-ticker {
+    background: var(--nau-blue-dark);
+    border-bottom: 2px solid var(--nau-gold);
+    padding: 14px 0;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.warning-ticker::before,
+.warning-ticker::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 80px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.warning-ticker::before {
+    left: 0;
+    background: linear-gradient(90deg, var(--nau-blue-dark) 0%, transparent 100%);
+}
+
+.warning-ticker::after {
+    right: 0;
+    background: linear-gradient(270deg, var(--nau-blue-dark) 0%, transparent 100%);
+}
+
+.warning-ticker__track {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    white-space: nowrap;
+    animation: ticker-scroll 80s linear infinite;
+    animation-delay: -40s;
+    padding-left: 20px;
+}
+
+.warning-ticker__badge {
+    flex-shrink: 0;
+    background: var(--nau-gold);
+    color: var(--nau-blue-dark);
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 5px 14px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 2px 8px rgba(250, 192, 26, 0.3);
+}
+
+.warning-ticker__text {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 0.92rem;
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+}
+
+@keyframes ticker-scroll {
+    0% {
+        transform: translateX(50%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.warning-ticker:hover .warning-ticker__track {
+    animation-play-state: paused;
+}
+
+@media (max-width: 768px) {
+    .warning-ticker {
+        padding: 12px 0;
+    }
+    .warning-ticker__text {
+        font-size: 0.82rem;
+    }
+    .warning-ticker__badge {
+        font-size: 0.65rem;
+        padding: 4px 10px;
+    }
+}
+
+
