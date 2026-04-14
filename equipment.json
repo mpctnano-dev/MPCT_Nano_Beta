@@ -116,7 +116,7 @@
         {
             "id": "EQ-012",
             "name": "Haas Desktop Lathe",
-            "category": "Fabrication",
+            "category": "Educational",
             "status": "EXPECTED",
             "expectedDate": "07/01/26",
             "warningMessage": null,
@@ -126,7 +126,7 @@
         {
             "id": "EQ-013",
             "name": "Haas Desktop Mill",
-            "category": "Fabrication",
+            "category": "Educational",
             "status": "EXPECTED",
             "expectedDate": "07/01/26",
             "warningMessage": null,
