@@ -397,7 +397,37 @@
 
     <site-footer></site-footer>
 
-    <!-- Popover script removed: CSS-only hover will be used for popover display. -->
+    <!-- Popover positioning script for fixed positioning -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const infoButtons = document.querySelectorAll('.info-btn');
+            const popovers = document.querySelectorAll('.popover-content');
+
+            function positionPopovers() {
+                infoButtons.forEach((button, index) => {
+                    const popover = button.nextElementSibling;
+                    if (popover && popover.classList.contains('popover-content')) {
+                        const rect = button.getBoundingClientRect();
+                        // Position popover to the right of the button with spacing
+                        popover.style.top = (rect.top + rect.height / 2 - 60) + 'px';
+                        popover.style.left = (rect.right + 15) + 'px';
+                    }
+                });
+            }
+
+            // Position on load and on hover
+            positionPopovers();
+            infoButtons.forEach(button => {
+                button.addEventListener('mouseenter', positionPopovers);
+            });
+            popovers.forEach(popover => {
+                popover.addEventListener('mouseenter', positionPopovers);
+            });
+
+            // Reposition on window resize
+            window.addEventListener('resize', positionPopovers);
+        });
+    </script>
 
     <script src="../JS/layout.js"></script>
     <script src="../JS/script.js"></script>

@@ -5595,6 +5595,7 @@ ul {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
+    overflow: visible;
 }
 
 .feature-card {
@@ -5604,6 +5605,7 @@ ul {
     border: 1px solid var(--gray-200);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
     transition: transform 0.2s ease;
+    overflow: visible;
 }
 
 .feature-card:hover {
@@ -5654,10 +5656,9 @@ ul {
     color: var(--gray-600);
 }
 
-/* Popover Card Styles (CSS-only, fixed placement relative to viewport) */
+/* Popover Card Styles (CSS-only, absolute popover placement) */
 .popover-card {
     position: relative;
-    z-index: 100;
 }
 
 .info-btn {
@@ -5687,7 +5688,7 @@ ul {
     transform: scale(1.12);
 }
 
-/* Popover is positioned fixed so it can overlap other cards and never be clipped by parents */
+/* Popover is positioned fixed to break out of card stacking contexts */
 .popover-content {
     display: none; /* hidden by default */
     position: fixed;
@@ -5695,12 +5696,13 @@ ul {
     border: 1px solid var(--gray-200);
     border-radius: 10px;
     box-shadow: 0 14px 40px rgba(0, 0, 0, 0.18);
-    z-index: 999999;
+    z-index: 100000;
     min-width: 320px;
     max-width: 420px;
     max-height: 72vh;
     overflow-y: auto;
     pointer-events: auto;
+    inset: auto;
 }
 
 /* Show when hovering the info button or the popover itself */
