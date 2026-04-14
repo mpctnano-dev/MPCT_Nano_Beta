@@ -14,11 +14,14 @@
     <site-header></site-header>
 
     <main class="product-page">
-        <!-- Warning Ticker: Above Hero (Slow scroll from middle) -->
-        <div class="warning-ticker">
+        <!-- Warning Ticker: Above Hero. Text is populated at runtime by
+             JS/Equipment_Status.js from equipment.json -> EQ-020.warningMessage.
+             Hidden by default so there is no empty banner flash before the
+             script runs; JS un-hides it when a warningMessage exists. -->
+        <div class="warning-ticker" style="display: none;">
             <div class="warning-ticker__track">
                 <span class="warning-ticker__badge"><i class="fas fa-info-circle"></i> Notice</span>
-                <span class="warning-ticker__text">The LPKF ProtoLaser R4 is currently operating with reduced laser power due to a scheduled optics realignment. Throughput may be slower than usual. Expected to return to full power by April 15, 2026. Please plan your reservations accordingly and contact the tool owner if you have questions about specific material requirements.</span>
+                <span class="warning-ticker__text"></span>
             </div>
         </div>
 

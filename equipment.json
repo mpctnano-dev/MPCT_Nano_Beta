@@ -7,7 +7,7 @@
             "category": "Educational",
             "status": "EXPECTED",
             "expectedDate": "07/01/26",
-            "warningMessage": null,
+            "warningMessage": "Test let's see",
             "accessories": [],
             "aboutPage": "About_Equipment/Amatrol_87_MS1.html"
         },
@@ -199,7 +199,7 @@
             "category": "Fabrication",
             "status": "AVAILABLE",
             "expectedDate": null,
-            "warningMessage": null,
+            "warningMessage": "The LPKF ProtoLaser R4 is currently operating with reduced laser power due to a scheduled optics realignment. Throughput may be slower than usual. Expected to return to full power by April 15, 2026. Please plan your reservations accordingly and contact the tool owner if you have questions about specific material requirements.",
             "accessories": [
                 "LPKF MultiPress S",
                 "LPKF Electroplater",

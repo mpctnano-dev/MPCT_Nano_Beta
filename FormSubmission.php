@@ -2,37 +2,47 @@
 /*
  * FormSubmission.php
  * ------------------
- * This is the backend handler for ALL contact forms on Contact_Us.html.
- * 
- * Here's what happens when someone hits "Submit Request":
- *   1. The browser sends form data here via POST (AJAX, no page reload)
- *   2. We validate the input — make sure name, email, category are present
- *   3. We figure out which form they filled out (equipment, training, tour, etc.)
- *   4. We build two nicely formatted HTML emails:
- *        - One goes to the lab inbox so staff can see the inquiry
- *        - One goes back to the user as a confirmation / receipt
- *   5. Both emails are sent through NAU's internal mail relay (mailgate.nau.edu)
- *   6. We return a JSON response so the frontend can show success or error
- * 
- * PHPMailer handles the actual SMTP connection. We're using the version
- * from the PHPMailer/ folder (no Composer needed). NAU's mailgate runs
- * on port 25 with no authentication — it's an internal relay, so we
- * don't need usernames/passwords or TLS.
- * 
- * Anti-spam notes:
- *   - We use proper MIME structure (multipart/alternative with both HTML + plaintext)
- *   - The "From" domain matches nau.edu so SPF/DKIM checks pass on the relay
- *   - Every email has a proper DOCTYPE, <html>, <head>, <body> structure
- *   - No invisible text, no excessive links, no ALL-CAPS subjects
- *   - We set Message-ID and X-Mailer headers so it doesn't look auto-generated
- *   - Reply-To is set to the actual user so replies work naturally
+ * Backend handler for ALL contact forms on Contact_Us.html.
+ *
+ * Contact_Us.html has nine different form categories (equipment inquiry,
+ * research partnerships, billing, training, courses, tour, vendor/sales,
+ * general, and issue reporting). All of them POST to this one file.
+ * The category field tells us which form was submitted and which fields
+ * to expect in the request.
+ *
+ * Flow from form submission to email:
+ *   1. Browser hits Submit → JavaScript POSTs form data here (no page reload)
+ *   2. We confirm it's POST, check required fields are present
+ *   3. We look up the category in $categories to know which fields to expect
+ *   4. We loop through those fields, translate machine values to readable labels,
+ *      and build the HTML rows for the email table
+ *   5. Two emails are built and sent:
+ *        - Lab inbox notification with contact info and submission details
+ *        - User confirmation with a receipt of what they submitted
+ *   6. JSON response goes back to the browser so the frontend can show
+ *      the success/error message without a page reload
+ *
+ * Mail delivery:
+ *   NAU's internal SMTP relay (mailgate.nau.edu, port 25) handles delivery.
+ *   It doesn't require authentication — it trusts traffic from within the
+ *   university network. PHPMailer is loaded from the PHPMailer/ folder
+ *   directly, no Composer or autoloader required.
+ *
+ * Anti-spam measures baked in:
+ *   - Both HTML and plain text versions are included (multipart/alternative)
+ *   - From address is @nau.edu, matching the relay's trusted domain
+ *   - Message-ID header uses @nau.edu to match the sender
+ *   - Full DOCTYPE + html/head/body structure (email clients use this to
+ *     assess legitimacy — bare HTML fragments score lower)
+ *   - X-Mailer header identifies the sending system
+ *   - Reply-To set to the submitter so replies reach the right person
  */
 
-// ---------------------------------------------------------------
-// STEP 1: Load PHPMailer
-// We need three class files from PHPMailer. Using __DIR__ so the
-// paths always resolve correctly regardless of how PHP is invoked.
-// ---------------------------------------------------------------
+
+// PHPMailer is bundled in the PHPMailer/ folder — no package manager needed.
+// Exception.php must come before PHPMailer.php since PHPMailer references it.
+// Using __DIR__ means these paths work correctly regardless of the web server's
+// current working directory when it executes this script.
 require __DIR__ . '/PHPMailer/src/Exception.php';
 require __DIR__ . '/PHPMailer/src/PHPMailer.php';
 require __DIR__ . '/PHPMailer/src/SMTP.php';
@@ -40,48 +50,171 @@ require __DIR__ . '/PHPMailer/src/SMTP.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
+
 // ---------------------------------------------------------------
-// STEP 2: Configuration
-// Change these if the lab email or sender address ever changes.
-// SENDER_EMAIL is what shows up in the "From" field.
-// LAB_EMAIL is where the notification goes (your inbox).
+// CONFIGURATION
+// All the values that might need to change over time are constants
+// up here — easy to find and update without hunting through the code.
+//
+// LAB_EMAIL   — where the notification lands when someone submits a form
+// SENDER_EMAIL — what appears in the "From" field on outgoing emails.
+//                Must be @nau.edu or the relay may reject or flag it.
+// SMTP_HOST   — NAU's internal mail relay. Only reachable from within NAU.
+// SMTP_PORT   — Port 25 is standard unencrypted SMTP for internal relays.
 // ---------------------------------------------------------------
-define('LAB_EMAIL', 'mpct.nano@nau.edu');
+define('LAB_EMAIL',    'mpct.nano@nau.edu');
 define('SENDER_EMAIL', 'mpct.nano@nau.edu');
-define('SENDER_NAME', 'MPaCT Nano Lab');
-define('SMTP_HOST', 'mailgate.nau.edu');
-define('SMTP_PORT', 25);
+define('SENDER_NAME',  'MPaCT Nano Lab');
+define('SMTP_HOST',    'mailgate.nau.edu');
+define('SMTP_PORT',    25);
+
 
 // ---------------------------------------------------------------
-// STEP 3: Helper Functions
-// Small utilities we reuse throughout the script.
+// HELPER: clean()
+// Trims whitespace and HTML-encodes special characters.
+// This prevents XSS — if someone types <script>alert(1)</script>
+// into a form field, htmlspecialchars turns it into harmless text.
+// ENT_QUOTES encodes both single and double quotes, which matters
+// when values end up inside HTML attribute strings.
 // ---------------------------------------------------------------
-
-// Strips whitespace and escapes HTML to prevent XSS attacks
 function clean(string $val): string
 {
     return htmlspecialchars(trim($val), ENT_QUOTES, 'UTF-8');
 }
 
-// Grabs a POST field by name, returns empty string if it doesn't exist
+
+// ---------------------------------------------------------------
+// HELPER: post()
+// Reads a POST field and runs it through clean() in one call.
+// Returns empty string (never null/undefined) if the key doesn't
+// exist, so callers don't need to check isset() themselves.
+//
+// Note: only use post() when the value will go directly into HTML.
+// If you need to process the value first (e.g. pass it through
+// formatValue()), read from $_POST directly to avoid pre-escaping
+// a value that will get escaped again later.
+// ---------------------------------------------------------------
 function post(string $key): string
 {
     return isset($_POST[$key]) ? clean($_POST[$key]) : '';
 }
 
-// Checks that a list of fields are all present. If any are missing,
-// we immediately return an error to the browser and stop.
+
+// ---------------------------------------------------------------
+// HELPER: requireFields()
+// Checks a list of field names and returns an error immediately if
+// any are missing or empty. The error message humanizes the field
+// name — "first_name" becomes "First Name" — so the user sees
+// something meaningful rather than a raw variable name.
+//
+// respond() calls exit(), so execution stops the moment a required
+// field is missing. Nothing below this call runs.
+// ---------------------------------------------------------------
 function requireFields(array $keys): void
 {
     foreach ($keys as $k) {
         if (empty(post($k))) {
-            respond(false, "Missing required field: $k");
+            respond(false, 'Missing required field: ' . ucwords(str_replace('_', ' ', $k)) . '.');
         }
     }
 }
 
-// Sends a JSON response back to the browser and kills the script.
-// The frontend JavaScript parses this to show success/error messages.
+
+// ---------------------------------------------------------------
+// HELPER: formatValue()
+// HTML select elements send their option *values* to the server,
+// not the text the user sees on screen. So a dropdown that shows
+// "Full day (8 hours)" actually POSTs "full_day". Without this
+// function, emails would contain raw machine values like "full_day",
+// "nau_faculty_staff", or "staff_assisted" — confusing for staff.
+//
+// The static $map is initialized once per request (that's what
+// "static" means inside a function). Since we call formatValue()
+// in a loop, this avoids rebuilding the same array on every call.
+//
+// For values not in the map, we fall back to replacing underscores
+// with spaces and title-casing the result. This is a reasonable
+// default that handles new fields added to the form without needing
+// a code change here.
+//
+// The time conversion handles <input type="time"> fields, which
+// always submit in 24-hour HH:MM format. We convert to 12-hour
+// AM/PM because that's how the lab staff expects to read it.
+// ---------------------------------------------------------------
+function formatValue(string $raw): string
+{
+    static $map = [
+        // Yes/no/refresher options from training fields
+        'new_user'           => 'Yes — First-time user',
+        'refresher'          => 'Yes — Refresher needed',
+        'no'                 => 'No',
+        'yes'                => 'Yes',
+
+        // Lab assistance level options
+        'self_service'       => 'Self-service',
+        'staff_assisted'     => 'Staff-assisted session',
+        'full_service'       => 'Full service (sample-in / data-out)',
+
+        // Booking duration options
+        '30min'              => '30 minutes',
+        '1hr'                => '1 hour',
+        '2hr'                => '2 hours',
+        '3hr'                => '3 hours',
+        '4hr'                => '4 hours (half day)',
+        'full_day'           => 'Full day (8 hours)',
+        'multi_day'          => 'Multiple days — specify in notes',
+
+        // User affiliation — affects billing tier
+        'nau_student'        => 'NAU Student',
+        'nau_faculty_staff'  => 'NAU Faculty / Staff',
+        'external_academic'  => 'External Academic / Researcher',
+        'industry'           => 'Industry / Commercial',
+
+        // NAU college options shown in some forms
+        'sanghi_engineering' => 'Steve Sanghi College of Engineering',
+        'ceias'              => 'College of Engineering, Informatics & Applied Sciences',
+        'cefns'              => 'College of the Environment, Forestry & Natural Sciences',
+        'franke_business'    => 'W.A. Franke College of Business',
+        'education'          => 'College of Education',
+        'arts_letters'       => 'College of Arts & Letters',
+        'social_behavioral'  => 'College of Social & Behavioral Sciences',
+        'health_human'       => 'College of Health & Human Services',
+        'graduate'           => 'Graduate College',
+
+        // Delivery options for service requests
+        'pickup'             => 'Lab Pickup (Free)',
+        'ship'               => 'Ship to Address',
+
+        // Catch-all options used across multiple form fields
+        'other'              => 'Other',
+        'unsure'             => 'Not sure — let staff recommend',
+    ];
+
+    if ($raw === '') return '';
+
+    // HTML time inputs always submit as HH:MM in 24-hour format.
+    // Convert: "08:00" → "8:00 AM", "14:30" → "2:30 PM"
+    if (preg_match('/^(\d{2}):(\d{2})$/', $raw, $m)) {
+        $h      = (int) $m[1];
+        $min    = $m[2];
+        $suffix = $h >= 12 ? 'PM' : 'AM';
+        $h12    = $h > 12 ? $h - 12 : ($h === 0 ? 12 : $h);
+        return "{$h12}:{$min} {$suffix}";
+    }
+
+    return $map[$raw] ?? ucwords(str_replace('_', ' ', $raw));
+}
+
+
+// ---------------------------------------------------------------
+// HELPER: respond()
+// Single exit point for the script. Every code path calls this —
+// success, validation failure, or send error.
+//
+// Content-Type is set to application/json so the browser's fetch()
+// can call response.json() without issues. exit() ensures nothing
+// else gets appended to the output after our JSON.
+// ---------------------------------------------------------------
 function respond(bool $ok, string $msg): void
 {
     header('Content-Type: application/json');
@@ -89,171 +222,201 @@ function respond(bool $ok, string $msg): void
     exit;
 }
 
+
 // ---------------------------------------------------------------
-// STEP 4: Define what fields each form category has
-// 
-// This mirrors the fieldData object in script.js. Each category
-// has a display title, a list of field names (matching the "name"
-// attributes in the HTML), and human-readable labels for emails.
-// 
-// When we get a POST with category = "equipment", we know to look
-// for equipment_category, equipment_name, etc. in the POST data.
+// FORM CATEGORY REGISTRY
+// This array drives everything — it defines what each contact form
+// category is called, which POST fields it sends, and what labels
+// those fields get in the email.
+//
+// The structure mirrors the fieldData object in script.js. If you
+// add a new form category to Contact_Us.html, you need to add an
+// entry here too, otherwise $categories[$category] will be null
+// and the category validation check below will reject it.
+//
+// The field names in 'fields' must match the name="" attributes
+// in the HTML form exactly. The labels in 'labels' are what appear
+// in the email table rows — make them readable for lab staff.
 // ---------------------------------------------------------------
 $categories = [
     'equipment' => [
-        'title' => 'Equipment Inquiry',
+        'title'  => 'Equipment Inquiry',
         'fields' => ['equipment_category', 'equipment_name', 'intended_usage', 'experimental_details'],
         'labels' => [
-            'equipment_category' => 'Equipment Category',
-            'equipment_name' => 'Equipment Name',
-            'intended_usage' => 'Intended Usage',
+            'equipment_category'   => 'Equipment Category',
+            'equipment_name'       => 'Equipment Name',
+            'intended_usage'       => 'Intended Usage',
             'experimental_details' => 'Experimental Details / Measurement Goals',
         ],
     ],
     'research' => [
-        'title' => 'Research & Strategic Partnerships',
+        'title'  => 'Research & Strategic Partnerships',
         'fields' => ['project_title', 'funding_agency', 'timeline', 'project_abstract'],
         'labels' => [
-            'project_title' => 'Project Title / Topic',
-            'funding_agency' => 'Funding Agency',
-            'timeline' => 'Timeline',
+            'project_title'    => 'Project Title / Topic',
+            'funding_agency'   => 'Funding Agency',
+            'timeline'         => 'Timeline',
             'project_abstract' => 'Project Description / Abstract',
         ],
     ],
     'billing' => [
-        'title' => 'Billing & Invoicing',
+        'title'  => 'Billing & Invoicing',
         'fields' => ['reference_number', 'billing_contact', 'billing_address', 'issue_description'],
         'labels' => [
-            'reference_number' => 'Reference Number',
-            'billing_contact' => 'Billing Contact Person',
-            'billing_address' => 'Billing Address',
+            'reference_number'  => 'Reference Number',
+            'billing_contact'   => 'Billing Contact Person',
+            'billing_address'   => 'Billing Address',
             'issue_description' => 'Issue Description',
         ],
     ],
     'training' => [
-        'title' => 'Safety & Training',
+        'title'  => 'Safety & Training',
         'fields' => ['request_type', 'training_specifics', 'notes'],
         'labels' => [
-            'request_type' => 'Request Type',
+            'request_type'      => 'Request Type',
             'training_specifics' => 'Training Specifics',
-            'notes' => 'Notes / Additional Details',
+            'notes'             => 'Notes / Additional Details',
         ],
     ],
     'courses' => [
-        'title' => 'Course Support',
+        'title'  => 'Course Support',
         'fields' => ['course_number', 'semester', 'inquiry'],
         'labels' => [
             'course_number' => 'Course Number',
-            'semester' => 'Semester',
-            'inquiry' => 'Inquiry',
+            'semester'      => 'Semester',
+            'inquiry'       => 'Inquiry',
         ],
     ],
     'tour' => [
-        'title' => 'Schedule a Tour',
+        'title'  => 'Schedule a Tour',
         'fields' => ['group_size', 'group_type', 'preferred_date', 'alternative_date', 'notes'],
         'labels' => [
-            'group_size' => 'Group Size',
-            'group_type' => 'Group Type',
-            'preferred_date' => 'Preferred Date',
+            'group_size'       => 'Group Size',
+            'group_type'       => 'Group Type',
+            'preferred_date'   => 'Preferred Date',
             'alternative_date' => 'Alternative Date',
-            'notes' => 'Notes / Specific Interests',
+            'notes'            => 'Notes / Specific Interests',
         ],
     ],
     'sales' => [
-        'title' => 'Vendor / Sales',
+        'title'  => 'Vendor / Sales',
         'fields' => ['product_category', 'message'],
         'labels' => [
             'product_category' => 'Product Category',
-            'message' => 'Message',
+            'message'          => 'Message',
         ],
     ],
     'other' => [
-        'title' => 'General Inquiry',
+        'title'  => 'General Inquiry',
         'fields' => ['message'],
         'labels' => [
             'message' => 'Message',
         ],
     ],
     'issue' => [
-        'title' => 'Report an Issue',
+        'title'  => 'Report an Issue',
         'fields' => ['issue_type', 'equipment_name', 'description'],
         'labels' => [
-            'issue_type' => 'Issue Type',
+            'issue_type'     => 'Issue Type',
             'equipment_name' => 'Equipment Name',
-            'description' => 'Description',
+            'description'    => 'Description',
         ],
     ],
 ];
 
+
 // ---------------------------------------------------------------
-// STEP 5: Validate the incoming request
-// 
-// First, make sure it's actually a POST request (not someone
-// typing the URL in their browser). Then check that the required
-// fields are filled in. Finally, verify the email looks real and
-// that the category matches one of our known forms.
+// REQUEST VALIDATION
+// Reject anything that isn't a real POST from the form. This prevents
+// someone from loading this URL in a browser or sending a GET request.
 // ---------------------------------------------------------------
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     respond(false, 'Invalid request method.');
 }
 
+// Name, email, and category are required for every form type.
+// Category tells us which form was submitted; without it we can't
+// look up the right fields or build a meaningful email.
 requireFields(['first_name', 'last_name', 'email', 'category']);
 
-$firstName = post('first_name');
-$lastName = post('last_name');
-$email = post('email');
-$phone = mb_substr(post('phone'), 0, 255);
+$firstName    = post('first_name');
+$lastName     = post('last_name');
+$email        = post('email');
+$phone        = mb_substr(post('phone'), 0, 255);         // cap at 255 chars, just in case
 $organization = mb_substr(post('organization'), 0, 255);
-$category = post('category');
+$category     = post('category');
 
+// filter_var with FILTER_VALIDATE_EMAIL does a proper RFC-compliant check.
+// This catches typos like "user@" or "not an email" before we try to send.
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     respond(false, 'Invalid email address.');
 }
+
+// If category doesn't match anything in our registry, reject it.
+// This prevents someone from POSTing with an arbitrary category value
+// and potentially confusing the email output or triggering PHP notices.
 if (!isset($categories[$category])) {
     respond(false, 'Invalid form category.');
 }
 
-// Grab the metadata for whichever form they submitted
-$catMeta = $categories[$category];
+// Pull out the metadata for this category — title, field list, labels
+$catMeta  = $categories[$category];
 $catTitle = $catMeta['title'];
 $fullName = "$firstName $lastName";
 
-// Timestamp for when the form was submitted (Arizona is MST, no DST)
+// Arizona doesn't observe Daylight Saving Time, so "MST" is always
+// correct. Other US timezones flip between standard and daylight time,
+// but Arizona stays on MST year-round (except Navajo Nation).
 $timestamp = date("F j, Y \a\\t g:i A T");
 
+
 // ---------------------------------------------------------------
-// STEP 6: Build the category-specific table rows
-// 
-// We loop through the fields for this category and pull each value
-// from POST data. Each field becomes a row in the email table.
-// If a field was left empty, we show a dash instead of blank space.
+// BUILD EMAIL TABLE ROWS
+// Loop through the fields registered for this category and build
+// one table row per field for the email body.
+//
+// We read from $_POST directly (not through post()) here because
+// post() calls htmlspecialchars() and we need the raw value so
+// formatValue() can do its translation first. If we used post(),
+// values like "nau_faculty_staff" would work fine, but values
+// containing "&" would get double-encoded: "&" → "&amp;" → "&amp;amp;".
+// The rule is: read raw, process, then escape once right before HTML output.
 // ---------------------------------------------------------------
-$detailRows = '';
-$plainDetails = '';
+$detailRows   = '';   // HTML <tr> blocks for the email tables
+$plainDetails = '';   // Plain-text equivalent for the AltBody
+
 foreach ($catMeta['fields'] as $field) {
-    $label = $catMeta['labels'][$field] ?? $field;
-    $value = post($field) ?: '—';
-    // HTML row for the email
+    $label      = $catMeta['labels'][$field] ?? $field;
+    $raw        = trim($_POST[$field] ?? '');
+    $formatted  = formatValue($raw);
+
+    // Escape exactly once for HTML — the plain text version doesn't need escaping
+    $value      = $formatted !== '' ? htmlspecialchars($formatted, ENT_QUOTES, 'UTF-8') : '—';
+    $plainValue = $formatted !== '' ? $formatted : '—';
+
     $detailRows .= "
             <tr>
                 <td style='padding:10px 16px; font-weight:600; color:#003466; background:#f8f9fa; border-bottom:1px solid #e8e8e8; width:35%; font-size:14px;'>$label</td>
                 <td style='padding:10px 16px; color:#333333; border-bottom:1px solid #e8e8e8; font-size:14px;'>$value</td>
             </tr>";
-    // Plain-text version (for the AltBody so spam filters see real content)
-    $plainDetails .= "  $label: $value\n";
+
+    // Two-space indent in plain text makes the details easier to scan in a terminal
+    $plainDetails .= "  $label: $plainValue\n";
 }
 
+
 // ---------------------------------------------------------------
-// STEP 7: Build the email that goes to the LAB INBOX
-// 
-// This is what you and the team see when someone submits a form.
-// It has a navy header with the NAU gold accent, a table of contact
-// info, and then the category-specific details below it.
-// The Reply-To is set to the user's email so you can just hit Reply.
+// LAB NOTIFICATION EMAIL
+// This is what staff see when someone submits a contact form.
+// Layout: NAU header → inquiry type banner → contact info table → details table.
 //
-// The HTML is wrapped in a proper DOCTYPE with <html>, <head>, <body>
-// tags — this is important because Gmail and Outlook use the structure
-// to decide if an email is legitimate or auto-generated spam.
+// Why table-based layout? Email clients, especially Outlook, have
+// extremely poor CSS support. Flexbox and Grid don't work in emails.
+// Tables are the only reliable cross-client layout method. Yes, it's
+// 2003-era HTML — that's just how email rendering works.
+//
+// Reply-To is set to the submitter's email so staff can hit Reply
+// and reach the right person directly from their inbox.
 // ---------------------------------------------------------------
 $labSubject = "New Inquiry: $catTitle from $fullName";
 $labBody = '<!DOCTYPE html>
@@ -267,15 +430,18 @@ $labBody = '<!DOCTYPE html>
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f0f2f5;">
         <tr>
             <td align="center" style="padding:30px 20px;">
-                <!-- Main email container, 640px max like a standard email -->
+                <!-- 640px is the standard max-width for email containers -->
                 <table role="presentation" width="640" cellpadding="0" cellspacing="0" style="background:#ffffff; border-radius:8px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.08);">
-                    
-                    <!-- Header: NAU logo + lab name on navy blue -->
+
+                    <!-- NAU brand header — navy blue with embedded logo -->
                     <tr>
                         <td style="background:#003466; padding:20px 32px;">
                             <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td width="180" valign="middle">
+                                        <!-- cid:naulogo references the embedded image added in createMailer().
+                                             We embed it rather than linking to a URL because Gmail and Outlook
+                                             block remote images from new senders by default. -->
                                         <img src="cid:naulogo" alt="Northern Arizona University" width="160" style="display:block; height:auto; border:0;">
                                     </td>
                                     <td valign="middle" style="padding-left:16px; border-left:2px solid rgba(255,255,255,0.3);">
@@ -286,13 +452,12 @@ $labBody = '<!DOCTYPE html>
                             </table>
                         </td>
                     </tr>
-                    <!-- Gold accent bar -->
+                    <!-- NAU gold accent stripe -->
                     <tr><td style="background:#FFC627; height:4px; font-size:0; line-height:0;">&nbsp;</td></tr>
 
-                    <!-- Body content -->
                     <tr>
                         <td style="padding:28px 32px;">
-                            <!-- What type of inquiry this is -->
+                            <!-- Banner showing category and submission time -->
                             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
                                 <tr>
                                     <td style="background:#eef3f8; padding:12px 16px; border-radius:6px; border-left:4px solid #003466;">
@@ -305,7 +470,7 @@ $labBody = '<!DOCTYPE html>
                                 </tr>
                             </table>
 
-                            <!-- Contact info section -->
+                            <!-- Contact details — who submitted and how to reach them -->
                             <h2 style="margin:0 0 12px 0; font-size:15px; color:#003466; text-transform:uppercase; letter-spacing:0.5px; border-bottom:2px solid #FFC627; padding-bottom:8px; display:inline-block;">Contact Information</h2>
                             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:28px;">
                                 <tr>
@@ -314,6 +479,7 @@ $labBody = '<!DOCTYPE html>
                                 </tr>
                                 <tr>
                                     <td style="padding:10px 16px; font-weight:600; color:#003466; background:#f8f9fa; border-bottom:1px solid #e8e8e8; font-size:14px;">Email</td>
+                                    <!-- mailto link so staff can reply directly from the email -->
                                     <td style="padding:10px 16px; border-bottom:1px solid #e8e8e8; font-size:14px;"><a href="mailto:' . $email . '" style="color:#003466; text-decoration:none;">' . $email . '</a></td>
                                 </tr>
                                 <tr>
@@ -326,14 +492,13 @@ $labBody = '<!DOCTYPE html>
                                 </tr>
                             </table>
 
-                            <!-- Category-specific details -->
+                            <!-- Category-specific rows built dynamically above -->
                             <h2 style="margin:0 0 12px 0; font-size:15px; color:#003466; text-transform:uppercase; letter-spacing:0.5px; border-bottom:2px solid #FFC627; padding-bottom:8px; display:inline-block;">' . $catTitle . ' Details</h2>
                             <table role="presentation" width="100%" cellpadding="0" cellspacing="0">' . $detailRows . '
                             </table>
                         </td>
                     </tr>
 
-                    <!-- Footer -->
                     <tr>
                         <td style="background:#f8f9fa; padding:16px 32px; border-top:1px solid #e8e8e8;">
                             <p style="margin:0; font-size:12px; color:#999; text-align:center;">
@@ -349,8 +514,9 @@ $labBody = '<!DOCTYPE html>
 </body>
 </html>';
 
-// Plain-text version for email clients that don't render HTML
-// (also helps spam score — emails with BOTH html and plain text look more legit)
+// AltBody: plain-text fallback for non-HTML email clients and spam filter scoring.
+// Spam filters trust emails more when both HTML and plain text versions are present —
+// it signals that a real system sent this, not a bulk mailer with no text fallback.
 $labPlain = "NEW INQUIRY: $catTitle
 Submitted: $timestamp
 ---
@@ -367,16 +533,13 @@ $plainDetails
 Sent from MPaCT Nano Lab contact form (nau.edu)
 ";
 
+
 // ---------------------------------------------------------------
-// STEP 8: Build the CONFIRMATION email that goes to the USER
-// 
-// This is so the person knows we got their inquiry. It greets them
-// by first name, tells them we'll respond in 1-2 business days,
-// and shows a summary of everything they submitted (so they have
-// a record). Also includes our direct email in case they need
-// to follow up on something urgent.
-// 
-// Same proper HTML structure as the lab email — DOCTYPE, head, body.
+// USER CONFIRMATION EMAIL
+// Goes back to the submitter so they have a record of what they sent.
+// We greet by first name (friendlier than "Dear [Full Name]"),
+// set expectations for response time, and show a full recap of their
+// submission. If they need something urgently, the lab email is at the bottom.
 // ---------------------------------------------------------------
 $userSubject = "We received your inquiry — MPaCT Nano Lab";
 $userBody = '<!DOCTYPE html>
@@ -391,8 +554,7 @@ $userBody = '<!DOCTYPE html>
         <tr>
             <td align="center" style="padding:30px 20px;">
                 <table role="presentation" width="640" cellpadding="0" cellspacing="0" style="background:#ffffff; border-radius:8px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.08);">
-                    
-                    <!-- Header: NAU logo + lab name on navy blue -->
+
                     <tr>
                         <td style="background:#003466; padding:20px 32px;">
                             <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
@@ -410,11 +572,10 @@ $userBody = '<!DOCTYPE html>
                     </tr>
                     <tr><td style="background:#FFC627; height:4px; font-size:0; line-height:0;">&nbsp;</td></tr>
 
-                    <!-- Body -->
                     <tr>
                         <td style="padding:28px 32px;">
                             <h2 style="margin:0 0 16px 0; font-size:22px; color:#003466;">Thank you, ' . $firstName . '!</h2>
-                            
+
                             <p style="font-size:15px; line-height:1.7; color:#444; margin:0 0 8px 0;">
                                 We have received your <strong style="color:#003466;">' . $catTitle . '</strong> inquiry and it is currently being reviewed by our team.
                             </p>
@@ -422,7 +583,8 @@ $userBody = '<!DOCTYPE html>
                                 A lab representative will get back to you within <strong>1&ndash;2 business days</strong>.
                             </p>
 
-                            <!-- Summary of what they submitted -->
+                            <!-- Full submission recap — same $detailRows used for the lab email.
+                                 Gives the user a record of exactly what they submitted. -->
                             <h3 style="margin:0 0 12px 0; font-size:15px; color:#003466; text-transform:uppercase; letter-spacing:0.5px; border-bottom:2px solid #FFC627; padding-bottom:8px; display:inline-block;">Your Submission</h3>
                             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
                                 <tr>
@@ -443,7 +605,7 @@ $userBody = '<!DOCTYPE html>
                                 </tr>' . $detailRows . '
                             </table>
 
-                            <!-- Direct contact info in case they need help sooner -->
+                            <!-- Emergency contact in case they need something before staff replies -->
                             <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td style="background:#eef3f8; padding:16px 20px; border-radius:6px; border-left:4px solid #003466;">
@@ -457,7 +619,6 @@ $userBody = '<!DOCTYPE html>
                         </td>
                     </tr>
 
-                    <!-- Footer -->
                     <tr>
                         <td style="background:#f8f9fa; padding:20px 32px; border-top:1px solid #e8e8e8; text-align:center;">
                             <p style="margin:0 0 4px 0; font-size:13px; color:#666; font-weight:600;">MPaCT Nano Lab</p>
@@ -477,7 +638,6 @@ $userBody = '<!DOCTYPE html>
 </body>
 </html>';
 
-// Plain-text fallback for the user confirmation
 $userPlain = "Thank you, $firstName!
 
 We have received your $catTitle inquiry and it is currently being reviewed by our team. A lab representative will get back to you within 1-2 business days.
@@ -496,46 +656,45 @@ Microelectronics Processing, Characterization & Testing
 Northern Arizona University, Flagstaff, AZ
 ";
 
+
 // ---------------------------------------------------------------
-// STEP 9: Set up the SMTP connection
-// 
-// This function creates a fresh PHPMailer instance configured for
-// NAU's internal mail relay. Key things:
-//   - mailgate.nau.edu on port 25 (standard SMTP, no encryption)
-//   - No authentication needed — it's an internal NAU server
-//   - SMTPSecure and SMTPAutoTLS are explicitly off so PHPMailer
-//     doesn't try to upgrade the connection to TLS (which would fail)
-//   - HTML email with UTF-8 for special characters
-//   - Custom X-Mailer header so it looks like a real system, not spam
-//   - Message-ID with nau.edu domain to match sender (helps deliverability)
+// MAILER FACTORY: createMailer()
+// Returns a ready-to-use PHPMailer instance configured for NAU's relay.
+// We call this twice (once per email) rather than reusing one instance
+// because resetting PHPMailer between sends is error-prone — address
+// lists and headers from the first send can bleed into the second.
+//
+// SMTPAuth=false and SMTPSecure='' together mean "plain SMTP, no login,
+// no encryption". That's correct for NAU's internal mailgate. If you ever
+// switch to an external SMTP provider (like Gmail or SendGrid), you'd
+// need to set SMTPAuth=true, add a username/password, and set
+// SMTPSecure='tls' or 'ssl' — but don't do that for this internal relay.
+//
+// addEmbeddedImage() attaches the NAU logo as a Content-ID image.
+// The "cid:naulogo" value in the HTML <img src="..."> references this
+// attachment by its content ID. If the logo file is missing (e.g. during
+// local development), we skip it rather than crashing — the email still sends.
 // ---------------------------------------------------------------
 function createMailer(): PHPMailer
 {
-    $mail = new PHPMailer(true);    // true = throw exceptions on errors
-    $mail->isSMTP();                // use SMTP instead of PHP's mail()
-    $mail->Host = SMTP_HOST;
-    $mail->Port = SMTP_PORT;
-    $mail->SMTPAuth = false;      // no login needed for NAU relay
-    $mail->SMTPSecure = '';         // no encryption
-    $mail->SMTPAutoTLS = false;     // don't try to upgrade to TLS
+    $mail = new PHPMailer(true);   // true = throw exceptions instead of returning false
+    $mail->isSMTP();
+    $mail->Host        = SMTP_HOST;
+    $mail->Port        = SMTP_PORT;
+    $mail->SMTPAuth    = false;
+    $mail->SMTPSecure  = '';
+    $mail->SMTPAutoTLS = false;    // prevent PHPMailer from auto-upgrading to TLS
     $mail->setFrom(SENDER_EMAIL, SENDER_NAME);
     $mail->isHTML(true);
-    $mail->CharSet = 'UTF-8';
-    $mail->Encoding = 'base64';    // cleaner encoding, avoids line-length issues
+    $mail->CharSet  = 'UTF-8';
+    $mail->Encoding = 'base64';   // base64 handles any character content safely
 
-    // These headers help email clients trust the message:
-    // - X-Mailer identifies the sending system (looks professional)
-    // - Message-ID with nau.edu domain matches the sender 
-    // - Priority 3 = normal (1 = urgent can trigger spam filters)
-    $mail->XMailer = 'MPaCT Nano Lab Mailer';
+    // Deliverability headers — these make the email look like it came from a
+    // real mail system rather than a script, which helps with spam scoring
+    $mail->XMailer   = 'MPaCT Nano Lab Mailer';
     $mail->MessageID = '<' . uniqid('mpct-', true) . '@nau.edu>';
-    $mail->Priority = 3;
+    $mail->Priority  = 3;   // 1=high triggers spam filters; 3=normal is safe
 
-    // Embed the NAU logo as a CID (Content-ID) attachment.
-    // This means the logo shows up inline in the email body without loading
-    // from an external URL. It works even when the recipient's email client
-    // blocks remote images (which Gmail and Outlook do by default for new
-    // senders). The "cid:naulogo" in the HTML <img> src references this.
     $logoPath = __DIR__ . '/Images/NAU.png';
     if (file_exists($logoPath)) {
         $mail->addEmbeddedImage($logoPath, 'naulogo', 'NAU.png', 'base64', 'image/png');
@@ -544,47 +703,45 @@ function createMailer(): PHPMailer
     return $mail;
 }
 
+
 // ---------------------------------------------------------------
-// STEP 10: Send both emails
-// 
-// We send the lab notification first, then the user confirmation.
-// Each one gets its own PHPMailer instance (cleaner than reusing
-// and clearing addresses, which can cause weird header leaks).
-// 
-// AltBody is the plain-text fallback. Having BOTH html and plain text
-// is one of the biggest things that keeps emails out of spam — it
-// tells Gmail/Outlook "this was sent by a real system, not a bot."
-// 
-// If anything goes wrong, the catch block logs the actual error
-// to the server log (for debugging) but shows the user a friendly
-// message without exposing any internal details.
+// SEND BOTH EMAILS
+// Lab notification first. If it fails, the catch fires and we stop —
+// we haven't confirmed success to the user yet, so that's fine.
+// If the lab email succeeds, we send the user confirmation.
+//
+// The CC list keeps the dev team in the loop during the launch period.
+// Those lines can be removed once the lab is operating normally.
+//
+// addReplyTo() is important: it means when a staff member hits Reply
+// in their inbox, the reply goes directly to the submitter — not
+// back to the lab address (which would send them a loop).
 // ---------------------------------------------------------------
 try {
-    // First: send the notification to the lab inbox
     $labMail = createMailer();
     $labMail->addAddress(LAB_EMAIL);
     $labMail->addCC('Akhil.Kinnera@nau.edu');
     $labMail->addCC('Sethuprasad.Gorantla@nau.edu');
     $labMail->addCC('Krishna-Dev.Palem@nau.edu');
-    $labMail->addReplyTo($email, $fullName);  // so Reply goes to the user
+    $labMail->addReplyTo($email, $fullName);
     $labMail->Subject = $labSubject;
-    $labMail->Body = $labBody;
+    $labMail->Body    = $labBody;
     $labMail->AltBody = $labPlain;
     $labMail->send();
 
-    // Second: send the confirmation to the user
     $userMail = createMailer();
     $userMail->addAddress($email, $fullName);
     $userMail->Subject = $userSubject;
-    $userMail->Body = $userBody;
+    $userMail->Body    = $userBody;
     $userMail->AltBody = $userPlain;
     $userMail->send();
 
-    // Both sent — tell the frontend everything worked
     respond(true, 'Your inquiry has been submitted successfully! You will receive a confirmation email shortly.');
 
 } catch (Exception $e) {
-    // Log the real error for us to debug, but don't show it to the user
+    // Log the real PHPMailer error to the server log where only we can see it.
+    // Never echo exception details to the browser — they can expose internal paths
+    // and server configuration to anyone watching the network.
     error_log("MPCT Form Error: " . $e->getMessage());
     respond(false, 'We were unable to send your inquiry at this time. Please try again or email us directly at ' . LAB_EMAIL . '.');
 }

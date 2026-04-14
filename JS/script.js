@@ -627,7 +627,7 @@ function selectCategory(category, element) {
 
         // Clear any previous feedback
         const feedback = document.getElementById('formFeedback');
-        if (feedback) { feedback.classList.add('hidden'); feedback.textContent = ''; }
+        if (feedback) { feedback.style.display = 'none'; feedback.className = 'bk-feedback'; feedback.textContent = ''; }
 
         // Dynamic Population for Equipment
         if (category === 'equipment') {
@@ -664,7 +664,8 @@ async function handleFormSubmit(e) {
     // Disable button during submission
     submitBtn.disabled = true;
     submitBtn.textContent = 'Submitting...';
-    feedback.classList.add('hidden');
+    feedback.style.display = 'none';
+    feedback.className = 'bk-feedback';
 
     try {
         const response = await fetch('FormSubmission.php', {
@@ -673,26 +674,24 @@ async function handleFormSubmit(e) {
         });
         const result = await response.json();
 
-        feedback.classList.remove('hidden');
         if (result.success) {
-            feedback.style.cssText = 'padding:14px 18px;border-radius:8px;background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;font-weight:600;';
+            feedback.className = 'bk-feedback bk-feedback--success';
+            feedback.style.display = 'block';
             feedback.textContent = result.message;
             form.reset();
-            // Scroll to feedback
-            setTimeout(() => {
-                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 200);
+            feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
             // Auto-reset after 5 seconds
             setTimeout(() => {
                 resetSelection();
             }, 5000);
         } else {
-            feedback.style.cssText = 'padding:14px 18px;border-radius:8px;background:#ffebee;color:#c62828;border:1px solid #ef9a9a;font-weight:600;';
+            feedback.className = 'bk-feedback bk-feedback--error';
+            feedback.style.display = 'block';
             feedback.textContent = result.message || 'An error occurred. Please try again.';
         }
     } catch (err) {
-        feedback.classList.remove('hidden');
-        feedback.style.cssText = 'padding:14px 18px;border-radius:8px;background:#ffebee;color:#c62828;border:1px solid #ef9a9a;font-weight:600;';
+        feedback.className = 'bk-feedback bk-feedback--error';
+        feedback.style.display = 'block';
         feedback.textContent = 'Unable to connect to the server. Please try again later or email us directly.';
         console.error('Form submission error:', err);
     } finally {

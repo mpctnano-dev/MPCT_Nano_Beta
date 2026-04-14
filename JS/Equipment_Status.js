@@ -187,20 +187,56 @@
             }
         }
 
-        const subtitle = document.querySelector('.hero-subtitle');
-        if (subtitle) {
-            let warning = document.querySelector('.status-warning');
-            if (equipment.warningMessage) {
-                if (!warning) {
-                    warning = document.createElement('div');
-                    warning.className = 'status-warning';
-                    subtitle.insertAdjacentElement('afterend', warning);
+        // Warning ticker (scrolling banner above hero, e.g. LPKF ProtoLaser R4).
+        // If an equipment page has a .warning-ticker element, we treat it as the
+        // canonical place to surface equipment.warningMessage on that page.
+        //
+        // Track layout (for seamless 0 → -50% loop):
+        //   [lead-spacer] [badge] [text] [loop-spacer] [badge] [text]
+        //
+        // Both spacers are the same width (25vw) so the loop boundary is
+        // visually identical. The lead-spacer pushes the first "Notice"
+        // badge to the center of the ticker on page load.
+        const ticker = document.querySelector('.warning-ticker');
+        if (ticker) {
+            const track = ticker.querySelector('.warning-ticker__track');
+            const tickerText = ticker.querySelector('.warning-ticker__text');
+            if (equipment.warningMessage && tickerText && track) {
+                tickerText.textContent = equipment.warningMessage;
+
+                // Remove any previous duplicate set to avoid triple+ copies on re-runs
+                const existingDupes = track.querySelectorAll('.warning-ticker__dupe');
+                existingDupes.forEach((el) => el.remove());
+
+                // Leading spacer — pushes the first "Notice" badge toward center
+                const leadSpacer = document.createElement('span');
+                leadSpacer.className = 'warning-ticker__spacer warning-ticker__dupe';
+                track.insertBefore(leadSpacer, track.firstChild);
+
+                // Loop spacer — gap between copy 1 and copy 2
+                const loopSpacer = document.createElement('span');
+                loopSpacer.className = 'warning-ticker__spacer warning-ticker__dupe';
+                track.appendChild(loopSpacer);
+
+                // Duplicate badge + text for seamless loop
+                const badge = ticker.querySelector('.warning-ticker__badge');
+                if (badge) {
+                    const dupeBadge = badge.cloneNode(true);
+                    dupeBadge.classList.add('warning-ticker__dupe');
+                    track.appendChild(dupeBadge);
                 }
-                warning.textContent = equipment.warningMessage;
-            } else if (warning) {
-                warning.remove();
+                const dupeText = tickerText.cloneNode(true);
+                dupeText.classList.add('warning-ticker__dupe');
+                track.appendChild(dupeText);
+
+                ticker.style.display = '';
+            } else {
+                // No warning message for this equipment -> hide the ticker entirely
+                // so the page does not show an empty scrolling banner.
+                ticker.style.display = 'none';
             }
         }
+
     };
 
     const findEquipmentForAboutPage = (data) => {

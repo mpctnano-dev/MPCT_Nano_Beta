@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,11 +8,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../CSS/style.css">
 </head>
+
 <body>
 
     <site-header></site-header>
 
     <main class="product-page">
+        <!-- Warning Ticker: populated at runtime by JS/Equipment_Status.js from equipment.json.
+             Hidden by default; JS un-hides it when a warningMessage exists. -->
+        <div class="warning-ticker" style="display: none;">
+            <div class="warning-ticker__track">
+                <span class="warning-ticker__badge"><i class="fas fa-info-circle"></i> Notice</span>
+                <span class="warning-ticker__text"></span>
+            </div>
+        </div>
         <section class="product-hero">
             <div class="container">
                 <div class="hero-inner">
@@ -19,14 +29,18 @@
                         <div class="hero-badges">
                             <span class="tag blue">Fabrication</span>
                             <span class="tag gold">Lithography / Fabrication</span>
-                            <div class="status-indicator-wrapper" style="width: auto; padding: 5px 12px; border-radius: 20px; gap: 8px;">
-    <span class="status-dot busy"></span> 
-    <span style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Unavailable</span>
-</div>
+                            <div class="status-indicator-wrapper"
+                                style="width: auto; padding: 5px 12px; border-radius: 20px; gap: 8px;">
+                                <span class="status-dot busy"></span>
+                                <span
+                                    style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Unavailable</span>
+                            </div>
                         </div>
                         <h1 class="hero-title">SUSS MJB4 Mask Aligner</h1>
                         <p class="hero-subtitle">
-                            A high-precision UV contact aligner designed for research and small-volume production. It aligns a physical photomask with a substrate to transfer micro-scale patterns, optimized for handling fragile materials and III-V semiconductors.
+                            A high-precision UV contact aligner designed for research and small-volume production. It
+                            aligns a physical photomask with a substrate to transfer micro-scale patterns, optimized for
+                            handling fragile materials and III-V semiconductors.
                         </p>
                         <div class="hero-cta">
                             <a href="../Contact_Us.html?category=equipment" class="btn btn-primary">
@@ -38,16 +52,19 @@
                         </div>
                     </div>
                     <div class="hero-image-wrapper">
-                         <img src="../Images/Suss_MaskAligner.webp" alt="SUSS MicroTec MJB4" class="hero-img" onerror="this.src='https://placehold.co/600x400/png?text=SUSS+MJB4+Aligner'">
+                        <img src="../Images/Suss_MaskAligner.webp" alt="SUSS MicroTec MJB4" class="hero-img"
+                            onerror="this.src='https://placehold.co/600x400/png?text=SUSS+MJB4+Aligner'">
                     </div>
                 </div>
 
-                <!-- Warning Banner: Inside hero, below hero-inner grid -->
-                <div class="warning-notice warning-notice--in-hero">
-                    <div class="warning-notice__icon"><i class="fas fa-tools"></i></div>
-                    <div class="warning-notice__body">
+                <!-- Maintenance Notice: Inside hero, below hero-inner grid -->
+                <div class="info-notice info-notice--in-hero">
+                    <div class="info-notice__icon"><i class="fas fa-tools"></i></div>
+                    <div class="info-notice__body">
                         <strong>Maintenance Scheduled</strong>
-                        <p>The SUSS MJB4 Mask Aligner is currently offline for lamp replacement and alignment calibration. Service is expected to complete by mid-July 2026. Contact the lab manager for urgent lithography needs or to join the waitlist.</p>
+                        <p>The SUSS MJB4 Mask Aligner is currently offline for lamp replacement and alignment
+                            calibration. Service is expected to complete by mid-July 2026. Contact the lab manager for
+                            urgent lithography needs or to join the waitlist.</p>
                     </div>
                 </div>
 
@@ -91,16 +108,19 @@
 
         <div class="container section-padding">
             <div class="layout-grid">
-                
+
                 <div class="content-col">
-                    
+
                     <section class="info-block">
                         <h2 class="section-heading">System Capabilities</h2>
                         <p>
-                            The SUSS MJB4 is a core photolithography tool in the lab. It enables the transfer of complex geometric patterns from a glass photomask onto a photoresist-coated wafer using UV light.
+                            The SUSS MJB4 is a core photolithography tool in the lab. It enables the transfer of complex
+                            geometric patterns from a glass photomask onto a photoresist-coated wafer using UV light.
                         </p>
                         <p>
-                            Its versatile stage design handles irregularly shaped substrates and small pieces, making it ideal for prototyping. The system supports multiple exposure modes, allowing users to balance resolution requirements with substrate safety.
+                            Its versatile stage design handles irregularly shaped substrates and small pieces, making it
+                            ideal for prototyping. The system supports multiple exposure modes, allowing users to
+                            balance resolution requirements with substrate safety.
                         </p>
                     </section>
 
@@ -110,12 +130,14 @@
                             <div class="feature-card">
                                 <div class="icon-box blue"><i class="fas fa-compress-arrows-alt"></i></div>
                                 <h4>Soft Contact</h4>
-                                <p>Wafer is gently held against the mask. Ideal for fragile substrates to prevent damage.</p>
+                                <p>Wafer is gently held against the mask. Ideal for fragile substrates to prevent
+                                    damage.</p>
                             </div>
                             <div class="feature-card">
                                 <div class="icon-box gold"><i class="fas fa-bolt"></i></div>
                                 <h4>Hard Contact</h4>
-                                <p>Nitrogen pressure pushes wafer firmly against the mask. Standard mode for high resolution (~1 µm).</p>
+                                <p>Nitrogen pressure pushes wafer firmly against the mask. Standard mode for high
+                                    resolution (~1 µm).</p>
                             </div>
                             <div class="feature-card">
                                 <div class="icon-box purple"><i class="fas fa-wind"></i></div>
@@ -125,7 +147,8 @@
                             <div class="feature-card">
                                 <div class="icon-box green"><i class="fas fa-arrows-alt-v"></i></div>
                                 <h4>Proximity / Gap</h4>
-                                <p>Controlled gap (10-50 µm) between mask and wafer. Used for thick resists or 3D topography.</p>
+                                <p>Controlled gap (10-50 µm) between mask and wafer. Used for thick resists or 3D
+                                    topography.</p>
                             </div>
                         </div>
                     </section>
@@ -210,44 +233,49 @@
                     <section class="info-block">
                         <h3 class="subsection-title">Common Applications</h3>
                         <div class="grid grid-2 gap-md">
-                            
+
                             <div class="app-item">
                                 <i class="fas fa-check-circle app-icon"></i>
                                 <div>
                                     <strong class="app-title">MEMS Devices</strong>
-                                    <span class="app-desc">Fabrication of micro-sensors and actuators on silicon or glass.</span>
+                                    <span class="app-desc">Fabrication of micro-sensors and actuators on silicon or
+                                        glass.</span>
                                 </div>
                             </div>
-                    
+
                             <div class="app-item">
                                 <i class="fas fa-check-circle app-icon"></i>
                                 <div>
                                     <strong class="app-title">Multilayer Circuitry</strong>
-                                    <span class="app-desc">Precise alignment of subsequent layers for complex device structures.</span>
+                                    <span class="app-desc">Precise alignment of subsequent layers for complex device
+                                        structures.</span>
                                 </div>
                             </div>
-                    
+
                             <div class="app-item">
                                 <i class="fas fa-check-circle app-icon"></i>
                                 <div>
                                     <strong class="app-title">Optoelectronics</strong>
-                                    <span class="app-desc">Patterning waveguides and contacts on III-V semiconductors.</span>
+                                    <span class="app-desc">Patterning waveguides and contacts on III-V
+                                        semiconductors.</span>
                                 </div>
                             </div>
-                    
+
                             <div class="app-item">
                                 <i class="fas fa-check-circle app-icon"></i>
                                 <div>
                                     <strong class="app-title">Microfluidics</strong>
-                                    <span class="app-desc">Patterning thick photoresists (like SU-8) for channel mold creation.</span>
+                                    <span class="app-desc">Patterning thick photoresists (like SU-8) for channel mold
+                                        creation.</span>
                                 </div>
                             </div>
-                            
+
                             <div class="app-item">
                                 <i class="fas fa-check-circle app-icon"></i>
                                 <div>
                                     <strong class="app-title">UV-NIL (Optional)</strong>
-                                    <span class="app-desc">Support for UV-Nanoimprint Lithography for sub-micron patterning.</span>
+                                    <span class="app-desc">Support for UV-Nanoimprint Lithography for sub-micron
+                                        patterning.</span>
                                 </div>
                             </div>
 
@@ -305,7 +333,8 @@
                                     <span class="placeholder-text">Phone pending...</span>
                                 </div>
                             </div>
-                            <a href="../Contact_Us.html?category=equipment" class="btn btn-primary manager-cta-btn">Contact for Equipment Access</a>
+                            <a href="../Contact_Us.html?category=equipment"
+                                class="btn btn-primary manager-cta-btn">Contact for Equipment Access</a>
                         </div>
                     </div>
 
@@ -326,7 +355,8 @@
                             </div>
                         </div>
                         <div style="margin-top: 20px; text-align: center;">
-                            <a href="../Rates.html" class="link-blue-underline" style="font-weight: 600; font-size: 0.9rem;">
+                            <a href="../Rates.html" class="link-blue-underline"
+                                style="font-weight: 600; font-size: 0.9rem;">
                                 View Full Rate Sheet ->
                             </a>
                         </div>
@@ -335,14 +365,16 @@
                     <div class="sidebar-widget" id="docs">
                         <h3 class="widget-title">Documentation</h3>
                         <div class="doc-links">
-                            <a href="../Manuals_and_Specs/MaskAligner_Manual.pdf" class="doc-link" target="_blank" rel="noopener">
+                            <a href="../Manuals_and_Specs/MaskAligner_Manual.pdf" class="doc-link" target="_blank"
+                                rel="noopener">
                                 <i class="fas fa-book"></i>
                                 <div>
                                     <strong>Mask Aligner Manual</strong>
                                     <small>PDF</small>
                                 </div>
                             </a>
-                            <a href="../Manuals_and_Specs/MaskAligner_Specs.pdf" class="doc-link" target="_blank" rel="noopener">
+                            <a href="../Manuals_and_Specs/MaskAligner_Specs.pdf" class="doc-link" target="_blank"
+                                rel="noopener">
                                 <i class="fas fa-file-pdf"></i>
                                 <div>
                                     <strong>Mask Aligner Specs</strong>
@@ -363,5 +395,5 @@
     <script src="../JS/script.js"></script>
 
 </body>
-</html>
 
+</html>
