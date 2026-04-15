@@ -49,10 +49,10 @@ define('SENDER_NAME', 'MPaCT Nano Lab');
 define('SMTP_HOST', 'mailgate.nau.edu');
 define('SMTP_PORT', 25);
 
-// Per-file and total upload limits. 10 MB per file is generous for STL/Gerber
-// files, but we also cap the combined total at 25 MB inside validateUploads()
+// Per-file and total upload limits. 25 MB per file accommodates larger STL/Gerber
+// files, but we also cap the combined total at 50 MB inside validateUploads()
 // so one submission can't flood the email server with attachments.
-define('MAX_FILE_SIZE_BYTES', 10 * 1024 * 1024); // 10 MB per file
+define('MAX_FILE_SIZE_BYTES', 25 * 1024 * 1024); // 25 MB per file
 define('MAX_FILES_PER_UPLOAD', 10);
 
 // Shown in the email table cell when the submitter didn't include any files.
@@ -322,8 +322,8 @@ function formatValue(string $raw): string
         'other'              => 'Other',
         'unsure'             => 'Not sure — let staff recommend',
         // Filament color values whose display label differs from the simple ucwords fallback
-        'natural'            => 'Natural / Translucent',
-        'navy_blue'          => 'Navy Blue',
+        'light_green'        => 'Light Green',
+        'dark_gray'          => 'Dark Gray',
     ];
     if ($raw === '') return '';
     return $map[$raw] ?? ucwords(str_replace('_', ' ', $raw));
@@ -450,13 +450,13 @@ function validateUploads(array $files, array $allowedExtensions): array
 
         // Per-file size cap
         if ($file['size'] > MAX_FILE_SIZE_BYTES) {
-            respond(false, 'Each uploaded file must be 10 MB or smaller.');
+            respond(false, 'Each uploaded file must be 25 MB or smaller.');
         }
 
         // Running total across all files in this submission
         $totalSize += $file['size'];
-        if ($totalSize > 25 * 1024 * 1024) {
-            respond(false, 'Total upload size must not exceed 25 MB across all files.');
+        if ($totalSize > 50 * 1024 * 1024) {
+            respond(false, 'Total upload size must not exceed 50 MB across all files.');
         }
 
         // is_uploaded_file() verifies the file came through PHP's upload mechanism
