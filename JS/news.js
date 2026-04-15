@@ -109,7 +109,7 @@ const ARTICLES = [
                 }
             ]
         },
-        cta: { text: 'Ready to book time on these systems?', label: 'Book Equipment', href: 'Book_Equipment.html' },
+        cta: { text: 'Ready to book time on these systems?', label: 'Book Equipment', href: 'Reserve_Equipment.html' },
         galleryLayout: 'three-up',
         gallery: [
             { src: 'Images/FLS1000.png', alt: 'FLs1000 fiber laser system', caption: 'FLs1000 fiber laser system now commissioned at MPaCT' },
@@ -194,7 +194,7 @@ const ARTICLES = [
                 { icon: '🧪', name: 'BELSORP MAX X Surface and Pore Analyzer', img: 'Images/SurfaceandPore.jpg', desc: 'Surface area and pore-size characterization' }
             ]
         },
-        cta: { text: 'Ready to get started?', label: 'Book Now', href: 'Book_Equipment.html' },
+        cta: { text: 'Ready to get started?', label: 'Book Now', href: 'Reserve_Equipment.html' },
         gallery: []
     },
 
@@ -282,7 +282,7 @@ const ARTICLES = [
                 { label: 'Control Software', val: 'LPKF CircuitPro PL' }
             ]
         },
-        cta: { text: 'Need rapid PCB prototyping or precision laser structuring?', label: 'Book LPKF Time', href: 'Book_Equipment.html' },
+        cta: { text: 'Need rapid PCB prototyping or precision laser structuring?', label: 'Book LPKF Time', href: 'Reserve_Equipment.html' },
         gallery: []
     }
 ];
@@ -336,7 +336,7 @@ const renderFeatured = (featured) => {
         case 'service-grid':
             return heading + `<div class="accessories-grid">` +
                 featured.items.map(item => {
-                    const link = EQUIPMENT_LINKS[item.name] || 'Book_Equipment.html';
+                    const link = EQUIPMENT_LINKS[item.name] || 'Reserve_Equipment.html';
                     return `
                     <a href="${link}" class="acc-card">
                         <div class="acc-img-box">

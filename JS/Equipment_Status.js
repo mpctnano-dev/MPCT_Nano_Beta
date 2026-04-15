@@ -171,7 +171,7 @@
                 reserveBtn.dataset.availableLabel = reserveBtn.innerHTML.trim();
             }
 
-            const contactHref = `../Book_Equipment.html?equipment=${equipment.id}`;
+            const contactHref = `../Reserve_Equipment.html?equipment=${equipment.id}`;
             if (equipment.status === STATUS.AVAILABLE) {
                 reserveBtn.classList.remove('disabled');
                 reserveBtn.removeAttribute('aria-disabled');

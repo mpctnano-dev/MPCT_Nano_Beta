@@ -2,7 +2,7 @@
 /*
  * EquipmentReservation.php
  * ------------------------
- * Handles all booking requests submitted through Book_Equipment.html.
+ * Handles all booking requests submitted through Reserve_Equipment.html.
  *
  * Here's the flow from start to finish:
  *   1. The page POSTs form data here via fetch() — no page reload happens
