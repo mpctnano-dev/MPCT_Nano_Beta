@@ -16,6 +16,14 @@
     <site-header></site-header>
 
     <main class="product-page">
+        <!-- Warning Ticker: populated at runtime by JS/Equipment_Status.js from equipment.json.
+             Hidden by default; JS un-hides it when a warningMessage exists. -->
+        <div class="warning-ticker" style="display: none;">
+            <div class="warning-ticker__track">
+                <span class="warning-ticker__badge"><i class="fas fa-info-circle"></i> Notice</span>
+                <span class="warning-ticker__text"></span>
+            </div>
+        </div>
         <section class="product-hero">
             <div class="container">
                 <div class="hero-inner">
@@ -37,10 +45,6 @@
                             inventory storage, pneumatic pick-and-place storage, and PLC-based sequencing for parts
                             storage and retrieval.
                         </p>
-                        <p style="margin-top: 15px; font-weight: bold; color: #f0c040;">
-                            This Equipment is for Educational Purposes only and cannot be reserved. if you would like to
-                            know more please contact the Lab Manager
-                        </p>
                         <div class="hero-cta">
 
                             <a href="#specs" class="btn btn-outline">
@@ -57,7 +61,16 @@
             </div>
         </section>
 
-        <div class="specs-bar">
+        <!-- Educational Use Notice -->
+        <div class="info-notice">
+            <div class="info-notice__icon"><i class="fas fa-graduation-cap"></i></div>
+            <div class="info-notice__body">
+                <strong>Educational Use Only</strong>
+                <p>This equipment is reserved for educational purposes and cannot be independently reserved. For access or more information, please contact the Lab Manager.</p>
+            </div>
+        </div>
+
+<div class="specs-bar">
             <div class="container">
                 <div class="specs-grid">
                     <div class="spec-item">

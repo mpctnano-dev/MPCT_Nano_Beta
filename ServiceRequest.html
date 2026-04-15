@@ -574,6 +574,77 @@
                 height: 1px;
             }
         }
+
+        /* ---- Filament Color Swatch Picker ---- */
+        .sr-color-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 8px;
+            margin-top: 10px;
+        }
+
+        /* Each swatch is a clickable label wrapping a hidden radio */
+        .sr-color-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            width: 54px;
+            user-select: none;
+        }
+
+        /* Hide the radio visually but keep it keyboard-reachable */
+        .sr-color-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+            pointer-events: none;
+        }
+
+        .sr-color-dot {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            /* Subtle ring helps light-colored swatches stand out against the white form background */
+            box-shadow: 0 0 0 1.5px rgba(0, 0, 0, 0.13), 0 1px 3px rgba(0, 0, 0, 0.12);
+            transition: transform 0.14s ease, box-shadow 0.14s ease;
+            flex-shrink: 0;
+        }
+
+        .sr-color-option:hover .sr-color-dot {
+            transform: scale(1.13);
+            box-shadow: 0 0 0 2.5px var(--nau-blue), 0 3px 8px rgba(0, 0, 0, 0.18);
+        }
+
+        /* Selected state: NAU blue ring + subtle glow — visible on any dot color */
+        .sr-color-option input[type="radio"]:checked + .sr-color-dot {
+            box-shadow: 0 0 0 3px var(--nau-blue), 0 0 0 5px rgba(0, 36, 84, 0.15), 0 3px 8px rgba(0, 0, 0, 0.18);
+            transform: scale(1.1);
+        }
+
+        .sr-color-name {
+            font-size: 0.65rem;
+            color: var(--gray-600, #555);
+            text-align: center;
+            line-height: 1.2;
+            max-width: 54px;
+        }
+
+        /* "Not sure" tile: color wheel shows "any / undecided" */
+        .dot-unsure {
+            background: conic-gradient(
+                from 0deg,
+                #C62828 0deg 51deg,
+                #E64A19 51deg 102deg,
+                #F9A825 102deg 153deg,
+                #388E3C 153deg 204deg,
+                #1565C0 204deg 255deg,
+                #7B1FA2 255deg 306deg,
+                #C2185B 306deg 360deg
+            );
+        }
     </style>
 </head>
 
@@ -720,9 +791,9 @@
                         <div class="sr-form-body">
                             <form id="printingForm" class="sr-form" novalidate>
 
-                                <!-- Section 1: Client & Affiliation -->
+                                <!-- Section 1: Your Information -->
                                 <div class="sr-section">
-                                    <h3 class="sr-section-title">1. Client & Affiliation</h3>
+                                    <h3 class="sr-section-title">1. Your Information</h3>
 
                                     <div class="sr-row">
                                         <div class="sr-group">
@@ -755,7 +826,7 @@
 
                                     <div class="sr-row">
                                         <div class="sr-group">
-                                            <label class="sr-label" for="p-affiliation">Client Affiliation <span
+                                            <label class="sr-label" for="p-affiliation">Affiliation <span
                                                     class="text-gold">*</span></label>
                                             <select id="p-affiliation" name="affiliation" class="sr-select" required>
                                                 <option value="" disabled selected>Select type…</option>
@@ -818,18 +889,33 @@
 
                                     <div class="sr-file-upload" onclick="document.getElementById('p-file').click()">
                                         <i class="fas fa-cloud-upload-alt"></i>
-                                        <p><strong>Click to browse</strong> or drag and drop your STL / 3MF files</p>
-                                        <input type="file" id="p-file" name="files" accept=".stl,.3mf" multiple
+                                        <p><strong>Click to browse</strong> or drag and drop your 3D model files (STL, 3MF, OBJ, STEP, PDF, etc.)</p>
+                                        <input type="file" id="p-file" name="files" accept=".stl,.3mf,.obj,.ply,.step,.stp,.iges,.igs,.pdf,.jpg,.jpeg,.png,.zip" multiple
                                             style="display:none;">
                                     </div>
 
-                                    <div class="sr-row">
+                                    <div class="sr-row" style="grid-template-columns: 1fr 1fr 1fr;">
                                         <div class="sr-group">
-                                            <label class="sr-label" for="p-size">Approximate Size (mm) <span
+                                            <label class="sr-label" for="p-size-l">Length (mm) <span
                                                     class="text-gold">*</span></label>
-                                            <input type="text" id="p-size" name="print_size" class="sr-input" required
-                                                placeholder="e.g. 120 x 80 x 50">
+                                            <input type="number" id="p-size-l" name="print_size_length" class="sr-input" required
+                                                min="0" step="any" placeholder="e.g. 120">
                                         </div>
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="p-size-w">Width (mm) <span
+                                                    class="text-gold">*</span></label>
+                                            <input type="number" id="p-size-w" name="print_size_width" class="sr-input" required
+                                                min="0" step="any" placeholder="e.g. 80">
+                                        </div>
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="p-size-h">Height (mm) <span
+                                                    class="text-gold">*</span></label>
+                                            <input type="number" id="p-size-h" name="print_size_height" class="sr-input" required
+                                                min="0" step="any" placeholder="e.g. 50">
+                                        </div>
+                                    </div>
+
+                                    <div class="sr-row">
                                         <div class="sr-group">
                                             <label class="sr-label" for="p-qty">Quantity <span
                                                     class="text-gold">*</span></label>
@@ -851,12 +937,65 @@
                                             </select>
                                         </div>
                                         <div class="sr-group">
-                                            <label class="sr-label" for="p-color">Preferred Color <span
-                                                    class="text-gold">*</span></label>
-                                            <input type="text" id="p-color" name="color" class="sr-input" required
-                                                placeholder="e.g. Black">
+                                            <label class="sr-label" for="p-filament-est">Estimated Filament Use</label>
+                                            <input type="number" id="p-filament-est" name="filament_estimate"
+                                                class="sr-input" min="0" step="any" placeholder="e.g. 50">
+                                            <span class="sr-note">Grams (g). Optional — leave blank if unknown.</span>
                                         </div>
                                     </div>
+
+                                    <div class="sr-group full" style="margin-top: 16px;">
+                                        <label class="sr-label">Preferred Filament Color <span class="text-gold">*</span></label>
+                                        <span class="sr-note">Select the color closest to your preference. Final availability may vary by material.</span>
+                                        <div class="sr-color-grid" role="group" aria-label="Filament color selection">
+
+                                            <label class="sr-color-option">
+                                                <input type="radio" name="color" value="black" required>
+                                                <span class="sr-color-dot" style="background:#1A1A1A;"></span>
+                                                <span class="sr-color-name">Black</span>
+                                            </label>
+
+                                            <label class="sr-color-option">
+                                                <input type="radio" name="color" value="white">
+                                                <span class="sr-color-dot" style="background:#F5F5F5;"></span>
+                                                <span class="sr-color-name">White</span>
+                                            </label>
+
+                                            <label class="sr-color-option">
+                                                <input type="radio" name="color" value="yellow">
+                                                <span class="sr-color-dot" style="background:#F9A825;"></span>
+                                                <span class="sr-color-name">Yellow</span>
+                                            </label>
+
+                                            <label class="sr-color-option">
+                                                <input type="radio" name="color" value="light_green">
+                                                <span class="sr-color-dot" style="background:#8BC34A;"></span>
+                                                <span class="sr-color-name">Light Green</span>
+                                            </label>
+
+                                            <label class="sr-color-option">
+                                                <input type="radio" name="color" value="dark_gray">
+                                                <span class="sr-color-dot" style="background:#616161;"></span>
+                                                <span class="sr-color-name">Dark Gray</span>
+                                            </label>
+
+                                            <label class="sr-color-option">
+                                                <input type="radio" name="color" value="blue">
+                                                <span class="sr-color-dot" style="background:#1565C0;"></span>
+                                                <span class="sr-color-name">Blue</span>
+                                            </label>
+
+                                            <label class="sr-color-option">
+                                                <input type="radio" name="color" value="unsure">
+                                                <span class="sr-color-dot dot-unsure"></span>
+                                                <span class="sr-color-name">Not Sure</span>
+                                            </label>
+
+                                        </div>
+                                    </div>
+                                    <p class="sr-note" style="margin-top: 10px; grid-column: 1 / -1;">
+                                        <strong>Note:</strong> On-screen colors may differ from the actual filament — please confirm with the manager before finalizing your print.
+                                    </p>
                                 </div>
 
                                 <!-- Section 4: Delivery & Notes -->
@@ -950,6 +1089,7 @@
                                     </div>
                                 </div>
 
+                                <div class="bk-feedback sr-form-feedback" role="alert"></div>
                                 <div class="sr-submit-area">
                                     <button type="reset" class="btn btn-outline"
                                         style="color: var(--gray-600); border-color: var(--gray-400);">Clear
@@ -972,9 +1112,9 @@
                         <div class="sr-form-body">
                             <form id="laserForm" class="sr-form" novalidate>
 
-                                <!-- Section 1: Client Info -->
+                                <!-- Section 1: Your Information -->
                                 <div class="sr-section">
-                                    <h3 class="sr-section-title">1. Client & Affiliation</h3>
+                                    <h3 class="sr-section-title">1. Your Information</h3>
 
                                     <div class="sr-row">
                                         <div class="sr-group">
@@ -1003,7 +1143,7 @@
 
                                     <div class="sr-row">
                                         <div class="sr-group">
-                                            <label class="sr-label" for="l-affil">Client Affiliation <span
+                                            <label class="sr-label" for="l-affil">Affiliation <span
                                                     class="text-gold">*</span></label>
                                             <select id="l-affil" name="affiliation" class="sr-select" required>
                                                 <option value="" disabled selected>Select type…</option>
@@ -1096,13 +1236,28 @@
                                         </div>
                                     </div>
 
-                                    <div class="sr-row">
+                                    <div class="sr-row" style="grid-template-columns: 1fr 1fr 1fr;">
                                         <div class="sr-group">
-                                            <label class="sr-label" for="l-dims">Substrate Dimensions (mm) <span
+                                            <label class="sr-label" for="l-dims-l">Length (mm) <span
                                                     class="text-gold">*</span></label>
-                                            <input type="text" id="l-dims" name="substrate_dimensions" class="sr-input"
-                                                required placeholder="e.g. 100 x 50 x 1.6">
+                                            <input type="number" id="l-dims-l" name="substrate_dim_length" class="sr-input"
+                                                required min="0" step="any" placeholder="e.g. 100">
                                         </div>
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="l-dims-w">Width (mm) <span
+                                                    class="text-gold">*</span></label>
+                                            <input type="number" id="l-dims-w" name="substrate_dim_width" class="sr-input"
+                                                required min="0" step="any" placeholder="e.g. 50">
+                                        </div>
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="l-dims-t">Thickness (mm) <span
+                                                    class="text-gold">*</span></label>
+                                            <input type="number" id="l-dims-t" name="substrate_dim_thickness" class="sr-input"
+                                                required min="0" step="any" placeholder="e.g. 1.6">
+                                        </div>
+                                    </div>
+
+                                    <div class="sr-row">
                                         <div class="sr-group">
                                             <label class="sr-label" for="l-minfeature">Minimum Feature Size
                                                 (µm)</label>
@@ -1115,7 +1270,7 @@
                                         <i class="fas fa-cloud-upload-alt"></i>
                                         <p><strong>Click to browse</strong> or drag and drop design files (Gerber, DXF,
                                             etc.)</p>
-                                        <input type="file" id="l-file" name="design_files" multiple
+                                        <input type="file" id="l-file" name="design_files" accept=".gbr,.gerber,.dxf,.dwg,.svg,.pdf,.jpg,.jpeg,.png,.zip,.step,.stp" multiple
                                             style="display:none;">
                                     </div>
                                 </div>
@@ -1220,6 +1375,7 @@
                                     </div>
                                 </div>
 
+                                <div class="bk-feedback sr-form-feedback" role="alert"></div>
                                 <div class="sr-submit-area">
                                     <button type="reset" class="btn btn-outline"
                                         style="color: var(--gray-600); border-color: var(--gray-400);">Clear
@@ -1242,9 +1398,9 @@
                         <div class="sr-form-body">
                             <form id="scanningForm" class="sr-form" novalidate>
 
-                                <!-- Section 1: Client Info -->
+                                <!-- Section 1: Your Information -->
                                 <div class="sr-section">
-                                    <h3 class="sr-section-title">1. Client & Affiliation</h3>
+                                    <h3 class="sr-section-title">1. Your Information</h3>
 
                                     <div class="sr-row">
                                         <div class="sr-group">
@@ -1274,7 +1430,7 @@
 
                                     <div class="sr-row">
                                         <div class="sr-group">
-                                            <label class="sr-label" for="sc-affil">Client Affiliation <span
+                                            <label class="sr-label" for="sc-affil">Affiliation <span
                                                     class="text-gold">*</span></label>
                                             <select id="sc-affil" name="affiliation" class="sr-select" required>
                                                 <option value="" disabled selected>Select type…</option>
@@ -1379,9 +1535,22 @@
                                             </select>
                                         </div>
                                         <div class="sr-group">
-                                            <label class="sr-label" for="sc-objdims">Approximate Dimensions (mm)</label>
-                                            <input type="text" id="sc-objdims" name="object_dimensions" class="sr-input"
-                                                placeholder="e.g. 200 x 150 x 80">
+                                            <label class="sr-label" for="sc-objdims-l">Length (mm)</label>
+                                            <input type="number" id="sc-objdims-l" name="object_dim_length" class="sr-input"
+                                                min="0" step="any" placeholder="e.g. 200">
+                                        </div>
+                                    </div>
+
+                                    <div class="sr-row">
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="sc-objdims-w">Width (mm)</label>
+                                            <input type="number" id="sc-objdims-w" name="object_dim_width" class="sr-input"
+                                                min="0" step="any" placeholder="e.g. 150">
+                                        </div>
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="sc-objdims-h">Height (mm)</label>
+                                            <input type="number" id="sc-objdims-h" name="object_dim_height" class="sr-input"
+                                                min="0" step="any" placeholder="e.g. 80">
                                         </div>
                                     </div>
 
@@ -1416,7 +1585,7 @@
                                         <i class="fas fa-cloud-upload-alt"></i>
                                         <p><strong>Click to browse</strong> or drag and drop files for the item being
                                             scanned (photos, CAD, drawings)</p>
-                                        <input type="file" id="sc-file" name="reference_files" multiple
+                                        <input type="file" id="sc-file" name="reference_files" accept=".jpg,.jpeg,.png,.tif,.tiff,.pdf,.zip" multiple
                                             style="display:none;">
                                     </div>
                                 </div>
@@ -1477,6 +1646,7 @@
                                     </div>
                                 </div>
 
+                                <div class="bk-feedback sr-form-feedback" role="alert"></div>
                                 <div class="sr-submit-area">
                                     <button type="reset" class="btn btn-outline"
                                         style="color: var(--gray-600); border-color: var(--gray-400);">Clear
@@ -1530,13 +1700,45 @@
                 activatePanel(hashTarget);
             }
 
-            // File upload label updates
+            // Allowed file extensions per service (must match PHP allowedExtensions)
+            const allowedExtensions = {
+                'p-file': ['stl', '3mf', 'obj', 'ply', 'step', 'stp', 'iges', 'igs', 'pdf', 'jpg', 'jpeg', 'png', 'zip'],
+                'l-file': ['gbr', 'gerber', 'dxf', 'dwg', 'svg', 'pdf', 'jpg', 'jpeg', 'png', 'zip', 'step', 'stp'],
+                'sc-file': ['jpg', 'jpeg', 'png', 'tif', 'tiff', 'pdf', 'zip']
+            };
+
+            function validateFileExtensions(input) {
+                const allowed = allowedExtensions[input.id];
+                if (!allowed) return true;
+                const feedbackEl = input.closest('.sr-form') && input.closest('.sr-form').querySelector('.sr-form-feedback');
+                for (const file of input.files) {
+                    const ext = file.name.split('.').pop().toLowerCase();
+                    if (!allowed.includes(ext)) {
+                        if (feedbackEl) {
+                            feedbackEl.className = 'bk-feedback bk-feedback--error';
+                            feedbackEl.style.display = 'block';
+                            feedbackEl.textContent = `File type not accepted: "${file.name}". Allowed: ${allowed.join(', ')}.`;
+                            feedbackEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                        input.value = '';
+                        return false;
+                    }
+                }
+                if (feedbackEl && feedbackEl.classList.contains('bk-feedback--error')) {
+                    feedbackEl.style.display = 'none';
+                    feedbackEl.className = 'bk-feedback';
+                    feedbackEl.textContent = '';
+                }
+                return true;
+            }
+
+            // File upload label updates + validation
             document.querySelectorAll('.sr-file-upload').forEach(box => {
                 const input = box.querySelector('input[type="file"]');
                 const label = box.querySelector('p');
                 if (input && label) {
                     input.addEventListener('change', () => {
-                        if (input.files.length > 0) {
+                        if (input.files.length > 0 && validateFileExtensions(input)) {
                             const names = Array.from(input.files).map(f => f.name).join(', ');
                             label.innerHTML = `<strong>Selected:</strong> ${names}`;
                             box.style.borderColor = 'var(--nau-green, #388e3c)';
@@ -1629,36 +1831,7 @@
                 });
             }
 
-            function setupDimensionsAutoFormat(fieldIds) {
-                fieldIds.forEach(id => {
-                    const input = document.getElementById(id);
-                    if (!input) return;
-
-                    input.addEventListener('input', () => {
-                        const cleaned = input.value.replace(/[×X]/g, 'x').replace(/^\s+/, '');
-                        const onlyFirstDimension = /^\d+(?:\.\d+)?$/.test(cleaned.trim());
-
-                        if (onlyFirstDimension) {
-                            input.value = `${cleaned.trim()} x `;
-                            return;
-                        }
-
-                        input.value = cleaned.replace(/\s*x\s*/g, ' x ');
-                    });
-
-                    input.addEventListener('blur', () => {
-                        const normalized = input.value
-                            .replace(/[×X]/g, 'x')
-                            .replace(/\s*x\s*/g, ' x ')
-                            .replace(/\s{2,}/g, ' ')
-                            .trim();
-                        input.value = normalized;
-                    });
-                });
-            }
-
             setupPhoneAutoFormat(['p-phone', 'l-phone', 'sc-phone']);
-            setupDimensionsAutoFormat(['p-size', 'l-dims', 'sc-objdims']);
 
             function resetFileUploadUI(form) {
                 form.querySelectorAll('.sr-file-upload').forEach(box => {
@@ -1693,6 +1866,13 @@
                     const formData = new FormData(form);
                     formData.append('service_type', serviceType);
 
+                    const feedbackEl = form.querySelector('.sr-form-feedback');
+                    if (feedbackEl) {
+                        feedbackEl.style.display = 'none';
+                        feedbackEl.className = 'bk-feedback';
+                        feedbackEl.textContent = '';
+                    }
+
                     btn.disabled = true;
                     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
 
@@ -1708,12 +1888,22 @@
                             throw new Error(result.message || 'Unable to submit your request at this time.');
                         }
 
-                        alert(result.message || 'Service Request Submitted Successfully!');
+                        if (feedbackEl) {
+                            feedbackEl.className = 'bk-feedback bk-feedback--success';
+                            feedbackEl.style.display = 'block';
+                            feedbackEl.textContent = result.message || 'Service request submitted successfully! You will receive a confirmation email shortly.';
+                            feedbackEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
                         form.reset();
                         resetFileUploadUI(form);
                     } catch (err) {
                         console.error('Service request submission error:', err);
-                        alert(err.message || 'Unable to connect to the server. Please try again later.');
+                        if (feedbackEl) {
+                            feedbackEl.className = 'bk-feedback bk-feedback--error';
+                            feedbackEl.style.display = 'block';
+                            feedbackEl.textContent = err.message || 'Unable to connect to the server. Please try again later.';
+                            feedbackEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
                     } finally {
                         btn.disabled = false;
                         btn.innerHTML = originalLabel;
