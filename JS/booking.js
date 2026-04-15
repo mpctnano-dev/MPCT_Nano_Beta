@@ -9,7 +9,7 @@
     // Static data used to build the form and pricing states.
 
     // These IDs use the course-request flow instead of the standard booking flow.
-    const EDUCATIONAL_IDS = ['EQ-001', 'EQ-002', 'EQ-003', 'EQ-004', 'EQ-025', 'EQ-040'];
+    const EDUCATIONAL_IDS = ['EQ-001', 'EQ-002', 'EQ-003', 'EQ-004', 'EQ-012', 'EQ-013', 'EQ-025', 'EQ-040'];
 
     // Show accessory availability on the info card for equipment that supports add-ons.
     const ACCESSORIES = {

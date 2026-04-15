@@ -13,8 +13,6 @@
         { "id": "EQ-039", "name": "Vector Network Analyzer (VNA)",         "category": "Electrical",       "unit": "hour", "internal": null,  "external": null  },
 
         { "id": "EQ-006", "name": "Bambu Lab H2D 3D Printer",              "category": "Fabrication",      "unit": "hour", "internal": null,  "external": null  },
-        { "id": "EQ-012", "name": "Haas Desktop Lathe",                    "category": "Fabrication",      "unit": "hour", "internal": null,  "external": null  },
-        { "id": "EQ-013", "name": "Haas Desktop Mill",                     "category": "Fabrication",      "unit": "hour", "internal": null,  "external": null  },
         { "id": "EQ-020", "name": "LPKF ProtoLaser R4",                    "category": "Fabrication",      "unit": "hour", "internal": null,  "external": null  },
         { "id": "EQ-023", "name": "NIL Technology CNI v3.0",               "category": "Fabrication",      "unit": "hour", "internal": null,  "external": null  },
         { "id": "EQ-031", "name": "SUSS Mask Aligner",                     "category": "Fabrication",      "unit": "hour", "internal": null,  "external": null  },

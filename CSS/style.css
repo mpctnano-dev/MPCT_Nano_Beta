@@ -5596,6 +5596,7 @@ ul {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
+    overflow: visible;
 }
 
 .feature-card {
@@ -5605,6 +5606,7 @@ ul {
     border: 1px solid var(--gray-200);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
     transition: transform 0.2s ease;
+    overflow: visible;
 }
 
 .feature-card:hover {
@@ -5654,6 +5656,7 @@ ul {
     margin: 0;
     color: var(--gray-600);
 }
+
 
 /* 5. TABLES */
 /* Tech Specs Table */

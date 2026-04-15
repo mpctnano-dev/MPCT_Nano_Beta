@@ -9,6 +9,20 @@
     <link rel="canonical" href="https://nano.nau.edu/Equipment.html">
     <link rel="icon" type="image/png" href="Images/NAU_favicon.png">
 
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="NAU Nano">
+    <meta property="og:title" content="MPaCT Lab Equipment Catalog | NAU Nano">
+    <meta property="og:description" content="Browse 35+ instruments at NAU's MPaCT Lab — SEM, TEM, XRD, AFM, wire bonder, lithography, metrology, and more. Available to researchers, industry, and government users.">
+    <meta property="og:url" content="https://nano.nau.edu/Equipment.html">
+    <meta property="og:image" content="https://nano.nau.edu/Images/67.jpg">
+    <meta property="og:image:alt" content="NAU sign on the Flagstaff campus in winter">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MPaCT Lab Equipment Catalog | NAU Nano">
+    <meta name="twitter:description" content="Browse 35+ instruments at NAU's MPaCT Lab — SEM, TEM, XRD, AFM, wire bonder, lithography, metrology, and more.">
+    <meta name="twitter:image" content="https://nano.nau.edu/Images/67.jpg">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -602,10 +616,10 @@
                         </div>
                     </div>
 
-                    <div class="tech-card" data-category="Fabrication" data-location="Flagstaff,NVC">
+                    <div class="tech-card" data-category="Educational" data-location="Flagstaff,NVC">
                         <div class="tech-card-header">
                             <div class="d-flex justify-between align-center mb-2">
-                                <span class="badge badge-gold">Fabrication</span>
+                                <span class="badge badge-blue">Educational</span>
                                 <span class="status-dot busy"></span>
                             </div>
                             <h3 class="tech-title">Haas Desktop Lathe</h3>
@@ -702,10 +716,10 @@
                         </div>
                     </div>
 
-                    <div class="tech-card" data-category="Fabrication" data-location="Flagstaff,NVC">
+                    <div class="tech-card" data-category="Educational" data-location="Flagstaff,NVC">
                         <div class="tech-card-header">
                             <div class="d-flex justify-between align-center mb-2">
-                                <span class="badge badge-gold">Fabrication</span>
+                                <span class="badge badge-blue">Educational</span>
                                 <span class="status-dot busy"></span>
                             </div>
                             <h3 class="tech-title">Haas Desktop Mill</h3>
@@ -1191,7 +1205,7 @@
             const container = document.getElementById('equipmentContainer');
             if (!container) return;
 
-            const order = ['Fabrication', 'Metrology', 'Mechatronics', 'Electrical', 'Sample Prep', 'Support Systems'];
+            const order = ['Fabrication', 'Metrology', 'Mechatronics', 'Electrical', 'Sample Prep', 'Support Systems', 'Educational'];
             const cards = Array.from(container.querySelectorAll('.tech-card'));
 
             cards.sort((a, b) => {
