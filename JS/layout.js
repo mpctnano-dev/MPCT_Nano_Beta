@@ -1,651 +1,226 @@
 /**
- * Layout Components
- * --------------------------------------
- * Defines custom web components <site-header> and <site-footer>
- * to ensure consistency across all pages without server-side includes.
- *  - Home nav item displays as house icon (no text)
- *  - Nav order: Home (icon) | MPaCT Lab | Degree Programs ▾ | Workforce ▾ | About Us | Contact Us
- *  - Degree Programs dropdown: Home, Career Pathways, Labs, + individual programs
- *  - Workforce dropdown (renamed from Workforce Development)
- *  - Active nav link highlighting
- *  - MPaCT Lab mega-menu (icon grid)
-
+ * layout.js
+ *
+ * Loads the shared header and footer into every page.
+ * HTML lives in /includes/header.html and /includes/footer.html.
+ *
+ * NOTE: fetch() requires a web server — does not work on file:// protocol.
  */
 
-class SiteHeader extends HTMLElement {
-    constructor() {
-        super();
-    }
 
-    connectedCallback() {
-        // ── Path helpers ─────────────────────────────────────────────────
-        const isInSubfolder = window.location.pathname.includes('/About_Equipment/');
-        const basePath = isInSubfolder ? '../' : './';
-        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-
-        // ── HTML ─────────────────────────────────────────────────────────
-        this.innerHTML = `
-        <header class="site-header" id="mainHeader">
-            <div class="main-nav-container container">
-
-                <a href="${basePath}index.html" class="brand-logo">
-                    <img src="${basePath}Images/NAU.png" alt="Northern Arizona University" class="header-logo">
-                    <div class="brand-divider"></div>
-                    <div class="brand-text">
-                        <span class="dept1">Microelectronics</span>
-                        <span class="dept-sub">at Northern Arizona University</span>
-                    </div>
-                </a>
-
-                <button class="mobile-toggle" aria-label="Open Menu">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M3 12h18M3 6h18M3 18h18" />
-                    </svg>
-                </button>
-
-                <nav class="nav-menu">
-
-                    <!-- Home — icon only (no text label) -->
-                    <div class="nav-item">
-                        <a href="${basePath}index.html"
-                           class="nav-link nav-link--icon"
-                           data-path="index.html"
-                           aria-label="Home">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-                            </svg>
-                        </a>
-                    </div>
-
-                    <!-- ═══════ MPaCT Lab Mega-Menu (icon grid) ═══════ -->
-                    <div class="nav-item nav-item--has-dropdown" id="mpactDropdownItem">
-                        <button class="nav-dropdown-btn" aria-expanded="false" aria-haspopup="true">
-                            MPaCT Lab
-                            <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                            </svg>
-                        </button>
-
-                        <div class="nav-mega-panel" role="menu" aria-label="MPaCT Lab navigation">
-                            <div class="nav-mega-inner">
-                                <div class="nav-dropdown-grid">
-
-                                    <a href="${basePath}MPaCT.html" class="nav-dropdown-link"
-                                        data-path="MPaCT.html" role="menuitem">
-                                        <div class="nav-dropdown-icon">
-                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                                            </svg>
-                                        </div>
-                                        <div class="nav-dropdown-text">
-                                            <strong>Lab Overview</strong>
-                                            <small>About the MPaCT Facility</small>
-                                        </div>
-                                    </a>
-
-                                    <a href="${basePath}Equipment.html" class="nav-dropdown-link"
-                                        data-path="Equipment.html" role="menuitem">
-                                        <div class="nav-dropdown-icon">
-                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
-                                            </svg>
-                                        </div>
-                                        <div class="nav-dropdown-text">
-                                            <strong>Equipment Catalog</strong>
-                                            <small>Browse 25+ instruments</small>
-                                        </div>
-                                    </a>
-
-                                    <a href="${basePath}Reserve_Equipment.html" class="nav-dropdown-link"
-                                        data-path="Reserve_Equipment.html" role="menuitem">
-                                        <div class="nav-dropdown-icon">
-                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-                                                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
-                                                <line x1="9" y1="12" x2="15" y2="12"></line>
-                                                <line x1="9" y1="16" x2="13" y2="16"></line>
-                                            </svg>
-                                        </div>
-                                        <div class="nav-dropdown-text">
-                                            <strong>Reserve Equipment</strong>
-                                            <small>Submit a usage request</small>
-                                        </div>
-                                    </a>
-
-                                    <div class="nav-dropdown-link nav-dropdown-link--disabled"
-                                        role="menuitem" aria-disabled="true">
-                                        <div class="nav-dropdown-icon">
-                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                                                <polyline points="9 12 11 14 15 10"></polyline>
-                                            </svg>
-                                        </div>
-                                        <div class="nav-dropdown-text">
-                                            <strong>Safety &amp; Training <span class="nav-soon-badge">Soon</span></strong>
-                                            <small>Certifications &amp; SOPs</small>
-                                        </div>
-                                    </div>
-
-                                    <a href="${basePath}services.html" class="nav-dropdown-link"
-                                        data-path="services.html" role="menuitem">
-                                        <div class="nav-dropdown-icon">
-                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-                                                <polyline points="2 17 12 22 22 17"></polyline>
-                                                <polyline points="2 12 12 17 22 12"></polyline>
-                                            </svg>
-                                        </div>
-                                        <div class="nav-dropdown-text">
-                                            <strong>Services</strong>
-                                            <small>3D Printing &amp; Support</small>
-                                        </div>
-                                    </a>
-
-                                    <div class="nav-dropdown-link nav-dropdown-link--disabled"
-                                        role="menuitem" aria-disabled="true">
-                                        <div class="nav-dropdown-icon">
-                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                                <rect x="3" y="3" width="7" height="7"></rect>
-                                                <rect x="14" y="3" width="7" height="7"></rect>
-                                                <rect x="14" y="14" width="7" height="7"></rect>
-                                                <rect x="3" y="14" width="7" height="7"></rect>
-                                            </svg>
-                                        </div>
-                                        <div class="nav-dropdown-text">
-                                            <strong>Controlled Environment <span class="nav-soon-badge">Soon</span></strong>
-                                            <small>Facility Access</small>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End MPaCT Lab Mega-Menu -->
-
-                    <!-- ═══════ Degree Programs Mega-Menu (icon grid) ═══════ -->
-                    <div class="nav-item nav-item--has-dropdown" id="degreeDropdownItem">
-                        <button class="nav-dropdown-btn" aria-expanded="false" aria-haspopup="true">
-                            Degree Programs
-                            <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                            </svg>
-                        </button>
-
-                        <div class="nav-mega-panel nav-mega-panel--narrow" role="menu" aria-label="Degree Programs navigation">
-                            <div class="nav-mega-inner">
-                                <div class="nav-dropdown-grid nav-dropdown-grid--single">
-
-                                    <a href="${basePath}degree-programs.html" class="nav-dropdown-link"
-                                        data-path="degree-programs.html" role="menuitem">
-                                        <div class="nav-dropdown-icon">
-                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                                            </svg>
-                                        </div>
-                                        <div class="nav-dropdown-text">
-                                            <strong>Home</strong>
-                                            <small>Degree Programs Overview</small>
-                                        </div>
-                                    </a>
-
-                                    <a href="${basePath}CareerPathways.html#degree-programs" class="nav-dropdown-link"
-                                        data-path="CareerPathways.html" role="menuitem">
-                                        <div class="nav-dropdown-icon">
-                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-                                            </svg>
-                                        </div>
-                                        <div class="nav-dropdown-text">
-                                            <strong>Career Pathways</strong>
-                                            <small>Explore career directions</small>
-                                        </div>
-                                    </a>
-
-                                    <a href="${basePath}degree-programs.html#labs" class="nav-dropdown-link"
-                                        data-path="degree-programs.html" role="menuitem">
-                                        <div class="nav-dropdown-icon">
-                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                                <path d="M9 3v7.09A6 6 0 0 0 6 16a6 6 0 0 0 12 0 6 6 0 0 0-3-5.18V3"></path>
-                                                <line x1="9" y1="3" x2="15" y2="3"></line>
-                                                <line x1="10" y1="7" x2="14" y2="7"></line>
-                                            </svg>
-                                        </div>
-                                        <div class="nav-dropdown-text">
-                                            <strong>Labs</strong>
-                                            <small>Research &amp; teaching labs</small>
-                                        </div>
-                                    </a>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Degree Programs Mega-Menu -->
-
-                    <!-- ═══════ WFD Split-Panel Mega-Menu ═══════ -->
-                    <div class="nav-item nav-item--has-dropdown" id="wfdDropdownItem">
-                        <button class="nav-dropdown-btn" aria-expanded="false" aria-haspopup="true">
-                            Workforce
-                            <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                            </svg>
-                        </button>
-
-                        <div class="nav-mega-panel nav-mega-panel--narrow" role="menu" aria-label="Workforce Development navigation">
-                            <div class="nav-mega-inner">
-                                <div class="nav-dropdown-grid nav-dropdown-grid--single">
-
-                                    <a href="${basePath}WorkForceDevelopment.html" class="nav-dropdown-link"
-                                        data-path="WorkForceDevelopment.html" role="menuitem">
-                                        <div class="nav-dropdown-icon">
-                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                                            </svg>
-                                        </div>
-                                        <div class="nav-dropdown-text">
-                                            <strong>Home</strong>
-                                            <small>Workforce Overview</small>
-                                        </div>
-                                    </a>
-
-                                    <a href="${basePath}PTAP.html" class="nav-dropdown-link"
-                                        data-path="PTAP.html" role="menuitem">
-                                        <div class="nav-dropdown-icon">
-                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                                                <polyline points="9 12 11 14 15 10"></polyline>
-                                            </svg>
-                                        </div>
-                                        <div class="nav-dropdown-text">
-                                                <strong>PTAP Apprenticeship</strong>
-                                            <small>2-year program with TSMC</small>
-                                        </div>
-                                    </a>
-
-
-
-                                    <a href="${basePath}CareerPathways.html#professional-development" class="nav-dropdown-link"
-                                        data-path="CareerPathways.html" role="menuitem">
-                                        <div class="nav-dropdown-icon">
-                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-                                                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
-                                                <line x1="9" y1="12" x2="15" y2="12"></line>
-                                                <line x1="9" y1="16" x2="13" y2="16"></line>
-                                            </svg>
-                                        </div>
-                                        <div class="nav-dropdown-text">
-                                                <strong>Career Pathways</strong>
-                                                <small>Skills training &amp; growth</small>
-                                        </div>
-                                    </a>
-
-                                    <a href="${basePath}WorkForceDevelopment.html#training" class="nav-dropdown-link"
-                                        data-path="WorkForceDevelopment.html" role="menuitem">
-                                        <div class="nav-dropdown-icon">
-                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                                            </svg>
-                                        </div>
-                                        <div class="nav-dropdown-text">
-                                            <strong>Training Programs</strong>
-                                            <small>Certifications &amp; workshops</small>
-                                        </div>
-                                    </a>
-
-                                    <a href="${basePath}Contact_Us.html?category=research" class="nav-dropdown-link"
-                                        data-path="Contact_Us.html" role="menuitem">
-                                        <div class="nav-dropdown-icon">
-                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round">
-                                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                                <circle cx="9" cy="7" r="4"></circle>
-                                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                                            </svg>
-                                        </div>
-                                        <div class="nav-dropdown-text">
-                                            <strong>Become a Partner</strong>
-                                            <small>Access top talent early</small>
-                                        </div>
-                                    </a>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End WFD Mega-Menu -->
-
-                    <!-- News -->
-                    <div class="nav-item">
-                        <a href="${basePath}News.html" class="nav-link"
-                            data-path="News.html">News</a>
-                    </div>
-
-                    <!-- About Us -->
-                    <div class="nav-item">
-                        <a href="${basePath}About_Us.html" class="nav-link"
-                            data-path="About_Us.html">About</a>
-                    </div>
-
-                    <!-- Static CTA button -->
-                    <div class="nav-item">
-                        <a href="${basePath}Contact_Us.html" class="btn btn-sm btn-gold">Contact</a>
-                    </div>
-
-                </nav>
-            </div>
-        </header>
-        `;
-
-        this.highlightActiveLink();
-        this.initMobileMenu();
-        this.initAllDropdowns();
-    }
-
-    highlightActiveLink() {
-        const currentPath = window.location.pathname.split('/').pop() || 'index.html';
-
-        // Top-level nav links
-        this.querySelectorAll('.nav-link[data-path]').forEach(link => {
-            if (link.dataset.path === currentPath) link.classList.add('active');
+// Fetches an HTML file and injects it into the element with the given id.
+// The optional callback runs after the HTML is injected, so any functions
+// that need the injected DOM (like menus and dropdowns) run at the right time.
+function loadPart(id, file, callback) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    fetch(file)
+        .then(r => r.text())
+        .then(html => {
+            el.innerHTML = html;
+            if (callback) callback(el);
         });
+}
 
-        // Dropdown links — also highlight the parent trigger
-        this.querySelectorAll('.nav-dropdown-link[data-path], .nav-res-link[data-path]').forEach(link => {
-            if (link.dataset.path === currentPath) {
-                link.classList.add('active');
-                const trigger = link.closest('.nav-item--has-dropdown')?.querySelector('.nav-dropdown-btn');
-                if (trigger) trigger.classList.add('active');
-            }
-        });
 
-        // Highlight Degree Programs trigger when on degree-programs page
-        if (currentPath === 'degree-programs.html' || currentPath === 'degree-programs-grid.html') {
-            const degreeBtn = this.querySelector('#degreeDropdownItem .nav-dropdown-btn');
-            if (degreeBtn) degreeBtn.classList.add('active');
+// Reads the current page URL and adds an 'active' CSS class to the matching
+// nav link so users can see which page they are on.
+function highlightActiveLink(header) {
+    const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+
+    // Highlight top-level nav links (Home, News, About)
+    header.querySelectorAll('.nav-link[data-path]').forEach(link => {
+        if (link.dataset.path === currentPath) link.classList.add('active');
+    });
+
+    // Highlight dropdown links and also light up their parent dropdown button,
+    // so the dropdown trigger stays visually active when you're on a sub-page.
+    header.querySelectorAll('.nav-dropdown-link[data-path], .nav-res-link[data-path]').forEach(link => {
+        if (link.dataset.path === currentPath) {
+            link.classList.add('active');
+            const trigger = link.closest('.nav-item--has-dropdown')?.querySelector('.nav-dropdown-btn');
+            if (trigger) trigger.classList.add('active');
         }
+    });
 
-        // Highlight WFD trigger when on WFD page
-        if (currentPath === 'WorkForceDevelopment.html') {
-            const wfdBtn = this.querySelector('#wfdDropdownItem .nav-dropdown-btn');
-            if (wfdBtn) wfdBtn.classList.add('active');
-        }
+    // degree-programs-grid.html is a sub-view of degree-programs, so the
+    // Degree Programs button should stay active on both pages.
+    if (currentPath === 'degree-programs.html' || currentPath === 'degree-programs-grid.html') {
+        const degreeBtn = header.querySelector('#degreeDropdownItem .nav-dropdown-btn');
+        if (degreeBtn) degreeBtn.classList.add('active');
     }
 
-    initMobileMenu() {
-        const mobileBtn = this.querySelector('.mobile-toggle');
-        const navMenu = this.querySelector('.nav-menu');
-        if (!mobileBtn || !navMenu) return;
+    // Keep the Workforce button active when on the Workforce Development page.
+    if (currentPath === 'WorkForceDevelopment.html') {
+        const wfdBtn = header.querySelector('#wfdDropdownItem .nav-dropdown-btn');
+        if (wfdBtn) wfdBtn.classList.add('active');
+    }
+}
 
-        if (!navMenu.id) navMenu.id = 'site-nav-menu';
 
-        const closeMenu = () => {
-            navMenu.classList.remove('is-open');
-            mobileBtn.setAttribute('aria-expanded', 'false');
-            mobileBtn.setAttribute('aria-label', 'Open Menu');
-            this.querySelectorAll('.nav-item--has-dropdown.is-mobile-open').forEach(item => {
-                item.classList.remove('is-mobile-open');
-                item.querySelector('.nav-dropdown-btn')?.setAttribute('aria-expanded', 'false');
+// Powers the hamburger menu on mobile screens.
+// Handles open/close toggling, aria labels for accessibility,
+// and automatically closes the menu when a nav link is tapped.
+function initMobileMenu(header) {
+    const mobileBtn = header.querySelector('.mobile-toggle');
+    const navMenu = header.querySelector('.nav-menu');
+    if (!mobileBtn || !navMenu) return;
+
+    // Give the nav menu an id so the button can reference it via aria-controls.
+    if (!navMenu.id) navMenu.id = 'site-nav-menu';
+
+    const closeMenu = () => {
+        navMenu.classList.remove('is-open');
+        mobileBtn.setAttribute('aria-expanded', 'false');
+        mobileBtn.setAttribute('aria-label', 'Open Menu');
+        // Also collapse any dropdowns that were open inside the mobile menu.
+        header.querySelectorAll('.nav-item--has-dropdown.is-mobile-open').forEach(item => {
+            item.classList.remove('is-mobile-open');
+            item.querySelector('.nav-dropdown-btn')?.setAttribute('aria-expanded', 'false');
+        });
+    };
+
+    mobileBtn.setAttribute('aria-controls', navMenu.id);
+    mobileBtn.setAttribute('aria-expanded', 'false');
+
+    // Toggle the menu open or closed when the hamburger button is tapped.
+    mobileBtn.addEventListener('click', () => {
+        const isOpen = navMenu.classList.toggle('is-open');
+        mobileBtn.setAttribute('aria-expanded', String(isOpen));
+        mobileBtn.setAttribute('aria-label', isOpen ? 'Close Menu' : 'Open Menu');
+    });
+
+    // Close the menu when any nav link inside it is clicked.
+    navMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', closeMenu);
+    });
+
+    // Close the mobile menu if the user resizes to desktop width,
+    // so the nav doesn't stay stuck open after orientation changes.
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 1024) closeMenu();
+    }, { passive: true });
+}
+
+
+// Sets up hover, click, and keyboard behaviour for every dropdown in the nav
+// (MPaCT Lab, Degree Programs, Workforce). All three share the same trigger
+// class so this one function handles all of them.
+function initAllDropdowns(header) {
+    const dropdownItems = header.querySelectorAll('.nav-item--has-dropdown');
+
+    dropdownItems.forEach(item => {
+        const btn = item.querySelector('.nav-dropdown-btn');
+        const panel = item.querySelector('.nav-mega-panel');
+        if (!btn || !panel) return;
+
+        // closeTimer lets us delay closing so the user has time to
+        // move their mouse from the trigger button into the dropdown panel
+        // without it snapping shut.
+        let closeTimer = null;
+
+        const open = () => {
+            clearTimeout(closeTimer);
+            // Close any other open dropdown before opening this one,
+            // so only one dropdown is ever visible at a time.
+            dropdownItems.forEach(other => {
+                if (other !== item) {
+                    other.classList.remove('is-open');
+                    other.querySelector('.nav-dropdown-btn')?.setAttribute('aria-expanded', 'false');
+                }
             });
+            item.classList.add('is-open');
+            btn.setAttribute('aria-expanded', 'true');
         };
 
-        mobileBtn.setAttribute('aria-controls', navMenu.id);
-        mobileBtn.setAttribute('aria-expanded', 'false');
-
-        mobileBtn.addEventListener('click', () => {
-            const isOpen = navMenu.classList.toggle('is-open');
-            mobileBtn.setAttribute('aria-expanded', String(isOpen));
-            mobileBtn.setAttribute('aria-label', isOpen ? 'Close Menu' : 'Open Menu');
-        });
-
-        navMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', closeMenu);
-        });
-
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 1024) closeMenu();
-        }, { passive: true });
-    }
-
-    /**
-     * initAllDropdowns — sets up hover/click/keyboard behaviour for every
-     * .nav-item--has-dropdown on the page. Works for both MPaCT (nav-mega-panel)
-     * and WFD (nav-mega-panel) because both share the same trigger class.
-     */
-    initAllDropdowns() {
-        const dropdownItems = this.querySelectorAll('.nav-item--has-dropdown');
-
-        dropdownItems.forEach(item => {
-            const btn = item.querySelector('.nav-dropdown-btn');
-            const panel = item.querySelector('.nav-mega-panel');
-            if (!btn || !panel) return;
-
-            let closeTimer = null;
-
-            const open = () => {
-                clearTimeout(closeTimer);
-                // Close all other open dropdowns first
-                dropdownItems.forEach(other => {
-                    if (other !== item) {
-                        other.classList.remove('is-open');
-                        other.querySelector('.nav-dropdown-btn')?.setAttribute('aria-expanded', 'false');
-                    }
-                });
-                item.classList.add('is-open');
-                btn.setAttribute('aria-expanded', 'true');
-            };
-
-            const close = (immediate = false) => {
-                if (immediate) {
+        const close = (immediate = false) => {
+            if (immediate) {
+                item.classList.remove('is-open');
+                btn.setAttribute('aria-expanded', 'false');
+            } else {
+                // Small delay so moving the mouse from button to panel doesn't close it.
+                closeTimer = setTimeout(() => {
                     item.classList.remove('is-open');
                     btn.setAttribute('aria-expanded', 'false');
-                } else {
-                    closeTimer = setTimeout(() => {
-                        item.classList.remove('is-open');
-                        btn.setAttribute('aria-expanded', 'false');
-                    }, 120);
-                }
-            };
+                }, 120);
+            }
+        };
 
-            // ── Desktop: mouse hover ──────────────────────────────────────
-            item.addEventListener('mouseenter', () => {
-                if (window.innerWidth <= 1024) return;
-                open();
-            });
-            item.addEventListener('mouseleave', () => {
-                if (window.innerWidth <= 1024) return;
-                close();
-            });
+        // On desktop, open on hover and close when the mouse leaves.
+        item.addEventListener('mouseenter', () => {
+            if (window.innerWidth <= 1024) return;
+            open();
+        });
+        item.addEventListener('mouseleave', () => {
+            if (window.innerWidth <= 1024) return;
+            close();
+        });
 
-            // ── Mobile: tap to accordion-expand ──────────────────────────
-            btn.addEventListener('click', (e) => {
-                if (window.innerWidth > 1024) return;
-                e.stopPropagation();
-                const isOpen = item.classList.toggle('is-mobile-open');
-                btn.setAttribute('aria-expanded', String(isOpen));
-            });
+        // On mobile, tapping the button accordion-expands the dropdown
+        // instead of hovering, since there is no hover on touch screens.
+        btn.addEventListener('click', (e) => {
+            if (window.innerWidth > 1024) return;
+            e.stopPropagation();
+            const isOpen = item.classList.toggle('is-mobile-open');
+            btn.setAttribute('aria-expanded', String(isOpen));
+        });
 
-            // ── Keyboard: Enter/Space opens; Escape closes ────────────────
-            btn.addEventListener('keydown', (e) => {
-                if (window.innerWidth <= 1024) return;
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    item.classList.contains('is-open') ? close(true) : open();
-                }
+        // Keyboard support: Enter or Space opens the dropdown,
+        // Escape closes it and returns focus to the trigger button.
+        btn.addEventListener('keydown', (e) => {
+            if (window.innerWidth <= 1024) return;
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                item.classList.contains('is-open') ? close(true) : open();
+            }
+            if (e.key === 'Escape') { close(true); btn.focus(); }
+        });
+
+        // Pressing Escape while focus is inside a dropdown link
+        // also closes the panel and returns focus to the trigger.
+        panel.querySelectorAll('a').forEach(link => {
+            link.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') { close(true); btn.focus(); }
             });
-
-            panel.querySelectorAll('a').forEach(link => {
-                link.addEventListener('keydown', (e) => {
-                    if (e.key === 'Escape') { close(true); btn.focus(); }
-                });
-            });
         });
+    });
 
-        // ── Click outside closes all ──────────────────────────────────────
-        document.addEventListener('click', (e) => {
-            dropdownItems.forEach(item => {
-                if (!item.contains(e.target)) {
-                    item.classList.remove('is-open', 'is-mobile-open');
-                    item.querySelector('.nav-dropdown-btn')?.setAttribute('aria-expanded', 'false');
-                }
-            });
+    // Clicking anywhere outside a dropdown closes all open dropdowns.
+    document.addEventListener('click', (e) => {
+        dropdownItems.forEach(item => {
+            if (!item.contains(e.target)) {
+                item.classList.remove('is-open', 'is-mobile-open');
+                item.querySelector('.nav-dropdown-btn')?.setAttribute('aria-expanded', 'false');
+            }
         });
-    }
+    });
 }
 
 
-/* ═══════════════════════════════════════════════════════════════
-   Site Footer
-   ═══════════════════════════════════════════════════════════════ */
-class SiteFooter extends HTMLElement {
-    constructor() {
-        super();
-    }
+// Load the header, then wire up all interactive behaviour once it's in the DOM.
+loadPart('site-header', '/includes/header.html', (el) => {
+    highlightActiveLink(el);
+    initMobileMenu(el);
+    initAllDropdowns(el);
+});
 
-    connectedCallback() {
-        const isInSubfolder = window.location.pathname.includes('/About_Equipment/');
-        const basePath = isInSubfolder ? '../' : './';
-
-        this.innerHTML = `
-        <footer class="site-footer">
-            <div class="container">
-
-                <div class="footer-cmd-bar">
-                    <p class="footer-cmd-bar__text">Need access, training, or a program pathway? <strong>Start here.</strong></p>
-                    <a href="${basePath}Contact_Us.html" class="footer-cmd-bar__cta">Get Started &rarr;</a>
-                </div>
-
-                <div class="footer-grid">
-                    <div class="footer-brand">
-                        <img src="${basePath}Images/NAU.png" class="footer-logo" alt="NAU Logo"
-                            onerror="this.style.display='none'">
-                        <div class="footer-brand__eyebrow">NAU Nano Initiative</div>
-                        <h3 class="footer-brand__title">MPaCT Lab</h3>
-                        <p class="footer-brand__copy">
-                            A shared-use hub for microelectronics research, semiconductor workforce
-                            training, and industry collaboration across Arizona.
-                        </p>
-                        <div class="social-row">
-                            <a href="https://twitter.com/NAU" target="_blank" class="social-icon" aria-label="X (Twitter)">
-                                <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
-                            </a>
-                            <a href="https://www.facebook.com/NAU/" target="_blank" class="social-icon" aria-label="Facebook">
-                                <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
-                            </a>
-                            <a href="https://www.instagram.com/nauflagstaff/" target="_blank" class="social-icon" aria-label="Instagram">
-                                <svg viewBox="0 0 24 24"><path d="M7 2C4.243 2 2 4.243 2 7v10c0 2.757 2.243 5 5 5h10c2.757 0 5-2.243 5-5V7c0-2.757-2.243-5-5-5H7zm10 2c1.654 0 3 1.346 3 3v10c0 1.654-1.346 3-3 3H7c-1.654 0-3-1.346-3-3V7c0-1.654 1.346-3 3-3h10zm-5 3a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6zm4.5-2.5a1 1 0 100 2 1 1 0 000-2z"></path></svg>
-                            </a>
-                            <a href="https://www.linkedin.com/school/northern-arizona-university/" target="_blank" class="social-icon" aria-label="LinkedIn">
-                                <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="footer-col">
-                        <div class="footer-col__label"><span class="footer-col__num">01</span> Lab Access</div>
-                        <ul class="footer-links">
-                            <li><a href="${basePath}MPaCT.html">Lab Overview</a></li>
-                            <li><a href="${basePath}Equipment.html">Equipment Catalog</a></li>
-                            <li><a href="${basePath}Reserve_Equipment.html">Reserve Equipment</a></li>
-                            <li><a href="${basePath}Rates.html">Rates</a></li>
-                            <li><a href="${basePath}services.html">Services</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="footer-col">
-                        <div class="footer-col__label"><span class="footer-col__num">02</span> Programs</div>
-                        <ul class="footer-links">
-                            <li><a href="${basePath}degree-programs.html">Degree Programs</a></li>
-                            <li><a href="${basePath}CareerPathways.html">Career Pathways</a></li>
-                            <li><a href="${basePath}WorkForceDevelopment.html">Workforce Development</a></li>
-                            <li><a href="${basePath}PTAP.html">PTAP Apprenticeship</a></li>
-                            <li><a href="${basePath}Safety_Training.html">Safety Training</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="footer-col">
-                        <div class="footer-col__label"><span class="footer-col__num">03</span> Connect</div>
-                        <ul class="footer-links">
-                            <li><a href="${basePath}About_Us.html">About the Initiative</a></li>
-                            <li><a href="${basePath}News.html">News &amp; Publications</a></li>
-                            <li><a href="${basePath}Contact_Us.html?category=other">Request Lab Access</a></li>
-                            <li><a href="${basePath}Contact_Us.html?category=research">Partner With Us</a></li>
-                            <li><a href="${basePath}Contact_Us.html">Contact Us</a></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="footer-meta">
-                    <p class="footer-meta__text">For students, researchers, industry partners, and workforce trainees across Arizona.</p>
-                </div>
-
-            </div>
-
-            <div class="footer-bottom">
-                <div class="container footer-bottom-flex">
-                    <p>&copy; 2026 Northern Arizona University. All Rights Reserved.</p>
-                    <div class="footer-links-flex">
-                        <a href="https://in.nau.edu/eoa/" target="_blank" class="footer-link-mute">Nondiscrimination</a>
-                        <a href="https://in.nau.edu/accessibility/" target="_blank" class="footer-link-mute">Accessibility</a>
-                        <a href="https://nau.edu/privacy/" target="_blank" class="footer-link-mute">Privacy</a>
-                    </div>
-                </div>
-            </div>
-        </footer>
-        `;
-    }
-}
+// Load the footer — no interactive behaviour needed.
+loadPart('site-footer', '/includes/footer.html');
 
 
-// ── Register Web Components ───────────────────────────────────────────────────
-customElements.define('site-header', SiteHeader);
-customElements.define('site-footer', SiteFooter);
-
-
-// ── Lazy-load Equipment Status script only on pages that need it ──────────────
+// Equipment_Status.js polls live equipment availability data and is only
+// needed on pages that display equipment cards. Rather than loading it on
+// every page, we check for the relevant elements first and only inject the
+// script when they exist — keeping unnecessary requests off every other page.
 const injectEquipmentStatusScript = () => {
     const needsStatus = document.querySelector('.tech-card') || document.querySelector('.product-page');
     if (!needsStatus) return;
+
+    // Prevent the script from being injected more than once if this runs twice.
     if (document.querySelector('script[data-equipment-status]')) return;
 
+    // Equipment pages inside About_Equipment/ are one level deeper,
+    // so the script path needs to step up one folder with ../
     const isInSubfolder = window.location.pathname.includes('/About_Equipment/');
     const basePath = isInSubfolder ? '../' : './';
 
@@ -656,6 +231,8 @@ const injectEquipmentStatusScript = () => {
     document.body.appendChild(script);
 };
 
+// Run after the DOM is ready so querySelector can find the equipment elements.
+// If the DOM is already loaded by the time this script runs, call it immediately.
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', injectEquipmentStatusScript);
 } else {
