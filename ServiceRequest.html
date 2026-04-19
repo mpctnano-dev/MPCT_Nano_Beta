@@ -1086,18 +1086,12 @@
                                             </div>
                                         </div>
 
-                                        <div class="sr-group" style="margin-top: 16px;">
-                                            <label class="sr-label" for="p-ship-carrier">Carrier Preference
-                                                (Optional)</label>
-                                            <input type="text" id="p-ship-carrier" name="carrier_preference"
-                                                class="sr-input" placeholder="e.g. UPS, FedEx, USPS">
-                                        </div>
                                     </div>
 
                                     <div class="sr-group full">
                                         <label class="sr-label" for="p-notes">Additional Notes</label>
                                         <textarea id="p-notes" name="notes" class="sr-textarea" rows="4"
-                                            placeholder="E.g. wall thickness, orientation, multi-color, or any special requirements."></textarea>
+                                            maxlength="2500" data-max-words="500" placeholder="E.g. wall thickness, orientation, multi-color, or any special requirements."></textarea>
                                     </div>
                                 </div>
 
@@ -1132,12 +1126,12 @@
                                         <div class="sr-group">
                                             <label class="sr-label" for="l-fname">First Name <span
                                                     class="text-gold">*</span></label>
-                                            <input type="text" id="l-fname" name="first_name" class="sr-input" required placeholder="Alex">
+                                            <input type="text" id="l-fname" name="first_name" class="sr-input" required maxlength="25" placeholder="Alex">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="l-lname">Last Name <span
                                                     class="text-gold">*</span></label>
-                                            <input type="text" id="l-lname" name="last_name" class="sr-input" required placeholder="Morgan">
+                                            <input type="text" id="l-lname" name="last_name" class="sr-input" required maxlength="25" placeholder="Morgan">
                                         </div>
                                     </div>
 
@@ -1145,7 +1139,7 @@
                                         <div class="sr-group">
                                             <label class="sr-label" for="l-email">Email Address <span
                                                     class="text-gold">*</span></label>
-                                            <input type="email" id="l-email" name="email" class="sr-input" required placeholder="alex.morgan@nau.edu">
+                                            <input type="email" id="l-email" name="email" class="sr-input" required maxlength="50" placeholder="alex.morgan@nau.edu">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="l-phone">Phone Number</label>
@@ -1169,7 +1163,7 @@
                                         <div class="sr-group">
                                             <label class="sr-label" for="l-org">Organization / Department <span
                                                     class="text-gold">*</span></label>
-                                            <input type="text" id="l-org" name="organization" class="sr-input" required placeholder="e.g. Mechanical Engineering">
+                                            <input type="text" id="l-org" name="organization" class="sr-input" required maxlength="100" placeholder="e.g. Mechanical Engineering">
                                         </div>
                                     </div>
                                 </div>
@@ -1183,7 +1177,7 @@
                                             <label class="sr-label" for="l-title">Project Title <span
                                                     class="text-gold">*</span></label>
                                             <input type="text" id="l-title" name="project_title" class="sr-input"
-                                                required placeholder="e.g. RF Circuit Prototype on Rogers Laminate">
+                                                required maxlength="100" placeholder="e.g. RF Circuit Prototype on Rogers Laminate">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="l-appcat">Application Category <span
@@ -1208,7 +1202,7 @@
                                         <span class="sr-note">Describe what you are trying to achieve with this service
                                             request.</span>
                                         <textarea id="l-abstract" name="project_abstract" class="sr-textarea" rows="3"
-                                            required></textarea>
+                                            required maxlength="2500" data-max-words="500"></textarea>
                                     </div>
                                 </div>
 
@@ -1253,20 +1247,26 @@
                                             <label class="sr-label" for="l-dims-l">Length (mm) <span
                                                     class="text-gold">*</span></label>
                                             <input type="number" id="l-dims-l" name="substrate_dim_length" class="sr-input"
-                                                required min="0" step="any" placeholder="e.g. 100">
+                                                required min="1" max="305" step="any" placeholder="1 – 305">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="l-dims-w">Width (mm) <span
                                                     class="text-gold">*</span></label>
                                             <input type="number" id="l-dims-w" name="substrate_dim_width" class="sr-input"
-                                                required min="0" step="any" placeholder="e.g. 50">
+                                                required min="1" max="229" step="any" placeholder="1 – 229">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="l-dims-t">Thickness (mm) <span
                                                     class="text-gold">*</span></label>
                                             <input type="number" id="l-dims-t" name="substrate_dim_thickness" class="sr-input"
-                                                required min="0" step="any" placeholder="e.g. 1.6">
+                                                required min="0.1" max="7" step="any" placeholder="0.1 – 7">
                                         </div>
+                                    </div>
+                                    <div style="margin-top: 10px; padding: 10px 14px; background: rgba(0,36,84,0.04); border-left: 3px solid var(--nau-blue, #002454); border-radius: 4px; font-size: 0.82rem; color: var(--gray-600);">
+                                        <i class="fas fa-bolt" style="color: var(--nau-blue); margin-right: 6px;"></i>
+                                        We use the <strong><a href="../About_Equipment/LPKF_ProtoLaser.html" target="_blank" style="color: var(--nau-blue);">LPKF ProtoLaser R4</a></strong>.
+                                        Max processing area: <strong>305 × 229 mm</strong> (L × W). Max substrate thickness: <strong>7 mm</strong>. Min: <strong>1 mm</strong> per side, <strong>0.1 mm</strong> thickness.
+                                        For substrates outside these limits, <a href="../Contact_Us.html" style="color: var(--nau-blue);">contact the lab manager</a>.
                                     </div>
 
                                     <div class="sr-row">
@@ -1274,15 +1274,14 @@
                                             <label class="sr-label" for="l-minfeature">Minimum Feature Size
                                                 (µm)</label>
                                             <input type="text" id="l-minfeature" name="min_feature" class="sr-input"
-                                                placeholder="e.g. 50">
+                                                maxlength="20" placeholder="e.g. 50">
                                         </div>
                                     </div>
 
-                                    <div class="sr-file-upload" onclick="document.getElementById('l-file').click()">
+                                    <div class="sr-file-upload" id="l-file-box">
                                         <i class="fas fa-cloud-upload-alt"></i>
-                                        <p><strong>Click to browse</strong> or drag and drop design files (Gerber, DXF,
-                                            etc.)</p>
-                                        <input type="file" id="l-file" name="design_files" accept=".gbr,.gerber,.dxf,.dwg,.svg,.pdf,.jpg,.jpeg,.png,.zip,.step,.stp" multiple
+                                        <p id="l-file-prompt"><strong>Click to browse</strong> or drag &amp; drop design files<br><span style="font-size:0.8rem;color:var(--gray-500);">Gerber, DXF, DWG, SVG, PDF, JPG, PNG, STEP &nbsp;·&nbsp; No ZIP files</span></p>
+                                        <input type="file" id="l-file" name="design_files[]" accept=".gbr,.gerber,.dxf,.dwg,.svg,.pdf,.jpg,.jpeg,.png,.step,.stp" multiple
                                             style="display:none;">
                                     </div>
                                 </div>
@@ -1299,9 +1298,9 @@
                                                 min="1" value="1">
                                         </div>
                                         <div class="sr-group">
-                                            <label class="sr-label" for="l-deadline">Requested Completion Date</label>
-                                            <input type="date" id="l-deadline" name="deadline" class="sr-input">
-                                            <span class="sr-note">Best effort, not guaranteed.</span>
+                                            <label class="sr-label" for="l-deadline">Requested Completion Date <span class="text-gold">*</span></label>
+                                            <input type="date" id="l-deadline" name="deadline" class="sr-input" required>
+                                            <span class="sr-note">Required. Best effort — not guaranteed. Must be within 6 months.</span>
                                         </div>
                                     </div>
 
@@ -1356,7 +1355,10 @@
                                             </div>
                                             <div class="sr-group">
                                                 <label class="sr-label" for="l-ship-state">State / Province <span class="text-gold">*</span></label>
-                                                <input type="text" id="l-ship-state" name="shipping_state" class="sr-input">
+                                                <select id="l-ship-state" name="shipping_state" class="sr-select">
+                                                    <option value="">— Select State —</option>
+                                                    <option>Alabama</option><option>Alaska</option><option>Arizona</option><option>Arkansas</option><option>California</option><option>Colorado</option><option>Connecticut</option><option>Delaware</option><option>Florida</option><option>Georgia</option><option>Hawaii</option><option>Idaho</option><option>Illinois</option><option>Indiana</option><option>Iowa</option><option>Kansas</option><option>Kentucky</option><option>Louisiana</option><option>Maine</option><option>Maryland</option><option>Massachusetts</option><option>Michigan</option><option>Minnesota</option><option>Mississippi</option><option>Missouri</option><option>Montana</option><option>Nebraska</option><option>Nevada</option><option>New Hampshire</option><option>New Jersey</option><option>New Mexico</option><option>New York</option><option>North Carolina</option><option>North Dakota</option><option>Ohio</option><option>Oklahoma</option><option>Oregon</option><option>Pennsylvania</option><option>Rhode Island</option><option>South Carolina</option><option>South Dakota</option><option>Tennessee</option><option>Texas</option><option>Utah</option><option>Vermont</option><option>Virginia</option><option>Washington</option><option>West Virginia</option><option>Wisconsin</option><option>Wyoming</option>
+                                                </select>
                                             </div>
                                         </div>
 
