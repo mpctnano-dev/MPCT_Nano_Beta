@@ -1374,18 +1374,12 @@
                                             </div>
                                         </div>
 
-                                        <div class="sr-group" style="margin-top: 16px;">
-                                            <label class="sr-label" for="l-ship-carrier">Carrier Preference
-                                                (Optional)</label>
-                                            <input type="text" id="l-ship-carrier" name="carrier_preference"
-                                                class="sr-input" placeholder="e.g. UPS, FedEx, USPS">
-                                        </div>
                                     </div>
 
                                     <div class="sr-group full">
                                         <label class="sr-label" for="l-notes">Additional Notes</label>
                                         <textarea id="l-notes" name="notes" class="sr-textarea" rows="4"
-                                            placeholder="Any specific requirements: tolerances, cleaning protocols, alignment marks, etc."></textarea>
+                                            maxlength="2500" data-max-words="500" placeholder="Any specific requirements: tolerances, cleaning protocols, alignment marks, etc."></textarea>
                                     </div>
                                 </div>
 
@@ -1421,12 +1415,12 @@
                                             <label class="sr-label" for="sc-fname">First Name <span
                                                     class="text-gold">*</span></label>
                                             <input type="text" id="sc-fname" name="first_name" class="sr-input"
-                                                required placeholder="Alex">
+                                                required maxlength="25" placeholder="Alex">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="sc-lname">Last Name <span
                                                     class="text-gold">*</span></label>
-                                            <input type="text" id="sc-lname" name="last_name" class="sr-input" required placeholder="Morgan">
+                                            <input type="text" id="sc-lname" name="last_name" class="sr-input" required maxlength="25" placeholder="Morgan">
                                         </div>
                                     </div>
 
@@ -1434,7 +1428,7 @@
                                         <div class="sr-group">
                                             <label class="sr-label" for="sc-email">Email Address <span
                                                     class="text-gold">*</span></label>
-                                            <input type="email" id="sc-email" name="email" class="sr-input" required placeholder="alex.morgan@nau.edu">
+                                            <input type="email" id="sc-email" name="email" class="sr-input" required maxlength="50" placeholder="alex.morgan@nau.edu">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="sc-phone">Phone Number</label>
@@ -1459,7 +1453,7 @@
                                             <label class="sr-label" for="sc-org">Organization / Department <span
                                                     class="text-gold">*</span></label>
                                             <input type="text" id="sc-org" name="organization" class="sr-input"
-                                                required placeholder="e.g. Mechanical Engineering">
+                                                required maxlength="100" placeholder="e.g. Mechanical Engineering">
                                         </div>
                                     </div>
                                 </div>
@@ -1473,7 +1467,7 @@
                                             <label class="sr-label" for="sc-title">Project Title <span
                                                     class="text-gold">*</span></label>
                                             <input type="text" id="sc-title" name="project_title" class="sr-input"
-                                                required placeholder="e.g. Reverse Engineering of Legacy Component">
+                                                required maxlength="100" placeholder="e.g. Reverse Engineering of Legacy Component">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="sc-appcat">Application Category <span
@@ -1500,7 +1494,7 @@
                                         <span class="sr-note">Describe what you are trying to achieve with this scan
                                             request.</span>
                                         <textarea id="sc-abstract" name="project_abstract" class="sr-textarea" rows="3"
-                                            required></textarea>
+                                            required maxlength="2500" data-max-words="500"></textarea>
                                     </div>
                                 </div>
 
@@ -1514,10 +1508,8 @@
                                                     class="text-gold">*</span></label>
                                             <select id="sc-mode" name="scan_mode" class="sr-select" required>
                                                 <option value="" disabled selected>Select mode…</option>
-                                                <option value="laser_hd">Laser HD — Fine detail, small-medium objects
-                                                    (0.05mm res)</option>
-                                                <option value="ir_rapid">IR Rapid — Large objects, fast capture (0.2mm
-                                                    res)</option>
+                                                <option value="laser_hd">Laser HD — Fine detail, objects ≥ 10 mm (0.05 mm res)</option>
+                                                <option value="ir_rapid">IR Rapid — Large objects ≥ 50 mm, fast capture (0.2 mm res)</option>
                                                 <option value="unsure">Not sure — Let staff recommend</option>
                                             </select>
                                         </div>
@@ -1526,12 +1518,19 @@
                                                     class="text-gold">*</span></label>
                                             <select id="sc-objsize" name="object_size" class="sr-select" required>
                                                 <option value="" disabled selected>Select size…</option>
-                                                <option value="tiny">Tiny (10–100 mm)</option>
-                                                <option value="small">Small (100–300 mm)</option>
-                                                <option value="medium">Medium (300 mm–1 m)</option>
-                                                <option value="large">Large (1–10 m)</option>
+                                                <option value="tiny">Tiny — 10 to 100 mm (Laser HD recommended)</option>
+                                                <option value="small">Small — 100 to 500 mm (Laser HD or IR Rapid)</option>
+                                                <option value="medium">Medium — 500 mm to 1 m (IR Rapid recommended)</option>
+                                                <option value="large">Large — over 1 m (contact lab manager first)</option>
                                             </select>
                                         </div>
+                                    </div>
+                                    <div style="margin-top: 10px; margin-bottom: 8px; padding: 10px 14px; background: rgba(0,36,84,0.04); border-left: 3px solid var(--nau-blue, #002454); border-radius: 4px; font-size: 0.82rem; color: var(--gray-600);">
+                                        <i class="fas fa-expand" style="color: var(--nau-blue); margin-right: 6px;"></i>
+                                        We use the <strong>Shining3D Einstar 2</strong> handheld 3D scanner.
+                                        Minimum object size: <strong>10 × 10 × 10 mm</strong> (Laser HD) / <strong>50 × 50 × 50 mm</strong> (IR Rapid).
+                                        Practical max: ~<strong>1 m</strong> per axis. Objects over 1 m require prior approval —
+                                        <a href="../Contact_Us.html" style="color: var(--nau-blue);">contact the lab manager</a>.
                                     </div>
 
                                     <div class="sr-row">
@@ -1547,24 +1546,6 @@
                                                 <option value="mixed">Mixed surfaces</option>
                                                 <option value="other">Other (specify in notes)</option>
                                             </select>
-                                        </div>
-                                        <div class="sr-group">
-                                            <label class="sr-label" for="sc-objdims-l">Length (mm)</label>
-                                            <input type="number" id="sc-objdims-l" name="object_dim_length" class="sr-input"
-                                                min="0" step="any" placeholder="e.g. 200">
-                                        </div>
-                                    </div>
-
-                                    <div class="sr-row">
-                                        <div class="sr-group">
-                                            <label class="sr-label" for="sc-objdims-w">Width (mm)</label>
-                                            <input type="number" id="sc-objdims-w" name="object_dim_width" class="sr-input"
-                                                min="0" step="any" placeholder="e.g. 150">
-                                        </div>
-                                        <div class="sr-group">
-                                            <label class="sr-label" for="sc-objdims-h">Height (mm)</label>
-                                            <input type="number" id="sc-objdims-h" name="object_dim_height" class="sr-input"
-                                                min="0" step="any" placeholder="e.g. 80">
                                         </div>
                                     </div>
 
