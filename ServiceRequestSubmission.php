@@ -108,7 +108,7 @@ $services = [
             'first_name', 'last_name', 'email', 'affiliation', 'department',
             'project_title', 'application_category', 'project_abstract',
             'print_size_length', 'print_size_width', 'print_size_height',
-            'quantity', 'material', 'color', 'delivery'
+            'quantity', 'material', 'color', 'deadline', 'delivery'
         ],
         'fields' => [
             'affiliation', 'department', 'project_title', 'application_category', 'project_abstract',
@@ -145,9 +145,8 @@ $services = [
             'notes' => 'Additional Notes'
         ],
         'uploadField' => 'files',
-        // 3D model formats (STL, 3MF, OBJ, STEP…) plus images and ZIP for multi-file bundles.
-        // No office documents — there is nothing a Word file adds to a print job.
-        'allowedExtensions' => ['stl', '3mf', 'obj', 'ply', 'step', 'stp', 'iges', 'igs', 'pdf', 'jpg', 'jpeg', 'png', 'zip']
+        // 3D model formats (STL, 3MF, OBJ, STEP…) plus images. ZIP removed — users must upload individual files.
+        'allowedExtensions' => ['stl', '3mf', 'obj', 'ply', 'step', 'stp', 'iges', 'igs', 'pdf', 'jpg', 'jpeg', 'png']
     ],
     'laser' => [
         'title' => 'Laser Structuring Service Request',
@@ -156,7 +155,7 @@ $services = [
             'project_title', 'application_category', 'project_abstract',
             'substrate_type', 'target_material',
             'substrate_dim_length', 'substrate_dim_width', 'substrate_dim_thickness',
-            'quantity', 'delivery'
+            'quantity', 'deadline', 'delivery'
         ],
         'fields' => [
             'affiliation', 'organization', 'project_title', 'application_category', 'project_abstract',
@@ -194,9 +193,8 @@ $services = [
             'notes' => 'Additional Notes'
         ],
         'uploadField' => 'design_files',
-        // Gerber and CAD vector formats for PCB and laser layout work.
-        // No spreadsheets or presentations — the technician needs actual design files.
-        'allowedExtensions' => ['gbr', 'gerber', 'dxf', 'dwg', 'svg', 'pdf', 'jpg', 'jpeg', 'png', 'zip', 'step', 'stp']
+        // Gerber and CAD vector formats for PCB and laser layout work. ZIP removed.
+        'allowedExtensions' => ['gbr', 'gerber', 'dxf', 'dwg', 'svg', 'pdf', 'jpg', 'jpeg', 'png', 'step', 'stp']
     ],
     'scanning' => [
         'title' => '3D Scanning Service Request',
@@ -233,9 +231,8 @@ $services = [
             'notes' => 'Additional Notes'
         ],
         'uploadField' => 'reference_files',
-        // Reference photos and simple drawings only. No CAD files —
-        // the scanner produces the 3D output; we just need to see the physical object.
-        'allowedExtensions' => ['jpg', 'jpeg', 'png', 'tif', 'tiff', 'pdf', 'zip']
+        // Reference photos and simple drawings only. ZIP removed.
+        'allowedExtensions' => ['jpg', 'jpeg', 'png', 'tif', 'tiff', 'pdf']
     ]
 ];
 
@@ -493,6 +490,121 @@ function validateUploads(array $files, array $allowedExtensions): array
 }
 
 /**
+ * Validates that a numeric POST field falls within the given inclusive range.
+ * Silently skips empty values (requireFields already handles missing-required).
+ */
+function validateNumericRange(string $field, float $min, float $max, string $label): void
+{
+    $val = trim($_POST[$field] ?? '');
+    if ($val === '') return;
+    if (!is_numeric($val)) {
+        respond(false, "$label must be a valid number.");
+    }
+    $num = (float) $val;
+    if ($num < $min || $num > $max) {
+        respond(false, "$label must be between $min and $max.");
+    }
+}
+
+/**
+ * Enforces a maximum character length on a POST field using mb_strlen so
+ * multi-byte UTF-8 characters count correctly.
+ */
+function enforceMaxLength(string $field, int $max): void
+{
+    $val = trim($_POST[$field] ?? '');
+    if (mb_strlen($val) > $max) {
+        $label = ucwords(str_replace('_', ' ', $field));
+        respond(false, "$label exceeds the $max-character limit.");
+    }
+}
+
+/**
+ * Validates a date field is a valid Y-m-d value between today and six months
+ * from now, mirroring the HTML date input min/max restrictions set in JS.
+ */
+function validateDateInRange(string $field, string $label): void
+{
+    $val = trim($_POST[$field] ?? '');
+    if ($val === '') return;
+    $date = DateTime::createFromFormat('Y-m-d', $val);
+    if (!$date || $date->format('Y-m-d') !== $val) {
+        respond(false, "$label must be a valid date (YYYY-MM-DD).");
+    }
+    $today   = new DateTime('today');
+    $maxDate = (new DateTime('today'))->modify('+6 months');
+    if ($date < $today) respond(false, "$label cannot be in the past.");
+    if ($date > $maxDate) respond(false, "$label must be within 6 months from today.");
+}
+
+/**
+ * Returns true when the string contains Unicode emoji characters.
+ * The range covers the major Emoji blocks defined in Unicode 15.
+ */
+function containsEmoji(string $text): bool
+{
+    return (bool) preg_match(
+        '/[\x{1F300}-\x{1F9FF}\x{2600}-\x{27BF}\x{FE00}-\x{FE0F}\x{1FA00}-\x{1FAFF}]/u',
+        $text
+    );
+}
+
+/**
+ * Heuristic for keyboard-mashing: 4 or more consecutive identical characters
+ * (e.g. "aaaa", "zzzz", "1111") are a strong signal the user pasted garbage.
+ */
+function looksLikeMashing(string $text): bool
+{
+    return (bool) preg_match('/(.)\1{3,}/u', $text);
+}
+
+/**
+ * Validates a name field: Unicode letters, spaces, hyphens, apostrophes,
+ * and dots only. Rejects digits, most punctuation, and emoji.
+ */
+function validateNameField(string $field, string $label): void
+{
+    $val = trim($_POST[$field] ?? '');
+    if ($val === '') return;
+    if (containsEmoji($val)) {
+        respond(false, "$label cannot contain emoji.");
+    }
+    if (!preg_match('/^[\p{L}\s\'\-\.]+$/u', $val)) {
+        respond(false, "$label should contain letters, spaces, hyphens, or apostrophes only.");
+    }
+}
+
+/**
+ * Validates a general text field for emoji and obvious keyboard mashing.
+ * Used on org/dept, abstract, and notes fields.
+ */
+function validateTextField(string $field, string $label): void
+{
+    $val = trim($_POST[$field] ?? '');
+    if ($val === '') return;
+    if (containsEmoji($val)) {
+        respond(false, "$label cannot contain emoji.");
+    }
+    if (looksLikeMashing($val)) {
+        respond(false, "$label appears to contain invalid input. Please provide a meaningful response.");
+    }
+}
+
+/**
+ * Enforces a maximum word count on a textarea field, matching the
+ * data-max-words="500" attribute in the HTML form.
+ */
+function enforceWordLimit(string $field, int $maxWords, string $label): void
+{
+    $val = trim($_POST[$field] ?? '');
+    if ($val === '') return;
+    $count = count(preg_split('/\s+/', $val, -1, PREG_SPLIT_NO_EMPTY));
+    if ($count > $maxWords) {
+        respond(false, "$label must not exceed $maxWords words (currently $count words).");
+    }
+}
+
+/**
  * Attaches each validated file to a PHPMailer instance directly from the PHP
  * temp path. This must happen before the script exits — PHP automatically
  * deletes temp upload files when the request ends. We never move or copy files
@@ -610,10 +722,64 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     respond(false, 'Invalid email address.');
 }
 
+// --- Server-side content and range validation ---------------------------------
+// These checks mirror the JS client-side rules and run even if JS is disabled
+// or bypassed, providing defense-in-depth for every submission.
+
+// Name fields: letters, spaces, hyphens, apostrophes, and Unicode letters only
+validateNameField('first_name', 'First Name');
+validateNameField('last_name',  'Last Name');
+enforceMaxLength('first_name',    25);
+enforceMaxLength('last_name',     25);
+enforceMaxLength('email',         50);
+enforceMaxLength('project_title', 100);
+
+// The org/dept field name differs between printing and the other two services
+$orgField = ($serviceType === 'printing') ? 'department' : 'organization';
+enforceMaxLength($orgField, 100);
+validateTextField($orgField, 'Organization / Department');
+
+// Textareas: check for emoji, mashing, and the 500-word limit
+validateTextField('project_abstract', 'Project Abstract');
+enforceWordLimit('project_abstract', 500, 'Project Abstract');
+enforceMaxLength('project_abstract', 2500);
+
+if (!empty(trim($_POST['notes'] ?? ''))) {
+    validateTextField('notes', 'Additional Notes');
+    enforceWordLimit('notes', 500, 'Additional Notes');
+    enforceMaxLength('notes', 2500);
+}
+
+// Service-specific numeric dimension and date range checks
+if ($serviceType === 'printing') {
+    validateNumericRange('print_size_length', 1,   325,  'Print Length (mm)');
+    validateNumericRange('print_size_width',  1,   320,  'Print Width (mm)');
+    validateNumericRange('print_size_height', 1,   325,  'Print Height (mm)');
+    validateNumericRange('quantity',          1,   9999, 'Quantity');
+    validateDateInRange('deadline', 'Requested Completion Date');
+}
+if ($serviceType === 'laser') {
+    validateNumericRange('substrate_dim_length',    1,   305,  'Substrate Length (mm)');
+    validateNumericRange('substrate_dim_width',     1,   229,  'Substrate Width (mm)');
+    validateNumericRange('substrate_dim_thickness', 0.1, 7,    'Substrate Thickness (mm)');
+    validateNumericRange('quantity',                1,   9999, 'Quantity');
+    validateDateInRange('deadline', 'Requested Completion Date');
+}
+if ($serviceType === 'scanning') {
+    validateNumericRange('quantity', 1, 9999, 'Number of Objects to Scan');
+}
+
 // Normalize and validate uploaded files. normalizeUploadFiles() unifies PHP's
 // two possible $_FILES array shapes into one consistent format, then
 // validateUploads() runs the size, extension, and magic-byte checks.
 $uploadedFiles  = normalizeUploadFiles($meta['uploadField']);
+
+// 3D printing requires at least one model file — JS enforces this with
+// data-required-upload, but PHP must also check in case JS was bypassed.
+if ($serviceType === 'printing' && empty($uploadedFiles)) {
+    respond(false, '3D model files are required for printing requests. Please attach at least one file.');
+}
+
 $validatedFiles = validateUploads($uploadedFiles, $meta['allowedExtensions']);
 
 // Build two versions of the file list — one for the HTML email table cell
