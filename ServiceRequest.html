@@ -929,7 +929,7 @@
                                             <label class="sr-label" for="p-qty">Quantity <span
                                                     class="text-gold">*</span></label>
                                             <input type="number" id="p-qty" name="quantity" class="sr-input" required
-                                                min="1" value="1">
+                                                min="1" max="9999" step="1" value="1">
                                         </div>
                                     </div>
 
@@ -948,7 +948,7 @@
                                         <div class="sr-group">
                                             <label class="sr-label" for="p-filament-est">Estimated Filament Use</label>
                                             <input type="number" id="p-filament-est" name="filament_estimate"
-                                                class="sr-input" min="0" step="any" placeholder="e.g. 50">
+                                                class="sr-input" min="0" max="99999" step="any" placeholder="e.g. 50">
                                             <span class="sr-note">Grams (g). Optional — leave blank if unknown.</span>
                                         </div>
                                     </div>
@@ -1295,7 +1295,7 @@
                                             <label class="sr-label" for="l-qty">Number of Units <span
                                                     class="text-gold">*</span></label>
                                             <input type="number" id="l-qty" name="quantity" class="sr-input" required
-                                                min="1" value="1">
+                                                min="1" max="9999" step="1" value="1">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="l-deadline">Requested Completion Date <span class="text-gold">*</span></label>
@@ -1533,6 +1533,27 @@
                                         <a href="../Contact_Us.html" style="color: var(--nau-blue);">contact the lab manager</a>.
                                     </div>
 
+                                    <div class="sr-row" style="grid-template-columns: 1fr 1fr 1fr;">
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="sc-dim-l">Object Length (mm) <span
+                                                    class="text-gold">*</span></label>
+                                            <input type="number" id="sc-dim-l" name="object_dim_length" class="sr-input" required
+                                                min="1" max="1000" step="any" placeholder="1 – 1000">
+                                        </div>
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="sc-dim-w">Object Width (mm) <span
+                                                    class="text-gold">*</span></label>
+                                            <input type="number" id="sc-dim-w" name="object_dim_width" class="sr-input" required
+                                                min="1" max="1000" step="any" placeholder="1 – 1000">
+                                        </div>
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="sc-dim-h">Object Height (mm) <span
+                                                    class="text-gold">*</span></label>
+                                            <input type="number" id="sc-dim-h" name="object_dim_height" class="sr-input" required
+                                                min="1" max="1000" step="any" placeholder="1 – 1000">
+                                        </div>
+                                    </div>
+
                                     <div class="sr-row">
                                         <div class="sr-group">
                                             <label class="sr-label" for="sc-surface">Object Surface Type <span
@@ -1610,7 +1631,7 @@
                                             <label class="sr-label" for="sc-qty">Number of Objects to Scan <span
                                                     class="text-gold">*</span></label>
                                             <input type="number" id="sc-qty" name="quantity" class="sr-input" required
-                                                min="1" value="1">
+                                                min="1" max="9999" step="1" value="1">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="sc-dropoff-date">Preferred Drop-off Date</label>
@@ -2030,6 +2051,67 @@
                     }
                 });
 
+                // Name fields: reject digits, most punctuation, and symbols
+                const nameFieldIds = ['p-fname', 'p-lname', 'l-fname', 'l-lname', 'sc-fname', 'sc-lname'];
+                form.querySelectorAll('input[type="text"]').forEach(el => {
+                    if (!nameFieldIds.includes(el.id)) return;
+                    const val = el.value.trim();
+                    if (!val) return;
+                    if (invalid.find(f => f.el === el)) return;
+                    // Allow Unicode letters, spaces, hyphens, apostrophes, dots only
+                    if (!/^[\p{L}\s'\-\.]+$/u.test(val)) {
+                        const label = getFieldLabel(el, form);
+                        el.style.outline = '2px solid var(--nau-red, #c0392b)';
+                        el.style.outlineOffset = '2px';
+                        el.addEventListener('input', () => { el.style.outline = ''; el.style.outlineOffset = ''; }, { once: true });
+                        invalid.push({ el, label: `${label} (letters, spaces, hyphens, or apostrophes only)` });
+                    }
+                });
+
+                // Numeric fields: reject non-numeric characters typed into number inputs
+                form.querySelectorAll('input[type="number"]').forEach(el => {
+                    if (el.closest('.sr-hidden')) return;
+                    const val = el.value.trim();
+                    if (!val) return;
+                    if (invalid.find(f => f.el === el)) return;
+
+                    const num = Number(val);
+                    const label = getFieldLabel(el, form);
+
+                    // Reject NaN (covers text like "abc" somehow pasted in)
+                    if (isNaN(num)) {
+                        el.style.outline = '2px solid var(--nau-red, #c0392b)';
+                        el.style.outlineOffset = '2px';
+                        el.addEventListener('input', () => { el.style.outline = ''; el.style.outlineOffset = ''; }, { once: true });
+                        invalid.push({ el, label: `${label} must be a valid number.` });
+                        return;
+                    }
+
+                    // Reject negative values
+                    if (num < 0) {
+                        el.style.outline = '2px solid var(--nau-red, #c0392b)';
+                        el.style.outlineOffset = '2px';
+                        el.addEventListener('input', () => { el.style.outline = ''; el.style.outlineOffset = ''; }, { once: true });
+                        invalid.push({ el, label: `${label} cannot be negative.` });
+                        return;
+                    }
+
+                    // Enforce min/max from HTML attributes
+                    const min = el.hasAttribute('min') ? parseFloat(el.min) : null;
+                    const max = el.hasAttribute('max') ? parseFloat(el.max) : null;
+                    if (min !== null && num < min) {
+                        el.style.outline = '2px solid var(--nau-red, #c0392b)';
+                        el.style.outlineOffset = '2px';
+                        el.addEventListener('input', () => { el.style.outline = ''; el.style.outlineOffset = ''; }, { once: true });
+                        invalid.push({ el, label: `${label} must be at least ${min}.` });
+                    } else if (max !== null && num > max) {
+                        el.style.outline = '2px solid var(--nau-red, #c0392b)';
+                        el.style.outlineOffset = '2px';
+                        el.addEventListener('input', () => { el.style.outline = ''; el.style.outlineOffset = ''; }, { once: true });
+                        invalid.push({ el, label: `${label} must be ${max} or less.` });
+                    }
+                });
+
                 return invalid;
             }
 
@@ -2045,6 +2127,48 @@
                     el.max = maxDate;
                 });
             })();
+
+            // Live numeric clamp: physically prevent typing beyond min/max.
+            // - On every keystroke: if value > max, immediately snap to max.
+            // - On blur: also enforce min (so partial input like "0" isn't rejected mid-type).
+            // - Block 'e', 'E', '+', '-' so only digits and '.' are possible.
+            document.querySelectorAll('input[type="number"]').forEach(el => {
+                const min = el.hasAttribute('min') ? parseFloat(el.min) : null;
+                const max = el.hasAttribute('max') ? parseFloat(el.max) : null;
+
+                // Real-time max enforcement — fires on every keystroke
+                el.addEventListener('input', () => {
+                    const val = el.value.trim();
+                    if (val === '') return;
+                    const num = Number(val);
+                    if (isNaN(num)) return;
+                    if (max !== null && num > max) {
+                        el.value = max;
+                    }
+                });
+
+                // On blur: enforce min and clean up
+                el.addEventListener('blur', () => {
+                    const val = el.value.trim();
+                    if (val === '') return;
+                    const num = Number(val);
+                    if (isNaN(num)) { el.value = ''; return; }
+                    let clamped = num;
+                    if (min !== null && clamped < min) clamped = min;
+                    if (max !== null && clamped > max) clamped = max;
+                    el.value = clamped;
+                });
+
+                // Block non-numeric characters at the keyboard level
+                el.addEventListener('keydown', e => {
+                    if (['e', 'E', '+'].includes(e.key)) {
+                        e.preventDefault();
+                    }
+                    if (e.key === '-' && (!el.min || parseFloat(el.min) >= 0)) {
+                        e.preventDefault();
+                    }
+                });
+            });
 
             // Live word-count display for all textareas with data-max-words
             document.querySelectorAll('textarea[data-max-words]').forEach(textarea => {
@@ -2072,7 +2196,9 @@
             });
 
             // Character-limit feedback for text/email inputs with maxlength
-            document.querySelectorAll('input[maxlength]:not([type="tel"])').forEach(input => {
+            // Exclude type="number" — maxlength is ignored by browsers on number
+            // inputs anyway, and the numeric range (min/max) is more meaningful.
+            document.querySelectorAll('input[maxlength]:not([type="tel"]):not([type="number"])').forEach(input => {
                 const max = parseInt(input.maxLength, 10);
                 const hint = document.createElement('span');
                 hint.style.cssText = 'display:none; font-size:0.78rem; margin-top:3px; transition: color 0.2s;';
