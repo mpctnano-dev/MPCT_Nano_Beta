@@ -39,15 +39,13 @@ use PHPMailer\PHPMailer\Exception;
 // These are defined at the top so they are easy to update without digging into
 // the logic below. LAB_EMAIL is both the recipient of internal notifications and
 // the "reply-to" address shown on user confirmation emails.
-define('LAB_EMAIL', 'mpct.nano@nau.edu');
-define('SENDER_EMAIL', 'mpct.nano@nau.edu');
+define('LAB_EMAIL', 'akhil.kinnera@nau.edu');
+define('SENDER_EMAIL', 'akhil.kinnera@nau.edu');
 define('SENDER_NAME', 'MPaCT Nano Lab');
 
-// NAU's internal SMTP relay. Port 25, no authentication, no TLS — this relay
-// only accepts connections from on-campus servers and trusts them implicitly.
-// Never set SMTPAuth or SMTPSecure when using this relay; it will reject the connection.
-define('SMTP_HOST', 'mailgate.nau.edu');
-define('SMTP_PORT', 25);
+// Local testing: Mailpit SMTP trap. Emails stay on this machine.
+define('SMTP_HOST', 'localhost');
+define('SMTP_PORT', 1025);
 
 // Per-file and total upload limits. 25 MB per file accommodates larger STL/Gerber
 // files, but we also cap the combined total at 50 MB inside validateUploads()
@@ -201,7 +199,9 @@ $services = [
         'required' => [
             'first_name', 'last_name', 'email', 'affiliation', 'organization',
             'project_title', 'application_category', 'project_abstract',
-            'scan_mode', 'object_size', 'surface_type', 'output_format', 'color_capture', 'quantity',
+            'scan_mode', 'object_size', 'surface_type',
+            'object_dim_length', 'object_dim_width', 'object_dim_height',
+            'output_format', 'color_capture', 'quantity',
             'dropoff_confirm', 'usb_confirm'
         ],
         'fields' => [
@@ -272,11 +272,12 @@ function respond(bool $ok, string $msg): void
 // it responds with a human-readable error and stops. The field key is
 // converted from snake_case to "Title Case" so users see something like
 // "Missing required field: Project Title." instead of raw machine names.
-function requireFields(array $keys): void
+function requireFields(array $keys, array $labels = []): void
 {
     foreach ($keys as $key) {
         if (empty(post($key))) {
-            respond(false, 'Missing required field: ' . ucwords(str_replace('_', ' ', $key)) . '.');
+            $display = $labels[$key] ?? ucwords(str_replace('_', ' ', $key));
+            respond(false, 'Missing required field: ' . $display . '.');
         }
     }
 }
@@ -301,10 +302,16 @@ function formatValue(string $raw): string
         'self_service'       => 'Self-service',
         'staff_assisted'     => 'Staff-assisted session',
         'full_service'       => 'Full service (sample-in / data-out)',
+        // Affiliation (legacy names from older form versions)
         'nau_student'        => 'NAU Student',
         'nau_faculty_staff'  => 'NAU Faculty / Staff',
         'external_academic'  => 'External Academic / Researcher',
         'industry'           => 'Industry / Commercial',
+        // Affiliation (current HTML option values)
+        'internal_research'  => 'NAU Internal Researcher/Faculty',
+        'internal_student'   => 'NAU Student',
+        'commercial'         => 'Industry / Commercial',
+        // Departments / colleges
         'sanghi_engineering' => 'Steve Sanghi College of Engineering',
         'ceias'              => 'College of Engineering, Informatics & Applied Sciences',
         'cefns'              => 'College of the Environment, Forestry & Natural Sciences',
@@ -314,11 +321,68 @@ function formatValue(string $raw): string
         'social_behavioral'  => 'College of Social & Behavioral Sciences',
         'health_human'       => 'College of Health & Human Services',
         'graduate'           => 'Graduate College',
+        // Delivery
         'pickup'             => 'Lab Pickup (Free)',
         'ship'               => 'Ship to Address',
+        'standard'           => 'Standard (Ground, typically 2-5 business days)',
+        'one_to_two_day'     => '1-2 Business Days',
+        // Application categories — 3D Printing
+        'prototype'          => 'Prototype Development',
+        'functional'         => 'Functional Part',
+        'research'           => 'Educational / Research',
+        'art'                => 'Art & Custom Design',
+        'medical'            => 'Medical / Prosthetics',
+        'tooling'            => 'Tooling / Fixtures',
+        // Application categories — Laser
+        'rf'                 => 'RF & Microwave Circuits',
+        'microfluidics'      => 'Microfluidics / Channels',
+        'flex'               => 'Flexible Electronics',
+        'thinfilm'           => 'Thin Film Removal / Coating Ablation',
+        'ceramic'            => 'Ceramic Machining',
+        'general'            => 'General PCB Prototyping',
+        // Application categories — Scanning
+        'reverse_eng'        => 'Reverse Engineering',
+        'quality_inspect'    => 'Quality Inspection / Metrology',
+        'digital_archive'    => 'Digital Archiving / Preservation',
+        '3d_printing_prep'   => '3D Print File Preparation',
+        'art_design'         => 'Art & Custom Design',
+        // Scan modes
+        'laser_hd'           => 'Laser HD — Fine detail, objects ≥ 10 mm (0.05 mm res)',
+        'ir_rapid'           => 'IR Rapid — Large objects ≥ 50 mm, fast capture (0.2 mm res)',
+        // Object sizes
+        'tiny'               => 'Tiny — 10 to 100 mm (Laser HD recommended)',
+        'small'              => 'Small — 100 to 500 mm (Laser HD or IR Rapid)',
+        'medium'             => 'Medium — 500 mm to 1 m (IR Rapid recommended)',
+        'large'              => 'Large — over 1 m (contact lab manager first)',
+        // Surface types
+        'matte'              => 'Matte / Textured',
+        'glossy'             => 'Glossy / Reflective',
+        'dark'               => 'Dark / Black',
+        'transparent'        => 'Transparent / Translucent',
+        'mixed'              => 'Mixed surfaces',
+        // Output formats
+        'stl'                => 'STL (3D Printing ready)',
+        'obj'                => 'OBJ (with texture)',
+        'ply'                => 'PLY (Point cloud)',
+        '3mf'                => '3MF',
+        'asc'                => 'ASC (ASCII point cloud)',
+        'multiple'           => 'Multiple formats',
+        // Substrate types (laser)
+        'fr4'                => 'FR4 (Standard PCB)',
+        'rogers'             => 'Rogers RF Laminate',
+        'glass'              => 'Glass (Borosilicate/Soda-lime)',
+        'pet'                => 'PET / Flexible Film',
+        'silicon'            => 'Silicon Wafer',
+        // Target materials (laser)
+        'copper'             => 'Copper',
+        'gold'               => 'Gold',
+        'ito'                => 'ITO (Indium Tin Oxide)',
+        'silver'             => 'Silver',
+        'aluminum'           => 'Aluminum',
+        // Generic
         'other'              => 'Other',
         'unsure'             => 'Not sure — let staff recommend',
-        // Filament color values whose display label differs from the simple ucwords fallback
+        // Filament color values
         'light_green'        => 'Light Green',
         'dark_gray'          => 'Dark Gray',
     ];
@@ -482,7 +546,8 @@ function validateUploads(array $files, array $allowedExtensions): array
     }
 
     // Always close the finfo resource to release the shared magic database handle
-    if ($finfo !== null) {
+    // (finfo_close is deprecated in PHP 8.5+ — resources are freed automatically)
+    if ($finfo !== null && PHP_VERSION_ID < 80500) {
         finfo_close($finfo);
     }
 
@@ -520,6 +585,19 @@ function enforceMaxLength(string $field, int $max): void
 }
 
 /**
+ * Validates that a numeric POST field is a whole number (integer).
+ * Rejects decimals like 1.5. Silently skips empty values.
+ */
+function validateInteger(string $field, string $label): void
+{
+    $val = trim($_POST[$field] ?? '');
+    if ($val === '') return;
+    if (!is_numeric($val) || floor((float) $val) != (float) $val) {
+        respond(false, "$label must be a whole number.");
+    }
+}
+
+/**
  * Validates a date field is a valid Y-m-d value between today and six months
  * from now, mirroring the HTML date input min/max restrictions set in JS.
  */
@@ -541,6 +619,17 @@ function validateDateInRange(string $field, string $label): void
  * Returns true when the string contains Unicode emoji characters.
  * The range covers the major Emoji blocks defined in Unicode 15.
  */
+function containsHtmlTags(string $text): bool
+{
+    return (bool) preg_match(
+        '/<\s*\/?(script|img|iframe|object|embed|svg|form|input|button|a\s|div|span|style|link|meta|base|body|html)\b/i',
+        $text
+    ) || (bool) preg_match(
+        '/(on\w+\s*=|javascript\s*:)/i',
+        $text
+    );
+}
+
 function containsEmoji(string $text): bool
 {
     return (bool) preg_match(
@@ -582,6 +671,9 @@ function validateTextField(string $field, string $label): void
 {
     $val = trim($_POST[$field] ?? '');
     if ($val === '') return;
+    if (containsHtmlTags($val)) {
+        respond(false, "$label cannot contain HTML or script-like content.");
+    }
     if (containsEmoji($val)) {
         respond(false, "$label cannot contain emoji.");
     }
@@ -689,7 +781,7 @@ if (!isset($services[$serviceType])) {
 // Pull the configuration for this specific service. All the required fields,
 // labels, and upload rules live inside $meta from here on.
 $meta = $services[$serviceType];
-requireFields($meta['required']);
+requireFields($meta['required'], $meta['labels']);
 
 // Shipping address fields are only required when the user selects "ship" as the
 // delivery method. For lab pickup they are skipped entirely — both in validation
@@ -756,6 +848,8 @@ if ($serviceType === 'printing') {
     validateNumericRange('print_size_width',  1,   320,  'Print Width (mm)');
     validateNumericRange('print_size_height', 1,   325,  'Print Height (mm)');
     validateNumericRange('quantity',          1,   9999, 'Quantity');
+    validateInteger('quantity', 'Quantity');
+    validateNumericRange('filament_estimate', 0,   99999, 'Estimated Filament Use (g)');
     validateDateInRange('deadline', 'Requested Completion Date');
 }
 if ($serviceType === 'laser') {
@@ -763,10 +857,16 @@ if ($serviceType === 'laser') {
     validateNumericRange('substrate_dim_width',     1,   229,  'Substrate Width (mm)');
     validateNumericRange('substrate_dim_thickness', 0.1, 7,    'Substrate Thickness (mm)');
     validateNumericRange('quantity',                1,   9999, 'Quantity');
+    validateInteger('quantity', 'Quantity');
     validateDateInRange('deadline', 'Requested Completion Date');
 }
 if ($serviceType === 'scanning') {
+    validateNumericRange('object_dim_length', 1, 1000, 'Object Length (mm)');
+    validateNumericRange('object_dim_width',  1, 1000, 'Object Width (mm)');
+    validateNumericRange('object_dim_height', 1, 1000, 'Object Height (mm)');
     validateNumericRange('quantity', 1, 9999, 'Number of Objects to Scan');
+    validateInteger('quantity', 'Number of Objects to Scan');
+    validateDateInRange('dropoff_date', 'Preferred Drop-off Date');
 }
 
 // Normalize and validate uploaded files. normalizeUploadFiles() unifies PHP's
@@ -1102,23 +1202,16 @@ Northern Arizona University
 try {
     $labMail = createMailer();
     $labMail->addAddress(LAB_EMAIL);
-    $labMail->addCC('Akhil.Kinnera@nau.edu');
-    $labMail->addCC('Sethuprasad.Gorantla@nau.edu');
-    $labMail->addCC('Krishna-Dev.Palem@nau.edu');
-    $labMail->addReplyTo($email, $fullName); // reply goes to the submitter, not the lab
+    // CC lines commented out for local testing — emails go to Mailpit only
+    // $labMail->addCC('Akhil.Kinnera@nau.edu');
+    // $labMail->addCC('Sethuprasad.Gorantla@nau.edu');
+    // $labMail->addCC('Krishna-Dev.Palem@nau.edu');
+    $labMail->addReplyTo($email, $fullName);
     $labMail->Subject = $labSubject;
     $labMail->Body    = $labBody;
     $labMail->AltBody = $labPlain;
     attachUploads($labMail, $validatedFiles);
     $labMail->send();
-
-    $userMail = createMailer();
-    $userMail->addAddress($email, $fullName);
-    $userMail->Subject = $userSubject;
-    $userMail->Body    = $userBody;
-    $userMail->AltBody = $userPlain;
-    attachUploads($userMail, $validatedFiles);
-    $userMail->send();
 
     respond(true, 'Your service request has been submitted successfully. A confirmation email has been sent.');
 } catch (Exception $e) {

@@ -62,11 +62,11 @@ use PHPMailer\PHPMailer\Exception;
 // SMTP_HOST   — NAU's internal mail relay. Only reachable from within NAU.
 // SMTP_PORT   — Port 25 is standard unencrypted SMTP for internal relays.
 // ---------------------------------------------------------------
-define('LAB_EMAIL',    'mpct.nano@nau.edu');
-define('SENDER_EMAIL', 'mpct.nano@nau.edu');
+define('LAB_EMAIL',    'akhil.kinnera@nau.edu');
+define('SENDER_EMAIL', 'akhil.kinnera@nau.edu');
 define('SENDER_NAME',  'MPaCT Nano Lab');
-define('SMTP_HOST',    'mailgate.nau.edu');
-define('SMTP_PORT',    25);
+define('SMTP_HOST',    'localhost');
+define('SMTP_PORT',    1025);
 
 
 // ---------------------------------------------------------------
@@ -720,21 +720,15 @@ function createMailer(): PHPMailer
 try {
     $labMail = createMailer();
     $labMail->addAddress(LAB_EMAIL);
-    $labMail->addCC('Akhil.Kinnera@nau.edu');
-    $labMail->addCC('Sethuprasad.Gorantla@nau.edu');
-    $labMail->addCC('Krishna-Dev.Palem@nau.edu');
+    // CC lines commented out for local testing — emails go to Mailpit only
+    // $labMail->addCC('Akhil.Kinnera@nau.edu');
+    // $labMail->addCC('Sethuprasad.Gorantla@nau.edu');
+    // $labMail->addCC('Krishna-Dev.Palem@nau.edu');
     $labMail->addReplyTo($email, $fullName);
     $labMail->Subject = $labSubject;
     $labMail->Body    = $labBody;
     $labMail->AltBody = $labPlain;
     $labMail->send();
-
-    $userMail = createMailer();
-    $userMail->addAddress($email, $fullName);
-    $userMail->Subject = $userSubject;
-    $userMail->Body    = $userBody;
-    $userMail->AltBody = $userPlain;
-    $userMail->send();
 
     respond(true, 'Your inquiry has been submitted successfully! You will receive a confirmation email shortly.');
 
