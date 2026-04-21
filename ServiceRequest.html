@@ -646,11 +646,14 @@
             );
         }
     </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,400&display=swap">
 </head>
 
 <body>
 
-    <site-header></site-header>
+    <div id="site-header"></div>
 
     <main>
         <!-- Hero -->
@@ -800,13 +803,13 @@
                                             <label class="sr-label" for="p-fname">First Name <span
                                                     class="text-gold">*</span></label>
                                             <input type="text" id="p-fname" name="first_name" class="sr-input" required
-                                                placeholder="Alex">
+                                                maxlength="25" placeholder="Alex">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="p-lname">Last Name <span
                                                     class="text-gold">*</span></label>
                                             <input type="text" id="p-lname" name="last_name" class="sr-input" required
-                                                placeholder="Morgan">
+                                                maxlength="25" placeholder="Morgan">
                                         </div>
                                     </div>
 
@@ -815,7 +818,7 @@
                                             <label class="sr-label" for="p-email">Email Address <span
                                                     class="text-gold">*</span></label>
                                             <input type="email" id="p-email" name="email" class="sr-input" required
-                                                placeholder="alex.morgan@nau.edu">
+                                                maxlength="50" placeholder="alex.morgan@nau.edu">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="p-phone">Phone Number</label>
@@ -840,7 +843,7 @@
                                             <label class="sr-label" for="p-dept">Organization / Department <span
                                                     class="text-gold">*</span></label>
                                             <input type="text" id="p-dept" name="department" class="sr-input" required
-                                                placeholder="e.g. Mechanical Engineering">
+                                                maxlength="100" placeholder="e.g. Mechanical Engineering">
                                         </div>
                                     </div>
                                 </div>
@@ -854,7 +857,7 @@
                                             <label class="sr-label" for="p-title">Project Title <span
                                                     class="text-gold">*</span></label>
                                             <input type="text" id="p-title" name="project_title" class="sr-input"
-                                                required placeholder="e.g. Functional Bracket for Lab Fixture">
+                                                required maxlength="100" placeholder="e.g. Functional Bracket for Lab Fixture">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="p-appcat">Application Category <span
@@ -879,7 +882,7 @@
                                         <span class="sr-note">Describe what you are trying to achieve with this print
                                             request.</span>
                                         <textarea id="p-abstract" name="project_abstract" class="sr-textarea" rows="3"
-                                            required></textarea>
+                                            required maxlength="2500" data-max-words="500"></textarea>
                                     </div>
                                 </div>
 
@@ -887,10 +890,10 @@
                                 <div class="sr-section">
                                     <h3 class="sr-section-title">3. Print Details</h3>
 
-                                    <div class="sr-file-upload" onclick="document.getElementById('p-file').click()">
+                                    <div class="sr-file-upload" id="p-file-box" data-required-upload>
                                         <i class="fas fa-cloud-upload-alt"></i>
-                                        <p><strong>Click to browse</strong> or drag and drop your 3D model files (STL, 3MF, OBJ, STEP, PDF, etc.)</p>
-                                        <input type="file" id="p-file" name="files" accept=".stl,.3mf,.obj,.ply,.step,.stp,.iges,.igs,.pdf,.jpg,.jpeg,.png,.zip" multiple
+                                        <p id="p-file-prompt"><strong>Click to browse</strong> or drag &amp; drop 3D model files <span class="text-gold">*</span><br><span style="font-size:0.8rem;color:var(--gray-500);">STL, 3MF, OBJ, PLY, STEP, IGES, PDF, JPG, PNG &nbsp;·&nbsp; No ZIP files</span></p>
+                                        <input type="file" id="p-file" name="files[]" accept=".stl,.3mf,.obj,.ply,.step,.stp,.iges,.igs,.pdf,.jpg,.jpeg,.png" multiple
                                             style="display:none;">
                                     </div>
 
@@ -899,20 +902,26 @@
                                             <label class="sr-label" for="p-size-l">Length (mm) <span
                                                     class="text-gold">*</span></label>
                                             <input type="number" id="p-size-l" name="print_size_length" class="sr-input" required
-                                                min="0" step="any" placeholder="e.g. 120">
+                                                min="1" max="325" step="any" placeholder="1 – 325">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="p-size-w">Width (mm) <span
                                                     class="text-gold">*</span></label>
                                             <input type="number" id="p-size-w" name="print_size_width" class="sr-input" required
-                                                min="0" step="any" placeholder="e.g. 80">
+                                                min="1" max="320" step="any" placeholder="1 – 320">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="p-size-h">Height (mm) <span
                                                     class="text-gold">*</span></label>
                                             <input type="number" id="p-size-h" name="print_size_height" class="sr-input" required
-                                                min="0" step="any" placeholder="e.g. 50">
+                                                min="1" max="325" step="any" placeholder="1 – 325">
                                         </div>
+                                    </div>
+                                    <div style="margin-top: 10px; padding: 10px 14px; background: rgba(0,36,84,0.04); border-left: 3px solid var(--nau-blue, #002454); border-radius: 4px; font-size: 0.82rem; color: var(--gray-600);">
+                                        <i class="fas fa-cube" style="color: var(--nau-blue); margin-right: 6px;"></i>
+                                        We use the <strong><a href="../About_Equipment/Bambu_H2D.html" target="_blank" style="color: var(--nau-blue);">Bambu Lab H2D</a></strong>.
+                                        Max build volume (single nozzle): <strong>325 × 320 × 325 mm</strong> (L × W × H). Min: <strong>1 mm</strong> per dimension.
+                                        For oversized parts or special arrangements, <a href="../Contact_Us.html" style="color: var(--nau-blue);">contact the lab manager</a>.
                                     </div>
 
                                     <div class="sr-row">
@@ -1004,9 +1013,9 @@
 
                                     <div class="sr-row">
                                         <div class="sr-group">
-                                            <label class="sr-label" for="p-deadline">Requested Completion Date</label>
-                                            <input type="date" id="p-deadline" name="deadline" class="sr-input">
-                                            <span class="sr-note">Best effort, not guaranteed.</span>
+                                            <label class="sr-label" for="p-deadline">Requested Completion Date <span class="text-gold">*</span></label>
+                                            <input type="date" id="p-deadline" name="deadline" class="sr-input" required>
+                                            <span class="sr-note">Required. Best effort — not guaranteed. Must be within 6 months.</span>
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="p-delivery">Delivery Method <span
@@ -1058,7 +1067,10 @@
                                             </div>
                                             <div class="sr-group">
                                                 <label class="sr-label" for="p-ship-state">State / Province <span class="text-gold">*</span></label>
-                                                <input type="text" id="p-ship-state" name="shipping_state" class="sr-input">
+                                                <select id="p-ship-state" name="shipping_state" class="sr-select">
+                                                    <option value="">— Select State —</option>
+                                                    <option>Alabama</option><option>Alaska</option><option>Arizona</option><option>Arkansas</option><option>California</option><option>Colorado</option><option>Connecticut</option><option>Delaware</option><option>Florida</option><option>Georgia</option><option>Hawaii</option><option>Idaho</option><option>Illinois</option><option>Indiana</option><option>Iowa</option><option>Kansas</option><option>Kentucky</option><option>Louisiana</option><option>Maine</option><option>Maryland</option><option>Massachusetts</option><option>Michigan</option><option>Minnesota</option><option>Mississippi</option><option>Missouri</option><option>Montana</option><option>Nebraska</option><option>Nevada</option><option>New Hampshire</option><option>New Jersey</option><option>New Mexico</option><option>New York</option><option>North Carolina</option><option>North Dakota</option><option>Ohio</option><option>Oklahoma</option><option>Oregon</option><option>Pennsylvania</option><option>Rhode Island</option><option>South Carolina</option><option>South Dakota</option><option>Tennessee</option><option>Texas</option><option>Utah</option><option>Vermont</option><option>Virginia</option><option>Washington</option><option>West Virginia</option><option>Wisconsin</option><option>Wyoming</option>
+                                                </select>
                                             </div>
                                         </div>
 
@@ -1074,18 +1086,12 @@
                                             </div>
                                         </div>
 
-                                        <div class="sr-group" style="margin-top: 16px;">
-                                            <label class="sr-label" for="p-ship-carrier">Carrier Preference
-                                                (Optional)</label>
-                                            <input type="text" id="p-ship-carrier" name="carrier_preference"
-                                                class="sr-input" placeholder="e.g. UPS, FedEx, USPS">
-                                        </div>
                                     </div>
 
                                     <div class="sr-group full">
                                         <label class="sr-label" for="p-notes">Additional Notes</label>
                                         <textarea id="p-notes" name="notes" class="sr-textarea" rows="4"
-                                            placeholder="E.g. wall thickness, orientation, multi-color, or any special requirements."></textarea>
+                                            maxlength="2500" data-max-words="500" placeholder="E.g. wall thickness, orientation, multi-color, or any special requirements."></textarea>
                                     </div>
                                 </div>
 
@@ -1120,12 +1126,12 @@
                                         <div class="sr-group">
                                             <label class="sr-label" for="l-fname">First Name <span
                                                     class="text-gold">*</span></label>
-                                            <input type="text" id="l-fname" name="first_name" class="sr-input" required placeholder="Alex">
+                                            <input type="text" id="l-fname" name="first_name" class="sr-input" required maxlength="25" placeholder="Alex">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="l-lname">Last Name <span
                                                     class="text-gold">*</span></label>
-                                            <input type="text" id="l-lname" name="last_name" class="sr-input" required placeholder="Morgan">
+                                            <input type="text" id="l-lname" name="last_name" class="sr-input" required maxlength="25" placeholder="Morgan">
                                         </div>
                                     </div>
 
@@ -1133,7 +1139,7 @@
                                         <div class="sr-group">
                                             <label class="sr-label" for="l-email">Email Address <span
                                                     class="text-gold">*</span></label>
-                                            <input type="email" id="l-email" name="email" class="sr-input" required placeholder="alex.morgan@nau.edu">
+                                            <input type="email" id="l-email" name="email" class="sr-input" required maxlength="50" placeholder="alex.morgan@nau.edu">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="l-phone">Phone Number</label>
@@ -1157,7 +1163,7 @@
                                         <div class="sr-group">
                                             <label class="sr-label" for="l-org">Organization / Department <span
                                                     class="text-gold">*</span></label>
-                                            <input type="text" id="l-org" name="organization" class="sr-input" required placeholder="e.g. Mechanical Engineering">
+                                            <input type="text" id="l-org" name="organization" class="sr-input" required maxlength="100" placeholder="e.g. Mechanical Engineering">
                                         </div>
                                     </div>
                                 </div>
@@ -1171,7 +1177,7 @@
                                             <label class="sr-label" for="l-title">Project Title <span
                                                     class="text-gold">*</span></label>
                                             <input type="text" id="l-title" name="project_title" class="sr-input"
-                                                required placeholder="e.g. RF Circuit Prototype on Rogers Laminate">
+                                                required maxlength="100" placeholder="e.g. RF Circuit Prototype on Rogers Laminate">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="l-appcat">Application Category <span
@@ -1196,7 +1202,7 @@
                                         <span class="sr-note">Describe what you are trying to achieve with this service
                                             request.</span>
                                         <textarea id="l-abstract" name="project_abstract" class="sr-textarea" rows="3"
-                                            required></textarea>
+                                            required maxlength="2500" data-max-words="500"></textarea>
                                     </div>
                                 </div>
 
@@ -1241,20 +1247,26 @@
                                             <label class="sr-label" for="l-dims-l">Length (mm) <span
                                                     class="text-gold">*</span></label>
                                             <input type="number" id="l-dims-l" name="substrate_dim_length" class="sr-input"
-                                                required min="0" step="any" placeholder="e.g. 100">
+                                                required min="1" max="305" step="any" placeholder="1 – 305">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="l-dims-w">Width (mm) <span
                                                     class="text-gold">*</span></label>
                                             <input type="number" id="l-dims-w" name="substrate_dim_width" class="sr-input"
-                                                required min="0" step="any" placeholder="e.g. 50">
+                                                required min="1" max="229" step="any" placeholder="1 – 229">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="l-dims-t">Thickness (mm) <span
                                                     class="text-gold">*</span></label>
                                             <input type="number" id="l-dims-t" name="substrate_dim_thickness" class="sr-input"
-                                                required min="0" step="any" placeholder="e.g. 1.6">
+                                                required min="0.1" max="7" step="any" placeholder="0.1 – 7">
                                         </div>
+                                    </div>
+                                    <div style="margin-top: 10px; padding: 10px 14px; background: rgba(0,36,84,0.04); border-left: 3px solid var(--nau-blue, #002454); border-radius: 4px; font-size: 0.82rem; color: var(--gray-600);">
+                                        <i class="fas fa-bolt" style="color: var(--nau-blue); margin-right: 6px;"></i>
+                                        We use the <strong><a href="../About_Equipment/LPKF_ProtoLaser.html" target="_blank" style="color: var(--nau-blue);">LPKF ProtoLaser R4</a></strong>.
+                                        Max processing area: <strong>305 × 229 mm</strong> (L × W). Max substrate thickness: <strong>7 mm</strong>. Min: <strong>1 mm</strong> per side, <strong>0.1 mm</strong> thickness.
+                                        For substrates outside these limits, <a href="../Contact_Us.html" style="color: var(--nau-blue);">contact the lab manager</a>.
                                     </div>
 
                                     <div class="sr-row">
@@ -1262,15 +1274,14 @@
                                             <label class="sr-label" for="l-minfeature">Minimum Feature Size
                                                 (µm)</label>
                                             <input type="text" id="l-minfeature" name="min_feature" class="sr-input"
-                                                placeholder="e.g. 50">
+                                                maxlength="20" placeholder="e.g. 50">
                                         </div>
                                     </div>
 
-                                    <div class="sr-file-upload" onclick="document.getElementById('l-file').click()">
+                                    <div class="sr-file-upload" id="l-file-box">
                                         <i class="fas fa-cloud-upload-alt"></i>
-                                        <p><strong>Click to browse</strong> or drag and drop design files (Gerber, DXF,
-                                            etc.)</p>
-                                        <input type="file" id="l-file" name="design_files" accept=".gbr,.gerber,.dxf,.dwg,.svg,.pdf,.jpg,.jpeg,.png,.zip,.step,.stp" multiple
+                                        <p id="l-file-prompt"><strong>Click to browse</strong> or drag &amp; drop design files<br><span style="font-size:0.8rem;color:var(--gray-500);">Gerber, DXF, DWG, SVG, PDF, JPG, PNG, STEP &nbsp;·&nbsp; No ZIP files</span></p>
+                                        <input type="file" id="l-file" name="design_files[]" accept=".gbr,.gerber,.dxf,.dwg,.svg,.pdf,.jpg,.jpeg,.png,.step,.stp" multiple
                                             style="display:none;">
                                     </div>
                                 </div>
@@ -1287,9 +1298,9 @@
                                                 min="1" value="1">
                                         </div>
                                         <div class="sr-group">
-                                            <label class="sr-label" for="l-deadline">Requested Completion Date</label>
-                                            <input type="date" id="l-deadline" name="deadline" class="sr-input">
-                                            <span class="sr-note">Best effort, not guaranteed.</span>
+                                            <label class="sr-label" for="l-deadline">Requested Completion Date <span class="text-gold">*</span></label>
+                                            <input type="date" id="l-deadline" name="deadline" class="sr-input" required>
+                                            <span class="sr-note">Required. Best effort — not guaranteed. Must be within 6 months.</span>
                                         </div>
                                     </div>
 
@@ -1344,7 +1355,10 @@
                                             </div>
                                             <div class="sr-group">
                                                 <label class="sr-label" for="l-ship-state">State / Province <span class="text-gold">*</span></label>
-                                                <input type="text" id="l-ship-state" name="shipping_state" class="sr-input">
+                                                <select id="l-ship-state" name="shipping_state" class="sr-select">
+                                                    <option value="">— Select State —</option>
+                                                    <option>Alabama</option><option>Alaska</option><option>Arizona</option><option>Arkansas</option><option>California</option><option>Colorado</option><option>Connecticut</option><option>Delaware</option><option>Florida</option><option>Georgia</option><option>Hawaii</option><option>Idaho</option><option>Illinois</option><option>Indiana</option><option>Iowa</option><option>Kansas</option><option>Kentucky</option><option>Louisiana</option><option>Maine</option><option>Maryland</option><option>Massachusetts</option><option>Michigan</option><option>Minnesota</option><option>Mississippi</option><option>Missouri</option><option>Montana</option><option>Nebraska</option><option>Nevada</option><option>New Hampshire</option><option>New Jersey</option><option>New Mexico</option><option>New York</option><option>North Carolina</option><option>North Dakota</option><option>Ohio</option><option>Oklahoma</option><option>Oregon</option><option>Pennsylvania</option><option>Rhode Island</option><option>South Carolina</option><option>South Dakota</option><option>Tennessee</option><option>Texas</option><option>Utah</option><option>Vermont</option><option>Virginia</option><option>Washington</option><option>West Virginia</option><option>Wisconsin</option><option>Wyoming</option>
+                                                </select>
                                             </div>
                                         </div>
 
@@ -1360,18 +1374,12 @@
                                             </div>
                                         </div>
 
-                                        <div class="sr-group" style="margin-top: 16px;">
-                                            <label class="sr-label" for="l-ship-carrier">Carrier Preference
-                                                (Optional)</label>
-                                            <input type="text" id="l-ship-carrier" name="carrier_preference"
-                                                class="sr-input" placeholder="e.g. UPS, FedEx, USPS">
-                                        </div>
                                     </div>
 
                                     <div class="sr-group full">
                                         <label class="sr-label" for="l-notes">Additional Notes</label>
                                         <textarea id="l-notes" name="notes" class="sr-textarea" rows="4"
-                                            placeholder="Any specific requirements: tolerances, cleaning protocols, alignment marks, etc."></textarea>
+                                            maxlength="2500" data-max-words="500" placeholder="Any specific requirements: tolerances, cleaning protocols, alignment marks, etc."></textarea>
                                     </div>
                                 </div>
 
@@ -1407,12 +1415,12 @@
                                             <label class="sr-label" for="sc-fname">First Name <span
                                                     class="text-gold">*</span></label>
                                             <input type="text" id="sc-fname" name="first_name" class="sr-input"
-                                                required placeholder="Alex">
+                                                required maxlength="25" placeholder="Alex">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="sc-lname">Last Name <span
                                                     class="text-gold">*</span></label>
-                                            <input type="text" id="sc-lname" name="last_name" class="sr-input" required placeholder="Morgan">
+                                            <input type="text" id="sc-lname" name="last_name" class="sr-input" required maxlength="25" placeholder="Morgan">
                                         </div>
                                     </div>
 
@@ -1420,7 +1428,7 @@
                                         <div class="sr-group">
                                             <label class="sr-label" for="sc-email">Email Address <span
                                                     class="text-gold">*</span></label>
-                                            <input type="email" id="sc-email" name="email" class="sr-input" required placeholder="alex.morgan@nau.edu">
+                                            <input type="email" id="sc-email" name="email" class="sr-input" required maxlength="50" placeholder="alex.morgan@nau.edu">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="sc-phone">Phone Number</label>
@@ -1445,7 +1453,7 @@
                                             <label class="sr-label" for="sc-org">Organization / Department <span
                                                     class="text-gold">*</span></label>
                                             <input type="text" id="sc-org" name="organization" class="sr-input"
-                                                required placeholder="e.g. Mechanical Engineering">
+                                                required maxlength="100" placeholder="e.g. Mechanical Engineering">
                                         </div>
                                     </div>
                                 </div>
@@ -1459,7 +1467,7 @@
                                             <label class="sr-label" for="sc-title">Project Title <span
                                                     class="text-gold">*</span></label>
                                             <input type="text" id="sc-title" name="project_title" class="sr-input"
-                                                required placeholder="e.g. Reverse Engineering of Legacy Component">
+                                                required maxlength="100" placeholder="e.g. Reverse Engineering of Legacy Component">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="sc-appcat">Application Category <span
@@ -1486,7 +1494,7 @@
                                         <span class="sr-note">Describe what you are trying to achieve with this scan
                                             request.</span>
                                         <textarea id="sc-abstract" name="project_abstract" class="sr-textarea" rows="3"
-                                            required></textarea>
+                                            required maxlength="2500" data-max-words="500"></textarea>
                                     </div>
                                 </div>
 
@@ -1500,10 +1508,8 @@
                                                     class="text-gold">*</span></label>
                                             <select id="sc-mode" name="scan_mode" class="sr-select" required>
                                                 <option value="" disabled selected>Select mode…</option>
-                                                <option value="laser_hd">Laser HD — Fine detail, small-medium objects
-                                                    (0.05mm res)</option>
-                                                <option value="ir_rapid">IR Rapid — Large objects, fast capture (0.2mm
-                                                    res)</option>
+                                                <option value="laser_hd">Laser HD — Fine detail, objects ≥ 10 mm (0.05 mm res)</option>
+                                                <option value="ir_rapid">IR Rapid — Large objects ≥ 50 mm, fast capture (0.2 mm res)</option>
                                                 <option value="unsure">Not sure — Let staff recommend</option>
                                             </select>
                                         </div>
@@ -1512,12 +1518,19 @@
                                                     class="text-gold">*</span></label>
                                             <select id="sc-objsize" name="object_size" class="sr-select" required>
                                                 <option value="" disabled selected>Select size…</option>
-                                                <option value="tiny">Tiny (10–100 mm)</option>
-                                                <option value="small">Small (100–300 mm)</option>
-                                                <option value="medium">Medium (300 mm–1 m)</option>
-                                                <option value="large">Large (1–10 m)</option>
+                                                <option value="tiny">Tiny — 10 to 100 mm (Laser HD recommended)</option>
+                                                <option value="small">Small — 100 to 500 mm (Laser HD or IR Rapid)</option>
+                                                <option value="medium">Medium — 500 mm to 1 m (IR Rapid recommended)</option>
+                                                <option value="large">Large — over 1 m (contact lab manager first)</option>
                                             </select>
                                         </div>
+                                    </div>
+                                    <div style="margin-top: 10px; margin-bottom: 8px; padding: 10px 14px; background: rgba(0,36,84,0.04); border-left: 3px solid var(--nau-blue, #002454); border-radius: 4px; font-size: 0.82rem; color: var(--gray-600);">
+                                        <i class="fas fa-expand" style="color: var(--nau-blue); margin-right: 6px;"></i>
+                                        We use the <strong>Shining3D Einstar 2</strong> handheld 3D scanner.
+                                        Minimum object size: <strong>10 × 10 × 10 mm</strong> (Laser HD) / <strong>50 × 50 × 50 mm</strong> (IR Rapid).
+                                        Practical max: ~<strong>1 m</strong> per axis. Objects over 1 m require prior approval —
+                                        <a href="../Contact_Us.html" style="color: var(--nau-blue);">contact the lab manager</a>.
                                     </div>
 
                                     <div class="sr-row">
@@ -1533,24 +1546,6 @@
                                                 <option value="mixed">Mixed surfaces</option>
                                                 <option value="other">Other (specify in notes)</option>
                                             </select>
-                                        </div>
-                                        <div class="sr-group">
-                                            <label class="sr-label" for="sc-objdims-l">Length (mm)</label>
-                                            <input type="number" id="sc-objdims-l" name="object_dim_length" class="sr-input"
-                                                min="0" step="any" placeholder="e.g. 200">
-                                        </div>
-                                    </div>
-
-                                    <div class="sr-row">
-                                        <div class="sr-group">
-                                            <label class="sr-label" for="sc-objdims-w">Width (mm)</label>
-                                            <input type="number" id="sc-objdims-w" name="object_dim_width" class="sr-input"
-                                                min="0" step="any" placeholder="e.g. 150">
-                                        </div>
-                                        <div class="sr-group">
-                                            <label class="sr-label" for="sc-objdims-h">Height (mm)</label>
-                                            <input type="number" id="sc-objdims-h" name="object_dim_height" class="sr-input"
-                                                min="0" step="any" placeholder="e.g. 80">
                                         </div>
                                     </div>
 
@@ -1581,11 +1576,10 @@
                                         </div>
                                     </div>
 
-                                    <div class="sr-file-upload" onclick="document.getElementById('sc-file').click()">
+                                    <div class="sr-file-upload" id="sc-file-box">
                                         <i class="fas fa-cloud-upload-alt"></i>
-                                        <p><strong>Click to browse</strong> or drag and drop files for the item being
-                                            scanned (photos, CAD, drawings)</p>
-                                        <input type="file" id="sc-file" name="reference_files" accept=".jpg,.jpeg,.png,.tif,.tiff,.pdf,.zip" multiple
+                                        <p id="sc-file-prompt"><strong>Click to browse</strong> or drag &amp; drop reference files<br><span style="font-size:0.8rem;color:var(--gray-500);">JPG, PNG, TIF, PDF &nbsp;·&nbsp; No ZIP files &nbsp;·&nbsp; Optional</span></p>
+                                        <input type="file" id="sc-file" name="reference_files[]" accept=".jpg,.jpeg,.png,.tif,.tiff,.pdf" multiple
                                             style="display:none;">
                                     </div>
                                 </div>
@@ -1642,7 +1636,7 @@
                                     <div class="sr-group full">
                                         <label class="sr-label" for="sc-notes">Additional Notes</label>
                                         <textarea id="sc-notes" name="notes" class="sr-textarea" rows="4"
-                                            placeholder="Any specific requirements: resolution needs, areas of interest, fragile objects, scanning environment, etc."></textarea>
+                                            maxlength="2500" data-max-words="500" placeholder="Any specific requirements: resolution needs, areas of interest, fragile objects, scanning environment, etc."></textarea>
                                     </div>
                                 </div>
 
@@ -1662,7 +1656,7 @@
         </section>
     </main>
 
-    <site-footer></site-footer>
+    <div id="site-footer"></div>
 
     <script src="JS/layout.js"></script>
     <script>
@@ -1702,55 +1696,145 @@
 
             // Allowed file extensions per service (must match PHP allowedExtensions)
             const allowedExtensions = {
-                'p-file': ['stl', '3mf', 'obj', 'ply', 'step', 'stp', 'iges', 'igs', 'pdf', 'jpg', 'jpeg', 'png', 'zip'],
-                'l-file': ['gbr', 'gerber', 'dxf', 'dwg', 'svg', 'pdf', 'jpg', 'jpeg', 'png', 'zip', 'step', 'stp'],
-                'sc-file': ['jpg', 'jpeg', 'png', 'tif', 'tiff', 'pdf', 'zip']
+                'p-file': ['stl', '3mf', 'obj', 'ply', 'step', 'stp', 'iges', 'igs', 'pdf', 'jpg', 'jpeg', 'png'],
+                'l-file': ['gbr', 'gerber', 'dxf', 'dwg', 'svg', 'pdf', 'jpg', 'jpeg', 'png', 'step', 'stp'],
+                'sc-file': ['jpg', 'jpeg', 'png', 'tif', 'tiff', 'pdf']
             };
 
-            function validateFileExtensions(input) {
-                const allowed = allowedExtensions[input.id];
-                if (!allowed) return true;
-                const feedbackEl = input.closest('.sr-form') && input.closest('.sr-form').querySelector('.sr-form-feedback');
-                for (const file of input.files) {
-                    const ext = file.name.split('.').pop().toLowerCase();
-                    if (!allowed.includes(ext)) {
-                        if (feedbackEl) {
-                            feedbackEl.className = 'bk-feedback bk-feedback--error';
-                            feedbackEl.style.display = 'block';
-                            feedbackEl.textContent = `File type not accepted: "${file.name}". Allowed: ${allowed.join(', ')}.`;
-                            feedbackEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // Priority-aware feedback display.
+            // Priority: 1 = file-type warning, 2 = form validation, 3 = server error, 4 = success.
+            // A lower-priority message will never overwrite a higher-priority active one.
+            // autoDismiss: true = 8 s auto-hide for errors; false = stays (used for success).
+            // scroll: whether to scrollIntoView after showing.
+            function showFeedbackMsg(feedbackEl, html, cssClass, priority, autoDismiss, scroll) {
+                if (!feedbackEl) return;
+                const curPriority = feedbackEl._msgPriority || 0;
+                const isVisible = feedbackEl.style.display !== 'none' && feedbackEl.textContent !== '';
+                if (isVisible && priority < curPriority) return;
+                clearTimeout(feedbackEl._dismissTimer);
+                feedbackEl._msgPriority = priority;
+                feedbackEl.className = 'bk-feedback ' + cssClass;
+                feedbackEl.style.display = 'block';
+                feedbackEl.innerHTML = html;
+                if (scroll) feedbackEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                if (autoDismiss) {
+                    feedbackEl._dismissTimer = setTimeout(() => {
+                        if (feedbackEl._msgPriority === priority) {
+                            feedbackEl.style.display = 'none';
+                            feedbackEl.className = 'bk-feedback';
+                            feedbackEl.textContent = '';
+                            feedbackEl._msgPriority = 0;
                         }
-                        input.value = '';
-                        return false;
-                    }
+                    }, 8000);
                 }
-                if (feedbackEl && feedbackEl.classList.contains('bk-feedback--error')) {
-                    feedbackEl.style.display = 'none';
-                    feedbackEl.className = 'bk-feedback';
-                    feedbackEl.textContent = '';
-                }
-                return true;
             }
 
-            // File upload label updates + validation
-            document.querySelectorAll('.sr-file-upload').forEach(box => {
+            function safeText(str) {
+                return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+            }
+
+            function setupFileUpload(box) {
                 const input = box.querySelector('input[type="file"]');
-                const label = box.querySelector('p');
-                if (input && label) {
-                    input.addEventListener('change', () => {
-                        if (input.files.length > 0 && validateFileExtensions(input)) {
-                            const names = Array.from(input.files).map(f => f.name).join(', ');
-                            label.innerHTML = `<strong>Selected:</strong> ${names}`;
-                            box.style.borderColor = 'var(--nau-green, #388e3c)';
-                            box.style.background = 'rgba(56, 142, 60, 0.05)';
-                        } else {
-                            label.innerHTML = `<strong>Click to browse</strong> or drag and drop files`;
-                            box.style.borderColor = '';
-                            box.style.background = '';
+                const promptEl = box.querySelector('p');
+                if (!input || !promptEl) return;
+
+                const originalPrompt = promptEl.innerHTML;
+                const allowed = allowedExtensions[input.id] || [];
+                let currentFiles = [];
+
+                // File list rendered below the upload box
+                const listEl = document.createElement('ul');
+                listEl.style.cssText = 'list-style:none;margin:8px 0 0;padding:0;';
+                box.parentNode.insertBefore(listEl, box.nextSibling);
+
+                function syncInput() {
+                    const dt = new DataTransfer();
+                    currentFiles.forEach(f => dt.items.add(f));
+                    input.files = dt.files;
+                }
+
+                function renderList() {
+                    listEl.innerHTML = '';
+                    currentFiles.forEach((file, i) => {
+                        const sizeKb = (file.size / 1024).toFixed(1);
+                        const li = document.createElement('li');
+                        li.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:5px 10px;margin:3px 0;background:rgba(0,36,84,0.04);border-radius:4px;font-size:0.84rem;';
+                        li.innerHTML = `<span><i class="fas fa-file-alt" style="color:var(--nau-blue,#002454);margin-right:6px;"></i>${safeText(file.name)}<span style="color:var(--gray-500,#9ca3af);font-size:0.76rem;margin-left:6px;">(${sizeKb} KB)</span></span>`;
+                        const btn = document.createElement('button');
+                        btn.type = 'button';
+                        btn.title = 'Remove file';
+                        btn.style.cssText = 'border:none;background:none;cursor:pointer;color:var(--nau-red,#c0392b);padding:2px 8px;font-size:0.85rem;border-radius:3px;';
+                        btn.innerHTML = '<i class="fas fa-times"></i> Remove';
+                        btn.addEventListener('click', e => {
+                            e.stopPropagation();
+                            currentFiles.splice(i, 1);
+                            syncInput();
+                            renderList();
+                        });
+                        li.appendChild(btn);
+                        listEl.appendChild(li);
+                    });
+
+                    if (currentFiles.length > 0) {
+                        promptEl.innerHTML = `<strong>${currentFiles.length} file${currentFiles.length !== 1 ? 's' : ''} attached</strong> — click to add more`;
+                        box.style.borderColor = 'var(--nau-green,#388e3c)';
+                        box.style.background = 'rgba(56,142,60,0.05)';
+                        box.style.outline = '';
+                    } else {
+                        promptEl.innerHTML = originalPrompt;
+                        box.style.borderColor = '';
+                        box.style.background = '';
+                    }
+                }
+
+                // Open file picker on box click (but not from remove buttons)
+                box.addEventListener('click', e => {
+                    if (e.target.closest('button')) return;
+                    input.click();
+                });
+
+                input.addEventListener('change', () => {
+                    const picked = Array.from(input.files);
+                    const feedbackEl = input.closest('.sr-form')?.querySelector('.sr-form-feedback');
+
+                    for (const file of picked) {
+                        const ext = file.name.split('.').pop().toLowerCase();
+                        if (ext === 'zip') {
+                            showFeedbackMsg(feedbackEl,
+                                `<strong>ZIP files are not accepted.</strong> Please extract and upload the individual files directly. Allowed types: ${allowed.join(', ')}.`,
+                                'bk-feedback--error', 1, true, false);
+                            input.value = '';
+                            return;
+                        }
+                        if (allowed.length && !allowed.includes(ext)) {
+                            showFeedbackMsg(feedbackEl,
+                                `File type not accepted: "${safeText(file.name)}". Allowed: ${allowed.join(', ')}.`,
+                                'bk-feedback--error', 1, true, false);
+                            input.value = '';
+                            return;
+                        }
+                    }
+
+                    // Add new files, skip exact duplicates (same name + size)
+                    picked.forEach(f => {
+                        if (!currentFiles.find(cf => cf.name === f.name && cf.size === f.size)) {
+                            currentFiles.push(f);
                         }
                     });
-                }
-            });
+                    syncInput();
+                    renderList();
+                    input.value = ''; // reset so same file can be re-added after removal
+                });
+
+                // Expose reset for form clear
+                box._resetUpload = () => {
+                    currentFiles = [];
+                    input.value = '';
+                    renderList();
+                };
+            }
+
+            document.querySelectorAll('.sr-file-upload').forEach(setupFileUpload);
 
             function setupShippingFields(config) {
                 const deliverySelect = document.getElementById(config.deliveryId);
@@ -1807,11 +1891,12 @@
                 ]
             });
 
-            function formatUsPhone(value) {
+            function formatUsPhone(value, isDeleting = false) {
                 const digits = value.replace(/\D/g, '').slice(0, 10);
                 if (!digits) return '';
                 if (digits.length < 3) return `(${digits}`;
-                if (digits.length === 3) return `(${digits}) `;
+                if (digits.length === 3) return isDeleting ? `(${digits}` : `(${digits}) `;
+                if (digits.length === 6 && isDeleting) return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
                 if (digits.length < 7) return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
                 return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
             }
@@ -1821,12 +1906,13 @@
                     const input = document.getElementById(id);
                     if (!input) return;
 
-                    input.addEventListener('input', () => {
-                        input.value = formatUsPhone(input.value);
+                    input.addEventListener('input', (e) => {
+                        const isDeleting = e.inputType === 'deleteContentBackward' || e.inputType === 'deleteContentForward';
+                        input.value = formatUsPhone(input.value, isDeleting);
                     });
 
                     input.addEventListener('blur', () => {
-                        input.value = formatUsPhone(input.value);
+                        input.value = formatUsPhone(input.value, false);
                     });
                 });
             }
@@ -1835,12 +1921,14 @@
 
             function resetFileUploadUI(form) {
                 form.querySelectorAll('.sr-file-upload').forEach(box => {
-                    const label = box.querySelector('p');
-                    if (label) {
-                        label.innerHTML = '<strong>Click to browse</strong> or drag and drop files';
+                    if (typeof box._resetUpload === 'function') {
+                        box._resetUpload();
+                    } else {
+                        const label = box.querySelector('p');
+                        if (label) label.innerHTML = '<strong>Click to browse</strong> or drag and drop files';
+                        box.style.borderColor = '';
+                        box.style.background = '';
                     }
-                    box.style.borderColor = '';
-                    box.style.background = '';
                 });
             }
 
@@ -1850,13 +1938,257 @@
                 scanningForm: 'scanning'
             };
 
+            function getLabelText(lbl) {
+                const clone = lbl.cloneNode(true);
+                clone.querySelectorAll('span').forEach(s => s.remove());
+                return clone.textContent.trim();
+            }
+
+            function getFieldLabel(el, form) {
+                if (el.id) {
+                    const lbl = form.querySelector(`label[for="${el.id}"]`);
+                    if (lbl) return getLabelText(lbl);
+                }
+                const group = el.closest('.sr-group');
+                if (group) {
+                    const lbl = group.querySelector('label.sr-label');
+                    if (lbl) return getLabelText(lbl);
+                }
+                return el.name || el.id || 'Unknown field';
+            }
+
+            function getInvalidFields(form) {
+                const invalid = [];
+                const seenRadioNames = new Set();
+
+                form.querySelectorAll('[required], [min], [max]').forEach(el => {
+                    if (el.closest('.sr-hidden')) return;
+                    if (el.validity && el.validity.valid) return;
+
+                    let highlightEl = el;
+
+                    if (el.type === 'radio') {
+                        if (seenRadioNames.has(el.name)) return;
+                        seenRadioNames.add(el.name);
+                        const grid = el.closest('.sr-color-grid');
+                        if (grid) highlightEl = grid;
+                    }
+
+                    const label = getFieldLabel(el, form);
+                    highlightEl.style.outline = '2px solid var(--nau-red, #c0392b)';
+                    highlightEl.style.outlineOffset = '2px';
+
+                    const clearHighlight = () => {
+                        highlightEl.style.outline = '';
+                        highlightEl.style.outlineOffset = '';
+                    };
+                    el.addEventListener('input', clearHighlight, { once: true });
+                    el.addEventListener('change', clearHighlight, { once: true });
+
+                    invalid.push({ el, label });
+                });
+
+                // Check required file uploads (marked with data-required-upload)
+                form.querySelectorAll('[data-required-upload]').forEach(box => {
+                    const fileInput = box.querySelector('input[type="file"]');
+                    if (!fileInput || fileInput.files.length === 0) {
+                        box.style.outline = '2px solid var(--nau-red, #c0392b)';
+                        box.style.outlineOffset = '2px';
+                        if (fileInput) fileInput.addEventListener('change', () => { box.style.outline = ''; box.style.outlineOffset = ''; }, { once: true });
+                        invalid.push({ el: box, label: '3D Model File (required — please attach at least one file)' });
+                    }
+                });
+
+                // Check word count on textareas with data-max-words
+                form.querySelectorAll('textarea[data-max-words]').forEach(el => {
+                    if (el.closest('.sr-hidden')) return;
+                    const maxWords = parseInt(el.dataset.maxWords, 10);
+                    const wordCount = el.value.trim() ? el.value.trim().split(/\s+/).length : 0;
+                    if (wordCount > maxWords) {
+                        const label = getFieldLabel(el, form);
+                        el.style.outline = '2px solid var(--nau-red, #c0392b)';
+                        el.style.outlineOffset = '2px';
+                        el.addEventListener('input', () => { el.style.outline = ''; el.style.outlineOffset = ''; }, { once: true });
+                        invalid.push({ el, label: `${label} (over ${maxWords}-word limit)` });
+                    }
+                });
+
+                // Check for emoji and keyboard mashing (4+ consecutive identical chars)
+                const emojiRx = /\p{Extended_Pictographic}/u;
+                const mashRx  = /(.)\1{3,}/;
+                form.querySelectorAll('input[type="text"]:not([readonly]), textarea').forEach(el => {
+                    if (el.closest('.sr-hidden')) return;
+                    const val = el.value.trim();
+                    if (!val) return;
+                    if (invalid.find(f => f.el === el)) return; // already flagged
+                    if (emojiRx.test(val) || mashRx.test(val)) {
+                        const label = getFieldLabel(el, form);
+                        el.style.outline = '2px solid var(--nau-red, #c0392b)';
+                        el.style.outlineOffset = '2px';
+                        el.addEventListener('input', () => { el.style.outline = ''; el.style.outlineOffset = ''; }, { once: true });
+                        invalid.push({ el, label: `${label} (remove emoji or repeated characters)` });
+                    }
+                });
+
+                return invalid;
+            }
+
+            // Restrict all date inputs to today through today + 6 months
+            (function () {
+                const today = new Date();
+                const pad = n => String(n).padStart(2, '0');
+                const fmt = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+                const minDate = fmt(today);
+                const maxDate = fmt(new Date(today.getFullYear(), today.getMonth() + 6, today.getDate()));
+                document.querySelectorAll('input[type="date"]').forEach(el => {
+                    el.min = minDate;
+                    el.max = maxDate;
+                });
+            })();
+
+            // Live word-count display for all textareas with data-max-words
+            document.querySelectorAll('textarea[data-max-words]').forEach(textarea => {
+                const maxWords = parseInt(textarea.dataset.maxWords, 10);
+                const counter = document.createElement('span');
+                counter.style.cssText = 'display:block; text-align:right; font-size:0.78rem; margin-top:3px; transition: color 0.2s;';
+                textarea.parentNode.insertBefore(counter, textarea.nextSibling);
+
+                const update = () => {
+                    const words = textarea.value.trim() ? textarea.value.trim().split(/\s+/).length : 0;
+                    const over = words > maxWords;
+                    const remaining = maxWords - words;
+                    if (over) {
+                        counter.textContent = `${words} / ${maxWords} words — ${Math.abs(remaining)} word${Math.abs(remaining) !== 1 ? 's' : ''} over limit`;
+                    } else if (remaining <= 50) {
+                        counter.textContent = `${words} / ${maxWords} words — ${remaining} remaining`;
+                    } else {
+                        counter.textContent = `${words} / ${maxWords} words`;
+                    }
+                    counter.style.color = over ? 'var(--nau-red, #c0392b)' : remaining <= 50 ? 'var(--nau-gold, #e6a817)' : 'var(--gray-500, #9ca3af)';
+                    counter.style.fontWeight = over ? '600' : '400';
+                };
+                textarea.addEventListener('input', update);
+                update();
+            });
+
+            // Character-limit feedback for text/email inputs with maxlength
+            document.querySelectorAll('input[maxlength]:not([type="tel"])').forEach(input => {
+                const max = parseInt(input.maxLength, 10);
+                const hint = document.createElement('span');
+                hint.style.cssText = 'display:none; font-size:0.78rem; margin-top:3px; transition: color 0.2s;';
+                input.parentNode.insertBefore(hint, input.nextSibling);
+
+                input.addEventListener('input', () => {
+                    const len = input.value.length;
+                    const remaining = max - len;
+                    if (remaining === 0) {
+                        hint.textContent = `Limit reached (${max} characters max)`;
+                        hint.style.color = 'var(--nau-red, #c0392b)';
+                        hint.style.fontWeight = '600';
+                        hint.style.display = 'block';
+                    } else if (remaining <= 5) {
+                        hint.textContent = `${remaining} character${remaining !== 1 ? 's' : ''} remaining`;
+                        hint.style.color = 'var(--nau-gold, #e6a817)';
+                        hint.style.fontWeight = '400';
+                        hint.style.display = 'block';
+                    } else {
+                        hint.style.display = 'none';
+                    }
+                });
+            });
+
+            // Real-time input hints for name and org/dept fields.
+            // Name fields warn if the user types digits, most punctuation, or emoji.
+            // Org fields warn for emoji and obvious repeated-char mashing.
+            // Hints are wiped on form reset so they don't persist after Clear Form.
+            (function setupAlphaFieldHints() {
+                const entries = [];
+
+                ['p-fname', 'p-lname', 'l-fname', 'l-lname', 'sc-fname', 'sc-lname'].forEach(id => {
+                    const input = document.getElementById(id);
+                    if (!input) return;
+                    const hint = document.createElement('span');
+                    hint.style.cssText = 'display:none; font-size:0.78rem; color:var(--nau-red,#c0392b); margin-top:2px;';
+                    input.after(hint);
+                    entries.push({ input, hint });
+                    input.addEventListener('input', () => {
+                        const v = input.value;
+                        if (/\p{Extended_Pictographic}/u.test(v)) {
+                            hint.textContent = 'Emoji are not allowed in name fields.';
+                            hint.style.display = 'block';
+                        } else if (/[0-9!@#$%^&*()\[\]{}|\\:;"<>,?\/~`+=]/.test(v)) {
+                            hint.textContent = 'Names should contain letters, spaces, hyphens, or apostrophes only.';
+                            hint.style.display = 'block';
+                        } else {
+                            hint.style.display = 'none';
+                        }
+                    });
+                });
+
+                ['p-dept', 'l-org', 'sc-org'].forEach(id => {
+                    const input = document.getElementById(id);
+                    if (!input) return;
+                    const hint = document.createElement('span');
+                    hint.style.cssText = 'display:none; font-size:0.78rem; margin-top:2px;';
+                    input.after(hint);
+                    entries.push({ input, hint });
+                    input.addEventListener('input', () => {
+                        const v = input.value;
+                        if (/\p{Extended_Pictographic}/u.test(v)) {
+                            hint.textContent = 'Emoji are not allowed in this field.';
+                            hint.style.color = 'var(--nau-red,#c0392b)';
+                            hint.style.display = 'block';
+                        } else if (/(.)\1{3,}/.test(v)) {
+                            hint.textContent = 'Please enter a valid organization or department name.';
+                            hint.style.color = 'var(--nau-gold,#e6a817)';
+                            hint.style.display = 'block';
+                        } else {
+                            hint.style.display = 'none';
+                        }
+                    });
+                });
+
+                // Hide all hints belonging to a form when it resets (Clear Form button)
+                document.querySelectorAll('.sr-form').forEach(form => {
+                    form.addEventListener('reset', () => {
+                        requestAnimationFrame(() => {
+                            entries.forEach(({ input, hint }) => {
+                                if (form.contains(input)) hint.style.display = 'none';
+                            });
+                        });
+                    });
+                });
+            })();
+
+            function showValidationError(feedbackEl, invalidFields) {
+                const count = invalidFields.length;
+                const names = invalidFields.map(f => f.label).join(', ');
+                showFeedbackMsg(
+                    feedbackEl,
+                    `<strong>${count} required field${count > 1 ? 's need' : ' needs'} attention:</strong> ${names}.`,
+                    'bk-feedback--error', 2, true, true
+                );
+            }
+
             // Real form submission to ServiceRequestSubmission.php
             document.querySelectorAll('.sr-form').forEach(form => {
                 form.addEventListener('submit', async (e) => {
                     e.preventDefault();
 
-                    if (!form.checkValidity()) {
-                        form.reportValidity();
+                    const feedbackEl = form.querySelector('.sr-form-feedback');
+                    // Clear any prior feedback before each new submission attempt so a
+                    // success message from a previous submit doesn't block error messages.
+                    if (feedbackEl) {
+                        clearTimeout(feedbackEl._dismissTimer);
+                        feedbackEl.style.display = 'none';
+                        feedbackEl.textContent = '';
+                        feedbackEl._msgPriority = 0;
+                    }
+
+                    const invalidFields = getInvalidFields(form);
+                    if (invalidFields.length > 0) {
+                        showValidationError(feedbackEl, invalidFields);
+                        invalidFields[0].el.scrollIntoView({ behavior: 'smooth', block: 'center' });
                         return;
                     }
 
@@ -1865,13 +2197,6 @@
                     const serviceType = serviceTypeByFormId[form.id] || '';
                     const formData = new FormData(form);
                     formData.append('service_type', serviceType);
-
-                    const feedbackEl = form.querySelector('.sr-form-feedback');
-                    if (feedbackEl) {
-                        feedbackEl.style.display = 'none';
-                        feedbackEl.className = 'bk-feedback';
-                        feedbackEl.textContent = '';
-                    }
 
                     btn.disabled = true;
                     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
@@ -1888,22 +2213,22 @@
                             throw new Error(result.message || 'Unable to submit your request at this time.');
                         }
 
-                        if (feedbackEl) {
-                            feedbackEl.className = 'bk-feedback bk-feedback--success';
-                            feedbackEl.style.display = 'block';
-                            feedbackEl.textContent = result.message || 'Service request submitted successfully! You will receive a confirmation email shortly.';
-                            feedbackEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        }
+                        // Priority 4 — success: stays until user starts a new submission
+                        showFeedbackMsg(
+                            feedbackEl,
+                            result.message || 'Service request submitted successfully! You will receive a confirmation email shortly.',
+                            'bk-feedback--success', 4, false, true
+                        );
                         form.reset();
                         resetFileUploadUI(form);
                     } catch (err) {
                         console.error('Service request submission error:', err);
-                        if (feedbackEl) {
-                            feedbackEl.className = 'bk-feedback bk-feedback--error';
-                            feedbackEl.style.display = 'block';
-                            feedbackEl.textContent = err.message || 'Unable to connect to the server. Please try again later.';
-                            feedbackEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        }
+                        // Priority 3 — server error: auto-dismisses after 8 s
+                        showFeedbackMsg(
+                            feedbackEl,
+                            err.message || 'Unable to connect to the server. Please try again later.',
+                            'bk-feedback--error', 3, true, true
+                        );
                     } finally {
                         btn.disabled = false;
                         btn.innerHTML = originalLabel;

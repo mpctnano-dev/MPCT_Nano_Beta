@@ -1,0 +1,345 @@
+<header class="site-header" id="mainHeader">
+    <div class="main-nav-container container">
+
+        <a href="/index.html" class="brand-logo">
+            <img src="/Images/NAU.png" alt="Northern Arizona University" class="header-logo">
+            <div class="brand-divider"></div>
+            <div class="brand-text">
+                <span class="dept1">Microelectronics</span>
+                <span class="dept-sub">at Northern Arizona University</span>
+            </div>
+        </a>
+
+        <button class="mobile-toggle" aria-label="Open Menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 12h18M3 6h18M3 18h18" />
+            </svg>
+        </button>
+
+        <nav class="nav-menu">
+
+            <!-- Home — icon only (no text label) -->
+            <div class="nav-item">
+                <a href="/index.html"
+                   class="nav-link nav-link--icon"
+                   data-path="index.html"
+                   aria-label="Home">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                    </svg>
+                </a>
+            </div>
+
+            <!-- ═══════ MPaCT Lab Mega-Menu (icon grid) ═══════ -->
+            <div class="nav-item nav-item--has-dropdown" id="mpactDropdownItem">
+                <button class="nav-dropdown-btn" aria-expanded="false" aria-haspopup="true">
+                    MPaCT Lab
+                    <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+
+                <div class="nav-mega-panel" role="menu" aria-label="MPaCT Lab navigation">
+                    <div class="nav-mega-inner">
+                        <div class="nav-dropdown-grid">
+
+                            <a href="/MPaCT.html" class="nav-dropdown-link"
+                                data-path="MPaCT.html" role="menuitem">
+                                <div class="nav-dropdown-icon">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                    </svg>
+                                </div>
+                                <div class="nav-dropdown-text">
+                                    <strong>Lab Overview</strong>
+                                    <small>About the MPaCT Facility</small>
+                                </div>
+                            </a>
+
+                            <a href="/Equipment.html" class="nav-dropdown-link"
+                                data-path="Equipment.html" role="menuitem">
+                                <div class="nav-dropdown-icon">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                                    </svg>
+                                </div>
+                                <div class="nav-dropdown-text">
+                                    <strong>Equipment Catalog</strong>
+                                    <small>Browse 25+ instruments</small>
+                                </div>
+                            </a>
+
+                            <a href="/Reserve_Equipment.html" class="nav-dropdown-link"
+                                data-path="Reserve_Equipment.html" role="menuitem">
+                                <div class="nav-dropdown-icon">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                                        <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                                        <line x1="9" y1="12" x2="15" y2="12"></line>
+                                        <line x1="9" y1="16" x2="13" y2="16"></line>
+                                    </svg>
+                                </div>
+                                <div class="nav-dropdown-text">
+                                    <strong>Reserve Equipment</strong>
+                                    <small>Submit a usage request</small>
+                                </div>
+                            </a>
+
+                            <div class="nav-dropdown-link nav-dropdown-link--disabled"
+                                role="menuitem" aria-disabled="true">
+                                <div class="nav-dropdown-icon">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                        <polyline points="9 12 11 14 15 10"></polyline>
+                                    </svg>
+                                </div>
+                                <div class="nav-dropdown-text">
+                                    <strong>Safety &amp; Training <span class="nav-soon-badge">Soon</span></strong>
+                                    <small>Certifications &amp; SOPs</small>
+                                </div>
+                            </div>
+
+                            <a href="/services.html" class="nav-dropdown-link"
+                                data-path="services.html" role="menuitem">
+                                <div class="nav-dropdown-icon">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                                        <polyline points="2 17 12 22 22 17"></polyline>
+                                        <polyline points="2 12 12 17 22 12"></polyline>
+                                    </svg>
+                                </div>
+                                <div class="nav-dropdown-text">
+                                    <strong>Services</strong>
+                                    <small>3D Printing &amp; Support</small>
+                                </div>
+                            </a>
+
+                            <div class="nav-dropdown-link nav-dropdown-link--disabled"
+                                role="menuitem" aria-disabled="true">
+                                <div class="nav-dropdown-icon">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <rect x="3" y="3" width="7" height="7"></rect>
+                                        <rect x="14" y="3" width="7" height="7"></rect>
+                                        <rect x="14" y="14" width="7" height="7"></rect>
+                                        <rect x="3" y="14" width="7" height="7"></rect>
+                                    </svg>
+                                </div>
+                                <div class="nav-dropdown-text">
+                                    <strong>Controlled Environment <span class="nav-soon-badge">Soon</span></strong>
+                                    <small>Facility Access</small>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End MPaCT Lab Mega-Menu -->
+
+            <!-- ═══════ Degree Programs Mega-Menu (icon grid) ═══════ -->
+            <div class="nav-item nav-item--has-dropdown" id="degreeDropdownItem">
+                <button class="nav-dropdown-btn" aria-expanded="false" aria-haspopup="true">
+                    Degree Programs
+                    <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+
+                <div class="nav-mega-panel nav-mega-panel--narrow" role="menu" aria-label="Degree Programs navigation">
+                    <div class="nav-mega-inner">
+                        <div class="nav-dropdown-grid nav-dropdown-grid--single">
+
+                            <a href="/degree-programs.html" class="nav-dropdown-link"
+                                data-path="degree-programs.html" role="menuitem">
+                                <div class="nav-dropdown-icon">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                    </svg>
+                                </div>
+                                <div class="nav-dropdown-text">
+                                    <strong>Home</strong>
+                                    <small>Degree Programs Overview</small>
+                                </div>
+                            </a>
+
+                            <a href="/CareerPathways.html#degree-programs" class="nav-dropdown-link"
+                                data-path="CareerPathways.html" role="menuitem">
+                                <div class="nav-dropdown-icon">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                                    </svg>
+                                </div>
+                                <div class="nav-dropdown-text">
+                                    <strong>Career Pathways</strong>
+                                    <small>Explore career directions</small>
+                                </div>
+                            </a>
+
+                            <a href="/degree-programs.html#labs" class="nav-dropdown-link"
+                                data-path="degree-programs.html" role="menuitem">
+                                <div class="nav-dropdown-icon">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M9 3v7.09A6 6 0 0 0 6 16a6 6 0 0 0 12 0 6 6 0 0 0-3-5.18V3"></path>
+                                        <line x1="9" y1="3" x2="15" y2="3"></line>
+                                        <line x1="10" y1="7" x2="14" y2="7"></line>
+                                    </svg>
+                                </div>
+                                <div class="nav-dropdown-text">
+                                    <strong>Labs</strong>
+                                    <small>Research &amp; teaching labs</small>
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Degree Programs Mega-Menu -->
+
+            <!-- ═══════ WFD Split-Panel Mega-Menu ═══════ -->
+            <div class="nav-item nav-item--has-dropdown" id="wfdDropdownItem">
+                <button class="nav-dropdown-btn" aria-expanded="false" aria-haspopup="true">
+                    Workforce
+                    <svg class="nav-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+
+                <div class="nav-mega-panel nav-mega-panel--narrow" role="menu" aria-label="Workforce Development navigation">
+                    <div class="nav-mega-inner">
+                        <div class="nav-dropdown-grid nav-dropdown-grid--single">
+
+                            <a href="/WorkForceDevelopment.html" class="nav-dropdown-link"
+                                data-path="WorkForceDevelopment.html" role="menuitem">
+                                <div class="nav-dropdown-icon">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                    </svg>
+                                </div>
+                                <div class="nav-dropdown-text">
+                                    <strong>Home</strong>
+                                    <small>Workforce Overview</small>
+                                </div>
+                            </a>
+
+                            <a href="/PTAP.html" class="nav-dropdown-link"
+                                data-path="PTAP.html" role="menuitem">
+                                <div class="nav-dropdown-icon">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                        <polyline points="9 12 11 14 15 10"></polyline>
+                                    </svg>
+                                </div>
+                                <div class="nav-dropdown-text">
+                                    <strong>PTAP Apprenticeship</strong>
+                                    <small>2-year program with TSMC</small>
+                                </div>
+                            </a>
+
+                            <a href="/CareerPathways.html#professional-development" class="nav-dropdown-link"
+                                data-path="CareerPathways.html" role="menuitem">
+                                <div class="nav-dropdown-icon">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                                        <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                                        <line x1="9" y1="12" x2="15" y2="12"></line>
+                                        <line x1="9" y1="16" x2="13" y2="16"></line>
+                                    </svg>
+                                </div>
+                                <div class="nav-dropdown-text">
+                                    <strong>Career Pathways</strong>
+                                    <small>Skills training &amp; growth</small>
+                                </div>
+                            </a>
+
+                            <a href="/WorkForceDevelopment.html#training" class="nav-dropdown-link"
+                                data-path="WorkForceDevelopment.html" role="menuitem">
+                                <div class="nav-dropdown-icon">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                                    </svg>
+                                </div>
+                                <div class="nav-dropdown-text">
+                                    <strong>Training Programs</strong>
+                                    <small>Certifications &amp; workshops</small>
+                                </div>
+                            </a>
+
+                            <a href="/Contact_Us.html?category=research" class="nav-dropdown-link"
+                                data-path="Contact_Us.html" role="menuitem">
+                                <div class="nav-dropdown-icon">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="9" cy="7" r="4"></circle>
+                                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                    </svg>
+                                </div>
+                                <div class="nav-dropdown-text">
+                                    <strong>Become a Partner</strong>
+                                    <small>Access top talent early</small>
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End WFD Mega-Menu -->
+
+            <!-- News -->
+            <div class="nav-item">
+                <a href="/News.html" class="nav-link"
+                    data-path="News.html">News</a>
+            </div>
+
+            <!-- About Us -->
+            <div class="nav-item">
+                <a href="/About_Us.html" class="nav-link"
+                    data-path="About_Us.html">About</a>
+            </div>
+
+            <!-- Static CTA button -->
+            <div class="nav-item">
+                <a href="/Contact_Us.html" class="btn btn-sm btn-gold">Contact</a>
+            </div>
+
+        </nav>
+    </div>
+</header>

@@ -39,16 +39,8 @@
 
 <body>
 
-    <!-- 
-        Site Navigation 
-        Uses semantic <header> with sticky positioning. 
-        Note: '.scrolled' class is toggled via JS for transparency effect.
-    -->
-    <!-- 
-        Site Navigation 
-        Implemented via Web Component <site-header> from layout.js
-    -->
-    <site-header></site-header>
+    <!-- Header loaded from /includes/header.html via layout.js -->
+    <div id="site-header"></div>
     <noscript>
         <nav style="background:#002454;padding:10px;text-align:center;font-family:sans-serif;">
             <a href="index.html" style="color:#fff;margin:0 8px;">Home</a>
@@ -723,16 +715,8 @@
 
     </main>
 
-    <!-- 
-        Site Footer
-        Contains legal links, sitemap, and university branding.
-    -->
-    <!-- 
-        Site Footer
-        <site-footer> from layout.js
-            *Commit*
-    -->
-    <site-footer></site-footer>
+    <!-- Footer loaded from /includes/footer.html via layout.js -->
+    <div id="site-footer"></div>
 
     <!-- Layout Scripts (Must load before main script) -->
     <script src="JS/layout.js"></script>
