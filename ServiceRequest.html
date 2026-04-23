@@ -892,7 +892,7 @@
 
                                     <div class="sr-file-upload" id="p-file-box" data-required-upload>
                                         <i class="fas fa-cloud-upload-alt"></i>
-                                        <p id="p-file-prompt"><strong>Click to browse</strong> or drag &amp; drop 3D model files <span class="text-gold">*</span><br><span style="font-size:0.8rem;color:var(--gray-500);">STL, 3MF, OBJ, PLY, STEP, IGES, PDF, JPG, PNG &nbsp;·&nbsp; No ZIP files</span></p>
+                                        <p id="p-file-prompt"><strong>Click to browse</strong> or drag &amp; drop 3D model files <span class="text-gold">*</span><br><span style="font-size:0.8rem;color:var(--gray-500);">STL, 3MF, OBJ, PLY, STEP, IGES, PDF, JPG, PNG &nbsp;·&nbsp; No ZIP files &nbsp;·&nbsp; Max 25 MB per file, 50 MB total</span></p>
                                         <input type="file" id="p-file" name="files[]" accept=".stl,.3mf,.obj,.ply,.step,.stp,.iges,.igs,.pdf,.jpg,.jpeg,.png" multiple
                                             style="display:none;">
                                     </div>
@@ -929,7 +929,7 @@
                                             <label class="sr-label" for="p-qty">Quantity <span
                                                     class="text-gold">*</span></label>
                                             <input type="number" id="p-qty" name="quantity" class="sr-input" required
-                                                min="1" value="1">
+                                                min="1" max="9999" step="1" value="1">
                                         </div>
                                     </div>
 
@@ -948,7 +948,7 @@
                                         <div class="sr-group">
                                             <label class="sr-label" for="p-filament-est">Estimated Filament Use</label>
                                             <input type="number" id="p-filament-est" name="filament_estimate"
-                                                class="sr-input" min="0" step="any" placeholder="e.g. 50">
+                                                class="sr-input" min="0" max="99999" step="any" placeholder="e.g. 50">
                                             <span class="sr-note">Grams (g). Optional — leave blank if unknown.</span>
                                         </div>
                                     </div>
@@ -1280,7 +1280,7 @@
 
                                     <div class="sr-file-upload" id="l-file-box">
                                         <i class="fas fa-cloud-upload-alt"></i>
-                                        <p id="l-file-prompt"><strong>Click to browse</strong> or drag &amp; drop design files<br><span style="font-size:0.8rem;color:var(--gray-500);">Gerber, DXF, DWG, SVG, PDF, JPG, PNG, STEP &nbsp;·&nbsp; No ZIP files</span></p>
+                                        <p id="l-file-prompt"><strong>Click to browse</strong> or drag &amp; drop design files<br><span style="font-size:0.8rem;color:var(--gray-500);">Gerber, DXF, DWG, SVG, PDF, JPG, PNG, STEP &nbsp;·&nbsp; No ZIP files &nbsp;·&nbsp; Max 25 MB per file, 50 MB total</span></p>
                                         <input type="file" id="l-file" name="design_files[]" accept=".gbr,.gerber,.dxf,.dwg,.svg,.pdf,.jpg,.jpeg,.png,.step,.stp" multiple
                                             style="display:none;">
                                     </div>
@@ -1295,7 +1295,7 @@
                                             <label class="sr-label" for="l-qty">Number of Units <span
                                                     class="text-gold">*</span></label>
                                             <input type="number" id="l-qty" name="quantity" class="sr-input" required
-                                                min="1" value="1">
+                                                min="1" max="9999" step="1" value="1">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="l-deadline">Requested Completion Date <span class="text-gold">*</span></label>
@@ -1533,6 +1533,27 @@
                                         <a href="../Contact_Us.html" style="color: var(--nau-blue);">contact the lab manager</a>.
                                     </div>
 
+                                    <div class="sr-row" style="grid-template-columns: 1fr 1fr 1fr;">
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="sc-dim-l">Object Length (mm) <span
+                                                    class="text-gold">*</span></label>
+                                            <input type="number" id="sc-dim-l" name="object_dim_length" class="sr-input" required
+                                                min="1" max="1000" step="any" placeholder="1 – 1000">
+                                        </div>
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="sc-dim-w">Object Width (mm) <span
+                                                    class="text-gold">*</span></label>
+                                            <input type="number" id="sc-dim-w" name="object_dim_width" class="sr-input" required
+                                                min="1" max="1000" step="any" placeholder="1 – 1000">
+                                        </div>
+                                        <div class="sr-group">
+                                            <label class="sr-label" for="sc-dim-h">Object Height (mm) <span
+                                                    class="text-gold">*</span></label>
+                                            <input type="number" id="sc-dim-h" name="object_dim_height" class="sr-input" required
+                                                min="1" max="1000" step="any" placeholder="1 – 1000">
+                                        </div>
+                                    </div>
+
                                     <div class="sr-row">
                                         <div class="sr-group">
                                             <label class="sr-label" for="sc-surface">Object Surface Type <span
@@ -1578,7 +1599,7 @@
 
                                     <div class="sr-file-upload" id="sc-file-box">
                                         <i class="fas fa-cloud-upload-alt"></i>
-                                        <p id="sc-file-prompt"><strong>Click to browse</strong> or drag &amp; drop reference files<br><span style="font-size:0.8rem;color:var(--gray-500);">JPG, PNG, TIF, PDF &nbsp;·&nbsp; No ZIP files &nbsp;·&nbsp; Optional</span></p>
+                                        <p id="sc-file-prompt"><strong>Click to browse</strong> or drag &amp; drop reference files<br><span style="font-size:0.8rem;color:var(--gray-500);">JPG, PNG, TIF, PDF &nbsp;·&nbsp; No ZIP files &nbsp;·&nbsp; Max 25 MB per file, 50 MB total &nbsp;·&nbsp; Optional</span></p>
                                         <input type="file" id="sc-file" name="reference_files[]" accept=".jpg,.jpeg,.png,.tif,.tiff,.pdf" multiple
                                             style="display:none;">
                                     </div>
@@ -1600,7 +1621,7 @@
                                         </div>
                                         <div class="sr-workflow-divider"></div>
                                         <div class="sr-workflow-step">
-                                            <i class="fa-solid fa-hand-holding-box"></i>
+                                            <i class="fa-solid fa-hand-holding"></i>
                                             <p><strong>3. Pick Up</strong>Return to the lab to collect your sample and scanned files. Bring a USB flash drive.</p>
                                         </div>
                                     </div>
@@ -1610,7 +1631,7 @@
                                             <label class="sr-label" for="sc-qty">Number of Objects to Scan <span
                                                     class="text-gold">*</span></label>
                                             <input type="number" id="sc-qty" name="quantity" class="sr-input" required
-                                                min="1" value="1">
+                                                min="1" max="9999" step="1" value="1">
                                         </div>
                                         <div class="sr-group">
                                             <label class="sr-label" for="sc-dropoff-date">Preferred Drop-off Date</label>
@@ -1701,12 +1722,27 @@
                 'sc-file': ['jpg', 'jpeg', 'png', 'tif', 'tiff', 'pdf']
             };
 
-            // Priority-aware feedback display.
-            // Priority: 1 = file-type warning, 2 = form validation, 3 = server error, 4 = success.
-            // A lower-priority message will never overwrite a higher-priority active one.
-            // autoDismiss: true = 8 s auto-hide for errors; false = stays (used for success).
-            // scroll: whether to scrollIntoView after showing.
-            function showFeedbackMsg(feedbackEl, html, cssClass, priority, autoDismiss, scroll) {
+            // File size limits (must match PHP MAX_FILE_SIZE_BYTES and combined cap)
+            const MAX_FILE_SIZE_MB = 25;       // per-file limit
+            const MAX_FILE_SIZE_BYTES = 25 * 1024 * 1024;
+            const MAX_TOTAL_SIZE_MB = 50;      // combined total across all files
+            const MAX_FILES_PER_UPLOAD = 10;
+
+            // Each .sr-form has its own feedback strip that has to carry a few
+            // different kinds of messages: a quick "file too big" warning, a
+            // pre-submit "these fields are wrong" list, a server error after
+            // submit, and a success confirmation. Without some ordering, a
+            // late-arriving network error could overwrite the specific file
+            // warning the user actually needs to see.
+            //
+            // Priorities: 1 file-level warning, 2 form validation, 3 server
+            // error, 4 success. A lower priority can't overwrite a visible
+            // higher-priority message while it is still within its dismiss
+            // window. Every message auto-dismisses so the strip doesn't get
+            // stuck on a stale state — that was the old bug where a success
+            // toast blocked the next file warning from ever appearing.
+            const FEEDBACK_DISMISS_MS = { error: 8000, success: 10000 };
+            function showFeedbackMsg(feedbackEl, html, cssClass, priority, scroll) {
                 if (!feedbackEl) return;
                 const curPriority = feedbackEl._msgPriority || 0;
                 const isVisible = feedbackEl.style.display !== 'none' && feedbackEl.textContent !== '';
@@ -1717,16 +1753,17 @@
                 feedbackEl.style.display = 'block';
                 feedbackEl.innerHTML = html;
                 if (scroll) feedbackEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                if (autoDismiss) {
-                    feedbackEl._dismissTimer = setTimeout(() => {
-                        if (feedbackEl._msgPriority === priority) {
-                            feedbackEl.style.display = 'none';
-                            feedbackEl.className = 'bk-feedback';
-                            feedbackEl.textContent = '';
-                            feedbackEl._msgPriority = 0;
-                        }
-                    }, 8000);
-                }
+                const hideAfter = cssClass.indexOf('--success') !== -1
+                    ? FEEDBACK_DISMISS_MS.success
+                    : FEEDBACK_DISMISS_MS.error;
+                feedbackEl._dismissTimer = setTimeout(() => {
+                    if (feedbackEl._msgPriority === priority) {
+                        feedbackEl.style.display = 'none';
+                        feedbackEl.className = 'bk-feedback';
+                        feedbackEl.textContent = '';
+                        feedbackEl._msgPriority = 0;
+                    }
+                }, hideAfter);
             }
 
             function safeText(str) {
@@ -1741,6 +1778,7 @@
                 const originalPrompt = promptEl.innerHTML;
                 const allowed = allowedExtensions[input.id] || [];
                 let currentFiles = [];
+                box._getFileCount = () => currentFiles.length;
 
                 // File list rendered below the upload box
                 const listEl = document.createElement('ul');
@@ -1797,22 +1835,61 @@
                     const picked = Array.from(input.files);
                     const feedbackEl = input.closest('.sr-form')?.querySelector('.sr-form-feedback');
 
+                    // If a prior success message is still on-screen, tear it
+                    // down so a new file-level warning shows immediately
+                    // instead of being blocked by the priority check.
+                    if (feedbackEl && feedbackEl._msgPriority === 4) {
+                        clearTimeout(feedbackEl._dismissTimer);
+                        feedbackEl.style.display = 'none';
+                        feedbackEl.className = 'bk-feedback';
+                        feedbackEl.textContent = '';
+                        feedbackEl._msgPriority = 0;
+                    }
+
                     for (const file of picked) {
                         const ext = file.name.split('.').pop().toLowerCase();
                         if (ext === 'zip') {
                             showFeedbackMsg(feedbackEl,
                                 `<strong>ZIP files are not accepted.</strong> Please extract and upload the individual files directly. Allowed types: ${allowed.join(', ')}.`,
-                                'bk-feedback--error', 1, true, false);
+                                'bk-feedback--error', 1, false);
                             input.value = '';
                             return;
                         }
                         if (allowed.length && !allowed.includes(ext)) {
                             showFeedbackMsg(feedbackEl,
                                 `File type not accepted: "${safeText(file.name)}". Allowed: ${allowed.join(', ')}.`,
-                                'bk-feedback--error', 1, true, false);
+                                'bk-feedback--error', 1, false);
                             input.value = '';
                             return;
                         }
+                        if (file.size > MAX_FILE_SIZE_BYTES) {
+                            const sizeMB = (file.size / (1024 * 1024)).toFixed(1);
+                            showFeedbackMsg(feedbackEl,
+                                `"${safeText(file.name)}" is ${sizeMB} MB — exceeds the ${MAX_FILE_SIZE_MB} MB per-file limit. Please reduce the file size and try again.`,
+                                'bk-feedback--error', 1, false);
+                            input.value = '';
+                            return;
+                        }
+                    }
+
+                    const totalCount = currentFiles.length + picked.length;
+                    if (totalCount > MAX_FILES_PER_UPLOAD) {
+                        showFeedbackMsg(feedbackEl,
+                            `Too many files. You can upload a maximum of ${MAX_FILES_PER_UPLOAD} files per submission (you selected ${totalCount}).`,
+                            'bk-feedback--error', 1, false);
+                        input.value = '';
+                        return;
+                    }
+
+                    const currentTotal = currentFiles.reduce((sum, f) => sum + f.size, 0);
+                    const pickedTotal = picked.reduce((sum, f) => sum + f.size, 0);
+                    if (currentTotal + pickedTotal > MAX_TOTAL_SIZE_MB * 1024 * 1024) {
+                        const combinedMB = ((currentTotal + pickedTotal) / (1024 * 1024)).toFixed(1);
+                        showFeedbackMsg(feedbackEl,
+                            `Total upload size is ${combinedMB} MB — exceeds the ${MAX_TOTAL_SIZE_MB} MB combined limit across all files. Remove some files or reduce sizes.`,
+                            'bk-feedback--error', 1, false);
+                        input.value = '';
+                        return;
                     }
 
                     // Add new files, skip exact duplicates (same name + size)
@@ -1823,7 +1900,14 @@
                     });
                     syncInput();
                     renderList();
-                    input.value = ''; // reset so same file can be re-added after removal
+                    // NOTE: Do NOT set input.value='' here. Setting an <input type="file">
+                    // value to '' wipes input.files — meaning FormData(form) submits with
+                    // zero files attached. That's the "files never arrive at PHP" bug.
+                    // syncInput() above populates input.files via DataTransfer, which is
+                    // what the FormData serializer reads. The duplicate-skip logic above
+                    // already handles the "same file picked twice" edge case, and the
+                    // remove button (below) resets input.value when needed so a user
+                    // can re-add a file after removing it.
                 });
 
                 // Expose reset for form clear
@@ -1988,14 +2072,36 @@
                     invalid.push({ el, label });
                 });
 
-                // Check required file uploads (marked with data-required-upload)
+                // Check required file uploads (marked with data-required-upload).
+                // _getFileCount() is the authoritative source because currentFiles is the
+                // closure-owned list that setupFileUpload maintains. input.files should
+                // now match (the stray input.value='' that used to wipe it was removed),
+                // but keeping _getFileCount() means validation stays correct even if a
+                // future change perturbs the DataTransfer syncing behavior.
+                // The _outlineClearListener is stored on the box so removeEventListener
+                // can cancel any previous instance before adding a fresh one — prevents
+                // listener accumulation across repeated submit clicks.
                 form.querySelectorAll('[data-required-upload]').forEach(box => {
                     const fileInput = box.querySelector('input[type="file"]');
-                    if (!fileInput || fileInput.files.length === 0) {
+                    const fileCount = box._getFileCount ? box._getFileCount() : fileInput?.files.length ?? 0;
+                    if (!fileInput || fileCount === 0) {
                         box.style.outline = '2px solid var(--nau-red, #c0392b)';
                         box.style.outlineOffset = '2px';
-                        if (fileInput) fileInput.addEventListener('change', () => { box.style.outline = ''; box.style.outlineOffset = ''; }, { once: true });
+                        if (fileInput) {
+                            if (!box._outlineClearListener) {
+                                box._outlineClearListener = () => { box.style.outline = ''; box.style.outlineOffset = ''; };
+                            }
+                            fileInput.removeEventListener('change', box._outlineClearListener);
+                            fileInput.addEventListener('change', box._outlineClearListener, { once: true });
+                        }
                         invalid.push({ el: box, label: '3D Model File (required — please attach at least one file)' });
+                    } else {
+                        // File is present — clear any outline left over from a previous failed submit.
+                        box.style.outline = '';
+                        box.style.outlineOffset = '';
+                        if (fileInput && box._outlineClearListener) {
+                            fileInput.removeEventListener('change', box._outlineClearListener);
+                        }
                     }
                 });
 
@@ -2030,6 +2136,67 @@
                     }
                 });
 
+                // Name fields: reject digits, most punctuation, and symbols
+                const nameFieldIds = ['p-fname', 'p-lname', 'l-fname', 'l-lname', 'sc-fname', 'sc-lname'];
+                form.querySelectorAll('input[type="text"]').forEach(el => {
+                    if (!nameFieldIds.includes(el.id)) return;
+                    const val = el.value.trim();
+                    if (!val) return;
+                    if (invalid.find(f => f.el === el)) return;
+                    // Allow Unicode letters, spaces, hyphens, apostrophes, dots only
+                    if (!/^[\p{L}\s'\-\.]+$/u.test(val)) {
+                        const label = getFieldLabel(el, form);
+                        el.style.outline = '2px solid var(--nau-red, #c0392b)';
+                        el.style.outlineOffset = '2px';
+                        el.addEventListener('input', () => { el.style.outline = ''; el.style.outlineOffset = ''; }, { once: true });
+                        invalid.push({ el, label: `${label} (letters, spaces, hyphens, or apostrophes only)` });
+                    }
+                });
+
+                // Numeric fields: reject non-numeric characters typed into number inputs
+                form.querySelectorAll('input[type="number"]').forEach(el => {
+                    if (el.closest('.sr-hidden')) return;
+                    const val = el.value.trim();
+                    if (!val) return;
+                    if (invalid.find(f => f.el === el)) return;
+
+                    const num = Number(val);
+                    const label = getFieldLabel(el, form);
+
+                    // Reject NaN (covers text like "abc" somehow pasted in)
+                    if (isNaN(num)) {
+                        el.style.outline = '2px solid var(--nau-red, #c0392b)';
+                        el.style.outlineOffset = '2px';
+                        el.addEventListener('input', () => { el.style.outline = ''; el.style.outlineOffset = ''; }, { once: true });
+                        invalid.push({ el, label: `${label} must be a valid number.` });
+                        return;
+                    }
+
+                    // Reject negative values
+                    if (num < 0) {
+                        el.style.outline = '2px solid var(--nau-red, #c0392b)';
+                        el.style.outlineOffset = '2px';
+                        el.addEventListener('input', () => { el.style.outline = ''; el.style.outlineOffset = ''; }, { once: true });
+                        invalid.push({ el, label: `${label} cannot be negative.` });
+                        return;
+                    }
+
+                    // Enforce min/max from HTML attributes
+                    const min = el.hasAttribute('min') ? parseFloat(el.min) : null;
+                    const max = el.hasAttribute('max') ? parseFloat(el.max) : null;
+                    if (min !== null && num < min) {
+                        el.style.outline = '2px solid var(--nau-red, #c0392b)';
+                        el.style.outlineOffset = '2px';
+                        el.addEventListener('input', () => { el.style.outline = ''; el.style.outlineOffset = ''; }, { once: true });
+                        invalid.push({ el, label: `${label} must be at least ${min}.` });
+                    } else if (max !== null && num > max) {
+                        el.style.outline = '2px solid var(--nau-red, #c0392b)';
+                        el.style.outlineOffset = '2px';
+                        el.addEventListener('input', () => { el.style.outline = ''; el.style.outlineOffset = ''; }, { once: true });
+                        invalid.push({ el, label: `${label} must be ${max} or less.` });
+                    }
+                });
+
                 return invalid;
             }
 
@@ -2045,6 +2212,52 @@
                     el.max = maxDate;
                 });
             })();
+
+            // Live numeric clamp: physically prevent typing beyond min/max.
+            // - On every keystroke: if value > max, immediately snap to max.
+            // - On blur: also enforce min (so partial input like "0" isn't rejected mid-type).
+            // - Block 'e', 'E', '+', '-' so only digits and '.' are possible.
+            document.querySelectorAll('input[type="number"]').forEach(el => {
+                const min = el.hasAttribute('min') ? parseFloat(el.min) : null;
+                const max = el.hasAttribute('max') ? parseFloat(el.max) : null;
+
+                // Real-time max enforcement — fires on every keystroke
+                el.addEventListener('input', () => {
+                    const val = el.value.trim();
+                    if (val === '') return;
+                    const num = Number(val);
+                    if (isNaN(num)) return;
+                    if (max !== null && num > max) {
+                        el.value = max;
+                    }
+                });
+
+                // On blur: enforce min and clean up
+                el.addEventListener('blur', () => {
+                    const val = el.value.trim();
+                    if (val === '') return;
+                    const num = Number(val);
+                    if (isNaN(num)) { el.value = ''; return; }
+                    let clamped = num;
+                    if (min !== null && clamped < min) clamped = min;
+                    if (max !== null && clamped > max) clamped = max;
+                    el.value = clamped;
+                });
+
+                // Block non-numeric characters at the keyboard level
+                el.addEventListener('keydown', e => {
+                    if (['e', 'E', '+'].includes(e.key)) {
+                        e.preventDefault();
+                    }
+                    if (e.key === '-' && (!el.min || parseFloat(el.min) >= 0)) {
+                        e.preventDefault();
+                    }
+                    // Block decimal point on integer-only fields (quantity)
+                    if (e.key === '.' && el.step && el.getAttribute('step') === '1') {
+                        e.preventDefault();
+                    }
+                });
+            });
 
             // Live word-count display for all textareas with data-max-words
             document.querySelectorAll('textarea[data-max-words]').forEach(textarea => {
@@ -2072,7 +2285,9 @@
             });
 
             // Character-limit feedback for text/email inputs with maxlength
-            document.querySelectorAll('input[maxlength]:not([type="tel"])').forEach(input => {
+            // Exclude type="number" — maxlength is ignored by browsers on number
+            // inputs anyway, and the numeric range (min/max) is more meaningful.
+            document.querySelectorAll('input[maxlength]:not([type="tel"]):not([type="number"])').forEach(input => {
                 const max = parseInt(input.maxLength, 10);
                 const hint = document.createElement('span');
                 hint.style.cssText = 'display:none; font-size:0.78rem; margin-top:3px; transition: color 0.2s;';
@@ -2166,7 +2381,7 @@
                 showFeedbackMsg(
                     feedbackEl,
                     `<strong>${count} required field${count > 1 ? 's need' : ' needs'} attention:</strong> ${names}.`,
-                    'bk-feedback--error', 2, true, true
+                    'bk-feedback--error', 2, true
                 );
             }
 
@@ -2176,8 +2391,9 @@
                     e.preventDefault();
 
                     const feedbackEl = form.querySelector('.sr-form-feedback');
-                    // Clear any prior feedback before each new submission attempt so a
-                    // success message from a previous submit doesn't block error messages.
+                    // Reset the strip on every new submit attempt so the next
+                    // message starts from a clean slate — otherwise a stale
+                    // success from a prior submit could block a fresh error.
                     if (feedbackEl) {
                         clearTimeout(feedbackEl._dismissTimer);
                         feedbackEl.style.display = 'none';
@@ -2213,21 +2429,19 @@
                             throw new Error(result.message || 'Unable to submit your request at this time.');
                         }
 
-                        // Priority 4 — success: stays until user starts a new submission
                         showFeedbackMsg(
                             feedbackEl,
                             result.message || 'Service request submitted successfully! You will receive a confirmation email shortly.',
-                            'bk-feedback--success', 4, false, true
+                            'bk-feedback--success', 4, true
                         );
                         form.reset();
                         resetFileUploadUI(form);
                     } catch (err) {
                         console.error('Service request submission error:', err);
-                        // Priority 3 — server error: auto-dismisses after 8 s
                         showFeedbackMsg(
                             feedbackEl,
                             err.message || 'Unable to connect to the server. Please try again later.',
-                            'bk-feedback--error', 3, true, true
+                            'bk-feedback--error', 3, true
                         );
                     } finally {
                         btn.disabled = false;

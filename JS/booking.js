@@ -241,7 +241,195 @@
         populateCategoryDropdown();
         readUrlParams();
         bindEvents();
+
+        // Attach the shared validation behaviors to the form. Called again
+        // after setFormMode so any newly-visible dynamic sections also pick
+        // up hints, word counters, and number clamps.
+        const bookingForm = document.getElementById('bookingForm');
+        if (bookingForm) applyBookingFieldRules(bookingForm);
     });
+
+    // --- Validation and live-input helpers -----------------------------------
+    // Reserve_Equipment.html uses novalidate, so every soft constraint the
+    // form shows (phone mask, maxlength hints, word counters, number clamps,
+    // name-field character rules) is enforced here instead of by the
+    // browser. EquipmentReservation.php re-runs the same checks so a user
+    // with JS disabled — or a direct POST — still hits the same wall.
+
+    function bkFormatUsPhone(value, isDeleting) {
+        const digits = (value || '').replace(/\D/g, '').slice(0, 10);
+        if (!digits) return '';
+        if (digits.length < 3) return `(${digits}`;
+        if (digits.length === 3) return isDeleting ? `(${digits}` : `(${digits}) `;
+        if (digits.length < 7)  return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
+        return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+    }
+
+    // Apply date min/max, number clamp, maxlength hints, word counters,
+    // phone format, and name/org live hints to every field in the form.
+    // Safe to call repeatedly; each helper guards against double-wiring.
+    function applyBookingFieldRules(container) {
+        if (!container) return;
+
+        const today = new Date();
+        const pad = n => String(n).padStart(2, '0');
+        const fmt = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+        const minDate = fmt(today);
+        const maxDate = fmt(new Date(today.getFullYear(), today.getMonth() + 6, today.getDate()));
+
+        container.querySelectorAll('input[type="date"]').forEach(el => {
+            el.min = minDate;
+            el.max = maxDate;
+        });
+
+        bkAttachNumberClamp(container);
+        bkAttachMaxLengthHints(container);
+        bkAttachWordCounters(container);
+        bkAttachPhoneFormat(container);
+        bkAttachNameOrgHints(container);
+    }
+
+    function bkAttachNumberClamp(container) {
+        container.querySelectorAll('input[type="number"]').forEach(el => {
+            if (el._bkClampWired) return;
+            el._bkClampWired = true;
+            const min = el.hasAttribute('min') ? parseFloat(el.min) : null;
+            const max = el.hasAttribute('max') ? parseFloat(el.max) : null;
+
+            el.addEventListener('input', () => {
+                const v = el.value.trim();
+                if (v === '') return;
+                const n = Number(v);
+                if (isNaN(n)) return;
+                if (max !== null && n > max) el.value = max;
+            });
+            el.addEventListener('blur', () => {
+                const v = el.value.trim();
+                if (v === '') return;
+                const n = Number(v);
+                if (isNaN(n)) { el.value = ''; return; }
+                let c = n;
+                if (min !== null && c < min) c = min;
+                if (max !== null && c > max) c = max;
+                el.value = c;
+            });
+            el.addEventListener('keydown', e => {
+                if (['e', 'E', '+'].includes(e.key)) e.preventDefault();
+                if (e.key === '-' && (!el.min || parseFloat(el.min) >= 0)) e.preventDefault();
+                if (e.key === '.' && el.getAttribute('step') === '1') e.preventDefault();
+            });
+        });
+    }
+
+    function bkAttachMaxLengthHints(container) {
+        container.querySelectorAll('input[maxlength]:not([type="tel"]):not([type="number"])').forEach(input => {
+            if (input._bkHintWired) return;
+            input._bkHintWired = true;
+            const max = parseInt(input.maxLength, 10);
+            const hint = document.createElement('span');
+            hint.style.cssText = 'display:none; font-size:0.78rem; margin-top:3px;';
+            input.parentNode.insertBefore(hint, input.nextSibling);
+            input.addEventListener('input', () => {
+                const remaining = max - input.value.length;
+                if (remaining === 0) {
+                    hint.textContent = `Limit reached (${max} characters max)`;
+                    hint.style.color = 'var(--nau-red, #c0392b)';
+                    hint.style.fontWeight = '600';
+                    hint.style.display = 'block';
+                } else if (remaining <= 5) {
+                    hint.textContent = `${remaining} character${remaining !== 1 ? 's' : ''} remaining`;
+                    hint.style.color = 'var(--nau-gold, #e6a817)';
+                    hint.style.display = 'block';
+                } else {
+                    hint.style.display = 'none';
+                }
+            });
+        });
+    }
+
+    function bkAttachWordCounters(container) {
+        container.querySelectorAll('textarea[data-max-words]').forEach(textarea => {
+            if (textarea._bkCounterWired) return;
+            textarea._bkCounterWired = true;
+            const maxWords = parseInt(textarea.dataset.maxWords, 10);
+            const counter = document.createElement('span');
+            counter.style.cssText = 'display:block; text-align:right; font-size:0.78rem; margin-top:3px;';
+            textarea.parentNode.insertBefore(counter, textarea.nextSibling);
+            const update = () => {
+                const words = textarea.value.trim() ? textarea.value.trim().split(/\s+/).length : 0;
+                const over = words > maxWords;
+                const remaining = maxWords - words;
+                if (over) {
+                    counter.textContent = `${words} / ${maxWords} words — ${Math.abs(remaining)} over limit`;
+                } else if (remaining <= 50) {
+                    counter.textContent = `${words} / ${maxWords} words — ${remaining} remaining`;
+                } else {
+                    counter.textContent = `${words} / ${maxWords} words`;
+                }
+                counter.style.color = over ? 'var(--nau-red, #c0392b)' : remaining <= 50 ? 'var(--nau-gold, #e6a817)' : 'var(--gray-500, #9ca3af)';
+                counter.style.fontWeight = over ? '600' : '400';
+            };
+            textarea.addEventListener('input', update);
+            update();
+        });
+    }
+
+    function bkAttachPhoneFormat(container) {
+        container.querySelectorAll('input[data-bk-phone], input[type="tel"]').forEach(input => {
+            if (input._bkPhoneWired) return;
+            input._bkPhoneWired = true;
+            input.addEventListener('input', e => {
+                const del = e.inputType === 'deleteContentBackward' || e.inputType === 'deleteContentForward';
+                input.value = bkFormatUsPhone(input.value, del);
+            });
+            input.addEventListener('blur', () => {
+                input.value = bkFormatUsPhone(input.value, false);
+            });
+        });
+    }
+
+    function bkAttachNameOrgHints(container) {
+        container.querySelectorAll('input[data-bk-name]').forEach(input => {
+            if (input._bkNameWired) return;
+            input._bkNameWired = true;
+            const hint = document.createElement('span');
+            hint.style.cssText = 'display:none; font-size:0.78rem; color:var(--nau-red,#c0392b); margin-top:2px;';
+            input.after(hint);
+            input.addEventListener('input', () => {
+                const v = input.value;
+                if (/\p{Extended_Pictographic}/u.test(v)) {
+                    hint.textContent = 'Emoji are not allowed in name fields.';
+                    hint.style.display = 'block';
+                } else if (/[0-9!@#$%^&*()\[\]{}|\\:;"<>,?\/~`+=]/.test(v)) {
+                    hint.textContent = 'Names should contain letters, spaces, hyphens, or apostrophes only.';
+                    hint.style.display = 'block';
+                } else {
+                    hint.style.display = 'none';
+                }
+            });
+        });
+        container.querySelectorAll('input[data-bk-org]').forEach(input => {
+            if (input._bkOrgWired) return;
+            input._bkOrgWired = true;
+            const hint = document.createElement('span');
+            hint.style.cssText = 'display:none; font-size:0.78rem; margin-top:2px;';
+            input.after(hint);
+            input.addEventListener('input', () => {
+                const v = input.value;
+                if (/\p{Extended_Pictographic}/u.test(v)) {
+                    hint.textContent = 'Emoji are not allowed in this field.';
+                    hint.style.color = 'var(--nau-red,#c0392b)';
+                    hint.style.display = 'block';
+                } else if (/(.)\1{3,}/.test(v)) {
+                    hint.textContent = 'Please enter a valid organization or department name.';
+                    hint.style.color = 'var(--nau-gold,#e6a817)';
+                    hint.style.display = 'block';
+                } else {
+                    hint.style.display = 'none';
+                }
+            });
+        });
+    }
 
     // Pull the equipment list used by the category and equipment dropdowns.
     async function loadEquipmentData() {
@@ -407,6 +595,10 @@
         } else {
             disableSubmit(false);
         }
+
+        // Newly-visible fields in this mode may need hints/clamps wired up.
+        const form = document.getElementById('bookingForm');
+        if (form) applyBookingFieldRules(form);
     }
 
     // Turn data-bk-required fields on or off when a section is hidden.
@@ -633,6 +825,10 @@
         }
 
         renderModes(item);
+
+        // Dynamic category fields may contain new textareas / numbers — wire them up.
+        const form = document.getElementById('bookingForm');
+        if (form) applyBookingFieldRules(form);
     }
 
     // Add preferred operating mode checkboxes when the selected tool defines them.
@@ -792,7 +988,6 @@
                 showFeedback(feedback, true, msg);
                 e.target.reset();
                 clearEquipmentSelection();
-                setTimeout(() => hideFeedback(feedback), 8000);
             } else {
                 showFeedback(feedback, false,
                     '<i class="fas fa-times-circle"></i> ' + (json.message || 'Submission failed. Please try again or email mpct.nano@gmail.com.'));
@@ -813,21 +1008,105 @@
         if (values.length) formData.set(fieldName, values.join(', '));
     }
 
+    // Visibility check that works for style-based AND class-based hiding,
+    // unlike a brittle `[style*="display: none"]` selector match.
+    function bkIsVisible(el) {
+        return !!(el && el.offsetParent !== null);
+    }
+
     // Validate only the required fields that are currently visible.
     function validateForm() {
         let valid = true;
-        document.querySelectorAll('#bookingForm [required]').forEach(el => {
-            // Ignore inputs inside hidden sections because their flow is inactive.
-            if (el.closest('[style*="display: none"]') || el.closest('[style*="display:none"]')) return;
+        const form = document.getElementById('bookingForm');
+        const emojiRx = /\p{Extended_Pictographic}/u;
+        const mashRx  = /(.)\1{3,}/;
+        const nameRx  = /^[\p{L}\s'\-\.]+$/u;
+        const invalidEls = [];
+
+        const flag = (el, reason) => {
+            valid = false;
+            el.style.borderColor = 'var(--nau-red)';
+            invalidEls.push(el);
             const errEl = document.getElementById('err_' + el.name);
-            if (!el.value.trim()) {
-                valid = false;
-                el.style.borderColor = 'var(--nau-red)';
-                if (errEl) errEl.style.display = 'block';
-            } else {
+            if (errEl) {
+                if (reason) errEl.textContent = reason;
+                errEl.style.display = 'block';
+            }
+            // Clear the red border on first interaction after an error
+            const clear = () => {
                 el.style.borderColor = '';
                 if (errEl) errEl.style.display = 'none';
+            };
+            el.addEventListener('input',  clear, { once: true });
+            el.addEventListener('change', clear, { once: true });
+        };
+
+        form.querySelectorAll('[required]').forEach(el => {
+            if (!bkIsVisible(el)) return;
+            const v = (el.value || '').trim();
+            if (!v) {
+                flag(el, 'This field is required.');
+                return;
             }
+            // Built-in constraint validity (catches type="email" format, etc.)
+            if (el.validity && !el.validity.valid) {
+                flag(el);
+                return;
+            }
+            el.style.borderColor = '';
+            const errEl = document.getElementById('err_' + el.name);
+            if (errEl) errEl.style.display = 'none';
+        });
+
+        // Email format check
+        form.querySelectorAll('input[type="email"]').forEach(el => {
+            if (!bkIsVisible(el)) return;
+            const v = (el.value || '').trim();
+            if (!v) return;
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) flag(el, 'Please enter a valid email address.');
+        });
+
+        // Name fields: letters/spaces/hyphens/apostrophes only
+        form.querySelectorAll('input[data-bk-name]').forEach(el => {
+            if (!bkIsVisible(el)) return;
+            const v = (el.value || '').trim();
+            if (!v) return;
+            if (invalidEls.includes(el)) return;
+            if (emojiRx.test(v))      flag(el, 'Names cannot contain emoji.');
+            else if (!nameRx.test(v)) flag(el, 'Letters, spaces, hyphens, or apostrophes only.');
+        });
+
+        // Emoji + mashing on general text + textareas (skip name fields already checked)
+        form.querySelectorAll('input[type="text"]:not([data-bk-name]):not([readonly]), textarea').forEach(el => {
+            if (!bkIsVisible(el)) return;
+            const v = (el.value || '').trim();
+            if (!v || invalidEls.includes(el)) return;
+            if (emojiRx.test(v)) flag(el, 'Emoji are not allowed here.');
+            else if (mashRx.test(v)) flag(el, 'Please remove repeated characters.');
+        });
+
+        // Word limits
+        form.querySelectorAll('textarea[data-max-words]').forEach(el => {
+            if (!bkIsVisible(el) || invalidEls.includes(el)) return;
+            const v = (el.value || '').trim();
+            if (!v) return;
+            const maxW = parseInt(el.dataset.maxWords, 10);
+            const words = v.split(/\s+/).length;
+            if (words > maxW) flag(el, `Must not exceed ${maxW} words.`);
+        });
+
+        // Number ranges
+        form.querySelectorAll('input[type="number"]').forEach(el => {
+            if (!bkIsVisible(el) || invalidEls.includes(el)) return;
+            const v = (el.value || '').trim();
+            if (!v) return;
+            const n = Number(v);
+            if (isNaN(n)) { flag(el, 'Must be a valid number.'); return; }
+            if (n < 0)    { flag(el, 'Cannot be negative.'); return; }
+            const min = el.hasAttribute('min') ? parseFloat(el.min) : null;
+            const max = el.hasAttribute('max') ? parseFloat(el.max) : null;
+            if (min !== null && n < min) flag(el, `Must be at least ${min}.`);
+            else if (max !== null && n > max) flag(el, `Must be ${max} or less.`);
         });
 
         // Billing notice checkbox — must be acknowledged before submitting.
@@ -876,16 +1155,27 @@
             .replace(/"/g, '&quot;');
     }
 
+    // The booking form shares one feedback strip for validation errors,
+    // server responses, and the success confirmation. Every message gets
+    // an auto-dismiss timer so the strip can't lock onto a stale state
+    // and silently drop the next message the user needs to see.
+    // Error stays 8 s; success stays 10 s so the user has time to read.
     function showFeedback(el, success, msg) {
         if (!el) return;
+        clearTimeout(el._bkDismissTimer);
         el.innerHTML   = msg;
         el.className   = 'bk-feedback ' + (success ? 'bk-feedback--success' : 'bk-feedback--error');
         el.style.display = 'block';
         el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        el._bkDismissTimer = setTimeout(() => hideFeedback(el), success ? 10000 : 8000);
     }
 
     function hideFeedback(el) {
-        if (el) el.style.display = 'none';
+        if (!el) return;
+        clearTimeout(el._bkDismissTimer);
+        el.style.display = 'none';
+        el.className = 'bk-feedback';
+        el.innerHTML = '';
     }
 
 })();

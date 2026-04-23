@@ -136,7 +136,7 @@
                         </div>
                     </div>
 
-                    <form id="contactForm" onsubmit="handleFormSubmit(event)">
+                    <form id="contactForm" onsubmit="handleFormSubmit(event)" novalidate>
                         <!-- Hidden Category Field -->
                         <input type="hidden" name="category" id="categoryInput" value="">
 
@@ -144,25 +144,25 @@
                         <div class="grid grid-2 gap-lg" style="margin-bottom: 25px;">
                             <div>
                                 <label class="block font-bold mb-1 required">First Name</label>
-                                <input type="text" name="first_name" class="form-control" placeholder="Alex" required>
+                                <input type="text" name="first_name" class="form-control" placeholder="Alex" required maxlength="25" data-name-field>
                             </div>
                             <div>
                                 <label class="block font-bold mb-1 required">Last Name</label>
-                                <input type="text" name="last_name" class="form-control" placeholder="Morgan" required>
+                                <input type="text" name="last_name" class="form-control" placeholder="Morgan" required maxlength="25" data-name-field>
                             </div>
                             <div>
                                 <label class="block font-bold mb-1 required">Email</label>
                                 <input type="email" name="email" class="form-control" placeholder="alex.morgan@example.com"
-                                    required>
+                                    required maxlength="50">
                             </div>
                             <div>
                                 <label class="block font-bold mb-1">Phone</label>
-                                <input type="tel" name="phone" class="form-control" placeholder="(555) 123-4567">
+                                <input type="tel" name="phone" class="form-control" placeholder="(555) 123-4567" inputmode="numeric" maxlength="14" data-phone-field>
                             </div>
                             <div class="col-span-2">
                                 <label class="block font-bold mb-1 required">Organization / Affiliation</label>
                                 <input type="text" name="organization" class="form-control"
-                                    placeholder="University Name or Company" required>
+                                    placeholder="University Name or Company" required maxlength="100" data-org-field>
                             </div>
                         </div>
 

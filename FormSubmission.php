@@ -39,6 +39,13 @@
  */
 
 
+// Buffer any stray output so a PHP notice can't corrupt the JSON response.
+// respond() calls ob_clean() before writing the body.
+ob_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
+
 // PHPMailer is bundled in the PHPMailer/ folder — no package manager needed.
 // Exception.php must come before PHPMailer.php since PHPMailer references it.
 // Using __DIR__ means these paths work correctly regardless of the web server's
@@ -217,6 +224,9 @@ function formatValue(string $raw): string
 // ---------------------------------------------------------------
 function respond(bool $ok, string $msg): void
 {
+    if (ob_get_length()) {
+        ob_clean();
+    }
     header('Content-Type: application/json');
     echo json_encode(['success' => $ok, 'message' => $msg]);
     exit;
@@ -224,23 +234,144 @@ function respond(bool $ok, string $msg): void
 
 
 // ---------------------------------------------------------------
-// FORM CATEGORY REGISTRY
-// This array drives everything — it defines what each contact form
-// category is called, which POST fields it sends, and what labels
-// those fields get in the email.
-//
-// The structure mirrors the fieldData object in script.js. If you
-// add a new form category to Contact_Us.html, you need to add an
-// entry here too, otherwise $categories[$category] will be null
-// and the category validation check below will reject it.
-//
-// The field names in 'fields' must match the name="" attributes
-// in the HTML form exactly. The labels in 'labels' are what appear
-// in the email table rows — make them readable for lab staff.
+// CONTENT VALIDATORS
+// Last line of defense for the contact form: everything here runs
+// even if JS is disabled or someone hits this endpoint directly.
+// Each helper rejects the request via respond() on first failure —
+// we don't try to accumulate errors, because spammers don't need a
+// polished list and real users only ever hit one at a time.
+// Kept inline (no shared include) so each PHP endpoint stays a
+// single-file unit that's easy to read and deploy.
 // ---------------------------------------------------------------
+function fs_enforceMaxLength(string $field, int $max, string $label): void
+{
+    $val = trim($_POST[$field] ?? '');
+    if (mb_strlen($val) > $max) {
+        respond(false, "$label exceeds the $max-character limit.");
+    }
+}
+
+function fs_validateNumericRange(string $field, float $min, float $max, string $label): void
+{
+    $val = trim($_POST[$field] ?? '');
+    if ($val === '') return;
+    if (!is_numeric($val)) {
+        respond(false, "$label must be a valid number.");
+    }
+    $num = (float) $val;
+    if ($num < $min || $num > $max) {
+        respond(false, "$label must be between $min and $max.");
+    }
+}
+
+function fs_validateInteger(string $field, string $label): void
+{
+    $val = trim($_POST[$field] ?? '');
+    if ($val === '') return;
+    if (!is_numeric($val) || floor((float) $val) != (float) $val) {
+        respond(false, "$label must be a whole number.");
+    }
+}
+
+function fs_validateDateInRange(string $field, string $label): void
+{
+    $val = trim($_POST[$field] ?? '');
+    if ($val === '') return;
+    $date = DateTime::createFromFormat('Y-m-d', $val);
+    if (!$date || $date->format('Y-m-d') !== $val) {
+        respond(false, "$label must be a valid date (YYYY-MM-DD).");
+    }
+    $today   = new DateTime('today');
+    $maxDate = (new DateTime('today'))->modify('+6 months');
+    if ($date < $today) respond(false, "$label cannot be in the past.");
+    if ($date > $maxDate) respond(false, "$label must be within 6 months from today.");
+}
+
+function fs_containsHtmlTags(string $text): bool
+{
+    return (bool) preg_match(
+        '/<\s*\/?(script|img|iframe|object|embed|svg|form|input|button|a\s|div|span|style|link|meta|base|body|html)\b/i',
+        $text
+    ) || (bool) preg_match('/(on\w+\s*=|javascript\s*:)/i', $text);
+}
+
+function fs_containsEmoji(string $text): bool
+{
+    return (bool) preg_match(
+        '/[\x{1F300}-\x{1F9FF}\x{2600}-\x{27BF}\x{FE00}-\x{FE0F}\x{1FA00}-\x{1FAFF}]/u',
+        $text
+    );
+}
+
+function fs_looksLikeMashing(string $text): bool
+{
+    return (bool) preg_match('/(.)\1{3,}/u', $text);
+}
+
+function fs_validateNameField(string $field, string $label): void
+{
+    $val = trim($_POST[$field] ?? '');
+    if ($val === '') return;
+    if (fs_containsEmoji($val)) {
+        respond(false, "$label cannot contain emoji.");
+    }
+    if (!preg_match('/^[\p{L}\s\'\-\.]+$/u', $val)) {
+        respond(false, "$label should contain letters, spaces, hyphens, or apostrophes only.");
+    }
+}
+
+function fs_validateTextField(string $field, string $label): void
+{
+    $val = trim($_POST[$field] ?? '');
+    if ($val === '') return;
+    if (fs_containsHtmlTags($val)) {
+        respond(false, "$label cannot contain HTML or script-like content.");
+    }
+    if (fs_containsEmoji($val)) {
+        respond(false, "$label cannot contain emoji.");
+    }
+    if (fs_looksLikeMashing($val)) {
+        respond(false, "$label appears to contain invalid input. Please provide a meaningful response.");
+    }
+}
+
+function fs_enforceWordLimit(string $field, int $maxWords, string $label): void
+{
+    $val = trim($_POST[$field] ?? '');
+    if ($val === '') return;
+    $count = count(preg_split('/\s+/', $val, -1, PREG_SPLIT_NO_EMPTY));
+    if ($count > $maxWords) {
+        respond(false, "$label must not exceed $maxWords words (currently $count words).");
+    }
+}
+
+
+// ---------------------------------------------------------------
+// FORM CATEGORY REGISTRY
+// The contact form is one <form> that swaps its field set based on
+// the category the user picks on Contact_Us.html. This registry is
+// the server-side counterpart: it tells this script, for every
+// category, which POST fields to expect, which labels to put in the
+// outgoing email, and which fields get the stricter content checks.
+//
+// Adding a new category means adding an entry here AND in
+// script.js's fieldData — if either side is missing, the category
+// validation below will reject the request. Keep the 'fields' keys
+// in lockstep with the name="" attributes in the HTML, and keep the
+// labels human-readable because they end up in the email body.
+//
+// Per-category keys:
+//   required     — must be non-empty (in addition to the always-on
+//                  first_name / last_name / email / category / organization)
+//   textFields   — free-text inputs that get emoji / HTML / mashing checks
+//   wordLimited  — textareas capped at 500 words
+//   fields / labels — what appears in the email
 $categories = [
     'equipment' => [
         'title'  => 'Equipment Inquiry',
+        'required' => ['equipment_name', 'experimental_details'],
+        'textFields' => ['experimental_details'],
+        'wordLimited' => ['experimental_details'],
         'fields' => ['equipment_category', 'equipment_name', 'intended_usage', 'experimental_details'],
         'labels' => [
             'equipment_category'   => 'Equipment Category',
@@ -251,6 +382,9 @@ $categories = [
     ],
     'research' => [
         'title'  => 'Research & Strategic Partnerships',
+        'required' => ['project_title', 'project_abstract'],
+        'textFields' => ['project_title', 'funding_agency', 'project_abstract'],
+        'wordLimited' => ['project_abstract'],
         'fields' => ['project_title', 'funding_agency', 'timeline', 'project_abstract'],
         'labels' => [
             'project_title'    => 'Project Title / Topic',
@@ -261,6 +395,9 @@ $categories = [
     ],
     'billing' => [
         'title'  => 'Billing & Invoicing',
+        'required' => ['reference_number', 'billing_contact', 'billing_address', 'issue_description'],
+        'textFields' => ['reference_number', 'billing_contact', 'billing_address', 'issue_description'],
+        'wordLimited' => ['issue_description', 'billing_address'],
         'fields' => ['reference_number', 'billing_contact', 'billing_address', 'issue_description'],
         'labels' => [
             'reference_number'  => 'Reference Number',
@@ -270,7 +407,10 @@ $categories = [
         ],
     ],
     'training' => [
-        'title'  => 'Training',
+        'title'  => 'Safety & Training',
+        'required' => ['request_type', 'training_specifics', 'notes'],
+        'textFields' => ['notes'],
+        'wordLimited' => ['notes'],
         'fields' => ['request_type', 'training_specifics', 'notes'],
         'labels' => [
             'request_type'      => 'Request Type',
@@ -280,6 +420,9 @@ $categories = [
     ],
     'courses' => [
         'title'  => 'Course Support',
+        'required' => ['course_number', 'inquiry'],
+        'textFields' => ['course_number', 'inquiry'],
+        'wordLimited' => ['inquiry'],
         'fields' => ['course_number', 'semester', 'inquiry'],
         'labels' => [
             'course_number' => 'Course Number',
@@ -289,6 +432,9 @@ $categories = [
     ],
     'tour' => [
         'title'  => 'Schedule a Tour',
+        'required' => ['group_size', 'group_type', 'preferred_date'],
+        'textFields' => ['notes'],
+        'wordLimited' => ['notes'],
         'fields' => ['group_size', 'group_type', 'preferred_date', 'alternative_date', 'notes'],
         'labels' => [
             'group_size'       => 'Group Size',
@@ -300,6 +446,9 @@ $categories = [
     ],
     'sales' => [
         'title'  => 'Vendor / Sales',
+        'required' => ['product_category', 'message'],
+        'textFields' => ['product_category', 'message'],
+        'wordLimited' => ['message'],
         'fields' => ['product_category', 'message'],
         'labels' => [
             'product_category' => 'Product Category',
@@ -308,6 +457,9 @@ $categories = [
     ],
     'other' => [
         'title'  => 'General Inquiry',
+        'required' => ['message'],
+        'textFields' => ['message'],
+        'wordLimited' => ['message'],
         'fields' => ['message'],
         'labels' => [
             'message' => 'Message',
@@ -315,6 +467,9 @@ $categories = [
     ],
     'issue' => [
         'title'  => 'Report an Issue',
+        'required' => ['issue_type', 'description'],
+        'textFields' => ['equipment_name', 'description'],
+        'wordLimited' => ['description'],
         'fields' => ['issue_type', 'equipment_name', 'description'],
         'labels' => [
             'issue_type'     => 'Issue Type',
@@ -363,6 +518,59 @@ if (!isset($categories[$category])) {
 $catMeta  = $categories[$category];
 $catTitle = $catMeta['title'];
 $fullName = "$firstName $lastName";
+
+// ---------------------------------------------------------------
+// CATEGORY-SPECIFIC + CROSS-CATEGORY VALIDATION
+// Runs after the category lookup so the required-field list and the
+// content checks can be tailored per category. These are the same
+// checks the browser already ran in script.js — repeated here so a
+// hand-crafted POST can't slip past them.
+// ---------------------------------------------------------------
+
+// Required fields declared per category
+foreach (($catMeta['required'] ?? []) as $reqField) {
+    if (empty(post($reqField))) {
+        $disp = $catMeta['labels'][$reqField] ?? ucwords(str_replace('_', ' ', $reqField));
+        respond(false, 'Missing required field: ' . $disp . '.');
+    }
+}
+
+// Global field shape + length checks
+fs_validateNameField('first_name', 'First Name');
+fs_validateNameField('last_name',  'Last Name');
+fs_enforceMaxLength('first_name',   25, 'First Name');
+fs_enforceMaxLength('last_name',    25, 'Last Name');
+fs_enforceMaxLength('email',        50, 'Email');
+fs_enforceMaxLength('organization', 100, 'Organization');
+fs_validateTextField('organization', 'Organization');
+
+// Category-specific textarea + free-text checks
+foreach (($catMeta['textFields'] ?? []) as $field) {
+    $label = $catMeta['labels'][$field] ?? ucwords(str_replace('_', ' ', $field));
+    fs_validateTextField($field, $label);
+    fs_enforceMaxLength($field, 2500, $label);
+}
+
+// Word limits on long-form fields (abstracts, descriptions, inquiries)
+foreach (($catMeta['wordLimited'] ?? []) as $field) {
+    $label = $catMeta['labels'][$field] ?? ucwords(str_replace('_', ' ', $field));
+    fs_enforceWordLimit($field, 500, $label);
+}
+
+// Category-specific numeric and date validations
+if ($category === 'tour') {
+    fs_validateNumericRange('group_size', 1, 500, 'Group Size');
+    fs_validateInteger('group_size', 'Group Size');
+    fs_validateDateInRange('preferred_date',   'Preferred Date');
+    fs_validateDateInRange('alternative_date', 'Alternative Date');
+}
+
+// All caught string fields in every category get a sane upper bound so no
+// single value can blow up the email body.
+foreach (($catMeta['fields'] ?? []) as $field) {
+    $label = $catMeta['labels'][$field] ?? ucwords(str_replace('_', ' ', $field));
+    fs_enforceMaxLength($field, 2500, $label);
+}
 
 // Arizona doesn't observe Daylight Saving Time, so "MST" is always
 // correct. Other US timezones flip between standard and daylight time,
@@ -720,9 +928,10 @@ function createMailer(): PHPMailer
 try {
     $labMail = createMailer();
     $labMail->addAddress(LAB_EMAIL);
-    $labMail->addCC('Akhil.Kinnera@nau.edu');
-    $labMail->addCC('Sethuprasad.Gorantla@nau.edu');
-    $labMail->addCC('Krishna-Dev.Palem@nau.edu');
+    // CC lines commented out for local testing — emails go to Mailpit only
+    // $labMail->addCC('Akhil.Kinnera@nau.edu');
+    // $labMail->addCC('Sethuprasad.Gorantla@nau.edu');
+    // $labMail->addCC('Krishna-Dev.Palem@nau.edu');
     $labMail->addReplyTo($email, $fullName);
     $labMail->Subject = $labSubject;
     $labMail->Body    = $labBody;
@@ -730,7 +939,7 @@ try {
     $labMail->send();
 
     $userMail = createMailer();
-    $userMail->addAddress($email, $fullName);
+    $userMail->addAddress($email);
     $userMail->Subject = $userSubject;
     $userMail->Body    = $userBody;
     $userMail->AltBody = $userPlain;
