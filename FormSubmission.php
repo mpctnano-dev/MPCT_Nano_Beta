@@ -270,7 +270,7 @@ $categories = [
         ],
     ],
     'training' => [
-        'title'  => 'Safety & Training',
+        'title'  => 'Training',
         'fields' => ['request_type', 'training_specifics', 'notes'],
         'labels' => [
             'request_type'      => 'Request Type',
