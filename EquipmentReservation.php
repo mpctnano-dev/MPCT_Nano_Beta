@@ -56,14 +56,10 @@ ini_set('log_errors', 1);
 define('LAB_EMAIL',    'mpct.nano@nau.edu');
 
 // SENDER_EMAIL shows up in the "From" field of outgoing emails.
-// Keeping it on the same domain (nau.edu) is important — NAU's mail relay
-// will reject or flag messages that claim to be "from" an external domain.
 define('SENDER_EMAIL', 'mpct.nano@nau.edu');
 define('SENDER_NAME',  'MPaCT Nano Lab');
 
-// mailgate.nau.edu is NAU's internal SMTP relay.
-// Port 25 is standard SMTP — no TLS, no login required because it's an
-// internal relay that already trusts traffic from university servers.
+// mailgate.nau.edu is NAU's internal SMTP relay. Port 25, no TLS, no auth.
 define('SMTP_HOST', 'mailgate.nau.edu');
 define('SMTP_PORT', 25);
 
@@ -223,6 +219,119 @@ function respond($success, $message) {
 
 
 // ---------------------------------------------------------------
+// CONTENT VALIDATORS
+// Server-side guards for the booking form. booking.js already runs
+// these checks in the browser, but a disabled-JS user or a direct
+// POST would walk right past them — so we repeat every rule here
+// and bail out via respond() on the first failure. The er_ prefix
+// keeps these from colliding with the fs_ / sr_ validators in the
+// other endpoints; they're intentionally duplicated because each
+// PHP script is a self-contained deployable.
+// ---------------------------------------------------------------
+function er_enforceMaxLength(string $field, int $max, string $label): void
+{
+    $val = trim($_POST[$field] ?? '');
+    if (mb_strlen($val) > $max) {
+        respond(false, "$label exceeds the $max-character limit.");
+    }
+}
+
+function er_validateNumericRange(string $field, float $min, float $max, string $label): void
+{
+    $val = trim($_POST[$field] ?? '');
+    if ($val === '') return;
+    if (!is_numeric($val)) {
+        respond(false, "$label must be a valid number.");
+    }
+    $num = (float) $val;
+    if ($num < $min || $num > $max) {
+        respond(false, "$label must be between $min and $max.");
+    }
+}
+
+function er_validateInteger(string $field, string $label): void
+{
+    $val = trim($_POST[$field] ?? '');
+    if ($val === '') return;
+    if (!is_numeric($val) || floor((float) $val) != (float) $val) {
+        respond(false, "$label must be a whole number.");
+    }
+}
+
+function er_validateDateInRange(string $field, string $label): void
+{
+    $val = trim($_POST[$field] ?? '');
+    if ($val === '') return;
+    $date = DateTime::createFromFormat('Y-m-d', $val);
+    if (!$date || $date->format('Y-m-d') !== $val) {
+        respond(false, "$label must be a valid date (YYYY-MM-DD).");
+    }
+    $today   = new DateTime('today');
+    $maxDate = (new DateTime('today'))->modify('+6 months');
+    if ($date < $today) respond(false, "$label cannot be in the past.");
+    if ($date > $maxDate) respond(false, "$label must be within 6 months from today.");
+}
+
+function er_containsHtmlTags(string $text): bool
+{
+    return (bool) preg_match(
+        '/<\s*\/?(script|img|iframe|object|embed|svg|form|input|button|a\s|div|span|style|link|meta|base|body|html)\b/i',
+        $text
+    ) || (bool) preg_match('/(on\w+\s*=|javascript\s*:)/i', $text);
+}
+
+function er_containsEmoji(string $text): bool
+{
+    return (bool) preg_match(
+        '/[\x{1F300}-\x{1F9FF}\x{2600}-\x{27BF}\x{FE00}-\x{FE0F}\x{1FA00}-\x{1FAFF}]/u',
+        $text
+    );
+}
+
+function er_looksLikeMashing(string $text): bool
+{
+    return (bool) preg_match('/(.)\1{3,}/u', $text);
+}
+
+function er_validateNameField(string $field, string $label): void
+{
+    $val = trim($_POST[$field] ?? '');
+    if ($val === '') return;
+    if (er_containsEmoji($val)) {
+        respond(false, "$label cannot contain emoji.");
+    }
+    if (!preg_match('/^[\p{L}\s\'\-\.]+$/u', $val)) {
+        respond(false, "$label should contain letters, spaces, hyphens, or apostrophes only.");
+    }
+}
+
+function er_validateTextField(string $field, string $label): void
+{
+    $val = trim($_POST[$field] ?? '');
+    if ($val === '') return;
+    if (er_containsHtmlTags($val)) {
+        respond(false, "$label cannot contain HTML or script-like content.");
+    }
+    if (er_containsEmoji($val)) {
+        respond(false, "$label cannot contain emoji.");
+    }
+    if (er_looksLikeMashing($val)) {
+        respond(false, "$label appears to contain invalid input. Please provide a meaningful response.");
+    }
+}
+
+function er_enforceWordLimit(string $field, int $maxWords, string $label): void
+{
+    $val = trim($_POST[$field] ?? '');
+    if ($val === '') return;
+    $count = count(preg_split('/\s+/', $val, -1, PREG_SPLIT_NO_EMPTY));
+    if ($count > $maxWords) {
+        respond(false, "$label must not exceed $maxWords words (currently $count words).");
+    }
+}
+
+
+// ---------------------------------------------------------------
 // STEP 1: Validate the request method
 // This script should only ever be called by the booking form's fetch().
 // If someone types the URL directly in a browser (GET request) or pokes
@@ -239,6 +348,15 @@ requireFields(['first_name', 'last_name', 'email']);
 
 $firstName = post('first_name');
 $lastName  = post('last_name');
+
+// Validate name format + lengths on the globally required fields.
+er_validateNameField('first_name', 'First Name');
+er_validateNameField('last_name',  'Last Name');
+er_enforceMaxLength('first_name',   25,  'First Name');
+er_enforceMaxLength('last_name',    25,  'Last Name');
+er_enforceMaxLength('email',        50,  'Email');
+er_enforceMaxLength('organization', 100, 'Organization');
+er_validateTextField('organization', 'Organization');
 
 
 // ---------------------------------------------------------------
@@ -303,23 +421,167 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 // containing "&" or quotes they would differ and cause double-encoding).
 // We escape exactly once, right before we drop the value into HTML.
 // ---------------------------------------------------------------
-$fields = [
-    'equipment_name'       => 'Equipment',
-    'equipment_category'   => 'Category',
-    'equipment_status'     => 'Status',
+// Category-specific validation + field maps. The form posts either
+// 'booking' (standard reservation) or 'educational' (course request).
+// Anything else is tampered input and gets rejected.
+$categoryMode = post('category');
+if ($categoryMode === '') {
+    $categoryMode = 'booking';
+}
+if (!in_array($categoryMode, ['booking', 'educational'], true)) {
+    respond(false, 'Invalid booking category.');
+}
 
-    'preferred_date'       => 'Preferred Date',
-    'preferred_time'       => 'Preferred Time',
-    'estimated_duration'   => 'Estimated Duration',
-    'alternative_date'     => 'Alternative Date',
+// User type controls billing + gates access to educational equipment.
+$userType = post('user_type');
+$validUserTypes = ['nau_student', 'nau_faculty_staff', 'external_academic', 'industry', ''];
+if (!in_array($userType, $validUserTypes, true)) {
+    respond(false, 'Invalid user type.');
+}
 
-    'sample_description'   => 'Sample Description',
-    'purpose_of_use'       => 'Purpose of Use',
+if ($categoryMode === 'educational') {
+    // Educational equipment is for NAU students/faculty/staff only.
+    // booking.js hides the educational path for external/industry users,
+    // so if those user types show up here the request was hand-crafted.
+    if ($userType === 'external_academic' || $userType === 'industry') {
+        respond(false, 'Educational equipment requests are limited to NAU students, faculty, and staff.');
+    }
 
-    'training_needed'      => 'Training Needed',
-    'lab_assistance'       => 'Lab Assistance',
-    'special_requirements' => 'Special Requirements',
-];
+    // Course-request required fields
+    requireFields([
+        'equipment_name',
+        'course_number',
+        'instructor_name',
+        'class_use',
+        'group_size',
+        'semester',
+        'preferred_date',
+    ]);
+
+    er_validateNameField('instructor_name', 'Instructor Name');
+    er_enforceMaxLength('course_number',   20,   'Course Number');
+    er_enforceMaxLength('course_name',     150,  'Course Name');
+    er_enforceMaxLength('instructor_name', 100,  'Instructor Name');
+    er_enforceMaxLength('instructor_email', 50,  'Instructor Email');
+    er_enforceMaxLength('sessions_needed', 100,  'Sessions Needed');
+
+    er_validateTextField('class_use',     'Intended Use');
+    er_enforceWordLimit('class_use', 500, 'Intended Use');
+    er_enforceMaxLength('class_use',  2500, 'Intended Use');
+
+    if (!empty(trim($_POST['edu_notes'] ?? ''))) {
+        er_validateTextField('edu_notes', 'Additional Notes');
+        er_enforceWordLimit('edu_notes', 500, 'Additional Notes');
+        er_enforceMaxLength('edu_notes', 2500, 'Additional Notes');
+    }
+
+    er_validateNumericRange('group_size', 1, 200, 'Group / Class Size');
+    er_validateInteger('group_size', 'Group / Class Size');
+    er_validateDateInRange('preferred_date',   'Preferred Date');
+    er_validateDateInRange('alternative_date', 'Alternative Date');
+
+    $instructorEmail = trim($_POST['instructor_email'] ?? '');
+    if ($instructorEmail !== '' && !filter_var($instructorEmail, FILTER_VALIDATE_EMAIL)) {
+        respond(false, 'Instructor email is not a valid address.');
+    }
+} else {
+    // Standard booking required fields
+    requireFields([
+        'equipment_name',
+        'preferred_date',
+        'sample_description',
+        'purpose_of_use',
+    ]);
+
+    er_enforceMaxLength('sample_description', 500,  'Sample Description');
+    er_validateTextField('sample_description', 'Sample Description');
+
+    er_validateTextField('purpose_of_use', 'Purpose of Use');
+    er_enforceWordLimit('purpose_of_use', 500, 'Purpose of Use');
+    er_enforceMaxLength('purpose_of_use', 2500, 'Purpose of Use');
+
+    if (!empty(trim($_POST['special_requirements'] ?? ''))) {
+        er_validateTextField('special_requirements', 'Special Requirements');
+        er_enforceWordLimit('special_requirements', 500, 'Special Requirements');
+        er_enforceMaxLength('special_requirements', 2500, 'Special Requirements');
+    }
+
+    er_validateDateInRange('preferred_date',   'Preferred Date');
+    er_validateDateInRange('alternative_date', 'Alternative Date');
+
+    // NAU-specific fields become required when internal user types are chosen
+    if ($userType === 'nau_student' || $userType === 'nau_faculty_staff') {
+        requireFields(['nau_id', 'nau_email', 'department', 'school']);
+        er_enforceMaxLength('nau_id',     20,  'NAU ID');
+        er_enforceMaxLength('nau_email',  50,  'NAU Email');
+        er_enforceMaxLength('department', 100, 'Department');
+        er_enforceMaxLength('speed_chart', 50, 'Speed Chart');
+        er_validateTextField('department', 'Department');
+
+        $nauEmail = trim($_POST['nau_email'] ?? '');
+        if ($nauEmail !== '' && !filter_var($nauEmail, FILTER_VALIDATE_EMAIL)) {
+            respond(false, 'NAU email is not a valid address.');
+        }
+
+        if ($userType === 'nau_student') {
+            requireFields(['supervisor']);
+            er_validateNameField('supervisor', 'Supervisor');
+            er_enforceMaxLength('supervisor', 100, 'Supervisor');
+        }
+        if ($userType === 'nau_faculty_staff') {
+            er_enforceMaxLength('job_title', 100, 'Job Title');
+        }
+    }
+}
+
+// Mode-aware display field list for the email table
+if ($categoryMode === 'educational') {
+    $fields = [
+        'equipment_name'     => 'Equipment',
+        'equipment_category' => 'Category',
+        'equipment_status'   => 'Status',
+        'course_number'      => 'Course Number',
+        'course_name'        => 'Course Name',
+        'instructor_name'    => 'Instructor Name',
+        'instructor_email'   => 'Instructor Email',
+        'group_size'         => 'Group / Class Size',
+        'semester'           => 'Semester',
+        'preferred_date'     => 'Preferred Date',
+        'alternative_date'   => 'Alternative Date',
+        'session_duration'   => 'Session Duration',
+        'sessions_needed'    => 'Sessions Needed',
+        'class_use'          => 'Intended Use / Learning Objectives',
+        'edu_notes'          => 'Additional Notes',
+    ];
+} else {
+    $fields = [
+        'equipment_name'       => 'Equipment',
+        'equipment_category'   => 'Category',
+        'equipment_status'     => 'Status',
+        'user_type'            => 'User Type',
+
+        'nau_id'               => 'NAU ID',
+        'nau_email'            => 'NAU Email',
+        'department'           => 'Department',
+        'school'               => 'School / College',
+        'speed_chart'          => 'Speed Chart',
+        'supervisor'           => 'Supervisor',
+        'job_title'            => 'Job Title',
+
+        'preferred_date'       => 'Preferred Date',
+        'preferred_time'       => 'Preferred Time',
+        'estimated_duration'   => 'Estimated Duration',
+        'alternative_date'     => 'Alternative Date',
+
+        'sample_description'   => 'Sample Description',
+        'purpose_of_use'       => 'Purpose of Use',
+        'operating_modes'      => 'Preferred Operating Mode(s)',
+
+        'training_needed'      => 'Training Needed',
+        'lab_assistance'       => 'Lab Assistance',
+        'special_requirements' => 'Special Requirements',
+    ];
+}
 
 $detailRows   = '';   // HTML table rows for the email body
 $plainDetails = '';   // Plain-text equivalent for the AltBody
@@ -364,11 +626,15 @@ foreach ($fields as $field => $label) {
 // so "MST" is always correct year-round — we don't need to worry about
 // switching between MST and MDT the way other states do.
 // ---------------------------------------------------------------
-$catMeta      = ['title' => 'Equipment Booking'];
-$catTitle     = $catMeta['title'];
-$fullName     = "$firstName $lastName";
-$equipmentLabel = ($equipment_display !== '') ? $equipment_display : $equipment_name;
-$timestamp    = date("F j, Y \a\\t g:i A T");
+$catTitle       = ($categoryMode === 'educational') ? 'Course Equipment Request' : 'Equipment Booking';
+$catMeta        = ['title' => $catTitle];
+$fullName       = "$firstName $lastName";
+// equipment_name (hidden input) is set by booking.js to the human-readable
+// equipment name. equipment_name_display is the <select> value which, because
+// options use value=item.id, actually contains the ID string. Prefer the
+// hidden-field name so subject lines read "SUSS MJB4 Mask Aligner" not "EQ-031".
+$equipmentLabel = ($equipment_name !== '') ? $equipment_name : $equipment_display;
+$timestamp      = date("F j, Y \a\\t g:i A T");
 
 
 // ---------------------------------------------------------------
@@ -392,7 +658,8 @@ $timestamp    = date("F j, Y \a\\t g:i A T");
 // by default, so a URL to our server would just show a broken image icon.
 // CID embedding puts the image data directly in the email, so it always shows.
 // ---------------------------------------------------------------
-$labSubject = "New Booking Request: $equipmentLabel from $fullName";
+$labSubject = (($categoryMode === 'educational') ? 'New Course Request: ' : 'New Booking Request: ')
+             . $equipmentLabel . ' from ' . $fullName;
 $labBody = '<!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -512,7 +779,9 @@ Sent from MPaCT Nano Lab booking form (nau.edu)
 // We tell them 1-2 business days for a response. If that expectation
 // ever changes, update it here in both the HTML body and the $userPlain.
 // ---------------------------------------------------------------
-$userSubject = "We received your Booking request — MPaCT Nano Lab";
+$userSubject = ($categoryMode === 'educational')
+    ? 'We received your Course Request — MPaCT Nano Lab'
+    : 'We received your Booking request — MPaCT Nano Lab';
 $userBody = '<!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -567,7 +836,10 @@ $userBody = '<!DOCTYPE html>
                                     <td style="padding:10px 16px; font-weight:600; color:#003466; background:#f8f9fa; border-bottom:1px solid #e8e8e8; font-size:14px;">Email</td>
                                     <td style="padding:10px 16px; color:#333333; border-bottom:1px solid #e8e8e8; font-size:14px;">' . $email . '</td>
                                 </tr>
-                                ' . $detailRows . '
+                                <tr>
+                                    <td style="padding:10px 16px; font-weight:600; color:#003466; background:#f8f9fa; border-bottom:1px solid #e8e8e8; font-size:14px;">Organization</td>
+                                    <td style="padding:10px 16px; color:#333333; border-bottom:1px solid #e8e8e8; font-size:14px;">' . ($organization ?: '—') . '</td>
+                                </tr>' . $detailRows . '
                             </table>
 
                             <!-- Fallback contact if they need something urgently before staff replies -->
@@ -605,7 +877,8 @@ $userBody = '<!DOCTYPE html>
 </body>
 </html>';
 
-// Plain-text fallback for the user confirmation
+// Plain-text fallback for the user confirmation — now includes the same
+// submission details the lab sees, so the user has a full record.
 $userPlain = "Thank you, $firstName!
 
 We have received your $catTitle inquiry and it is currently being reviewed by our team. A lab representative will get back to you within 1-2 business days.
@@ -615,6 +888,8 @@ YOUR SUBMISSION
   Email: $email
   Organization: " . ($organization ?: 'Not provided') . "
 
+$catTitle DETAILS
+$plainDetails
 Need immediate help? Email us at " . LAB_EMAIL . "
 
 ---
@@ -696,9 +971,10 @@ function createMailer(): PHPMailer
 try {
     $labMail = createMailer();
     $labMail->addAddress(LAB_EMAIL);
-    $labMail->addCC('Akhil.Kinnera@nau.edu');
-    $labMail->addCC('Sethuprasad.Gorantla@nau.edu');
-    $labMail->addCC('Krishna-Dev.Palem@nau.edu');
+    // CC lines commented out for local testing — emails go to Mailpit only
+    // $labMail->addCC('Akhil.Kinnera@nau.edu');
+    // $labMail->addCC('Sethuprasad.Gorantla@nau.edu');
+    // $labMail->addCC('Krishna-Dev.Palem@nau.edu');
     $labMail->addReplyTo($email, $fullName);
     $labMail->Subject = $labSubject;
     $labMail->Body    = $labBody;
@@ -706,7 +982,7 @@ try {
     $labMail->send();
 
     $userMail = createMailer();
-    $userMail->addAddress($email, $fullName);
+    $userMail->addAddress($email);
     $userMail->Subject = $userSubject;
     $userMail->Body    = $userBody;
     $userMail->AltBody = $userPlain;

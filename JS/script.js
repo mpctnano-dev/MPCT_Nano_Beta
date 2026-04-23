@@ -23,8 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Sticky Header Logic
     // Toggles 'scrolled' class based on scroll position for glassmorphism effect.
     // -------------------------------------------------------------------------
-    const header = document.getElementById('mainHeader');
     let lastHeaderHeight = 0;
+    let isHeaderCompact = false;
+    let headerNode = null;
 
     const syncStickyOffsets = () => {
         const activeHeader = document.getElementById('mainHeader');
@@ -37,28 +38,32 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    if (header) {
-        let isHeaderCompact = false;
+    const updateHeaderState = () => {
+        if (!headerNode) headerNode = document.getElementById('mainHeader');
+        if (!headerNode) return;
 
-        const updateHeaderState = () => {
-            const shouldCompact = window.scrollY > 50;
-            if (shouldCompact !== isHeaderCompact) {
-                header.classList.toggle('scrolled', shouldCompact);
-                isHeaderCompact = shouldCompact;
-                // Recalculate sticky offsets after the CSS transition finishes (0.3s)
-                setTimeout(syncStickyOffsets, 350);
-            }
-            // NOTE: syncStickyOffsets intentionally NOT called on every scroll tick here.
-            // Calling getBoundingClientRect() on every scroll event causes
-            // layout thrashing. The CSS variable is only updated on load/resize/transition end.
-        };
+        const shouldCompact = window.scrollY > 50;
+        if (shouldCompact !== isHeaderCompact) {
+            headerNode.classList.toggle('scrolled', shouldCompact);
+            isHeaderCompact = shouldCompact;
+            // Recalculate sticky offsets after the CSS transition finishes (0.3s)
+            setTimeout(syncStickyOffsets, 350);
+        }
+    };
 
-        updateHeaderState();
-        syncStickyOffsets(); // Measure once after initial state is set
-        window.addEventListener('scroll', updateHeaderState, { passive: true });
-        window.addEventListener('resize', syncStickyOffsets, { passive: true });
-        window.setTimeout(syncStickyOffsets, 120);
-    }
+    // Attach listeners unconditionally; they gracefully do nothing until the header exists
+    window.addEventListener('scroll', updateHeaderState, { passive: true });
+    window.addEventListener('resize', syncStickyOffsets, { passive: true });
+    
+    // Poll briefly to catch the initial state after layout.js fetch() completes
+    const checkHeaderInterval = setInterval(() => {
+        if (document.getElementById('mainHeader')) {
+            clearInterval(checkHeaderInterval);
+            updateHeaderState();
+            syncStickyOffsets();
+        }
+    }, 50);
+    setTimeout(() => clearInterval(checkHeaderInterval), 3000); // Stop polling after 3s
 
     // Featured Equipment Carousel (Homepage)
     // Connects the Left/Right arrows to the scroll logic
@@ -625,14 +630,18 @@ function selectCategory(category, element) {
         const categoryInput = document.getElementById('categoryInput');
         if (categoryInput) categoryInput.value = category;
 
-        // Clear any previous feedback
-        const feedback = document.getElementById('formFeedback');
-        if (feedback) { feedback.style.display = 'none'; feedback.className = 'bk-feedback'; feedback.textContent = ''; }
+        // Switching categories — drop any message left over from the old one.
+        setContactFeedback('', '');
 
         // Dynamic Population for Equipment
         if (category === 'equipment') {
             populateEquipmentData();
         }
+
+        // Apply validation rules to the newly injected dynamic fields AND the
+        // whole form so common fields (name, email, org, phone) get hints too.
+        // Safe to call repeatedly — each helper guards against double-wiring.
+        applyContactFieldRules(document.getElementById('contactForm'));
 
         // Show Form
         formContainer.classList.remove('hidden');
@@ -653,46 +662,383 @@ function resetSelection() {
     document.getElementById('gatewayGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
+// ---------------------------------------------------------------
+// Contact form — client-side validation and live input helpers.
+// Contact_Us.html uses novalidate, so every soft constraint you see
+// on the page (phone masking, maxlength hints, word counters, number
+// clamps, name-field character rules) is enforced here. Defaults are
+// centralized below so dynamic fields from fieldData inherit them
+// without each category template having to repeat min/max/maxlength.
+// FormSubmission.php repeats these rules server-side so the wall is
+// still there if JS is disabled or the endpoint is hit directly.
+// ---------------------------------------------------------------
+const CONTACT_FIELD_DEFAULTS = {
+    textMaxLen:     150,
+    emailMaxLen:    100,
+    textareaMaxLen: 2500,
+    wordLimit:      500,
+    numberMin:      1,
+    numberMax:      1000,
+};
+
+// Format a US phone number as (XXX) XXX-XXXX while the user types.
+function contactFormatUsPhone(value, isDeleting) {
+    const digits = (value || '').replace(/\D/g, '').slice(0, 10);
+    if (!digits) return '';
+    if (digits.length < 3) return `(${digits}`;
+    if (digits.length === 3) return isDeleting ? `(${digits}` : `(${digits}) `;
+    if (digits.length < 7)  return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
+    return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+}
+
+// Apply sensible min/max/maxlength defaults to every field inside `container`.
+// Dynamic fields from fieldData rarely set these themselves; this keeps every
+// category's inputs within reasonable bounds without editing each template.
+function applyContactFieldRules(container) {
+    if (!container) return;
+
+    const today = new Date();
+    const pad = n => String(n).padStart(2, '0');
+    const fmt = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+    const minDate = fmt(today);
+    const maxDate = fmt(new Date(today.getFullYear(), today.getMonth() + 6, today.getDate()));
+
+    container.querySelectorAll('input[type="text"]').forEach(el => {
+        if (!el.hasAttribute('maxlength')) el.setAttribute('maxlength', CONTACT_FIELD_DEFAULTS.textMaxLen);
+    });
+    container.querySelectorAll('input[type="email"]').forEach(el => {
+        if (!el.hasAttribute('maxlength')) el.setAttribute('maxlength', CONTACT_FIELD_DEFAULTS.emailMaxLen);
+    });
+    container.querySelectorAll('textarea').forEach(el => {
+        if (!el.hasAttribute('maxlength'))      el.setAttribute('maxlength', CONTACT_FIELD_DEFAULTS.textareaMaxLen);
+        if (!el.hasAttribute('data-max-words')) el.setAttribute('data-max-words', CONTACT_FIELD_DEFAULTS.wordLimit);
+    });
+    container.querySelectorAll('input[type="number"]').forEach(el => {
+        if (!el.hasAttribute('min'))  el.setAttribute('min',  CONTACT_FIELD_DEFAULTS.numberMin);
+        if (!el.hasAttribute('max'))  el.setAttribute('max',  CONTACT_FIELD_DEFAULTS.numberMax);
+        if (!el.hasAttribute('step')) el.setAttribute('step', '1');
+    });
+    container.querySelectorAll('input[type="date"]').forEach(el => {
+        el.min = minDate;
+        el.max = maxDate;
+    });
+
+    attachContactNumberClamp(container);
+    attachContactMaxLengthHints(container);
+    attachContactWordCounters(container);
+    attachContactPhoneFormat(container);
+    attachContactNameOrgHints(container);
+}
+
+// Number inputs otherwise accept "e", "E", "+", scientific notation, and
+// arbitrary decimals even when step="1". This blocks the junk keys, clamps
+// the value to max while the user types, and clamps to min on blur so the
+// number they see on screen is exactly the number that submits.
+function attachContactNumberClamp(container) {
+    container.querySelectorAll('input[type="number"]').forEach(el => {
+        if (el._contactClampWired) return;
+        el._contactClampWired = true;
+        const min = el.hasAttribute('min') ? parseFloat(el.min) : null;
+        const max = el.hasAttribute('max') ? parseFloat(el.max) : null;
+
+        el.addEventListener('input', () => {
+            const v = el.value.trim();
+            if (v === '') return;
+            const n = Number(v);
+            if (isNaN(n)) return;
+            if (max !== null && n > max) el.value = max;
+        });
+        el.addEventListener('blur', () => {
+            const v = el.value.trim();
+            if (v === '') return;
+            const n = Number(v);
+            if (isNaN(n)) { el.value = ''; return; }
+            let clamped = n;
+            if (min !== null && clamped < min) clamped = min;
+            if (max !== null && clamped > max) clamped = max;
+            el.value = clamped;
+        });
+        el.addEventListener('keydown', e => {
+            if (['e', 'E', '+'].includes(e.key)) e.preventDefault();
+            if (e.key === '-' && (!el.min || parseFloat(el.min) >= 0)) e.preventDefault();
+            if (e.key === '.' && el.getAttribute('step') === '1') e.preventDefault();
+        });
+    });
+}
+
+// Show "N characters remaining" for text/email inputs with maxlength.
+function attachContactMaxLengthHints(container) {
+    container.querySelectorAll('input[maxlength]:not([type="tel"]):not([type="number"])').forEach(input => {
+        if (input._contactHintWired) return;
+        input._contactHintWired = true;
+        const max = parseInt(input.maxLength, 10);
+        const hint = document.createElement('span');
+        hint.style.cssText = 'display:none; font-size:0.78rem; margin-top:3px;';
+        input.parentNode.insertBefore(hint, input.nextSibling);
+        input.addEventListener('input', () => {
+            const remaining = max - input.value.length;
+            if (remaining === 0) {
+                hint.textContent = `Limit reached (${max} characters max)`;
+                hint.style.color = 'var(--nau-red, #c0392b)';
+                hint.style.fontWeight = '600';
+                hint.style.display = 'block';
+            } else if (remaining <= 5) {
+                hint.textContent = `${remaining} character${remaining !== 1 ? 's' : ''} remaining`;
+                hint.style.color = 'var(--nau-gold, #e6a817)';
+                hint.style.display = 'block';
+            } else {
+                hint.style.display = 'none';
+            }
+        });
+    });
+}
+
+// Live word count for textareas with data-max-words.
+function attachContactWordCounters(container) {
+    container.querySelectorAll('textarea[data-max-words]').forEach(textarea => {
+        if (textarea._contactCounterWired) return;
+        textarea._contactCounterWired = true;
+        const maxWords = parseInt(textarea.dataset.maxWords, 10);
+        const counter = document.createElement('span');
+        counter.style.cssText = 'display:block; text-align:right; font-size:0.78rem; margin-top:3px;';
+        textarea.parentNode.insertBefore(counter, textarea.nextSibling);
+        const update = () => {
+            const words = textarea.value.trim() ? textarea.value.trim().split(/\s+/).length : 0;
+            const over = words > maxWords;
+            const remaining = maxWords - words;
+            if (over) {
+                counter.textContent = `${words} / ${maxWords} words — ${Math.abs(remaining)} over limit`;
+            } else if (remaining <= 50) {
+                counter.textContent = `${words} / ${maxWords} words — ${remaining} remaining`;
+            } else {
+                counter.textContent = `${words} / ${maxWords} words`;
+            }
+            counter.style.color = over ? 'var(--nau-red, #c0392b)' : remaining <= 50 ? 'var(--nau-gold, #e6a817)' : 'var(--gray-500, #9ca3af)';
+            counter.style.fontWeight = over ? '600' : '400';
+        };
+        textarea.addEventListener('input', update);
+        update();
+    });
+}
+
+function attachContactPhoneFormat(container) {
+    container.querySelectorAll('input[data-phone-field], input[type="tel"]').forEach(input => {
+        if (input._contactPhoneWired) return;
+        input._contactPhoneWired = true;
+        input.addEventListener('input', e => {
+            const del = e.inputType === 'deleteContentBackward' || e.inputType === 'deleteContentForward';
+            input.value = contactFormatUsPhone(input.value, del);
+        });
+        input.addEventListener('blur', () => {
+            input.value = contactFormatUsPhone(input.value, false);
+        });
+    });
+}
+
+// Inline warnings near name/org fields: emoji + digits + mashing.
+function attachContactNameOrgHints(container) {
+    container.querySelectorAll('input[data-name-field]').forEach(input => {
+        if (input._contactNameWired) return;
+        input._contactNameWired = true;
+        const hint = document.createElement('span');
+        hint.style.cssText = 'display:none; font-size:0.78rem; color:var(--nau-red,#c0392b); margin-top:2px;';
+        input.after(hint);
+        input.addEventListener('input', () => {
+            const v = input.value;
+            if (/\p{Extended_Pictographic}/u.test(v)) {
+                hint.textContent = 'Emoji are not allowed in name fields.';
+                hint.style.display = 'block';
+            } else if (/[0-9!@#$%^&*()\[\]{}|\\:;"<>,?\/~`+=]/.test(v)) {
+                hint.textContent = 'Names should contain letters, spaces, hyphens, or apostrophes only.';
+                hint.style.display = 'block';
+            } else {
+                hint.style.display = 'none';
+            }
+        });
+    });
+    container.querySelectorAll('input[data-org-field]').forEach(input => {
+        if (input._contactOrgWired) return;
+        input._contactOrgWired = true;
+        const hint = document.createElement('span');
+        hint.style.cssText = 'display:none; font-size:0.78rem; margin-top:2px;';
+        input.after(hint);
+        input.addEventListener('input', () => {
+            const v = input.value;
+            if (/\p{Extended_Pictographic}/u.test(v)) {
+                hint.textContent = 'Emoji are not allowed in this field.';
+                hint.style.color = 'var(--nau-red,#c0392b)';
+                hint.style.display = 'block';
+            } else if (/(.)\1{3,}/.test(v)) {
+                hint.textContent = 'Please enter a valid organization name.';
+                hint.style.color = 'var(--nau-gold,#e6a817)';
+                hint.style.display = 'block';
+            } else {
+                hint.style.display = 'none';
+            }
+        });
+    });
+}
+
+// Central submit-time validation. Returns array of { el, label } for invalid
+// fields, outlining each with a red border for visual feedback.
+function validateContactForm(form) {
+    const invalid = [];
+    const emojiRx = /\p{Extended_Pictographic}/u;
+    const mashRx  = /(.)\1{3,}/;
+    const nameRx  = /^[\p{L}\s'\-\.]+$/u;
+
+    const labelOf = (el) => {
+        const lbl = el.closest('label') ||
+                    (el.id ? form.querySelector(`label[for="${el.id}"]`) : null) ||
+                    el.parentElement?.querySelector('label');
+        if (lbl) {
+            const clone = lbl.cloneNode(true);
+            clone.querySelectorAll('input,select,textarea,span').forEach(n => n.remove());
+            const t = clone.textContent.trim();
+            if (t) return t;
+        }
+        return el.name || el.id || 'Field';
+    };
+
+    const markInvalid = (el, reason) => {
+        el.style.outline = '2px solid var(--nau-red, #c0392b)';
+        el.style.outlineOffset = '2px';
+        el.addEventListener('input',  () => { el.style.outline = ''; el.style.outlineOffset = ''; }, { once: true });
+        el.addEventListener('change', () => { el.style.outline = ''; el.style.outlineOffset = ''; }, { once: true });
+        invalid.push({ el, label: reason ? `${labelOf(el)} (${reason})` : labelOf(el) });
+    };
+
+    // Required fields
+    form.querySelectorAll('[required]').forEach(el => {
+        if (el.offsetParent === null && el.type !== 'hidden') return; // skip hidden
+        const v = (el.value || '').trim();
+        if (!v) { markInvalid(el); return; }
+        if (el.validity && !el.validity.valid) { markInvalid(el); return; }
+    });
+
+    // Email format (even if not required)
+    form.querySelectorAll('input[type="email"]').forEach(el => {
+        const v = (el.value || '').trim();
+        if (!v) return;
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) markInvalid(el, 'invalid email');
+    });
+
+    // Name fields
+    form.querySelectorAll('input[data-name-field]').forEach(el => {
+        const v = (el.value || '').trim();
+        if (!v) return;
+        if (emojiRx.test(v))       markInvalid(el, 'remove emoji');
+        else if (!nameRx.test(v))  markInvalid(el, 'letters, spaces, hyphens, apostrophes only');
+    });
+
+    // Emoji + mashing on all other text inputs + textareas
+    form.querySelectorAll('input[type="text"]:not([data-name-field]):not([readonly]), textarea').forEach(el => {
+        const v = (el.value || '').trim();
+        if (!v) return;
+        if (invalid.find(f => f.el === el)) return;
+        if (emojiRx.test(v)) markInvalid(el, 'remove emoji');
+        else if (mashRx.test(v)) markInvalid(el, 'remove repeated characters');
+    });
+
+    // Word limits
+    form.querySelectorAll('textarea[data-max-words]').forEach(el => {
+        const v = (el.value || '').trim();
+        if (!v) return;
+        if (invalid.find(f => f.el === el)) return;
+        const maxW = parseInt(el.dataset.maxWords, 10);
+        const wc = v.split(/\s+/).length;
+        if (wc > maxW) markInvalid(el, `over ${maxW}-word limit`);
+    });
+
+    // Numeric ranges
+    form.querySelectorAll('input[type="number"]').forEach(el => {
+        const v = (el.value || '').trim();
+        if (!v) return;
+        if (invalid.find(f => f.el === el)) return;
+        const n = Number(v);
+        if (isNaN(n)) { markInvalid(el, 'must be a number'); return; }
+        if (n < 0) { markInvalid(el, 'cannot be negative'); return; }
+        const min = el.hasAttribute('min') ? parseFloat(el.min) : null;
+        const max = el.hasAttribute('max') ? parseFloat(el.max) : null;
+        if (min !== null && n < min) markInvalid(el, `must be at least ${min}`);
+        else if (max !== null && n > max) markInvalid(el, `must be ${max} or less`);
+    });
+
+    return invalid;
+}
+
+// Single source of truth for how the contact-form feedback strip shows
+// and hides messages. Every call clears the previous timer first so a
+// stale success can't swallow a fresh error, and every message schedules
+// its own auto-hide — errors at 8 s, success at 10 s. Passing html=''
+// just tears the strip down.
+function setContactFeedback(html, kind) {
+    const el = document.getElementById('formFeedback');
+    if (!el) return;
+    clearTimeout(el._feedbackTimer);
+    if (!html) {
+        el.style.display = 'none';
+        el.className = 'bk-feedback';
+        el.innerHTML = '';
+        return;
+    }
+    el.innerHTML = html;
+    el.className = 'bk-feedback bk-feedback--' + kind;
+    el.style.display = 'block';
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    el._feedbackTimer = setTimeout(() => {
+        el.style.display = 'none';
+        el.className = 'bk-feedback';
+        el.innerHTML = '';
+    }, kind === 'success' ? 10000 : 8000);
+}
+
 async function handleFormSubmit(e) {
     e.preventDefault();
 
     const form = document.getElementById('contactForm');
     const submitBtn = document.getElementById('submitBtn');
-    const feedback = document.getElementById('formFeedback');
-    const formData = new FormData(form);
 
-    // Disable button during submission
+    // Re-validating from a clean slate — drop any red outlines left behind
+    // by a previous failed attempt before we decide what's wrong this time.
+    form.querySelectorAll('[style*="outline"]').forEach(el => {
+        el.style.outline = '';
+        el.style.outlineOffset = '';
+    });
+
+    const invalid = validateContactForm(form);
+    if (invalid.length > 0) {
+        const names = invalid.map(f => f.label).join(', ');
+        setContactFeedback(
+            `<strong>${invalid.length} field${invalid.length > 1 ? 's need' : ' needs'} attention:</strong> ${names}.`,
+            'error'
+        );
+        invalid[0].el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+    }
+
+    setContactFeedback('', '');
     submitBtn.disabled = true;
     submitBtn.textContent = 'Submitting...';
-    feedback.style.display = 'none';
-    feedback.className = 'bk-feedback';
 
     try {
         const response = await fetch('FormSubmission.php', {
             method: 'POST',
-            body: formData,
+            body: new FormData(form),
         });
         const result = await response.json();
 
         if (result.success) {
-            feedback.className = 'bk-feedback bk-feedback--success';
-            feedback.style.display = 'block';
-            feedback.textContent = result.message;
+            setContactFeedback(result.message || 'Your message was sent.', 'success');
             form.reset();
-            feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            // Auto-reset after 5 seconds
-            setTimeout(() => {
-                resetSelection();
-            }, 5000);
+            // Return the page to the gateway view after the success toast
+            // has had enough time to be read.
+            setTimeout(resetSelection, 5000);
         } else {
-            feedback.className = 'bk-feedback bk-feedback--error';
-            feedback.style.display = 'block';
-            feedback.textContent = result.message || 'An error occurred. Please try again.';
+            setContactFeedback(result.message || 'An error occurred. Please try again.', 'error');
         }
     } catch (err) {
-        feedback.className = 'bk-feedback bk-feedback--error';
-        feedback.style.display = 'block';
-        feedback.textContent = 'Unable to connect to the server. Please try again later or email us directly.';
+        setContactFeedback('Unable to connect to the server. Please try again later or email us directly.', 'error');
         console.error('Form submission error:', err);
     } finally {
         submitBtn.disabled = false;
@@ -708,6 +1054,11 @@ window.handleFormSubmit = handleFormSubmit;
 
 // Auto-select Contact Us category from URL parameter (e.g., ?category=research)
 document.addEventListener('DOMContentLoaded', () => {
+    // Apply validators to the static common fields on load. selectCategory()
+    // will re-apply after dynamic fields are injected.
+    const contactFormEl = document.getElementById('contactForm');
+    if (contactFormEl) applyContactFieldRules(contactFormEl);
+
     const urlParams = new URLSearchParams(window.location.search);
     const autoCategory = urlParams.get('category');
     if (autoCategory && typeof fieldData !== 'undefined' && fieldData[autoCategory]) {
