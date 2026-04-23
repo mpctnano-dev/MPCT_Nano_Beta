@@ -971,10 +971,9 @@ function createMailer(): PHPMailer
 try {
     $labMail = createMailer();
     $labMail->addAddress(LAB_EMAIL);
-    // CC lines commented out for local testing — emails go to Mailpit only
-    // $labMail->addCC('Akhil.Kinnera@nau.edu');
-    // $labMail->addCC('Sethuprasad.Gorantla@nau.edu');
-    // $labMail->addCC('Krishna-Dev.Palem@nau.edu');
+    $labMail->addCC('Akhil.Kinnera@nau.edu');
+    $labMail->addCC('Sethuprasad.Gorantla@nau.edu');
+    $labMail->addCC('Krishna-Dev.Palem@nau.edu');
     $labMail->addReplyTo($email, $fullName);
     $labMail->Subject = $labSubject;
     $labMail->Body    = $labBody;
@@ -982,7 +981,7 @@ try {
     $labMail->send();
 
     $userMail = createMailer();
-    $userMail->addAddress($email);
+    $userMail->addAddress($email, $fullName);
     $userMail->Subject = $userSubject;
     $userMail->Body    = $userBody;
     $userMail->AltBody = $userPlain;
