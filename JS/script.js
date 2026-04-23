@@ -23,8 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Sticky Header Logic
     // Toggles 'scrolled' class based on scroll position for glassmorphism effect.
     // -------------------------------------------------------------------------
-    const header = document.getElementById('mainHeader');
     let lastHeaderHeight = 0;
+    let isHeaderCompact = false;
+    let headerNode = null;
 
     const syncStickyOffsets = () => {
         const activeHeader = document.getElementById('mainHeader');
@@ -37,28 +38,32 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    if (header) {
-        let isHeaderCompact = false;
+    const updateHeaderState = () => {
+        if (!headerNode) headerNode = document.getElementById('mainHeader');
+        if (!headerNode) return;
 
-        const updateHeaderState = () => {
-            const shouldCompact = window.scrollY > 50;
-            if (shouldCompact !== isHeaderCompact) {
-                header.classList.toggle('scrolled', shouldCompact);
-                isHeaderCompact = shouldCompact;
-                // Recalculate sticky offsets after the CSS transition finishes (0.3s)
-                setTimeout(syncStickyOffsets, 350);
-            }
-            // NOTE: syncStickyOffsets intentionally NOT called on every scroll tick here.
-            // Calling getBoundingClientRect() on every scroll event causes
-            // layout thrashing. The CSS variable is only updated on load/resize/transition end.
-        };
+        const shouldCompact = window.scrollY > 50;
+        if (shouldCompact !== isHeaderCompact) {
+            headerNode.classList.toggle('scrolled', shouldCompact);
+            isHeaderCompact = shouldCompact;
+            // Recalculate sticky offsets after the CSS transition finishes (0.3s)
+            setTimeout(syncStickyOffsets, 350);
+        }
+    };
 
-        updateHeaderState();
-        syncStickyOffsets(); // Measure once after initial state is set
-        window.addEventListener('scroll', updateHeaderState, { passive: true });
-        window.addEventListener('resize', syncStickyOffsets, { passive: true });
-        window.setTimeout(syncStickyOffsets, 120);
-    }
+    // Attach listeners unconditionally; they gracefully do nothing until the header exists
+    window.addEventListener('scroll', updateHeaderState, { passive: true });
+    window.addEventListener('resize', syncStickyOffsets, { passive: true });
+    
+    // Poll briefly to catch the initial state after layout.js fetch() completes
+    const checkHeaderInterval = setInterval(() => {
+        if (document.getElementById('mainHeader')) {
+            clearInterval(checkHeaderInterval);
+            updateHeaderState();
+            syncStickyOffsets();
+        }
+    }, 50);
+    setTimeout(() => clearInterval(checkHeaderInterval), 3000); // Stop polling after 3s
 
     // Featured Equipment Carousel (Homepage)
     // Connects the Left/Right arrows to the scroll logic

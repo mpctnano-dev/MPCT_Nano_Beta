@@ -53,15 +53,15 @@ ini_set('log_errors', 1);
 // ---------------------------------------------------------------
 
 // LAB_EMAIL is where booking notifications land — the lab's working inbox.
-define('LAB_EMAIL',    'akhil.kinnera@nau.edu');
+define('LAB_EMAIL',    'mpct.nano@nau.edu');
 
-// Local testing: sender is faculty address
-define('SENDER_EMAIL', 'akhil.kinnera@nau.edu');
+// SENDER_EMAIL shows up in the "From" field of outgoing emails.
+define('SENDER_EMAIL', 'mpct.nano@nau.edu');
 define('SENDER_NAME',  'MPaCT Nano Lab');
 
-// Local testing: Mailpit SMTP trap on localhost
-define('SMTP_HOST', 'localhost');
-define('SMTP_PORT', 1025);
+// mailgate.nau.edu is NAU's internal SMTP relay. Port 25, no TLS, no auth.
+define('SMTP_HOST', 'mailgate.nau.edu');
+define('SMTP_PORT', 25);
 
 
 // ---------------------------------------------------------------
@@ -980,6 +980,13 @@ try {
     $labMail->Body    = $labBody;
     $labMail->AltBody = $labPlain;
     $labMail->send();
+
+    $userMail = createMailer();
+    $userMail->addAddress($email);
+    $userMail->Subject = $userSubject;
+    $userMail->Body    = $userBody;
+    $userMail->AltBody = $userPlain;
+    $userMail->send();
 
     respond(true, 'Your inquiry has been submitted successfully! You will receive a confirmation email shortly.');
 

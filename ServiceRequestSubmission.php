@@ -49,13 +49,15 @@ use PHPMailer\PHPMailer\Exception;
 // These are defined at the top so they are easy to update without digging into
 // the logic below. LAB_EMAIL is both the recipient of internal notifications and
 // the "reply-to" address shown on user confirmation emails.
-define('LAB_EMAIL', 'akhil.kinnera@nau.edu');
-define('SENDER_EMAIL', 'akhil.kinnera@nau.edu');
+define('LAB_EMAIL', 'mpct.nano@nau.edu');
+define('SENDER_EMAIL', 'mpct.nano@nau.edu');
 define('SENDER_NAME', 'MPaCT Nano Lab');
 
-// Local testing: Mailpit SMTP trap. Emails stay on this machine.
-define('SMTP_HOST', 'localhost');
-define('SMTP_PORT', 1025);
+// NAU's internal SMTP relay. Port 25, no authentication, no TLS — this relay
+// trusts connections from within the NAU network without credentials.
+// Never set SMTPAuth or SMTPSecure when using this relay; it will reject the connection.
+define('SMTP_HOST', 'mailgate.nau.edu');
+define('SMTP_PORT', 25);
 
 // Per-file and total upload limits. 25 MB per file accommodates larger STL/Gerber
 // files, but we also cap the combined total at 50 MB inside validateUploads()
@@ -1242,6 +1244,14 @@ try {
     $labMail->AltBody = $labPlain;
     attachUploads($labMail, $validatedFiles);
     $labMail->send();
+
+    $userMail = createMailer();
+    $userMail->addAddress($email);
+    $userMail->Subject = $userSubject;
+    $userMail->Body    = $userBody;
+    $userMail->AltBody = $userPlain;
+    attachUploads($userMail, $validatedFiles);
+    $userMail->send();
 
     respond(true, 'Your service request has been submitted successfully. A confirmation email has been sent.');
 } catch (Exception $e) {

@@ -69,11 +69,11 @@ use PHPMailer\PHPMailer\Exception;
 // SMTP_HOST   — NAU's internal mail relay. Only reachable from within NAU.
 // SMTP_PORT   — Port 25 is standard unencrypted SMTP for internal relays.
 // ---------------------------------------------------------------
-define('LAB_EMAIL',    'akhil.kinnera@nau.edu');
-define('SENDER_EMAIL', 'akhil.kinnera@nau.edu');
+define('LAB_EMAIL',    'mpct.nano@nau.edu');
+define('SENDER_EMAIL', 'mpct.nano@nau.edu');
 define('SENDER_NAME',  'MPaCT Nano Lab');
-define('SMTP_HOST',    'localhost');
-define('SMTP_PORT',    1025);
+define('SMTP_HOST',    'mailgate.nau.edu');
+define('SMTP_PORT',    25);
 
 
 // ---------------------------------------------------------------
@@ -937,6 +937,13 @@ try {
     $labMail->Body    = $labBody;
     $labMail->AltBody = $labPlain;
     $labMail->send();
+
+    $userMail = createMailer();
+    $userMail->addAddress($email);
+    $userMail->Subject = $userSubject;
+    $userMail->Body    = $userBody;
+    $userMail->AltBody = $userPlain;
+    $userMail->send();
 
     respond(true, 'Your inquiry has been submitted successfully! You will receive a confirmation email shortly.');
 

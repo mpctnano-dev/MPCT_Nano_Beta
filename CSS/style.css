@@ -545,6 +545,10 @@ ul {
  * Sticky header implementation with glassmorphism backdrop.
  * Handles extensive state changes via '.scrolled' class.
  */
+#site-header {
+    display: contents;
+}
+
 .site-header {
     background-color: rgba(255, 255, 255, 0.95);
     /* Premium White Glass */
