@@ -25,6 +25,16 @@
  *   7. Return a JSON response that the JavaScript on ServiceRequest.html reads
  */
 
+// Start output buffering so any stray PHP notice before respond() can't corrupt
+// the JSON body. respond() calls ob_clean() before writing its payload.
+ob_start();
+
+// Log errors to the server log but never display them to the browser — exposed
+// stack traces can leak file paths and server internals.
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
+
 // PHPMailer is loaded manually (not via Composer autoload) because this project
 // doesn't use Composer. The three files below are the entire PHPMailer library —
 // no additional dependencies are needed for SMTP sending.
@@ -263,6 +273,9 @@ function post(string $key): string
 // tells the JavaScript on ServiceRequest.html exactly what happened.
 function respond(bool $ok, string $msg): void
 {
+    if (ob_get_length()) {
+        ob_clean();
+    }
     header('Content-Type: application/json');
     echo json_encode(['success' => $ok, 'message' => $msg]);
     exit;
@@ -796,6 +809,23 @@ if (post('delivery') === 'ship') {
         'shipping_state',
         'shipping_zip'
     ]);
+
+    // Basic shape checks on shipping fields. These are not address-accurate
+    // validations — carriers validate on label generation — but they catch
+    // obvious copy-paste garbage and keep email output readable.
+    enforceMaxLength('shipping_contact_name',  100);
+    enforceMaxLength('shipping_address_line1', 200);
+    enforceMaxLength('shipping_address_line2', 200);
+    enforceMaxLength('shipping_city',          100);
+    enforceMaxLength('shipping_state',         50);
+    enforceMaxLength('shipping_zip',           20);
+
+    $zip = trim($_POST['shipping_zip'] ?? '');
+    // US ZIP: 5 digits or 5+4 with hyphen. Allow general alnum+space+hyphen
+    // for future international flexibility (country is currently locked to US).
+    if ($zip !== '' && !preg_match('/^[A-Za-z0-9][A-Za-z0-9 \-]{2,19}$/', $zip)) {
+        respond(false, 'Shipping ZIP / Postal Code format looks invalid.');
+    }
 }
 
 // Clean and extract the contact fields that appear in both email templates.
