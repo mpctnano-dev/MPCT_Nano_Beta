@@ -389,7 +389,7 @@ const fieldData = {
         `
     },
     'training': {
-        title: "Training",
+        title: "Safety & Training",
         desc: "Register for safety courses or equipment authorization.",
         fields: `
             <div class="grid grid-2 gap-lg">
