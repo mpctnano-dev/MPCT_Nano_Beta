@@ -18,6 +18,40 @@ function scrollGrid(amount) {
     }
 }
 
+/**
+ * Updates the semester display for education cards based on current date.
+ * Logic:
+ * - Feb 15 - Aug 31: FALL [current year]
+ * - Sep 1 - Feb 14: SPRING [current year]
+ * Only updates degree cards, preserves "Enrolling Now" for PTAP.
+ */
+function updateDynamicSemesters() {
+    const today = new Date();
+    const currentMonth = today.getMonth() + 1; // 1-12
+    const currentDate = today.getDate();
+    const currentYear = today.getFullYear();
+    
+    let semesterText = '';
+    
+    // Determine semester based on current date ranges
+    if ((currentMonth === 2 && currentDate >= 15) || (currentMonth >= 3 && currentMonth <= 8)) {
+        // Feb 15 - Aug 31: FALL
+        semesterText = `Fall ${currentYear}`;
+    } else {
+        // Sep 1 - Feb 14: SPRING
+        semesterText = `Spring ${currentYear}`;
+    }
+    
+    // Update all education semester spans (excluding PTAP which has "Enrolling Now")
+    const semesterElements = document.querySelectorAll('.edu-semester');
+    semesterElements.forEach(element => {
+        // Only update if it doesn't say "Enrolling Now" (PTAP card)
+        if (element.textContent !== 'Enrolling Now') {
+            element.textContent = semesterText;
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     // -------------------------------------------------------------------------
     // Sticky Header Logic
@@ -80,6 +114,10 @@ document.addEventListener('DOMContentLoaded', () => {
             scrollGrid(350); // Scroll Right
         });
     }
+
+    // Update dynamic semesters based on current date
+    // -------------------------------------------------------------------------
+    updateDynamicSemesters();
 
     // Integrated Education Paths - 3x3 Grid Navigation
     // -------------------------------------------------------------------------
