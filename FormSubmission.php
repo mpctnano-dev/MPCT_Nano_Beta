@@ -612,6 +612,91 @@ foreach ($catMeta['fields'] as $field) {
     $plainDetails .= "  $label: $plainValue\n";
 }
 
+//Update the form details to Enquiry List under MPaCT Sharepoint 
+
+
+$tokenRes = curlRequest('POST', TOKEN_URL, null,
+    http_build_query([
+        'grant_type' => 'client_credentials',
+        'client_id' => CLIENT_ID,
+        'client_secret' => CLIENT_SECRET,
+        'scope' => 'https://graph.microsoft.com/.default'
+    ]),
+    'application/x-www-form-urlencoded'
+);
+
+$data = json_decode($tokenRes['body'], true);
+
+if ($tokenRes['code'] !== 200 || empty($data['access_token'])) {
+    respond(false, 'Auth failed');
+}
+
+$token = $data['access_token'];
+
+/* SITE RESOLUTION
+   Make sure we’re in the correct SharePoint location before fetching the data. 
+   This is important because the same credentials could have access to multiple sites, and we want to ensure we’re pulling from the right one. 
+   We use the SP_HOST and SP_SITE_PATH constants defined in config.php to construct the API endpoint for fetching site details. If the site fetch fails, we return an error immediately since we can’t proceed without confirming we’re in the right place.
+   */
+
+$siteUrl = GRAPH . '/sites/' . rawurlencode(SP_HOST) . ':' . SP_SITE_PATH;
+$site = curlRequest('GET', $siteUrl, $token);
+
+$siteData = json_decode($site['body'], true);
+$siteId = $siteData['id'];
+
+if ($site['code'] !== 200) {
+    respond(false, graphError($site['body'] . ' : Site error'));
+}
+
+$listUrl = GRAPH . '/sites/' . $siteId . '/lists';
+$listRes = curlRequest('GET', $listUrl, $token);
+
+$listData = json_decode($listRes['body'], true);
+
+if ($listRes['code'] !== 200) {
+    respond(false, graphError($listRes['body'] . ' - Unable to fetch lists'));
+}
+
+$listId = null;
+
+foreach ($listData['value'] as $list) {
+    if ($list['name'] === INQURY_LIST_NAME) {
+        $listId = $list['id'];
+        break;
+    }
+}
+
+if (!$listId) {
+    respond(false, 'List not found: ' . INQURY_LIST_NAME);
+}
+
+
+$itemUrl = GRAPH . '/sites/' . $siteId . '/lists/' . $listId . '/items';
+
+$sp_List_fields = [
+    'Title'     => $catTitle,   // Using the category title as the item title in SharePoint
+    'FirstName' => $fullName,   // Change if your internal name is different
+    'LastName'  => $lastName,   // Change if your internal name is different
+    'Email'     => $email,
+    'Phone'     => $phone
+
+];
+
+$payload = json_encode([
+    'fields' => $sp_List_fields
+]);
+
+$create = curlRequest('POST', $itemUrl, $token, $payload);
+echo" payload sent";
+if ($create['code'] < 200 || $create['code'] >= 300) {
+    //echo "List insert failed with code: " . $create['code'] . " and response: " . $create['body'];
+    respond(false, graphError($create['body'], 'List insert failed'));
+}
+
+
+//---------------- ENd of SharePoint integration ------------------
+
 
 // ---------------------------------------------------------------
 // LAB NOTIFICATION EMAIL

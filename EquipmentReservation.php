@@ -1,4 +1,8 @@
 <?php
+
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 /*
  * EquipmentReservation.php
  * ------------------------
@@ -32,6 +36,7 @@ ob_start();
 require __DIR__ . '/PHPMailer/src/Exception.php';
 require __DIR__ . '/PHPMailer/src/PHPMailer.php';
 require __DIR__ . '/PHPMailer/src/SMTP.php';
+require_once __DIR__ . '/mpact_config.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -330,6 +335,31 @@ function er_enforceWordLimit(string $field, int $maxWords, string $label): void
     }
 }
 
+function curlRequest(string $method, string $url, ?string $token = null, ?string $body = null, string $contentType = 'application/json'): array {
+    $headers = [];
+    if ($token) $headers[] = "Authorization: Bearer $token";
+    if ($body)  $headers[] = "Content-Type: $contentType";
+
+    $ch = curl_init($url);
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_CUSTOMREQUEST  => $method,
+        CURLOPT_POSTFIELDS     => $body,
+        CURLOPT_HTTPHEADER     => $headers,
+        CURLOPT_TIMEOUT        => 30,
+        CURLOPT_SSL_VERIFYPEER => true,
+    ]);
+
+    $resp = curl_exec($ch);
+    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    if (curl_error($ch)) {
+        throw new RuntimeException(curl_error($ch));
+    }
+
+    curl_close($ch);
+    return ['code' => $code, 'body' => $resp];
+}
 
 // ---------------------------------------------------------------
 // STEP 1: Validate the request method
@@ -611,6 +641,110 @@ foreach ($fields as $field => $label) {
         </tr>";
 
     $plainDetails .= "$label: $displayed\n";
+}
+
+// ---------------------------------------------------------------
+// STEP 4.5: Update the form details to Booking_Ledger List under MPaCT Sharepoint 
+
+/* Before we send any emails, we want to log the booking request in our SharePoint list for record-keeping and reporting purposes. 
+This step is crucial for the lab's internal tracking and helps ensure that all requests are documented in a centralized location. 
+We use the Microsoft Graph API to interact with SharePoint, which requires us to authenticate and obtain an access token first. 
+The token is then used to fetch the site details and list ID before we can create a new list item with the booking information. 
+If any part of this process fails — whether it's authentication, site resolution, or list insertion — we return an error response immediately since logging the request is essential for our workflow. */
+
+$tokenRes = curlRequest('POST', TOKEN_URL, null,
+    http_build_query([
+        'grant_type' => 'client_credentials',
+        'client_id' => CLIENT_ID,
+        'client_secret' => CLIENT_SECRET,
+        'scope' => 'https://graph.microsoft.com/.default'
+    ]),
+    'application/x-www-form-urlencoded'
+);
+
+$data = json_decode($tokenRes['body'], true);
+
+if ($tokenRes['code'] !== 200 || empty($data['access_token'])) {
+    respond(false, 'Auth failed');
+}
+
+$token = $data['access_token'];
+
+/* SITE RESOLUTION
+   Make sure we’re in the correct SharePoint location before fetching the data. 
+   This is important because the same credentials could have access to multiple sites, and we want to ensure we’re pulling from the right one. 
+   We use the SP_HOST and SP_SITE_PATH constants defined in config.php to construct the API endpoint for fetching site details. If the site fetch fails, we return an error immediately since we can’t proceed without confirming we’re in the right place.
+   */
+
+$siteUrl = GRAPH . '/sites/' . rawurlencode(SP_HOST) . ':' . SP_SITE_PATH;
+$site = curlRequest('GET', $siteUrl, $token);
+
+$siteData = json_decode($site['body'], true);
+$siteId = $siteData['id'];
+
+if ($site['code'] !== 200) {
+    respond(false, graphError($site['body'] . ' : Site error'));
+}
+
+/*
+curlRequest is a helper function defined in graph_helpers.php that abstracts away the details of making HTTP requests to the Microsoft Graph API. 
+It takes the HTTP method, endpoint URL, access token, and optional payload as parameters, and returns an array containing the response code and body. 
+We use it here to fetch the site details based on our configured SP_HOST and SP_SITE_PATH. If the request fails (i.e., we don’t get a 200 OK), we return an error response immediately since we can’t continue without confirming we’re in the correct SharePoint site.
+*/
+
+$listUrl = GRAPH . '/sites/' . $siteId . '/lists';
+$listRes = curlRequest('GET', $listUrl, $token);
+
+$listData = json_decode($listRes['body'], true);
+
+if ($listRes['code'] !== 200) {
+    respond(false, graphError($listRes['body'] . ' - Unable to fetch lists'));
+}
+
+$listId = null;
+
+foreach ($listData['value'] as $list) {
+    if ($list['name'] === LIST_NAME) {
+        $listId = $list['id'];
+        break;
+    }
+}
+
+if (!$listId) {
+    respond(false, 'List not found: ' . LIST_NAME);
+}
+
+
+$itemUrl = GRAPH . '/sites/' . $siteId . '/lists/' . $listId . '/items';
+
+$sp_List_fields = [
+    'FirstName' => $fullName,   // Change if your internal name is different
+    'LastName'  => $lastName,   // Change if your internal name is different
+    'Email'     => $email,
+    'Phone'     => $phone,
+    'Equipment' => $equipmentLabel,
+    //'Category'  => $equipment_category,
+    //'Status'    => $equipment_status,
+    //'PreferredDate' => $preferred_date,
+    'EstimatedDuration' => $estimated_duration,
+    //'AlternativeDate' => $alternative_date,
+    'SampleDescription' => $sample_description,
+    'PurposeofUse' => $purpose_of_use,
+    //'TrainingNeeded' => formatValue($training_needed),
+   // 'LabAssistance' => formatValue($lab_assistance),
+    'SpecialRequirements' => $special_requirements
+
+];
+
+$payload = json_encode([
+    'fields' => $sp_List_fields
+]);
+
+$create = curlRequest('POST', $itemUrl, $token, $payload);
+echo" payload sent";
+if ($create['code'] < 200 || $create['code'] >= 300) {
+    //echo "List insert failed with code: " . $create['code'] . " and response: " . $create['body'];
+    respond(false, graphError($create['body'], 'List insert failed'));
 }
 
 

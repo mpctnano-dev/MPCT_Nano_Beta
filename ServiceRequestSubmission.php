@@ -41,6 +41,7 @@ ini_set('log_errors', 1);
 require __DIR__ . '/PHPMailer/src/Exception.php';
 require __DIR__ . '/PHPMailer/src/PHPMailer.php';
 require __DIR__ . '/PHPMailer/src/SMTP.php';
+require_once __DIR__ . '/mpact_config.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -775,6 +776,34 @@ function createMailer(): PHPMailer
     return $mail;
 }
 
+
+function curlRequest(string $method, string $url, ?string $token = null, ?string $body = null, string $contentType = 'application/json'): array {
+    $headers = [];
+    if ($token) $headers[] = "Authorization: Bearer $token";
+    if ($body)  $headers[] = "Content-Type: $contentType";
+
+    $ch = curl_init($url);
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_CUSTOMREQUEST  => $method,
+        CURLOPT_POSTFIELDS     => $body,
+        CURLOPT_HTTPHEADER     => $headers,
+        CURLOPT_TIMEOUT        => 30,
+        CURLOPT_SSL_VERIFYPEER => true,
+    ]);
+
+    $resp = curl_exec($ch);
+    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    if (curl_error($ch)) {
+        throw new RuntimeException(curl_error($ch));
+    }
+
+    curl_close($ch);
+    return ['code' => $code, 'body' => $resp];
+}
+
+
 // =============================================================================
 // Main execution
 // =============================================================================
@@ -993,6 +1022,202 @@ foreach ($meta['fields'] as $field) {
             </tr>";
     $plainDetails .= "  $label: $plainValue\n";
 }
+
+
+
+/* Before we send any emails, we want to log the booking request in our SharePoint list for record-keeping and reporting purposes. 
+This step is crucial for the lab's internal tracking and helps ensure that all requests are documented in a centralized location. 
+We use the Microsoft Graph API to interact with SharePoint, which requires us to authenticate and obtain an access token first. 
+The token is then used to fetch the site details and list ID before we can create a new list item with the booking information. 
+If any part of this process fails — whether it's authentication, site resolution, or list insertion — we return an error response immediately since logging the request is essential for our workflow. */
+
+$tokenRes = curlRequest('POST', TOKEN_URL, null,
+    http_build_query([
+        'grant_type' => 'client_credentials',
+        'client_id' => CLIENT_ID,
+        'client_secret' => CLIENT_SECRET,
+        'scope' => 'https://graph.microsoft.com/.default'
+    ]),
+    'application/x-www-form-urlencoded'
+);
+
+$data = json_decode($tokenRes['body'], true);
+
+if ($tokenRes['code'] !== 200 || empty($data['access_token'])) {
+    respond(false, 'Auth failed');
+}
+
+$token = $data['access_token'];
+
+/* SITE RESOLUTION
+   Make sure we’re in the correct SharePoint location before fetching the data. 
+   This is important because the same credentials could have access to multiple sites, and we want to ensure we’re pulling from the right one. 
+   We use the SP_HOST and SP_SITE_PATH constants defined in config.php to construct the API endpoint for fetching site details. If the site fetch fails, we return an error immediately since we can’t proceed without confirming we’re in the right place.
+   */
+/*
+curlRequest is a helper function defined in graph_helpers.php that abstracts away the details of making HTTP requests to the Microsoft Graph API. 
+It takes the HTTP method, endpoint URL, access token, and optional payload as parameters, and returns an array containing the response code and body. 
+We use it here to fetch the site details based on our configured SP_HOST and SP_SITE_PATH. If the request fails (i.e., we don’t get a 200 OK), we return an error response immediately since we can’t continue without confirming we’re in the correct SharePoint site.
+*/
+
+$siteUrl = GRAPH . '/sites/' . rawurlencode(SP_HOST) . ':' . SP_SITE_PATH;
+$site = curlRequest('GET', $siteUrl, $token);
+
+$siteData = json_decode($site['body'], true);
+$siteId = $siteData['id'];
+
+if ($site['code'] !== 200) {
+    respond(false, graphError($site['body'] . ' : Site error'));
+}
+$f_timestamp = date('Ymd_His'); 
+$f_lastName = preg_replace('/[\\\\\\/\\*\\?\\:\\"\\<\\>\\|]/', '', $lastName);
+$folderName = $f_lastName . '_' . $f_timestamp;
+
+//$createFolderUrl = GRAPH . '/sites/' . rawurlencode($siteId) . '/drive/root/children';
+
+$formType = $meta['title'] ?? 'temp';
+
+switch ($formType) {
+    case '3D Printing Service Request':
+        $parentPath = '/' . SP_3DPRINT_REQ_FOLDER;
+        break;
+
+    case 'Laser Structuring Service Request':
+        $parentPath = '/' . SP_LASER_REQ_FOLDER;
+        break;
+
+    case '3D Scanning Service Request':
+        $parentPath = '/' . SP_3DSCANNING_REQ_FOLDER;
+        break;
+
+    default:
+        $parentPath = '/' . 'Temp';
+}
+
+//$parentPath = '/' . SP_3DPRINT_REQ_FOLDER;
+
+$createFolderUrl = GRAPH . '/sites/' . rawurlencode($siteId) . '/drive/root:' . $parentPath . ':/children';
+
+$folderPayload = json_encode([
+    "name" => $folderName,
+    "folder" => new stdClass(), // tells Graph it's a folder
+    "@microsoft.graph.conflictBehavior" => "rename"
+]);
+
+$res = curlRequest('POST', $createFolderUrl, $token, $folderPayload, 'application/json');
+
+if ($res['code'] < 200 || $res['code'] >= 300) {
+    respond(false, 'Folder creation failed: ' . $res['body']);
+}
+
+$folderData = json_decode($res['body'], true);
+
+$folderWebUrl = $folderData['webUrl'] ?? '';
+
+
+//  Upload Files
+
+$urls = [];
+
+// Get created folder ID
+$folderId = $folderData['id'] ?? '';
+
+if (empty($folderId)) {
+    respond(false, 'Folder ID missing after creation.');
+}
+
+foreach ($validatedFiles as $f) {
+
+    // Validate temp file exists
+    if (!file_exists($f['tmp_name'])) {
+        respond(false, 'Temporary uploaded file missing: ' . $f['name']);
+    }
+
+    // Build upload URL
+    $uploadUrl = GRAPH
+        . '/sites/' . rawurlencode($siteId)
+        . '/drive/items/' . rawurlencode($folderId)
+        . ':/' . rawurlencode($f['name'])
+        . ':/content';
+
+    // Read uploaded temp file content
+    $content = file_get_contents($f['tmp_name']);
+
+    if ($content === false) {
+        respond(false, 'Unable to read uploaded file: ' . $f['name']);
+    }
+
+    // Use browser MIME type or fallback
+    $mimeType = !empty($f['type']) ? $f['type'] : 'application/octet-stream';
+
+    // Upload to SharePoint
+    $res = curlRequest(
+        'PUT',
+        $uploadUrl,
+        $token,
+        $content,
+        $mimeType
+    );
+
+    if ($res['code'] < 200 || $res['code'] >= 300) {
+        respond(false, 'Upload failed for ' . $f['name'] . ': ' . $res['body']);
+    }
+
+    // Parse uploaded file response for Future Use
+    $up = json_decode($res['body'], true);
+    $urls[] = $up['webUrl'] ?? '';
+
+  
+}
+
+//-----------------Connection to Share point and insert the data into the list-------------------------
+$listUrl = GRAPH . '/sites/' . $siteId . '/lists';
+$listRes = curlRequest('GET', $listUrl, $token);
+
+$listData = json_decode($listRes['body'], true);
+
+if ($listRes['code'] !== 200) {
+    respond(false, graphError($listRes['body'] . ' - Unable to fetch lists'));
+}
+
+$listId = null;
+
+foreach ($listData['value'] as $list) {
+    if ($list['name'] === SERVICES_LIST_NAME) {
+        $listId = $list['id'];
+        break;
+    }
+}
+
+if (!$listId) {
+    respond(false, 'List not found: ' . LIST_NAME);
+}
+
+
+$itemUrl = GRAPH . '/sites/' . $siteId . '/lists/' . $listId . '/items';
+
+$sp_List_fields = [
+    'Title'     => $meta['title']  // Change if your internal name is different
+    'FirstName' => $firstName,   // Change if your internal name is different
+    'LastName'  => $lastName,   
+    'Email'     => $email,
+    'PhoneNumber'     => $phone
+
+];
+
+$payload = json_encode([
+    'fields' => $sp_List_fields
+]);
+
+$create = curlRequest('POST', $itemUrl, $token, $payload);
+echo" payload sent";
+if ($create['code'] < 200 || $create['code'] >= 300) {
+    //echo "List insert failed with code: " . $create['code'] . " and response: " . $create['body'];
+    respond(false, graphError($create['body'], 'List insert failed'));
+}
+
+// -----------------------End of Share point communication----------------------------------------
+
 
 // Append the uploaded files row at the end of the detail table.
 // This always appears regardless of delivery method.
