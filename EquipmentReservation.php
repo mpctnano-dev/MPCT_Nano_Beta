@@ -1,8 +1,5 @@
 <?php
 
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
 /*
  * EquipmentReservation.php
  * ------------------------
@@ -50,23 +47,9 @@ ini_set('display_errors', 0);
 ini_set('log_errors', 1);
 
 
-// ---------------------------------------------------------------
-// CONFIGURATION
-// Update these constants if the lab email address or mail server changes.
-// Using constants (rather than variables) means these can't be accidentally
-// overwritten somewhere else in the script.
-// ---------------------------------------------------------------
-
-// LAB_EMAIL is where booking notifications land — the lab's working inbox.
-define('LAB_EMAIL',    'mpct.nano@nau.edu');
-
-// SENDER_EMAIL shows up in the "From" field of outgoing emails.
-define('SENDER_EMAIL', 'mpct.nano@nau.edu');
-define('SENDER_NAME',  'MPaCT Nano Lab');
-
-// mailgate.nau.edu is NAU's internal SMTP relay. Port 25, no TLS, no auth.
-define('SMTP_HOST', 'mailgate.nau.edu');
-define('SMTP_PORT', 25);
+// Email and SMTP configuration is in mpact_config.php.
+// SharePoint credentials and shared helpers (createMailer, curlRequest) are also there.
+// To change who receives emails, edit CC_LIST in mpact_config.php.
 
 
 // ---------------------------------------------------------------
@@ -334,33 +317,6 @@ function er_enforceWordLimit(string $field, int $maxWords, string $label): void
         respond(false, "$label must not exceed $maxWords words (currently $count words).");
     }
 }
-
-function curlRequest(string $method, string $url, ?string $token = null, ?string $body = null, string $contentType = 'application/json'): array {
-    $headers = [];
-    if ($token) $headers[] = "Authorization: Bearer $token";
-    if ($body)  $headers[] = "Content-Type: $contentType";
-
-    $ch = curl_init($url);
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_CUSTOMREQUEST  => $method,
-        CURLOPT_POSTFIELDS     => $body,
-        CURLOPT_HTTPHEADER     => $headers,
-        CURLOPT_TIMEOUT        => 30,
-        CURLOPT_SSL_VERIFYPEER => true,
-    ]);
-
-    $resp = curl_exec($ch);
-    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-    if (curl_error($ch)) {
-        throw new RuntimeException(curl_error($ch));
-    }
-
-    curl_close($ch);
-    return ['code' => $code, 'body' => $resp];
-}
-
 // ---------------------------------------------------------------
 // STEP 1: Validate the request method
 // This script should only ever be called by the booking form's fetch().
@@ -642,111 +598,6 @@ foreach ($fields as $field => $label) {
 
     $plainDetails .= "$label: $displayed\n";
 }
-
-// ---------------------------------------------------------------
-// STEP 4.5: Update the form details to Booking_Ledger List under MPaCT Sharepoint 
-
-/* Before we send any emails, we want to log the booking request in our SharePoint list for record-keeping and reporting purposes. 
-This step is crucial for the lab's internal tracking and helps ensure that all requests are documented in a centralized location. 
-We use the Microsoft Graph API to interact with SharePoint, which requires us to authenticate and obtain an access token first. 
-The token is then used to fetch the site details and list ID before we can create a new list item with the booking information. 
-If any part of this process fails — whether it's authentication, site resolution, or list insertion — we return an error response immediately since logging the request is essential for our workflow. */
-
-$tokenRes = curlRequest('POST', TOKEN_URL, null,
-    http_build_query([
-        'grant_type' => 'client_credentials',
-        'client_id' => CLIENT_ID,
-        'client_secret' => CLIENT_SECRET,
-        'scope' => 'https://graph.microsoft.com/.default'
-    ]),
-    'application/x-www-form-urlencoded'
-);
-
-$data = json_decode($tokenRes['body'], true);
-
-if ($tokenRes['code'] !== 200 || empty($data['access_token'])) {
-    respond(false, 'Auth failed');
-}
-
-$token = $data['access_token'];
-
-/* SITE RESOLUTION
-   Make sure we’re in the correct SharePoint location before fetching the data. 
-   This is important because the same credentials could have access to multiple sites, and we want to ensure we’re pulling from the right one. 
-   We use the SP_HOST and SP_SITE_PATH constants defined in config.php to construct the API endpoint for fetching site details. If the site fetch fails, we return an error immediately since we can’t proceed without confirming we’re in the right place.
-   */
-
-$siteUrl = GRAPH . '/sites/' . rawurlencode(SP_HOST) . ':' . SP_SITE_PATH;
-$site = curlRequest('GET', $siteUrl, $token);
-
-$siteData = json_decode($site['body'], true);
-$siteId = $siteData['id'];
-
-if ($site['code'] !== 200) {
-    respond(false, graphError($site['body'] . ' : Site error'));
-}
-
-/*
-curlRequest is a helper function defined in graph_helpers.php that abstracts away the details of making HTTP requests to the Microsoft Graph API. 
-It takes the HTTP method, endpoint URL, access token, and optional payload as parameters, and returns an array containing the response code and body. 
-We use it here to fetch the site details based on our configured SP_HOST and SP_SITE_PATH. If the request fails (i.e., we don’t get a 200 OK), we return an error response immediately since we can’t continue without confirming we’re in the correct SharePoint site.
-*/
-
-$listUrl = GRAPH . '/sites/' . $siteId . '/lists';
-$listRes = curlRequest('GET', $listUrl, $token);
-
-$listData = json_decode($listRes['body'], true);
-
-if ($listRes['code'] !== 200) {
-    respond(false, graphError($listRes['body'] . ' - Unable to fetch lists'));
-}
-
-$listId = null;
-
-foreach ($listData['value'] as $list) {
-    if ($list['name'] === LIST_NAME) {
-        $listId = $list['id'];
-        break;
-    }
-}
-
-if (!$listId) {
-    respond(false, 'List not found: ' . LIST_NAME);
-}
-
-
-$itemUrl = GRAPH . '/sites/' . $siteId . '/lists/' . $listId . '/items';
-
-$sp_List_fields = [
-    'FirstName' => $fullName,   // Change if your internal name is different
-    'LastName'  => $lastName,   // Change if your internal name is different
-    'Email'     => $email,
-    'Phone'     => $phone,
-    'Equipment' => $equipmentLabel,
-    //'Category'  => $equipment_category,
-    //'Status'    => $equipment_status,
-    //'PreferredDate' => $preferred_date,
-    'EstimatedDuration' => $estimated_duration,
-    //'AlternativeDate' => $alternative_date,
-    'SampleDescription' => $sample_description,
-    'PurposeofUse' => $purpose_of_use,
-    //'TrainingNeeded' => formatValue($training_needed),
-   // 'LabAssistance' => formatValue($lab_assistance),
-    'SpecialRequirements' => $special_requirements
-
-];
-
-$payload = json_encode([
-    'fields' => $sp_List_fields
-]);
-
-$create = curlRequest('POST', $itemUrl, $token, $payload);
-echo" payload sent";
-if ($create['code'] < 200 || $create['code'] >= 300) {
-    //echo "List insert failed with code: " . $create['code'] . " and response: " . $create['body'];
-    respond(false, graphError($create['body'], 'List insert failed'));
-}
-
 
 // ---------------------------------------------------------------
 // STEP 5: Build names, labels, and the timestamp
@@ -1033,59 +884,7 @@ Northern Arizona University, Flagstaff, AZ
 ";
 
 
-// ---------------------------------------------------------------
-// HELPER: createMailer()
-// Returns a pre-configured PHPMailer instance ready to use.
-// We call this twice — once for the lab email, once for the user
-// confirmation — rather than reusing a single instance and clearing
-// its address list. Reusing causes subtle issues where Reply-To or
-// CC headers from the first send bleed into the second.
-//
-// Key settings explained:
-//   isSMTP()       — use SMTP rather than PHP's built-in mail() function.
-//                    mail() doesn't work reliably in most hosting setups
-//                    and gives us no control over headers or delivery.
-//   SMTPAuth=false — NAU's mailgate relay doesn't require a login. It
-//                    trusts traffic from within the university network.
-//   SMTPSecure=''  — no TLS/SSL on port 25 for this relay. Don't change
-//                    this to 'tls' or PHPMailer will try to upgrade the
-//                    connection and fail.
-//   SMTPAutoTLS=false — extra safety: PHPMailer would otherwise try to
-//                    auto-negotiate TLS even when SMTPSecure is empty.
-//   Encoding=base64 — avoids issues with long lines that some mail servers
-//                    reject; base64 is safe for any character content.
-//   MessageID       — having an @nau.edu Message-ID that matches the sender
-//                    domain is a deliverability signal.
-//   Priority=3      — "normal". Priority 1 (urgent) trips spam filters.
-// ---------------------------------------------------------------
-function createMailer(): PHPMailer
-{
-    $mail = new PHPMailer(true);  // true = throw exceptions rather than returning false on failure
-    $mail->isSMTP();
-    $mail->Host       = SMTP_HOST;
-    $mail->Port       = SMTP_PORT;
-    $mail->SMTPAuth   = false;
-    $mail->SMTPSecure = '';
-    $mail->SMTPAutoTLS = false;
-    $mail->setFrom(SENDER_EMAIL, SENDER_NAME);
-    $mail->isHTML(true);
-    $mail->CharSet  = 'UTF-8';
-    $mail->Encoding = 'base64';
-
-    $mail->XMailer   = 'MPaCT Nano Lab Mailer';
-    $mail->MessageID = '<' . uniqid('mpct-', true) . '@nau.edu>';
-    $mail->Priority  = 3;
-
-    // Embed the NAU logo by Content-ID rather than a remote URL.
-    // If the file doesn't exist on the server (e.g. during local development),
-    // we skip it gracefully — the email still sends, just without the logo.
-    $logoPath = __DIR__ . '/Images/NAU.png';
-    if (file_exists($logoPath)) {
-        $mail->addEmbeddedImage($logoPath, 'naulogo', 'NAU.png', 'base64', 'image/png');
-    }
-
-    return $mail;
-}
+// createMailer() is defined in mpact_config.php
 
 
 // ---------------------------------------------------------------
@@ -1105,9 +904,9 @@ function createMailer(): PHPMailer
 try {
     $labMail = createMailer();
     $labMail->addAddress(LAB_EMAIL);
-    $labMail->addCC('Akhil.Kinnera@nau.edu');
-    $labMail->addCC('Sethuprasad.Gorantla@nau.edu');
-    $labMail->addCC('Krishna-Dev.Palem@nau.edu');
+    foreach (CC_LIST as $cc) {
+        $labMail->addCC($cc);
+    }
     $labMail->addReplyTo($email, $fullName);
     $labMail->Subject = $labSubject;
     $labMail->Body    = $labBody;
@@ -1129,4 +928,88 @@ try {
     // or internal error details to the browser — they can reveal server configuration.
     error_log("MPCT Booking Error: " . $e->getMessage());
     respond(false, 'We were unable to send your inquiry at this time. Please try again or email us directly at ' . LAB_EMAIL . '.');
+}
+
+// ---------------------------------------------------------------
+// STEP 9: Log the booking to SharePoint (non-blocking)
+// Emails are already sent — a SharePoint failure does NOT affect
+// the user's experience. Errors are logged server-side only.
+// ---------------------------------------------------------------
+try {
+    $tokenRes = curlRequest('POST', TOKEN_URL, null,
+        http_build_query([
+            'grant_type' => 'client_credentials',
+            'client_id' => CLIENT_ID,
+            'client_secret' => CLIENT_SECRET,
+            'scope' => 'https://graph.microsoft.com/.default'
+        ]),
+        'application/x-www-form-urlencoded'
+    );
+
+    $data = json_decode($tokenRes['body'], true);
+
+    if ($tokenRes['code'] !== 200 || empty($data['access_token'])) {
+        throw new RuntimeException('SharePoint auth failed');
+    }
+
+    $token = $data['access_token'];
+
+    $siteUrl = GRAPH . '/sites/' . rawurlencode(SP_HOST) . ':' . SP_SITE_PATH;
+    $site = curlRequest('GET', $siteUrl, $token);
+
+    $siteData = json_decode($site['body'], true);
+    $siteId = $siteData['id'];
+
+    if ($site['code'] !== 200) {
+        throw new RuntimeException('SharePoint site resolution failed: ' . $site['body']);
+    }
+
+    $listUrl = GRAPH . '/sites/' . $siteId . '/lists';
+    $listRes = curlRequest('GET', $listUrl, $token);
+
+    $listData = json_decode($listRes['body'], true);
+
+    if ($listRes['code'] !== 200) {
+        throw new RuntimeException('SharePoint list fetch failed: ' . $listRes['body']);
+    }
+
+    $listId = null;
+
+    foreach ($listData['value'] as $list) {
+        if ($list['name'] === LIST_NAME) {
+            $listId = $list['id'];
+            break;
+        }
+    }
+
+    if (!$listId) {
+        throw new RuntimeException('SharePoint list not found: ' . LIST_NAME);
+    }
+
+    $itemUrl = GRAPH . '/sites/' . $siteId . '/lists/' . $listId . '/items';
+
+    $sp_List_fields = [
+        'FirstName' => $fullName,
+        'LastName'  => $lastName,
+        'Email'     => $email,
+        'Phone'     => $phone,
+        'Equipment' => $equipmentLabel,
+        'EstimatedDuration' => $estimated_duration,
+        'SampleDescription' => $sample_description,
+        'PurposeofUse' => $purpose_of_use,
+        'SpecialRequirements' => $special_requirements
+    ];
+
+    $payload = json_encode([
+        'fields' => $sp_List_fields
+    ]);
+
+    $create = curlRequest('POST', $itemUrl, $token, $payload);
+
+    if ($create['code'] < 200 || $create['code'] >= 300) {
+        throw new RuntimeException('SharePoint list insert failed: ' . $create['body']);
+    }
+
+} catch (Exception $e) {
+    error_log('MPCT SharePoint Booking Sync Error: ' . $e->getMessage());
 }

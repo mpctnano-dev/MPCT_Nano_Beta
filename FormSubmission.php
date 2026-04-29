@@ -53,27 +53,13 @@ ini_set('log_errors', 1);
 require __DIR__ . '/PHPMailer/src/Exception.php';
 require __DIR__ . '/PHPMailer/src/PHPMailer.php';
 require __DIR__ . '/PHPMailer/src/SMTP.php';
+require_once __DIR__ . '/mpact_config.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-
-// ---------------------------------------------------------------
-// CONFIGURATION
-// All the values that might need to change over time are constants
-// up here — easy to find and update without hunting through the code.
-//
-// LAB_EMAIL   — where the notification lands when someone submits a form
-// SENDER_EMAIL — what appears in the "From" field on outgoing emails.
-//                Must be @nau.edu or the relay may reject or flag it.
-// SMTP_HOST   — NAU's internal mail relay. Only reachable from within NAU.
-// SMTP_PORT   — Port 25 is standard unencrypted SMTP for internal relays.
-// ---------------------------------------------------------------
-define('LAB_EMAIL',    'mpct.nano@nau.edu');
-define('SENDER_EMAIL', 'mpct.nano@nau.edu');
-define('SENDER_NAME',  'MPaCT Nano Lab');
-define('SMTP_HOST',    'mailgate.nau.edu');
-define('SMTP_PORT',    25);
+// Email, SMTP, and SharePoint configuration is in mpact_config.php.
+// To change who receives emails, edit CC_LIST in mpact_config.php.
 
 
 // ---------------------------------------------------------------
@@ -612,91 +598,6 @@ foreach ($catMeta['fields'] as $field) {
     $plainDetails .= "  $label: $plainValue\n";
 }
 
-//Update the form details to Enquiry List under MPaCT Sharepoint 
-
-
-$tokenRes = curlRequest('POST', TOKEN_URL, null,
-    http_build_query([
-        'grant_type' => 'client_credentials',
-        'client_id' => CLIENT_ID,
-        'client_secret' => CLIENT_SECRET,
-        'scope' => 'https://graph.microsoft.com/.default'
-    ]),
-    'application/x-www-form-urlencoded'
-);
-
-$data = json_decode($tokenRes['body'], true);
-
-if ($tokenRes['code'] !== 200 || empty($data['access_token'])) {
-    respond(false, 'Auth failed');
-}
-
-$token = $data['access_token'];
-
-/* SITE RESOLUTION
-   Make sure we’re in the correct SharePoint location before fetching the data. 
-   This is important because the same credentials could have access to multiple sites, and we want to ensure we’re pulling from the right one. 
-   We use the SP_HOST and SP_SITE_PATH constants defined in config.php to construct the API endpoint for fetching site details. If the site fetch fails, we return an error immediately since we can’t proceed without confirming we’re in the right place.
-   */
-
-$siteUrl = GRAPH . '/sites/' . rawurlencode(SP_HOST) . ':' . SP_SITE_PATH;
-$site = curlRequest('GET', $siteUrl, $token);
-
-$siteData = json_decode($site['body'], true);
-$siteId = $siteData['id'];
-
-if ($site['code'] !== 200) {
-    respond(false, graphError($site['body'] . ' : Site error'));
-}
-
-$listUrl = GRAPH . '/sites/' . $siteId . '/lists';
-$listRes = curlRequest('GET', $listUrl, $token);
-
-$listData = json_decode($listRes['body'], true);
-
-if ($listRes['code'] !== 200) {
-    respond(false, graphError($listRes['body'] . ' - Unable to fetch lists'));
-}
-
-$listId = null;
-
-foreach ($listData['value'] as $list) {
-    if ($list['name'] === INQURY_LIST_NAME) {
-        $listId = $list['id'];
-        break;
-    }
-}
-
-if (!$listId) {
-    respond(false, 'List not found: ' . INQURY_LIST_NAME);
-}
-
-
-$itemUrl = GRAPH . '/sites/' . $siteId . '/lists/' . $listId . '/items';
-
-$sp_List_fields = [
-    'Title'     => $catTitle,   // Using the category title as the item title in SharePoint
-    'FirstName' => $fullName,   // Change if your internal name is different
-    'LastName'  => $lastName,   // Change if your internal name is different
-    'Email'     => $email,
-    'Phone'     => $phone
-
-];
-
-$payload = json_encode([
-    'fields' => $sp_List_fields
-]);
-
-$create = curlRequest('POST', $itemUrl, $token, $payload);
-echo" payload sent";
-if ($create['code'] < 200 || $create['code'] >= 300) {
-    //echo "List insert failed with code: " . $create['code'] . " and response: " . $create['body'];
-    respond(false, graphError($create['body'], 'List insert failed'));
-}
-
-
-//---------------- ENd of SharePoint integration ------------------
-
 
 // ---------------------------------------------------------------
 // LAB NOTIFICATION EMAIL
@@ -950,51 +851,7 @@ Northern Arizona University, Flagstaff, AZ
 ";
 
 
-// ---------------------------------------------------------------
-// MAILER FACTORY: createMailer()
-// Returns a ready-to-use PHPMailer instance configured for NAU's relay.
-// We call this twice (once per email) rather than reusing one instance
-// because resetting PHPMailer between sends is error-prone — address
-// lists and headers from the first send can bleed into the second.
-//
-// SMTPAuth=false and SMTPSecure='' together mean "plain SMTP, no login,
-// no encryption". That's correct for NAU's internal mailgate. If you ever
-// switch to an external SMTP provider (like Gmail or SendGrid), you'd
-// need to set SMTPAuth=true, add a username/password, and set
-// SMTPSecure='tls' or 'ssl' — but don't do that for this internal relay.
-//
-// addEmbeddedImage() attaches the NAU logo as a Content-ID image.
-// The "cid:naulogo" value in the HTML <img src="..."> references this
-// attachment by its content ID. If the logo file is missing (e.g. during
-// local development), we skip it rather than crashing — the email still sends.
-// ---------------------------------------------------------------
-function createMailer(): PHPMailer
-{
-    $mail = new PHPMailer(true);   // true = throw exceptions instead of returning false
-    $mail->isSMTP();
-    $mail->Host        = SMTP_HOST;
-    $mail->Port        = SMTP_PORT;
-    $mail->SMTPAuth    = false;
-    $mail->SMTPSecure  = '';
-    $mail->SMTPAutoTLS = false;    // prevent PHPMailer from auto-upgrading to TLS
-    $mail->setFrom(SENDER_EMAIL, SENDER_NAME);
-    $mail->isHTML(true);
-    $mail->CharSet  = 'UTF-8';
-    $mail->Encoding = 'base64';   // base64 handles any character content safely
-
-    // Deliverability headers — these make the email look like it came from a
-    // real mail system rather than a script, which helps with spam scoring
-    $mail->XMailer   = 'MPaCT Nano Lab Mailer';
-    $mail->MessageID = '<' . uniqid('mpct-', true) . '@nau.edu>';
-    $mail->Priority  = 3;   // 1=high triggers spam filters; 3=normal is safe
-
-    $logoPath = __DIR__ . '/Images/NAU.png';
-    if (file_exists($logoPath)) {
-        $mail->addEmbeddedImage($logoPath, 'naulogo', 'NAU.png', 'base64', 'image/png');
-    }
-
-    return $mail;
-}
+// createMailer() is defined in mpact_config.php
 
 
 // ---------------------------------------------------------------
@@ -1013,9 +870,9 @@ function createMailer(): PHPMailer
 try {
     $labMail = createMailer();
     $labMail->addAddress(LAB_EMAIL);
-    $labMail->addCC('Akhil.Kinnera@nau.edu');
-    $labMail->addCC('Sethuprasad.Gorantla@nau.edu');
-    $labMail->addCC('Krishna-Dev.Palem@nau.edu');
+    foreach (CC_LIST as $cc) {
+        $labMail->addCC($cc);
+    }
     $labMail->addReplyTo($email, $fullName);
     $labMail->Subject = $labSubject;
     $labMail->Body    = $labBody;
@@ -1037,4 +894,84 @@ try {
     // and server configuration to anyone watching the network.
     error_log("MPCT Form Error: " . $e->getMessage());
     respond(false, 'We were unable to send your inquiry at this time. Please try again or email us directly at ' . LAB_EMAIL . '.');
+}
+
+// ---------------------------------------------------------------
+// Log the inquiry to SharePoint (non-blocking)
+// Emails are already sent — a SharePoint failure does NOT affect
+// the user's experience. Errors are logged server-side only.
+// ---------------------------------------------------------------
+try {
+    $tokenRes = curlRequest('POST', TOKEN_URL, null,
+        http_build_query([
+            'grant_type' => 'client_credentials',
+            'client_id' => CLIENT_ID,
+            'client_secret' => CLIENT_SECRET,
+            'scope' => 'https://graph.microsoft.com/.default'
+        ]),
+        'application/x-www-form-urlencoded'
+    );
+
+    $data = json_decode($tokenRes['body'], true);
+
+    if ($tokenRes['code'] !== 200 || empty($data['access_token'])) {
+        throw new RuntimeException('SharePoint auth failed');
+    }
+
+    $token = $data['access_token'];
+
+    $siteUrl = GRAPH . '/sites/' . rawurlencode(SP_HOST) . ':' . SP_SITE_PATH;
+    $site = curlRequest('GET', $siteUrl, $token);
+
+    $siteData = json_decode($site['body'], true);
+    $siteId = $siteData['id'];
+
+    if ($site['code'] !== 200) {
+        throw new RuntimeException('SharePoint site resolution failed: ' . $site['body']);
+    }
+
+    $listUrl = GRAPH . '/sites/' . $siteId . '/lists';
+    $listRes = curlRequest('GET', $listUrl, $token);
+
+    $listData = json_decode($listRes['body'], true);
+
+    if ($listRes['code'] !== 200) {
+        throw new RuntimeException('SharePoint list fetch failed: ' . $listRes['body']);
+    }
+
+    $listId = null;
+
+    foreach ($listData['value'] as $list) {
+        if ($list['name'] === INQURY_LIST_NAME) {
+            $listId = $list['id'];
+            break;
+        }
+    }
+
+    if (!$listId) {
+        throw new RuntimeException('SharePoint list not found: ' . INQURY_LIST_NAME);
+    }
+
+    $itemUrl = GRAPH . '/sites/' . $siteId . '/lists/' . $listId . '/items';
+
+    $sp_List_fields = [
+        'Title'     => $catTitle,
+        'FirstName' => $fullName,
+        'LastName'  => $lastName,
+        'Email'     => $email,
+        'Phone'     => $phone
+    ];
+
+    $payload = json_encode([
+        'fields' => $sp_List_fields
+    ]);
+
+    $create = curlRequest('POST', $itemUrl, $token, $payload);
+
+    if ($create['code'] < 200 || $create['code'] >= 300) {
+        throw new RuntimeException('SharePoint list insert failed: ' . $create['body']);
+    }
+
+} catch (Exception $e) {
+    error_log('MPCT SharePoint Inquiry Sync Error: ' . $e->getMessage());
 }
