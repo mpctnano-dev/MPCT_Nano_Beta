@@ -46,19 +46,9 @@ require_once __DIR__ . '/mpact_config.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-// --- Constants ---------------------------------------------------------------
-// These are defined at the top so they are easy to update without digging into
-// the logic below. LAB_EMAIL is both the recipient of internal notifications and
-// the "reply-to" address shown on user confirmation emails.
-define('LAB_EMAIL', 'mpct.nano@nau.edu');
-define('SENDER_EMAIL', 'mpct.nano@nau.edu');
-define('SENDER_NAME', 'MPaCT Nano Lab');
-
-// NAU's internal SMTP relay. Port 25, no authentication, no TLS — this relay
-// trusts connections from within the NAU network without credentials.
-// Never set SMTPAuth or SMTPSecure when using this relay; it will reject the connection.
-define('SMTP_HOST', 'mailgate.nau.edu');
-define('SMTP_PORT', 25);
+// Email, SMTP, and SharePoint configuration is in mpact_config.php.
+// Shared helpers (createMailer, curlRequest) are also there.
+// To change who receives emails, edit CC_LIST in mpact_config.php.
 
 // Per-file and total upload limits. 25 MB per file accommodates larger STL/Gerber
 // files, but we also cap the combined total at 50 MB inside validateUploads()
@@ -728,80 +718,7 @@ function attachUploads(PHPMailer $mail, array $files): void
     }
 }
 
-/**
- * Creates a fresh, pre-configured PHPMailer instance for one email send.
- *
- * Why a factory function instead of one shared instance?
- * PHPMailer keeps state between sends — recipients, attachments, headers.
- * If we called $mail->clearAddresses() between the lab email and the user
- * email, we could still accidentally carry over the wrong Subject or
- * attachments. A factory guarantees a clean slate every time, which is
- * especially important here because both emails get file attachments added
- * after this function returns.
- *
- * The logo is embedded via CID (Content-ID) rather than a remote URL.
- * Gmail and Outlook block remote images by default, so the NAU logo would
- * appear as a broken image placeholder in most inboxes. Embedding it
- * directly in the email means it always renders without the recipient
- * needing to click "load images".
- */
-function createMailer(): PHPMailer
-{
-    $mail = new PHPMailer(true);
-    $mail->isSMTP();
-    $mail->Host = SMTP_HOST;
-    $mail->Port = SMTP_PORT;
-    $mail->SMTPAuth  = false;   // NAU's internal relay does not require credentials
-    $mail->SMTPSecure = '';     // No TLS — internal network only, not exposed to internet
-    $mail->SMTPAutoTLS = false; // Prevent PHPMailer from trying to upgrade to TLS anyway
-
-    $mail->setFrom(SENDER_EMAIL, SENDER_NAME);
-    $mail->isHTML(true);
-    $mail->CharSet  = 'UTF-8';
-    $mail->Encoding = 'base64'; // base64 handles all UTF-8 characters safely in email
-
-    // Custom headers that help with deliverability and inbox threading
-    $mail->XMailer  = 'MPaCT Nano Service Request Mailer';
-    $mail->MessageID = '<' . uniqid('mpct-service-', true) . '@nau.edu>';
-    $mail->Priority  = 3; // Normal priority (1=High, 3=Normal, 5=Low)
-
-    // Embed the NAU logo as a CID image so it always renders in email clients.
-    // The 'naulogo' string here is the Content-ID referenced as cid:naulogo
-    // in the HTML body's <img src="cid:naulogo"> tags.
-    $logoPath = __DIR__ . '/Images/NAU.png';
-    if (file_exists($logoPath)) {
-        $mail->addEmbeddedImage($logoPath, 'naulogo', 'NAU.png', 'base64', 'image/png');
-    }
-
-    return $mail;
-}
-
-
-function curlRequest(string $method, string $url, ?string $token = null, ?string $body = null, string $contentType = 'application/json'): array {
-    $headers = [];
-    if ($token) $headers[] = "Authorization: Bearer $token";
-    if ($body)  $headers[] = "Content-Type: $contentType";
-
-    $ch = curl_init($url);
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_CUSTOMREQUEST  => $method,
-        CURLOPT_POSTFIELDS     => $body,
-        CURLOPT_HTTPHEADER     => $headers,
-        CURLOPT_TIMEOUT        => 30,
-        CURLOPT_SSL_VERIFYPEER => true,
-    ]);
-
-    $resp = curl_exec($ch);
-    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-    if (curl_error($ch)) {
-        throw new RuntimeException(curl_error($ch));
-    }
-
-    curl_close($ch);
-    return ['code' => $code, 'body' => $resp];
-}
+// createMailer() and curlRequest() are defined in mpact_config.php
 
 
 // =============================================================================
@@ -1022,201 +939,6 @@ foreach ($meta['fields'] as $field) {
             </tr>";
     $plainDetails .= "  $label: $plainValue\n";
 }
-
-
-
-/* Before we send any emails, we want to log the booking request in our SharePoint list for record-keeping and reporting purposes. 
-This step is crucial for the lab's internal tracking and helps ensure that all requests are documented in a centralized location. 
-We use the Microsoft Graph API to interact with SharePoint, which requires us to authenticate and obtain an access token first. 
-The token is then used to fetch the site details and list ID before we can create a new list item with the booking information. 
-If any part of this process fails — whether it's authentication, site resolution, or list insertion — we return an error response immediately since logging the request is essential for our workflow. */
-
-$tokenRes = curlRequest('POST', TOKEN_URL, null,
-    http_build_query([
-        'grant_type' => 'client_credentials',
-        'client_id' => CLIENT_ID,
-        'client_secret' => CLIENT_SECRET,
-        'scope' => 'https://graph.microsoft.com/.default'
-    ]),
-    'application/x-www-form-urlencoded'
-);
-
-$data = json_decode($tokenRes['body'], true);
-
-if ($tokenRes['code'] !== 200 || empty($data['access_token'])) {
-    respond(false, 'Auth failed');
-}
-
-$token = $data['access_token'];
-
-/* SITE RESOLUTION
-   Make sure we’re in the correct SharePoint location before fetching the data. 
-   This is important because the same credentials could have access to multiple sites, and we want to ensure we’re pulling from the right one. 
-   We use the SP_HOST and SP_SITE_PATH constants defined in config.php to construct the API endpoint for fetching site details. If the site fetch fails, we return an error immediately since we can’t proceed without confirming we’re in the right place.
-   */
-/*
-curlRequest is a helper function defined in graph_helpers.php that abstracts away the details of making HTTP requests to the Microsoft Graph API. 
-It takes the HTTP method, endpoint URL, access token, and optional payload as parameters, and returns an array containing the response code and body. 
-We use it here to fetch the site details based on our configured SP_HOST and SP_SITE_PATH. If the request fails (i.e., we don’t get a 200 OK), we return an error response immediately since we can’t continue without confirming we’re in the correct SharePoint site.
-*/
-
-$siteUrl = GRAPH . '/sites/' . rawurlencode(SP_HOST) . ':' . SP_SITE_PATH;
-$site = curlRequest('GET', $siteUrl, $token);
-
-$siteData = json_decode($site['body'], true);
-$siteId = $siteData['id'];
-
-if ($site['code'] !== 200) {
-    respond(false, graphError($site['body'] . ' : Site error'));
-}
-$f_timestamp = date('Ymd_His'); 
-$f_lastName = preg_replace('/[\\\\\\/\\*\\?\\:\\"\\<\\>\\|]/', '', $lastName);
-$folderName = $f_lastName . '_' . $f_timestamp;
-
-//$createFolderUrl = GRAPH . '/sites/' . rawurlencode($siteId) . '/drive/root/children';
-
-$formType = $meta['title'] ?? 'temp';
-
-switch ($formType) {
-    case '3D Printing Service Request':
-        $parentPath = '/' . SP_3DPRINT_REQ_FOLDER;
-        break;
-
-    case 'Laser Structuring Service Request':
-        $parentPath = '/' . SP_LASER_REQ_FOLDER;
-        break;
-
-    case '3D Scanning Service Request':
-        $parentPath = '/' . SP_3DSCANNING_REQ_FOLDER;
-        break;
-
-    default:
-        $parentPath = '/' . 'Temp';
-}
-
-//$parentPath = '/' . SP_3DPRINT_REQ_FOLDER;
-
-$createFolderUrl = GRAPH . '/sites/' . rawurlencode($siteId) . '/drive/root:' . $parentPath . ':/children';
-
-$folderPayload = json_encode([
-    "name" => $folderName,
-    "folder" => new stdClass(), // tells Graph it's a folder
-    "@microsoft.graph.conflictBehavior" => "rename"
-]);
-
-$res = curlRequest('POST', $createFolderUrl, $token, $folderPayload, 'application/json');
-
-if ($res['code'] < 200 || $res['code'] >= 300) {
-    respond(false, 'Folder creation failed: ' . $res['body']);
-}
-
-$folderData = json_decode($res['body'], true);
-
-$folderWebUrl = $folderData['webUrl'] ?? '';
-
-
-//  Upload Files
-
-$urls = [];
-
-// Get created folder ID
-$folderId = $folderData['id'] ?? '';
-
-if (empty($folderId)) {
-    respond(false, 'Folder ID missing after creation.');
-}
-
-foreach ($validatedFiles as $f) {
-
-    // Validate temp file exists
-    if (!file_exists($f['tmp_name'])) {
-        respond(false, 'Temporary uploaded file missing: ' . $f['name']);
-    }
-
-    // Build upload URL
-    $uploadUrl = GRAPH
-        . '/sites/' . rawurlencode($siteId)
-        . '/drive/items/' . rawurlencode($folderId)
-        . ':/' . rawurlencode($f['name'])
-        . ':/content';
-
-    // Read uploaded temp file content
-    $content = file_get_contents($f['tmp_name']);
-
-    if ($content === false) {
-        respond(false, 'Unable to read uploaded file: ' . $f['name']);
-    }
-
-    // Use browser MIME type or fallback
-    $mimeType = !empty($f['type']) ? $f['type'] : 'application/octet-stream';
-
-    // Upload to SharePoint
-    $res = curlRequest(
-        'PUT',
-        $uploadUrl,
-        $token,
-        $content,
-        $mimeType
-    );
-
-    if ($res['code'] < 200 || $res['code'] >= 300) {
-        respond(false, 'Upload failed for ' . $f['name'] . ': ' . $res['body']);
-    }
-
-    // Parse uploaded file response for Future Use
-    $up = json_decode($res['body'], true);
-    $urls[] = $up['webUrl'] ?? '';
-
-  
-}
-
-//-----------------Connection to Share point and insert the data into the list-------------------------
-$listUrl = GRAPH . '/sites/' . $siteId . '/lists';
-$listRes = curlRequest('GET', $listUrl, $token);
-
-$listData = json_decode($listRes['body'], true);
-
-if ($listRes['code'] !== 200) {
-    respond(false, graphError($listRes['body'] . ' - Unable to fetch lists'));
-}
-
-$listId = null;
-
-foreach ($listData['value'] as $list) {
-    if ($list['name'] === SERVICES_LIST_NAME) {
-        $listId = $list['id'];
-        break;
-    }
-}
-
-if (!$listId) {
-    respond(false, 'List not found: ' . LIST_NAME);
-}
-
-
-$itemUrl = GRAPH . '/sites/' . $siteId . '/lists/' . $listId . '/items';
-
-$sp_List_fields = [
-    'Title'     => $meta['title']  // Change if your internal name is different
-    'FirstName' => $firstName,   // Change if your internal name is different
-    'LastName'  => $lastName,   
-    'Email'     => $email,
-    'PhoneNumber'     => $phone
-
-];
-
-$payload = json_encode([
-    'fields' => $sp_List_fields
-]);
-
-$create = curlRequest('POST', $itemUrl, $token, $payload);
-echo" payload sent";
-if ($create['code'] < 200 || $create['code'] >= 300) {
-    //echo "List insert failed with code: " . $create['code'] . " and response: " . $create['body'];
-    respond(false, graphError($create['body'], 'List insert failed'));
-}
-
-// -----------------------End of Share point communication----------------------------------------
 
 
 // Append the uploaded files row at the end of the detail table.
@@ -1459,9 +1181,9 @@ Northern Arizona University
 try {
     $labMail = createMailer();
     $labMail->addAddress(LAB_EMAIL);
-    $labMail->addCC('Akhil.Kinnera@nau.edu');
-    $labMail->addCC('Sethuprasad.Gorantla@nau.edu');
-    $labMail->addCC('Krishna-Dev.Palem@nau.edu');
+    foreach (CC_LIST as $cc) {
+        $labMail->addCC($cc);
+    }
     $labMail->addReplyTo($email, $fullName);
     $labMail->Subject = $labSubject;
     $labMail->Body    = $labBody;
@@ -1481,4 +1203,157 @@ try {
 } catch (Exception $e) {
     error_log('MPCT Service Request Error: ' . $e->getMessage());
     respond(false, 'We were unable to send your request at this time. Please try again or email us directly at ' . LAB_EMAIL . '.');
+}
+
+// ---------------------------------------------------------------
+// Log the service request to SharePoint (non-blocking)
+// Emails are already sent — a SharePoint failure does NOT affect
+// the user's experience. Errors are logged server-side only.
+// ---------------------------------------------------------------
+try {
+    $tokenRes = curlRequest('POST', TOKEN_URL, null,
+        http_build_query([
+            'grant_type' => 'client_credentials',
+            'client_id' => CLIENT_ID,
+            'client_secret' => CLIENT_SECRET,
+            'scope' => 'https://graph.microsoft.com/.default'
+        ]),
+        'application/x-www-form-urlencoded'
+    );
+
+    $data = json_decode($tokenRes['body'], true);
+
+    if ($tokenRes['code'] !== 200 || empty($data['access_token'])) {
+        throw new RuntimeException('SharePoint auth failed');
+    }
+
+    $token = $data['access_token'];
+
+    $siteUrl = GRAPH . '/sites/' . rawurlencode(SP_HOST) . ':' . SP_SITE_PATH;
+    $site = curlRequest('GET', $siteUrl, $token);
+
+    $siteData = json_decode($site['body'], true);
+    $siteId = $siteData['id'];
+
+    if ($site['code'] !== 200) {
+        throw new RuntimeException('SharePoint site resolution failed: ' . $site['body']);
+    }
+
+    // Create a folder for this submission in SharePoint Drive
+    $f_timestamp = date('Ymd_His');
+    $f_lastName = preg_replace('/[\\\\\\/\\*\\?\\:\\"\\<\\>\\|]/', '', $lastName);
+    $folderName = $f_lastName . '_' . $f_timestamp;
+
+    $formType = $meta['title'] ?? 'temp';
+
+    switch ($formType) {
+        case '3D Printing Service Request':
+            $parentPath = '/' . SP_3DPRINT_REQ_FOLDER;
+            break;
+
+        case 'Laser Structuring Service Request':
+            $parentPath = '/' . SP_LASER_REQ_FOLDER;
+            break;
+
+        case '3D Scanning Service Request':
+            $parentPath = '/' . SP_3DSCANNING_REQ_FOLDER;
+            break;
+
+        default:
+            $parentPath = '/' . 'Temp';
+    }
+
+    $createFolderUrl = GRAPH . '/sites/' . rawurlencode($siteId) . '/drive/root:' . $parentPath . ':/children';
+
+    $folderPayload = json_encode([
+        "name" => $folderName,
+        "folder" => new stdClass(),
+        "@microsoft.graph.conflictBehavior" => "rename"
+    ]);
+
+    $res = curlRequest('POST', $createFolderUrl, $token, $folderPayload, 'application/json');
+
+    if ($res['code'] < 200 || $res['code'] >= 300) {
+        throw new RuntimeException('SharePoint folder creation failed: ' . $res['body']);
+    }
+
+    $folderData = json_decode($res['body'], true);
+    $folderId = $folderData['id'] ?? '';
+
+    if (empty($folderId)) {
+        throw new RuntimeException('SharePoint folder ID missing after creation.');
+    }
+
+    // Upload submitted files into the created folder
+    foreach ($validatedFiles as $f) {
+        if (!file_exists($f['tmp_name'])) {
+            throw new RuntimeException('Temporary uploaded file missing: ' . $f['name']);
+        }
+
+        $uploadUrl = GRAPH
+            . '/sites/' . rawurlencode($siteId)
+            . '/drive/items/' . rawurlencode($folderId)
+            . ':/' . rawurlencode($f['name'])
+            . ':/content';
+
+        $content = file_get_contents($f['tmp_name']);
+
+        if ($content === false) {
+            throw new RuntimeException('Unable to read uploaded file: ' . $f['name']);
+        }
+
+        $mimeType = !empty($f['type']) ? $f['type'] : 'application/octet-stream';
+
+        $res = curlRequest('PUT', $uploadUrl, $token, $content, $mimeType);
+
+        if ($res['code'] < 200 || $res['code'] >= 300) {
+            throw new RuntimeException('SharePoint file upload failed for ' . $f['name'] . ': ' . $res['body']);
+        }
+    }
+
+    // Insert the service request record into the SharePoint list
+    $listUrl = GRAPH . '/sites/' . $siteId . '/lists';
+    $listRes = curlRequest('GET', $listUrl, $token);
+
+    $listData = json_decode($listRes['body'], true);
+
+    if ($listRes['code'] !== 200) {
+        throw new RuntimeException('SharePoint list fetch failed: ' . $listRes['body']);
+    }
+
+    $listId = null;
+
+    foreach ($listData['value'] as $list) {
+        if ($list['name'] === SERVICES_LIST_NAME) {
+            $listId = $list['id'];
+            break;
+        }
+    }
+
+    if (!$listId) {
+        throw new RuntimeException('SharePoint list not found: ' . SERVICES_LIST_NAME);
+    }
+
+    $itemUrl = GRAPH . '/sites/' . $siteId . '/lists/' . $listId . '/items';
+
+    $sp_List_fields = [
+        'Title'       => $meta['title'],
+        'FirstName'   => $firstName,
+        'LastName'    => $lastName,
+        'Email'       => $email,
+        'PhoneNumber' => $phone
+    ];
+
+    $payload = json_encode([
+        'fields' => $sp_List_fields
+    ]);
+
+    $create = curlRequest('POST', $itemUrl, $token, $payload);
+
+    if ($create['code'] < 200 || $create['code'] >= 300) {
+        throw new RuntimeException('SharePoint list insert failed: ' . $create['body']);
+    }
+
+} catch (Exception $e) {
+    error_log('MPCT SharePoint Service Sync Error: ' . $e->getMessage());
 }
