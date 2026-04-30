@@ -1015,12 +1015,12 @@
     }
 
     // Validate only the required fields that are currently visible.
+    // Rule primitives (regexes, predicates) come from MPCT.Validation so the
+    // browser checks line up exactly with the PHP server-side checks.
     function validateForm() {
+        const V = window.MPCT && window.MPCT.Validation;
         let valid = true;
         const form = document.getElementById('bookingForm');
-        const emojiRx = /\p{Extended_Pictographic}/u;
-        const mashRx  = /(.)\1{3,}/;
-        const nameRx  = /^[\p{L}\s'\-\.]+$/u;
         const invalidEls = [];
 
         const flag = (el, reason) => {
@@ -1032,7 +1032,6 @@
                 if (reason) errEl.textContent = reason;
                 errEl.style.display = 'block';
             }
-            // Clear the red border on first interaction after an error
             const clear = () => {
                 el.style.borderColor = '';
                 if (errEl) errEl.style.display = 'none';
@@ -1048,7 +1047,6 @@
                 flag(el, 'This field is required.');
                 return;
             }
-            // Built-in constraint validity (catches type="email" format, etc.)
             if (el.validity && !el.validity.valid) {
                 flag(el);
                 return;
@@ -1058,55 +1056,41 @@
             if (errEl) errEl.style.display = 'none';
         });
 
-        // Email format check
         form.querySelectorAll('input[type="email"]').forEach(el => {
             if (!bkIsVisible(el)) return;
-            const v = (el.value || '').trim();
-            if (!v) return;
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) flag(el, 'Please enter a valid email address.');
+            if (!V.isEmail(el.value)) flag(el, 'Please enter a valid email address.');
         });
 
-        // Name fields: letters/spaces/hyphens/apostrophes only
         form.querySelectorAll('input[data-bk-name]').forEach(el => {
-            if (!bkIsVisible(el)) return;
+            if (!bkIsVisible(el) || invalidEls.includes(el)) return;
             const v = (el.value || '').trim();
             if (!v) return;
-            if (invalidEls.includes(el)) return;
-            if (emojiRx.test(v))      flag(el, 'Names cannot contain emoji.');
-            else if (!nameRx.test(v)) flag(el, 'Letters, spaces, hyphens, or apostrophes only.');
+            if (V.hasEmoji(v))         flag(el, 'Names cannot contain emoji.');
+            else if (!V.isValidName(v)) flag(el, 'Letters, spaces, hyphens, or apostrophes only.');
         });
 
-        // Emoji + mashing on general text + textareas (skip name fields already checked)
         form.querySelectorAll('input[type="text"]:not([data-bk-name]):not([readonly]), textarea').forEach(el => {
-            if (!bkIsVisible(el)) return;
+            if (!bkIsVisible(el) || invalidEls.includes(el)) return;
             const v = (el.value || '').trim();
-            if (!v || invalidEls.includes(el)) return;
-            if (emojiRx.test(v)) flag(el, 'Emoji are not allowed here.');
-            else if (mashRx.test(v)) flag(el, 'Please remove repeated characters.');
+            if (!v) return;
+            if (V.hasEmoji(v))        flag(el, 'Emoji are not allowed here.');
+            else if (V.hasMashing(v)) flag(el, 'Please remove repeated characters.');
         });
 
-        // Word limits
         form.querySelectorAll('textarea[data-max-words]').forEach(el => {
             if (!bkIsVisible(el) || invalidEls.includes(el)) return;
             const v = (el.value || '').trim();
             if (!v) return;
             const maxW = parseInt(el.dataset.maxWords, 10);
-            const words = v.split(/\s+/).length;
-            if (words > maxW) flag(el, `Must not exceed ${maxW} words.`);
+            if (V.wordCount(v) > maxW) flag(el, `Must not exceed ${maxW} words.`);
         });
 
-        // Number ranges
         form.querySelectorAll('input[type="number"]').forEach(el => {
             if (!bkIsVisible(el) || invalidEls.includes(el)) return;
-            const v = (el.value || '').trim();
-            if (!v) return;
-            const n = Number(v);
-            if (isNaN(n)) { flag(el, 'Must be a valid number.'); return; }
-            if (n < 0)    { flag(el, 'Cannot be negative.'); return; }
             const min = el.hasAttribute('min') ? parseFloat(el.min) : null;
             const max = el.hasAttribute('max') ? parseFloat(el.max) : null;
-            if (min !== null && n < min) flag(el, `Must be at least ${min}.`);
-            else if (max !== null && n > max) flag(el, `Must be ${max} or less.`);
+            const reason = V.checkNumberRange(el.value, min, max);
+            if (reason) flag(el, reason.charAt(0).toUpperCase() + reason.slice(1) + '.');
         });
 
         // Billing notice checkbox — must be acknowledged before submitting.
