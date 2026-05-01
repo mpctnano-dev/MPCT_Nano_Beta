@@ -2444,7 +2444,7 @@ ul {
     /* Increased padding for grander feel */
     background-color: var(--nau-blue);
     /* Darker overlay for better text contrast, using a high-quality lab image */
-    background-image: linear-gradient(rgba(0, 15, 35, 0.85), rgba(0, 36, 84, 0.8)), url('../Images/6977_Miguel_Yacaman.jpg');
+    background-image: linear-gradient(rgba(0, 15, 35, 0.85), rgba(0, 36, 84, 0.8)), url('../Images/nau-computers-with-blue-lights.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -19034,7 +19034,7 @@ body.workforce-development-page {
         22.857% 100%, 
         100% 100%
     );
-    background: #000;
+    background: #002454;
     transform: translateX(100px);
 }
 
@@ -19089,22 +19089,22 @@ body.workforce-development-page {
     stroke-width: 0.8;
     stroke-linecap: round;
     stroke-linejoin: round;
-    filter: drop-shadow(0 0 6px #54d2ff) drop-shadow(0 0 12px #FAC01A);
+    filter: drop-shadow(0 0 6px #002454) drop-shadow(0 0 12px #FAC01A);
     stroke-dasharray: 200;
     stroke-dashoffset: 200;
     opacity: 0;
 }
 
 .puzzle-container.snapped .puzzle-energy-path {
-    animation: igniteSeam 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards, pulseGlow 3s infinite alternate;
+    animation: igniteSeam 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     /* Delay the ignition until pieces touch */
-    animation-delay: 1.4s, 2.9s;
+    animation-delay: 1.4s;
 }
 
 .puzzle-container.snapped .puzzle-energy-frame {
-    animation: igniteFrame 2s cubic-bezier(0.16, 1, 0.3, 1) forwards, pulseGlow 3s infinite alternate;
+    animation: igniteFrame 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     /* Delay frame ignition until seam finishes */
-    animation-delay: 2.0s, 4.0s;
+    animation-delay: 2.0s;
 }
 
 @keyframes igniteSeam {
@@ -19143,12 +19143,12 @@ body.workforce-development-page {
 
 @keyframes pulseGlow {
     0% {
-        filter: drop-shadow(0 0 6px #54d2ff) drop-shadow(0 0 12px #FAC01A);
+        filter: drop-shadow(0 0 6px #002454) drop-shadow(0 0 12px #FAC01A);
         stroke-width: 0.8;
         opacity: 1;
     }
     100% {
-        filter: drop-shadow(0 0 10px #54d2ff) drop-shadow(0 0 20px #FAC01A) drop-shadow(0 0 30px #ffffff);
+        filter: drop-shadow(0 0 10px #002454) drop-shadow(0 0 20px #FAC01A) drop-shadow(0 0 30px #ffffff);
         stroke-width: 1.2;
         opacity: 1;
     }
@@ -19163,7 +19163,7 @@ body.workforce-development-page {
     transform: translate(-50%, -50%) scale(0);
     width: 300px;
     height: 300px;
-    background: radial-gradient(circle, rgba(250, 192, 26, 0.9) 0%, rgba(0, 113, 197, 0.5) 40%, transparent 70%);
+    background: radial-gradient(circle, rgba(250, 192, 26, 0.9) 0%, rgba(0, 36, 84, 0.5) 40%, transparent 70%);
     border-radius: 50%;
     pointer-events: none;
     z-index: 9;
@@ -19208,5 +19208,5 @@ body.workforce-development-page {
     min-height: 500px;
     width: 100%;
     overflow: hidden;
-    background-color: #000;
+    background-color: #002454;
 }

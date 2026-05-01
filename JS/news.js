@@ -34,7 +34,7 @@ const ARTICLES = [
 
         // Replace with a real semiconductor/lab photo
   
-        heroImage: 'Images/Intel_NAU_news_thumbnail.png',
+        heroImage: 'Images/Intel_News_Thumbnail.png',
         heroAlt: 'Intel and NAU Partnership Banner',
         statusBadge: 'Scholarship Program',
 
@@ -816,7 +816,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <linearGradient id="energyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
                                 <stop offset="0%" stop-color="#FAC01A" />
                                 <stop offset="50%" stop-color="#ffffff" />
-                                <stop offset="100%" stop-color="#0071C5" />
+                                <stop offset="100%" stop-color="#002454" />
                             </linearGradient>
                         </defs>
                         <!-- Perimeter framing paths -->
