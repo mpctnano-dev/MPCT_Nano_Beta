@@ -41,53 +41,48 @@ ini_set('log_errors', 1);
 require __DIR__ . '/PHPMailer/src/Exception.php';
 require __DIR__ . '/PHPMailer/src/PHPMailer.php';
 require __DIR__ . '/PHPMailer/src/SMTP.php';
+require_once __DIR__ . '/mpact_config.php';
+
+// Shared validators (clean, post, respond, requireFields, validate*/enforce*)
+// come from includes/validation.php. Upload helpers and limits stay local —
+// only this endpoint accepts file uploads.
+require_once __DIR__ . '/includes/validation.php';
+
+// SharePoint failure alert helper — emails LAB_EMAIL + CC_LIST whenever
+// the SharePoint sync below throws, so the lab knows to backfill.
+require_once __DIR__ . '/includes/sharepoint_alert.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-// --- Constants ---------------------------------------------------------------
-// These are defined at the top so they are easy to update without digging into
-// the logic below. LAB_EMAIL is both the recipient of internal notifications and
-// the "reply-to" address shown on user confirmation emails.
-define('LAB_EMAIL', 'mpct.nano@nau.edu');
-define('SENDER_EMAIL', 'mpct.nano@nau.edu');
-define('SENDER_NAME', 'MPaCT Nano Lab');
+// Email, SMTP, and SharePoint configuration is in mpact_config.php.
+// To change who receives emails, edit CC_LIST in mpact_config.php.
 
-// NAU's internal SMTP relay. Port 25, no authentication, no TLS — this relay
-// trusts connections from within the NAU network without credentials.
-// Never set SMTPAuth or SMTPSecure when using this relay; it will reject the connection.
-define('SMTP_HOST', 'mailgate.nau.edu');
-define('SMTP_PORT', 25);
+/*
+ * Upload limits. 25 MB per file AND 25 MB combined per submission. The gross
+ * cap matches the per-file cap because mail relays size the whole MIME message
+ * (after base64 inflation) — anything bigger bounces. Mirror these in the
+ * client-side limits inside ServiceRequest.html if you change them.
+ */
+define('MAX_FILE_SIZE_BYTES',    25 * 1024 * 1024);
+define('MAX_TOTAL_UPLOAD_BYTES', 25 * 1024 * 1024);
+define('MAX_FILES_PER_UPLOAD',   10);
+define('DEFAULT_UPLOAD_HINT',    'No files uploaded');
 
-// Per-file and total upload limits. 25 MB per file accommodates larger STL/Gerber
-// files, but we also cap the combined total at 50 MB inside validateUploads()
-// so one submission can't flood the email server with attachments.
-define('MAX_FILE_SIZE_BYTES', 25 * 1024 * 1024); // 25 MB per file
-define('MAX_FILES_PER_UPLOAD', 10);
-
-// Shown in the email table cell when the submitter didn't include any files.
-// Defined as a constant so both the HTML and plain-text versions stay in sync.
-define('DEFAULT_UPLOAD_HINT', 'No files uploaded');
-
-// --- BLOCKED_MIME_TYPES ------------------------------------------------------
-// This is a plain PHP array constant, which is valid in PHP 7+ (no serialize()
-// workaround needed). It lists MIME types whose magic bytes indicate executable
-// or script content — things that should never be uploaded to a university
-// research lab portal regardless of what extension the user attached.
-//
-// Why magic bytes and not just the extension? Because anyone can rename
-// "malware.php" to "drawing.pdf" and a pure extension check would let it through.
-// The finfo_file() call in validateUploads() reads the actual first bytes of
-// the file to determine what it really is — that check uses this list.
+/*
+ * Magic-byte signatures for files we never want — even if the extension
+ * looks innocent. finfo_file() reads the actual first bytes; this list is
+ * what we reject when the signature matches.
+ */
 define('BLOCKED_MIME_TYPES', [
     'application/x-php',
     'application/x-httpd-php',
     'application/x-sh',
     'application/x-shellscript',
     'application/x-executable',
-    'application/x-elf',           // Linux ELF binary
+    'application/x-elf',
     'application/x-msdos-program',
-    'application/x-msdownload',    // Windows PE / .exe
+    'application/x-msdownload',
     'text/x-php',
     'text/x-script.python',
     'text/x-perl',
@@ -125,7 +120,7 @@ $services = [
             'print_size_length', 'print_size_width', 'print_size_height',
             'quantity', 'material', 'color', 'filament_estimate', 'deadline', 'delivery',
             'shipping_contact_name', 'shipping_speed', 'shipping_address_line1', 'shipping_address_line2',
-            'shipping_city', 'shipping_state', 'shipping_zip', 'shipping_country', 'carrier_preference',
+            'shipping_city', 'shipping_state', 'shipping_zip', 'shipping_country',
             'notes'
         ],
         'labels' => [
@@ -151,7 +146,6 @@ $services = [
             'shipping_state' => 'Shipping State / Province',
             'shipping_zip' => 'Shipping ZIP / Postal Code',
             'shipping_country' => 'Shipping Country',
-            'carrier_preference' => 'Carrier Preference',
             'notes' => 'Additional Notes'
         ],
         'uploadField' => 'files',
@@ -173,7 +167,7 @@ $services = [
             'substrate_dim_length', 'substrate_dim_width', 'substrate_dim_thickness',
             'min_feature', 'quantity', 'deadline', 'delivery',
             'shipping_contact_name', 'shipping_speed', 'shipping_address_line1', 'shipping_address_line2',
-            'shipping_city', 'shipping_state', 'shipping_zip', 'shipping_country', 'carrier_preference',
+            'shipping_city', 'shipping_state', 'shipping_zip', 'shipping_country',
             'notes'
         ],
         'labels' => [
@@ -199,7 +193,6 @@ $services = [
             'shipping_state' => 'Shipping State / Province',
             'shipping_zip' => 'Shipping ZIP / Postal Code',
             'shipping_country' => 'Shipping Country',
-            'carrier_preference' => 'Carrier Preference',
             'notes' => 'Additional Notes'
         ],
         'uploadField' => 'design_files',
@@ -249,53 +242,9 @@ $services = [
 ];
 
 // --- Helper functions --------------------------------------------------------
-
-// Trims whitespace and HTML-encodes special characters so the value is safe to
-// embed in HTML. All user-supplied text goes through this before we touch it.
-function clean(string $value): string
-{
-    return htmlspecialchars(trim($value), ENT_QUOTES, 'UTF-8');
-}
-
-// Reads a POST field and returns it already cleaned. Use this when you need a
-// value for validation logic or when building display strings that go directly
-// into HTML without any further transformation.
-//
-// IMPORTANT: Do NOT use post() to read field values that will also be passed
-// through formatValue(). That function does its own htmlspecialchars() call
-// afterwards, so using post() first would double-encode things like "Faculty &
-// Staff" into "Faculty &amp;amp; Staff" in the email.
-function post(string $key): string
-{
-    return isset($_POST[$key]) ? clean((string) $_POST[$key]) : '';
-}
-
-// Sends a JSON response and immediately stops execution. Every code path in
-// this file ends with a call to respond() — success or failure, it always
-// tells the JavaScript on ServiceRequest.html exactly what happened.
-function respond(bool $ok, string $msg): void
-{
-    if (ob_get_length()) {
-        ob_clean();
-    }
-    header('Content-Type: application/json');
-    echo json_encode(['success' => $ok, 'message' => $msg]);
-    exit;
-}
-
-// Checks that a list of POST fields are all non-empty. If any are missing,
-// it responds with a human-readable error and stops. The field key is
-// converted from snake_case to "Title Case" so users see something like
-// "Missing required field: Project Title." instead of raw machine names.
-function requireFields(array $keys, array $labels = []): void
-{
-    foreach ($keys as $key) {
-        if (empty(post($key))) {
-            $display = $labels[$key] ?? ucwords(str_replace('_', ' ', $key));
-            respond(false, 'Missing required field: ' . $display . '.');
-        }
-    }
-}
+// clean(), post(), respond(), and requireFields() come from
+// includes/validation.php. Only the printing/laser/scanning-specific
+// formatValue() map lives here — everything else is shared.
 
 // Translates the machine values that HTML <select> elements post into the
 // human-readable labels we want to show in emails. For example, 'nau_faculty_staff'
@@ -405,58 +354,39 @@ function formatValue(string $raw): string
     return $map[$raw] ?? ucwords(str_replace('_', ' ', $raw));
 }
 
-/**
- * Strip everything unsafe from a user-supplied filename before it touches
- * an email header or an HTML attribute.
- *
- * basename() removes path components (../../etc/passwd style traversal).
- * The first preg_replace removes null bytes and CRLF sequences — these are
- * the classic MIME header injection attack: if a filename contains a newline
- * followed by "Bcc: attacker@evil.com", some mail servers will parse that as
- * a real header and silently CC the attacker on every email.
- * The second preg_replace keeps only printable ASCII so nothing unexpected
- * survives into email headers or HTML.
- * Finally, the result is capped at 200 characters to stay within MIME limits.
+/*
+ * Strip everything unsafe from a user-supplied filename before it touches an
+ * email header or HTML attribute. basename() drops path-traversal segments,
+ * the first preg_replace removes null bytes + CRLF (the classic MIME-header
+ * injection vector), and the second restricts to printable ASCII.
  */
 function sanitizeFilename(string $raw): string
 {
-    $name = basename($raw);                          // drop any path component
-    $name = preg_replace('/[\x00-\x1F\x7F\r\n]/', '', $name); // strip control chars + CRLF
-    $name = preg_replace('/[^\x20-\x7E]/', '', $name);         // printable ASCII only
-    $name = trim($name, ". \t");                     // no leading/trailing dots or spaces
+    $name = basename($raw);
+    $name = preg_replace('/[\x00-\x1F\x7F\r\n]/', '', $name);
+    $name = preg_replace('/[^\x20-\x7E]/', '', $name);
+    $name = trim($name, ". \t");
     $name = substr($name, 0, 200);
     return $name === '' ? 'upload' : $name;
 }
 
-/**
- * Turns PHP's awkward $_FILES structure into a plain, predictable array
- * of file entries, each with name/tmp_name/error/size keys.
- *
- * When a form uses <input type="file" multiple>, PHP stores $_FILES as
- * nested arrays: $_FILES['files']['name'][0], [1], etc. But when the input
- * is NOT multiple (or only one file was selected), PHP stores it flat:
- * $_FILES['files']['name'] = 'single_file.stl'. This function handles both
- * shapes so the rest of the code never has to worry about which format it got.
- *
- * We also cap the loop at MAX_FILES_PER_UPLOAD to prevent someone from
- * submitting 500 files via a crafted request.
+/*
+ * Flatten PHP's two $_FILES shapes (single-file vs multi-file) into one
+ * uniform array. Capped at MAX_FILES_PER_UPLOAD to prevent a hand-crafted
+ * POST from claiming thousands of file slots.
  */
 function normalizeUploadFiles(string $fieldName): array
 {
     if (!isset($_FILES[$fieldName])) {
         return [];
     }
-
-    $f = $_FILES[$fieldName];
+    $f     = $_FILES[$fieldName];
     $files = [];
 
     if (is_array($f['name'])) {
-        // Multi-file upload: $_FILES['field']['name'] is an array
         $count = min(count($f['name']), MAX_FILES_PER_UPLOAD);
         for ($i = 0; $i < $count; $i++) {
-            if (empty($f['name'][$i])) {
-                continue;
-            }
+            if (empty($f['name'][$i])) continue;
             $files[] = [
                 'name'     => sanitizeFilename((string) $f['name'][$i]),
                 'tmp_name' => (string) $f['tmp_name'][$i],
@@ -464,38 +394,22 @@ function normalizeUploadFiles(string $fieldName): array
                 'size'     => (int)    $f['size'][$i],
             ];
         }
-    } else {
-        // Single-file upload: $_FILES['field']['name'] is a plain string
-        if (!empty($f['name'])) {
-            $files[] = [
-                'name'     => sanitizeFilename((string) $f['name']),
-                'tmp_name' => (string) $f['tmp_name'],
-                'error'    => (int)    $f['error'],
-                'size'     => (int)    $f['size'],
-            ];
-        }
+    } elseif (!empty($f['name'])) {
+        $files[] = [
+            'name'     => sanitizeFilename((string) $f['name']),
+            'tmp_name' => (string) $f['tmp_name'],
+            'error'    => (int)    $f['error'],
+            'size'     => (int)    $f['size'],
+        ];
     }
-
     return $files;
 }
 
-/**
- * Validates each uploaded file and returns only the ones that pass.
- * Responds and exits immediately if anything dangerous or oversized is found.
- *
- * Two-layer file type check:
- *   1. Extension allowlist  — the per-service list from $services['allowedExtensions'].
- *      Quick and cheap, but easily defeated by renaming a file.
- *   2. Magic-byte MIME check — finfo reads the actual first bytes of the file.
- *      This is the real security gate. Even if someone uploads "evil.php" renamed
- *      to "design.pdf", finfo will detect the PHP signature and block it.
- *
- * Both layers are needed: extension alone is too weak; MIME alone would block
- * legitimate files whose MIME type isn't in our blocked list but whose extension
- * we don't want (e.g. .exe with a text/plain signature — still not a 3D model).
- *
- * If finfo_open is unavailable on the server, we log a warning and fall back to
- * extension-only checking rather than failing the entire submission.
+/*
+ * Validate every uploaded file. Two-layer type check: extension allowlist
+ * (cheap, defeated by renames) plus magic-byte MIME scan via finfo_file()
+ * (the real gate — catches "evil.php" renamed to "model.stl"). Size accumulates
+ * as we walk so we fail on the file that pushes us over the gross cap.
  */
 function validateUploads(array $files, array $allowedExtensions): array
 {
@@ -503,222 +417,68 @@ function validateUploads(array $files, array $allowedExtensions): array
         respond(false, 'Too many files uploaded. Maximum is ' . MAX_FILES_PER_UPLOAD . ' files per submission.');
     }
 
-    $blockedMimes = BLOCKED_MIME_TYPES;
     $finfo = function_exists('finfo_open') ? finfo_open(FILEINFO_MIME_TYPE) : null;
     if ($finfo === null) {
         error_log('MPCT Upload Warning: finfo_open unavailable — magic-byte MIME check skipped.');
     }
 
+    $perFileMb = (int) (MAX_FILE_SIZE_BYTES / 1024 / 1024);
+    $totalMb   = (int) (MAX_TOTAL_UPLOAD_BYTES / 1024 / 1024);
     $totalSize = 0;
     $validated = [];
 
     foreach ($files as $file) {
-        // PHP upload error codes: anything other than UPLOAD_ERR_OK (0) means
-        // the browser-to-server transfer itself failed. Retry is the right advice.
         if ($file['error'] !== UPLOAD_ERR_OK) {
             respond(false, 'One or more uploaded files failed during upload. Please retry.');
         }
+        if ($file['size'] <= 0) continue;
 
-        // Skip empty file entries (browser submitted a file input with nothing selected)
-        if ($file['size'] <= 0) {
-            continue;
-        }
-
-        // Per-file size cap
         if ($file['size'] > MAX_FILE_SIZE_BYTES) {
-            respond(false, 'Each uploaded file must be 25 MB or smaller.');
+            respond(false, "Each uploaded file must be {$perFileMb} MB or smaller.");
         }
-
-        // Running total across all files in this submission
         $totalSize += $file['size'];
-        if ($totalSize > 50 * 1024 * 1024) {
-            respond(false, 'Total upload size must not exceed 50 MB across all files.');
+        if ($totalSize > MAX_TOTAL_UPLOAD_BYTES) {
+            respond(false, "Total upload size must not exceed {$totalMb} MB across all files.");
         }
-
-        // is_uploaded_file() verifies the file came through PHP's upload mechanism
-        // and wasn't injected by pointing tmp_name at an arbitrary server path.
         if (!is_uploaded_file($file['tmp_name'])) {
             respond(false, 'Invalid file upload detected.');
         }
 
-        // Layer 1: Extension allowlist
         $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
         if ($extension === '' || !in_array($extension, $allowedExtensions, true)) {
             respond(false, 'File type not accepted for this service: ' . clean($file['name'])
                 . '. Allowed: ' . implode(', ', $allowedExtensions) . '.');
         }
 
-        // Layer 2: Magic-byte MIME check — reads the actual file bytes,
-        // not the extension. Rejects known executable/script signatures.
+        // Detect the real MIME type via magic-byte sniffing. We use this
+        // for two things: (1) reject blocked types (executables, scripts);
+        // (2) pass the type forward to the SharePoint uploader so files
+        // are stored with the correct content type instead of the generic
+        // application/octet-stream — that's what gets PDFs to open in
+        // browser, image thumbnails to render, etc.
         if ($finfo !== null) {
             $detectedMime = finfo_file($finfo, $file['tmp_name']);
-            if ($detectedMime !== false && in_array($detectedMime, $blockedMimes, true)) {
+            if ($detectedMime !== false && in_array($detectedMime, BLOCKED_MIME_TYPES, true)) {
                 respond(false, 'File rejected due to unsafe content type: ' . clean($file['name']) . '.');
+            }
+            if ($detectedMime !== false) {
+                $file['type'] = $detectedMime;
             }
         }
 
         $validated[] = $file;
     }
 
-    // Always close the finfo resource to release the shared magic database handle
-    // (finfo_close is deprecated in PHP 8.5+ — resources are freed automatically)
     if ($finfo !== null && PHP_VERSION_ID < 80500) {
         finfo_close($finfo);
     }
-
     return $validated;
 }
 
-/**
- * Validates that a numeric POST field falls within the given inclusive range.
- * Silently skips empty values (requireFields already handles missing-required).
- */
-function validateNumericRange(string $field, float $min, float $max, string $label): void
-{
-    $val = trim($_POST[$field] ?? '');
-    if ($val === '') return;
-    if (!is_numeric($val)) {
-        respond(false, "$label must be a valid number.");
-    }
-    $num = (float) $val;
-    if ($num < $min || $num > $max) {
-        respond(false, "$label must be between $min and $max.");
-    }
-}
-
-/**
- * Enforces a maximum character length on a POST field using mb_strlen so
- * multi-byte UTF-8 characters count correctly.
- */
-function enforceMaxLength(string $field, int $max): void
-{
-    $val = trim($_POST[$field] ?? '');
-    if (mb_strlen($val) > $max) {
-        $label = ucwords(str_replace('_', ' ', $field));
-        respond(false, "$label exceeds the $max-character limit.");
-    }
-}
-
-/**
- * Validates that a numeric POST field is a whole number (integer).
- * Rejects decimals like 1.5. Silently skips empty values.
- */
-function validateInteger(string $field, string $label): void
-{
-    $val = trim($_POST[$field] ?? '');
-    if ($val === '') return;
-    if (!is_numeric($val) || floor((float) $val) != (float) $val) {
-        respond(false, "$label must be a whole number.");
-    }
-}
-
-/**
- * Validates a date field is a valid Y-m-d value between today and six months
- * from now, mirroring the HTML date input min/max restrictions set in JS.
- */
-function validateDateInRange(string $field, string $label): void
-{
-    $val = trim($_POST[$field] ?? '');
-    if ($val === '') return;
-    $date = DateTime::createFromFormat('Y-m-d', $val);
-    if (!$date || $date->format('Y-m-d') !== $val) {
-        respond(false, "$label must be a valid date (YYYY-MM-DD).");
-    }
-    $today   = new DateTime('today');
-    $maxDate = (new DateTime('today'))->modify('+6 months');
-    if ($date < $today) respond(false, "$label cannot be in the past.");
-    if ($date > $maxDate) respond(false, "$label must be within 6 months from today.");
-}
-
-/**
- * Returns true when the string contains Unicode emoji characters.
- * The range covers the major Emoji blocks defined in Unicode 15.
- */
-function containsHtmlTags(string $text): bool
-{
-    return (bool) preg_match(
-        '/<\s*\/?(script|img|iframe|object|embed|svg|form|input|button|a\s|div|span|style|link|meta|base|body|html)\b/i',
-        $text
-    ) || (bool) preg_match(
-        '/(on\w+\s*=|javascript\s*:)/i',
-        $text
-    );
-}
-
-function containsEmoji(string $text): bool
-{
-    return (bool) preg_match(
-        '/[\x{1F300}-\x{1F9FF}\x{2600}-\x{27BF}\x{FE00}-\x{FE0F}\x{1FA00}-\x{1FAFF}]/u',
-        $text
-    );
-}
-
-/**
- * Heuristic for keyboard-mashing: 4 or more consecutive identical characters
- * (e.g. "aaaa", "zzzz", "1111") are a strong signal the user pasted garbage.
- */
-function looksLikeMashing(string $text): bool
-{
-    return (bool) preg_match('/(.)\1{3,}/u', $text);
-}
-
-/**
- * Validates a name field: Unicode letters, spaces, hyphens, apostrophes,
- * and dots only. Rejects digits, most punctuation, and emoji.
- */
-function validateNameField(string $field, string $label): void
-{
-    $val = trim($_POST[$field] ?? '');
-    if ($val === '') return;
-    if (containsEmoji($val)) {
-        respond(false, "$label cannot contain emoji.");
-    }
-    if (!preg_match('/^[\p{L}\s\'\-\.]+$/u', $val)) {
-        respond(false, "$label should contain letters, spaces, hyphens, or apostrophes only.");
-    }
-}
-
-/**
- * Validates a general text field for emoji and obvious keyboard mashing.
- * Used on org/dept, abstract, and notes fields.
- */
-function validateTextField(string $field, string $label): void
-{
-    $val = trim($_POST[$field] ?? '');
-    if ($val === '') return;
-    if (containsHtmlTags($val)) {
-        respond(false, "$label cannot contain HTML or script-like content.");
-    }
-    if (containsEmoji($val)) {
-        respond(false, "$label cannot contain emoji.");
-    }
-    if (looksLikeMashing($val)) {
-        respond(false, "$label appears to contain invalid input. Please provide a meaningful response.");
-    }
-}
-
-/**
- * Enforces a maximum word count on a textarea field, matching the
- * data-max-words="500" attribute in the HTML form.
- */
-function enforceWordLimit(string $field, int $maxWords, string $label): void
-{
-    $val = trim($_POST[$field] ?? '');
-    if ($val === '') return;
-    $count = count(preg_split('/\s+/', $val, -1, PREG_SPLIT_NO_EMPTY));
-    if ($count > $maxWords) {
-        respond(false, "$label must not exceed $maxWords words (currently $count words).");
-    }
-}
-
-/**
- * Attaches each validated file to a PHPMailer instance directly from the PHP
- * temp path. This must happen before the script exits — PHP automatically
- * deletes temp upload files when the request ends. We never move or copy files
- * to a permanent location, so the temp file is our only window to attach them.
- *
- * The filename passed to addAttachment() has already been sanitized by
- * normalizeUploadFiles(), so no further escaping is needed here.
+/*
+ * Attach validated files to a PHPMailer instance straight from PHP's temp
+ * upload path. Must run before the script exits — PHP deletes temp upload
+ * files on shutdown, and we never copy them to a permanent location.
  */
 function attachUploads(PHPMailer $mail, array $files): void
 {
@@ -727,57 +487,10 @@ function attachUploads(PHPMailer $mail, array $files): void
     }
 }
 
-/**
- * Creates a fresh, pre-configured PHPMailer instance for one email send.
- *
- * Why a factory function instead of one shared instance?
- * PHPMailer keeps state between sends — recipients, attachments, headers.
- * If we called $mail->clearAddresses() between the lab email and the user
- * email, we could still accidentally carry over the wrong Subject or
- * attachments. A factory guarantees a clean slate every time, which is
- * especially important here because both emails get file attachments added
- * after this function returns.
- *
- * The logo is embedded via CID (Content-ID) rather than a remote URL.
- * Gmail and Outlook block remote images by default, so the NAU logo would
- * appear as a broken image placeholder in most inboxes. Embedding it
- * directly in the email means it always renders without the recipient
- * needing to click "load images".
- */
-function createMailer(): PHPMailer
-{
-    $mail = new PHPMailer(true);
-    $mail->isSMTP();
-    $mail->Host = SMTP_HOST;
-    $mail->Port = SMTP_PORT;
-    $mail->SMTPAuth  = false;   // NAU's internal relay does not require credentials
-    $mail->SMTPSecure = '';     // No TLS — internal network only, not exposed to internet
-    $mail->SMTPAutoTLS = false; // Prevent PHPMailer from trying to upgrade to TLS anyway
+// createMailer() and curlRequest() live in mpact_config.php.
 
-    $mail->setFrom(SENDER_EMAIL, SENDER_NAME);
-    $mail->isHTML(true);
-    $mail->CharSet  = 'UTF-8';
-    $mail->Encoding = 'base64'; // base64 handles all UTF-8 characters safely in email
 
-    // Custom headers that help with deliverability and inbox threading
-    $mail->XMailer  = 'MPaCT Nano Service Request Mailer';
-    $mail->MessageID = '<' . uniqid('mpct-service-', true) . '@nau.edu>';
-    $mail->Priority  = 3; // Normal priority (1=High, 3=Normal, 5=Low)
-
-    // Embed the NAU logo as a CID image so it always renders in email clients.
-    // The 'naulogo' string here is the Content-ID referenced as cid:naulogo
-    // in the HTML body's <img src="cid:naulogo"> tags.
-    $logoPath = __DIR__ . '/Images/NAU.png';
-    if (file_exists($logoPath)) {
-        $mail->addEmbeddedImage($logoPath, 'naulogo', 'NAU.png', 'base64', 'image/png');
-    }
-
-    return $mail;
-}
-
-// =============================================================================
 // Main execution
-// =============================================================================
 
 // Only accept POST requests. A direct browser visit or a crawler hitting this
 // URL directly would get a clean JSON error instead of a PHP warning or blank page.
@@ -836,7 +549,8 @@ if (post('delivery') === 'ship') {
 $firstName = post('first_name');
 $lastName  = post('last_name');
 $email     = post('email');
-$phone     = mb_substr(post('phone'), 0, 255);
+validatePhoneFormat('phone', 'Phone');
+$phone     = mb_substr(post('phone'), 0, 25);
 $fullName  = trim($firstName . ' ' . $lastName);
 
 // Basic email format validation. filter_var uses PHP's built-in RFC-compliant
@@ -954,7 +668,7 @@ $shippingOnlyFields = [
     'shipping_contact_name', 'shipping_speed',
     'shipping_address_line1', 'shipping_address_line2',
     'shipping_city', 'shipping_state', 'shipping_zip',
-    'shipping_country', 'carrier_preference'
+    'shipping_country'
 ];
 
 foreach ($meta['fields'] as $field) {
@@ -993,6 +707,7 @@ foreach ($meta['fields'] as $field) {
             </tr>";
     $plainDetails .= "  $label: $plainValue\n";
 }
+
 
 // Append the uploaded files row at the end of the detail table.
 // This always appears regardless of delivery method.
@@ -1234,9 +949,9 @@ Northern Arizona University
 try {
     $labMail = createMailer();
     $labMail->addAddress(LAB_EMAIL);
-    $labMail->addCC('Akhil.Kinnera@nau.edu');
-    $labMail->addCC('Sethuprasad.Gorantla@nau.edu');
-    $labMail->addCC('Krishna-Dev.Palem@nau.edu');
+    foreach (CC_LIST as $cc) {
+        $labMail->addCC($cc);
+    }
     $labMail->addReplyTo($email, $fullName);
     $labMail->Subject = $labSubject;
     $labMail->Body    = $labBody;
@@ -1252,8 +967,185 @@ try {
     attachUploads($userMail, $validatedFiles);
     $userMail->send();
 
-    respond(true, 'Your service request has been submitted successfully. A confirmation email has been sent.');
+    // Send the success response immediately so the user is not left
+    // waiting for the SharePoint sync below. The script keeps running
+    // and falls through into the SharePoint block; if SP fails, the lab
+    // gets a SharePoint failure alert email — the user is unaffected.
+    respondAndContinue(true, 'Your service request has been submitted successfully. A confirmation email has been sent.');
 } catch (Exception $e) {
     error_log('MPCT Service Request Error: ' . $e->getMessage());
     respond(false, 'We were unable to send your request at this time. Please try again or email us directly at ' . LAB_EMAIL . '.');
+}
+
+// Log the service request to SharePoint (non-blocking)
+// Emails are already sent — a SharePoint failure does NOT affect
+// the user's experience. Errors are logged server-side only.
+try {
+    $tokenRes = curlRequest('POST', TOKEN_URL, null,
+        http_build_query([
+            'grant_type' => 'client_credentials',
+            'client_id' => CLIENT_ID,
+            'client_secret' => CLIENT_SECRET,
+            'scope' => 'https://graph.microsoft.com/.default'
+        ]),
+        'application/x-www-form-urlencoded'
+    );
+
+    $data = json_decode($tokenRes['body'], true);
+
+    if ($tokenRes['code'] !== 200 || empty($data['access_token'])) {
+        throw new RuntimeException('SharePoint auth failed');
+    }
+
+    $token = $data['access_token'];
+
+    $siteUrl = GRAPH . '/sites/' . rawurlencode(SP_HOST) . ':' . SP_SITE_PATH;
+    $site = curlRequest('GET', $siteUrl, $token);
+
+    $siteData = json_decode($site['body'], true);
+    $siteId = $siteData['id'];
+
+    if ($site['code'] !== 200) {
+        throw new RuntimeException('SharePoint site resolution failed: ' . $site['body']);
+    }
+
+    // Create a folder for this submission in SharePoint Drive.
+    // The regex strips Windows-illegal filename characters. After that,
+    // a name made entirely of dots/whitespace (e.g. ".", "..") would
+    // produce a broken folder name like "._20260501_173500" that
+    // SharePoint may reject — fall back to "Unknown" in that case.
+    $f_timestamp = date('Ymd_His');
+    $f_lastName  = preg_replace('/[\\\\\\/\\*\\?\\:\\"\\<\\>\\|]/', '', $lastName);
+    $f_lastName  = trim((string) $f_lastName, ". \t\n\r\0\x0B");
+    if ($f_lastName === '') {
+        $f_lastName = 'Unknown';
+    }
+    $folderName  = $f_lastName . '_' . $f_timestamp;
+
+    $formType = $meta['title'] ?? 'temp';
+
+    switch ($formType) {
+        case '3D Printing Service Request':
+            $parentPath = '/' . SP_3DPRINT_REQ_FOLDER;
+            break;
+
+        case 'Laser Structuring Service Request':
+            $parentPath = '/' . SP_LASER_REQ_FOLDER;
+            break;
+
+        case '3D Scanning Service Request':
+            $parentPath = '/' . SP_3DSCANNING_REQ_FOLDER;
+            break;
+
+        default:
+            $parentPath = '/' . 'Temp';
+    }
+
+    $createFolderUrl = GRAPH . '/sites/' . rawurlencode($siteId) . '/drive/root:' . $parentPath . ':/children';
+
+    $folderPayload = json_encode([
+        "name" => $folderName,
+        "folder" => new stdClass(),
+        "@microsoft.graph.conflictBehavior" => "rename"
+    ]);
+
+    $res = curlRequest('POST', $createFolderUrl, $token, $folderPayload, 'application/json');
+
+    if ($res['code'] < 200 || $res['code'] >= 300) {
+        throw new RuntimeException('SharePoint folder creation failed: ' . $res['body']);
+    }
+
+    $folderData = json_decode($res['body'], true);
+    $folderId = $folderData['id'] ?? '';
+
+    if (empty($folderId)) {
+        throw new RuntimeException('SharePoint folder ID missing after creation.');
+    }
+
+    // Upload submitted files into the created folder
+    foreach ($validatedFiles as $f) {
+        if (!file_exists($f['tmp_name'])) {
+            throw new RuntimeException('Temporary uploaded file missing: ' . $f['name']);
+        }
+
+        $uploadUrl = GRAPH
+            . '/sites/' . rawurlencode($siteId)
+            . '/drive/items/' . rawurlencode($folderId)
+            . ':/' . rawurlencode($f['name'])
+            . ':/content';
+
+        $content = file_get_contents($f['tmp_name']);
+
+        if ($content === false) {
+            throw new RuntimeException('Unable to read uploaded file: ' . $f['name']);
+        }
+
+        $mimeType = !empty($f['type']) ? $f['type'] : 'application/octet-stream';
+
+        $res = curlRequest('PUT', $uploadUrl, $token, $content, $mimeType);
+
+        if ($res['code'] < 200 || $res['code'] >= 300) {
+            throw new RuntimeException('SharePoint file upload failed for ' . $f['name'] . ': ' . $res['body']);
+        }
+    }
+
+    // Insert the service request record into the SharePoint list
+    $listUrl = GRAPH . '/sites/' . $siteId . '/lists';
+    $listRes = curlRequest('GET', $listUrl, $token);
+
+    $listData = json_decode($listRes['body'], true);
+
+    if ($listRes['code'] !== 200) {
+        throw new RuntimeException('SharePoint list fetch failed: ' . $listRes['body']);
+    }
+
+    $listId = null;
+
+    foreach ($listData['value'] as $list) {
+        if ($list['name'] === SERVICES_LIST_NAME) {
+            $listId = $list['id'];
+            break;
+        }
+    }
+
+    if (!$listId) {
+        throw new RuntimeException('SharePoint list not found: ' . SERVICES_LIST_NAME);
+    }
+
+    $itemUrl = GRAPH . '/sites/' . $siteId . '/lists/' . $listId . '/items';
+
+    // Values from post() are HTML-escaped for safe email rendering
+    // (e.g. "O'Brien" becomes "O&#039;Brien"). SharePoint stores plain
+    // text and renders it itself — decode before insert so the list
+    // shows the original characters, not entity codes. Affiliation /
+    // Organization_Dept / AdditionalNotes are read raw from $_POST below
+    // so they don't need decoding.
+    $sp_List_fields = [
+        'Title'             => $meta['title'],
+        'FirstName'         => htmlspecialchars_decode($firstName, ENT_QUOTES),
+        'LastName'          => htmlspecialchars_decode($lastName, ENT_QUOTES),
+        'Email'             => htmlspecialchars_decode($email, ENT_QUOTES),
+        'PhoneNumber'       => htmlspecialchars_decode($phone, ENT_QUOTES),
+        'Affiliation'       => formatValue(trim($_POST['affiliation'] ?? '')),
+        'Organization_Dept' => trim($_POST[$orgField] ?? ''),
+        'AdditionalNotes'   => trim($_POST['notes'] ?? ''),
+    ];
+
+    $payload = json_encode([
+        'fields' => $sp_List_fields
+    ]);
+
+    $create = curlRequest('POST', $itemUrl, $token, $payload);
+
+    if ($create['code'] < 200 || $create['code'] >= 300) {
+        throw new RuntimeException('SharePoint list insert failed: ' . $create['body']);
+    }
+
+} catch (Exception $e) {
+    error_log('MPCT SharePoint Service Sync Error: ' . $e->getMessage());
+    notifySharePointFailure('Service Request', $e, [
+        'submitter_name'  => $fullName,
+        'submitter_email' => $email,
+        'service_type'    => $serviceTitle ?? ($serviceType ?? ''),
+    ]);
 }

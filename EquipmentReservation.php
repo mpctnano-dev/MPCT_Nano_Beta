@@ -1,4 +1,5 @@
 <?php
+
 /*
  * EquipmentReservation.php
  * ------------------------
@@ -32,6 +33,16 @@ ob_start();
 require __DIR__ . '/PHPMailer/src/Exception.php';
 require __DIR__ . '/PHPMailer/src/PHPMailer.php';
 require __DIR__ . '/PHPMailer/src/SMTP.php';
+require_once __DIR__ . '/mpact_config.php';
+
+// Shared validators / sanitizers / required-field gate live in
+// includes/validation.php so all three form endpoints share one
+// source of truth instead of each carrying a prefixed copy.
+require_once __DIR__ . '/includes/validation.php';
+
+// SharePoint failure alert helper — emails LAB_EMAIL + CC_LIST whenever
+// the SharePoint sync below throws, so the lab knows to backfill.
+require_once __DIR__ . '/includes/sharepoint_alert.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -45,42 +56,16 @@ ini_set('display_errors', 0);
 ini_set('log_errors', 1);
 
 
-// ---------------------------------------------------------------
-// CONFIGURATION
-// Update these constants if the lab email address or mail server changes.
-// Using constants (rather than variables) means these can't be accidentally
-// overwritten somewhere else in the script.
-// ---------------------------------------------------------------
-
-// LAB_EMAIL is where booking notifications land — the lab's working inbox.
-define('LAB_EMAIL',    'mpct.nano@nau.edu');
-
-// SENDER_EMAIL shows up in the "From" field of outgoing emails.
-define('SENDER_EMAIL', 'mpct.nano@nau.edu');
-define('SENDER_NAME',  'MPaCT Nano Lab');
-
-// mailgate.nau.edu is NAU's internal SMTP relay. Port 25, no TLS, no auth.
-define('SMTP_HOST', 'mailgate.nau.edu');
-define('SMTP_PORT', 25);
+// Email and SMTP configuration is in mpact_config.php.
+// SharePoint credentials and shared helpers (createMailer, curlRequest) are also there.
+// To change who receives emails, edit CC_LIST in mpact_config.php.
 
 
-// ---------------------------------------------------------------
-// HELPER: post()
-// A small wrapper around $_POST that trims whitespace and escapes
-// HTML entities in one step. It returns an empty string (never null)
-// if the key doesn't exist, which keeps the rest of the code clean.
-//
-// IMPORTANT: Use post() only for values that will be embedded directly
-// into HTML output. For values that need further processing (like select
-// option values going through formatValue()), read from $_POST directly
-// so you don't pre-escape something that will be escaped again later.
-// ---------------------------------------------------------------
-function post($key) {
-    return isset($_POST[$key]) ? htmlspecialchars(trim((string) $_POST[$key]), ENT_QUOTES, 'UTF-8') : '';
-}
+// post(), clean(), respond(), and requireFields() come from
+// includes/validation.php. Only the booking-specific formatValue() map
+// stays in this file — every other helper is shared.
 
 
-// ---------------------------------------------------------------
 // HELPER: formatValue()
 // This exists because HTML select elements send their option *values*
 // to the server, not the human-readable labels the user sees on screen.
@@ -98,7 +83,6 @@ function post($key) {
 // The time conversion at the bottom handles the preferred_time field, which
 // comes through as 24-hour format (e.g. "14:30") from an <input type="time">.
 // We convert it to 12-hour AM/PM so it reads naturally in the email.
-// ---------------------------------------------------------------
 function formatValue(string $raw): string
 {
     static $map = [
@@ -177,166 +161,16 @@ function formatValue(string $raw): string
 }
 
 
-// ---------------------------------------------------------------
-// HELPER: requireFields()
-// Loops through a list of field names and bails immediately if any
-// are empty. The error message converts "first_name" → "First Name"
-// so the user sees something intelligible, not a raw field key.
-//
-// respond() calls exit, so the moment a required field is missing
-// we stop processing and return an error — nothing below runs.
-// ---------------------------------------------------------------
-function requireFields(array $keys): void
-{
-    foreach ($keys as $key) {
-        if (empty(post($key))) {
-            respond(false, 'Missing required field: ' . ucwords(str_replace('_', ' ', $key)) . '.');
-        }
-    }
-}
+// Content validators (enforceMaxLength, validateNumericRange, validateInteger,
+// validateDateInRange, validateNameField, validateTextField, enforceWordLimit,
+// and the containsHtmlTags / containsEmoji / looksLikeMashing primitives) all
+// come from includes/validation.php. The booking.js front-end runs the same
+// rules in the browser; these are the server-side defense-in-depth copy.
 
-
-// ---------------------------------------------------------------
-// HELPER: respond()
-// The single exit point for this script. Every code path eventually
-// calls this — whether it's a validation error, a send failure, or success.
-//
-// ob_clean() discards any buffered output before we write JSON. Without
-// this, a PHP notice or a stray space at the top of the file would get
-// prepended to the response, making JSON.parse() fail on the frontend.
-//
-// We always return HTTP 200 regardless of success/failure because the
-// frontend checks result.success in the JSON body, not the HTTP status.
-// ---------------------------------------------------------------
-function respond($success, $message) {
-    if (ob_get_length()) {
-        ob_clean();
-    }
-    header('Content-Type: application/json');
-    echo json_encode(['success' => $success, 'message' => $message]);
-    exit;
-}
-
-
-// ---------------------------------------------------------------
-// CONTENT VALIDATORS
-// Server-side guards for the booking form. booking.js already runs
-// these checks in the browser, but a disabled-JS user or a direct
-// POST would walk right past them — so we repeat every rule here
-// and bail out via respond() on the first failure. The er_ prefix
-// keeps these from colliding with the fs_ / sr_ validators in the
-// other endpoints; they're intentionally duplicated because each
-// PHP script is a self-contained deployable.
-// ---------------------------------------------------------------
-function er_enforceMaxLength(string $field, int $max, string $label): void
-{
-    $val = trim($_POST[$field] ?? '');
-    if (mb_strlen($val) > $max) {
-        respond(false, "$label exceeds the $max-character limit.");
-    }
-}
-
-function er_validateNumericRange(string $field, float $min, float $max, string $label): void
-{
-    $val = trim($_POST[$field] ?? '');
-    if ($val === '') return;
-    if (!is_numeric($val)) {
-        respond(false, "$label must be a valid number.");
-    }
-    $num = (float) $val;
-    if ($num < $min || $num > $max) {
-        respond(false, "$label must be between $min and $max.");
-    }
-}
-
-function er_validateInteger(string $field, string $label): void
-{
-    $val = trim($_POST[$field] ?? '');
-    if ($val === '') return;
-    if (!is_numeric($val) || floor((float) $val) != (float) $val) {
-        respond(false, "$label must be a whole number.");
-    }
-}
-
-function er_validateDateInRange(string $field, string $label): void
-{
-    $val = trim($_POST[$field] ?? '');
-    if ($val === '') return;
-    $date = DateTime::createFromFormat('Y-m-d', $val);
-    if (!$date || $date->format('Y-m-d') !== $val) {
-        respond(false, "$label must be a valid date (YYYY-MM-DD).");
-    }
-    $today   = new DateTime('today');
-    $maxDate = (new DateTime('today'))->modify('+6 months');
-    if ($date < $today) respond(false, "$label cannot be in the past.");
-    if ($date > $maxDate) respond(false, "$label must be within 6 months from today.");
-}
-
-function er_containsHtmlTags(string $text): bool
-{
-    return (bool) preg_match(
-        '/<\s*\/?(script|img|iframe|object|embed|svg|form|input|button|a\s|div|span|style|link|meta|base|body|html)\b/i',
-        $text
-    ) || (bool) preg_match('/(on\w+\s*=|javascript\s*:)/i', $text);
-}
-
-function er_containsEmoji(string $text): bool
-{
-    return (bool) preg_match(
-        '/[\x{1F300}-\x{1F9FF}\x{2600}-\x{27BF}\x{FE00}-\x{FE0F}\x{1FA00}-\x{1FAFF}]/u',
-        $text
-    );
-}
-
-function er_looksLikeMashing(string $text): bool
-{
-    return (bool) preg_match('/(.)\1{3,}/u', $text);
-}
-
-function er_validateNameField(string $field, string $label): void
-{
-    $val = trim($_POST[$field] ?? '');
-    if ($val === '') return;
-    if (er_containsEmoji($val)) {
-        respond(false, "$label cannot contain emoji.");
-    }
-    if (!preg_match('/^[\p{L}\s\'\-\.]+$/u', $val)) {
-        respond(false, "$label should contain letters, spaces, hyphens, or apostrophes only.");
-    }
-}
-
-function er_validateTextField(string $field, string $label): void
-{
-    $val = trim($_POST[$field] ?? '');
-    if ($val === '') return;
-    if (er_containsHtmlTags($val)) {
-        respond(false, "$label cannot contain HTML or script-like content.");
-    }
-    if (er_containsEmoji($val)) {
-        respond(false, "$label cannot contain emoji.");
-    }
-    if (er_looksLikeMashing($val)) {
-        respond(false, "$label appears to contain invalid input. Please provide a meaningful response.");
-    }
-}
-
-function er_enforceWordLimit(string $field, int $maxWords, string $label): void
-{
-    $val = trim($_POST[$field] ?? '');
-    if ($val === '') return;
-    $count = count(preg_split('/\s+/', $val, -1, PREG_SPLIT_NO_EMPTY));
-    if ($count > $maxWords) {
-        respond(false, "$label must not exceed $maxWords words (currently $count words).");
-    }
-}
-
-
-// ---------------------------------------------------------------
 // STEP 1: Validate the request method
 // This script should only ever be called by the booking form's fetch().
 // If someone types the URL directly in a browser (GET request) or pokes
 // at it with a tool, we return an error immediately.
-// ---------------------------------------------------------------
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     respond(false, 'Invalid request method.');
 }
@@ -346,20 +180,26 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 // body but isn't strictly required to send a notification.
 requireFields(['first_name', 'last_name', 'email']);
 
+// Billing acknowledgement is gated on the client by a checkbox (#bkAgreeTerms).
+// A hand-crafted POST can omit it entirely, so we re-check on the server.
+// Standard HTML checkboxes only post a value when checked; absence == no.
+if (empty($_POST['agreeTerms'])) {
+    respond(false, 'You must acknowledge the billing terms before submitting.');
+}
+
 $firstName = post('first_name');
 $lastName  = post('last_name');
 
 // Validate name format + lengths on the globally required fields.
-er_validateNameField('first_name', 'First Name');
-er_validateNameField('last_name',  'Last Name');
-er_enforceMaxLength('first_name',   25,  'First Name');
-er_enforceMaxLength('last_name',    25,  'Last Name');
-er_enforceMaxLength('email',        50,  'Email');
-er_enforceMaxLength('organization', 100, 'Organization');
-er_validateTextField('organization', 'Organization');
+validateNameField('first_name', 'First Name');
+validateNameField('last_name',  'Last Name');
+enforceMaxLength('first_name',   25,  'First Name');
+enforceMaxLength('last_name',    25,  'Last Name');
+enforceMaxLength('email',        50,  'Email');
+enforceMaxLength('organization', 100, 'Organization');
+validateTextField('organization', 'Organization');
 
 
-// ---------------------------------------------------------------
 // STEP 2: Collect all POST values
 // Equipment fields come from the booking form's hidden inputs, which
 // booking.js populates when the user selects a piece of equipment.
@@ -368,7 +208,6 @@ er_validateTextField('organization', 'Organization');
 // Mask Aligner") that booking.js writes from the equipment card.
 // equipment_name is the raw identifier. We prefer the display version
 // for email subject lines and body text — it's what the user actually saw.
-// ---------------------------------------------------------------
 $category           = post('category');
 $equipment_id       = post('equipment_id');
 $equipment_name     = post('equipment_name');
@@ -377,7 +216,8 @@ $equipment_status   = post('equipment_status');
 $equipment_display  = post('equipment_name_display');
 
 $email        = post('email');
-$phone        = mb_substr(post('phone'), 0, 255);   // cap phone at 255 chars — just in case
+validatePhoneFormat('phone', 'Phone');
+$phone        = mb_substr(post('phone'), 0, 25);   // matches the 14-char client mask + slack for international
 $organization = mb_substr(post('organization'), 0, 255);
 
 // Scheduling fields — come from date/time pickers and duration selects
@@ -396,18 +236,15 @@ $lab_assistance       = post('lab_assistance');
 $special_requirements = post('special_requirements');
 
 
-// ---------------------------------------------------------------
 // STEP 3: Validate the email address
 // filter_var with FILTER_VALIDATE_EMAIL does a proper RFC-compliant check.
 // This catches typos like "user@" or "notanemail" before we try to send
 // anything. We do it after field collection so we have $email available.
-// ---------------------------------------------------------------
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     respond(false, 'Invalid email address.');
 }
 
 
-// ---------------------------------------------------------------
 // STEP 4: Build the detail rows for the email tables
 //
 // $fields maps POST field names to the human-readable labels that appear
@@ -420,7 +257,6 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 // version "full_day" (they happen to be the same here, but for values
 // containing "&" or quotes they would differ and cause double-encoding).
 // We escape exactly once, right before we drop the value into HTML.
-// ---------------------------------------------------------------
 // Category-specific validation + field maps. The form posts either
 // 'booking' (standard reservation) or 'educational' (course request).
 // Anything else is tampered input and gets rejected.
@@ -458,27 +294,27 @@ if ($categoryMode === 'educational') {
         'preferred_date',
     ]);
 
-    er_validateNameField('instructor_name', 'Instructor Name');
-    er_enforceMaxLength('course_number',   20,   'Course Number');
-    er_enforceMaxLength('course_name',     150,  'Course Name');
-    er_enforceMaxLength('instructor_name', 100,  'Instructor Name');
-    er_enforceMaxLength('instructor_email', 50,  'Instructor Email');
-    er_enforceMaxLength('sessions_needed', 100,  'Sessions Needed');
+    validateNameField('instructor_name', 'Instructor Name');
+    enforceMaxLength('course_number',   20,   'Course Number');
+    enforceMaxLength('course_name',     150,  'Course Name');
+    enforceMaxLength('instructor_name', 100,  'Instructor Name');
+    enforceMaxLength('instructor_email', 50,  'Instructor Email');
+    enforceMaxLength('sessions_needed', 100,  'Sessions Needed');
 
-    er_validateTextField('class_use',     'Intended Use');
-    er_enforceWordLimit('class_use', 500, 'Intended Use');
-    er_enforceMaxLength('class_use',  2500, 'Intended Use');
+    validateTextField('class_use',     'Intended Use');
+    enforceWordLimit('class_use', 500, 'Intended Use');
+    enforceMaxLength('class_use',  2500, 'Intended Use');
 
     if (!empty(trim($_POST['edu_notes'] ?? ''))) {
-        er_validateTextField('edu_notes', 'Additional Notes');
-        er_enforceWordLimit('edu_notes', 500, 'Additional Notes');
-        er_enforceMaxLength('edu_notes', 2500, 'Additional Notes');
+        validateTextField('edu_notes', 'Additional Notes');
+        enforceWordLimit('edu_notes', 500, 'Additional Notes');
+        enforceMaxLength('edu_notes', 2500, 'Additional Notes');
     }
 
-    er_validateNumericRange('group_size', 1, 200, 'Group / Class Size');
-    er_validateInteger('group_size', 'Group / Class Size');
-    er_validateDateInRange('preferred_date',   'Preferred Date');
-    er_validateDateInRange('alternative_date', 'Alternative Date');
+    validateNumericRange('group_size', 1, 200, 'Group / Class Size');
+    validateInteger('group_size', 'Group / Class Size');
+    validateDateInRange('preferred_date',   'Preferred Date');
+    validateDateInRange('alternative_date', 'Alternative Date');
 
     $instructorEmail = trim($_POST['instructor_email'] ?? '');
     if ($instructorEmail !== '' && !filter_var($instructorEmail, FILTER_VALIDATE_EMAIL)) {
@@ -493,30 +329,34 @@ if ($categoryMode === 'educational') {
         'purpose_of_use',
     ]);
 
-    er_enforceMaxLength('sample_description', 500,  'Sample Description');
-    er_validateTextField('sample_description', 'Sample Description');
+    enforceMaxLength('sample_description', 500,  'Sample Description');
+    validateTextField('sample_description', 'Sample Description');
 
-    er_validateTextField('purpose_of_use', 'Purpose of Use');
-    er_enforceWordLimit('purpose_of_use', 500, 'Purpose of Use');
-    er_enforceMaxLength('purpose_of_use', 2500, 'Purpose of Use');
+    validateTextField('purpose_of_use', 'Purpose of Use');
+    enforceWordLimit('purpose_of_use', 500, 'Purpose of Use');
+    enforceMaxLength('purpose_of_use', 2500, 'Purpose of Use');
 
     if (!empty(trim($_POST['special_requirements'] ?? ''))) {
-        er_validateTextField('special_requirements', 'Special Requirements');
-        er_enforceWordLimit('special_requirements', 500, 'Special Requirements');
-        er_enforceMaxLength('special_requirements', 2500, 'Special Requirements');
+        validateTextField('special_requirements', 'Special Requirements');
+        enforceWordLimit('special_requirements', 500, 'Special Requirements');
+        enforceMaxLength('special_requirements', 2500, 'Special Requirements');
     }
 
-    er_validateDateInRange('preferred_date',   'Preferred Date');
-    er_validateDateInRange('alternative_date', 'Alternative Date');
+    validateDateInRange('preferred_date',   'Preferred Date');
+    validateDateInRange('alternative_date', 'Alternative Date');
 
     // NAU-specific fields become required when internal user types are chosen
     if ($userType === 'nau_student' || $userType === 'nau_faculty_staff') {
         requireFields(['nau_id', 'nau_email', 'department', 'school']);
-        er_enforceMaxLength('nau_id',     20,  'NAU ID');
-        er_enforceMaxLength('nau_email',  50,  'NAU Email');
-        er_enforceMaxLength('department', 100, 'Department');
-        er_enforceMaxLength('speed_chart', 50, 'Speed Chart');
-        er_validateTextField('department', 'Department');
+        enforceMaxLength('nau_id',     20,  'NAU ID');
+        enforceMaxLength('nau_email',  50,  'NAU Email');
+        enforceMaxLength('department', 100, 'Department');
+        enforceMaxLength('speed_chart', 50, 'Speed Chart');
+        validateTextField('department',  'Department');
+        validateTextField('speed_chart', 'Speed Chart');
+        // The HTML uses pattern="[0-9]*" — mirror that on the server so a
+        // crafted POST can't slip in letters or punctuation.
+        validateInteger('nau_id', 'NAU ID');
 
         $nauEmail = trim($_POST['nau_email'] ?? '');
         if ($nauEmail !== '' && !filter_var($nauEmail, FILTER_VALIDATE_EMAIL)) {
@@ -525,11 +365,11 @@ if ($categoryMode === 'educational') {
 
         if ($userType === 'nau_student') {
             requireFields(['supervisor']);
-            er_validateNameField('supervisor', 'Supervisor');
-            er_enforceMaxLength('supervisor', 100, 'Supervisor');
+            validateNameField('supervisor', 'Supervisor');
+            enforceMaxLength('supervisor', 100, 'Supervisor');
         }
         if ($userType === 'nau_faculty_staff') {
-            er_enforceMaxLength('job_title', 100, 'Job Title');
+            enforceMaxLength('job_title', 100, 'Job Title');
         }
     }
 }
@@ -613,8 +453,6 @@ foreach ($fields as $field => $label) {
     $plainDetails .= "$label: $displayed\n";
 }
 
-
-// ---------------------------------------------------------------
 // STEP 5: Build names, labels, and the timestamp
 //
 // $equipmentLabel prefers the display name that booking.js wrote into
@@ -625,7 +463,6 @@ foreach ($fields as $field => $label) {
 // The timestamp uses Arizona's timezone. Arizona doesn't observe DST,
 // so "MST" is always correct year-round — we don't need to worry about
 // switching between MST and MDT the way other states do.
-// ---------------------------------------------------------------
 $catTitle       = ($categoryMode === 'educational') ? 'Course Equipment Request' : 'Equipment Booking';
 $catMeta        = ['title' => $catTitle];
 $fullName       = "$firstName $lastName";
@@ -637,7 +474,6 @@ $equipmentLabel = ($equipment_name !== '') ? $equipment_name : $equipment_displa
 $timestamp      = date("F j, Y \a\\t g:i A T");
 
 
-// ---------------------------------------------------------------
 // STEP 6: Build the lab notification email
 //
 // This is the email that lands in the lab's inbox when someone submits
@@ -657,7 +493,6 @@ $timestamp      = date("F j, Y \a\\t g:i A T");
 // a remote URL. Gmail and Outlook block remote images from unknown senders
 // by default, so a URL to our server would just show a broken image icon.
 // CID embedding puts the image data directly in the email, so it always shows.
-// ---------------------------------------------------------------
 $labSubject = (($categoryMode === 'educational') ? 'New Course Request: ' : 'New Booking Request: ')
              . $equipmentLabel . ' from ' . $fullName;
 $labBody = '<!DOCTYPE html>
@@ -769,7 +604,6 @@ Sent from MPaCT Nano Lab booking form (nau.edu)
 ";
 
 
-// ---------------------------------------------------------------
 // STEP 7: Build the user confirmation email
 //
 // This goes back to the person who submitted the request. They get
@@ -778,7 +612,6 @@ Sent from MPaCT Nano Lab booking form (nau.edu)
 //
 // We tell them 1-2 business days for a response. If that expectation
 // ever changes, update it here in both the HTML body and the $userPlain.
-// ---------------------------------------------------------------
 $userSubject = ($categoryMode === 'educational')
     ? 'We received your Course Request — MPaCT Nano Lab'
     : 'We received your Booking request — MPaCT Nano Lab';
@@ -899,62 +732,9 @@ Northern Arizona University, Flagstaff, AZ
 ";
 
 
-// ---------------------------------------------------------------
-// HELPER: createMailer()
-// Returns a pre-configured PHPMailer instance ready to use.
-// We call this twice — once for the lab email, once for the user
-// confirmation — rather than reusing a single instance and clearing
-// its address list. Reusing causes subtle issues where Reply-To or
-// CC headers from the first send bleed into the second.
-//
-// Key settings explained:
-//   isSMTP()       — use SMTP rather than PHP's built-in mail() function.
-//                    mail() doesn't work reliably in most hosting setups
-//                    and gives us no control over headers or delivery.
-//   SMTPAuth=false — NAU's mailgate relay doesn't require a login. It
-//                    trusts traffic from within the university network.
-//   SMTPSecure=''  — no TLS/SSL on port 25 for this relay. Don't change
-//                    this to 'tls' or PHPMailer will try to upgrade the
-//                    connection and fail.
-//   SMTPAutoTLS=false — extra safety: PHPMailer would otherwise try to
-//                    auto-negotiate TLS even when SMTPSecure is empty.
-//   Encoding=base64 — avoids issues with long lines that some mail servers
-//                    reject; base64 is safe for any character content.
-//   MessageID       — having an @nau.edu Message-ID that matches the sender
-//                    domain is a deliverability signal.
-//   Priority=3      — "normal". Priority 1 (urgent) trips spam filters.
-// ---------------------------------------------------------------
-function createMailer(): PHPMailer
-{
-    $mail = new PHPMailer(true);  // true = throw exceptions rather than returning false on failure
-    $mail->isSMTP();
-    $mail->Host       = SMTP_HOST;
-    $mail->Port       = SMTP_PORT;
-    $mail->SMTPAuth   = false;
-    $mail->SMTPSecure = '';
-    $mail->SMTPAutoTLS = false;
-    $mail->setFrom(SENDER_EMAIL, SENDER_NAME);
-    $mail->isHTML(true);
-    $mail->CharSet  = 'UTF-8';
-    $mail->Encoding = 'base64';
-
-    $mail->XMailer   = 'MPaCT Nano Lab Mailer';
-    $mail->MessageID = '<' . uniqid('mpct-', true) . '@nau.edu>';
-    $mail->Priority  = 3;
-
-    // Embed the NAU logo by Content-ID rather than a remote URL.
-    // If the file doesn't exist on the server (e.g. during local development),
-    // we skip it gracefully — the email still sends, just without the logo.
-    $logoPath = __DIR__ . '/Images/NAU.png';
-    if (file_exists($logoPath)) {
-        $mail->addEmbeddedImage($logoPath, 'naulogo', 'NAU.png', 'base64', 'image/png');
-    }
-
-    return $mail;
-}
+// createMailer() is defined in mpact_config.php
 
 
-// ---------------------------------------------------------------
 // STEP 8: Send both emails
 //
 // Lab email first, user confirmation second. If the lab email fails,
@@ -967,13 +747,12 @@ function createMailer(): PHPMailer
 // addReplyTo($email, $fullName) means that when a staff member hits
 // Reply in their inbox, the reply goes to the person who booked —
 // not back to the lab address (which would create a loop).
-// ---------------------------------------------------------------
 try {
     $labMail = createMailer();
     $labMail->addAddress(LAB_EMAIL);
-    $labMail->addCC('Akhil.Kinnera@nau.edu');
-    $labMail->addCC('Sethuprasad.Gorantla@nau.edu');
-    $labMail->addCC('Krishna-Dev.Palem@nau.edu');
+    foreach (CC_LIST as $cc) {
+        $labMail->addCC($cc);
+    }
     $labMail->addReplyTo($email, $fullName);
     $labMail->Subject = $labSubject;
     $labMail->Body    = $labBody;
@@ -987,7 +766,11 @@ try {
     $userMail->AltBody = $userPlain;
     $userMail->send();
 
-    respond(true, 'Your inquiry has been submitted successfully! You will receive a confirmation email shortly.');
+    // Send the success response immediately so the user is not left
+    // waiting for the SharePoint sync below. The script keeps running
+    // and falls through into the SharePoint block; if SP fails, the lab
+    // gets a SharePoint failure alert email — the user is unaffected.
+    respondAndContinue(true, 'Your inquiry has been submitted successfully! You will receive a confirmation email shortly.');
 
 } catch (Exception $e) {
     // Log the real PHPMailer error message to the server log so we can debug it,
@@ -995,4 +778,105 @@ try {
     // or internal error details to the browser — they can reveal server configuration.
     error_log("MPCT Booking Error: " . $e->getMessage());
     respond(false, 'We were unable to send your inquiry at this time. Please try again or email us directly at ' . LAB_EMAIL . '.');
+}
+
+// STEP 9: Log the booking to SharePoint (non-blocking)
+// Emails are already sent — a SharePoint failure does NOT affect
+// the user's experience. Errors are logged server-side only.
+try {
+    $tokenRes = curlRequest('POST', TOKEN_URL, null,
+        http_build_query([
+            'grant_type' => 'client_credentials',
+            'client_id' => CLIENT_ID,
+            'client_secret' => CLIENT_SECRET,
+            'scope' => 'https://graph.microsoft.com/.default'
+        ]),
+        'application/x-www-form-urlencoded'
+    );
+
+    $data = json_decode($tokenRes['body'], true);
+
+    if ($tokenRes['code'] !== 200 || empty($data['access_token'])) {
+        throw new RuntimeException('SharePoint auth failed');
+    }
+
+    $token = $data['access_token'];
+
+    $siteUrl = GRAPH . '/sites/' . rawurlencode(SP_HOST) . ':' . SP_SITE_PATH;
+    $site = curlRequest('GET', $siteUrl, $token);
+
+    $siteData = json_decode($site['body'], true);
+    $siteId = $siteData['id'];
+
+    if ($site['code'] !== 200) {
+        throw new RuntimeException('SharePoint site resolution failed: ' . $site['body']);
+    }
+
+    $listUrl = GRAPH . '/sites/' . $siteId . '/lists';
+    $listRes = curlRequest('GET', $listUrl, $token);
+
+    $listData = json_decode($listRes['body'], true);
+
+    if ($listRes['code'] !== 200) {
+        throw new RuntimeException('SharePoint list fetch failed: ' . $listRes['body']);
+    }
+
+    $listId = null;
+
+    foreach ($listData['value'] as $list) {
+        if ($list['name'] === LIST_NAME) {
+            $listId = $list['id'];
+            break;
+        }
+    }
+
+    if (!$listId) {
+        throw new RuntimeException('SharePoint list not found: ' . LIST_NAME);
+    }
+
+    $itemUrl = GRAPH . '/sites/' . $siteId . '/lists/' . $listId . '/items';
+
+    // Values from post() are HTML-escaped for safe email rendering
+    // (e.g. "O'Brien" becomes "O&#039;Brien"). SharePoint stores plain
+    // text and renders it itself — decode before insert so the list
+    // shows the original characters, not entity codes.
+    $spDecode = static fn(string $v): string => htmlspecialchars_decode($v, ENT_QUOTES);
+
+    $sp_List_fields = [
+        'Title'               => $catTitle . ': ' . $spDecode($equipmentLabel),
+        'FirstName'           => $spDecode($firstName),
+        'LastName'            => $spDecode($lastName),
+        'Email'               => $spDecode($email),
+        'Phone'               => $spDecode($phone),
+        'Equipment'           => $spDecode($equipmentLabel),
+        'Category'            => $spDecode($equipment_category),
+        'Status'              => formatValue($spDecode($equipment_status)),
+        'PreferredDate'       => $spDecode($preferred_date),
+        'EstimatedDuration'   => formatValue($spDecode($estimated_duration)),
+        'AlternativeDate'     => $spDecode($alternative_date),
+        'SampleDescription'   => $spDecode($sample_description),
+        'PurposeofUse'        => $spDecode($purpose_of_use),
+        'TrainingNeeded'      => formatValue($spDecode($training_needed)),
+        'LabAssistance'       => formatValue($spDecode($lab_assistance)),
+        'SpecialRequirements' => $spDecode($special_requirements),
+    ];
+
+    $payload = json_encode([
+        'fields' => $sp_List_fields
+    ]);
+
+    $create = curlRequest('POST', $itemUrl, $token, $payload);
+
+    if ($create['code'] < 200 || $create['code'] >= 300) {
+        throw new RuntimeException('SharePoint list insert failed: ' . $create['body']);
+    }
+
+} catch (Exception $e) {
+    error_log('MPCT SharePoint Booking Sync Error: ' . $e->getMessage());
+    notifySharePointFailure('Equipment Reservation', $e, [
+        'submitter_name'  => $fullName,
+        'submitter_email' => $email,
+        'equipment'       => $equipmentLabel ?? '',
+        'category'        => $category ?? '',
+    ]);
 }
