@@ -63,12 +63,7 @@ function respond(bool $ok, string $msg): void
  *   - Any further `echo` is silently discarded — write to error_log instead.
  *   - The user cannot interrupt the rest of the script.
  *
- * Under PHP-FPM (the standard NAU webserver setup) fastcgi_finish_request()
- * flushes the response and detaches the user immediately. Under mod_php or
- * the CLI / built-in dev server, that function does not exist and we fall
- * back to flushing buffers — script still continues, the user just may
- * have to wait until script end for the connection to fully close.
- *
+ * the user just may have to wait until script end for the connection to fully close.
  * Failure paths should keep using respond(false): if email send failed
  * there is no point continuing with SharePoint sync, and we do want the
  * script to exit cleanly so the catch handler can return the error.
@@ -123,7 +118,8 @@ function enforceMaxLength(string $field, int $max, ?string $label = null): void
 function validateNumericRange(string $field, float $min, float $max, string $label): void
 {
     $val = trim($_POST[$field] ?? '');
-    if ($val === '') return;
+    if ($val === '')
+        return;
     if (!is_numeric($val)) {
         respond(false, "$label must be a valid number.");
     }
@@ -137,7 +133,8 @@ function validateNumericRange(string $field, float $min, float $max, string $lab
 function validateInteger(string $field, string $label): void
 {
     $val = trim($_POST[$field] ?? '');
-    if ($val === '') return;
+    if ($val === '')
+        return;
     if (!is_numeric($val) || floor((float) $val) != (float) $val) {
         respond(false, "$label must be a whole number.");
     }
@@ -150,15 +147,18 @@ function validateInteger(string $field, string $label): void
 function validateDateInRange(string $field, string $label): void
 {
     $val = trim($_POST[$field] ?? '');
-    if ($val === '') return;
+    if ($val === '')
+        return;
     $date = DateTime::createFromFormat('Y-m-d', $val);
     if (!$date || $date->format('Y-m-d') !== $val) {
         respond(false, "$label must be a valid date (YYYY-MM-DD).");
     }
-    $today   = new DateTime('today');
+    $today = new DateTime('today');
     $maxDate = (new DateTime('today'))->modify('+6 months');
-    if ($date < $today)   respond(false, "$label cannot be in the past.");
-    if ($date > $maxDate) respond(false, "$label must be within 6 months from today.");
+    if ($date < $today)
+        respond(false, "$label cannot be in the past.");
+    if ($date > $maxDate)
+        respond(false, "$label must be within 6 months from today.");
 }
 
 /*
@@ -194,7 +194,8 @@ function looksLikeMashing(string $text): bool
 function validateNameField(string $field, string $label): void
 {
     $val = trim($_POST[$field] ?? '');
-    if ($val === '') return;
+    if ($val === '')
+        return;
     if (containsEmoji($val)) {
         respond(false, "$label cannot contain emoji.");
     }
@@ -207,7 +208,8 @@ function validateNameField(string $field, string $label): void
 function validateTextField(string $field, string $label): void
 {
     $val = trim($_POST[$field] ?? '');
-    if ($val === '') return;
+    if ($val === '')
+        return;
     if (containsHtmlTags($val)) {
         respond(false, "$label cannot contain HTML or script-like content.");
     }
@@ -229,7 +231,8 @@ function validateTextField(string $field, string $label): void
 function validatePhoneFormat(string $field, string $label): void
 {
     $val = trim($_POST[$field] ?? '');
-    if ($val === '') return;
+    if ($val === '')
+        return;
     if (mb_strlen($val) > 25) {
         respond(false, "$label is too long.");
     }
@@ -242,7 +245,8 @@ function validatePhoneFormat(string $field, string $label): void
 function enforceWordLimit(string $field, int $maxWords, string $label): void
 {
     $val = trim($_POST[$field] ?? '');
-    if ($val === '') return;
+    if ($val === '')
+        return;
     $count = count(preg_split('/\s+/', $val, -1, PREG_SPLIT_NO_EMPTY));
     if ($count > $maxWords) {
         respond(false, "$label must not exceed $maxWords words (currently $count words).");
