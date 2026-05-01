@@ -55,6 +55,15 @@ require __DIR__ . '/PHPMailer/src/PHPMailer.php';
 require __DIR__ . '/PHPMailer/src/SMTP.php';
 require_once __DIR__ . '/mpact_config.php';
 
+// Shared validators / sanitizers / required-field gate live in
+// includes/validation.php so all three form endpoints share one
+// source of truth instead of each carrying a prefixed copy.
+require_once __DIR__ . '/includes/validation.php';
+
+// SharePoint failure alert helper — emails LAB_EMAIL + CC_LIST whenever
+// the SharePoint sync below throws, so the lab knows to backfill.
+require_once __DIR__ . '/includes/sharepoint_alert.php';
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -62,58 +71,11 @@ use PHPMailer\PHPMailer\Exception;
 // To change who receives emails, edit CC_LIST in mpact_config.php.
 
 
-// ---------------------------------------------------------------
-// HELPER: clean()
-// Trims whitespace and HTML-encodes special characters.
-// This prevents XSS — if someone types <script>alert(1)</script>
-// into a form field, htmlspecialchars turns it into harmless text.
-// ENT_QUOTES encodes both single and double quotes, which matters
-// when values end up inside HTML attribute strings.
-// ---------------------------------------------------------------
-function clean(string $val): string
-{
-    return htmlspecialchars(trim($val), ENT_QUOTES, 'UTF-8');
-}
+// clean(), post(), respond(), and requireFields() come from
+// includes/validation.php. Only the contact-form-specific formatValue()
+// map stays here.
 
 
-// ---------------------------------------------------------------
-// HELPER: post()
-// Reads a POST field and runs it through clean() in one call.
-// Returns empty string (never null/undefined) if the key doesn't
-// exist, so callers don't need to check isset() themselves.
-//
-// Note: only use post() when the value will go directly into HTML.
-// If you need to process the value first (e.g. pass it through
-// formatValue()), read from $_POST directly to avoid pre-escaping
-// a value that will get escaped again later.
-// ---------------------------------------------------------------
-function post(string $key): string
-{
-    return isset($_POST[$key]) ? clean($_POST[$key]) : '';
-}
-
-
-// ---------------------------------------------------------------
-// HELPER: requireFields()
-// Checks a list of field names and returns an error immediately if
-// any are missing or empty. The error message humanizes the field
-// name — "first_name" becomes "First Name" — so the user sees
-// something meaningful rather than a raw variable name.
-//
-// respond() calls exit(), so execution stops the moment a required
-// field is missing. Nothing below this call runs.
-// ---------------------------------------------------------------
-function requireFields(array $keys): void
-{
-    foreach ($keys as $k) {
-        if (empty(post($k))) {
-            respond(false, 'Missing required field: ' . ucwords(str_replace('_', ' ', $k)) . '.');
-        }
-    }
-}
-
-
-// ---------------------------------------------------------------
 // HELPER: formatValue()
 // HTML select elements send their option *values* to the server,
 // not the text the user sees on screen. So a dropdown that shows
@@ -133,7 +95,6 @@ function requireFields(array $keys): void
 // The time conversion handles <input type="time"> fields, which
 // always submit in 24-hour HH:MM format. We convert to 12-hour
 // AM/PM because that's how the lab staff expects to read it.
-// ---------------------------------------------------------------
 function formatValue(string $raw): string
 {
     static $map = [
@@ -199,140 +160,15 @@ function formatValue(string $raw): string
 }
 
 
-// ---------------------------------------------------------------
-// HELPER: respond()
-// Single exit point for the script. Every code path calls this —
-// success, validation failure, or send error.
-//
-// Content-Type is set to application/json so the browser's fetch()
-// can call response.json() without issues. exit() ensures nothing
-// else gets appended to the output after our JSON.
-// ---------------------------------------------------------------
-function respond(bool $ok, string $msg): void
-{
-    if (ob_get_length()) {
-        ob_clean();
-    }
-    header('Content-Type: application/json');
-    echo json_encode(['success' => $ok, 'message' => $msg]);
-    exit;
-}
+// Content validators (enforceMaxLength, validateNumericRange, validateInteger,
+// validateDateInRange, validateNameField, validateTextField, enforceWordLimit,
+// and the containsHtmlTags / containsEmoji / looksLikeMashing primitives) come
+// from includes/validation.php — same code that backs the booking and service
+// request endpoints. The browser already runs these in script.js; this is the
+// server-side defense-in-depth copy so JS-disabled or hand-crafted POSTs hit
+// the same wall.
 
 
-// ---------------------------------------------------------------
-// CONTENT VALIDATORS
-// Last line of defense for the contact form: everything here runs
-// even if JS is disabled or someone hits this endpoint directly.
-// Each helper rejects the request via respond() on first failure —
-// we don't try to accumulate errors, because spammers don't need a
-// polished list and real users only ever hit one at a time.
-// Kept inline (no shared include) so each PHP endpoint stays a
-// single-file unit that's easy to read and deploy.
-// ---------------------------------------------------------------
-function fs_enforceMaxLength(string $field, int $max, string $label): void
-{
-    $val = trim($_POST[$field] ?? '');
-    if (mb_strlen($val) > $max) {
-        respond(false, "$label exceeds the $max-character limit.");
-    }
-}
-
-function fs_validateNumericRange(string $field, float $min, float $max, string $label): void
-{
-    $val = trim($_POST[$field] ?? '');
-    if ($val === '') return;
-    if (!is_numeric($val)) {
-        respond(false, "$label must be a valid number.");
-    }
-    $num = (float) $val;
-    if ($num < $min || $num > $max) {
-        respond(false, "$label must be between $min and $max.");
-    }
-}
-
-function fs_validateInteger(string $field, string $label): void
-{
-    $val = trim($_POST[$field] ?? '');
-    if ($val === '') return;
-    if (!is_numeric($val) || floor((float) $val) != (float) $val) {
-        respond(false, "$label must be a whole number.");
-    }
-}
-
-function fs_validateDateInRange(string $field, string $label): void
-{
-    $val = trim($_POST[$field] ?? '');
-    if ($val === '') return;
-    $date = DateTime::createFromFormat('Y-m-d', $val);
-    if (!$date || $date->format('Y-m-d') !== $val) {
-        respond(false, "$label must be a valid date (YYYY-MM-DD).");
-    }
-    $today   = new DateTime('today');
-    $maxDate = (new DateTime('today'))->modify('+6 months');
-    if ($date < $today) respond(false, "$label cannot be in the past.");
-    if ($date > $maxDate) respond(false, "$label must be within 6 months from today.");
-}
-
-function fs_containsHtmlTags(string $text): bool
-{
-    return (bool) preg_match(
-        '/<\s*\/?(script|img|iframe|object|embed|svg|form|input|button|a\s|div|span|style|link|meta|base|body|html)\b/i',
-        $text
-    ) || (bool) preg_match('/(on\w+\s*=|javascript\s*:)/i', $text);
-}
-
-function fs_containsEmoji(string $text): bool
-{
-    return (bool) preg_match(
-        '/[\x{1F300}-\x{1F9FF}\x{2600}-\x{27BF}\x{FE00}-\x{FE0F}\x{1FA00}-\x{1FAFF}]/u',
-        $text
-    );
-}
-
-function fs_looksLikeMashing(string $text): bool
-{
-    return (bool) preg_match('/(.)\1{3,}/u', $text);
-}
-
-function fs_validateNameField(string $field, string $label): void
-{
-    $val = trim($_POST[$field] ?? '');
-    if ($val === '') return;
-    if (fs_containsEmoji($val)) {
-        respond(false, "$label cannot contain emoji.");
-    }
-    if (!preg_match('/^[\p{L}\s\'\-\.]+$/u', $val)) {
-        respond(false, "$label should contain letters, spaces, hyphens, or apostrophes only.");
-    }
-}
-
-function fs_validateTextField(string $field, string $label): void
-{
-    $val = trim($_POST[$field] ?? '');
-    if ($val === '') return;
-    if (fs_containsHtmlTags($val)) {
-        respond(false, "$label cannot contain HTML or script-like content.");
-    }
-    if (fs_containsEmoji($val)) {
-        respond(false, "$label cannot contain emoji.");
-    }
-    if (fs_looksLikeMashing($val)) {
-        respond(false, "$label appears to contain invalid input. Please provide a meaningful response.");
-    }
-}
-
-function fs_enforceWordLimit(string $field, int $maxWords, string $label): void
-{
-    $val = trim($_POST[$field] ?? '');
-    if ($val === '') return;
-    $count = count(preg_split('/\s+/', $val, -1, PREG_SPLIT_NO_EMPTY));
-    if ($count > $maxWords) {
-        respond(false, "$label must not exceed $maxWords words (currently $count words).");
-    }
-}
-
-
-// ---------------------------------------------------------------
 // FORM CATEGORY REGISTRY
 // The contact form is one <form> that swaps its field set based on
 // the category the user picks on Contact_Us.html. This registry is
@@ -451,26 +287,17 @@ $categories = [
             'message' => 'Message',
         ],
     ],
-    'issue' => [
-        'title'  => 'Report an Issue',
-        'required' => ['issue_type', 'description'],
-        'textFields' => ['equipment_name', 'description'],
-        'wordLimited' => ['description'],
-        'fields' => ['issue_type', 'equipment_name', 'description'],
-        'labels' => [
-            'issue_type'     => 'Issue Type',
-            'equipment_name' => 'Equipment Name',
-            'description'    => 'Description',
-        ],
-    ],
+    // 'issue' / "Report an Issue" category removed: no Contact_Us card
+    // or link routes here, so the registry + fieldData entry were
+    // unreachable from the UI. To restore, re-add a gateway card in
+    // Contact_Us.html, a fieldData entry in JS/script.js, and a
+    // matching block here.
 ];
 
 
-// ---------------------------------------------------------------
 // REQUEST VALIDATION
 // Reject anything that isn't a real POST from the form. This prevents
 // someone from loading this URL in a browser or sending a GET request.
-// ---------------------------------------------------------------
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     respond(false, 'Invalid request method.');
 }
@@ -483,7 +310,8 @@ requireFields(['first_name', 'last_name', 'email', 'category']);
 $firstName    = post('first_name');
 $lastName     = post('last_name');
 $email        = post('email');
-$phone        = mb_substr(post('phone'), 0, 255);         // cap at 255 chars, just in case
+validatePhoneFormat('phone', 'Phone');
+$phone        = mb_substr(post('phone'), 0, 25);         // matches client 14-char mask + slack for international
 $organization = mb_substr(post('organization'), 0, 255);
 $category     = post('category');
 
@@ -505,13 +333,11 @@ $catMeta  = $categories[$category];
 $catTitle = $catMeta['title'];
 $fullName = "$firstName $lastName";
 
-// ---------------------------------------------------------------
 // CATEGORY-SPECIFIC + CROSS-CATEGORY VALIDATION
 // Runs after the category lookup so the required-field list and the
 // content checks can be tailored per category. These are the same
 // checks the browser already ran in script.js — repeated here so a
 // hand-crafted POST can't slip past them.
-// ---------------------------------------------------------------
 
 // Required fields declared per category
 foreach (($catMeta['required'] ?? []) as $reqField) {
@@ -522,40 +348,40 @@ foreach (($catMeta['required'] ?? []) as $reqField) {
 }
 
 // Global field shape + length checks
-fs_validateNameField('first_name', 'First Name');
-fs_validateNameField('last_name',  'Last Name');
-fs_enforceMaxLength('first_name',   25, 'First Name');
-fs_enforceMaxLength('last_name',    25, 'Last Name');
-fs_enforceMaxLength('email',        50, 'Email');
-fs_enforceMaxLength('organization', 100, 'Organization');
-fs_validateTextField('organization', 'Organization');
+validateNameField('first_name', 'First Name');
+validateNameField('last_name',  'Last Name');
+enforceMaxLength('first_name',   25, 'First Name');
+enforceMaxLength('last_name',    25, 'Last Name');
+enforceMaxLength('email',        50, 'Email');
+enforceMaxLength('organization', 100, 'Organization');
+validateTextField('organization', 'Organization');
 
 // Category-specific textarea + free-text checks
 foreach (($catMeta['textFields'] ?? []) as $field) {
     $label = $catMeta['labels'][$field] ?? ucwords(str_replace('_', ' ', $field));
-    fs_validateTextField($field, $label);
-    fs_enforceMaxLength($field, 2500, $label);
+    validateTextField($field, $label);
+    enforceMaxLength($field, 2500, $label);
 }
 
 // Word limits on long-form fields (abstracts, descriptions, inquiries)
 foreach (($catMeta['wordLimited'] ?? []) as $field) {
     $label = $catMeta['labels'][$field] ?? ucwords(str_replace('_', ' ', $field));
-    fs_enforceWordLimit($field, 500, $label);
+    enforceWordLimit($field, 500, $label);
 }
 
 // Category-specific numeric and date validations
 if ($category === 'tour') {
-    fs_validateNumericRange('group_size', 1, 500, 'Group Size');
-    fs_validateInteger('group_size', 'Group Size');
-    fs_validateDateInRange('preferred_date',   'Preferred Date');
-    fs_validateDateInRange('alternative_date', 'Alternative Date');
+    validateNumericRange('group_size', 1, 500, 'Group Size');
+    validateInteger('group_size', 'Group Size');
+    validateDateInRange('preferred_date',   'Preferred Date');
+    validateDateInRange('alternative_date', 'Alternative Date');
 }
 
 // All caught string fields in every category get a sane upper bound so no
 // single value can blow up the email body.
 foreach (($catMeta['fields'] ?? []) as $field) {
     $label = $catMeta['labels'][$field] ?? ucwords(str_replace('_', ' ', $field));
-    fs_enforceMaxLength($field, 2500, $label);
+    enforceMaxLength($field, 2500, $label);
 }
 
 // Arizona doesn't observe Daylight Saving Time, so "MST" is always
@@ -564,7 +390,6 @@ foreach (($catMeta['fields'] ?? []) as $field) {
 $timestamp = date("F j, Y \a\\t g:i A T");
 
 
-// ---------------------------------------------------------------
 // BUILD EMAIL TABLE ROWS
 // Loop through the fields registered for this category and build
 // one table row per field for the email body.
@@ -575,7 +400,6 @@ $timestamp = date("F j, Y \a\\t g:i A T");
 // values like "nau_faculty_staff" would work fine, but values
 // containing "&" would get double-encoded: "&" → "&amp;" → "&amp;amp;".
 // The rule is: read raw, process, then escape once right before HTML output.
-// ---------------------------------------------------------------
 $detailRows   = '';   // HTML <tr> blocks for the email tables
 $plainDetails = '';   // Plain-text equivalent for the AltBody
 
@@ -599,7 +423,6 @@ foreach ($catMeta['fields'] as $field) {
 }
 
 
-// ---------------------------------------------------------------
 // LAB NOTIFICATION EMAIL
 // This is what staff see when someone submits a contact form.
 // Layout: NAU header → inquiry type banner → contact info table → details table.
@@ -611,7 +434,6 @@ foreach ($catMeta['fields'] as $field) {
 //
 // Reply-To is set to the submitter's email so staff can hit Reply
 // and reach the right person directly from their inbox.
-// ---------------------------------------------------------------
 $labSubject = "New Inquiry: $catTitle from $fullName";
 $labBody = '<!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
@@ -728,13 +550,11 @@ Sent from MPaCT Nano Lab contact form (nau.edu)
 ";
 
 
-// ---------------------------------------------------------------
 // USER CONFIRMATION EMAIL
 // Goes back to the submitter so they have a record of what they sent.
 // We greet by first name (friendlier than "Dear [Full Name]"),
 // set expectations for response time, and show a full recap of their
 // submission. If they need something urgently, the lab email is at the bottom.
-// ---------------------------------------------------------------
 $userSubject = "We received your inquiry — MPaCT Nano Lab";
 $userBody = '<!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
@@ -854,7 +674,6 @@ Northern Arizona University, Flagstaff, AZ
 // createMailer() is defined in mpact_config.php
 
 
-// ---------------------------------------------------------------
 // SEND BOTH EMAILS
 // Lab notification first. If it fails, the catch fires and we stop —
 // we haven't confirmed success to the user yet, so that's fine.
@@ -866,7 +685,6 @@ Northern Arizona University, Flagstaff, AZ
 // addReplyTo() is important: it means when a staff member hits Reply
 // in their inbox, the reply goes directly to the submitter — not
 // back to the lab address (which would send them a loop).
-// ---------------------------------------------------------------
 try {
     $labMail = createMailer();
     $labMail->addAddress(LAB_EMAIL);
@@ -886,7 +704,11 @@ try {
     $userMail->AltBody = $userPlain;
     $userMail->send();
 
-    respond(true, 'Your inquiry has been submitted successfully! You will receive a confirmation email shortly.');
+    // Send the success response immediately so the user is not left
+    // waiting for the SharePoint sync below. The script keeps running
+    // and falls through into the SharePoint block; if SP fails, the lab
+    // gets a SharePoint failure alert email — the user is unaffected.
+    respondAndContinue(true, 'Your inquiry has been submitted successfully! You will receive a confirmation email shortly.');
 
 } catch (Exception $e) {
     // Log the real PHPMailer error to the server log where only we can see it.
@@ -896,11 +718,9 @@ try {
     respond(false, 'We were unable to send your inquiry at this time. Please try again or email us directly at ' . LAB_EMAIL . '.');
 }
 
-// ---------------------------------------------------------------
 // Log the inquiry to SharePoint (non-blocking)
 // Emails are already sent — a SharePoint failure does NOT affect
 // the user's experience. Errors are logged server-side only.
-// ---------------------------------------------------------------
 try {
     $tokenRes = curlRequest('POST', TOKEN_URL, null,
         http_build_query([
@@ -954,12 +774,17 @@ try {
 
     $itemUrl = GRAPH . '/sites/' . $siteId . '/lists/' . $listId . '/items';
 
+    // Values from post() are HTML-escaped for safe email rendering
+    // (e.g. "O'Brien" becomes "O&#039;Brien"). SharePoint stores plain
+    // text and renders it itself — decode before insert so the list
+    // shows the original characters, not entity codes.
     $sp_List_fields = [
-        'Title'     => $catTitle,
-        'FirstName' => $fullName,
-        'LastName'  => $lastName,
-        'Email'     => $email,
-        'Phone'     => $phone
+        'Title'        => $catTitle,
+        'FirstName'    => htmlspecialchars_decode($firstName, ENT_QUOTES),
+        'LastName'     => htmlspecialchars_decode($lastName, ENT_QUOTES),
+        'Email'        => htmlspecialchars_decode($email, ENT_QUOTES),
+        'Phone'        => htmlspecialchars_decode($phone, ENT_QUOTES),
+        'Organization' => htmlspecialchars_decode($organization, ENT_QUOTES),
     ];
 
     $payload = json_encode([
@@ -974,4 +799,9 @@ try {
 
 } catch (Exception $e) {
     error_log('MPCT SharePoint Inquiry Sync Error: ' . $e->getMessage());
+    notifySharePointFailure('Inquiry', $e, [
+        'submitter_name'  => $fullName,
+        'submitter_email' => $email,
+        'category'        => $catTitle ?? ($category ?? ''),
+    ]);
 }
