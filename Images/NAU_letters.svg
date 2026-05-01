@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200" fill="none">
+  <!-- NAU Athletic/Block Wordmark – navy blue (#003366) on transparent -->
+  <g fill="#003366">
+    <!-- N -->
+    <polygon points="10,180 10,20 50,20 130,140 130,20 170,20 170,180 130,180 50,60 50,180"/>
+    <!-- A with mountain accent -->
+    <path d="M200,180 L270,20 L340,180 L300,180 L290,150 L220,150 L210,180 Z M232,120 L278,120 L255,55 Z"/>
+    <!-- Mountain peak accent in the A -->
+    <path d="M248,90 L255,75 L262,90 L258,90 L255,82 L252,90 Z" fill="#FAC01A"/>
+    <!-- U -->
+    <path d="M370,20 L370,130 Q370,180 430,180 Q490,180 490,130 L490,20 L450,20 L450,125 Q450,150 430,150 Q410,150 410,125 L410,20 Z"/>
+  </g>
+</svg>

@@ -34,8 +34,8 @@ const ARTICLES = [
 
         // Replace with a real semiconductor/lab photo
   
-        heroImage: 'Images/engineering_building.jpg',
-        heroAlt: 'NAU Steve Sanghi College of Engineering — home of the MPaCT Lab',
+        heroImage: 'Images/Intel_News_Thumbnail.png',
+        heroAlt: 'Intel and NAU Partnership Banner',
         statusBadge: 'Scholarship Program',
 
         // Three headline statistics that scan quickly at the top of the reader view.
@@ -51,7 +51,7 @@ const ARTICLES = [
             },
             {
                 heading: 'Three Critical Areas, Two Institutions',
-                body: 'The program targets three pillars of Intel\'s Arizona operations: advanced packaging and heterogeneous integration, manufacturing process metrology, and co-packaged optics (CPO). Students are drawn from Mechanical Engineering, Electrical and Computer Engineering, and Optical Engineering — two cohort tracks ensure each degree program aligns directly with Intel workforce priorities. NAU contributes Ten scholars and U of A two, with cross-campus co-advising and facility access built into every student\'s plan of study.'
+                body: 'The program targets three pillars of Intel\'s Arizona operations: advanced packaging and heterogeneous integration, manufacturing process metrology, and co-packaged optics (CPO). Students are drawn from Mechanical Engineering, Electrical and Computer Engineering, and Optical Engineering — two cohort tracks ensure each degree program aligns directly with Intel workforce priorities. NAU contributes 9 scholars and U of A 3, with cross-campus co-advising and facility access built into every student\'s plan of study.'
             },
             {
                 heading: 'Complementary Strengths Across the Alliance',
@@ -798,6 +798,58 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `).join('');
 
+        let heroHTML = '';
+        if (article.id === 'intel-chips-scholarship-2026') {
+            heroHTML = `
+            <div class="nar-hero concept-hero-override" id="conceptHeroContainer">
+                <div class="puzzle-container" id="intelPuzzleContainer">
+                    <div class="puzzle-piece left-piece">
+                        <div class="puzzle-logo-wrapper">
+                            <img src="Images/NAU_letters_clean.png" alt="NAU" class="puzzle-logo nau-logo">
+                        </div>
+                    </div>
+                    <div class="puzzle-piece right-piece">
+                        <video id="intelPuzzleVideo" src="Images/Intel.mp4#t=1.5" autoplay muted class="puzzle-video"></video>
+                    </div>
+                    <svg class="puzzle-energy-seam" viewBox="0 0 100 100" preserveAspectRatio="none">
+                        <defs>
+                            <linearGradient id="energyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#FAC01A" />
+                                <stop offset="50%" stop-color="#ffffff" />
+                                <stop offset="100%" stop-color="#002454" />
+                            </linearGradient>
+                        </defs>
+                        <!-- Perimeter framing paths -->
+                        <path class="puzzle-energy-frame" d="M 46 0 L 0 0 L 0 100 L 46 100"></path>
+                        <path class="puzzle-energy-frame" d="M 46 0 L 100 0 L 100 100 L 46 100"></path>
+                        <!-- Interlock seam path -->
+                        <path class="puzzle-energy-path" d="M 46.0 0 L 47.5 10 L 48.9 20 L 50.0 30 L 50.8 40 L 51.0 50 L 50.8 60 L 50.0 70 L 48.9 80 L 47.5 90 L 46.0 100"></path>
+                    </svg>
+                </div>
+                <div class="nar-hero__overlay" style="background: transparent; z-index: 2;"></div>
+                <div class="nar-hero__meta" style="z-index: 10;">
+                    <span class="nar-hero__category">${article.tagLabel}</span>
+                    <span class="nar-hero__dot">&#9679;</span>
+                    <span class="nar-hero__date">${formattedDate}</span>
+                    <span class="nar-hero__dot">&#9679;</span>
+                    <span class="nar-hero__readtime">${article.readTime}</span>
+                </div>
+            </div>`;
+        } else {
+            heroHTML = `
+            <div class="nar-hero">
+                <img class="nar-hero__img" src="${article.heroImage}" alt="${article.heroAlt}">
+                <div class="nar-hero__overlay"></div>
+                <div class="nar-hero__meta">
+                    <span class="nar-hero__category">${article.tagLabel}</span>
+                    <span class="nar-hero__dot">&#9679;</span>
+                    <span class="nar-hero__date">${formattedDate}</span>
+                    <span class="nar-hero__dot">&#9679;</span>
+                    <span class="nar-hero__readtime">${article.readTime}</span>
+                </div>
+            </div>`;
+        }
+
         articleReader.innerHTML = `
             <div class="nar-back-bar">
                 <div class="container nar-back-bar__inner">
@@ -810,17 +862,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             </div>
 
-            <div class="nar-hero">
-                <img class="nar-hero__img" src="${article.heroImage}" alt="${article.heroAlt}">
-                <div class="nar-hero__overlay"></div>
-                <div class="nar-hero__meta">
-                    <span class="nar-hero__category">${article.tagLabel}</span>
-                    <span class="nar-hero__dot">&#9679;</span>
-                    <span class="nar-hero__date">${formattedDate}</span>
-                    <span class="nar-hero__dot">&#9679;</span>
-                    <span class="nar-hero__readtime">${article.readTime}</span>
-                </div>
-            </div>
+            ${heroHTML}
+
 
             <div class="nar-content">
                 <h1 class="nar-title">${article.title}</h1>
@@ -848,6 +891,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             </div>
         `;
+
+        if (article.id === 'intel-chips-scholarship-2026') {
+            setTimeout(() => {
+                const container = document.getElementById('intelPuzzleContainer');
+                if (container) container.classList.add('snapped');
+                
+                const vid = document.getElementById('intelPuzzleVideo');
+                if (vid) {
+                    vid.currentTime = 0;
+                    vid.play();
+                }
+            }, 500);
+        }
 
         // Reader controls are rebound after every render because the container markup is replaced wholesale.
         document.getElementById('narBackBtn').addEventListener('click', closeArticle);
