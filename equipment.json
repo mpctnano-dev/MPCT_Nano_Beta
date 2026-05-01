@@ -7,7 +7,7 @@
             "category": "Educational",
             "status": "EXPECTED",
             "expectedDate": "07/01/26",
-            "warningMessage": "Test let's see",
+            "warningMessage": null,
             "accessories": [],
             "aboutPage": "About_Equipment/Amatrol_87_MS1.html"
         },
