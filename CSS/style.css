@@ -2444,7 +2444,7 @@ ul {
     /* Increased padding for grander feel */
     background-color: var(--nau-blue);
     /* Darker overlay for better text contrast, using a high-quality lab image */
-    background-image: linear-gradient(rgba(0, 15, 35, 0.85), rgba(0, 36, 84, 0.8)), url('../Images/engineering_lab_hero.jpg');
+    background-image: linear-gradient(rgba(0, 15, 35, 0.85), rgba(0, 36, 84, 0.8)), url('../Images/6977_Miguel_Yacaman.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;

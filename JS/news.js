@@ -26,6 +26,89 @@ const EQUIPMENT_LINKS = {
 
 const ARTICLES = [
     {
+        id: 'intel-chips-scholarship-2026',
+        title: 'Intel CHIPS Scholarship Supports Master\'s Students at NAU and University of Arizona',
+        tagLabel: 'Partnership',
+        date: '2026-04-27',
+        readTime: '4 min read',
+
+        // Replace with a real semiconductor/lab photo
+  
+        heroImage: 'Images/engineering_building.jpg',
+        heroAlt: 'NAU Steve Sanghi College of Engineering — home of the MPaCT Lab',
+        statusBadge: 'Scholarship Program',
+
+        // Three headline statistics that scan quickly at the top of the reader view.
+        stats: [
+            { value: '12', label: 'Master\'s Scholars' },
+            { value: 'AY 26–27', label: 'Cohort Start' },
+            { value: 'NAU + U of A', label: 'Partner Institutions' }
+        ],
+        sections: [
+            {
+                heading: 'A Major Step for Arizona Semiconductor Workforce Development',
+                body: 'Northern Arizona University\'s Steve Sanghi College of Engineering (SCE), in collaboration with the University of Arizona (U of A), has been selected by Intel and the Semiconductor Research Corporation (SRC) to host a 12-student Master\'s Scholarship cohort under the Intel CHIPS Scholarship & Fellowship Program. The cohort will launch in Academic Year 2026–27, training the next generation of engineers for Arizona\'s growing semiconductor industry — including Intel\'s advanced manufacturing and Research and Development operations.'
+            },
+            {
+                heading: 'Three Critical Areas, Two Institutions',
+                body: 'The program targets three pillars of Intel\'s Arizona operations: advanced packaging and heterogeneous integration, manufacturing process metrology, and co-packaged optics (CPO). Students are drawn from Mechanical Engineering, Electrical and Computer Engineering, and Optical Engineering — two cohort tracks ensure each degree program aligns directly with Intel workforce priorities. NAU contributes Ten scholars and U of A two, with cross-campus co-advising and facility access built into every student\'s plan of study.'
+            },
+            {
+                heading: 'Complementary Strengths Across the Alliance',
+                body: 'NAU brings the MPaCT Lab — a 25+ instrument fabrication and metrology facility — alongside new curriculum supported by a $13M Arizona Commerce Authority semiconductor workforce grant and an established TSMC apprenticeship pipeline. As a Hispanic-Serving Institution with approximately 60% first-generation enrollment, NAU reaches underrepresented communities across rural northern Arizona. U of A contributes decades of Intel-aligned photonics expertise through the Wyant College of Optical Sciences and the Center for Semiconductor Manufacturing, which is staffed in part by former Intel engineers and has graduated more than 200 Master\'s and PhD students through SRC-affiliated programs.'
+            },
+            {
+                heading: 'From Lab to Career',
+                body: 'Every Intel Scholar will complete a thesis or independent project aligned with semiconductor manufacturing priorities, gain hands-on access to advanced instrumentation at both campuses, and participate in at least one Intel facility visit per year. Career development is anchored by Individual Development Plans, cohort mentoring, and active internship support in Manufacturing & Process Development, Silicon Hardware Engineering, and Semiconductor Research. The program targets a 75% or higher placement rate into semiconductor industry roles or PhD programs within one year of graduation.'
+            }
+        ],
+
+        // Partnership logos/partners rendered as a progress-style roadmap of program pillars.
+        featured: {
+            type: 'phases',
+            heading: 'Program Training Pillars',
+            items: [
+                {
+                    period: 'Pillar 1',
+                    title: 'Metrology & Inspection',
+                    desc: 'In-fab and near-fab measurement, defect detection, and yield analysis using MPaCT\'s 25+ instrument suite'
+                },
+                {
+                    period: 'Pillar 2',
+                    title: 'Precision Manufacturing & Packaging',
+                    desc: 'Fine-pitch assembly, chemical-mechanical planarization, and packaging automation'
+                },
+                {
+                    period: 'Pillar 3',
+                    title: 'Materials Reliability',
+                    desc: 'Interconnect fatigue, thermal cycling, failure analysis, and 3D heterogeneous integration'
+                },
+                {
+                    period: 'Pillar 4',
+                    title: 'Co-Packaged Optics (CPO)',
+                    desc: 'Fiber-attach, optical engine integration, and silicon photonics at U of A\'s photonics cleanroom and labs'
+                }
+            ]
+        },
+        cta: {
+            text: 'Interested in graduate programs at NAU\'s Steve Sanghi College of Engineering?',
+            label: 'Explore Degree Programs',
+            href: 'degree-programs.html'
+        },
+        gallery: [
+            {
+                src: 'Images/engineering_building.jpg',
+                alt: 'NAU Engineering Building',
+                caption: 'NAU Steve Sanghi College of Engineering — home of the MPaCT Lab'
+            },
+            {
+                src: 'Images/nano_fabrication.jpg',
+                alt: 'MPaCT Lab semiconductor fabrication',
+                caption: 'MPaCT Lab houses 25+ instruments for semiconductor processing and metrology'
+            }
+        ]
+    },
+    {
         id: 'facility-renovation',
         title: 'Facility Renovation Milestone',
         tagLabel: 'Facility',
