@@ -18962,3 +18962,251 @@ body.workforce-development-page {
         padding: 4px 10px;
     }
 }
+/* =========================================
+   INTEL ARTICLE PUZZLE ANIMATION
+   ========================================= */
+.puzzle-container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.puzzle-piece {
+    position: absolute;
+    width: 70%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #fff;
+    transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Jigsaw puzzle piece clip-paths ──
+   The left piece has a rounded tab protruding from its right edge.
+   The right piece has a matching concave socket so the two interlock
+   like completing halves of one puzzle. The curves are built with
+   many small polygon points to approximate a smooth arc. */
+
+.left-piece {
+    left: 0;
+    /* Silicon Wafer Arc Seam */
+    clip-path: polygon(
+        0% 0%, 
+        65.714% 0%, 
+        67.922% 10%, 
+        69.913% 20%, 
+        71.493% 30%, 
+        72.508% 40%, 
+        72.857% 50%, 
+        72.508% 60%, 
+        71.493% 70%, 
+        69.913% 80%, 
+        67.922% 90%, 
+        65.714% 100%, 
+        0% 100%
+    );
+    background: #FAC01A; /* NAU Gold */
+    transform: translateX(-100px);
+}
+
+.right-piece {
+    right: 0;
+    /* Silicon Wafer Arc Socket */
+    clip-path: polygon(
+        100% 0%, 
+        22.857% 0%, 
+        25.064% 10%, 
+        27.056% 20%, 
+        28.636% 30%, 
+        29.650% 40%, 
+        30.000% 50%, 
+        29.650% 60%, 
+        28.636% 70%, 
+        27.056% 80%, 
+        25.064% 90%, 
+        22.857% 100%, 
+        100% 100%
+    );
+    background: #000;
+    transform: translateX(100px);
+}
+
+.puzzle-container.snapped .left-piece {
+    transform: translateX(0);
+}
+
+.puzzle-container.snapped .right-piece {
+    transform: translateX(0);
+}
+
+.puzzle-logo-wrapper {
+    width: 72%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateX(-18%); /* Shifts NAU logo to the left */
+}
+
+.puzzle-logo {
+    width: auto;
+    max-width: 340px;
+    max-height: 60%;
+    height: auto;
+    object-fit: contain;
+}
+
+.puzzle-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 25% center; /* Pans video rightwards to avoid interlock overlap */
+}
+
+/* ── Energy Seam & Shockwave FX ── */
+
+.puzzle-energy-seam {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+    mix-blend-mode: screen;
+}
+
+.puzzle-energy-path, .puzzle-energy-frame {
+    fill: none;
+    stroke: url(#energyGradient);
+    stroke-width: 0.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 6px #54d2ff) drop-shadow(0 0 12px #FAC01A);
+    stroke-dasharray: 200;
+    stroke-dashoffset: 200;
+    opacity: 0;
+}
+
+.puzzle-container.snapped .puzzle-energy-path {
+    animation: igniteSeam 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards, pulseGlow 3s infinite alternate;
+    /* Delay the ignition until pieces touch */
+    animation-delay: 1.4s, 2.9s;
+}
+
+.puzzle-container.snapped .puzzle-energy-frame {
+    animation: igniteFrame 2s cubic-bezier(0.16, 1, 0.3, 1) forwards, pulseGlow 3s infinite alternate;
+    /* Delay frame ignition until seam finishes */
+    animation-delay: 2.0s, 4.0s;
+}
+
+@keyframes igniteSeam {
+    0% {
+        stroke-dashoffset: 200;
+        opacity: 0;
+        stroke-width: 0.2;
+    }
+    10% {
+        opacity: 1;
+        stroke-width: 1.2;
+    }
+    100% {
+        stroke-dashoffset: 0;
+        opacity: 1;
+        stroke-width: 0.8;
+    }
+}
+
+@keyframes igniteFrame {
+    0% {
+        stroke-dashoffset: 200;
+        opacity: 0;
+        stroke-width: 0.2;
+    }
+    10% {
+        opacity: 1;
+        stroke-width: 1.0;
+    }
+    100% {
+        stroke-dashoffset: 0;
+        opacity: 1;
+        stroke-width: 0.8;
+    }
+}
+
+@keyframes pulseGlow {
+    0% {
+        filter: drop-shadow(0 0 6px #54d2ff) drop-shadow(0 0 12px #FAC01A);
+        stroke-width: 0.8;
+        opacity: 1;
+    }
+    100% {
+        filter: drop-shadow(0 0 10px #54d2ff) drop-shadow(0 0 20px #FAC01A) drop-shadow(0 0 30px #ffffff);
+        stroke-width: 1.2;
+        opacity: 1;
+    }
+}
+
+/* Radial shockwave on snap */
+.puzzle-container::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(250, 192, 26, 0.9) 0%, rgba(0, 113, 197, 0.5) 40%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9;
+    mix-blend-mode: screen;
+    opacity: 0;
+}
+
+.puzzle-container.snapped::after {
+    animation: puzzleShockwave 1.5s ease-out forwards;
+    animation-delay: 1.45s;
+}
+
+@keyframes puzzleShockwave {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+    }
+    15% {
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(5);
+        opacity: 0;
+    }
+}
+
+/* Bump scale for physical impact */
+.puzzle-container.snapped {
+    animation: puzzleImpact 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 1.45s;
+}
+
+@keyframes puzzleImpact {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+}
+
+.concept-hero-override {
+    position: relative;
+    height: 60vh;
+    min-height: 500px;
+    width: 100%;
+    overflow: hidden;
+    background-color: #000;
+}
