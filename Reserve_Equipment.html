@@ -71,7 +71,7 @@
                             <div class="pf__row--2col">
                                 <div class="pf__group">
                                     <label class="pf__label" for="bkCategory">Category</label>
-                                    <select id="bkCategory" name="equipment_category_filter" class="pf__select">
+                                    <select id="bkCategory" class="pf__select">
                                         <option value="" disabled selected>-- All Categories --</option>
                                         <!-- booking.js adds the category list from equipment.json -->
                                     </select>
@@ -295,7 +295,7 @@
                                     <div class="pf__group">
                                         <label class="pf__label" for="bkSampleDesc">Sample / Specimen Description <span class="pf__req">*</span></label>
                                         <input type="text" id="bkSampleDesc" name="sample_description" class="pf__input" required
-                                            placeholder="e.g. Silicon wafer with TiN thin film, ~200 nm thick" maxlength="200">
+                                            placeholder="e.g. Silicon wafer with TiN thin film, ~200 nm thick" maxlength="500">
                                     </div>
                                 </div>
 
@@ -627,6 +627,7 @@
     <div id="site-footer"></div>
 
     <script src="JS/layout.js"></script>
+    <script src="JS/validation.js"></script>
     <script src="JS/booking.js"></script>
 
 </body>
