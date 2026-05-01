@@ -19,10 +19,8 @@ function scrollGrid(amount) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // -------------------------------------------------------------------------
     // Sticky Header Logic
     // Toggles 'scrolled' class based on scroll position for glassmorphism effect.
-    // -------------------------------------------------------------------------
     let lastHeaderHeight = 0;
     let isHeaderCompact = false;
     let headerNode = null;
@@ -67,7 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Featured Equipment Carousel (Homepage)
     // Connects the Left/Right arrows to the scroll logic
-    // -------------------------------------------------------------------------
     const carouselLeft = document.querySelector('.nav-btn.left');
     const carouselRight = document.querySelector('.nav-btn.right');
 
@@ -82,7 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Integrated Education Paths - 3x3 Grid Navigation
-    // -------------------------------------------------------------------------
     const eduNavLeft = document.getElementById('eduNavLeft');
     const eduNavRight = document.getElementById('eduNavRight');
     const eduCardsGrid = document.getElementById('eduCardsGrid');
@@ -157,10 +153,8 @@ document.addEventListener('DOMContentLoaded', () => {
         updatePagination();
     }
 
-    // -------------------------------------------------------------------------
     // Scroll Animation Observer (Progressive Enhancement)
     // Handles both new '.reveal-on-scroll' and legacy '.card' animations.
-    // -------------------------------------------------------------------------
     const revealElements = document.querySelectorAll('.reveal-on-scroll');
     const legacyElements = document.querySelectorAll('.card, .metric-box');
 
@@ -197,9 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
         legacyElements.forEach(el => el.style.opacity = '1');
     }
 
-    // -------------------------------------------------------------------------
     // Animated Statistics Counter
-    // -------------------------------------------------------------------------
     const stats = document.querySelectorAll('.metric-value');
     if (stats.length > 0) {
         const animateValue = (obj, start, end, duration) => {
@@ -247,9 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // -------------------------------------------------------------------------
     // About Page Reserve Tool Button State
-    // -------------------------------------------------------------------------
     const updateReserveButtonState = () => {
         const isProductPage = document.querySelector('.product-page');
         if (!isProductPage) return;
@@ -506,32 +496,6 @@ const fieldData = {
             </div>
         `
     },
-    'issue': {
-        title: "Report an Issue",
-        desc: "Found a problem with equipment or facilities? Let us know.",
-        fields: `
-            <div class="grid grid-2 gap-lg">
-                <div>
-                    <label class="block font-bold mb-1 required">Issue Type</label>
-                    <select name="issue_type" class="form-control">
-                        <option>Equipment Malfunction</option>
-                        <option>Facilities (Power, Water, HVAC)</option>
-                        <option>Software / Network</option>
-                        <option>Safety Concern</option>
-                        <option>Other</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block font-bold mb-1">Equipment Name (if applicable)</label>
-                    <input type="text" name="equipment_name" class="form-control" placeholder="e.g. Zeiss SEM">
-                </div>
-                <div class="col-span-2">
-                    <label class="block font-bold mb-1 required">Description</label>
-                    <textarea name="description" rows="4" class="form-control" placeholder="Please describe the issue in detail..."></textarea>
-                </div>
-            </div>
-        `
-    }
 };
 
 // Helper function to populate equipment dropdowns
@@ -662,7 +626,6 @@ function resetSelection() {
     document.getElementById('gatewayGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-// ---------------------------------------------------------------
 // Contact form — client-side validation and live input helpers.
 // Contact_Us.html uses novalidate, so every soft constraint you see
 // on the page (phone masking, maxlength hints, word counters, number
@@ -671,7 +634,6 @@ function resetSelection() {
 // without each category template having to repeat min/max/maxlength.
 // FormSubmission.php repeats these rules server-side so the wall is
 // still there if JS is disabled or the endpoint is hit directly.
-// ---------------------------------------------------------------
 const CONTACT_FIELD_DEFAULTS = {
     textMaxLen:     150,
     emailMaxLen:    100,
@@ -879,13 +841,12 @@ function attachContactNameOrgHints(container) {
     });
 }
 
-// Central submit-time validation. Returns array of { el, label } for invalid
-// fields, outlining each with a red border for visual feedback.
+// Submit-time validation. Returns array of { el, label } for invalid fields,
+// outlining each one. Calls into MPCT.Validation for the rule primitives so
+// every form on the site uses identical regexes.
 function validateContactForm(form) {
+    const V = window.MPCT && window.MPCT.Validation;
     const invalid = [];
-    const emojiRx = /\p{Extended_Pictographic}/u;
-    const mashRx  = /(.)\1{3,}/;
-    const nameRx  = /^[\p{L}\s'\-\.]+$/u;
 
     const labelOf = (el) => {
         const lbl = el.closest('label') ||
@@ -901,67 +862,49 @@ function validateContactForm(form) {
     };
 
     const markInvalid = (el, reason) => {
-        el.style.outline = '2px solid var(--nau-red, #c0392b)';
-        el.style.outlineOffset = '2px';
-        el.addEventListener('input',  () => { el.style.outline = ''; el.style.outlineOffset = ''; }, { once: true });
-        el.addEventListener('change', () => { el.style.outline = ''; el.style.outlineOffset = ''; }, { once: true });
+        V.markInvalid(el);
         invalid.push({ el, label: reason ? `${labelOf(el)} (${reason})` : labelOf(el) });
     };
+    const alreadyFlagged = (el) => invalid.find(f => f.el === el);
 
-    // Required fields
     form.querySelectorAll('[required]').forEach(el => {
-        if (el.offsetParent === null && el.type !== 'hidden') return; // skip hidden
+        if (el.offsetParent === null && el.type !== 'hidden') return;
         const v = (el.value || '').trim();
         if (!v) { markInvalid(el); return; }
         if (el.validity && !el.validity.valid) { markInvalid(el); return; }
     });
 
-    // Email format (even if not required)
     form.querySelectorAll('input[type="email"]').forEach(el => {
-        const v = (el.value || '').trim();
-        if (!v) return;
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) markInvalid(el, 'invalid email');
+        if (!V.isEmail(el.value)) markInvalid(el, 'invalid email');
     });
 
-    // Name fields
     form.querySelectorAll('input[data-name-field]').forEach(el => {
         const v = (el.value || '').trim();
         if (!v) return;
-        if (emojiRx.test(v))       markInvalid(el, 'remove emoji');
-        else if (!nameRx.test(v))  markInvalid(el, 'letters, spaces, hyphens, apostrophes only');
+        if (V.hasEmoji(v))         markInvalid(el, 'remove emoji');
+        else if (!V.isValidName(v)) markInvalid(el, 'letters, spaces, hyphens, apostrophes only');
     });
 
-    // Emoji + mashing on all other text inputs + textareas
     form.querySelectorAll('input[type="text"]:not([data-name-field]):not([readonly]), textarea').forEach(el => {
         const v = (el.value || '').trim();
-        if (!v) return;
-        if (invalid.find(f => f.el === el)) return;
-        if (emojiRx.test(v)) markInvalid(el, 'remove emoji');
-        else if (mashRx.test(v)) markInvalid(el, 'remove repeated characters');
+        if (!v || alreadyFlagged(el)) return;
+        if (V.hasEmoji(v))        markInvalid(el, 'remove emoji');
+        else if (V.hasMashing(v)) markInvalid(el, 'remove repeated characters');
     });
 
-    // Word limits
     form.querySelectorAll('textarea[data-max-words]').forEach(el => {
         const v = (el.value || '').trim();
-        if (!v) return;
-        if (invalid.find(f => f.el === el)) return;
+        if (!v || alreadyFlagged(el)) return;
         const maxW = parseInt(el.dataset.maxWords, 10);
-        const wc = v.split(/\s+/).length;
-        if (wc > maxW) markInvalid(el, `over ${maxW}-word limit`);
+        if (V.wordCount(v) > maxW) markInvalid(el, `over ${maxW}-word limit`);
     });
 
-    // Numeric ranges
     form.querySelectorAll('input[type="number"]').forEach(el => {
-        const v = (el.value || '').trim();
-        if (!v) return;
-        if (invalid.find(f => f.el === el)) return;
-        const n = Number(v);
-        if (isNaN(n)) { markInvalid(el, 'must be a number'); return; }
-        if (n < 0) { markInvalid(el, 'cannot be negative'); return; }
+        if (alreadyFlagged(el)) return;
         const min = el.hasAttribute('min') ? parseFloat(el.min) : null;
         const max = el.hasAttribute('max') ? parseFloat(el.max) : null;
-        if (min !== null && n < min) markInvalid(el, `must be at least ${min}`);
-        else if (max !== null && n > max) markInvalid(el, `must be ${max} or less`);
+        const reason = V.checkNumberRange(el.value, min, max);
+        if (reason) markInvalid(el, reason);
     });
 
     return invalid;
@@ -1069,10 +1012,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// -------------------------------------------------------------------------
 // EQUIPMENT CATALOG LOGIC
 // Handles Grid/List toggle and Category Filtering
-// -------------------------------------------------------------------------
 const container = document.getElementById('equipmentContainer');
 const gridBtn = document.getElementById('gridViewBtn');
 const listBtn = document.getElementById('listViewBtn');
