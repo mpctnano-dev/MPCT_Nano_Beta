@@ -68,3 +68,121 @@
 .intel-partners__wordmark:hover {
     opacity: 1;
 }
+
+/* ── PROGRAM OVERVIEW ────────────────────────────────────────────
+   Two-column "what is this program" section. Text on the left,
+   image with an offset credibility badge on the right. The cream
+   background separates it from the white partner strip above. */
+.intel-overview {
+    padding: 100px 0;
+    background: #f9f7f3;
+}
+
+.intel-overview__grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 80px;
+    align-items: center;
+}
+
+.intel-overview__eyebrow {
+    display: inline-block;
+    background: var(--nau-blue);
+    color: var(--nau-gold);
+    padding: 6px 16px;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 20px;
+}
+
+.intel-overview__title {
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    font-weight: 800;
+    color: var(--nau-blue);
+    margin-bottom: 24px;
+    line-height: 1.15;
+}
+
+.intel-overview__title span {
+    color: var(--nau-gold);
+}
+
+.intel-overview__desc {
+    font-size: 1.02rem;
+    color: var(--gray-700);
+    line-height: 1.75;
+    margin-bottom: 18px;
+}
+
+.intel-overview__image-col {
+    position: relative;
+}
+
+.intel-overview__image-frame {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 16px 48px rgba(0, 36, 84, 0.15);
+    border: 3px solid rgba(255, 255, 255, 0.9);
+}
+
+.intel-overview__image-frame img {
+    width: 100%;
+    display: block;
+}
+
+.intel-overview__badge {
+    position: absolute;
+    bottom: -18px;
+    right: 24px;
+    background: var(--nau-blue);
+    color: #fff;
+    padding: 12px 22px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    box-shadow: 0 8px 24px rgba(0, 36, 84, 0.25);
+}
+
+.intel-overview__badge i {
+    color: var(--nau-gold);
+    font-size: 1rem;
+}
+
+@media (max-width: 992px) {
+    .intel-overview__grid {
+        grid-template-columns: 1fr;
+        gap: 48px;
+    }
+
+    .intel-overview__image-col {
+        order: -1;
+    }
+}
+
+/* ── REVEAL ANIMATION ────────────────────────────────────────────
+   Scroll-triggered fade-up matching the PTAP page. The page-level
+   IntersectionObserver is wired in the inline <script> at the
+   bottom of Intel_CHIPS_MSc.html. */
+.intel-reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.65s cubic-bezier(0.25, 1, 0.5, 1),
+        transform 0.65s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.intel-reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.intel-d1 { transition-delay: 0.08s; }
+.intel-d2 { transition-delay: 0.16s; }
+.intel-d3 { transition-delay: 0.24s; }
+.intel-d4 { transition-delay: 0.32s; }
+.intel-d5 { transition-delay: 0.40s; }
