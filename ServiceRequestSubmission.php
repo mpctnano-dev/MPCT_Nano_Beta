@@ -1127,7 +1127,7 @@ try {
         'Email'             => htmlspecialchars_decode($email, ENT_QUOTES),
         'PhoneNumber'       => htmlspecialchars_decode($phone, ENT_QUOTES),
         'Affiliation'       => formatValue(trim($_POST['affiliation'] ?? '')),
-        'Organization_Dept' => trim($_POST[$orgField] ?? ''),
+        'Organization_Department' => trim($_POST[$orgField] ?? ''),
         'AdditionalNotes'   => trim($_POST['notes'] ?? ''),
     ];
 
