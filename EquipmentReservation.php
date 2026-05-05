@@ -853,12 +853,12 @@ try {
         'Status'              => formatValue($spDecode($equipment_status)),
         'PreferredDate'       => $spDecode($preferred_date),
         'EstimatedDuration'   => formatValue($spDecode($estimated_duration)),
-        'AlternativeDate'     => $spDecode($alternative_date),
+        //'AlternativeDate'     => $spDecode($alternative_date),
         'SampleDescription'   => $spDecode($sample_description),
         'PurposeofUse'        => $spDecode($purpose_of_use),
-        'TrainingNeeded'      => formatValue($spDecode($training_needed)),
+        //'TrainingNeeded'      => formatValue($spDecode($training_needed)),
         'LabAssistance'       => formatValue($spDecode($lab_assistance)),
-        'SpecialRequirements' => $spDecode($special_requirements),
+        'SpecialRequirements' => trim($specialRequirements ?? '') !== '' ? $specialRequirements : "Not any"
     ];
 
     $payload = json_encode([
