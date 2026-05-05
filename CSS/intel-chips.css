@@ -1,0 +1,9 @@
+/* ================================================================
+   INTEL CHIPS MSc — PAGE-SPECIFIC STYLES
+
+   Scoped to the Intel CHIPS Scholarship MS program page. Kept as an
+   external sheet (rather than inline like PTAP.html) so the page
+   markup stays readable and the styles can evolve without touching
+   the global stylesheet. Class names are prefixed `intel-` to avoid
+   any collision with the analogous `ptap-*` rules used elsewhere.
+   ================================================================ */
