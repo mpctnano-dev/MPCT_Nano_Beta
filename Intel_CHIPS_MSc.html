@@ -27,15 +27,105 @@
 
     <main>
 
-        <!-- Page sections will be added here in subsequent commits:
-             §1 Compact hero with at-a-glance panel
-             §2 Partnership strip
-             §3 Program overview
-             §4 Bento grid — program highlights
-             §5 Focus areas / coursework
-             §6 How it works (3-step pathway)
-             §7 CTA with Register Here button
-        -->
+        <!-- ═══════════════════════════════════════════════════════════
+             §1  COMPACT HERO
+             Mirrors the PTAP hero pattern (ml-hero ml-hero--compact)
+             so the visual cadence stays consistent across program
+             landing pages. Quick-info panel summarises the three
+             facts a prospective student is most likely to scan for:
+             cohort size, stipend, and partner institutions.
+        ═══════════════════════════════════════════════════════════ -->
+        <section class="ml-hero ml-hero--compact">
+            <div class="ml-hero__bg">
+                <img src="Images/nau-computers-with-blue-lights.jpg"
+                    alt="Semiconductor research and instrumentation at Northern Arizona University">
+            </div>
+            <div class="ml-hero__overlay"></div>
+            <div class="ml-hero__noise"></div>
+
+            <div class="ml-hero__content">
+                <div class="container">
+                    <div class="ml-hero__split">
+
+                        <div>
+                            <div class="ml-hero__eyebrow">
+                                <span class="ml-hero__eyebrow-line"></span>
+                                NAU Nano &mdash; Graduate Scholarships
+                            </div>
+                            <h1 class="ml-hero__title">
+                                <em>Intel CHIPS</em><br>MSc Scholarship
+                            </h1>
+                            <p class="ml-hero__subtitle">
+                                A funded <strong>Master&rsquo;s scholarship cohort</strong> from
+                                Intel and the Semiconductor Research Corporation, hosted by
+                                <strong>NAU&rsquo;s Steve Sanghi College of Engineering</strong>
+                                in collaboration with the <strong>University of Arizona</strong>.
+                            </p>
+                            <div class="ml-hero__actions">
+                                <!-- Register Here is the page's primary action; the form it links to
+                                     will be wired in once the registration endpoint is ready. -->
+                                <a href="#register" class="btn btn-primary">Register Here</a>
+                                <a href="degree-programs.html" class="btn btn-outline">Degree Programs</a>
+                            </div>
+                        </div>
+
+                        <!-- At-a-glance panel — the three facts a prospective scholar
+                             scans for first: cohort size, funding, partner institutions. -->
+                        <div class="ml-hero__panel">
+                            <div class="ml-hero__panel-label">Program at a Glance</div>
+
+                            <div class="ml-service-highlight">
+                                <div class="ml-highlight__icon">
+                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none"
+                                        stroke="currentColor" stroke-width="2">
+                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="9" cy="7" r="4"></circle>
+                                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                    </svg>
+                                </div>
+                                <div class="ml-highlight__text">
+                                    <span class="ml-highlight__title">12-Student Cohort</span>
+                                    <span class="ml-highlight__desc">9 NAU + 3 UofA Master&rsquo;s
+                                        scholars, Academic Year 2026&ndash;27</span>
+                                </div>
+                            </div>
+
+                            <div class="ml-service-highlight">
+                                <div class="ml-highlight__icon">
+                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none"
+                                        stroke="currentColor" stroke-width="2">
+                                        <line x1="12" y1="1" x2="12" y2="23"></line>
+                                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                                    </svg>
+                                </div>
+                                <div class="ml-highlight__text">
+                                    <span class="ml-highlight__title">$15,000 / Year Stipend</span>
+                                    <span class="ml-highlight__desc">Plus professional development
+                                        and Intel / UofA travel funds</span>
+                                </div>
+                            </div>
+
+                            <div class="ml-service-highlight">
+                                <div class="ml-highlight__icon">
+                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none"
+                                        stroke="currentColor" stroke-width="2">
+                                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                                    </svg>
+                                </div>
+                                <div class="ml-highlight__text">
+                                    <span class="ml-highlight__title">Intel-Aligned Research</span>
+                                    <span class="ml-highlight__desc">Advanced packaging, metrology,
+                                        and co-packaged optics</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
 
     </main>
 
