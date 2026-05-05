@@ -7,3 +7,64 @@
    the global stylesheet. Class names are prefixed `intel-` to avoid
    any collision with the analogous `ptap-*` rules used elsewhere.
    ================================================================ */
+
+/* ── PARTNERSHIP STRIP ───────────────────────────────────────────
+   A quiet white band that sits directly under the hero and reassures
+   the visitor that this is a multi-institution program. Logos are
+   muted by default and brighten on hover so the strip feels like a
+   credibility cue, not an ad row. */
+.intel-partners {
+    background: #ffffff;
+    border-bottom: 1px solid var(--gray-200);
+    padding: 36px 0;
+}
+
+.intel-partners__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.intel-partners__label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--gray-500);
+}
+
+.intel-partners__logos {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    flex-wrap: wrap;
+}
+
+.intel-partners__logo {
+    height: 30px;
+    opacity: 0.65;
+    transition: opacity 0.3s;
+}
+
+.intel-partners__logo:hover {
+    opacity: 1;
+}
+
+/* Wordmark fallback for partners without a logo asset in the repo
+   (e.g. University of Arizona). Keeps the strip rhythm consistent
+   while we wait for the real artwork. */
+.intel-partners__wordmark {
+    font-family: var(--font-display, 'Montserrat', sans-serif);
+    font-weight: 900;
+    font-size: 1rem;
+    letter-spacing: 0.04em;
+    color: var(--nau-blue);
+    opacity: 0.65;
+    transition: opacity 0.3s;
+}
+
+.intel-partners__wordmark:hover {
+    opacity: 1;
+}
