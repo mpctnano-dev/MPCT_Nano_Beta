@@ -9,26 +9,43 @@
    ================================================================ */
 
 /* ── PARTNERSHIP STRIP ───────────────────────────────────────────
-   A quiet white band that sits directly under the hero and reassures
-   the visitor that this is a multi-institution program. Logos are
-   muted by default and brighten on hover so the strip feels like a
-   credibility cue, not an ad row. */
+   Quiet white band that sits directly under the hero. Split into
+   two groups: HOST (NAU on the left) and COLLABORATORS (Intel +
+   UofA on the right) so the visual hierarchy reinforces who runs
+   the program vs. who participates. */
 .intel-partners {
     background: #ffffff;
     border-bottom: 1px solid var(--gray-200);
-    padding: 36px 0;
+    padding: 32px 0;
 }
 
 .intel-partners__inner {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 40px;
+    gap: 48px;
     flex-wrap: wrap;
 }
 
+.intel-partners__group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.intel-partners__group--host .intel-partners__logo--host {
+    height: 56px;
+}
+
+.intel-partners__divider {
+    width: 1px;
+    height: 56px;
+    background: var(--gray-200);
+}
+
 .intel-partners__label {
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -40,13 +57,14 @@
     align-items: center;
     gap: 36px;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .intel-partners__logo {
     height: 38px;
     width: auto;
     object-fit: contain;
-    opacity: 0.85;
+    opacity: 0.9;
     transition: opacity 0.3s;
 }
 
@@ -58,7 +76,13 @@
    wordmarks. Constrain it to a matched visual height so the row
    doesn't look unbalanced. */
 .intel-partners__logo--square {
-    height: 48px;
+    height: 46px;
+}
+
+@media (max-width: 720px) {
+    .intel-partners__divider {
+        display: none;
+    }
 }
 
 /* ── PROGRAM OVERVIEW ────────────────────────────────────────────
