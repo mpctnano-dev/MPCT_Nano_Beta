@@ -19210,3 +19210,1344 @@ body.workforce-development-page {
     overflow: hidden;
     background-color: #002454;
 }
+
+
+/* CHIPS Scholars Program — page styles.
+   Used to live in CSS/intel-chips.css; pulled in here so the page
+   loads a single stylesheet. Class names keep the `intel-` prefix
+   because the markup still references them and the prefix doesn't
+   collide with anything else in this file. */
+
+/* Hero guards. The shared ml-hero--compact was sized for shorter
+   page titles; the scholarship copy is longer, so constrain the
+   hero content locally to keep phones from sideways-scrolling. */
+.ml-hero__split,
+.ml-hero__split > *,
+.ml-hero__actions,
+.ml-hero__subtitle,
+.ml-hero__title,
+.ml-hero__eyebrow {
+    min-width: 0;
+    max-width: 100%;
+}
+
+@media (max-width: 600px) {
+    .ml-hero--compact {
+        padding: 96px 0 56px;
+    }
+
+    .ml-hero__eyebrow {
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 8px 10px;
+        font-size: 0.64rem;
+        letter-spacing: 1.4px;
+        line-height: 1.45;
+    }
+
+    .ml-hero__eyebrow-line {
+        flex: 0 0 28px;
+        width: 28px;
+        margin-top: 0.55em;
+    }
+
+    .ml-hero--compact .ml-hero__title {
+        font-size: clamp(2.2rem, 10.5vw, 2.85rem);
+        line-height: 1.02;
+        letter-spacing: -0.02em;
+    }
+
+    .ml-hero--compact .ml-hero__subtitle {
+        font-size: 0.95rem;
+        line-height: 1.75;
+        max-width: 100%;
+        overflow-wrap: break-word;
+    }
+
+    .ml-hero__actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        max-width: 280px;
+    }
+
+    .ml-hero__actions .btn {
+        width: 100%;
+        padding: 13px 18px;
+        font-size: 0.95rem;
+        line-height: 1.25;
+        white-space: normal;
+    }
+}
+
+/* Partner strip — quiet white band under the hero. Single label
+   plus one logo row for Intel, SRC, and UofA. */
+.intel-partners {
+    background: #ffffff;
+    border-bottom: 1px solid var(--gray-200);
+    padding: 32px 0;
+}
+
+.intel-partners__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+}
+
+.intel-partners__label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--gray-500);
+}
+
+.intel-partners__logos {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.intel-partners__logo {
+    height: 38px;
+    width: auto;
+    object-fit: contain;
+    opacity: 0.9;
+    transition: opacity 0.3s;
+}
+
+.intel-partners__logo:hover {
+    opacity: 1;
+}
+
+.intel-partners__logo--src {
+    height: 42px;
+    max-width: 210px;
+}
+
+/* Square-format logo (e.g. UofA's block A) sits taller than wide
+   wordmarks. Constrain it to a matched visual height so the row
+   doesn't look unbalanced. */
+.intel-partners__logo--square {
+    height: 46px;
+}
+
+@media (max-width: 600px) {
+    .intel-partners {
+        padding: 24px 0;
+    }
+
+    .intel-partners__inner {
+        gap: 14px;
+    }
+
+    .intel-partners__logos {
+        gap: 18px;
+        max-width: 100%;
+    }
+
+    .intel-partners__logo {
+        height: 30px;
+    }
+
+    .intel-partners__logo--src {
+        height: 34px;
+        max-width: 140px;
+    }
+
+    .intel-partners__logo--square {
+        height: 34px;
+    }
+}
+
+/* Program overview. Two-column "what is this" — copy on the left,
+   image with an offset credibility badge on the right. The cream
+   background separates it from the white partner strip above. */
+.intel-overview {
+    padding: 100px 0;
+    background: #f9f7f3;
+}
+
+.intel-overview__grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    min-width: 0;
+}
+
+.intel-overview__grid > * {
+    min-width: 0;
+}
+
+.intel-overview__eyebrow {
+    display: inline-block;
+    background: var(--nau-blue);
+    color: var(--nau-gold);
+    padding: 6px 16px;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 20px;
+}
+
+.intel-overview__title {
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    font-weight: 800;
+    color: var(--nau-blue);
+    margin-bottom: 24px;
+    line-height: 1.15;
+    text-wrap: balance;
+}
+
+.intel-overview__title span {
+    color: var(--nau-gold);
+}
+
+.intel-overview__desc {
+    font-size: 1.02rem;
+    color: var(--gray-700);
+    line-height: 1.75;
+    margin-bottom: 18px;
+}
+
+.intel-overview__image-col {
+    position: relative;
+    min-width: 0;
+}
+
+.intel-overview__image-frame {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 16px 48px rgba(0, 36, 84, 0.15);
+    border: 3px solid rgba(255, 255, 255, 0.9);
+}
+
+.intel-overview__image-frame img {
+    width: 100%;
+    display: block;
+}
+
+.intel-overview__badge {
+    position: absolute;
+    bottom: -18px;
+    right: 24px;
+    background: var(--nau-blue);
+    color: #fff;
+    padding: 12px 22px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    box-shadow: 0 8px 24px rgba(0, 36, 84, 0.25);
+}
+
+.intel-overview__badge i {
+    color: var(--nau-gold);
+    font-size: 1rem;
+}
+
+@media (max-width: 992px) {
+    .intel-overview__grid {
+        grid-template-columns: 1fr;
+        gap: 48px;
+    }
+
+    .intel-overview__image-col {
+        order: -1;
+    }
+}
+
+@media (max-width: 600px) {
+    .intel-overview {
+        padding: 72px 0;
+    }
+
+    .intel-overview__grid {
+        gap: 36px;
+    }
+
+    .intel-overview__image-frame {
+        border-radius: 12px;
+    }
+
+    .intel-overview__badge {
+        position: relative;
+        right: auto;
+        bottom: auto;
+        width: calc(100% - 32px);
+        max-width: calc(100% - 32px);
+        margin: -16px auto 0;
+        padding: 10px 16px;
+        font-size: 0.75rem;
+        justify-content: center;
+        text-align: center;
+    }
+}
+
+/* Scroll-triggered fade-up. The IntersectionObserver that toggles
+   .is-visible lives in the inline <script> at the bottom of
+   CHIPS_Scholars_Program.html. */
+.intel-reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.65s cubic-bezier(0.25, 1, 0.5, 1),
+        transform 0.65s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.intel-reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.intel-d1 { transition-delay: 0.08s; }
+.intel-d2 { transition-delay: 0.16s; }
+.intel-d3 { transition-delay: 0.24s; }
+.intel-d4 { transition-delay: 0.32s; }
+.intel-d5 { transition-delay: 0.40s; }
+
+/* Bento grid of program highlights. Dark NAU-blue showcase; cards
+   span the 12-col grid in different widths so the layout reads
+   editorial. The two stat cards carry an oversized gold number
+   plus a faint white watermark behind it. */
+.intel-bento {
+    padding: 100px 0;
+    background: linear-gradient(135deg, var(--nau-blue) 0%, #001a3d 100%);
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+}
+
+.intel-bento::before {
+    content: '';
+    position: absolute;
+    top: -15%;
+    right: -8%;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(250, 192, 26, 0.06) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.intel-bento__header {
+    text-align: center;
+    margin-bottom: 56px;
+    position: relative;
+    z-index: 1;
+}
+
+.intel-bento__eyebrow {
+    display: inline-block;
+    background: rgba(250, 192, 26, 0.15);
+    color: var(--nau-gold);
+    padding: 6px 16px;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 20px;
+}
+
+.intel-bento__title {
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 14px;
+    /* Pretty/balance is browser-side line-break optimization, the
+       title is short enough that "balance" gives the cleanest two-
+       liner without orphan words. */
+    text-wrap: balance;
+}
+
+.intel-bento__title em {
+    color: var(--nau-gold);
+    font-style: normal;
+}
+
+.intel-bento__sub {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.45);
+    max-width: 640px;
+    margin: 0 auto;
+    line-height: 1.7;
+    text-wrap: pretty;
+}
+
+.intel-bento__grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-auto-rows: minmax(180px, auto);
+    gap: 20px;
+    position: relative;
+    z-index: 1;
+    min-width: 0;
+}
+
+.intel-bento__card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 20px;
+    /* Slightly tighter horizontal padding so narrow third-column
+       cards have more usable text width. Vertical breathing room
+       stays the same so the visual rhythm doesn't change. */
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    min-width: 0;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.intel-bento__card:hover {
+    background: rgba(255, 255, 255, 0.065);
+    border-color: rgba(255, 255, 255, 0.12);
+    transform: translateY(-3px);
+}
+
+.intel-bento__card--wide   { grid-column: span 8; min-height: 232px; }
+.intel-bento__card--narrow { grid-column: span 4; min-height: 232px; }
+.intel-bento__card--half   { grid-column: span 6; }
+.intel-bento__card--third  { grid-column: span 4; min-height: 218px; }
+
+.intel-bento__card--featured {
+    justify-content: center;
+}
+
+.intel-bento__stat {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 5vw, 4rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    margin-bottom: 6px;
+}
+
+.intel-bento__stat em {
+    font-style: normal;
+    font-size: 0.5em;
+    opacity: 0.6;
+    margin-left: 2px;
+}
+
+.intel-bento__stat-label {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+}
+
+.intel-bento__accent {
+    position: absolute;
+    top: 0;
+    left: 32px;
+    right: 32px;
+    height: 3px;
+    border-radius: 0 0 3px 3px;
+}
+
+.intel-bento__accent--gold  { background: linear-gradient(90deg, var(--nau-gold), rgba(250, 192, 26, 0.3)); }
+.intel-bento__accent--blue  { background: linear-gradient(90deg, #60a5fa, rgba(96, 165, 250, 0.3)); }
+.intel-bento__accent--green { background: linear-gradient(90deg, #2ecc71, rgba(46, 204, 113, 0.3)); }
+.intel-bento__accent--cyan  { background: linear-gradient(90deg, #22d3ee, rgba(34, 211, 238, 0.3)); }
+
+.intel-bento__icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.intel-bento__icon--gold  { background: rgba(250, 192, 26, 0.1); color: var(--nau-gold); }
+.intel-bento__icon--blue  { background: rgba(96, 165, 250, 0.1); color: #60a5fa; }
+.intel-bento__icon--green { background: rgba(46, 204, 113, 0.1); color: #2ecc71; }
+.intel-bento__icon--cyan  { background: rgba(34, 211, 238, 0.1); color: #22d3ee; }
+
+.intel-bento__icon,
+.intel-bento__card h3,
+.intel-bento__card p,
+.intel-bento__stat,
+.intel-bento__stat-label {
+    position: relative;
+    z-index: 1;
+}
+
+.intel-bento__card h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    line-height: 1.3;
+    width: 100%;
+    max-width: min(100%, 34ch);
+    /* Balance keeps card titles from orphaning the last word onto
+       its own line in narrow third-column cards. */
+    text-wrap: balance;
+}
+
+.intel-bento__card p {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.55);
+    line-height: 1.65;
+    width: 100%;
+    max-width: min(100%, 46ch);
+    margin: 0;
+    text-wrap: normal;
+    hyphens: manual;
+}
+
+.intel-bento__card--wide p {
+    max-width: min(100%, 72ch);
+}
+
+.intel-bento__card--wide h3 {
+    max-width: min(100%, 46ch);
+}
+
+.intel-bento__card--featured .intel-bento__stat {
+    color: var(--nau-gold);
+}
+
+.intel-bento__watermark {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    font-family: var(--font-display);
+    font-size: 7rem;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.02);
+    line-height: 1;
+    pointer-events: none;
+}
+
+@media (max-width: 992px) {
+    .intel-bento__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .intel-bento__card--wide,
+    .intel-bento__card--narrow,
+    .intel-bento__card--half,
+    .intel-bento__card--third {
+        grid-column: span 1;
+    }
+
+    .intel-bento__card--wide {
+        grid-column: span 2;
+    }
+
+    .intel-bento__card--wide p,
+    .intel-bento__card--wide h3 {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .intel-bento,
+    .intel-focus,
+    .intel-eligibility,
+    .intel-pathway {
+        padding: 72px 0;
+    }
+
+    .intel-bento__header,
+    .intel-eligibility__header,
+    .intel-pathway__header {
+        text-align: left;
+        margin-bottom: 40px;
+    }
+
+    .intel-bento__sub,
+    .intel-eligibility__sub,
+    .intel-pathway__sub {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .intel-bento__grid,
+    .intel-eligibility__grid {
+        gap: 16px;
+    }
+
+    .intel-bento__card,
+    .intel-eligibility__card {
+        padding: 28px 24px;
+    }
+
+    .intel-bento__card--wide,
+    .intel-bento__card--narrow,
+    .intel-bento__card--third {
+        min-height: 0;
+    }
+
+    .intel-bento__watermark {
+        right: 12px;
+        font-size: 5.5rem;
+    }
+
+    .intel-focus__image-frame {
+        aspect-ratio: 4 / 3;
+        flex: none;
+    }
+
+    .intel-pathway__step {
+        display: grid;
+        grid-template-columns: 44px minmax(0, 1fr);
+        column-gap: 16px;
+        text-align: left;
+    }
+
+    .intel-pathway__step-num {
+        grid-row: span 2;
+        margin: 0;
+    }
+
+    .intel-pathway__step h3 {
+        margin-bottom: 6px;
+    }
+
+    .intel-pathway__step p {
+        max-width: none;
+        margin: 0;
+    }
+}
+
+@media (max-width: 600px) {
+    .intel-bento__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .intel-bento__card--wide {
+        grid-column: span 1;
+    }
+
+    .intel-bento__title,
+    .intel-focus__title,
+    .intel-eligibility__title,
+    .intel-pathway__title {
+        font-size: clamp(1.8rem, 9vw, 2.25rem);
+    }
+
+    .intel-bento__card h3,
+    .intel-bento__card p {
+        max-width: 100%;
+    }
+}
+
+/* Focus areas. Numbered list of the four research pillars on the
+   left, image + info note on the right. Left column carries the
+   editorial weight; right column is rhythm and reassurance. */
+.intel-focus {
+    padding: 100px 0;
+    background: #ffffff;
+}
+
+.intel-focus__grid {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    gap: 80px;
+    align-items: stretch;
+    min-width: 0;
+}
+
+.intel-focus__eyebrow {
+    display: inline-block;
+    background: var(--nau-blue);
+    color: var(--nau-gold);
+    padding: 6px 16px;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 20px;
+}
+
+.intel-focus__title {
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    font-weight: 800;
+    color: var(--nau-blue);
+    margin-bottom: 16px;
+    line-height: 1.15;
+}
+
+.intel-focus__desc {
+    font-size: 1rem;
+    color: var(--gray-600);
+    line-height: 1.7;
+    margin-bottom: 36px;
+}
+
+.intel-focus__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.intel-focus__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.intel-focus__item:first-child {
+    border-top: 1px solid var(--gray-200);
+}
+
+.intel-focus__item-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(0, 36, 84, 0.06);
+    color: var(--nau-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    font-weight: 800;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.intel-focus__item-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.intel-focus__item-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--nau-blue);
+}
+
+.intel-focus__item-desc {
+    font-size: 0.85rem;
+    color: var(--gray-600);
+    line-height: 1.55;
+}
+
+.intel-focus__image-wrap {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.intel-focus__image-frame {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 16px 48px rgba(0, 36, 84, 0.12);
+    flex: 1;
+    min-height: 0;
+}
+
+.intel-focus__image-frame img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+.intel-focus__note {
+    margin-top: 20px;
+    padding: 16px 20px;
+    background: #f5f3ef;
+    border-radius: 12px;
+    font-size: 0.82rem;
+    color: var(--gray-600);
+    line-height: 1.6;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.intel-focus__note i {
+    color: var(--nau-gold);
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+@media (max-width: 992px) {
+    .intel-focus__grid {
+        grid-template-columns: 1fr;
+        gap: 48px;
+    }
+}
+
+/* Eligibility cards — the "am I eligible?" gate-check. Three cards
+   (who / what / when) so a visitor can self-assess in ~30 s
+   before scrolling into the registration form. */
+.intel-eligibility {
+    padding: 96px 0;
+    background: linear-gradient(160deg, rgba(244, 237, 225, 0.96) 0%, rgba(250, 246, 238, 0.98) 100%);
+}
+
+.intel-eligibility__header {
+    text-align: center;
+    margin-bottom: 56px;
+}
+
+.intel-eligibility__eyebrow {
+    display: inline-block;
+    background: var(--nau-blue);
+    color: var(--nau-gold);
+    padding: 6px 16px;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 20px;
+}
+
+.intel-eligibility__title {
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    font-weight: 800;
+    color: var(--nau-blue);
+    line-height: 1.15;
+    margin-bottom: 14px;
+    text-wrap: balance;
+}
+
+.intel-eligibility__sub {
+    font-size: 1rem;
+    color: var(--gray-600);
+    max-width: 640px;
+    margin: 0 auto;
+    line-height: 1.7;
+    text-wrap: pretty;
+}
+
+.intel-eligibility__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.intel-eligibility__card {
+    background: #ffffff;
+    border: 1px solid var(--gray-200);
+    border-radius: 16px;
+    padding: 32px 28px;
+    box-shadow: 0 4px 20px rgba(0, 36, 84, 0.04);
+    display: flex;
+    flex-direction: column;
+}
+
+.intel-eligibility__icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(0, 36, 84, 0.06);
+    color: var(--nau-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.05rem;
+    margin-bottom: 18px;
+}
+
+.intel-eligibility__card-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--nau-blue);
+    margin-bottom: 8px;
+    text-wrap: balance;
+}
+
+.intel-eligibility__card-lead {
+    font-size: 0.85rem;
+    color: var(--gray-600);
+    line-height: 1.6;
+    margin-bottom: 18px;
+    text-wrap: pretty;
+}
+
+.intel-eligibility__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.intel-eligibility__list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.88rem;
+    color: var(--gray-700);
+    line-height: 1.55;
+    text-wrap: pretty;
+}
+
+.intel-eligibility__list li i {
+    color: var(--nau-gold);
+    margin-top: 4px;
+    font-size: 0.75rem;
+    flex-shrink: 0;
+}
+
+.intel-eligibility__footnote {
+    margin-top: 32px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--gray-600);
+    line-height: 1.6;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.intel-eligibility__footnote strong {
+    color: var(--nau-blue);
+}
+
+@media (max-width: 992px) {
+    .intel-eligibility__grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Pathway styles. Kept around even though the page no longer uses
+   the 3-step pathway section, in case the layout ever returns —
+   numbered circles linked by a hairline rule, copied from PTAP. */
+.intel-pathway {
+    padding: 96px 0;
+    background: #f9f7f3;
+}
+
+.intel-pathway__header {
+    text-align: center;
+    margin-bottom: 64px;
+}
+
+.intel-pathway__eyebrow {
+    display: inline-block;
+    background: var(--nau-blue);
+    color: var(--nau-gold);
+    padding: 6px 16px;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 20px;
+}
+
+.intel-pathway__title {
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    font-weight: 800;
+    color: var(--nau-blue);
+    line-height: 1.15;
+    margin-bottom: 14px;
+}
+
+.intel-pathway__sub {
+    font-size: 1rem;
+    color: var(--gray-600);
+    max-width: 540px;
+    margin: 0 auto;
+    line-height: 1.7;
+}
+
+.intel-pathway__steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    position: relative;
+}
+
+.intel-pathway__steps::before {
+    content: '';
+    position: absolute;
+    top: 36px;
+    left: calc(16.67% + 20px);
+    right: calc(16.67% + 20px);
+    height: 2px;
+    background: var(--gray-300);
+    z-index: 0;
+}
+
+.intel-pathway__step {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.intel-pathway__step-num {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--nau-blue);
+    color: var(--nau-gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 800;
+    margin: 0 auto 24px;
+    box-shadow: 0 4px 16px rgba(0, 36, 84, 0.2);
+}
+
+.intel-pathway__step h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--nau-blue);
+    margin-bottom: 10px;
+}
+
+.intel-pathway__step p {
+    font-size: 0.88rem;
+    color: var(--gray-600);
+    line-height: 1.6;
+    max-width: 320px;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .intel-pathway__steps {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .intel-pathway__steps::before {
+        display: none;
+    }
+}
+
+/* Closing CTA. Gold band with an oversized "SCHOLARS" watermark
+   sitting behind the copy. Two actions — primary jumps back to
+   #register, secondary routes into Contact_Us for visitors who
+   want a faculty conversation before committing. */
+.intel-cta {
+    background: var(--nau-gold);
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+/* The watermark is intentionally NAU-themed ('SCHOLARS') rather than
+   the funder name. This page is selling an NAU credential, the
+   oversized backdrop word should reinforce that, not promote Intel. */
+.intel-cta::before {
+    content: 'SCHOLARS';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 18vw;
+    color: rgba(0, 36, 84, 0.06);
+    white-space: nowrap;
+    pointer-events: none;
+    letter-spacing: -0.05em;
+}
+
+.intel-cta__inner {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.intel-cta__eyebrow {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    color: var(--nau-blue);
+    opacity: 0.5;
+    margin-bottom: 16px;
+}
+
+.intel-cta__title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 900;
+    color: var(--nau-blue);
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
+    line-height: 1.1;
+}
+
+.intel-cta__desc {
+    font-size: 1.05rem;
+    color: var(--nau-blue);
+    opacity: 0.75;
+    line-height: 1.7;
+    margin-bottom: 36px;
+}
+
+.intel-cta__actions {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.intel-cta__actions .btn--cta-blue {
+    background: var(--nau-blue);
+    color: #fff;
+    padding: 14px 32px;
+    border-radius: var(--radius-full);
+    font-weight: 700;
+    font-size: 0.92rem;
+    text-decoration: none;
+    transition: all var(--trans-fast);
+    border: 2px solid var(--nau-blue);
+}
+
+.intel-cta__actions .btn--cta-blue:hover {
+    background: var(--nau-blue-dark);
+    border-color: var(--nau-blue-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 36, 84, 0.3);
+}
+
+.intel-cta__actions .btn--cta-outline {
+    background: transparent;
+    color: var(--nau-blue);
+    padding: 14px 32px;
+    border-radius: var(--radius-full);
+    font-weight: 700;
+    font-size: 0.92rem;
+    text-decoration: none;
+    transition: all var(--trans-fast);
+    border: 2px solid var(--nau-blue);
+}
+
+.intel-cta__actions .btn--cta-outline:hover {
+    background: var(--nau-blue);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+
+/* Registration form. Sits between the eligibility cards above and
+   the gold CTA band below, so the visual rhythm has to bridge the
+   two — a card on a tinted band, with inner section cards that
+   pick up the ServiceRequest .sr-section feel. */
+.intel-register {
+    padding: 80px 0 96px;
+    background:
+        linear-gradient(180deg, #ffffff 0%, var(--gray-50, #f8f9fa) 100%);
+    position: relative;
+}
+
+.intel-register__header {
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto 44px;
+}
+
+.intel-register__eyebrow {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--nau-blue);
+    background: rgba(0, 36, 84, 0.08);
+    padding: 6px 14px;
+    border-radius: var(--radius-full, 999px);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+}
+
+.intel-register__title {
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    color: var(--nau-blue);
+    line-height: 1.15;
+    margin: 0 0 14px;
+    font-weight: 800;
+}
+
+.intel-register__title em {
+    color: var(--nau-gold-dark, #dbb400);
+    font-style: normal;
+}
+
+.intel-register__sub {
+    font-size: 1.02rem;
+    color: var(--gray-700, #495057);
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* The outer card. White background, soft shadow, no top accent
+   rail — the inner section cards carry the visual weight now,
+   and the rail was duplicating that emphasis. */
+.intel-register__card {
+    background: #ffffff;
+    border: 1px solid var(--gray-200, #e9ecef);
+    border-radius: 14px;
+    padding: 28px;
+    max-width: 920px;
+    margin: 0 auto;
+    box-shadow: 0 12px 32px rgba(0, 36, 84, 0.08);
+}
+
+/* Field groupings. Each group reads as its own mini-section
+   matching the ServiceRequest .sr-section pattern: white card
+   on the parent card, soft border, gold-underlined title.
+   The previous dash-glyph before the title was visual noise
+   once the underline carries the same accent. */
+.intel-register__group {
+    background: #ffffff;
+    border: 1px solid var(--gray-200, #e9ecef);
+    border-radius: 12px;
+    padding: 22px 24px 24px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.intel-register__group + .intel-register__group {
+    margin-top: 20px;
+}
+
+.intel-register__group-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--nau-blue);
+    margin: 0 0 18px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--nau-gold);
+    display: inline-block;
+    width: max-content;
+    max-width: 100%;
+    line-height: 1.2;
+}
+
+/* Radio cluster used for the MS/PhD choice. Pill-style buttons
+   that highlight in NAU blue when selected — friendlier than
+   bare browser radios and consistent with the bento accents. */
+.intel-register__radio-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.intel-register__radio {
+    flex: 1 1 0;
+    min-width: 110px;
+    position: relative;
+    cursor: pointer;
+}
+
+.intel-register__radio input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.intel-register__radio span {
+    display: block;
+    padding: 12px 18px;
+    text-align: center;
+    border: 1px solid var(--gray-300, #dee2e6);
+    border-radius: var(--radius-sm, 6px);
+    background: #fff;
+    font-weight: 600;
+    color: var(--gray-700, #495057);
+    transition: all 0.18s ease;
+}
+
+.intel-register__radio:hover span {
+    border-color: var(--nau-blue);
+    color: var(--nau-blue);
+}
+
+.intel-register__radio input:checked + span {
+    background: var(--nau-blue);
+    border-color: var(--nau-blue);
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 36, 84, 0.18);
+}
+
+.intel-register__radio input:focus-visible + span {
+    outline: 2px solid var(--nau-gold);
+    outline-offset: 2px;
+}
+
+/* Action row. Submit on the left, reassurance note on the right
+   so it reads "click this — your data is safe". */
+.intel-register__actions {
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid var(--gray-200, #e9ecef);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.intel-register__actions .btn-primary {
+    padding: 13px 30px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    border-radius: var(--radius-full, 999px);
+    border: 0;
+    cursor: pointer;
+}
+
+.intel-register__note {
+    font-size: 0.85rem;
+    color: var(--gray-600, #6c757d);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.intel-register__note i {
+    color: var(--nau-gold-dark, #dbb400);
+}
+
+/* Mobile: collapse the card padding and stack the action row so
+   the submit button never gets squeezed against the trust note. */
+@media (max-width: 640px) {
+    .intel-register {
+        padding: 56px 0 72px;
+    }
+    .intel-register__card {
+        padding: 18px;
+        border-radius: 10px;
+    }
+    .intel-register__group {
+        padding: 18px 16px 20px;
+    }
+    .intel-register__actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .intel-register__actions .btn-primary {
+        width: 100%;
+    }
+    .intel-register__note {
+        justify-content: center;
+    }
+}
