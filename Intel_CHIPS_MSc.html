@@ -502,45 +502,146 @@
 
 
         <!-- ═══════════════════════════════════════════════════════════
-             §6  HOW IT WORKS
-             Three-step pathway: register interest, get matched and
-             enroll, then research and place. Step 3 deliberately
-             ends at "place" because Intel's own success metric is
-             the post-graduation workforce/PhD placement rate.
+             §6  REGISTER YOUR INTEREST
+             Static (non-collapsing) registration form. Mirrors the
+             field shape of the contact form on Contact_Us.html so the
+             validation primitives in JS/validation.js and the server
+             rules in includes/validation.php apply unchanged. Posts
+             to IntelScholarshipSubmission.php, which sends the lab
+             notification + user confirmation pair using the same
+             NAU-branded template as FormSubmission.php.
         ═══════════════════════════════════════════════════════════ -->
-        <section class="intel-pathway">
+        <section class="intel-register" id="register">
             <div class="container">
-                <div class="intel-pathway__header intel-reveal">
-                    <span class="intel-pathway__eyebrow">Your Path</span>
-                    <h2 class="intel-pathway__title">How It Works</h2>
-                    <p class="intel-pathway__sub">From registering your interest to placing into
-                        an Intel/SRC-aligned semiconductor role in three stages.</p>
+                <div class="intel-register__header intel-reveal">
+                    <span class="intel-register__eyebrow">Register Your Interest</span>
+                    <h2 class="intel-register__title">Tell Us About <em>You</em></h2>
+                    <p class="intel-register__sub">Drop your details below and an NAU
+                        program coordinator will reach out, usually within a week, with
+                        the next steps for the cohort window you pick.</p>
                 </div>
 
-                <div class="intel-pathway__steps intel-reveal">
-                    <div class="intel-pathway__step">
-                        <div class="intel-pathway__step-num">1</div>
-                        <h3>Register Your Interest</h3>
-                        <p>Submit the registration form below with your current institution,
-                            intended major, and degree interest (MS or PhD). Open to incoming
-                            and onboard MS students who are US Citizens, Nationals, or
-                            Permanent Residents.</p>
-                    </div>
-                    <div class="intel-pathway__step">
-                        <div class="intel-pathway__step-num">2</div>
-                        <h3>Match &amp; Enroll</h3>
-                        <p>Selected scholars are matched to a research pillar and to NAU or
-                            UofA faculty advisors. Cohorts launch Fall 2026, with optional
-                            Spring 2027 and Fall 2027 entry windows for the staggered cohort.</p>
-                    </div>
-                    <div class="intel-pathway__step">
-                        <div class="intel-pathway__step-num">3</div>
-                        <h3>Research, Mentor, Place</h3>
-                        <p>Complete a thesis or industry-aligned project, an annual Intel
-                            facility visit, SRC review touchpoints, and an internship in Manufacturing, Silicon
-                            Hardware, or Semiconductor Research, with placement targeted
-                            into the semiconductor workforce or a PhD program.</p>
-                    </div>
+                <div class="intel-register__card intel-reveal">
+                    <form id="scholarshipForm" novalidate autocomplete="on">
+
+                        <!-- Personal — name + contact. Same shape as Contact_Us so the
+                             shared validation rules in MPCT.Validation can be reused
+                             without page-specific overrides. -->
+                        <div class="intel-register__group">
+                            <h3 class="intel-register__group-title">About You</h3>
+                            <div class="grid grid-2 gap-lg">
+                                <div>
+                                    <label class="block font-bold mb-1 required" for="reg_first_name">First Name</label>
+                                    <input type="text" id="reg_first_name" name="first_name" class="form-control"
+                                        placeholder="Alex" required maxlength="25" data-name-field>
+                                </div>
+                                <div>
+                                    <label class="block font-bold mb-1 required" for="reg_last_name">Last Name</label>
+                                    <input type="text" id="reg_last_name" name="last_name" class="form-control"
+                                        placeholder="Morgan" required maxlength="25" data-name-field>
+                                </div>
+                                <div>
+                                    <label class="block font-bold mb-1 required" for="reg_email">Email</label>
+                                    <input type="email" id="reg_email" name="email" class="form-control"
+                                        placeholder="alex.morgan@example.com" required maxlength="50">
+                                </div>
+                                <div>
+                                    <label class="block font-bold mb-1 required" for="reg_phone">Phone</label>
+                                    <input type="tel" id="reg_phone" name="phone" class="form-control"
+                                        placeholder="(555) 123-4567" inputmode="numeric" maxlength="14"
+                                        required data-phone-field>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Academic — institution, major, and degree level. The 'major'
+                             list is short on purpose: the program only funds MEs, ECEs,
+                             and Optical Engineers, so we name those three and let
+                             everything else fall under "Other (specify in notes)". -->
+                        <div class="intel-register__group">
+                            <h3 class="intel-register__group-title">Academic Background</h3>
+                            <div class="grid grid-2 gap-lg">
+                                <div class="col-span-2">
+                                    <label class="block font-bold mb-1 required" for="reg_institution">Current Institution</label>
+                                    <input type="text" id="reg_institution" name="current_institution" class="form-control"
+                                        placeholder="Northern Arizona University" required maxlength="120" data-org-field>
+                                </div>
+                                <div>
+                                    <label class="block font-bold mb-1 required" for="reg_major">Intended Major</label>
+                                    <select id="reg_major" name="intended_major" class="form-control" required>
+                                        <option value="">Select a major</option>
+                                        <option value="mechanical_engineering">Mechanical Engineering</option>
+                                        <option value="electrical_computer_engineering">Electrical &amp; Computer Engineering</option>
+                                        <option value="optical_engineering">Optical Engineering</option>
+                                        <option value="other">Other (specify in notes)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block font-bold mb-1 required">Degree Interest</label>
+                                    <div class="intel-register__radio-row">
+                                        <label class="intel-register__radio">
+                                            <input type="radio" name="degree_interest" value="ms" required>
+                                            <span>MS</span>
+                                        </label>
+                                        <label class="intel-register__radio">
+                                            <input type="radio" name="degree_interest" value="phd" required>
+                                            <span>PhD</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cohort timing. Three cohort entry windows (per the program
+                             roadmap) plus the onboard / incoming distinction the
+                             coordinator needs to route the lead to the right pipeline. -->
+                        <div class="intel-register__group">
+                            <h3 class="intel-register__group-title">Cohort &amp; Timing</h3>
+                            <div class="grid grid-2 gap-lg">
+                                <div>
+                                    <label class="block font-bold mb-1 required" for="reg_term">Target Semester</label>
+                                    <select id="reg_term" name="target_term" class="form-control" required>
+                                        <option value="">Select an entry term</option>
+                                        <option value="fall_2026">Fall 2026</option>
+                                        <option value="spring_2027">Spring 2027</option>
+                                        <option value="fall_2027">Fall 2027</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block font-bold mb-1 required" for="reg_status">Current Status</label>
+                                    <select id="reg_status" name="enrollment_status" class="form-control" required>
+                                        <option value="">Select your status</option>
+                                        <option value="onboarding">Onboarding (incoming / applying)</option>
+                                        <option value="boarded">Boarded (currently enrolled MS)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Free-text notes. Capped at 500 words so the server-side
+                             enforceWordLimit() check matches the contact form. -->
+                        <div class="intel-register__group">
+                            <h3 class="intel-register__group-title">Anything Else We Should Know?</h3>
+                            <label class="block font-bold mb-1" for="reg_notes">Notes</label>
+                            <textarea id="reg_notes" name="notes" class="form-control" rows="5"
+                                placeholder="Research interests, GPA, FAFSA status, internship history, or anything you'd like the coordinator to see ahead of the call."
+                                maxlength="2500" data-max-words="500"></textarea>
+                        </div>
+
+                        <!-- Feedback strip — reused class so it picks up the same
+                             success/error styling as the contact and booking forms. -->
+                        <div id="formFeedback" class="bk-feedback" role="alert"></div>
+
+                        <div class="intel-register__actions">
+                            <button type="submit" id="submitBtn" class="btn btn-primary">
+                                Register My Interest
+                            </button>
+                            <span class="intel-register__note">
+                                <i class="fas fa-lock"></i>
+                                Your details stay with NAU and the program coordinator.
+                            </span>
+                        </div>
+                    </form>
                 </div>
             </div>
         </section>
