@@ -1151,3 +1151,218 @@
     color: #fff;
     transform: translateY(-2px);
 }
+
+
+/* ===========================================================
+   §X  REGISTRATION FORM
+   Scholar interest form that replaces the old three-step
+   pathway. Sits between the eligibility cards (§5b) and the
+   closing CTA (§7), so the visual rhythm needs to bridge the
+   eligibility card grid above and the deep-blue CTA panel
+   below. Card sits on a tinted band with a gold accent rule
+   to echo the .intel-cta block beneath it.
+   =========================================================== */
+.intel-register {
+    padding: 80px 0 96px;
+    background:
+        linear-gradient(180deg, #ffffff 0%, var(--gray-50, #f8f9fa) 100%);
+    position: relative;
+}
+
+.intel-register__header {
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto 44px;
+}
+
+.intel-register__eyebrow {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--nau-blue);
+    background: rgba(0, 36, 84, 0.08);
+    padding: 6px 14px;
+    border-radius: var(--radius-full, 999px);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+}
+
+.intel-register__title {
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    color: var(--nau-blue);
+    line-height: 1.15;
+    margin: 0 0 14px;
+    font-weight: 800;
+}
+
+.intel-register__title em {
+    color: var(--nau-gold-dark, #dbb400);
+    font-style: normal;
+}
+
+.intel-register__sub {
+    font-size: 1.02rem;
+    color: var(--gray-700, #495057);
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* The card. White background, soft shadow, gold accent rail
+   along the top so the form reads as a deliberate panel rather
+   than a loose stack of inputs. */
+.intel-register__card {
+    background: #ffffff;
+    border: 1px solid var(--gray-200, #e9ecef);
+    border-radius: 14px;
+    padding: 36px 40px 32px;
+    max-width: 920px;
+    margin: 0 auto;
+    box-shadow: 0 12px 32px rgba(0, 36, 84, 0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.intel-register__card::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--nau-blue), var(--nau-gold));
+}
+
+/* Field groupings. Each group gets a small uppercase header so
+   the form scans in three blocks (about you / academic / cohort)
+   rather than as one long list. */
+.intel-register__group + .intel-register__group {
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px dashed var(--gray-200, #e9ecef);
+}
+
+.intel-register__group-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--nau-blue);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0 0 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.intel-register__group-title::before {
+    content: "";
+    width: 18px;
+    height: 2px;
+    background: var(--nau-gold);
+    border-radius: 2px;
+}
+
+/* Radio cluster used for the MS/PhD choice. Pill-style buttons
+   that highlight in NAU blue when selected — friendlier than
+   bare browser radios and consistent with the bento accents. */
+.intel-register__radio-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.intel-register__radio {
+    flex: 1 1 0;
+    min-width: 110px;
+    position: relative;
+    cursor: pointer;
+}
+
+.intel-register__radio input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.intel-register__radio span {
+    display: block;
+    padding: 12px 18px;
+    text-align: center;
+    border: 1px solid var(--gray-300, #dee2e6);
+    border-radius: var(--radius-sm, 6px);
+    background: #fff;
+    font-weight: 600;
+    color: var(--gray-700, #495057);
+    transition: all 0.18s ease;
+}
+
+.intel-register__radio:hover span {
+    border-color: var(--nau-blue);
+    color: var(--nau-blue);
+}
+
+.intel-register__radio input:checked + span {
+    background: var(--nau-blue);
+    border-color: var(--nau-blue);
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 36, 84, 0.18);
+}
+
+.intel-register__radio input:focus-visible + span {
+    outline: 2px solid var(--nau-gold);
+    outline-offset: 2px;
+}
+
+/* Action row. Submit on the left, reassurance note on the right
+   so it reads "click this — your data is safe". */
+.intel-register__actions {
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid var(--gray-200, #e9ecef);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.intel-register__actions .btn-primary {
+    padding: 13px 30px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    border-radius: var(--radius-full, 999px);
+    border: 0;
+    cursor: pointer;
+}
+
+.intel-register__note {
+    font-size: 0.85rem;
+    color: var(--gray-600, #6c757d);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.intel-register__note i {
+    color: var(--nau-gold-dark, #dbb400);
+}
+
+/* Mobile: collapse the card padding and stack the action row so
+   the submit button never gets squeezed against the trust note. */
+@media (max-width: 640px) {
+    .intel-register {
+        padding: 56px 0 72px;
+    }
+    .intel-register__card {
+        padding: 26px 20px 24px;
+        border-radius: 10px;
+    }
+    .intel-register__actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .intel-register__actions .btn-primary {
+        width: 100%;
+    }
+    .intel-register__note {
+        justify-content: center;
+    }
+}
