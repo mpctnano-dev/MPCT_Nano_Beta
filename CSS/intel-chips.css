@@ -43,8 +43,10 @@
 }
 
 .intel-partners__logo {
-    height: 30px;
-    opacity: 0.65;
+    height: 38px;
+    width: auto;
+    object-fit: contain;
+    opacity: 0.85;
     transition: opacity 0.3s;
 }
 
@@ -52,21 +54,11 @@
     opacity: 1;
 }
 
-/* Wordmark fallback for partners without a logo asset in the repo
-   (e.g. University of Arizona). Keeps the strip rhythm consistent
-   while we wait for the real artwork. */
-.intel-partners__wordmark {
-    font-family: var(--font-display, 'Montserrat', sans-serif);
-    font-weight: 900;
-    font-size: 1rem;
-    letter-spacing: 0.04em;
-    color: var(--nau-blue);
-    opacity: 0.65;
-    transition: opacity 0.3s;
-}
-
-.intel-partners__wordmark:hover {
-    opacity: 1;
+/* Square-format logo (e.g. UofA's block A) sits taller than wide
+   wordmarks. Constrain it to a matched visual height so the row
+   doesn't look unbalanced. */
+.intel-partners__logo--square {
+    height: 48px;
 }
 
 /* ── PROGRAM OVERVIEW ────────────────────────────────────────────
