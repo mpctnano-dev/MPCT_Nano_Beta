@@ -804,6 +804,19 @@ document.addEventListener('DOMContentLoaded', () => {
         let heroHTML = '';
         if (article.id === 'intel-chips-scholarship-2026') {
             heroHTML = `
+            <div class="nar-hero">
+                <img class="nar-hero__img" src="Images/Intel_News_Thumbnail.png" alt="Intel and NAU Partnership Banner">
+                <div class="nar-hero__overlay" style="background: transparent;"></div>
+                <div class="nar-hero__meta">
+                    <span class="nar-hero__category">${article.tagLabel}</span>
+                    <span class="nar-hero__dot">&#9679;</span>
+                    <span class="nar-hero__date">${formattedDate}</span>
+                    <span class="nar-hero__dot">&#9679;</span>
+                    <span class="nar-hero__readtime">${article.readTime}</span>
+                </div>
+            </div>`;
+            
+            /* COMMENTED OUT - Original animated puzzle container with Intel video
             <div class="nar-hero concept-hero-override" id="conceptHeroContainer">
                 <div class="puzzle-container" id="intelPuzzleContainer">
                     <div class="puzzle-piece left-piece">
@@ -837,7 +850,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <span class="nar-hero__dot">&#9679;</span>
                     <span class="nar-hero__readtime">${article.readTime}</span>
                 </div>
-            </div>`;
+            </div>
+            */
         } else {
             heroHTML = `
             <div class="nar-hero">
