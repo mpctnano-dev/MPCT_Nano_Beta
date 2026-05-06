@@ -67,15 +67,10 @@ $detailFields = [
     'notes'               => 'Notes',
 ];
 
-// HTML <select> values are machine-style ("electrical_computer_engineering").
-// Translate to human-readable labels for the email body.
+// HTML <select> values are machine-style ("fall_2026"). Translate to
+// human-readable labels for the email body. Intended major is now a
+// free-text input (no map entry), so it falls through verbatim.
 $valueMap = [
-    // Intended major
-    'mechanical_engineering'           => 'Mechanical Engineering',
-    'electrical_computer_engineering'  => 'Electrical & Computer Engineering',
-    'optical_engineering'              => 'Optical Engineering',
-    'other'                            => 'Other (see notes)',
-
     // Degree interest
     'ms'                               => 'Master of Science (MS)',
     'phd'                              => 'Doctor of Philosophy (PhD)',
@@ -143,11 +138,16 @@ validatePhoneFormat('phone', 'Phone');
 validateTextField('current_institution', 'Current Institution');
 enforceMaxLength('current_institution',  120, 'Current Institution');
 
-// Allowed-list checks for every dropdown. Anything not in the list is
-// either a typo in the front-end markup or someone hand-crafting a POST
-// — either way we reject before it lands in an email.
+// Intended major is free text now (not a select), so it gets the
+// same emoji / mashing / HTML rules as any other text field plus a
+// 50-character cap that mirrors the client-side maxlength.
+validateTextField('intended_major', 'Intended Major');
+enforceMaxLength('intended_major', 50, 'Intended Major');
+
+// Allow-list checks on the remaining dropdowns. Anything not in the
+// list is either a typo in the front-end markup or a hand-crafted
+// POST — reject before it lands in an email.
 $allowed = [
-    'intended_major'    => ['mechanical_engineering', 'electrical_computer_engineering', 'optical_engineering', 'other'],
     'degree_interest'   => ['ms', 'phd'],
     'target_term'       => ['fall_2026', 'spring_2027', 'fall_2027'],
     'enrollment_status' => ['onboarding', 'boarded'],
@@ -173,19 +173,27 @@ enforceWordLimit('notes', 500, 'Notes');
 // Read raw values from $_POST so the value map can translate them, then
 // htmlspecialchars exactly once before they hit the HTML email body.
 // Using post() here would double-encode any "&" via the value map.
+//
+// Empty fields are SKIPPED (not rendered as em-dash placeholders) so
+// the email reads as a clean recap of what the applicant actually
+// submitted — same dynamic-body approach as the ServiceRequest emails.
+// Always-required fields are guaranteed populated by requireFields()
+// above, so this only ever drops genuinely optional values like notes.
 // ---------------------------------------------------------------------
 $detailRows   = '';
 $plainDetails = '';
 
 foreach ($detailFields as $field => $label) {
-    $raw       = trim($_POST[$field] ?? '');
-    $formatted = $raw === '' ? '' : ($valueMap[$raw] ?? $raw);
-    $value     = $formatted !== '' ? htmlspecialchars($formatted, ENT_QUOTES, 'UTF-8') : '&mdash;';
-    $plain     = $formatted !== '' ? $formatted : '—';
+    $raw = trim($_POST[$field] ?? '');
+    if ($raw === '') {
+        continue;
+    }
+    $formatted = $valueMap[$raw] ?? $raw;
+    $value     = htmlspecialchars($formatted, ENT_QUOTES, 'UTF-8');
 
     // Notes is a textarea — preserve the user's line breaks in the HTML
     // version so paragraphs render the way they typed them.
-    if ($field === 'notes' && $formatted !== '') {
+    if ($field === 'notes') {
         $value = nl2br($value);
     }
 
@@ -194,7 +202,7 @@ foreach ($detailFields as $field => $label) {
                 <td style='padding:10px 16px; font-weight:600; color:#003466; background:#f8f9fa; border-bottom:1px solid #e8e8e8; width:35%; font-size:14px; vertical-align:top;'>$label</td>
                 <td style='padding:10px 16px; color:#333333; border-bottom:1px solid #e8e8e8; font-size:14px; vertical-align:top;'>$value</td>
             </tr>";
-    $plainDetails .= "  $label: $plain\n";
+    $plainDetails .= "  $label: $formatted\n";
 }
 
 $phoneClean = post('phone');
