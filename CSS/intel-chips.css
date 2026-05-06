@@ -562,7 +562,7 @@
    and either keep reading toward the CTA or bookmark the page. */
 .intel-eligibility {
     padding: 96px 0;
-    background: linear-gradient(180deg, #ffffff 0%, #f5f3ef 100%);
+    background: linear-gradient(160deg, rgba(244, 237, 225, 0.96) 0%, rgba(250, 246, 238, 0.98) 100%);
 }
 
 .intel-eligibility__header {
