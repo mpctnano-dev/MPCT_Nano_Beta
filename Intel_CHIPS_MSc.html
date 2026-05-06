@@ -701,7 +701,6 @@
 
             var feedbackEl = document.getElementById('formFeedback');
             var submitBtn  = document.getElementById('submitBtn');
-            var feedbackTimer;
 
             /* ── Phone mask. Same (XXX) XXX-XXXX shape as the contact
                   form's contactFormatUsPhone() so the server-side
@@ -890,10 +889,14 @@
                       is a phone call, not just email). */
             function labelOf(el) {
                 if (el.type === 'radio') {
-                    var group = el.closest('.intel-register__group');
-                    var lbl   = group ? group.querySelector('label.required, .block.required') : null;
-                    if (lbl) return lbl.textContent.trim();
-                    return 'Degree Interest';
+                    /* Radios live inside a wrapping <label> with no for=,
+                       and their group also contains earlier label.required
+                       elements (Current Institution, Intended Major).
+                       querySelector would return the FIRST one, mis-naming
+                       the field, so we hard-map known radio groups to their
+                       human label instead of guessing from siblings. */
+                    if (el.name === 'degree_interest') return 'Degree Interest';
+                    return el.name || 'Field';
                 }
                 var direct = el.id ? form.querySelector('label[for="' + el.id + '"]') : null;
                 if (direct) {
@@ -922,11 +925,33 @@
                     if (!v) mark(el);
                 });
 
-                /* Radio: at least one must be checked. Outline whichever
-                   is first in the document so the user sees where to look. */
+                /* Radio: at least one must be checked. The radio inputs
+                   are visually hidden (opacity:0; pointer-events:none),
+                   so a regular V.markInvalid on the input shows nothing.
+                   Outline the visible .intel-register__radio-row container
+                   instead so the user actually sees which cluster is
+                   wrong. Clear the outline once any radio in the group
+                   is checked. */
                 var radios = form.querySelectorAll('input[name="degree_interest"]');
                 var picked = Array.prototype.some.call(radios, function (r) { return r.checked; });
-                if (!picked && radios.length) mark(radios[0]);
+                if (!picked && radios.length) {
+                    var row = radios[0].closest('.intel-register__radio-row');
+                    if (row && !seen.has(row)) {
+                        seen.add(row);
+                        row.style.outline       = '2px solid var(--nau-red, #c0392b)';
+                        row.style.outlineOffset = '4px';
+                        row.style.borderRadius  = '6px';
+                        var clearRow = function () {
+                            row.style.outline       = '';
+                            row.style.outlineOffset = '';
+                            row.style.borderRadius  = '';
+                        };
+                        radios.forEach(function (r) {
+                            r.addEventListener('change', clearRow, { once: true });
+                        });
+                        invalid.push({ el: radios[0], label: labelOf(radios[0]) });
+                    }
+                }
 
                 /* Email shape. */
                 var emailEl = form.querySelector('input[type="email"]');
@@ -1006,11 +1031,24 @@
                             'Your registration was submitted. Watch your inbox for a confirmation.',
                             'success', FEEDBACK_PRIORITY.server);
                         form.reset();
-                        /* Reset wipes the textarea content, but the word
-                           counter listener fires on 'input' which a reset
-                           does not trigger — refresh manually so the
-                           counter goes back to 0 / 500. */
-                        if (notesEl) notesEl.dispatchEvent(new Event('input'));
+                        /* form.reset() clears values but does NOT fire
+                           'input' events. Every hint we attached above
+                           (word counter, maxlength counter, name-field
+                           emoji/special-char hint) listens on 'input',
+                           so without this fan-out a stale "Limit reached"
+                           or "Emoji are not allowed" message would sit
+                           under an already-empty field. Fan a synthetic
+                           'input' event across every hinted control to
+                           force each listener to recompute against the
+                           now-empty value. */
+                        form.querySelectorAll(
+                            'textarea[data-max-words], ' +
+                            'input[maxlength]:not([type="tel"]):not([type="number"]), ' +
+                            'textarea[maxlength]:not([data-max-words]), ' +
+                            'input[data-name-field]'
+                        ).forEach(function (el) {
+                            el.dispatchEvent(new Event('input'));
+                        });
                     } else {
                         setFeedback(result.message ||
                             'We could not submit your registration. Please try again.',

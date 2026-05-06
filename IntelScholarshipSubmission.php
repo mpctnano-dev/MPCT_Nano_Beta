@@ -117,14 +117,20 @@ requireFields(
 
 $firstName  = post('first_name');
 $lastName   = post('last_name');
-$email      = post('email');
 $fullName   = trim("$firstName $lastName");
 
-// Email shape — filter_var is strict enough to catch typos like
-// "user@" or "missing.tld" before we try to talk to the SMTP relay.
+// Email needs a RAW read (not post()) before filter_var. post() runs
+// htmlspecialchars first, which turns "o'brien@example.com" into
+// "o&#039;brien@example.com" — and FILTER_VALIDATE_EMAIL then rejects
+// that as malformed, locking out anyone with an apostrophe in the local
+// part. We validate the raw value, hand the raw value to PHPMailer
+// (addAddress / addReplyTo expect real RFC addresses), and only escape
+// when embedding it in the HTML email body via $emailHtml below.
+$email = trim((string) ($_POST['email'] ?? ''));
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     respond(false, 'Invalid email address.');
 }
+$emailHtml = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
 
 // Lengths + content rules layered on top of requireFields(). Same shape
 // as FormSubmission.php so the rules stay uniform across forms.
@@ -272,11 +278,11 @@ $labBody = '<!DOCTYPE html>
                                 </tr>
                                 <tr>
                                     <td style="padding:10px 16px; font-weight:600; color:#003466; background:#f8f9fa; border-bottom:1px solid #e8e8e8; font-size:14px;">Email</td>
-                                    <td style="padding:10px 16px; border-bottom:1px solid #e8e8e8; font-size:14px;"><a href="mailto:' . $email . '" style="color:#003466; text-decoration:none;">' . $email . '</a></td>
+                                    <td style="padding:10px 16px; border-bottom:1px solid #e8e8e8; font-size:14px;"><a href="mailto:' . $emailHtml . '" style="color:#003466; text-decoration:none;">' . $emailHtml . '</a></td>
                                 </tr>
                                 <tr>
                                     <td style="padding:10px 16px; font-weight:600; color:#003466; background:#f8f9fa; border-bottom:1px solid #e8e8e8; font-size:14px;">Phone</td>
-                                    <td style="padding:10px 16px; color:#333333; border-bottom:1px solid #e8e8e8; font-size:14px;">' . ($phoneClean ?: '&mdash;') . '</td>
+                                    <td style="padding:10px 16px; color:#333333; border-bottom:1px solid #e8e8e8; font-size:14px;">' . $phoneClean . '</td>
                                 </tr>
                             </table>
 
@@ -308,7 +314,7 @@ Submitted: $timestamp
 APPLICANT INFORMATION
   Name: $fullName
   Email: $email
-  Phone: " . ($phoneClean ?: 'Not provided') . "
+  Phone: $phoneClean
 
 SCHOLARSHIP DETAILS
 $plainDetails
@@ -372,11 +378,11 @@ $userBody = '<!DOCTYPE html>
                                 </tr>
                                 <tr>
                                     <td style="padding:10px 16px; font-weight:600; color:#003466; background:#f8f9fa; border-bottom:1px solid #e8e8e8; font-size:14px;">Email</td>
-                                    <td style="padding:10px 16px; color:#333333; border-bottom:1px solid #e8e8e8; font-size:14px;">' . $email . '</td>
+                                    <td style="padding:10px 16px; color:#333333; border-bottom:1px solid #e8e8e8; font-size:14px;">' . $emailHtml . '</td>
                                 </tr>
                                 <tr>
                                     <td style="padding:10px 16px; font-weight:600; color:#003466; background:#f8f9fa; border-bottom:1px solid #e8e8e8; font-size:14px;">Phone</td>
-                                    <td style="padding:10px 16px; color:#333333; border-bottom:1px solid #e8e8e8; font-size:14px;">' . ($phoneClean ?: '&mdash;') . '</td>
+                                    <td style="padding:10px 16px; color:#333333; border-bottom:1px solid #e8e8e8; font-size:14px;">' . $phoneClean . '</td>
                                 </tr>' . $detailRows . '
                             </table>
 
@@ -419,7 +425,7 @@ Your interest in the $pageTitle has been received and is currently being reviewe
 YOUR SUBMISSION
   Name: $fullName
   Email: $email
-  Phone: " . ($phoneClean ?: 'Not provided') . "
+  Phone: $phoneClean
 $plainDetails
 Need to follow up sooner? Email us at " . LAB_EMAIL . "
 
