@@ -682,6 +682,281 @@
     <div id="site-footer"></div>
 
     <script src="JS/layout.js"></script>
+    <script src="JS/validation.js"></script>
+    <script>
+        /* ───────────────────────────────────────────────────────────
+           Scholar registration form wiring.
+           Page-scoped because no other page on the site posts the
+           same shape (institution + intended major + degree interest
+           + cohort term + onboarding status). All the underlying
+           rule primitives — emoji, mashing, name, email — come from
+           MPCT.Validation so the regexes stay byte-for-byte identical
+           to includes/validation.php on the server side.
+           Phone formatter and word counter are tiny enough to live
+           inline rather than pulling in JS/script.js (which carries
+           a lot of unrelated homepage / contact-page logic). */
+        (function () {
+            var form = document.getElementById('scholarshipForm');
+            if (!form) return;
+            var V = (window.MPCT || {}).Validation;
+            if (!V) return;
+
+            var feedbackEl = document.getElementById('formFeedback');
+            var submitBtn  = document.getElementById('submitBtn');
+            var feedbackTimer;
+
+            /* ── Phone mask. Same (XXX) XXX-XXXX shape as the contact
+                  form's contactFormatUsPhone() so the server-side
+                  validatePhoneFormat() rule (≤ 25 chars, digits + the
+                  usual punctuation) accepts the output without
+                  needing a special case. */
+            function formatPhone(value, isDelete) {
+                var digits = (value || '').replace(/\D/g, '').slice(0, 10);
+                if (!digits) return '';
+                if (digits.length < 4) return isDelete ? digits : '(' + digits;
+                if (digits.length < 7) {
+                    return '(' + digits.slice(0, 3) + ') ' + digits.slice(3);
+                }
+                return '(' + digits.slice(0, 3) + ') ' + digits.slice(3, 6) + '-' + digits.slice(6);
+            }
+            var phoneEl = form.querySelector('input[data-phone-field]');
+            if (phoneEl) {
+                phoneEl.addEventListener('input', function (e) {
+                    var del = e.inputType === 'deleteContentBackward' ||
+                              e.inputType === 'deleteContentForward';
+                    phoneEl.value = formatPhone(phoneEl.value, del);
+                });
+                phoneEl.addEventListener('blur', function () {
+                    phoneEl.value = formatPhone(phoneEl.value, false);
+                });
+            }
+
+            /* ── Word counter for the notes textarea. Mirrors the
+                  contact-form counter: grey under the limit, gold near
+                  the limit, red over. Server enforces the same 500-word
+                  cap via enforceWordLimit('notes', 500, ...). */
+            var notesEl = form.querySelector('textarea[data-max-words]');
+            if (notesEl) {
+                var maxWords = parseInt(notesEl.dataset.maxWords, 10);
+                var counter  = document.createElement('span');
+                counter.style.cssText =
+                    'display:block; text-align:right; font-size:0.78rem; margin-top:4px;';
+                notesEl.parentNode.insertBefore(counter, notesEl.nextSibling);
+                var refresh = function () {
+                    var words     = V.wordCount(notesEl.value);
+                    var over      = words > maxWords;
+                    var remaining = maxWords - words;
+                    if (over) {
+                        counter.textContent = words + ' / ' + maxWords +
+                            ' words — ' + Math.abs(remaining) + ' over limit';
+                    } else if (remaining <= 50) {
+                        counter.textContent = words + ' / ' + maxWords +
+                            ' words — ' + remaining + ' remaining';
+                    } else {
+                        counter.textContent = words + ' / ' + maxWords + ' words';
+                    }
+                    counter.style.color = over
+                        ? 'var(--nau-red, #c0392b)'
+                        : remaining <= 50
+                            ? 'var(--nau-gold, #e6a817)'
+                            : 'var(--gray-500, #9ca3af)';
+                    counter.style.fontWeight = over ? '600' : '400';
+                };
+                notesEl.addEventListener('input', refresh);
+                refresh();
+            }
+
+            /* ── Inline name-field hints. Surface the emoji /
+                  special-character problems before the user hits
+                  Submit, same pattern as the contact form. */
+            form.querySelectorAll('input[data-name-field]').forEach(function (input) {
+                var hint = document.createElement('span');
+                hint.style.cssText =
+                    'display:none; font-size:0.78rem; color:var(--nau-red,#c0392b); margin-top:2px;';
+                input.after(hint);
+                input.addEventListener('input', function () {
+                    var v = input.value;
+                    if (V.hasEmoji(v)) {
+                        hint.textContent = 'Emoji are not allowed in name fields.';
+                        hint.style.display = 'block';
+                    } else if (/[0-9!@#$%^&*()\[\]{}|\\:;"<>,?\/~`+=]/.test(v)) {
+                        hint.textContent = 'Names should contain letters, spaces, hyphens, or apostrophes only.';
+                        hint.style.display = 'block';
+                    } else {
+                        hint.style.display = 'none';
+                    }
+                });
+            });
+
+            /* ── Feedback strip. Errors hide after 8 s, success after
+                  10 s. Clears any pending timer first so a stale
+                  success can't swallow a fresh error. */
+            function setFeedback(html, kind) {
+                if (!feedbackEl) return;
+                clearTimeout(feedbackTimer);
+                if (!html) {
+                    feedbackEl.style.display = 'none';
+                    feedbackEl.className    = 'bk-feedback';
+                    feedbackEl.innerHTML    = '';
+                    return;
+                }
+                feedbackEl.innerHTML  = html;
+                feedbackEl.className  = 'bk-feedback bk-feedback--' + kind;
+                feedbackEl.style.display = 'block';
+                feedbackEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                feedbackTimer = setTimeout(function () {
+                    feedbackEl.style.display = 'none';
+                    feedbackEl.className     = 'bk-feedback';
+                    feedbackEl.innerHTML     = '';
+                }, kind === 'success' ? 10000 : 8000);
+            }
+
+            /* ── Submit-time validation. Builds an [{el,label}] list
+                  of failures, outlines each one, and refuses to POST
+                  if anything is invalid. Page-specific rules layered
+                  on top of MPCT.Validation primitives:
+                    · degree_interest radio must be picked
+                    · target_term + enrollment_status must be chosen
+                    · phone is required (program coordinator follow-up
+                      is a phone call, not just email). */
+            function labelOf(el) {
+                if (el.type === 'radio') {
+                    var group = el.closest('.intel-register__group');
+                    var lbl   = group ? group.querySelector('label.required, .block.required') : null;
+                    if (lbl) return lbl.textContent.trim();
+                    return 'Degree Interest';
+                }
+                var direct = el.id ? form.querySelector('label[for="' + el.id + '"]') : null;
+                if (direct) {
+                    var clone = direct.cloneNode(true);
+                    clone.querySelectorAll('input,select,textarea,span').forEach(function (n) { n.remove(); });
+                    var t = clone.textContent.trim();
+                    if (t) return t;
+                }
+                return el.name || el.id || 'Field';
+            }
+
+            function validateAll() {
+                var invalid = [];
+                var seen    = new Set();
+                var mark = function (el, reason) {
+                    if (seen.has(el)) return;
+                    seen.add(el);
+                    V.markInvalid(el);
+                    invalid.push({ el: el, label: reason ? labelOf(el) + ' (' + reason + ')' : labelOf(el) });
+                };
+
+                /* Required fields including hidden-by-design radio group. */
+                form.querySelectorAll('[required]').forEach(function (el) {
+                    if (el.type === 'radio') return; // handled below
+                    var v = (el.value || '').trim();
+                    if (!v) mark(el);
+                });
+
+                /* Radio: at least one must be checked. Outline whichever
+                   is first in the document so the user sees where to look. */
+                var radios = form.querySelectorAll('input[name="degree_interest"]');
+                var picked = Array.prototype.some.call(radios, function (r) { return r.checked; });
+                if (!picked && radios.length) mark(radios[0]);
+
+                /* Email shape. */
+                var emailEl = form.querySelector('input[type="email"]');
+                if (emailEl && !V.isEmail(emailEl.value)) mark(emailEl, 'invalid email');
+
+                /* Name fields: emoji / non-letter rejection. */
+                form.querySelectorAll('input[data-name-field]').forEach(function (el) {
+                    var v = (el.value || '').trim();
+                    if (!v) return;
+                    if (V.hasEmoji(v))         mark(el, 'remove emoji');
+                    else if (!V.isValidName(v)) mark(el, 'letters, spaces, hyphens, apostrophes only');
+                });
+
+                /* Free-text fields: emoji + mashing. */
+                form.querySelectorAll('input[type="text"]:not([data-name-field]), textarea').forEach(function (el) {
+                    var v = (el.value || '').trim();
+                    if (!v) return;
+                    if (V.hasEmoji(v))        mark(el, 'remove emoji');
+                    else if (V.hasMashing(v)) mark(el, 'remove repeated characters');
+                });
+
+                /* Notes word cap. */
+                if (notesEl) {
+                    var v = (notesEl.value || '').trim();
+                    if (v && V.wordCount(v) > parseInt(notesEl.dataset.maxWords, 10)) {
+                        mark(notesEl, 'over ' + notesEl.dataset.maxWords + '-word limit');
+                    }
+                }
+
+                /* Phone shape. Required on this form (coordinator
+                   typically calls), but we still let validatePhoneFormat
+                   on the server do the final shape check. */
+                if (phoneEl) {
+                    var pv = (phoneEl.value || '').trim();
+                    if (pv && pv.replace(/\D/g, '').length < 7) {
+                        mark(phoneEl, 'enter a complete phone number');
+                    }
+                }
+
+                return invalid;
+            }
+
+            form.addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                /* Wipe previous outlines before we re-evaluate. */
+                form.querySelectorAll('[style*="outline"]').forEach(function (el) {
+                    el.style.outline       = '';
+                    el.style.outlineOffset = '';
+                });
+
+                var invalid = validateAll();
+                if (invalid.length) {
+                    var names = invalid.map(function (f) { return f.label; }).join(', ');
+                    setFeedback(
+                        '<strong>' + invalid.length + ' field' +
+                        (invalid.length > 1 ? 's need' : ' needs') + ' attention:</strong> ' + names + '.',
+                        'error'
+                    );
+                    invalid[0].el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    return;
+                }
+
+                setFeedback('', '');
+                submitBtn.disabled    = true;
+                var originalLabel     = submitBtn.textContent;
+                submitBtn.textContent = 'Submitting…';
+
+                try {
+                    var resp = await fetch('IntelScholarshipSubmission.php', {
+                        method: 'POST',
+                        body: new FormData(form),
+                    });
+                    var result = await resp.json();
+                    if (result.success) {
+                        setFeedback(result.message ||
+                            'Your registration was submitted. Watch your inbox for a confirmation.',
+                            'success');
+                        form.reset();
+                    } else {
+                        setFeedback(result.message ||
+                            'We could not submit your registration. Please try again.',
+                            'error');
+                    }
+                } catch (err) {
+                    setFeedback(
+                        'Unable to reach the server. Please try again later, or email mpct.nano@nau.edu.',
+                        'error'
+                    );
+                    /* eslint-disable-next-line no-console */
+                    console.error('Scholarship form submit failed:', err);
+                } finally {
+                    submitBtn.disabled    = false;
+                    submitBtn.textContent = originalLabel;
+                }
+            });
+        })();
+    </script>
+
     <script>
         /* Scroll reveal, same pattern as PTAP.html. We watch every
            .intel-reveal element with a single IntersectionObserver,
