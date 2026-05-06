@@ -1,7 +1,7 @@
 /* ================================================================
-   INTEL CHIPS MSc — PAGE-SPECIFIC STYLES
+   INTEL-SRC CHIPS MSc - PAGE-SPECIFIC STYLES
 
-   Scoped to the Intel CHIPS Scholarship MS program page. Kept as an
+   Scoped to the Intel-SRC CHIPS Scholarship MS program page. Kept as an
    external sheet (rather than inline like PTAP.html) so the page
    markup stays readable and the styles can evolve without touching
    the global stylesheet. Class names are prefixed `intel-` to avoid
@@ -183,7 +183,7 @@
 .intel-d4 { transition-delay: 0.32s; }
 .intel-d5 { transition-delay: 0.40s; }
 
-/* ── BENTO GRID — Program Highlights ─────────────────────────────
+/* ── BENTO GRID: Program Highlights ─────────────────────────────
    The dark NAU-blue showcase section. Cards span the 12-col grid
    in different widths so the layout reads as editorial rather
    than templated. Featured "stat" cards carry an oversized number
@@ -233,7 +233,7 @@
     font-weight: 800;
     line-height: 1.15;
     margin-bottom: 14px;
-    /* Pretty/balance is browser-side line-break optimization — the
+    /* Pretty/balance is browser-side line-break optimization, the
        title is short enough that "balance" gives the cleanest two-
        liner without orphan words. */
     text-wrap: balance;
@@ -693,7 +693,7 @@
     }
 }
 
-/* ── HOW IT WORKS — 3-step pathway ───────────────────────────────
+/* ── HOW IT WORKS: 3-step pathway ───────────────────────────────
    Three numbered circles linked by a hairline so the steps read as
    a sequence. Centered card style copies PTAP's pathway because
    the visitor expectation is the same: tell me what I do first,
@@ -816,7 +816,7 @@
 }
 
 /* The watermark is intentionally NAU-themed ('SCHOLARS') rather than
-   the funder name. This page is selling an NAU credential — the
+   the funder name. This page is selling an NAU credential, the
    oversized backdrop word should reinforce that, not promote Intel. */
 .intel-cta::before {
     content: 'SCHOLARS';
