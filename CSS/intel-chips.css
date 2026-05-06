@@ -651,3 +651,122 @@
         display: none;
     }
 }
+
+/* ── CTA ─────────────────────────────────────────────────────────
+   Gold conversion section with an oversized faded watermark of
+   "INTEL" sitting behind the copy. Two actions: Register Here
+   (primary, dark blue) and a secondary route into Contact Us so
+   prospective applicants who aren't ready to register can still
+   reach the program coordinator. */
+.intel-cta {
+    background: var(--nau-gold);
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.intel-cta::before {
+    content: 'INTEL';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 22vw;
+    color: rgba(0, 36, 84, 0.06);
+    white-space: nowrap;
+    pointer-events: none;
+    letter-spacing: -0.05em;
+}
+
+.intel-cta__inner {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.intel-cta__eyebrow {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    color: var(--nau-blue);
+    opacity: 0.5;
+    margin-bottom: 16px;
+}
+
+.intel-cta__title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 900;
+    color: var(--nau-blue);
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
+    line-height: 1.1;
+}
+
+.intel-cta__desc {
+    font-size: 1.05rem;
+    color: var(--nau-blue);
+    opacity: 0.75;
+    line-height: 1.7;
+    margin-bottom: 36px;
+}
+
+.intel-cta__actions {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.intel-cta__actions .btn--cta-blue {
+    background: var(--nau-blue);
+    color: #fff;
+    padding: 14px 32px;
+    border-radius: var(--radius-full);
+    font-weight: 700;
+    font-size: 0.92rem;
+    text-decoration: none;
+    transition: all var(--trans-fast);
+    border: 2px solid var(--nau-blue);
+}
+
+.intel-cta__actions .btn--cta-blue:hover {
+    background: var(--nau-blue-dark);
+    border-color: var(--nau-blue-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 36, 84, 0.3);
+}
+
+.intel-cta__actions .btn--cta-outline {
+    background: transparent;
+    color: var(--nau-blue);
+    padding: 14px 32px;
+    border-radius: var(--radius-full);
+    font-weight: 700;
+    font-size: 0.92rem;
+    text-decoration: none;
+    transition: all var(--trans-fast);
+    border: 2px solid var(--nau-blue);
+}
+
+.intel-cta__actions .btn--cta-outline:hover {
+    background: var(--nau-blue);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+/* Eligibility footnote — small reassurance row above the buttons. */
+.intel-cta__eligibility {
+    margin: 0 auto 28px;
+    padding: 12px 18px;
+    max-width: 560px;
+    background: rgba(255, 255, 255, 0.55);
+    border-radius: 10px;
+    font-size: 0.82rem;
+    color: var(--nau-blue);
+    line-height: 1.55;
+}
