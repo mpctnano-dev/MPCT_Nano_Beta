@@ -554,10 +554,13 @@
                             </div>
                         </div>
 
-                        <!-- Academic — institution, major, and degree level. The 'major'
-                             list is short on purpose: the program only funds MEs, ECEs,
-                             and Optical Engineers, so we name those three and let
-                             everything else fall under "Other (specify in notes)". -->
+                        <!-- Academic — institution, major, and degree level. Major is
+                             a free-text field (not a select) because the program
+                             coordinator wants to see exactly how the applicant names
+                             their program — "Optical Sciences", "ECE", "EECS", etc.
+                             rather than forcing them into a fixed list. Capped at
+                             50 characters on both sides for parity with the email
+                             field. -->
                         <div class="intel-register__group">
                             <h3 class="intel-register__group-title">Academic Background</h3>
                             <div class="grid grid-2 gap-lg">
@@ -568,13 +571,8 @@
                                 </div>
                                 <div>
                                     <label class="block font-bold mb-1 required" for="reg_major">Intended Major</label>
-                                    <select id="reg_major" name="intended_major" class="form-control" required>
-                                        <option value="">Select a major</option>
-                                        <option value="mechanical_engineering">Mechanical Engineering</option>
-                                        <option value="electrical_computer_engineering">Electrical &amp; Computer Engineering</option>
-                                        <option value="optical_engineering">Optical Engineering</option>
-                                        <option value="other">Other (specify in notes)</option>
-                                    </select>
+                                    <input type="text" id="reg_major" name="intended_major" class="form-control"
+                                        placeholder="e.g. Mechanical Engineering" required maxlength="50">
                                 </div>
                                 <div>
                                     <label class="block font-bold mb-1 required">Degree Interest</label>
