@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="The Intel-SRC CHIPS Scholarship & Fellowship Program at NAU and the University of Arizona, a funded 12-student MS cohort training engineers in advanced packaging, manufacturing process metrology, and co-packaged optics for Arizona's semiconductor industry.">
+    <meta name="description" content="The NAU Intel-SRC CHIPS Scholars Program — a funded 12-student research cohort at NAU and the University of Arizona training engineers in advanced packaging, manufacturing process metrology, and co-packaged optics for Arizona's semiconductor industry.">
     <meta name="theme-color" content="#002454">
-    <title>Intel-SRC CHIPS MSc Scholarship | NAU & University of Arizona | NAU Nano</title>
-    <link rel="canonical" href="https://nano.nau.edu/Intel_CHIPS_MSc.html">
+    <title>CHIPS Scholars Program | NAU & University of Arizona | NAU Nano</title>
+    <link rel="canonical" href="https://nano.nau.edu/CHIPS_Scholars_Program.html">
     <link rel="icon" type="image/png" href="Images/NAU_Nano_favicon.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,8 +16,9 @@
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,400&display=swap"
         rel="stylesheet">
 
+    <!-- Page styles used to ship in a separate intel-chips.css. They've
+         been rolled into style.css to keep this page on one CSS load. -->
     <link rel="stylesheet" href="CSS/style.css">
-    <link rel="stylesheet" href="CSS/intel-chips.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
@@ -27,19 +28,14 @@
 
     <main>
 
-        <!-- ═══════════════════════════════════════════════════════════
-             §1  COMPACT HERO
-             Mirrors the PTAP hero pattern (ml-hero ml-hero--compact)
-             so the visual cadence stays consistent across program
-             landing pages. Quick-info panel summarises the three
-             facts a prospective student is most likely to scan for:
-             cohort size, stipend, and partner institutions.
-        ═══════════════════════════════════════════════════════════ -->
+        <!-- Hero. Reuses ml-hero--compact from PTAP so program pages
+             feel like a set. The right-hand panel highlights the three
+             things a prospective student scans for first: stipend,
+             cohort size, partner institutions. -->
         <section class="ml-hero ml-hero--compact">
             <div class="ml-hero__bg">
-                <!-- caps.jpg evokes graduation / scholarship which is the right
-                     emotional anchor for this page, visitors should feel
-                     "this is for me, a future MS student" the moment they land. -->
+                <!-- caps.jpg lands the "future graduate" feel from the first
+                     scroll. Swap with care if the photo ever changes. -->
                 <img src="Images/caps.jpg"
                     alt="NAU graduation caps for Master's scholarship cohort">
             </div>
@@ -65,16 +61,14 @@
                                 research backed by Intel and SRC.
                             </p>
                             <div class="ml-hero__actions">
-                                <!-- Register Here is the page's primary action; the form it links to
-                                     will be wired in once the registration endpoint is ready. -->
+                                <!-- Primary action — anchors to the registration form below. -->
                                 <a href="#register" class="btn btn-primary">Apply for the Scholarship</a>
                                 <a href="degree-programs.html" class="btn btn-outline">Explore NAU Degrees</a>
                             </div>
                         </div>
 
-                        <!-- What's in it for the student, the three facts a
-                             prospective MS applicant cares about most: the funding,
-                             the seat in the cohort, and the research access at NAU. -->
+                        <!-- The three facts a prospective applicant cares
+                             about most: funding, cohort seat, research access. -->
                         <div class="ml-hero__panel">
                             <div class="ml-hero__panel-label">What You Get</div>
 
@@ -131,12 +125,8 @@
         </section>
 
 
-        <!-- ═══════════════════════════════════════════════════════════
-             §2  PARTNERSHIP STRIP
-             Single-row collaborator strip matching the PTAP pattern.
-             NAU is the site owner elsewhere on the page; this band
-             focuses only on external program collaborators.
-        ═══════════════════════════════════════════════════════════ -->
+        <!-- Partner logos. NAU is implicit on every other section,
+             so this strip only carries the external collaborators. -->
         <div class="intel-partners">
             <div class="container">
                 <div class="intel-partners__inner">
@@ -153,13 +143,9 @@
         </div>
 
 
-        <!-- ═══════════════════════════════════════════════════════════
-             §3  PROGRAM OVERVIEW
-             The narrative section. Two short paragraphs explaining
-             who runs the program, what students do, and why the two
-             institutions complement each other. Sourced from the
-             approved News.html / news.js article copy.
-        ═══════════════════════════════════════════════════════════ -->
+        <!-- Program overview. Two paragraphs of who-runs-it / what-you-do.
+             Copy is in lockstep with the News.html article — keep them
+             in sync if either changes. -->
         <section class="intel-overview">
             <div class="container">
                 <div class="intel-overview__grid intel-reveal">
@@ -211,13 +197,8 @@
         </section>
 
 
-        <!-- ═══════════════════════════════════════════════════════════
-             §4  BENTO GRID: Program Highlights
-             Editorial showcase of the program's selling points: the
-             funding number, the cohort split, the cross-campus access,
-             and the four research pillars. Two "stat" cards anchor
-             the row rhythm with a watermark number behind them.
-        ═══════════════════════════════════════════════════════════ -->
+        <!-- Bento grid of program highlights. Two stat cards anchor the
+             rhythm; the four others carry the "why this program" pitch. -->
         <section class="intel-bento">
             <div class="container">
                 <div class="intel-bento__header intel-reveal">
@@ -309,14 +290,9 @@
         </section>
 
 
-        <!-- ═══════════════════════════════════════════════════════════
-             §5  FOCUS AREAS
-             The four training pillars from the program roadmap, each
-             with a one-line description of the kind of work scholars
-             actually do. Mirrors PTAP's "What You'll Learn" rhythm
-             but uses titled rows because each pillar is a research
-             area, not a single course title.
-        ═══════════════════════════════════════════════════════════ -->
+        <!-- Research pillars. Four numbered rows describing what
+             scholars actually work on. Same rhythm as PTAP but uses
+             titled rows because each pillar is an area, not a course. -->
         <section class="intel-focus">
             <div class="container">
                 <div class="intel-focus__grid intel-reveal">
@@ -390,16 +366,9 @@
         </section>
 
 
-        <!-- ═══════════════════════════════════════════════════════════
-             §5b  ELIGIBILITY & PROGRAM DETAILS
-             The 'am I eligible?' gate-check. Three scannable cards
-             cover Who Can Apply, What's Covered, and Timeline so a
-             prospective applicant can self-assess fit in roughly
-             30 seconds before deciding whether to apply or come back
-             later. Sits intentionally just above the pathway, by
-             this point the visitor knows what the program is and
-             needs to decide whether to keep going.
-        ═══════════════════════════════════════════════════════════ -->
+        <!-- "Am I eligible?" gate-check. Three cards (who / what / when)
+             so a visitor can self-assess in ~30 seconds before scrolling
+             into the form. -->
         <section class="intel-eligibility" id="details">
             <div class="container">
                 <div class="intel-eligibility__header intel-reveal">
@@ -413,9 +382,7 @@
 
                 <div class="intel-eligibility__grid intel-reveal">
 
-                    <!-- Card 1: Who can apply. The fastest gate-check: degree,
-                         major, citizenship status. Listed as direct yes/no items
-                         so a visitor can mentally tick them off. -->
+                    <!-- Card 1: who. Direct yes/no items so visitors can tick them off. -->
                     <div class="intel-eligibility__card">
                         <div class="intel-eligibility__icon">
                             <i class="fas fa-user-check"></i>
@@ -438,8 +405,7 @@
                         </ul>
                     </div>
 
-                    <!-- Card 2: What's covered. Money + access; the "why this
-                         scholarship is worth applying for" pitch in list form. -->
+                    <!-- Card 2: what. Money + access — the "why this is worth it" pitch. -->
                     <div class="intel-eligibility__card">
                         <div class="intel-eligibility__icon">
                             <i class="fas fa-hand-holding-usd"></i>
@@ -463,9 +429,7 @@
                         </ul>
                     </div>
 
-                    <!-- Card 3: Timeline. Tells visitors when the program runs and
-                         what the expected commitments look like, so they can plan
-                         their MS calendar around it. -->
+                    <!-- Card 3: when. Cohort entry windows + ongoing commitments. -->
                     <div class="intel-eligibility__card">
                         <div class="intel-eligibility__icon">
                             <i class="fas fa-calendar-alt"></i>
@@ -501,16 +465,10 @@
         </section>
 
 
-        <!-- ═══════════════════════════════════════════════════════════
-             §6  REGISTER YOUR INTEREST
-             Static (non-collapsing) registration form. Mirrors the
-             field shape of the contact form on Contact_Us.html so the
-             validation primitives in JS/validation.js and the server
-             rules in includes/validation.php apply unchanged. Posts
-             to IntelScholarshipSubmission.php, which sends the lab
-             notification + user confirmation pair using the same
-             NAU-branded template as FormSubmission.php.
-        ═══════════════════════════════════════════════════════════ -->
+        <!-- Registration form. Always visible (no collapse). Field shape
+             mirrors Contact_Us so the shared MPCT.Validation rules apply
+             unchanged. Posts to IntelScholarshipSubmission.php, which
+             sends the lab notification + user confirmation. -->
         <section class="intel-register" id="register">
             <div class="container">
                 <div class="intel-register__header intel-reveal">
@@ -524,9 +482,8 @@
                 <div class="intel-register__card intel-reveal">
                     <form id="scholarshipForm" novalidate autocomplete="on">
 
-                        <!-- Personal — name + contact. Same shape as Contact_Us so the
-                             shared validation rules in MPCT.Validation can be reused
-                             without page-specific overrides. -->
+                        <!-- Name + contact. Same shape as Contact_Us so
+                             MPCT.Validation works without page overrides. -->
                         <div class="intel-register__group">
                             <h3 class="intel-register__group-title">About You</h3>
                             <div class="grid grid-2 gap-lg">
@@ -554,13 +511,11 @@
                             </div>
                         </div>
 
-                        <!-- Academic — institution, major, and degree level. Major is
-                             a free-text field (not a select) because the program
-                             coordinator wants to see exactly how the applicant names
-                             their program — "Optical Sciences", "ECE", "EECS", etc.
-                             rather than forcing them into a fixed list. Capped at
-                             50 characters on both sides for parity with the email
-                             field. -->
+                        <!-- Major is free text on purpose — applicants spell
+                             their program differently across schools (EECS,
+                             Optical Sciences, ECE, etc.) and the coordinator
+                             wants to see how they name it. 50-char cap matches
+                             the email field. -->
                         <div class="intel-register__group">
                             <h3 class="intel-register__group-title">Academic Background</h3>
                             <div class="grid grid-2 gap-lg">
@@ -590,9 +545,8 @@
                             </div>
                         </div>
 
-                        <!-- Cohort timing. Three cohort entry windows (per the program
-                             roadmap) plus the onboard / incoming distinction the
-                             coordinator needs to route the lead to the right pipeline. -->
+                        <!-- Cohort timing. Entry window + onboard/incoming
+                             tells the coordinator which pipeline to route to. -->
                         <div class="intel-register__group">
                             <h3 class="intel-register__group-title">Cohort &amp; Timing</h3>
                             <div class="grid grid-2 gap-lg">
@@ -616,8 +570,7 @@
                             </div>
                         </div>
 
-                        <!-- Free-text notes. Capped at 500 words so the server-side
-                             enforceWordLimit() check matches the contact form. -->
+                        <!-- 500-word cap matches enforceWordLimit() server-side. -->
                         <div class="intel-register__group">
                             <h3 class="intel-register__group-title">Anything Else We Should Know?</h3>
                             <label class="block font-bold mb-1" for="reg_notes">Notes</label>
@@ -626,8 +579,8 @@
                                 maxlength="2500" data-max-words="500"></textarea>
                         </div>
 
-                        <!-- Feedback strip — reused class so it picks up the same
-                             success/error styling as the contact and booking forms. -->
+                        <!-- Reuses bk-feedback so the success/error styling
+                             matches the contact + booking forms. -->
                         <div id="formFeedback" class="bk-feedback" role="alert"></div>
 
                         <div class="intel-register__actions">
@@ -645,14 +598,9 @@
         </section>
 
 
-        <!-- ═══════════════════════════════════════════════════════════
-             §7  CTA: Closing nudge
-             The registration form (§6) is the actual conversion point;
-             this band is the last-chance scroll target for visitors who
-             skimmed past it. Primary action jumps back to the in-page
-             form (#register), secondary opens the contact router for
-             faculty conversations that aren't ready to register.
-        ═══════════════════════════════════════════════════════════ -->
+        <!-- Closing nudge for visitors who scrolled past the form.
+             Primary CTA jumps back up to #register; secondary routes
+             to Contact_Us for faculty conversations. -->
         <section class="intel-cta">
             <div class="container">
                 <div class="intel-cta__inner intel-reveal">
@@ -665,9 +613,6 @@
                         and your next steps, usually within a week.
                     </p>
                     <div class="intel-cta__actions">
-                        <!-- Primary CTA scrolls to the in-page registration form
-                             (#register). Secondary stays on Contact_Us for visitors
-                             who want a faculty conversation before committing. -->
                         <a href="#register" class="btn--cta-blue">Register My Interest</a>
                         <a href="Contact_Us.html?category=research" class="btn--cta-outline">Talk to NAU Faculty</a>
                     </div>
@@ -682,17 +627,10 @@
     <script src="JS/layout.js"></script>
     <script src="JS/validation.js"></script>
     <script>
-        /* ───────────────────────────────────────────────────────────
-           Scholar registration form wiring.
-           Page-scoped because no other page on the site posts the
-           same shape (institution + intended major + degree interest
-           + cohort term + onboarding status). All the underlying
-           rule primitives — emoji, mashing, name, email — come from
-           MPCT.Validation so the regexes stay byte-for-byte identical
-           to includes/validation.php on the server side.
-           Phone formatter and word counter are tiny enough to live
-           inline rather than pulling in JS/script.js (which carries
-           a lot of unrelated homepage / contact-page logic). */
+        // Scholar registration form wiring. Page-scoped because no
+        // other form on the site has this field shape. The actual
+        // regex rules live in MPCT.Validation so the browser checks
+        // and the PHP checks stay aligned.
         (function () {
             var form = document.getElementById('scholarshipForm');
             if (!form) return;
@@ -702,11 +640,9 @@
             var feedbackEl = document.getElementById('formFeedback');
             var submitBtn  = document.getElementById('submitBtn');
 
-            /* ── Phone mask. Same (XXX) XXX-XXXX shape as the contact
-                  form's contactFormatUsPhone() so the server-side
-                  validatePhoneFormat() rule (≤ 25 chars, digits + the
-                  usual punctuation) accepts the output without
-                  needing a special case. */
+            // (XXX) XXX-XXXX mask. Matches what the contact form
+            // produces, so validatePhoneFormat() on the server accepts
+            // it without a special case.
             function formatPhone(value, isDelete) {
                 var digits = (value || '').replace(/\D/g, '').slice(0, 10);
                 if (!digits) return '';
@@ -728,10 +664,9 @@
                 });
             }
 
-            /* ── Word counter for the notes textarea. Mirrors the
-                  contact-form counter: grey under the limit, gold near
-                  the limit, red over. Server enforces the same 500-word
-                  cap via enforceWordLimit('notes', 500, ...). */
+            // Notes word counter. Grey under the limit, gold within 50
+            // of the cap, red when over. Server enforces the same cap
+            // via enforceWordLimit('notes', 500, ...).
             var notesEl = form.querySelector('textarea[data-max-words]');
             if (notesEl) {
                 var maxWords = parseInt(notesEl.dataset.maxWords, 10);
@@ -763,17 +698,12 @@
                 refresh();
             }
 
-            /* ── Character-limit hint for every input that carries a
-                  maxlength. Browsers silently stop accepting input
-                  past maxlength, which feels broken — surface the
-                  remaining count when the user is within 5 characters
-                  of the limit, then a "Limit reached" message at 0.
-                  Same pattern as ServiceRequest.html so the user
-                  experience matches across forms. We exclude type=tel
-                  (phone mask manages its own length) and type=number
-                  (browsers ignore maxlength on numbers anyway).
-                  textarea[data-max-words] already has the dedicated
-                  word counter below, so skip those too. */
+            // Surface remaining characters when an input gets within
+            // 5 of its maxlength, then "Limit reached" at zero — without
+            // this hint, the silent-swallow at the cap feels like the
+            // form is broken. Skip tel (phone mask owns its length),
+            // number (browsers ignore maxlength on those), and the
+            // notes textarea (already has the word counter below).
             form.querySelectorAll('input[maxlength]:not([type="tel"]):not([type="number"]), textarea[maxlength]:not([data-max-words])').forEach(function (input) {
                 var max  = parseInt(input.maxLength, 10);
                 if (!max || isNaN(max)) return;
@@ -801,9 +731,9 @@
                 });
             });
 
-            /* ── Inline name-field hints. Surface the emoji /
-                  special-character problems before the user hits
-                  Submit, same pattern as the contact form. */
+            // Inline hint on name fields — flag emoji and digits/symbols
+            // as the user types, so they don't have to hit Submit to find
+            // out their name was rejected.
             form.querySelectorAll('input[data-name-field]').forEach(function (input) {
                 var hint = document.createElement('span');
                 hint.style.cssText =
@@ -823,15 +753,11 @@
                 });
             });
 
-            /* ── Feedback strip. Errors hide after 8 s, success after
-                  10 s. Mirrors the priority + auto-dismiss pattern in
-                  ServiceRequest.html so a stale success message can
-                  never block a fresh error from appearing, and so a
-                  PHP-returned message can override the JS one
-                  cleanly. The stored _msgPriority lets a higher
-                  priority message replace a lower one even while it
-                  is still showing; lower-priority messages are
-                  ignored until the active one auto-dismisses. */
+            // Feedback strip. Priority + auto-dismiss pattern from
+            // ServiceRequest: server messages (priority 2) always
+            // beat client validation (priority 1), and the dismiss
+            // timer only clears the strip if no higher message has
+            // taken over since. Errors clear at 8 s, success at 10 s.
             var FEEDBACK_DISMISS_MS = { error: 8000, success: 10000 };
             var FEEDBACK_PRIORITY   = { client: 1, server: 2 };
 
@@ -839,9 +765,8 @@
                 if (!feedbackEl) return;
                 priority = priority || FEEDBACK_PRIORITY.client;
 
-                /* Empty html means tear the strip down — used to clear
-                   client-side errors right before the POST so the
-                   server response lands on a clean slate. */
+                // Empty html clears the strip — handy right before the
+                // POST so the server response lands on a clean slate.
                 if (!html) {
                     clearTimeout(feedbackEl._dismissTimer);
                     feedbackEl.style.display = 'none';
@@ -867,9 +792,9 @@
                     ? FEEDBACK_DISMISS_MS.success
                     : FEEDBACK_DISMISS_MS.error;
                 feedbackEl._dismissTimer = setTimeout(function () {
-                    /* Only clear if no higher-priority message replaced
-                       us in the meantime — guards against the timer
-                       firing after a different message has taken over. */
+                    // Only clear if nothing of higher priority replaced
+                    // us in the meantime — keeps the timer from blanking
+                    // a fresh error.
                     if (feedbackEl._msgPriority === priority) {
                         feedbackEl.style.display = 'none';
                         feedbackEl.className     = 'bk-feedback';
@@ -879,22 +804,17 @@
                 }, ms);
             }
 
-            /* ── Submit-time validation. Builds an [{el,label}] list
-                  of failures, outlines each one, and refuses to POST
-                  if anything is invalid. Page-specific rules layered
-                  on top of MPCT.Validation primitives:
-                    · degree_interest radio must be picked
-                    · target_term + enrollment_status must be chosen
-                    · phone is required (program coordinator follow-up
-                      is a phone call, not just email). */
+            // Submit-time validation. Builds a list of {el, label} for
+            // every failing field, outlines each, and blocks the POST.
+            // Layers a few page-specific rules on top of MPCT.Validation:
+            // degree_interest radio must be picked, target_term and
+            // enrollment_status must be chosen, phone is required.
             function labelOf(el) {
                 if (el.type === 'radio') {
-                    /* Radios live inside a wrapping <label> with no for=,
-                       and their group also contains earlier label.required
-                       elements (Current Institution, Intended Major).
-                       querySelector would return the FIRST one, mis-naming
-                       the field, so we hard-map known radio groups to their
-                       human label instead of guessing from siblings. */
+                    // Radios sit inside a wrapping <label> with no for=,
+                    // and the group also contains earlier label.required
+                    // elements. Hard-map known radio groups so the error
+                    // message names the right field.
                     if (el.name === 'degree_interest') return 'Degree Interest';
                     return el.name || 'Field';
                 }
@@ -918,20 +838,18 @@
                     invalid.push({ el: el, label: reason ? labelOf(el) + ' (' + reason + ')' : labelOf(el) });
                 };
 
-                /* Required fields including hidden-by-design radio group. */
+                // Required fields. Radios go through the dedicated
+                // block below since their inputs are visually hidden.
                 form.querySelectorAll('[required]').forEach(function (el) {
-                    if (el.type === 'radio') return; // handled below
+                    if (el.type === 'radio') return;
                     var v = (el.value || '').trim();
                     if (!v) mark(el);
                 });
 
-                /* Radio: at least one must be checked. The radio inputs
-                   are visually hidden (opacity:0; pointer-events:none),
-                   so a regular V.markInvalid on the input shows nothing.
-                   Outline the visible .intel-register__radio-row container
-                   instead so the user actually sees which cluster is
-                   wrong. Clear the outline once any radio in the group
-                   is checked. */
+                // Radio group: outline the visible .intel-register__radio-row
+                // because the inputs themselves have opacity:0 and won't
+                // show an outline. Clear the outline once any radio in
+                // the group gets checked.
                 var radios = form.querySelectorAll('input[name="degree_interest"]');
                 var picked = Array.prototype.some.call(radios, function (r) { return r.checked; });
                 if (!picked && radios.length) {
@@ -953,11 +871,11 @@
                     }
                 }
 
-                /* Email shape. */
+                // Email shape.
                 var emailEl = form.querySelector('input[type="email"]');
                 if (emailEl && !V.isEmail(emailEl.value)) mark(emailEl, 'invalid email');
 
-                /* Name fields: emoji / non-letter rejection. */
+                // Name fields: emoji and non-letter rejection.
                 form.querySelectorAll('input[data-name-field]').forEach(function (el) {
                     var v = (el.value || '').trim();
                     if (!v) return;
@@ -965,7 +883,7 @@
                     else if (!V.isValidName(v)) mark(el, 'letters, spaces, hyphens, apostrophes only');
                 });
 
-                /* Free-text fields: emoji + mashing. */
+                // Free-text inputs and textareas: emoji + keyboard mashing.
                 form.querySelectorAll('input[type="text"]:not([data-name-field]), textarea').forEach(function (el) {
                     var v = (el.value || '').trim();
                     if (!v) return;
@@ -973,7 +891,7 @@
                     else if (V.hasMashing(v)) mark(el, 'remove repeated characters');
                 });
 
-                /* Notes word cap. */
+                // Notes word cap.
                 if (notesEl) {
                     var v = (notesEl.value || '').trim();
                     if (v && V.wordCount(v) > parseInt(notesEl.dataset.maxWords, 10)) {
@@ -981,9 +899,8 @@
                     }
                 }
 
-                /* Phone shape. Required on this form (coordinator
-                   typically calls), but we still let validatePhoneFormat
-                   on the server do the final shape check. */
+                // Phone needs at least 7 digits to be plausible. Server
+                // does the final shape check via validatePhoneFormat.
                 if (phoneEl) {
                     var pv = (phoneEl.value || '').trim();
                     if (pv && pv.replace(/\D/g, '').length < 7) {
@@ -997,7 +914,7 @@
             form.addEventListener('submit', async function (e) {
                 e.preventDefault();
 
-                /* Wipe previous outlines before we re-evaluate. */
+                // Wipe stale outlines from a previous failed submit.
                 form.querySelectorAll('[style*="outline"]').forEach(function (el) {
                     el.style.outline       = '';
                     el.style.outlineOffset = '';
@@ -1031,16 +948,12 @@
                             'Your registration was submitted. Watch your inbox for a confirmation.',
                             'success', FEEDBACK_PRIORITY.server);
                         form.reset();
-                        /* form.reset() clears values but does NOT fire
-                           'input' events. Every hint we attached above
-                           (word counter, maxlength counter, name-field
-                           emoji/special-char hint) listens on 'input',
-                           so without this fan-out a stale "Limit reached"
-                           or "Emoji are not allowed" message would sit
-                           under an already-empty field. Fan a synthetic
-                           'input' event across every hinted control to
-                           force each listener to recompute against the
-                           now-empty value. */
+                        // form.reset() clears values but doesn't fire
+                        // 'input', so every hint listening on that event
+                        // (word counter, maxlength counter, name-field
+                        // hint) would still show stale text under empty
+                        // inputs. Dispatch a synthetic 'input' to refresh
+                        // each one against the now-empty value.
                         form.querySelectorAll(
                             'textarea[data-max-words], ' +
                             'input[maxlength]:not([type="tel"]):not([type="number"]), ' +
@@ -1070,11 +983,9 @@
     </script>
 
     <script>
-        /* Scroll reveal, same pattern as PTAP.html. We watch every
-           .intel-reveal element with a single IntersectionObserver,
-           toggle the .is-visible class once, then disconnect that
-           target. Threshold and rootMargin match PTAP so the timing
-           feels uniform across program pages. */
+        // Scroll reveal — one IntersectionObserver toggles .is-visible
+        // on each .intel-reveal once, then unobserves. Threshold and
+        // rootMargin match PTAP so timing feels uniform across pages.
         (function () {
             var els = document.querySelectorAll('.intel-reveal');
             if (!els.length) return;

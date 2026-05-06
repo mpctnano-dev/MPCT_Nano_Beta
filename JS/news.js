@@ -96,7 +96,7 @@ const ARTICLES = [
         cta: {
             text: 'Could you be one of the next NAU Intel-SRC Scholars?',
             label: 'Apply for the Scholarship',
-            href: 'Intel_CHIPS_MSc.html'
+            href: 'CHIPS_Scholars_Program.html'
         },
         gallery: [
             {
