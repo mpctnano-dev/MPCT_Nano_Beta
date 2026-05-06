@@ -1208,56 +1208,47 @@
     margin: 0;
 }
 
-/* The card. White background, soft shadow, gold accent rail
-   along the top so the form reads as a deliberate panel rather
-   than a loose stack of inputs. */
+/* The outer card. White background, soft shadow, no top accent
+   rail — the inner section cards carry the visual weight now,
+   and the rail was duplicating that emphasis. */
 .intel-register__card {
     background: #ffffff;
     border: 1px solid var(--gray-200, #e9ecef);
     border-radius: 14px;
-    padding: 36px 40px 32px;
+    padding: 28px;
     max-width: 920px;
     margin: 0 auto;
     box-shadow: 0 12px 32px rgba(0, 36, 84, 0.08);
-    position: relative;
-    overflow: hidden;
 }
 
-.intel-register__card::before {
-    content: "";
-    position: absolute;
-    inset: 0 0 auto 0;
-    height: 4px;
-    background: linear-gradient(90deg, var(--nau-blue), var(--nau-gold));
+/* Field groupings. Each group reads as its own mini-section
+   matching the ServiceRequest .sr-section pattern: white card
+   on the parent card, soft border, gold-underlined title.
+   The previous dash-glyph before the title was visual noise
+   once the underline carries the same accent. */
+.intel-register__group {
+    background: #ffffff;
+    border: 1px solid var(--gray-200, #e9ecef);
+    border-radius: 12px;
+    padding: 22px 24px 24px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
-/* Field groupings. Each group gets a small uppercase header so
-   the form scans in three blocks (about you / academic / cohort)
-   rather than as one long list. */
 .intel-register__group + .intel-register__group {
-    margin-top: 28px;
-    padding-top: 24px;
-    border-top: 1px dashed var(--gray-200, #e9ecef);
+    margin-top: 20px;
 }
 
 .intel-register__group-title {
-    font-size: 0.82rem;
+    font-size: 1.05rem;
     font-weight: 700;
     color: var(--nau-blue);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin: 0 0 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.intel-register__group-title::before {
-    content: "";
-    width: 18px;
-    height: 2px;
-    background: var(--nau-gold);
-    border-radius: 2px;
+    margin: 0 0 18px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--nau-gold);
+    display: inline-block;
+    width: max-content;
+    max-width: 100%;
+    line-height: 1.2;
 }
 
 /* Radio cluster used for the MS/PhD choice. Pill-style buttons
@@ -1352,8 +1343,11 @@
         padding: 56px 0 72px;
     }
     .intel-register__card {
-        padding: 26px 20px 24px;
+        padding: 18px;
         border-radius: 10px;
+    }
+    .intel-register__group {
+        padding: 18px 16px 20px;
     }
     .intel-register__actions {
         flex-direction: column;
