@@ -764,6 +764,44 @@
                 refresh();
             }
 
+            /* ── Character-limit hint for every input that carries a
+                  maxlength. Browsers silently stop accepting input
+                  past maxlength, which feels broken — surface the
+                  remaining count when the user is within 5 characters
+                  of the limit, then a "Limit reached" message at 0.
+                  Same pattern as ServiceRequest.html so the user
+                  experience matches across forms. We exclude type=tel
+                  (phone mask manages its own length) and type=number
+                  (browsers ignore maxlength on numbers anyway).
+                  textarea[data-max-words] already has the dedicated
+                  word counter below, so skip those too. */
+            form.querySelectorAll('input[maxlength]:not([type="tel"]):not([type="number"]), textarea[maxlength]:not([data-max-words])').forEach(function (input) {
+                var max  = parseInt(input.maxLength, 10);
+                if (!max || isNaN(max)) return;
+                var hint = document.createElement('span');
+                hint.style.cssText =
+                    'display:none; font-size:0.78rem; margin-top:3px; transition:color 0.2s;';
+                input.parentNode.insertBefore(hint, input.nextSibling);
+                input.addEventListener('input', function () {
+                    var len       = input.value.length;
+                    var remaining = max - len;
+                    if (remaining <= 0) {
+                        hint.textContent       = 'Limit reached (' + max + ' characters max)';
+                        hint.style.color       = 'var(--nau-red, #c0392b)';
+                        hint.style.fontWeight  = '600';
+                        hint.style.display     = 'block';
+                    } else if (remaining <= 5) {
+                        hint.textContent       = remaining + ' character' +
+                            (remaining !== 1 ? 's' : '') + ' remaining';
+                        hint.style.color       = 'var(--nau-gold, #e6a817)';
+                        hint.style.fontWeight  = '400';
+                        hint.style.display     = 'block';
+                    } else {
+                        hint.style.display     = 'none';
+                    }
+                });
+            });
+
             /* ── Inline name-field hints. Surface the emoji /
                   special-character problems before the user hits
                   Submit, same pattern as the contact form. */
