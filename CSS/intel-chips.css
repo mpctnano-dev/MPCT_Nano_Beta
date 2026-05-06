@@ -657,15 +657,18 @@
     overflow: hidden;
 }
 
+/* The watermark is intentionally NAU-themed ('SCHOLARS') rather than
+   the funder name. This page is selling an NAU credential — the
+   oversized backdrop word should reinforce that, not promote Intel. */
 .intel-cta::before {
-    content: 'INTEL';
+    content: 'SCHOLARS';
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-family: var(--font-display);
     font-weight: 900;
-    font-size: 22vw;
+    font-size: 18vw;
     color: rgba(0, 36, 84, 0.06);
     white-space: nowrap;
     pointer-events: none;
