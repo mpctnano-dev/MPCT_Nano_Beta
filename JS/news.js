@@ -55,7 +55,7 @@ const ARTICLES = [
             },
             {
                 heading: 'Complementary Strengths Across the Alliance',
-                body: 'NAU brings the MPaCT Lab — a 25+ instrument fabrication and metrology facility — alongside new curriculum supported by a $13M Arizona Commerce Authority semiconductor workforce grant and an established TSMC apprenticeship pipeline. As a Hispanic-Serving Institution with approximately 60% first-generation enrollment, NAU reaches underrepresented communities across rural northern Arizona. U of A contributes decades of Intel-aligned photonics expertise through the Wyant College of Optical Sciences and the Center for Semiconductor Manufacturing, which is staffed in part by former Intel engineers and has graduated more than 200 Master\'s and PhD students through SRC-affiliated programs.'
+                body: 'NAU brings the MPaCT Lab, a 35+ instrument fabrication and metrology facility, alongside new curriculum supported by a $13M Arizona Commerce Authority semiconductor workforce grant and an established TSMC apprenticeship pipeline. As a Hispanic-Serving Institution with approximately 60% first-generation enrollment, NAU reaches underrepresented communities across rural northern Arizona. U of A contributes decades of Intel-aligned photonics expertise through the Wyant College of Optical Sciences and the Center for Semiconductor Manufacturing, which is staffed in part by former Intel engineers and has graduated more than 200 Master\'s and PhD students through SRC-affiliated programs.'
             },
             {
                 heading: 'From Lab to Career',
@@ -71,7 +71,7 @@ const ARTICLES = [
                 {
                     period: 'Pillar 1',
                     title: 'Metrology & Inspection',
-                    desc: 'In-fab and near-fab measurement, defect detection, and yield analysis using MPaCT\'s 25+ instrument suite'
+                    desc: 'In-fab and near-fab measurement, defect detection, and yield analysis using MPaCT\'s 35+ instrument suite'
                 },
                 {
                     period: 'Pillar 2',
@@ -107,7 +107,7 @@ const ARTICLES = [
             {
                 src: 'Images/nano_fabrication.jpg',
                 alt: 'MPaCT Lab semiconductor fabrication',
-                caption: 'MPaCT Lab houses 25+ instruments for semiconductor processing and metrology'
+                caption: 'MPaCT Lab houses 35+ instruments for semiconductor processing and metrology'
             }
         ]
     },
