@@ -474,6 +474,26 @@
     <div id="site-footer"></div>
 
     <script src="JS/layout.js"></script>
+    <script>
+        /* Scroll reveal — same pattern as PTAP.html. We watch every
+           .intel-reveal element with a single IntersectionObserver,
+           toggle the .is-visible class once, then disconnect that
+           target. Threshold and rootMargin match PTAP so the timing
+           feels uniform across program pages. */
+        (function () {
+            var els = document.querySelectorAll('.intel-reveal');
+            if (!els.length) return;
+            var io = new IntersectionObserver(function (entries) {
+                entries.forEach(function (e) {
+                    if (e.isIntersecting) {
+                        e.target.classList.add('is-visible');
+                        io.unobserve(e.target);
+                    }
+                });
+            }, { threshold: 0.10, rootMargin: '0px 0px -36px 0px' });
+            els.forEach(function (el) { io.observe(el); });
+        })();
+    </script>
 
 </body>
 
