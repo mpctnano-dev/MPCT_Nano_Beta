@@ -825,26 +825,59 @@
             });
 
             /* ── Feedback strip. Errors hide after 8 s, success after
-                  10 s. Clears any pending timer first so a stale
-                  success can't swallow a fresh error. */
-            function setFeedback(html, kind) {
+                  10 s. Mirrors the priority + auto-dismiss pattern in
+                  ServiceRequest.html so a stale success message can
+                  never block a fresh error from appearing, and so a
+                  PHP-returned message can override the JS one
+                  cleanly. The stored _msgPriority lets a higher
+                  priority message replace a lower one even while it
+                  is still showing; lower-priority messages are
+                  ignored until the active one auto-dismisses. */
+            var FEEDBACK_DISMISS_MS = { error: 8000, success: 10000 };
+            var FEEDBACK_PRIORITY   = { client: 1, server: 2 };
+
+            function setFeedback(html, kind, priority) {
                 if (!feedbackEl) return;
-                clearTimeout(feedbackTimer);
+                priority = priority || FEEDBACK_PRIORITY.client;
+
+                /* Empty html means tear the strip down — used to clear
+                   client-side errors right before the POST so the
+                   server response lands on a clean slate. */
                 if (!html) {
-                    feedbackEl.style.display = 'none';
-                    feedbackEl.className    = 'bk-feedback';
-                    feedbackEl.innerHTML    = '';
-                    return;
-                }
-                feedbackEl.innerHTML  = html;
-                feedbackEl.className  = 'bk-feedback bk-feedback--' + kind;
-                feedbackEl.style.display = 'block';
-                feedbackEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                feedbackTimer = setTimeout(function () {
+                    clearTimeout(feedbackEl._dismissTimer);
                     feedbackEl.style.display = 'none';
                     feedbackEl.className     = 'bk-feedback';
                     feedbackEl.innerHTML     = '';
-                }, kind === 'success' ? 10000 : 8000);
+                    feedbackEl._msgPriority  = 0;
+                    return;
+                }
+
+                var curPriority = feedbackEl._msgPriority || 0;
+                var isVisible   = feedbackEl.style.display !== 'none' &&
+                                  feedbackEl.textContent !== '';
+                if (isVisible && priority < curPriority) return;
+
+                clearTimeout(feedbackEl._dismissTimer);
+                feedbackEl._msgPriority  = priority;
+                feedbackEl.className     = 'bk-feedback bk-feedback--' + kind;
+                feedbackEl.style.display = 'block';
+                feedbackEl.innerHTML     = html;
+                feedbackEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+                var ms = kind === 'success'
+                    ? FEEDBACK_DISMISS_MS.success
+                    : FEEDBACK_DISMISS_MS.error;
+                feedbackEl._dismissTimer = setTimeout(function () {
+                    /* Only clear if no higher-priority message replaced
+                       us in the meantime — guards against the timer
+                       firing after a different message has taken over. */
+                    if (feedbackEl._msgPriority === priority) {
+                        feedbackEl.style.display = 'none';
+                        feedbackEl.className     = 'bk-feedback';
+                        feedbackEl.innerHTML     = '';
+                        feedbackEl._msgPriority  = 0;
+                    }
+                }, ms);
             }
 
             /* ── Submit-time validation. Builds an [{el,label}] list
@@ -971,17 +1004,22 @@
                     if (result.success) {
                         setFeedback(result.message ||
                             'Your registration was submitted. Watch your inbox for a confirmation.',
-                            'success');
+                            'success', FEEDBACK_PRIORITY.server);
                         form.reset();
+                        /* Reset wipes the textarea content, but the word
+                           counter listener fires on 'input' which a reset
+                           does not trigger — refresh manually so the
+                           counter goes back to 0 / 500. */
+                        if (notesEl) notesEl.dispatchEvent(new Event('input'));
                     } else {
                         setFeedback(result.message ||
                             'We could not submit your registration. Please try again.',
-                            'error');
+                            'error', FEEDBACK_PRIORITY.server);
                     }
                 } catch (err) {
                     setFeedback(
                         'Unable to reach the server. Please try again later, or email mpct.nano@nau.edu.',
-                        'error'
+                        'error', FEEDBACK_PRIORITY.server
                     );
                     /* eslint-disable-next-line no-console */
                     console.error('Scholarship form submit failed:', err);
