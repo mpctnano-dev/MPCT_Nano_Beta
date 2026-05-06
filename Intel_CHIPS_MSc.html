@@ -648,29 +648,29 @@
 
 
         <!-- ═══════════════════════════════════════════════════════════
-             §7  CTA: Register Here
-             Anchor target #register matches the hero CTA. The actual
-             registration form (Name, Email, Phone, Current Institution,
-             Intended Major, Degree Interest MS/PhD) will be wired up
-             in a follow-up commit once the endpoint is decided.
+             §7  CTA: Closing nudge
+             The registration form (§6) is the actual conversion point;
+             this band is the last-chance scroll target for visitors who
+             skimmed past it. Primary action jumps back to the in-page
+             form (#register), secondary opens the contact router for
+             faculty conversations that aren't ready to register.
         ═══════════════════════════════════════════════════════════ -->
-        <section class="intel-cta" id="register">
+        <section class="intel-cta">
             <div class="container">
                 <div class="intel-cta__inner intel-reveal">
                     <div class="intel-cta__eyebrow">Applications Open Now</div>
-                    <h2 class="intel-cta__title">Apply to be an NAU Intel-SRC Scholar</h2>
+                    <h2 class="intel-cta__title">Ready to Be an NAU Intel-SRC Scholar?</h2>
                     <p class="intel-cta__desc">
                         Cohort seats are open for Fall 2026, Spring 2027, and Fall 2027
-                        entries. Submit the form below and an NAU program coordinator
-                        will follow up with the full application packet and your next
-                        steps, usually within a week.
+                        entries. Register your interest above and an NAU program
+                        coordinator will follow up with the full application packet
+                        and your next steps, usually within a week.
                     </p>
                     <div class="intel-cta__actions">
-                        <!-- Primary action: 'Apply for the Scholarship'. Final href will
-                             point at the registration form once the endpoint and required
-                             fields (Name, Email, Phone, Institution, Major, MS/PhD) are
-                             confirmed with the coordinator. -->
-                        <a href="Contact_Us.html?category=intel-chips" class="btn--cta-blue">Apply for the Scholarship</a>
+                        <!-- Primary CTA scrolls to the in-page registration form
+                             (#register). Secondary stays on Contact_Us for visitors
+                             who want a faculty conversation before committing. -->
+                        <a href="#register" class="btn--cta-blue">Register My Interest</a>
                         <a href="Contact_Us.html?category=research" class="btn--cta-outline">Talk to NAU Faculty</a>
                     </div>
                 </div>
