@@ -8,6 +8,69 @@
    any collision with the analogous `ptap-*` rules used elsewhere.
    ================================================================ */
 
+/* PAGE-SPECIFIC HERO GUARDS
+   The shared compact hero was built for shorter page titles. This
+   page has longer scholarship copy, so constrain the hero content
+   locally to prevent horizontal overflow on phone widths. */
+.ml-hero__split,
+.ml-hero__split > *,
+.ml-hero__actions,
+.ml-hero__subtitle,
+.ml-hero__title,
+.ml-hero__eyebrow {
+    min-width: 0;
+    max-width: 100%;
+}
+
+@media (max-width: 600px) {
+    .ml-hero--compact {
+        padding: 96px 0 56px;
+    }
+
+    .ml-hero__eyebrow {
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 8px 10px;
+        font-size: 0.64rem;
+        letter-spacing: 1.4px;
+        line-height: 1.45;
+    }
+
+    .ml-hero__eyebrow-line {
+        flex: 0 0 28px;
+        width: 28px;
+        margin-top: 0.55em;
+    }
+
+    .ml-hero--compact .ml-hero__title {
+        font-size: clamp(2.2rem, 10.5vw, 2.85rem);
+        line-height: 1.02;
+        letter-spacing: -0.02em;
+    }
+
+    .ml-hero--compact .ml-hero__subtitle {
+        font-size: 0.95rem;
+        line-height: 1.75;
+        max-width: 100%;
+        overflow-wrap: break-word;
+    }
+
+    .ml-hero__actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        max-width: 280px;
+    }
+
+    .ml-hero__actions .btn {
+        width: 100%;
+        padding: 13px 18px;
+        font-size: 0.95rem;
+        line-height: 1.25;
+        white-space: normal;
+    }
+}
+
 /* ── PARTNERSHIP STRIP ───────────────────────────────────────────
    Quiet white band directly under the hero. Uses the PTAP-style
    single label and one logo row for Intel, SRC, and UofA. */
@@ -65,6 +128,34 @@
     height: 46px;
 }
 
+@media (max-width: 600px) {
+    .intel-partners {
+        padding: 24px 0;
+    }
+
+    .intel-partners__inner {
+        gap: 14px;
+    }
+
+    .intel-partners__logos {
+        gap: 18px;
+        max-width: 100%;
+    }
+
+    .intel-partners__logo {
+        height: 30px;
+    }
+
+    .intel-partners__logo--src {
+        height: 34px;
+        max-width: 140px;
+    }
+
+    .intel-partners__logo--square {
+        height: 34px;
+    }
+}
+
 /* ── PROGRAM OVERVIEW ────────────────────────────────────────────
    Two-column "what is this program" section. Text on the left,
    image with an offset credibility badge on the right. The cream
@@ -79,6 +170,11 @@
     grid-template-columns: 1.1fr 1fr;
     gap: 80px;
     align-items: center;
+    min-width: 0;
+}
+
+.intel-overview__grid > * {
+    min-width: 0;
 }
 
 .intel-overview__eyebrow {
@@ -100,6 +196,7 @@
     color: var(--nau-blue);
     margin-bottom: 24px;
     line-height: 1.15;
+    text-wrap: balance;
 }
 
 .intel-overview__title span {
@@ -115,6 +212,7 @@
 
 .intel-overview__image-col {
     position: relative;
+    min-width: 0;
 }
 
 .intel-overview__image-frame {
@@ -158,6 +256,33 @@
 
     .intel-overview__image-col {
         order: -1;
+    }
+}
+
+@media (max-width: 600px) {
+    .intel-overview {
+        padding: 72px 0;
+    }
+
+    .intel-overview__grid {
+        gap: 36px;
+    }
+
+    .intel-overview__image-frame {
+        border-radius: 12px;
+    }
+
+    .intel-overview__badge {
+        position: relative;
+        right: auto;
+        bottom: auto;
+        width: calc(100% - 32px);
+        max-width: calc(100% - 32px);
+        margin: -16px auto 0;
+        padding: 10px 16px;
+        font-size: 0.75rem;
+        justify-content: center;
+        text-align: center;
     }
 }
 
@@ -260,6 +385,7 @@
     gap: 20px;
     position: relative;
     z-index: 1;
+    min-width: 0;
 }
 
 .intel-bento__card {
@@ -286,10 +412,14 @@
     transform: translateY(-3px);
 }
 
-.intel-bento__card--wide   { grid-column: span 8; }
-.intel-bento__card--narrow { grid-column: span 4; }
+.intel-bento__card--wide   { grid-column: span 8; min-height: 232px; }
+.intel-bento__card--narrow { grid-column: span 4; min-height: 232px; }
 .intel-bento__card--half   { grid-column: span 6; }
-.intel-bento__card--third  { grid-column: span 4; }
+.intel-bento__card--third  { grid-column: span 4; min-height: 218px; }
+
+.intel-bento__card--featured {
+    justify-content: center;
+}
 
 .intel-bento__stat {
     font-family: var(--font-display);
@@ -378,11 +508,11 @@
 }
 
 .intel-bento__card--wide p {
-    max-width: min(100%, 68ch);
+    max-width: min(100%, 72ch);
 }
 
 .intel-bento__card--wide h3 {
-    max-width: min(100%, 42ch);
+    max-width: min(100%, 46ch);
 }
 
 .intel-bento__card--featured .intel-bento__stat {
@@ -417,6 +547,81 @@
     .intel-bento__card--wide {
         grid-column: span 2;
     }
+
+    .intel-bento__card--wide p,
+    .intel-bento__card--wide h3 {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .intel-bento,
+    .intel-focus,
+    .intel-eligibility,
+    .intel-pathway {
+        padding: 72px 0;
+    }
+
+    .intel-bento__header,
+    .intel-eligibility__header,
+    .intel-pathway__header {
+        text-align: left;
+        margin-bottom: 40px;
+    }
+
+    .intel-bento__sub,
+    .intel-eligibility__sub,
+    .intel-pathway__sub {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .intel-bento__grid,
+    .intel-eligibility__grid {
+        gap: 16px;
+    }
+
+    .intel-bento__card,
+    .intel-eligibility__card {
+        padding: 28px 24px;
+    }
+
+    .intel-bento__card--wide,
+    .intel-bento__card--narrow,
+    .intel-bento__card--third {
+        min-height: 0;
+    }
+
+    .intel-bento__watermark {
+        right: 12px;
+        font-size: 5.5rem;
+    }
+
+    .intel-focus__image-frame {
+        aspect-ratio: 4 / 3;
+        flex: none;
+    }
+
+    .intel-pathway__step {
+        display: grid;
+        grid-template-columns: 44px minmax(0, 1fr);
+        column-gap: 16px;
+        text-align: left;
+    }
+
+    .intel-pathway__step-num {
+        grid-row: span 2;
+        margin: 0;
+    }
+
+    .intel-pathway__step h3 {
+        margin-bottom: 6px;
+    }
+
+    .intel-pathway__step p {
+        max-width: none;
+        margin: 0;
+    }
 }
 
 @media (max-width: 600px) {
@@ -426,6 +631,18 @@
 
     .intel-bento__card--wide {
         grid-column: span 1;
+    }
+
+    .intel-bento__title,
+    .intel-focus__title,
+    .intel-eligibility__title,
+    .intel-pathway__title {
+        font-size: clamp(1.8rem, 9vw, 2.25rem);
+    }
+
+    .intel-bento__card h3,
+    .intel-bento__card p {
+        max-width: 100%;
     }
 }
 
@@ -444,6 +661,7 @@
     grid-template-columns: 1fr 1.15fr;
     gap: 80px;
     align-items: stretch;
+    min-width: 0;
 }
 
 .intel-focus__eyebrow {
@@ -532,6 +750,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    min-width: 0;
 }
 
 .intel-focus__image-frame {
