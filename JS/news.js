@@ -90,10 +90,13 @@ const ARTICLES = [
                 }
             ]
         },
+        // Article CTA points readers at the dedicated scholarship page so a
+        // prospective MS applicant landing on the news article can move
+        // straight into the eligibility / details / register flow.
         cta: {
-            text: 'Interested in graduate programs at NAU\'s Steve Sanghi College of Engineering?',
-            label: 'Explore Degree Programs',
-            href: 'degree-programs.html'
+            text: 'Could you be one of the next NAU Intel Scholars?',
+            label: 'Apply for the Scholarship',
+            href: 'Intel_CHIPS_MSc.html'
         },
         gallery: [
             {
