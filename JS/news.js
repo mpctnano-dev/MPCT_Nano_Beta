@@ -27,7 +27,7 @@ const EQUIPMENT_LINKS = {
 const ARTICLES = [
     {
         id: 'intel-chips-scholarship-2026',
-        title: 'Intel CHIPS Scholarship Supports Master\'s Students at NAU and University of Arizona',
+        title: 'Intel-SRC CHIPS Scholarship Supports Master\'s Students at NAU and University of Arizona',
         tagLabel: 'Partnership',
         date: '2026-04-27',
         readTime: '4 min read',
@@ -35,27 +35,27 @@ const ARTICLES = [
         // Replace with a real semiconductor/lab photo
   
         heroImage: 'Images/Intel_News_Thumbnail.png',
-        heroAlt: 'Intel and NAU Partnership Banner',
+        heroAlt: 'Intel, SRC, and NAU Partnership Banner',
         statusBadge: 'Scholarship Program',
 
         // Three headline statistics that scan quickly at the top of the reader view.
         stats: [
             { value: '12', label: 'Master\'s Scholars' },
             { value: 'AY 26–27', label: 'Cohort Start' },
-            { value: 'NAU + U of A', label: 'Partner Institutions' }
+            { value: 'Intel + SRC + U of A', label: 'Program Partners' }
         ],
         sections: [
             {
                 heading: 'A Major Step for Arizona Semiconductor Workforce Development',
-                body: 'Northern Arizona University\'s Steve Sanghi College of Engineering (SCE), in collaboration with the University of Arizona (U of A), has been selected by Intel and the Semiconductor Research Corporation (SRC) to host a 12-student Master\'s Scholarship cohort under the Intel CHIPS Scholarship & Fellowship Program. The cohort will launch in Academic Year 2026–27, training the next generation of engineers for Arizona\'s growing semiconductor industry — including Intel\'s advanced manufacturing and Research and Development operations.'
+                body: 'Northern Arizona University\'s Steve Sanghi College of Engineering (SCE), in collaboration with the University of Arizona (U of A), has been selected by Intel and the Semiconductor Research Corporation (SRC) to host a 12-student Master\'s Scholarship cohort under the Intel-SRC CHIPS Scholarship & Fellowship Program. The cohort will launch in Academic Year 2026–27, training the next generation of engineers for Arizona\'s growing semiconductor industry, including Intel\'s advanced manufacturing and Research and Development operations.'
             },
             {
                 heading: 'Three Critical Areas, Two Institutions',
-                body: 'The program targets three pillars of Intel\'s Arizona operations: advanced packaging and heterogeneous integration, manufacturing process metrology, and co-packaged optics (CPO). Students are drawn from Mechanical Engineering, Electrical and Computer Engineering, and Optical Engineering — two cohort tracks ensure each degree program aligns directly with Intel workforce priorities. NAU contributes 9 scholars and U of A 3, with cross-campus co-advising and facility access built into every student\'s plan of study.'
+                body: 'The program targets three pillars of Intel\'s Arizona operations: advanced packaging and heterogeneous integration, manufacturing process metrology, and co-packaged optics (CPO). Students are drawn from Mechanical Engineering, Electrical and Computer Engineering, and Optical Engineering, with two cohort tracks ensuring each degree program aligns directly with Intel and SRC program priorities. NAU contributes 9 scholars and U of A 3, with cross-campus co-advising and facility access built into every student\'s plan of study.'
             },
             {
                 heading: 'Complementary Strengths Across the Alliance',
-                body: 'NAU brings the MPaCT Lab — a 25+ instrument fabrication and metrology facility — alongside new curriculum supported by a $13M Arizona Commerce Authority semiconductor workforce grant and an established TSMC apprenticeship pipeline. As a Hispanic-Serving Institution with approximately 60% first-generation enrollment, NAU reaches underrepresented communities across rural northern Arizona. U of A contributes decades of Intel-aligned photonics expertise through the Wyant College of Optical Sciences and the Center for Semiconductor Manufacturing, which is staffed in part by former Intel engineers and has graduated more than 200 Master\'s and PhD students through SRC-affiliated programs.'
+                body: 'NAU brings the MPaCT Lab, a 35+ instrument fabrication and metrology facility, alongside new curriculum supported by a $13M Arizona Commerce Authority semiconductor workforce grant and an established TSMC apprenticeship pipeline. As a Hispanic-Serving Institution with approximately 60% first-generation enrollment, NAU reaches underrepresented communities across rural northern Arizona. U of A contributes decades of Intel-aligned photonics expertise through the Wyant College of Optical Sciences and the Center for Semiconductor Manufacturing, which is staffed in part by former Intel engineers and has graduated more than 200 Master\'s and PhD students through SRC-affiliated programs.'
             },
             {
                 heading: 'From Lab to Career',
@@ -71,7 +71,7 @@ const ARTICLES = [
                 {
                     period: 'Pillar 1',
                     title: 'Metrology & Inspection',
-                    desc: 'In-fab and near-fab measurement, defect detection, and yield analysis using MPaCT\'s 25+ instrument suite'
+                    desc: 'In-fab and near-fab measurement, defect detection, and yield analysis using MPaCT\'s 35+ instrument suite'
                 },
                 {
                     period: 'Pillar 2',
@@ -90,10 +90,13 @@ const ARTICLES = [
                 }
             ]
         },
+        // Article CTA points readers at the dedicated scholarship page so a
+        // prospective MS applicant landing on the news article can move
+        // straight into the eligibility / details / register flow.
         cta: {
-            text: 'Interested in graduate programs at NAU\'s Steve Sanghi College of Engineering?',
-            label: 'Explore Degree Programs',
-            href: 'degree-programs.html'
+            text: 'Could you be one of the next NAU Intel-SRC Scholars?',
+            label: 'Apply for the Scholarship',
+            href: 'CHIPS_Scholars_Program.html'
         },
         gallery: [
             {
@@ -104,7 +107,7 @@ const ARTICLES = [
             {
                 src: 'Images/nano_fabrication.jpg',
                 alt: 'MPaCT Lab semiconductor fabrication',
-                caption: 'MPaCT Lab houses 25+ instruments for semiconductor processing and metrology'
+                caption: 'MPaCT Lab houses 35+ instruments for semiconductor processing and metrology'
             }
         ]
     },
