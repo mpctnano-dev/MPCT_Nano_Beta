@@ -9,10 +9,8 @@
    ================================================================ */
 
 /* ── PARTNERSHIP STRIP ───────────────────────────────────────────
-   Quiet white band that sits directly under the hero. Split into
-   two groups: HOST (NAU on the left) and COLLABORATORS (Intel +
-   UofA on the right) so the visual hierarchy reinforces who runs
-   the program vs. who participates. */
+   Quiet white band directly under the hero. Uses the PTAP-style
+   single label and one logo row for Intel, SRC, and UofA. */
 .intel-partners {
     background: #ffffff;
     border-bottom: 1px solid var(--gray-200);
@@ -21,27 +19,10 @@
 
 .intel-partners__inner {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 48px;
-    flex-wrap: wrap;
-}
-
-.intel-partners__group {
-    display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
-}
-
-.intel-partners__group--host .intel-partners__logo--host {
-    height: 56px;
-}
-
-.intel-partners__divider {
-    width: 1px;
-    height: 56px;
-    background: var(--gray-200);
+    justify-content: center;
+    gap: 18px;
 }
 
 .intel-partners__label {
@@ -72,17 +53,16 @@
     opacity: 1;
 }
 
+.intel-partners__logo--src {
+    height: 42px;
+    max-width: 210px;
+}
+
 /* Square-format logo (e.g. UofA's block A) sits taller than wide
    wordmarks. Constrain it to a matched visual height so the row
    doesn't look unbalanced. */
 .intel-partners__logo--square {
     height: 46px;
-}
-
-@media (max-width: 720px) {
-    .intel-partners__divider {
-        display: none;
-    }
 }
 
 /* ── PROGRAM OVERVIEW ────────────────────────────────────────────
@@ -931,4 +911,3 @@
     color: #fff;
     transform: translateY(-2px);
 }
-
