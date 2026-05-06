@@ -186,3 +186,213 @@
 .intel-d3 { transition-delay: 0.24s; }
 .intel-d4 { transition-delay: 0.32s; }
 .intel-d5 { transition-delay: 0.40s; }
+
+/* ── BENTO GRID — Program Highlights ─────────────────────────────
+   The dark NAU-blue showcase section. Cards span the 12-col grid
+   in different widths so the layout reads as editorial rather
+   than templated. Featured "stat" cards carry an oversized number
+   in NAU gold and a subtle white watermark behind it. */
+.intel-bento {
+    padding: 100px 0;
+    background: linear-gradient(135deg, var(--nau-blue) 0%, #001a3d 100%);
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+}
+
+.intel-bento::before {
+    content: '';
+    position: absolute;
+    top: -15%;
+    right: -8%;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(250, 192, 26, 0.06) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.intel-bento__header {
+    text-align: center;
+    margin-bottom: 56px;
+    position: relative;
+    z-index: 1;
+}
+
+.intel-bento__eyebrow {
+    display: inline-block;
+    background: rgba(250, 192, 26, 0.15);
+    color: var(--nau-gold);
+    padding: 6px 16px;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 20px;
+}
+
+.intel-bento__title {
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 14px;
+}
+
+.intel-bento__title em {
+    color: var(--nau-gold);
+    font-style: normal;
+}
+
+.intel-bento__sub {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.45);
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.7;
+}
+
+.intel-bento__grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-auto-rows: minmax(180px, auto);
+    gap: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.intel-bento__card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 20px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.intel-bento__card:hover {
+    background: rgba(255, 255, 255, 0.065);
+    border-color: rgba(255, 255, 255, 0.12);
+    transform: translateY(-3px);
+}
+
+.intel-bento__card--wide   { grid-column: span 8; }
+.intel-bento__card--narrow { grid-column: span 4; }
+.intel-bento__card--half   { grid-column: span 6; }
+.intel-bento__card--third  { grid-column: span 4; }
+
+.intel-bento__stat {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 5vw, 4rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    margin-bottom: 6px;
+}
+
+.intel-bento__stat em {
+    font-style: normal;
+    font-size: 0.5em;
+    opacity: 0.6;
+    margin-left: 2px;
+}
+
+.intel-bento__stat-label {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+}
+
+.intel-bento__accent {
+    position: absolute;
+    top: 0;
+    left: 32px;
+    right: 32px;
+    height: 3px;
+    border-radius: 0 0 3px 3px;
+}
+
+.intel-bento__accent--gold  { background: linear-gradient(90deg, var(--nau-gold), rgba(250, 192, 26, 0.3)); }
+.intel-bento__accent--blue  { background: linear-gradient(90deg, #60a5fa, rgba(96, 165, 250, 0.3)); }
+.intel-bento__accent--green { background: linear-gradient(90deg, #2ecc71, rgba(46, 204, 113, 0.3)); }
+.intel-bento__accent--cyan  { background: linear-gradient(90deg, #22d3ee, rgba(34, 211, 238, 0.3)); }
+
+.intel-bento__icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.intel-bento__icon--gold  { background: rgba(250, 192, 26, 0.1); color: var(--nau-gold); }
+.intel-bento__icon--blue  { background: rgba(96, 165, 250, 0.1); color: #60a5fa; }
+.intel-bento__icon--green { background: rgba(46, 204, 113, 0.1); color: #2ecc71; }
+.intel-bento__icon--cyan  { background: rgba(34, 211, 238, 0.1); color: #22d3ee; }
+
+.intel-bento__card h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    line-height: 1.3;
+}
+
+.intel-bento__card p {
+    font-size: 0.88rem;
+    color: rgba(255, 255, 255, 0.45);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.intel-bento__card--featured .intel-bento__stat {
+    color: var(--nau-gold);
+}
+
+.intel-bento__watermark {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    font-family: var(--font-display);
+    font-size: 7rem;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.02);
+    line-height: 1;
+    pointer-events: none;
+}
+
+@media (max-width: 992px) {
+    .intel-bento__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .intel-bento__card--wide,
+    .intel-bento__card--narrow,
+    .intel-bento__card--half,
+    .intel-bento__card--third {
+        grid-column: span 1;
+    }
+
+    .intel-bento__card--wide {
+        grid-column: span 2;
+    }
+}
+
+@media (max-width: 600px) {
+    .intel-bento__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .intel-bento__card--wide {
+        grid-column: span 1;
+    }
+}
