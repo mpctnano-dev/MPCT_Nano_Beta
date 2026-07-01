@@ -6,7 +6,7 @@
             "name": "Amatrol 87-MS1 Pick and Place",
             "category": "Educational",
             "status": "EXPECTED",
-            "expectedDate": "07/01/26",
+            "expectedDate": "09/01/26",
             "warningMessage": null,
             "accessories": [],
             "aboutPage": "About_Equipment/Amatrol_87_MS1.html"
@@ -16,7 +16,7 @@
             "name": "Amatrol 87-MS2 Gauging Station",
             "category": "Educational",
             "status": "EXPECTED",
-            "expectedDate": "07/01/26",
+            "expectedDate": "09/01/26",
             "warningMessage": null,
             "accessories": [],
             "aboutPage": "About_Equipment/Amatrol_87_MS2.html"
@@ -26,7 +26,7 @@
             "name": "Amatrol 87-MS7 Inventory Storage",
             "category": "Educational",
             "status": "EXPECTED",
-            "expectedDate": "07/01/26",
+            "expectedDate": "09/01/26",
             "warningMessage": null,
             "accessories": [],
             "aboutPage": "About_Equipment/Amatrol_87_MS7.html"
@@ -36,7 +36,7 @@
             "name": "Amatrol Smart Robot Workcell",
             "category": "Educational",
             "status": "EXPECTED",
-            "expectedDate": "07/01/26",
+            "expectedDate": "09/01/26",
             "warningMessage": null,
             "accessories": [],
             "aboutPage": "About_Equipment/Amatrol_SmartRobot_Workcell.html"
@@ -88,7 +88,7 @@
             "name": "CSZ Environmental Chamber",
             "category": "Electrical",
             "status": "EXPECTED",
-            "expectedDate": "07/01/26",
+            "expectedDate": "09/01/26",
             "warningMessage": null,
             "accessories": [],
             "aboutPage": "About_Equipment/CSZ_EnvChamber.html"
@@ -98,7 +98,7 @@
             "name": "Ellipsometer",
             "category": "Metrology",
             "status": "EXPECTED",
-            "expectedDate": "07/01/26",
+            "expectedDate": "09/01/26",
             "warningMessage": null,
             "accessories": [],
             "aboutPage": "About_Equipment/Ellipsometer.html"
@@ -118,7 +118,7 @@
             "name": "Haas Desktop Lathe",
             "category": "Educational",
             "status": "EXPECTED",
-            "expectedDate": "07/01/26",
+            "expectedDate": "09/01/26",
             "warningMessage": null,
             "accessories": [],
             "aboutPage": "About_Equipment/Haas_DesktopLathe.html"
@@ -128,7 +128,7 @@
             "name": "Haas Desktop Mill",
             "category": "Educational",
             "status": "EXPECTED",
-            "expectedDate": "07/01/26",
+            "expectedDate": "09/01/26",
             "warningMessage": null,
             "accessories": [],
             "aboutPage": "About_Equipment/Haas_DesktopMill.html"
@@ -168,7 +168,7 @@
             "name": "Keyence WM-6000 Wide Area CMM",
             "category": "Metrology",
             "status": "EXPECTED",
-            "expectedDate": "07/01/26",
+            "expectedDate": "09/01/26",
             "warningMessage": null,
             "accessories": [],
             "aboutPage": "About_Equipment/Keyence_WM6000.html"
@@ -178,7 +178,7 @@
             "name": "Keysight E4990A Impedance Analyzer",
             "category": "Electrical",
             "status": "EXPECTED",
-            "expectedDate": "07/01/26",
+            "expectedDate": "09/01/26",
             "warningMessage": null,
             "accessories": [],
             "aboutPage": "About_Equipment/Keysight_ImpAnalyzer.html"
@@ -188,7 +188,7 @@
             "name": "LN2 Storage and Dewars",
             "category": "Support Systems",
             "status": "EXPECTED",
-            "expectedDate": "07/01/26",
+            "expectedDate": "09/01/26",
             "warningMessage": null,
             "accessories": [],
             "aboutPage": "About_Equipment/LN2_Storage_Dewars.html"
@@ -214,7 +214,7 @@
             "name": "Montana CryoAdvance 50",
             "category": "Electrical",
             "status": "EXPECTED",
-            "expectedDate": "07/01/26",
+            "expectedDate": "09/01/26",
             "warningMessage": null,
             "accessories": [],
             "aboutPage": "About_Equipment/Montana_CryoStation.html"
@@ -224,7 +224,7 @@
             "name": "MPI TS200 Probe Station",
             "category": "Electrical",
             "status": "EXPECTED",
-            "expectedDate": "07/01/26",
+            "expectedDate": "09/01/26",
             "warningMessage": null,
             "accessories": [],
             "aboutPage": "About_Equipment/MPI_TS200.html"
@@ -234,7 +234,7 @@
             "name": "NIL Technology CNI v3.0",
             "category": "Fabrication",
             "status": "EXPECTED",
-            "expectedDate": "07/01/26",
+            "expectedDate": "09/01/26",
             "warningMessage": null,
             "accessories": [],
             "aboutPage": "About_Equipment/NIL_CNI_v3.html"
@@ -264,7 +264,7 @@
             "name": "Scanning Electron Microscope (SEM)",
             "category": "Metrology",
             "status": "EXPECTED",
-            "expectedDate": "07/01/26",
+            "expectedDate": "09/01/26",
             "warningMessage": null,
             "accessories": [],
             "aboutPage": "About_Equipment/SEM.html"
@@ -284,7 +284,7 @@
             "name": "SIMS Workstation",
             "category": "Metrology",
             "status": "EXPECTED",
-            "expectedDate": "07/01/26",
+            "expectedDate": "09/01/26",
             "warningMessage": null,
             "accessories": [],
             "aboutPage": "About_Equipment/SIMS_Workstation.html"
@@ -294,7 +294,7 @@
             "name": "Spatial Light Modulator",
             "category": "Metrology",
             "status": "EXPECTED",
-            "expectedDate": "07/01/26",
+            "expectedDate": "09/01/26",
             "warningMessage": null,
             "accessories": [],
             "aboutPage": "About_Equipment/Spatial_Light_Modulator.html"
@@ -304,7 +304,7 @@
             "name": "SUSS Mask Aligner",
             "category": "Fabrication",
             "status": "EXPECTED",
-            "expectedDate": "07/01/26",
+            "expectedDate": "09/01/26",
             "warningMessage": null,
             "accessories": [],
             "aboutPage": "About_Equipment/SUSS_MJB4.html"
@@ -334,7 +334,7 @@
             "name": "TEM Prep - Dimple Grinder",
             "category": "Sample Prep",
             "status": "EXPECTED",
-            "expectedDate": "07/01/26",
+            "expectedDate": "09/01/26",
             "warningMessage": null,
             "accessories": [],
             "aboutPage": "About_Equipment/TEM_Prep_Dimple_Grinder.html"
@@ -344,7 +344,7 @@
             "name": "TEM Prep - Disk Grinder",
             "category": "Sample Prep",
             "status": "EXPECTED",
-            "expectedDate": "07/01/26",
+            "expectedDate": "09/01/26",
             "warningMessage": null,
             "accessories": [],
             "aboutPage": "About_Equipment/TEM_Prep_Disk_Grinder.html"
@@ -354,7 +354,7 @@
             "name": "TEM Prep - Ion Beam Mill",
             "category": "Sample Prep",
             "status": "EXPECTED",
-            "expectedDate": "07/01/26",
+            "expectedDate": "09/01/26",
             "warningMessage": null,
             "accessories": [],
             "aboutPage": "About_Equipment/TEM_Prep_Ion_Beam_Mill.html"
@@ -364,7 +364,7 @@
             "name": "Transmission Electron Microscope (TEM)",
             "category": "Metrology",
             "status": "EXPECTED",
-            "expectedDate": "07/01/26",
+            "expectedDate": "09/01/26",
             "warningMessage": null,
             "accessories": [
                 "Backscattered Detector",
@@ -387,7 +387,7 @@
             "name": "Vector Network Analyzer (VNA)",
             "category": "Electrical",
             "status": "EXPECTED",
-            "expectedDate": "07/01/26",
+            "expectedDate": "09/01/26",
             "warningMessage": null,
             "accessories": [],
             "aboutPage": "About_Equipment/Vector_Network_Analyzer.html"
@@ -417,7 +417,7 @@
             "name": "XRD (X-Ray Diffraction)",
             "category": "Metrology",
             "status": "EXPECTED",
-            "expectedDate": "07/01/26",
+            "expectedDate": "09/01/26",
             "warningMessage": null,
             "accessories": [],
             "aboutPage": "About_Equipment/XRD.html"
