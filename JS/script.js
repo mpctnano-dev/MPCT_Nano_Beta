@@ -451,26 +451,39 @@ const fieldData = {
             </div>
         `
     },
-    'courses': {
-        title: "Course Support",
-        desc: "Inquiries regarding lab classes or curriculum.",
+    'programs': {
+        title: "Programs",
+        desc: "Inquire about degree programs, apprenticeships, or scholarships.",
         fields: `
             <div class="grid grid-2 gap-lg">
-                <div>
-                    <label class="block font-bold mb-1 required">Course Number</label>
-                    <input type="text" name="course_number" class="form-control" placeholder="e.g. EE400" required>
+                <div class="col-span-2">
+                    <label class="block font-bold mb-1 required">Program</label>
+                    <select name="program" id="programSelect" class="form-control" required>
+                        <option value="">Select a program</option>
+                        <option>Degree Programs - NAU</option>
+                        <option>PTAP - TSMC apprenticeship</option>
+                        <option>Intel-SRC CHIPS Scholarship</option>
+                    </select>
+                </div>
+                <div class="col-span-2 hidden" id="bachelorsDegreeWrapper">
+                    <label class="block font-bold mb-1 required">Bachelor's Degree Programs</label>
+                    <select name="bachelors_degree_program" id="bachelorsDegreeSelect" class="form-control">
+                        <option value="">Select a program</option>
+                        <option>Computer Engineering</option>
+                        <option>Computer Science</option>
+                        <option>Electrical Engineering</option>
+                        <option>Engineering Technology</option>
+                        <option>Mechanical Engineering</option>
+                        <option>Mechatronics &amp; Robotics Engineering</option>
+                    </select>
                 </div>
                 <div>
                     <label class="block font-bold mb-1">Semester</label>
-                    <select name="semester" class="form-control">
-                        <option>Fall 2025</option>
-                        <option>Spring 2026</option>
-                        <option>Summer 2026</option>
-                    </select>
+                    <input type="text" name="semester" class="form-control" placeholder="e.g. Fall 2026">
                 </div>
                 <div class="col-span-2">
-                    <label class="block font-bold mb-1 required">Inquiry</label>
-                    <textarea name="inquiry" rows="3" class="form-control" placeholder="Question about lab schedule, materials, or enrollment..."></textarea>
+                    <label class="block font-bold mb-1 required">Your Question</label>
+                    <textarea name="inquiry" rows="4" class="form-control" placeholder="Ask about admissions, eligibility, program requirements, application deadlines, or how to apply..." required></textarea>
                 </div>
             </div>
         `
@@ -608,6 +621,25 @@ async function populateEquipmentData() {
     }
 }
 
+const PROGRAMS_NAU_OPTION = 'Degree Programs - NAU';
+
+function setupProgramsForm() {
+    const programSelect = document.getElementById('programSelect');
+    const bachelorsWrapper = document.getElementById('bachelorsDegreeWrapper');
+    const bachelorsSelect = document.getElementById('bachelorsDegreeSelect');
+    if (!programSelect || !bachelorsWrapper || !bachelorsSelect) return;
+
+    const toggleBachelorsField = () => {
+        const showBachelors = programSelect.value === PROGRAMS_NAU_OPTION;
+        bachelorsWrapper.classList.toggle('hidden', !showBachelors);
+        bachelorsSelect.required = showBachelors;
+        if (!showBachelors) bachelorsSelect.value = '';
+    };
+
+    programSelect.addEventListener('change', toggleBachelorsField);
+    toggleBachelorsField();
+}
+
 function selectCategory(category, element) {
     // Highlighting Logic
     document.querySelectorAll('.gateway-card').forEach(card => card.classList.remove('selected'));
@@ -638,6 +670,10 @@ function selectCategory(category, element) {
         // Dynamic Population for Equipment
         if (category === 'equipment') {
             populateEquipmentData();
+        }
+
+        if (category === 'programs') {
+            setupProgramsForm();
         }
 
         // Apply validation rules to the newly injected dynamic fields AND the
@@ -1041,7 +1077,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (contactFormEl) applyContactFieldRules(contactFormEl);
 
     const urlParams = new URLSearchParams(window.location.search);
-    const autoCategory = urlParams.get('category');
+    let autoCategory = urlParams.get('category');
+    if (autoCategory === 'courses') autoCategory = 'programs';
     if (autoCategory && typeof fieldData !== 'undefined' && fieldData[autoCategory]) {
         const targetCard = document.querySelector(`.gateway-card[onclick*="'${autoCategory}'"]`);
         // Pass targetCard if found, otherwise null (valid for hidden categories like 'issue')

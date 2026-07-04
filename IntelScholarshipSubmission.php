@@ -3,7 +3,7 @@
 //
 // Handler for the CHIPS Scholars Program registration form on
 // CHIPS_Scholars_Program.html. Sends two emails per submission: a
-// lab notification (LAB_EMAIL + CC_LIST) and an applicant
+// lab notification (LAB_EMAIL + INTEL_SRC_CC_LIST) and an applicant
 // confirmation, both using the same NAU template as the contact
 // form. Validation reuses includes/validation.php so server rules
 // match JS/validation.js byte-for-byte.
@@ -409,9 +409,7 @@ Northern Arizona University, Flagstaff, AZ
 try {
     $labMail = createMailer();
     $labMail->addAddress(LAB_EMAIL);
-    foreach (CC_LIST as $cc) {
-        $labMail->addCC($cc);
-    }
+    addCcRecipients($labMail, INTEL_SRC_CC_LIST);
     $labMail->addReplyTo($email, $fullName);
     $labMail->Subject = $labSubject;
     $labMail->Body    = $labBody;

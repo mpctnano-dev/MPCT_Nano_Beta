@@ -48,7 +48,7 @@ require_once __DIR__ . '/mpact_config.php';
 // only this endpoint accepts file uploads.
 require_once __DIR__ . '/includes/validation.php';
 
-// SharePoint failure alert helper — emails LAB_EMAIL + CC_LIST whenever
+// SharePoint failure alert helper — emails LAB_EMAIL + DEV_SUPP_CC_LIST whenever
 // the SharePoint sync below throws, so the lab knows to backfill.
 require_once __DIR__ . '/includes/sharepoint_alert.php';
 
@@ -56,7 +56,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 // Email, SMTP, and SharePoint configuration is in mpact_config.php.
-// To change who receives emails, edit CC_LIST in mpact_config.php.
+// To change who receives emails, edit SERVICES_CC_LIST in mpact_config.php.
 
 /*
  * Upload limits. 25 MB per file AND 25 MB combined per submission. The gross
@@ -949,9 +949,7 @@ Northern Arizona University
 try {
     $labMail = createMailer();
     $labMail->addAddress(LAB_EMAIL);
-    foreach (CC_LIST as $cc) {
-        $labMail->addCC($cc);
-    }
+    addCcRecipients($labMail, SERVICES_CC_LIST);
     $labMail->addReplyTo($email, $fullName);
     $labMail->Subject = $labSubject;
     $labMail->Body    = $labBody;

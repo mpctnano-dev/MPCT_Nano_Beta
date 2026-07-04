@@ -40,7 +40,7 @@ require_once __DIR__ . '/mpact_config.php';
 // source of truth instead of each carrying a prefixed copy.
 require_once __DIR__ . '/includes/validation.php';
 
-// SharePoint failure alert helper — emails LAB_EMAIL + CC_LIST whenever
+// SharePoint failure alert helper — emails LAB_EMAIL + DEV_SUPP_CC_LIST whenever
 // the SharePoint sync below throws, so the lab knows to backfill.
 require_once __DIR__ . '/includes/sharepoint_alert.php';
 
@@ -58,7 +58,7 @@ ini_set('log_errors', 1);
 
 // Email and SMTP configuration is in mpact_config.php.
 // SharePoint credentials and shared helpers (createMailer, curlRequest) are also there.
-// To change who receives emails, edit CC_LIST in mpact_config.php.
+// To change who receives emails, edit RESERVE_EQ_CC_LIST in mpact_config.php.
 
 
 // post(), clean(), respond(), and requireFields() come from
@@ -750,9 +750,7 @@ Northern Arizona University, Flagstaff, AZ
 try {
     $labMail = createMailer();
     $labMail->addAddress(LAB_EMAIL);
-    foreach (CC_LIST as $cc) {
-        $labMail->addCC($cc);
-    }
+    addCcRecipients($labMail, RESERVE_EQ_CC_LIST);
     $labMail->addReplyTo($email, $fullName);
     $labMail->Subject = $labSubject;
     $labMail->Body    = $labBody;

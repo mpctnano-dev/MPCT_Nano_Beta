@@ -8,12 +8,12 @@
  * non-blocking — so this alert is purely an internal heads-up that the
  * SharePoint side of the pipeline is broken and needs to be checked.
  *
- * Recipients are LAB_EMAIL + CC_LIST from mpact_config.php — same list
- * the form notifications go to. Toggle SHAREPOINT_ALERT_ENABLED in the
- * config to silence these without removing the call sites.
+ * Recipients are LAB_EMAIL + DEV_SUPP_CC_LIST from mpact_config.php.
+ * Toggle SHAREPOINT_ALERT_ENABLED in the config to silence these
+ * without removing the call sites.
  *
  * Requires: mpact_config.php must be included before this file
- * (PHPMailer + createMailer + the LAB_EMAIL/CC_LIST constants).
+ * (PHPMailer + createMailer + the LAB_EMAIL/DEV_SUPP_CC_LIST constants).
  */
 
 if (defined('MPCT_SP_ALERT_LOADED')) {
@@ -48,9 +48,7 @@ function notifySharePointFailure(string $formType, Throwable $e, array $context 
     try {
         $mail = createMailer();
         $mail->addAddress(LAB_EMAIL);
-        foreach (CC_LIST as $cc) {
-            $mail->addCC($cc);
-        }
+        addCcRecipients($mail, DEV_SUPP_CC_LIST);
 
         $prefix = defined('SHAREPOINT_ALERT_SUBJECT_PREFIX')
             ? SHAREPOINT_ALERT_SUBJECT_PREFIX

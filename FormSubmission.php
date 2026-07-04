@@ -5,7 +5,7 @@
  * Backend handler for ALL contact forms on Contact_Us.html.
  *
  * Contact_Us.html has nine different form categories (equipment inquiry,
- * research partnerships, billing, training, courses, tour, vendor/sales,
+ * research partnerships, billing, training, programs, tour, vendor/sales,
  * general, and issue reporting). All of them POST to this one file.
  * The category field tells us which form was submitted and which fields
  * to expect in the request.
@@ -60,7 +60,7 @@ require_once __DIR__ . '/mpact_config.php';
 // source of truth instead of each carrying a prefixed copy.
 require_once __DIR__ . '/includes/validation.php';
 
-// SharePoint failure alert helper — emails LAB_EMAIL + CC_LIST whenever
+// SharePoint failure alert helper — emails LAB_EMAIL + DEV_SUPP_CC_LIST whenever
 // the SharePoint sync below throws, so the lab knows to backfill.
 require_once __DIR__ . '/includes/sharepoint_alert.php';
 
@@ -68,7 +68,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 // Email, SMTP, and SharePoint configuration is in mpact_config.php.
-// To change who receives emails, edit CC_LIST in mpact_config.php.
+// To change who receives emails, edit the *_CC_LIST arrays in mpact_config.php.
 
 
 // clean(), post(), respond(), and requireFields() come from
@@ -160,6 +160,30 @@ function formatValue(string $raw): string
 }
 
 
+// HELPER: resolveInquiryCcList()
+// Picks the CC roster for Contact_Us lab notifications. Non-Programs
+// categories use CONTACT_US_CC_LIST; Programs routes by the program
+// dropdown. Missing or unrecognized program values fall back to
+// DEV_SUPP_CC_LIST so dev/support still gets a copy.
+function resolveInquiryCcList(string $category, string $program = ''): array
+{
+    if ($category === 'programs') {
+        switch ($program) {
+            case 'Degree Programs - NAU':
+                return DEGREE_PROGRAMS_CC_LIST;
+            case 'PTAP - TSMC apprenticeship':
+                return PTAP_CC_LIST;
+            case 'Intel-SRC CHIPS Scholarship':
+                return INTEL_SRC_CC_LIST;
+            default:
+                return DEV_SUPP_CC_LIST;
+        }
+    }
+
+    return CONTACT_US_CC_LIST;
+}
+
+
 // Content validators (enforceMaxLength, validateNumericRange, validateInteger,
 // validateDateInRange, validateNameField, validateTextField, enforceWordLimit,
 // and the containsHtmlTags / containsEmoji / looksLikeMashing primitives) come
@@ -240,16 +264,17 @@ $categories = [
             'notes'             => 'Notes / Additional Details',
         ],
     ],
-    'courses' => [
-        'title'  => 'Course Support',
-        'required' => ['course_number', 'inquiry'],
-        'textFields' => ['course_number', 'inquiry'],
+    'programs' => [
+        'title'  => 'Programs',
+        'required' => ['program', 'inquiry'],
+        'textFields' => ['semester', 'inquiry'],
         'wordLimited' => ['inquiry'],
-        'fields' => ['course_number', 'semester', 'inquiry'],
+        'fields' => ['program', 'bachelors_degree_program', 'semester', 'inquiry'],
         'labels' => [
-            'course_number' => 'Course Number',
-            'semester'      => 'Semester',
-            'inquiry'       => 'Inquiry',
+            'program'                  => 'Program',
+            'bachelors_degree_program' => "Bachelor's Degree Programs",
+            'semester'               => 'Semester',
+            'inquiry'                => 'Your Question',
         ],
     ],
     'tour' => [
@@ -367,6 +392,11 @@ foreach (($catMeta['textFields'] ?? []) as $field) {
 foreach (($catMeta['wordLimited'] ?? []) as $field) {
     $label = $catMeta['labels'][$field] ?? ucwords(str_replace('_', ' ', $field));
     enforceWordLimit($field, 500, $label);
+}
+
+// Bachelor's Degree Programs is required only when Degree Programs - NAU is selected
+if ($category === 'programs' && post('program') === 'Degree Programs - NAU' && empty(post('bachelors_degree_program'))) {
+    respond(false, "Missing required field: Bachelor's Degree Programs.");
 }
 
 // Category-specific numeric and date validations
@@ -679,8 +709,8 @@ Northern Arizona University, Flagstaff, AZ
 // we haven't confirmed success to the user yet, so that's fine.
 // If the lab email succeeds, we send the user confirmation.
 //
-// The CC list keeps the dev team in the loop during the launch period.
-// Those lines can be removed once the lab is operating normally.
+// The CC list routes by form category (and Programs dropdown when applicable).
+// See resolveInquiryCcList() and the *_CC_LIST constants in mpact_config.php.
 //
 // addReplyTo() is important: it means when a staff member hits Reply
 // in their inbox, the reply goes directly to the submitter — not
@@ -688,9 +718,7 @@ Northern Arizona University, Flagstaff, AZ
 try {
     $labMail = createMailer();
     $labMail->addAddress(LAB_EMAIL);
-    foreach (CC_LIST as $cc) {
-        $labMail->addCC($cc);
-    }
+    addCcRecipients($labMail, resolveInquiryCcList($category, post('program')));
     $labMail->addReplyTo($email, $fullName);
     $labMail->Subject = $labSubject;
     $labMail->Body    = $labBody;
