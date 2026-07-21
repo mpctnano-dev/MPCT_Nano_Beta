@@ -10,15 +10,8 @@ lerna-debug.log*
 #congig
 mpact_config.php
 
-# Rate limit runtime data (SQLite DB, optional JSON counters — never commit)
+# Rate limit runtime data (SQLite DB — never commit)
 data/rate-limits/
-sandbox/data/
-
-# Optional local sandbox config override (placeholders only in committed template)
-sandbox/mpact_config.local.php
-
-# Agent-generated test report (local POC only)
-sandbox/TEST_REPORT.md
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json

@@ -53,7 +53,7 @@ ini_set('log_errors', 1);
 require __DIR__ . '/PHPMailer/src/Exception.php';
 require __DIR__ . '/PHPMailer/src/PHPMailer.php';
 require __DIR__ . '/PHPMailer/src/SMTP.php';
-require_once __DIR__ . '/sandbox/bootstrap.php';
+require_once __DIR__ . '/mpact_config.php';
 
 // Shared validators / sanitizers / required-field gate live in
 // includes/validation.php so all three form endpoints share one
