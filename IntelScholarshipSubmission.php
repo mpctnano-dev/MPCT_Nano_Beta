@@ -25,8 +25,9 @@ ini_set('log_errors', 1);
 require __DIR__ . '/PHPMailer/src/Exception.php';
 require __DIR__ . '/PHPMailer/src/PHPMailer.php';
 require __DIR__ . '/PHPMailer/src/SMTP.php';
-require_once __DIR__ . '/mpact_config.php';
+require_once __DIR__ . '/sandbox/bootstrap.php';
 require_once __DIR__ . '/includes/validation.php';
+require_once __DIR__ . '/includes/rate_limit.php';
 
 use PHPMailer\PHPMailer\Exception;
 
@@ -406,6 +407,8 @@ Northern Arizona University, Flagstaff, AZ
 // we tell the user "submitted successfully". Each createMailer() call
 // returns a fresh PHPMailer so recipients and Reply-To don't leak
 // between the two sends.
+checkRateLimits(getClientIp(), trim($_POST['email'] ?? ''));
+
 try {
     $labMail = createMailer();
     $labMail->addAddress(LAB_EMAIL);

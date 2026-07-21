@@ -33,12 +33,13 @@ ob_start();
 require __DIR__ . '/PHPMailer/src/Exception.php';
 require __DIR__ . '/PHPMailer/src/PHPMailer.php';
 require __DIR__ . '/PHPMailer/src/SMTP.php';
-require_once __DIR__ . '/mpact_config.php';
+require_once __DIR__ . '/sandbox/bootstrap.php';
 
 // Shared validators / sanitizers / required-field gate live in
 // includes/validation.php so all three form endpoints share one
 // source of truth instead of each carrying a prefixed copy.
 require_once __DIR__ . '/includes/validation.php';
+require_once __DIR__ . '/includes/rate_limit.php';
 
 // SharePoint failure alert helper — emails LAB_EMAIL + DEV_SUPP_CC_LIST whenever
 // the SharePoint sync below throws, so the lab knows to backfill.
@@ -735,6 +736,9 @@ Northern Arizona University, Flagstaff, AZ
 // createMailer() is defined in mpact_config.php
 
 
+checkRateLimits(getClientIp(), trim($_POST['email'] ?? ''));
+
+
 // STEP 8: Send both emails
 //
 // Lab email first, user confirmation second. If the lab email fails,
@@ -778,6 +782,7 @@ try {
     respond(false, 'We were unable to send your inquiry at this time. Please try again or email us directly at ' . LAB_EMAIL . '.');
 }
 
+if (!defined('SANDBOX_SKIP_SHAREPOINT') || !SANDBOX_SKIP_SHAREPOINT) {
 // STEP 9: Log the booking to SharePoint (non-blocking)
 // Emails are already sent — a SharePoint failure does NOT affect
 // the user's experience. Errors are logged server-side only.
@@ -877,4 +882,5 @@ try {
         'equipment'       => $equipmentLabel ?? '',
         'category'        => $category ?? '',
     ]);
+}
 }
