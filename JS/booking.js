@@ -247,6 +247,10 @@
         // up hints, word counters, and number clamps.
         const bookingForm = document.getElementById('bookingForm');
         if (bookingForm) applyBookingFieldRules(bookingForm);
+
+        if (window.MPCT && MPCT.Turnstile) {
+            MPCT.Turnstile.ensureRendered('turnstile-booking');
+        }
     });
 
     // --- Validation and live-input helpers -----------------------------------
@@ -970,6 +974,14 @@
         e.preventDefault();
         if (!validateForm()) return;
 
+        const form = e.target;
+        if (window.MPCT && MPCT.Turnstile && !MPCT.Turnstile.requireToken(form)) {
+            const feedback = document.getElementById('formFeedback');
+            showFeedback(feedback, false,
+                '<i class="fas fa-times-circle"></i> ' + (MPCT.Turnstile.getBlockReason(form, 'turnstile-booking') || 'Please complete the security check.'));
+            return;
+        }
+
         const submitBtn = document.getElementById('bkSubmitBtn');
         const feedback  = document.getElementById('formFeedback');
 
@@ -988,13 +1000,22 @@
                 showFeedback(feedback, true, msg);
                 e.target.reset();
                 clearEquipmentSelection();
+                if (window.MPCT && MPCT.Turnstile) {
+                    MPCT.Turnstile.reset('turnstile-booking');
+                }
             } else {
                 showFeedback(feedback, false,
                     '<i class="fas fa-times-circle"></i> ' + (json.message || 'Submission failed. Please try again or email mpct.nano@gmail.com.'));
+                if (window.MPCT && MPCT.Turnstile) {
+                    MPCT.Turnstile.reset('turnstile-booking');
+                }
             }
         } catch (err) {
             showFeedback(feedback, false,
                 '<i class="fas fa-times-circle"></i> Network error. Please check your connection and try again.');
+            if (window.MPCT && MPCT.Turnstile) {
+                MPCT.Turnstile.reset('turnstile-booking');
+            }
         } finally {
             submitBtn.disabled = false;
             submitBtn.innerHTML = 'Submit Booking Request';

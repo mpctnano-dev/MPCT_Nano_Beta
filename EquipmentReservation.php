@@ -39,6 +39,7 @@ require_once __DIR__ . '/mpact_config.php';
 // includes/validation.php so all three form endpoints share one
 // source of truth instead of each carrying a prefixed copy.
 require_once __DIR__ . '/includes/validation.php';
+require_once __DIR__ . '/includes/turnstile.php';
 require_once __DIR__ . '/includes/rate_limit.php';
 
 // SharePoint failure alert helper — emails LAB_EMAIL + DEV_SUPP_CC_LIST whenever
@@ -175,6 +176,8 @@ function formatValue(string $raw): string
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     respond(false, 'Invalid request method.');
 }
+
+verifyTurnstile();
 
 // The name and email are the absolute minimum we need to do anything useful.
 // Everything else — equipment details, dates, preferences — fills in the email

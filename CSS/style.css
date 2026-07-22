@@ -20493,6 +20493,29 @@ body.workforce-development-page {
     outline-offset: 2px;
 }
 
+/* Turnstile sits above the actions divider, pinned right.
+   Outer flex row is required — Cloudflare's inner wrapper is
+   width:100%, so margin-left:auto on the widget alone fails. */
+.intel-register__turnstile-row {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.intel-register__turnstile {
+    flex: 0 0 auto;
+    width: max-content;
+    max-width: 100%;
+    margin: 0;
+}
+
+.intel-register__turnstile > div,
+.intel-register__turnstile iframe {
+    width: auto !important;
+    max-width: 100% !important;
+}
+
 /* Action row. Submit on the left, reassurance note on the right
    so it reads "click this — your data is safe". */
 .intel-register__actions {
@@ -20546,6 +20569,9 @@ body.workforce-development-page {
     }
     .intel-register__actions .btn-primary {
         width: 100%;
+    }
+    .intel-register__turnstile-row {
+        justify-content: center;
     }
     .intel-register__note {
         justify-content: center;

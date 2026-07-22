@@ -606,6 +606,8 @@
                     <!-- booking.js writes success and error messages here -->
                         <div id="formFeedback" class="bk-feedback" style="display:none;" role="alert"></div>
 
+                        <div id="turnstile-booking" class="mpct-turnstile" style="margin-bottom: 16px;"></div>
+
                         <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
                             <button type="reset" class="btn btn-outline btn-outline-gray"
                                 onclick="if(confirm('Clear all form fields?')) return true; else return false;">
@@ -628,6 +630,9 @@
 
     <div id="site-footer"></div>
 
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
+    <script src="turnstile-config.php"></script>
+    <script src="JS/turnstile.js"></script>
     <script src="JS/layout.js"></script>
     <script src="JS/validation.js"></script>
     <script src="JS/booking.js"></script>

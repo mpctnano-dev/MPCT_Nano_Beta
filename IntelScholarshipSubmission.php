@@ -27,6 +27,7 @@ require __DIR__ . '/PHPMailer/src/PHPMailer.php';
 require __DIR__ . '/PHPMailer/src/SMTP.php';
 require_once __DIR__ . '/mpact_config.php';
 require_once __DIR__ . '/includes/validation.php';
+require_once __DIR__ . '/includes/turnstile.php';
 require_once __DIR__ . '/includes/rate_limit.php';
 
 use PHPMailer\PHPMailer\Exception;
@@ -36,6 +37,8 @@ use PHPMailer\PHPMailer\Exception;
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     respond(false, 'Invalid request method.');
 }
+
+verifyTurnstile();
 
 
 // Field name → label for the email body. Order matters — it's the

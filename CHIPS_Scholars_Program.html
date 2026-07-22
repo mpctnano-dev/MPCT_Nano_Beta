@@ -584,6 +584,10 @@
                              matches the contact + booking forms. -->
                         <div id="formFeedback" class="bk-feedback" role="alert"></div>
 
+                        <div class="intel-register__turnstile-row">
+                            <div id="turnstile-scholarship" class="mpct-turnstile intel-register__turnstile"></div>
+                        </div>
+
                         <div class="intel-register__actions">
                             <button type="submit" id="submitBtn" class="btn btn-primary">
                                 Register My Interest
@@ -625,6 +629,9 @@
 
     <div id="site-footer"></div>
 
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
+    <script src="turnstile-config.php"></script>
+    <script src="JS/turnstile.js"></script>
     <script src="JS/layout.js"></script>
     <script src="JS/validation.js"></script>
     <script>
@@ -640,6 +647,10 @@
 
             var feedbackEl = document.getElementById('formFeedback');
             var submitBtn  = document.getElementById('submitBtn');
+
+            if (window.MPCT && MPCT.Turnstile) {
+                MPCT.Turnstile.ensureRendered('turnstile-scholarship');
+            }
 
             // (XXX) XXX-XXXX mask. Matches what the contact form
             // produces, so validatePhoneFormat() on the server accepts
@@ -933,6 +944,14 @@
                     return;
                 }
 
+                if (window.MPCT && MPCT.Turnstile && !MPCT.Turnstile.requireToken(form)) {
+                    setFeedback(
+                        MPCT.Turnstile.getBlockReason(form, 'turnstile-scholarship') || 'Please complete the security check.',
+                        'error'
+                    );
+                    return;
+                }
+
                 setFeedback('', '');
                 submitBtn.disabled    = true;
                 var originalLabel     = submitBtn.textContent;
@@ -949,6 +968,9 @@
                             'Your registration was submitted. Watch your inbox for a confirmation.',
                             'success', FEEDBACK_PRIORITY.server);
                         form.reset();
+                        if (window.MPCT && MPCT.Turnstile) {
+                            MPCT.Turnstile.reset('turnstile-scholarship');
+                        }
                         // form.reset() clears values but doesn't fire
                         // 'input', so every hint listening on that event
                         // (word counter, maxlength counter, name-field
@@ -967,12 +989,18 @@
                         setFeedback(result.message ||
                             'We could not submit your registration. Please try again.',
                             'error', FEEDBACK_PRIORITY.server);
+                        if (window.MPCT && MPCT.Turnstile) {
+                            MPCT.Turnstile.reset('turnstile-scholarship');
+                        }
                     }
                 } catch (err) {
                     setFeedback(
                         'Unable to reach the server. Please try again later, or email mpct.nano@nau.edu.',
                         'error', FEEDBACK_PRIORITY.server
                     );
+                    if (window.MPCT && MPCT.Turnstile) {
+                        MPCT.Turnstile.reset('turnstile-scholarship');
+                    }
                     /* eslint-disable-next-line no-console */
                     console.error('Scholarship form submit failed:', err);
                 } finally {

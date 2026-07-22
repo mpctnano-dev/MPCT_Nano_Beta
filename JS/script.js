@@ -686,6 +686,14 @@ function selectCategory(category, element) {
         void formContainer.offsetWidth;
         formContainer.classList.add('fade-in');
 
+        if (window.MPCT && MPCT.Turnstile) {
+            requestAnimationFrame(function () {
+                requestAnimationFrame(function () {
+                    MPCT.Turnstile.ensureRendered('turnstile-contact');
+                });
+            });
+        }
+
         // Smooth Scroll
         setTimeout(() => {
             formContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -697,6 +705,9 @@ function resetSelection() {
     document.querySelectorAll('.gateway-card').forEach(card => card.classList.remove('selected'));
     document.getElementById('formContainer').classList.add('hidden');
     document.getElementById('formContainer').classList.remove('fade-in');
+    if (window.MPCT && MPCT.Turnstile) {
+        MPCT.Turnstile.reset('turnstile-contact');
+    }
     document.getElementById('gatewayGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
@@ -1034,6 +1045,14 @@ async function handleFormSubmit(e) {
         return;
     }
 
+    if (window.MPCT && MPCT.Turnstile && !MPCT.Turnstile.requireToken(form)) {
+        setContactFeedback(
+            MPCT.Turnstile.getBlockReason(form, 'turnstile-contact') || 'Please complete the security check.',
+            'error'
+        );
+        return;
+    }
+
     setContactFeedback('', '');
     submitBtn.disabled = true;
     submitBtn.textContent = 'Submitting...';
@@ -1048,14 +1067,23 @@ async function handleFormSubmit(e) {
         if (result.success) {
             setContactFeedback(result.message || 'Your message was sent.', 'success');
             form.reset();
+            if (window.MPCT && MPCT.Turnstile) {
+                MPCT.Turnstile.reset('turnstile-contact');
+            }
             // Return the page to the gateway view after the success toast
             // has had enough time to be read.
             setTimeout(resetSelection, 5000);
         } else {
             setContactFeedback(result.message || 'An error occurred. Please try again.', 'error');
+            if (window.MPCT && MPCT.Turnstile) {
+                MPCT.Turnstile.reset('turnstile-contact');
+            }
         }
     } catch (err) {
         setContactFeedback('Unable to connect to the server. Please try again later or email us directly.', 'error');
+        if (window.MPCT && MPCT.Turnstile) {
+            MPCT.Turnstile.reset('turnstile-contact');
+        }
         console.error('Form submission error:', err);
     } finally {
         submitBtn.disabled = false;

@@ -1105,6 +1105,7 @@
                                 </div>
 
                                 <div class="bk-feedback sr-form-feedback" role="alert"></div>
+                                <div id="turnstile-printing" class="mpct-turnstile" style="margin-bottom: 16px;"></div>
                                 <div class="sr-submit-area">
                                     <button type="reset" class="btn btn-outline"
                                         style="color: var(--gray-600); border-color: var(--gray-400);">Clear
@@ -1400,6 +1401,7 @@
                                 </div>
 
                                 <div class="bk-feedback sr-form-feedback" role="alert"></div>
+                                <div id="turnstile-laser" class="mpct-turnstile" style="margin-bottom: 16px;"></div>
                                 <div class="sr-submit-area">
                                     <button type="reset" class="btn btn-outline"
                                         style="color: var(--gray-600); border-color: var(--gray-400);">Clear
@@ -1678,6 +1680,7 @@
                                 </div>
 
                                 <div class="bk-feedback sr-form-feedback" role="alert"></div>
+                                <div id="turnstile-scanning" class="mpct-turnstile" style="margin-bottom: 16px;"></div>
                                 <div class="sr-submit-area">
                                     <button type="reset" class="btn btn-outline"
                                         style="color: var(--gray-600); border-color: var(--gray-400);">Clear
@@ -1695,6 +1698,9 @@
 
     <div id="site-footer"></div>
 
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
+    <script src="turnstile-config.php"></script>
+    <script src="JS/turnstile.js"></script>
     <script src="JS/layout.js"></script>
     <script src="JS/validation.js"></script>
     <script>
@@ -1705,6 +1711,20 @@
             const navBtns = document.querySelectorAll('.sr-nav-btn');
             const panels = document.querySelectorAll('.sr-panel');
 
+            const turnstileByPanel = {
+                printing: 'turnstile-printing',
+                laser: 'turnstile-laser',
+                scanning: 'turnstile-scanning'
+            };
+
+            function renderTurnstileForPanel(target) {
+                if (!window.MPCT || !MPCT.Turnstile) return;
+                var containerId = turnstileByPanel[target];
+                if (containerId) {
+                    MPCT.Turnstile.ensureRendered(containerId);
+                }
+            }
+
             function activatePanel(target) {
                 navBtns.forEach(b => b.classList.remove('active'));
                 panels.forEach(p => p.classList.remove('active'));
@@ -1712,6 +1732,7 @@
                 const panel = document.getElementById(`panel-${target}`);
                 if (btn) btn.classList.add('active');
                 if (panel) panel.classList.add('active');
+                renderTurnstileForPanel(target);
             }
 
             navBtns.forEach(btn => {
@@ -1730,6 +1751,8 @@
             const hashTarget = window.location.hash.replace('#', '');
             if (hashTarget && document.querySelector(`.sr-nav-btn[data-target="${hashTarget}"]`)) {
                 activatePanel(hashTarget);
+            } else {
+                renderTurnstileForPanel('printing');
             }
 
             // Allowed file extensions per service (must match PHP allowedExtensions)
@@ -2375,6 +2398,12 @@
 
             // Real form submission to ServiceRequestSubmission.php
             document.querySelectorAll('.sr-form').forEach(form => {
+                const turnstileContainerId = form.id === 'printingForm'
+                    ? 'turnstile-printing'
+                    : form.id === 'laserForm'
+                        ? 'turnstile-laser'
+                        : 'turnstile-scanning';
+
                 form.addEventListener('submit', async (e) => {
                     e.preventDefault();
 
@@ -2393,6 +2422,15 @@
                     if (invalidFields.length > 0) {
                         showValidationError(feedbackEl, invalidFields);
                         invalidFields[0].el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        return;
+                    }
+
+                    if (window.MPCT && MPCT.Turnstile && !MPCT.Turnstile.requireToken(form)) {
+                        showFeedbackMsg(
+                            feedbackEl,
+                            MPCT.Turnstile.getBlockReason(form, turnstileContainerId) || 'Please complete the security check.',
+                            'bk-feedback--error', 3, true
+                        );
                         return;
                     }
 
@@ -2424,6 +2462,9 @@
                         );
                         form.reset();
                         resetFileUploadUI(form);
+                        if (window.MPCT && MPCT.Turnstile) {
+                            MPCT.Turnstile.reset(turnstileContainerId);
+                        }
                     } catch (err) {
                         console.error('Service request submission error:', err);
                         showFeedbackMsg(
@@ -2431,6 +2472,9 @@
                             err.message || 'Unable to connect to the server. Please try again later.',
                             'bk-feedback--error', 3, true
                         );
+                        if (window.MPCT && MPCT.Turnstile) {
+                            MPCT.Turnstile.reset(turnstileContainerId);
+                        }
                     } finally {
                         btn.disabled = false;
                         btn.innerHTML = originalLabel;

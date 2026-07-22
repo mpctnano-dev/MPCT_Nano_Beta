@@ -47,6 +47,7 @@ require_once __DIR__ . '/mpact_config.php';
 // come from includes/validation.php. Upload helpers and limits stay local —
 // only this endpoint accepts file uploads.
 require_once __DIR__ . '/includes/validation.php';
+require_once __DIR__ . '/includes/turnstile.php';
 require_once __DIR__ . '/includes/rate_limit.php';
 
 // SharePoint failure alert helper — emails LAB_EMAIL + DEV_SUPP_CC_LIST whenever
@@ -498,6 +499,8 @@ function attachUploads(PHPMailer $mail, array $files): void
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     respond(false, 'Invalid request method.');
 }
+
+verifyTurnstile();
 
 // Read and validate the service type. This must be one of the keys in $services
 // ('printing', 'laser', 'scanning'). Any other value means the request was
