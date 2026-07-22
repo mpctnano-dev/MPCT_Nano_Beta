@@ -11,6 +11,7 @@ if (defined('MPCT_RATE_LIMIT_LOADED')) {
 define('MPCT_RATE_LIMIT_LOADED', true);
 
 require_once __DIR__ . '/rate_limit/RateLimitStoreFactory.php';
+require_once __DIR__ . '/rate_limit_config.php';
 
 function getClientIp(): string
 {

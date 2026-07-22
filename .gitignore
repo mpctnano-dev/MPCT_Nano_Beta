@@ -13,6 +13,9 @@ mpact_config.php
 # Rate limit runtime data (SQLite DB — never commit)
 data/rate-limits/
 
+# Local Docker sandbox POC (keep on disk only — never commit)
+sandbox/
+
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
