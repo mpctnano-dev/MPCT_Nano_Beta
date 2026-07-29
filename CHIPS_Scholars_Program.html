@@ -483,6 +483,12 @@
                 <div class="intel-register__card intel-reveal">
                     <form id="scholarshipForm" novalidate autocomplete="on">
 
+                        <!-- Honeypot: leave empty. Hidden from users; bots often fill it. -->
+                        <div class="hp-field" aria-hidden="true">
+                            <label for="website_scholarship">Website</label>
+                            <input type="text" id="website_scholarship" name="website" value="" tabindex="-1" autocomplete="off">
+                        </div>
+
                         <!-- Name + contact. Same shape as Contact_Us so
                              MPCT.Validation works without page overrides. -->
                         <div class="intel-register__group">
@@ -632,6 +638,8 @@
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
     <script src="turnstile-config.php"></script>
     <script src="JS/turnstile.js"></script>
+    <script src="csrf-token.php"></script>
+    <script src="JS/csrf.js"></script>
     <script src="JS/layout.js"></script>
     <script src="JS/validation.js"></script>
     <script>
@@ -958,9 +966,13 @@
                 submitBtn.textContent = 'Submitting…';
 
                 try {
+                    var formData = new FormData(form);
+                    if (window.MPCT && MPCT.Csrf) {
+                        MPCT.Csrf.appendToFormData(formData);
+                    }
                     var resp = await fetch('IntelScholarshipSubmission.php', {
                         method: 'POST',
-                        body: new FormData(form),
+                        body: formData,
                     });
                     var result = await resp.json();
                     if (result.success) {
@@ -968,6 +980,9 @@
                             'Your registration was submitted. Watch your inbox for a confirmation.',
                             'success', FEEDBACK_PRIORITY.server);
                         form.reset();
+                        if (window.MPCT && MPCT.Csrf) {
+                            MPCT.Csrf.applyToForm(form);
+                        }
                         if (window.MPCT && MPCT.Turnstile) {
                             MPCT.Turnstile.reset('turnstile-scholarship');
                         }

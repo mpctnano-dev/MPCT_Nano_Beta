@@ -141,6 +141,12 @@
                         <!-- Hidden Category Field -->
                         <input type="hidden" name="category" id="categoryInput" value="">
 
+                        <!-- Honeypot: leave empty. Hidden from users; bots often fill it. -->
+                        <div class="hp-field" aria-hidden="true">
+                            <label for="website">Website</label>
+                            <input type="text" id="website" name="website" value="" tabindex="-1" autocomplete="off">
+                        </div>
+
                         <!-- Common Fields -->
                         <div class="grid grid-2 gap-lg" style="margin-bottom: 25px;">
                             <div>
@@ -199,6 +205,8 @@
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
     <script src="turnstile-config.php"></script>
     <script src="JS/turnstile.js"></script>
+    <script src="csrf-token.php"></script>
+    <script src="JS/csrf.js"></script>
     <script src="JS/layout.js"></script>
     <script src="JS/validation.js"></script>
     <script src="JS/script.js"></script>

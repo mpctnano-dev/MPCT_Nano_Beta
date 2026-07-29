@@ -62,6 +62,12 @@
                     <input type="hidden" name="equipment_category" id="bk_equipment_category">
                     <input type="hidden" name="equipment_status"   id="bk_equipment_status">
 
+                    <!-- Honeypot: leave empty. Hidden from users; bots often fill it. -->
+                    <div class="hp-field" aria-hidden="true">
+                        <label for="website_booking">Website</label>
+                        <input type="text" id="website_booking" name="website" value="" tabindex="-1" autocomplete="off">
+                    </div>
+
                     <!-- Equipment picker -->
                     <div class="pf__section">
                         <fieldset style="border:0; padding:0; margin:0;">
@@ -633,6 +639,8 @@
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
     <script src="turnstile-config.php"></script>
     <script src="JS/turnstile.js"></script>
+    <script src="csrf-token.php"></script>
+    <script src="JS/csrf.js"></script>
     <script src="JS/layout.js"></script>
     <script src="JS/validation.js"></script>
     <script src="JS/booking.js"></script>

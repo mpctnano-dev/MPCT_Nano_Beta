@@ -795,6 +795,11 @@
 
                         <div class="sr-form-body">
                             <form id="printingForm" class="sr-form" novalidate>
+                                <!-- Honeypot: leave empty. Hidden from users; bots often fill it. -->
+                                <div class="hp-field" aria-hidden="true">
+                                    <label for="website_printing">Website</label>
+                                    <input type="text" id="website_printing" name="website" value="" tabindex="-1" autocomplete="off">
+                                </div>
 
                                 <!-- Section 1: Your Information -->
                                 <div class="sr-section">
@@ -1127,6 +1132,11 @@
 
                         <div class="sr-form-body">
                             <form id="laserForm" class="sr-form" novalidate>
+                                <!-- Honeypot: leave empty. Hidden from users; bots often fill it. -->
+                                <div class="hp-field" aria-hidden="true">
+                                    <label for="website_laser">Website</label>
+                                    <input type="text" id="website_laser" name="website" value="" tabindex="-1" autocomplete="off">
+                                </div>
 
                                 <!-- Section 1: Your Information -->
                                 <div class="sr-section">
@@ -1423,6 +1433,11 @@
 
                         <div class="sr-form-body">
                             <form id="scanningForm" class="sr-form" novalidate>
+                                <!-- Honeypot: leave empty. Hidden from users; bots often fill it. -->
+                                <div class="hp-field" aria-hidden="true">
+                                    <label for="website_scanning">Website</label>
+                                    <input type="text" id="website_scanning" name="website" value="" tabindex="-1" autocomplete="off">
+                                </div>
 
                                 <!-- Section 1: Your Information -->
                                 <div class="sr-section">
@@ -1701,6 +1716,8 @@
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
     <script src="turnstile-config.php"></script>
     <script src="JS/turnstile.js"></script>
+    <script src="csrf-token.php"></script>
+    <script src="JS/csrf.js"></script>
     <script src="JS/layout.js"></script>
     <script src="JS/validation.js"></script>
     <script>
@@ -2439,6 +2456,9 @@
                     const serviceType = serviceTypeByFormId[form.id] || '';
                     const formData = new FormData(form);
                     formData.append('service_type', serviceType);
+                    if (window.MPCT && MPCT.Csrf) {
+                        MPCT.Csrf.appendToFormData(formData);
+                    }
 
                     btn.disabled = true;
                     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
@@ -2461,6 +2481,9 @@
                             'bk-feedback--success', 4, true
                         );
                         form.reset();
+                        if (window.MPCT && MPCT.Csrf) {
+                            MPCT.Csrf.applyToForm(form);
+                        }
                         resetFileUploadUI(form);
                         if (window.MPCT && MPCT.Turnstile) {
                             MPCT.Turnstile.reset(turnstileContainerId);

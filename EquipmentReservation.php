@@ -41,6 +41,8 @@ require_once __DIR__ . '/mpact_config.php';
 require_once __DIR__ . '/includes/validation.php';
 require_once __DIR__ . '/includes/turnstile.php';
 require_once __DIR__ . '/includes/rate_limit.php';
+require_once __DIR__ . '/includes/honeypot.php';
+require_once __DIR__ . '/includes/csrf.php';
 
 // SharePoint failure alert helper — emails LAB_EMAIL + DEV_SUPP_CC_LIST whenever
 // the SharePoint sync below throws, so the lab knows to backfill.
@@ -177,7 +179,13 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     respond(false, 'Invalid request method.');
 }
 
+rejectIfHoneypotFilled();
+
+verifyCsrfToken();
+
 verifyTurnstile();
+
+checkRateLimits(getClientIp(), trim($_POST['email'] ?? ''));
 
 // The name and email are the absolute minimum we need to do anything useful.
 // Everything else — equipment details, dates, preferences — fills in the email
@@ -737,9 +745,6 @@ Northern Arizona University, Flagstaff, AZ
 
 
 // createMailer() is defined in mpact_config.php
-
-
-checkRateLimits(getClientIp(), trim($_POST['email'] ?? ''));
 
 
 // STEP 8: Send both emails

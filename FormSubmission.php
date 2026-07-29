@@ -61,6 +61,8 @@ require_once __DIR__ . '/mpact_config.php';
 require_once __DIR__ . '/includes/validation.php';
 require_once __DIR__ . '/includes/turnstile.php';
 require_once __DIR__ . '/includes/rate_limit.php';
+require_once __DIR__ . '/includes/honeypot.php';
+require_once __DIR__ . '/includes/csrf.php';
 
 // SharePoint failure alert helper — emails LAB_EMAIL + DEV_SUPP_CC_LIST whenever
 // the SharePoint sync below throws, so the lab knows to backfill.
@@ -329,7 +331,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     respond(false, 'Invalid request method.');
 }
 
+rejectIfHoneypotFilled();
+verifyCsrfToken();
 verifyTurnstile();
+checkRateLimits(getClientIp(), trim($_POST['email'] ?? ''));
 
 // Name, email, and category are required for every form type.
 // Category tells us which form was submitted; without it we can't
@@ -706,9 +711,6 @@ Northern Arizona University, Flagstaff, AZ
 
 
 // createMailer() is defined in mpact_config.php
-
-
-checkRateLimits(getClientIp(), trim($_POST['email'] ?? ''));
 
 
 // SEND BOTH EMAILS

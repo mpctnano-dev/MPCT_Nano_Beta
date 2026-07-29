@@ -989,6 +989,9 @@
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting\u2026';
 
         const formData = new FormData(e.target);
+        if (window.MPCT && MPCT.Csrf) {
+            MPCT.Csrf.appendToFormData(formData);
+        }
         collapseCheckboxes(formData, 'operating_modes');
         try {
             const res  = await fetch('EquipmentReservation.php', { method: 'POST', body: formData });
@@ -999,6 +1002,9 @@
                     : '<i class="fas fa-check-circle"></i> Booking request submitted! The lab team will contact you to confirm your session.';
                 showFeedback(feedback, true, msg);
                 e.target.reset();
+                if (window.MPCT && MPCT.Csrf) {
+                    MPCT.Csrf.applyToForm(e.target);
+                }
                 clearEquipmentSelection();
                 if (window.MPCT && MPCT.Turnstile) {
                     MPCT.Turnstile.reset('turnstile-booking');

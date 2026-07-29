@@ -1058,15 +1058,22 @@ async function handleFormSubmit(e) {
     submitBtn.textContent = 'Submitting...';
 
     try {
+        const formData = new FormData(form);
+        if (window.MPCT && MPCT.Csrf) {
+            MPCT.Csrf.appendToFormData(formData);
+        }
         const response = await fetch('FormSubmission.php', {
             method: 'POST',
-            body: new FormData(form),
+            body: formData,
         });
         const result = await response.json();
 
         if (result.success) {
             setContactFeedback(result.message || 'Your message was sent.', 'success');
             form.reset();
+            if (window.MPCT && MPCT.Csrf) {
+                MPCT.Csrf.applyToForm(form);
+            }
             if (window.MPCT && MPCT.Turnstile) {
                 MPCT.Turnstile.reset('turnstile-contact');
             }

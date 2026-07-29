@@ -18138,6 +18138,215 @@ body.workforce-development-page {
     font-size: 0.4rem;
 }
 
+/* ── Hero progress sequence (mid-build renovation) ─────────────── */
+.nar-hero-timelapse-wrap {
+    max-width: 860px;
+    margin: 0 auto 28px;
+    padding: 0 28px;
+}
+
+.nar-hero-timelapse-wrap .nar-hero--timelapse {
+    width: 100%;
+    margin: 0;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+.nar-hero--timelapse {
+    height: 520px;
+}
+
+.nar-hero-timelapse__stage {
+    position: absolute;
+    inset: 0;
+}
+
+.nar-hero-timelapse__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.22s ease;
+}
+
+.nar-hero-timelapse__img.is-fading {
+    opacity: 0;
+}
+
+.nar-hero__overlay--timelapse {
+    inset: auto 0 0 0;
+    height: 22%;
+    background: linear-gradient(to top,
+            rgba(0, 18, 48, 0.72) 0%,
+            rgba(0, 24, 56, 0.28) 55%,
+            transparent 100%);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.nar-hero-timelapse__counter {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 4;
+    background: rgba(0, 36, 84, 0.82);
+    color: var(--white);
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    letter-spacing: 0.3px;
+}
+
+.nar-hero-timelapse__badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 4;
+    background: var(--nau-gold, #FAC01A);
+    color: var(--nau-blue, #002454);
+    font-size: 0.68rem;
+    font-weight: 800;
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
+}
+
+.nar-hero-timelapse__panel {
+    background: var(--gray-100, #f0f2f5);
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    padding: 12px 16px 16px;
+}
+
+.nar-hero-timelapse__caption {
+    margin: 0 0 12px;
+    padding: 0 4px;
+    color: var(--gray-700, #4a5568);
+    font-size: 0.88rem;
+    font-style: normal;
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.4;
+    min-height: 1.4em;
+}
+
+.nar-hero--timelapse .nar-hero__meta {
+    z-index: 5;
+}
+
+.nar-hero-timelapse__controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.nar-hero-timelapse__slider-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.nar-hero-timelapse__phase-strip {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 4px;
+    padding: 0 2px;
+    position: relative;
+}
+
+.nar-hero-timelapse__phase-strip::before {
+    content: '';
+    position: absolute;
+    top: 7px;
+    left: 8%;
+    right: 8%;
+    height: 2px;
+    background: rgba(0, 36, 84, 0.15);
+    z-index: 0;
+}
+
+.nar-hero-timelapse__milestone {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    border: none;
+    background: transparent;
+    padding: 0 2px;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+}
+
+.nar-hero-timelapse__milestone-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--white);
+    border: 2px solid rgba(0, 36, 84, 0.25);
+    transition: background 0.15s, border-color 0.15s, transform 0.15s;
+}
+
+.nar-hero-timelapse__milestone-label {
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: var(--gray-600, #718096);
+    text-align: center;
+    line-height: 1.2;
+    transition: color 0.15s;
+}
+
+.nar-hero-timelapse__milestone:hover .nar-hero-timelapse__milestone-dot,
+.nar-hero-timelapse__milestone.is-active .nar-hero-timelapse__milestone-dot {
+    background: var(--nau-gold, #FAC01A);
+    border-color: var(--nau-blue, #002454);
+    transform: scale(1.1);
+}
+
+.nar-hero-timelapse__milestone:hover .nar-hero-timelapse__milestone-label,
+.nar-hero-timelapse__milestone.is-active .nar-hero-timelapse__milestone-label {
+    color: var(--nau-blue, #002454);
+}
+
+.nar-hero-timelapse__btn {
+    border: none;
+    border-radius: var(--radius-full);
+    background: var(--white);
+    color: var(--nau-blue, #002454);
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 7px 14px;
+    cursor: pointer;
+    transition: background 0.15s;
+    white-space: nowrap;
+    box-shadow: 0 1px 3px rgba(0, 36, 84, 0.1);
+}
+
+.nar-hero-timelapse__btn:hover {
+    background: var(--nau-gold, #FAC01A);
+}
+
+.nar-hero-timelapse__btn--play {
+    background: var(--nau-blue, #002454);
+    color: var(--white);
+    min-width: 96px;
+}
+
+.nar-hero-timelapse__btn--play:hover {
+    background: #003366;
+}
+
+.nar-hero-timelapse__slider {
+    flex: 1;
+    accent-color: var(--nau-gold, #FAC01A);
+    cursor: pointer;
+}
+
 /* ── Content area ────────────────────────────────────────────── */
 .nar-content {
     max-width: 860px;
@@ -18634,6 +18843,126 @@ body.workforce-development-page {
     font-style: italic;
 }
 
+/* Timelapse viewer */
+.nar-timelapse {
+    margin-top: 36px;
+}
+
+.nar-timelapse__stage {
+    position: relative;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--gray-100);
+    aspect-ratio: 16 / 10;
+}
+
+.nar-timelapse__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.25s ease;
+}
+
+.nar-timelapse__img.is-fading {
+    opacity: 0.4;
+}
+
+.nar-timelapse__counter {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 36, 84, 0.85);
+    color: var(--white);
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    letter-spacing: 0.3px;
+    z-index: 1;
+}
+
+.nar-timelapse__caption {
+    font-size: 0.7rem;
+    color: var(--gray-500);
+    padding: 10px 10px 0;
+    text-align: center;
+    font-style: italic;
+}
+
+.nar-timelapse__controls {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.nar-timelapse__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 16px;
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--white);
+    background: var(--nau-blue);
+    border: none;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+    flex-shrink: 0;
+}
+
+.nar-timelapse__btn:hover {
+    background: var(--nau-blue-light);
+    transform: translateY(-1px);
+}
+
+.nar-timelapse__btn--play {
+    background: var(--nau-gold);
+    color: var(--nau-blue);
+}
+
+.nar-timelapse__btn--play:hover {
+    background: var(--nau-gold-dark);
+    color: var(--nau-blue);
+}
+
+.nar-timelapse__slider {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    border-radius: var(--radius-full);
+    background: var(--gray-200);
+    outline: none;
+    cursor: pointer;
+}
+
+.nar-timelapse__slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--nau-blue);
+    cursor: pointer;
+    border: 2px solid var(--white);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.nar-timelapse__slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--nau-blue);
+    cursor: pointer;
+    border: 2px solid var(--white);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
 /* ── Explore More section ────────────────────────────────────── */
 .nar-explore {
     border-top: 1px solid var(--gray-200);
@@ -18722,6 +19051,64 @@ body.workforce-development-page {
         width: calc(100% - 36px);
     }
 
+    .nar-hero--timelapse {
+        height: 360px;
+    }
+
+    .nar-hero-timelapse-wrap {
+        padding: 0 18px;
+        margin-bottom: 20px;
+    }
+
+    .nar-hero-timelapse__panel {
+        padding: 10px 12px 14px;
+    }
+
+    .nar-hero-timelapse__caption {
+        font-size: 0.78rem;
+        padding: 0 2px;
+        margin-bottom: 10px;
+    }
+
+    .nar-hero-timelapse__controls {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .nar-hero-timelapse__btn--play {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    .nar-hero-timelapse__btn--prev,
+    .nar-hero-timelapse__btn--next {
+        display: none;
+    }
+
+    .nar-hero-timelapse__slider-row {
+        gap: 8px;
+    }
+
+    .nar-hero-timelapse__phase-strip {
+        overflow-x: auto;
+        scrollbar-width: thin;
+        padding-bottom: 2px;
+    }
+
+    .nar-hero-timelapse__milestone {
+        flex: 0 0 auto;
+        min-width: 56px;
+    }
+
+    .nar-hero-timelapse__milestone-label {
+        font-size: 0.58rem;
+    }
+
+    .nar-hero--timelapse .nar-hero__meta {
+        bottom: 12px;
+        font-size: 0.72rem;
+    }
+
     .nar-stats {
         grid-template-columns: 1fr;
     }
@@ -18738,6 +19125,16 @@ body.workforce-development-page {
     .nar-gallery,
     .nar-explore__grid {
         grid-template-columns: 1fr;
+    }
+
+    .nar-timelapse__controls {
+        flex-wrap: wrap;
+    }
+
+    .nar-timelapse__slider {
+        flex: 1 1 100%;
+        order: 3;
+        margin-top: 4px;
     }
 
     .nar-content,
@@ -20576,4 +20973,14 @@ body.workforce-development-page {
     .intel-register__note {
         justify-content: center;
     }
+}
+
+/* Honeypot field — off-screen so bots may fill it; real users never see it */
+.hp-field {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
 }

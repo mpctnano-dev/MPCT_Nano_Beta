@@ -29,6 +29,8 @@ require_once __DIR__ . '/mpact_config.php';
 require_once __DIR__ . '/includes/validation.php';
 require_once __DIR__ . '/includes/turnstile.php';
 require_once __DIR__ . '/includes/rate_limit.php';
+require_once __DIR__ . '/includes/honeypot.php';
+require_once __DIR__ . '/includes/csrf.php';
 
 use PHPMailer\PHPMailer\Exception;
 
@@ -38,7 +40,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     respond(false, 'Invalid request method.');
 }
 
+rejectIfHoneypotFilled();
+
+verifyCsrfToken();
 verifyTurnstile();
+checkRateLimits(getClientIp(), trim($_POST['email'] ?? ''));
 
 
 // Field name → label for the email body. Order matters — it's the
@@ -410,7 +416,6 @@ Northern Arizona University, Flagstaff, AZ
 // we tell the user "submitted successfully". Each createMailer() call
 // returns a fresh PHPMailer so recipients and Reply-To don't leak
 // between the two sends.
-checkRateLimits(getClientIp(), trim($_POST['email'] ?? ''));
 
 try {
     $labMail = createMailer();

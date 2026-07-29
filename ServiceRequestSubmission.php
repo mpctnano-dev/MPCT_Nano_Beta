@@ -49,6 +49,8 @@ require_once __DIR__ . '/mpact_config.php';
 require_once __DIR__ . '/includes/validation.php';
 require_once __DIR__ . '/includes/turnstile.php';
 require_once __DIR__ . '/includes/rate_limit.php';
+require_once __DIR__ . '/includes/honeypot.php';
+require_once __DIR__ . '/includes/csrf.php';
 
 // SharePoint failure alert helper — emails LAB_EMAIL + DEV_SUPP_CC_LIST whenever
 // the SharePoint sync below throws, so the lab knows to backfill.
@@ -500,7 +502,13 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     respond(false, 'Invalid request method.');
 }
 
+rejectIfHoneypotFilled();
+
+verifyCsrfToken();
+
 verifyTurnstile();
+
+checkRateLimits(getClientIp(), trim($_POST['email'] ?? ''));
 
 // Read and validate the service type. This must be one of the keys in $services
 // ('printing', 'laser', 'scanning'). Any other value means the request was
@@ -937,7 +945,6 @@ Northern Arizona University
 ";
 
 // --- Send both emails --------------------------------------------------------
-checkRateLimits(getClientIp(), trim($_POST['email'] ?? ''));
 
 // Two separate createMailer() calls, not one reused instance. See createMailer()
 // for the reasoning — state leakage between sends is a real risk with PHPMailer.
