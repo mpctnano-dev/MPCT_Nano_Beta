@@ -190,6 +190,34 @@ ul {
     z-index: 2;
 }
 
+/* Shared mobile overflow / typography safety (desktop unchanged) */
+@media (max-width: 768px) {
+    body {
+        overflow-wrap: break-word;
+    }
+
+    .container {
+        padding-left: max(var(--space-md), env(safe-area-inset-left, 0px));
+        padding-right: max(var(--space-md), env(safe-area-inset-right, 0px));
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        overflow-wrap: break-word;
+    }
+
+    iframe,
+    video,
+    embed,
+    object {
+        max-width: 100%;
+    }
+}
+
 .text-center {
     text-align: center;
 }
@@ -734,28 +762,100 @@ ul {
     cursor: pointer;
 }
 
+/* Drill-down chrome — hidden unless the mobile drawer is drilling into a section */
+.nav-drill-bar {
+    display: none;
+}
+
 /* Mobile Responsive */
 @media (max-width: 1024px) {
+    .main-nav-container {
+        gap: 12px;
+    }
+
+    .brand-logo {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    /*
+     * Mobile nav — full-viewport drawer + drill-down panels.
+     * Alternate accordion-row styles archived in CSS/_preserved_mobile_nav.css
+     */
     .nav-menu {
         display: none;
-        position: absolute;
-        top: calc(100% + 8px);
+        position: fixed;
+        top: 100%;
         left: 0;
         right: 0;
         width: 100%;
+        height: calc(100vh - 100%);
+        height: calc(100dvh - 100%);
         flex-direction: column;
         align-items: stretch;
-        gap: 8px;
-        padding: 14px;
+        gap: 4px;
+        padding: 12px 16px 28px;
         background: var(--nau-blue);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        border-radius: 12px;
-        box-shadow: var(--shadow-lg);
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
         z-index: 1100;
+        overflow-x: hidden;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
     }
 
     .nav-menu.is-open {
         display: flex;
+    }
+
+    /* Drill-down chrome (injected by layout.js) */
+    .nav-menu.is-drilling .nav-drill-bar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 4px 0 12px;
+        margin-bottom: 4px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        flex-shrink: 0;
+    }
+
+    .nav-drill-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        flex-shrink: 0;
+        padding: 10px 12px;
+        margin: 0;
+        border: none;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.08);
+        color: #ffffff;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .nav-drill-back:hover,
+    .nav-drill-back:focus-visible {
+        background: rgba(255, 255, 255, 0.14);
+        color: var(--nau-gold);
+        outline: none;
+    }
+
+    .nav-drill-title {
+        flex: 1 1 auto;
+        min-width: 0;
+        color: var(--nau-gold);
+        font-size: 1.05rem;
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    /* Root list hidden while drilled into a section */
+    .nav-menu.is-drilling > .nav-item:not(.is-drill-active) {
+        display: none;
     }
 
     .nav-item {
@@ -765,12 +865,33 @@ ul {
     .nav-menu .nav-link {
         display: block;
         color: #ffffff;
-        padding: 10px 8px;
+        padding: 14px 8px;
         border-radius: 8px;
     }
 
     .nav-menu .nav-link::after {
         display: none;
+    }
+
+    /* Icon-only Home link gets a text label in the mobile drawer */
+    .nav-menu .nav-link--icon {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .nav-menu .nav-link--icon::after {
+        display: inline;
+        content: "Home";
+        position: static;
+        width: auto;
+        height: auto;
+        background: none;
+        border-radius: 0;
+        transform: none;
+        color: inherit;
+        font-size: inherit;
+        font-weight: inherit;
     }
 
     .nav-menu .nav-link:hover,
@@ -783,6 +904,7 @@ ul {
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        flex-shrink: 0;
         width: 44px;
         height: 44px;
         border-radius: 10px;
@@ -795,6 +917,7 @@ ul {
         /* Slightly smaller on mobile to fit better */
         margin: 0 8px;
         /* Tighter spacing */
+        flex-shrink: 0;
     }
 
     .dept1 {
@@ -819,6 +942,7 @@ ul {
 
     .header-logo {
         height: 36px;
+        flex-shrink: 0;
     }
 
     .brand-divider {
@@ -827,6 +951,48 @@ ul {
 
     .dept1 {
         font-size: 0.8rem;
+    }
+}
+
+/* Small phones: NAU lockup is wide — cap it so "Microelectronics" stays readable */
+@media (max-width: 480px) {
+    .header-logo {
+        height: 32px;
+        max-width: 112px;
+        width: auto;
+        object-fit: contain;
+        object-position: left center;
+    }
+
+    .brand-text {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    .brand-text .dept-sub {
+        display: none;
+    }
+
+    .dept1 {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+@media (max-width: 360px) {
+    .brand-logo {
+        gap: 8px;
+    }
+
+    .header-logo {
+        height: 28px;
+        max-width: 78px;
+    }
+
+    .dept1 {
+        font-size: 0.75rem;
+        letter-spacing: 0.2px;
     }
 }
 
@@ -1173,6 +1339,67 @@ ul {
     right: -15px;
 }
 
+@media (max-width: 1024px) {
+    .carousel-section .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+    }
+
+    .about-image-col {
+        height: 340px;
+    }
+}
+
+@media (max-width: 768px) {
+    .carousel-section {
+        padding: var(--space-2xl) 0;
+    }
+
+    .carousel-section .section-header h2 {
+        font-size: clamp(1.6rem, 6vw, 2rem);
+    }
+
+    .carousel-wrapper {
+        padding: 0 4px;
+    }
+
+    .nav-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+
+    .nav-btn.left {
+        left: 0;
+    }
+
+    .nav-btn.right {
+        right: 0;
+    }
+
+    .equipment-card {
+        min-width: min(280px, 82vw);
+        max-width: min(280px, 82vw);
+        height: auto;
+        min-height: 430px;
+        padding: 20px;
+    }
+
+    .equipment-img {
+        width: 140px;
+        height: 140px;
+    }
+}
+
+@media (max-width: 480px) {
+    .equipment-card {
+        min-width: min(260px, 84vw);
+        max-width: min(260px, 84vw);
+        min-height: 400px;
+    }
+}
+
 /* Dashboard, Metrics, Matches - REMOVED: Not used in any HTML */
 
 /* News, Featured Story, Glass Card - REMOVED: Not used in any HTML */
@@ -1401,6 +1628,7 @@ ul {
 
 .footer-meta__text {
     margin: 0;
+    max-width: none; /* override global p { max-width: 70ch } so nowrap does not clip */
     color: rgba(255, 255, 255, 0.4);
     font-size: 0.87rem;
     letter-spacing: 0.03em;
@@ -1494,13 +1722,34 @@ ul {
         border-left: 1px solid rgba(255, 255, 255, 0.1);
         padding-left: 24px;
     }
+
+    .footer-meta__text {
+        white-space: normal;
+    }
+
+    .footer-bottom-flex {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .footer-links-flex {
+        flex-wrap: wrap;
+        gap: 12px 16px;
+    }
 }
 
 @media (max-width: 600px) {
     .footer-cmd-bar {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: stretch;
         gap: 14px;
+    }
+
+    .footer-cmd-bar__cta {
+        width: 100%;
+        justify-content: center;
+        min-height: 44px;
     }
 
     .footer-grid {
@@ -1511,6 +1760,14 @@ ul {
     .footer-brand {
         grid-column: auto;
         padding-bottom: 28px;
+    }
+
+    .footer-brand img {
+        width: min(200px, 72vw);
+    }
+
+    .footer-brand__copy {
+        max-width: 100%;
     }
 
     .footer-col {
@@ -1530,12 +1787,29 @@ ul {
         font-size: 1.6rem;
     }
 
+    .footer-links li {
+        margin-bottom: 0;
+    }
+
+    .footer-links a {
+        display: flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 10px 0;
+    }
+
+    .social-icon {
+        width: 44px;
+        height: 44px;
+    }
+
     .footer-meta__text {
         white-space: normal;
     }
 
     .footer-bottom-flex {
         flex-direction: column;
+        align-items: center;
         text-align: center;
         gap: 10px;
     }
@@ -1543,7 +1817,14 @@ ul {
     .footer-links-flex {
         justify-content: center;
         flex-wrap: wrap;
-        gap: 12px;
+        gap: 4px 8px;
+    }
+
+    .footer-link-mute {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 10px 8px;
     }
 }
 
@@ -1687,10 +1968,26 @@ ul {
 }
 
 @media (max-width: 768px) {
+    .about-section {
+        padding: var(--space-3xl) 0;
+    }
+
+    .about-title {
+        font-size: clamp(1.75rem, 6.5vw, 2.1rem);
+    }
+
+    .lead-text {
+        font-size: 1.05rem;
+    }
 
     .stat-box {
         left: 12px;
         bottom: 12px;
+        padding: 14px 16px;
+    }
+
+    .stat-number {
+        font-size: 1.65rem;
     }
 
     .about-image-col {
@@ -2140,22 +2437,63 @@ ul {
 }
 
 @media (max-width: 768px) {
+    .education-paths-section {
+        padding: 56px 0;
+    }
+
     .edu-card-wrapper {
         flex: 0 0 100%;
+        padding: 0 28px;
     }
 
     .edu-title {
         font-size: 1.8rem;
     }
 
-    .edu-nav-btn {
-        width: 40px;
-        height: 40px;
+    .edu-subtitle {
         font-size: 1rem;
+    }
+
+    /* Overlay side nav so cards use full content width */
+    .edu-carousel-container {
+        gap: 0;
+    }
+
+    .edu-nav-btn {
+        position: absolute;
+        top: 50%;
+        z-index: 5;
+        width: 36px;
+        height: 36px;
+        margin-top: -18px;
+        font-size: 1rem;
+        background: rgba(255, 255, 255, 0.96);
+        box-shadow: 0 4px 16px rgba(0, 36, 84, 0.18);
+    }
+
+    .edu-nav-btn:hover,
+    .edu-nav-btn:active {
+        transform: scale(1.06);
+    }
+
+    .edu-nav-left {
+        left: 2px;
+    }
+
+    .edu-nav-right {
+        right: 2px;
     }
 
     .edu-card {
         min-height: auto;
+    }
+
+    .edu-card:hover {
+        transform: none;
+    }
+
+    .edu-card-body {
+        padding: 20px;
     }
 }
 
@@ -3734,7 +4072,37 @@ ul {
 
 @media (max-width: 768px) {
     .about-cta {
-        padding: 60px 0;
+        padding: 56px 0;
+    }
+
+    .about-cta__actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    .about-cta__actions .btn-primary,
+    .about-cta__actions .about-cta__outline,
+    .about-cta__actions .btn {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+        min-height: 48px;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .about-cta__title {
+        font-size: clamp(1.7rem, 7vw, 2.2rem);
+    }
+
+    .about-hero {
+        padding: 96px 0 48px;
+    }
+
+    .about-hero-title {
+        font-size: clamp(1.9rem, 8vw, 2.35rem);
+        line-height: 1.12;
     }
 }
 
@@ -4481,9 +4849,34 @@ ul {
 }
 
 @media (max-width: 768px) {
+    .text-white-display {
+        font-size: clamp(1.75rem, 6.5vw, 2.1rem);
+    }
+
+    .text-white-muted {
+        font-size: 1rem;
+        max-width: 100%;
+    }
+
     .partners-box {
         margin-left: 0;
         margin-top: var(--space-lg);
+        padding: 20px;
+    }
+
+    .partner-card {
+        padding: 12px 10px 36px;
+        min-height: 110px;
+    }
+
+    .partner-logo {
+        height: 40px;
+        margin-bottom: 16px;
+    }
+
+    .partner-label {
+        bottom: 12px;
+        font-size: 0.65rem;
     }
 }
 
@@ -4705,6 +5098,10 @@ ul {
         border-radius: 16px;
     }
 
+    .text-gold-display {
+        font-size: clamp(1.75rem, 6.5vw, 2.1rem);
+    }
+
     .map-container {
         height: 260px;
         margin-top: var(--space-lg);
@@ -4783,9 +5180,46 @@ ul {
 
 /* --------------------------------------
    CONTACT PAGE - MOBILE RESPONSIVE
+   Desktop ≥1025 left unchanged.
    -------------------------------------- */
 
+@media (max-width: 1024px) {
+    /* Tablet: keep 2-col gateway, slightly tighter form chrome */
+    #gatewayGrid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+    }
+
+    .form-wrapper {
+        padding: 28px 22px;
+    }
+
+    #turnstile-contact,
+    #contactForm .mpct-turnstile {
+        display: flex;
+        justify-content: center;
+        max-width: 100%;
+        overflow-x: auto;
+    }
+}
+
 @media (max-width: 768px) {
+
+    /* Contact page header */
+    .section-padding.bg-gray-50.text-center {
+        padding: 40px 0 24px;
+    }
+
+    .section-padding.bg-gray-50.text-center h1 {
+        font-size: clamp(1.75rem, 6.5vw, 2.25rem);
+        line-height: 1.15;
+        overflow-wrap: break-word;
+    }
+
+    .page-subtitle {
+        font-size: 1rem;
+        padding: 0 4px;
+    }
 
     /* Reduce form-wrapper padding on mobile */
     .form-wrapper {
@@ -4797,14 +5231,15 @@ ul {
         grid-column: span 1;
     }
 
-    /* Gateway cards: always 2-col on small phones, 1-col below 480px */
+    /* Gateway: 2-col with readable titles; keep short descriptions on tablet */
     #gatewayGrid {
         grid-template-columns: repeat(2, 1fr);
         gap: 12px;
     }
 
     .gateway-card {
-        padding: 16px 12px;
+        padding: 16px 14px;
+        min-height: 112px;
     }
 
     .gateway-card i {
@@ -4813,33 +5248,73 @@ ul {
     }
 
     .gateway-title {
-        font-size: 0.9rem;
+        font-size: 0.95rem;
+        line-height: 1.25;
+        overflow-wrap: break-word;
     }
 
     .gateway-desc {
-        display: none;
+        font-size: 0.8rem;
+        line-height: 1.4;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
 
-    /* Form action buttons: stack on mobile */
-    #contactForm .d-flex.justify-between {
-        flex-direction: column-reverse;
-        gap: 12px;
+    /* 16px prevents iOS focus-zoom; 44px tap height */
+    #contactForm .form-control {
+        font-size: 16px;
+        min-height: 44px;
+        max-width: 100%;
     }
 
-    #contactForm .d-flex.justify-between .btn {
-        width: 100%;
-        text-align: center;
-        justify-content: center;
+    #contactForm textarea.form-control {
+        min-height: 96px;
     }
 
-    /* Contact page header padding */
-    .section-padding.bg-gray-50.text-center {
-        padding: 40px 0 24px;
+    #contactForm select.form-control {
+        text-overflow: ellipsis;
     }
 
     /* Form title size on mobile */
     #formTitle {
         font-size: 1.4rem;
+    }
+
+    #formDesc {
+        font-size: 0.95rem;
+        overflow-wrap: break-word;
+    }
+}
+
+@media (max-width: 600px) {
+    /* Phones: hide gateway blurbs to keep the picker compact */
+    .gateway-desc {
+        display: none;
+    }
+
+    .gateway-card {
+        min-height: 96px;
+        padding: 16px 12px;
+    }
+
+    .gateway-title {
+        font-size: 0.9rem;
+    }
+
+    /* Form action buttons: full-width stack on phones */
+    #contactForm .d-flex.justify-between {
+        flex-direction: column-reverse;
+        gap: 12px;
+        align-items: stretch;
+    }
+
+    #contactForm .d-flex.justify-between .btn {
+        width: 100%;
+        min-height: 48px;
+        text-align: center;
+        justify-content: center;
     }
 }
 
@@ -6514,6 +6989,179 @@ ul {
     }
 }
 
+/* --------------------------------------
+   EQUIPMENT CATALOG — MOBILE / TABLET
+   Scoped to Equipment.html via #equipmentContainer.
+   Desktop (≥1025px) unchanged.
+   -------------------------------------- */
+
+@media (max-width: 1024px) {
+
+    /* Keep sticky chrome usable: search full-width, filters in rows */
+    body:has(#equipmentContainer) .filter-section .container.d-flex {
+        align-items: stretch;
+        gap: 14px;
+    }
+
+    body:has(#equipmentContainer) .filter-section .search-wrapper {
+        flex: 1 1 100%;
+        width: 100%;
+        max-width: none !important;
+        /* overrides inline max-width: 300px */
+    }
+
+    body:has(#equipmentContainer) .filter-section .filter-group {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        gap: 8px;
+        padding-bottom: 2px;
+    }
+
+    body:has(#equipmentContainer) .filter-section .filter-group::-webkit-scrollbar {
+        display: none;
+    }
+
+    body:has(#equipmentContainer) .filter-section .filter-btn,
+    body:has(#equipmentContainer) .filter-section .filter-label {
+        flex-shrink: 0;
+        white-space: nowrap;
+    }
+
+    body:has(#equipmentContainer) .filter-section .view-switcher {
+        margin-left: auto;
+    }
+}
+
+@media (max-width: 768px) {
+
+    /* Hero: override Equipment.html inline height so content fits */
+    body:has(#equipmentContainer) .ml-hero.ml-hero--compact {
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        padding: 100px 0 48px;
+    }
+
+    body:has(#equipmentContainer) .ml-hero.ml-hero--compact .ml-hero__content {
+        padding-bottom: 0 !important;
+    }
+
+    body:has(#equipmentContainer) .ml-hero.ml-hero--compact .ml-hero__title {
+        font-size: clamp(2.2rem, 10vw, 2.85rem);
+        line-height: 1.05;
+    }
+
+    body:has(#equipmentContainer) .ml-hero.ml-hero--compact .ml-hero__subtitle {
+        font-size: 0.95rem;
+        line-height: 1.7;
+        max-width: 100%;
+    }
+
+    body:has(#equipmentContainer) .filter-section {
+        padding: 12px 0 !important;
+        /* overrides inline padding: 20px 0 */
+    }
+
+    /* Compact sticky toolbar: search + categories full-width;
+       location + view share one row */
+    body:has(#equipmentContainer) .filter-section .container.d-flex {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 10px 12px;
+    }
+
+    body:has(#equipmentContainer) .filter-section .search-wrapper,
+    body:has(#equipmentContainer) .filter-section .filter-group:not(.location-filter) {
+        grid-column: 1 / -1;
+    }
+
+    body:has(#equipmentContainer) .filter-section .location-filter {
+        grid-column: 1;
+        width: auto;
+        max-width: 100%;
+    }
+
+    body:has(#equipmentContainer) .filter-section .search-wrapper input,
+    body:has(#equipmentContainer) #searchInput {
+        font-size: 16px;
+        /* prevents iOS zoom on focus */
+        min-height: 44px;
+        box-sizing: border-box;
+    }
+
+    body:has(#equipmentContainer) .filter-section .filter-btn {
+        min-height: 40px;
+        padding: 8px 14px;
+        font-size: 0.85rem;
+    }
+
+    body:has(#equipmentContainer) .filter-section .view-switcher {
+        display: inline-flex;
+        width: auto;
+        margin-left: 0;
+        grid-column: 2;
+        flex-shrink: 0;
+    }
+
+    body:has(#equipmentContainer) .filter-section .view-switcher .btn {
+        min-height: 40px;
+        padding: 8px 12px;
+    }
+
+    body:has(#equipmentContainer) .catalog-section {
+        padding: 24px 0 !important;
+        min-height: 0 !important;
+    }
+
+    body:has(#equipmentContainer) .grid-layout {
+        gap: 20px;
+    }
+
+    body:has(#equipmentContainer) .tech-card-header {
+        padding: 14px 16px;
+    }
+
+    body:has(#equipmentContainer) .tech-title {
+        font-size: 1.05rem;
+    }
+
+    body:has(#equipmentContainer) .tech-img-box {
+        height: 180px;
+    }
+
+    body:has(#equipmentContainer) .tech-body {
+        padding: 16px;
+    }
+
+    body:has(#equipmentContainer) .btn-tech {
+        min-height: 42px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    body:has(#equipmentContainer) .ml-hero.ml-hero--compact {
+        padding: 92px 0 40px;
+    }
+
+    body:has(#equipmentContainer) .tech-actions {
+        gap: 8px;
+    }
+
+    body:has(#equipmentContainer) .list-layout .tech-img-box {
+        height: 160px;
+    }
+}
+
 /**
  * Degree Programs Page Styles
  * --------------------------------------
@@ -7447,6 +8095,138 @@ ul {
 
     .cta-box {
         padding: var(--space-xl);
+    }
+}
+
+/* --------------------------------------
+   DEGREE PROGRAMS — MOBILE / TABLET
+   Scoped to degree-programs.html via #programs.
+   Desktop (≥1025px) unchanged. Overrides page-inline
+   .ml-hero height caps so title + CTA fit without clipping.
+   -------------------------------------- */
+
+@media (max-width: 1024px) {
+    body:has(#programs) .ml-hero {
+        min-height: 560px;
+    }
+
+    body:has(#programs) .ml-hero__content {
+        padding-bottom: 72px !important;
+    }
+
+    body:has(#programs) .section-padding {
+        padding: 72px 0;
+    }
+}
+
+@media (max-width: 768px) {
+    body:has(#programs) .ml-hero {
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        padding: 100px 0 48px;
+    }
+
+    body:has(#programs) .ml-hero__content {
+        padding-bottom: 8px !important;
+    }
+
+    body:has(#programs) .ml-hero__title {
+        font-size: clamp(2.35rem, 11vw, 3.15rem);
+        line-height: 1.02;
+        margin-bottom: 18px;
+    }
+
+    body:has(#programs) .ml-hero__subtitle {
+        font-size: 0.95rem;
+        line-height: 1.65;
+        margin-bottom: 28px;
+        max-width: 100%;
+    }
+
+    body:has(#programs) .ml-hero__eyebrow {
+        margin-bottom: 16px;
+    }
+
+    body:has(#programs) .ml-hero__scroll {
+        display: none;
+    }
+
+    body:has(#programs) .ml-hero__actions {
+        width: 100%;
+    }
+
+    body:has(#programs) .ml-hero__actions .btn {
+        width: 100%;
+        justify-content: center;
+        min-height: 48px;
+    }
+
+    body:has(#programs) .section-padding {
+        padding: 56px 0;
+    }
+
+    body:has(#programs) .program-rows {
+        gap: var(--space-lg);
+    }
+
+    body:has(#programs) .program-row-image {
+        height: 180px;
+    }
+
+    body:has(#programs) .program-row-content {
+        padding: 20px 18px;
+    }
+
+    body:has(#programs) .program-row-title {
+        font-size: 1.2rem;
+    }
+
+    body:has(#programs) .cta-box {
+        padding: 36px 20px;
+        border-radius: 16px;
+    }
+
+    body:has(#programs) .cta-box h2 {
+        font-size: clamp(1.45rem, 5.5vw, 1.85rem);
+    }
+
+    body:has(#programs) .cta-buttons {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    body:has(#programs) .cta-buttons .btn {
+        width: 100%;
+        justify-content: center;
+        min-height: 48px;
+    }
+
+    body:has(#programs) .metrology-content h2 {
+        font-size: 1.5rem;
+    }
+
+    body:has(#programs) .metrology-note {
+        padding: 14px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    body:has(#programs) .ml-hero {
+        padding: 92px 0 40px;
+    }
+
+    body:has(#programs) .ml-hero__title {
+        font-size: clamp(2.05rem, 12vw, 2.55rem);
+    }
+
+    body:has(#programs) .program-row-image {
+        height: 160px;
+    }
+
+    body:has(#programs) .section-padding {
+        padding: 48px 0;
     }
 }
 
@@ -8875,6 +9655,10 @@ ul {
         min-height: 580px;
     }
 
+    .hero-v2__bg {
+        overflow: hidden;
+    }
+
     .hero-v2__content {
         padding-bottom: 40px;
         justify-content: flex-end;
@@ -8882,8 +9666,12 @@ ul {
     }
 
     .hero-v2__badge {
-        font-size: 0.75rem;
-        padding: 6px 16px;
+        font-size: 0.72rem;
+        padding: 6px 14px;
+        max-width: 100%;
+        white-space: normal;
+        line-height: 1.35;
+        letter-spacing: 0.4px;
     }
 
     .hero-v2__title {
@@ -8896,6 +9684,7 @@ ul {
         font-size: 1rem;
         max-width: 100%;
         line-height: 1.6;
+        margin-bottom: var(--space-lg);
     }
 
     .hero-v2__ctas {
@@ -9346,7 +10135,7 @@ ul {
     margin-left: 6px;
 }
 
-/* ── MOBILE OVERRIDES (≤ 1024px) ──────────────────────────── */
+/* ── Mobile overrides — drill-down panels (≤ 1024px) ─────── */
 @media (max-width: 1024px) {
     .nav-mega-panel {
         position: static;
@@ -9359,36 +10148,38 @@ ul {
         padding-top: 0;
     }
 
+    /* Panels stay collapsed on the root list; open only in drill view */
     .nav-mega-inner {
-        padding: 12px;
+        padding: 0;
         background: transparent;
-        border-radius: 8px;
+        border-radius: 0;
         box-shadow: none;
         border: none;
         max-height: 0;
         overflow: hidden;
-        transition: max-height 0.36s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
-    .nav-item--has-dropdown.is-mobile-open .nav-mega-inner {
-        max-height: 800px;
+    .nav-menu.is-drilling .is-drill-active .nav-mega-inner {
+        max-height: none;
+        overflow: visible;
+        padding: 4px 0 0;
     }
 
     .nav-dropdown-grid {
         grid-template-columns: 1fr;
-        gap: 8px;
+        gap: 0;
     }
 
     .nav-dropdown-btn {
         color: #ffffff;
         width: 100%;
         justify-content: space-between;
-        padding: 10px 8px;
+        padding: 14px 8px;
         border-radius: 8px;
+        font-size: 1.05rem;
     }
 
     .nav-dropdown-btn:hover,
-    .nav-item--has-dropdown.is-mobile-open .nav-dropdown-btn,
     .nav-dropdown-btn.active {
         color: var(--nau-gold) !important;
         background: rgba(255, 255, 255, 0.08);
@@ -9398,50 +10189,85 @@ ul {
         display: none;
     }
 
-    .nav-item--has-dropdown.is-mobile-open .nav-chevron {
-        transform: rotate(180deg);
-        opacity: 1;
+    /* Root list: chevron points right (drill affordance) */
+    .nav-menu:not(.is-drilling) .nav-chevron {
+        transform: rotate(-90deg);
+        opacity: 0.85;
     }
 
-    .nav-dropdown-link {
-        padding: 12px;
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .nav-dropdown-link:not(.nav-dropdown-link--disabled):hover {
-        background: rgba(255, 255, 255, 0.08);
-        border-color: rgba(250, 192, 26, 0.4);
-        transform: none;
+    /* In drill view the section title lives in .nav-drill-bar */
+    .nav-menu.is-drilling .is-drill-active .nav-dropdown-btn {
+        display: none;
     }
 
     .nav-dropdown-icon {
-        background: rgba(255, 255, 255, 0.1);
-        color: rgba(255, 255, 255, 0.8);
-        width: 36px;
-        height: 36px;
+        display: none;
     }
 
-    .nav-dropdown-link:not(.nav-dropdown-link--disabled):hover .nav-dropdown-icon {
-        background: var(--nau-gold);
-        color: var(--nau-blue);
+    .nav-dropdown-text small {
+        display: none;
+    }
+
+    .nav-dropdown-link {
+        align-items: center;
+        gap: 0;
+        padding: 14px 12px;
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        border-left: 2px solid transparent;
+    }
+
+    .nav-dropdown-link:last-child {
+        border-bottom: none;
+    }
+
+    .nav-dropdown-link:not(.nav-dropdown-link--disabled):hover {
+        background: rgba(255, 255, 255, 0.06);
+        border-color: transparent;
+        border-bottom-color: rgba(255, 255, 255, 0.08);
+        border-left-color: var(--nau-gold);
+        transform: none;
+        box-shadow: none;
+    }
+
+    .nav-dropdown-text {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
     }
 
     .nav-dropdown-text strong {
-        color: rgba(255, 255, 255, 0.95);
+        color: rgba(255, 255, 255, 0.92);
+        font-size: 1rem;
+        font-weight: 500;
+        margin-bottom: 0;
+        font-family: var(--font-body, inherit);
     }
 
     .nav-dropdown-link:not(.nav-dropdown-link--disabled):hover .nav-dropdown-text strong {
         color: var(--nau-gold);
     }
 
-    .nav-dropdown-text small {
-        color: rgba(255, 255, 255, 0.5);
+    /* Stagger animation still uses is-open / is-mobile-open on desktop;
+       for drill, force links visible when drilled */
+    .nav-menu.is-drilling .is-drill-active .nav-dropdown-link {
+        opacity: 1;
+        transform: none;
+        transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+
+    .nav-dropdown-link--disabled,
+    .nav-menu.is-drilling .is-drill-active .nav-dropdown-link--disabled {
+        opacity: 0.55;
     }
 
     .nav-soon-badge {
         background: rgba(255, 255, 255, 0.14);
         color: rgba(255, 255, 255, 0.7);
+        margin-left: 0;
     }
 }
 
@@ -10351,7 +11177,7 @@ ul {
     line-height: 1.3;
 }
 
-/* ── Mobile overrides for Resources panel ─────────────────────── */
+/* ── Mobile overrides for Resources panel ──────────── */
 @media (max-width: 1024px) {
     .nav-resources-panel {
         width: 100% !important;
@@ -10362,31 +11188,46 @@ ul {
     .nav-resources-inner {
         max-height: 0;
         overflow: hidden;
-        transition: max-height 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        padding: 0;
     }
 
-    .nav-item--has-dropdown.is-mobile-open .nav-resources-inner {
-        max-height: 400px;
-    }
-
-    .nav-res-link {
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 8px;
-        margin-bottom: 6px;
+    .nav-menu.is-drilling .is-drill-active .nav-resources-inner {
+        max-height: none;
+        overflow: visible;
+        padding: 4px 0 0;
     }
 
     .nav-res-icon {
-        background: rgba(255, 255, 255, 0.08);
-        color: rgba(255, 255, 255, 0.7);
-    }
-
-    .nav-res-text strong {
-        color: rgba(255, 255, 255, 0.9);
+        display: none;
     }
 
     .nav-res-text small {
-        color: rgba(255, 255, 255, 0.45);
+        display: none;
+    }
+
+    .nav-res-link {
+        align-items: center;
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        margin-bottom: 0;
+        padding: 14px 12px;
+    }
+
+    .nav-res-link:last-child {
+        border-bottom: none;
+    }
+
+    .nav-res-text strong {
+        color: rgba(255, 255, 255, 0.92);
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    .nav-menu.is-drilling .is-drill-active .nav-res-link {
+        opacity: 1;
+        transform: none;
     }
 }
 
@@ -11449,7 +12290,7 @@ END DEPRECATED */
     margin-bottom: 20px;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 768px) {
 
     .pf__row--2col,
     .pf__row--3col {
@@ -12125,6 +12966,122 @@ END DEPRECATED */
 
 .dark-steps .ml-access__step:hover .ml-access__step-title {
     color: var(--nau-gold) !important;
+}
+
+/* ── Services page — mobile / tablet polish ───────────────────
+   Keeps desktop rules intact. Inline hero height caps on
+   services.html (and other compact heroes) are unlocked below
+   768 so title + subtitle can size naturally. */
+@media (max-width: 1024px) {
+    .services-directory {
+        padding: 64px 0 88px;
+    }
+
+    .s-card-grid {
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .ml-hero--compact {
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        padding: 110px 0 56px;
+    }
+
+    .ml-hero--compact .ml-hero__content {
+        padding-bottom: 24px !important;
+    }
+
+    .services-why-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .s-why-card {
+        padding: 28px 22px;
+        border-radius: 18px;
+    }
+
+    .s-why-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
+        margin-bottom: 18px;
+    }
+
+    .s-why-card h4 {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+    }
+
+    .services-directory {
+        padding: 56px 0 72px;
+    }
+
+    .services-process-steps {
+        margin: 24px 0 0;
+        gap: 28px;
+    }
+
+    .ml-cta-premium {
+        margin: 28px 0 8px;
+        border-radius: 20px;
+    }
+
+    .ml-cta-premium .container {
+        padding: 44px 20px;
+    }
+
+    .ml-cta-title {
+        font-size: clamp(1.55rem, 6.2vw, 2rem);
+        margin-bottom: 14px;
+        letter-spacing: -0.03em;
+    }
+
+    .ml-cta-desc {
+        font-size: 0.98rem;
+        line-height: 1.65;
+        margin-bottom: 26px;
+    }
+
+    .ml-cta-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    .ml-cta-actions .btn {
+        width: 100%;
+        padding: 14px 22px;
+        font-size: 1rem;
+        min-height: 48px;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .ml-hero--compact {
+        padding: 96px 0 48px;
+    }
+
+    .s-card__img-wrap {
+        height: 150px;
+    }
+
+    .s-card__body {
+        padding: 18px 16px;
+        gap: 8px;
+    }
+
+    .s-card__title {
+        font-size: 1.05rem;
+    }
+
+    .ml-cta-premium .container {
+        padding: 36px 16px;
+    }
 }
 
 
@@ -13729,6 +14686,211 @@ END DEPRECATED */
 
 .ml-d4 {
     transition-delay: 0.40s;
+}
+
+/* ── MPaCT / ml-* lab page — tablet & phone isolation ───────── */
+@media (max-width: 1024px) {
+    .ml-intro {
+        padding: 64px 0 72px;
+    }
+
+    .ml-buildout {
+        padding: 88px 0 96px;
+    }
+
+    .ml-buildout__header {
+        margin-bottom: 48px;
+    }
+
+    .ml-buildout__overview {
+        gap: 40px;
+        margin-bottom: 64px;
+    }
+
+    .ml-access,
+    .ml-research {
+        padding: 72px 0;
+    }
+
+    .ml-cta {
+        padding: 72px 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .ml-intro {
+        padding: 56px 0 64px;
+    }
+
+    .ml-buildout {
+        padding: 64px 0 72px;
+    }
+
+    .ml-buildout__overview {
+        grid-template-columns: 1fr;
+        gap: 36px;
+        margin-bottom: 0;
+    }
+
+    .ml-buildout__overview::before {
+        width: min(100%, 420px);
+        height: 280px;
+    }
+
+    .ml-buildout__image-badge {
+        bottom: 12px;
+        left: 12px;
+        gap: 16px;
+        padding: 10px 14px;
+    }
+
+    .ml-buildout__badge-value {
+        font-size: 1.15rem;
+    }
+
+    .ml-buildout__info-section {
+        gap: 28px;
+    }
+
+    .ml-access {
+        padding: 64px 0;
+    }
+
+    .ml-access__header {
+        margin-bottom: 44px;
+    }
+
+    .ml-access__cta {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        margin-top: 40px;
+    }
+
+    .ml-access__btn {
+        margin-right: 0;
+    }
+
+    .ml-access__cta .btn {
+        width: min(100%, 320px);
+    }
+
+    .ml-research {
+        padding: 64px 0;
+    }
+
+    .ml-research__header {
+        margin-bottom: 40px;
+    }
+
+    .ml-research__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ml-ra {
+        padding: 22px 18px;
+        gap: 16px;
+    }
+
+    .ml-ra__num {
+        font-size: 2.2rem;
+        width: 44px;
+    }
+
+    .ml-cta {
+        padding: 64px 0;
+    }
+
+    .ml-cta__title {
+        font-size: clamp(1.85rem, 8vw, 2.6rem);
+    }
+
+    .ml-cta__desc {
+        margin-bottom: 32px;
+    }
+
+    .ml-cta__actions {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .ml-cta__actions .btn {
+        width: min(100%, 320px);
+    }
+}
+
+@media (max-width: 480px) {
+    .ml-buildout__image-badge {
+        gap: 12px;
+        padding: 8px 12px;
+    }
+
+    .ml-buildout__badge-label {
+        letter-spacing: 0.8px;
+    }
+
+    .ml-ra {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .ml-ra__num {
+        width: auto;
+        font-size: 1.85rem;
+    }
+
+    .mpact-page .ml-hero__title {
+        font-size: clamp(2.35rem, 11vw, 2.9rem);
+    }
+
+    .mpact-page .ml-hero__subtitle {
+        font-size: 0.95rem;
+        line-height: 1.7;
+    }
+}
+
+/* ── EquipmentRequest.html — under-dev stub (tablet/phone) ─────
+   Coming-soon placeholder only (no form yet). Desktop keeps
+   inline section styles; media queries override padding/tap size. */
+@media (max-width: 1024px) {
+    .under-dev-hero {
+        padding: 96px 28px 72px !important;
+        min-height: calc(100vh - 140px) !important;
+        box-sizing: border-box;
+    }
+}
+
+@media (max-width: 768px) {
+    .under-dev-hero {
+        padding: 88px 20px 64px !important;
+        min-height: calc(100dvh - 120px) !important;
+        gap: 10px !important;
+    }
+
+    .under-dev-hero h1 {
+        overflow-wrap: break-word;
+        max-width: 100%;
+    }
+
+    .under-dev-hero p {
+        max-width: min(420px, 100%) !important;
+        font-size: 0.95rem !important;
+        line-height: 1.65 !important;
+    }
+
+    .under-dev-cta {
+        min-height: 44px;
+        padding: 12px 20px !important;
+        font-size: 0.9rem !important;
+        box-sizing: border-box;
+    }
+}
+
+@media (max-width: 480px) {
+    .under-dev-hero {
+        padding: 80px 16px 56px !important;
+    }
 }
 
 
@@ -16411,15 +17573,71 @@ body.workforce-development-page {
     .wfd-stat:nth-child(2)::after {
         display: none;
     }
+
+    /* Hero unlock — page-inline cinematic height clipped CTAs on phones */
+    body.workforce-development-page .wfd-hero {
+        height: auto;
+        min-height: 0;
+        max-height: none;
+        padding: 100px 0 48px;
+    }
+
+    body.workforce-development-page .wfd-hero__content {
+        padding-bottom: 8px;
+    }
+
+    body.workforce-development-page .wfd-hero__title {
+        font-size: clamp(2.35rem, 11vw, 3.15rem);
+        line-height: 1.02;
+        margin-bottom: 18px;
+    }
+
+    body.workforce-development-page .wfd-hero__subtitle {
+        font-size: 0.95rem;
+        line-height: 1.65;
+        margin-bottom: 28px;
+        max-width: 100%;
+    }
+
+    body.workforce-development-page .wfd-hero__actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        width: 100%;
+    }
+
+    body.workforce-development-page .wfd-hero__actions .btn {
+        width: 100%;
+        justify-content: center;
+        min-height: 48px;
+    }
+
+    body.workforce-development-page .wfd-hero__scroll {
+        display: none;
+    }
+
+    body.workforce-development-page .wfd-intro,
+    body.workforce-development-page .wfd-stats,
+    body.workforce-development-page .wfd-pathways,
+    body.workforce-development-page .wfd-investment,
+    body.workforce-development-page .wfd-ecosystem,
+    body.workforce-development-page .wfd-careers {
+        padding-top: 56px;
+        padding-bottom: 56px;
+    }
+
+    body.workforce-development-page .wfd-ptap__content {
+        padding: 24px 20px;
+    }
 }
 
 @media (max-width: 600px) {
-    .wfd-hero {
-        min-height: 600px;
+    body.workforce-development-page .wfd-hero {
+        padding: 92px 0 40px;
     }
 
-    .wfd-hero__content {
-        padding-bottom: 64px;
+    body.workforce-development-page .wfd-hero__content {
+        padding-bottom: 0;
     }
 }
 
@@ -16445,6 +17663,10 @@ body.workforce-development-page {
 
     .wfd-eco__more-logo {
         width: 100%;
+    }
+
+    body.workforce-development-page .wfd-hero__title {
+        font-size: clamp(2.05rem, 12vw, 2.55rem);
     }
 }
 
@@ -17009,6 +18231,181 @@ body.workforce-development-page {
     max-width: 820px;
     margin: 0 auto;
     padding: 0 var(--space-md);
+}
+
+/* --------------------------------------
+   BOOKING / SHARED PRINT-FORM — MOBILE
+   Reserve_Equipment (+ shared .pf__ / .bk-*)
+   Desktop ≥1025 left unchanged.
+   -------------------------------------- */
+
+@media (max-width: 1024px) {
+    .bk-form-wrap {
+        padding-left: max(12px, env(safe-area-inset-left, 0px));
+        padding-right: max(12px, env(safe-area-inset-right, 0px));
+    }
+
+    .bk-info-card {
+        padding: 16px 18px;
+        margin-bottom: 24px;
+    }
+
+    .pf__section {
+        padding: 24px 20px 20px;
+    }
+
+    .bk-cost-header {
+        flex-wrap: wrap;
+        gap: 8px 10px;
+    }
+
+    .bk-cost-badge {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Hero already unlocked via shared .ml-hero--compact rules;
+       keep subtitle from forcing sideways overflow. */
+    body:has(#bookingForm) .ml-hero--compact .ml-hero__subtitle {
+        max-width: 100%;
+        overflow-wrap: break-word;
+    }
+
+    .pf__section {
+        padding: 20px 16px 18px;
+        margin-bottom: 18px;
+        border-radius: 12px;
+    }
+
+    .pf__legend {
+        font-size: 1.02rem;
+        margin-bottom: 18px;
+        gap: 8px;
+    }
+
+    .pf__legend-num {
+        width: 26px;
+        height: 26px;
+        font-size: 0.74rem;
+    }
+
+    /* 16px prevents iOS focus-zoom on form controls */
+    .pf__input,
+    .pf__select,
+    .pf__textarea {
+        font-size: 16px;
+        min-height: 44px;
+        padding: 12px 14px;
+    }
+
+    .pf__textarea {
+        min-height: 96px;
+    }
+
+    .pf__helper,
+    .pf__error {
+        font-size: 0.8rem;
+        line-height: 1.45;
+    }
+
+    /* When 2-col stacks, kill the desktop mid-row checkbox offset */
+    .bk-checkbox-mid {
+        padding-top: 0;
+    }
+
+    .bk-section-note,
+    .bk-edu-notice,
+    .bk-edu-external-block,
+    .bk-info-alert,
+    .bk-field-warning {
+        padding: 12px 14px;
+        font-size: 0.86rem;
+    }
+
+    .bk-cost-tbd {
+        flex-direction: column;
+        gap: 10px;
+        padding: 16px;
+    }
+
+    .bk-cost-breakdown,
+    .bk-cost-header,
+    .bk-cost-disclaimer {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .bk-cost-row--total {
+        font-size: 1.02rem;
+    }
+
+    /* Flex child needs min-width:0 so the subtitle can wrap */
+    .bk-billing-notice__header > div:last-child {
+        min-width: 0;
+        flex: 1 1 auto;
+    }
+
+    .bk-billing-notice__title,
+    .bk-billing-notice__subtitle {
+        overflow-wrap: break-word;
+    }
+
+    .bk-billing-notice__subtitle {
+        line-height: 1.4;
+    }
+
+    .bk-billing-notice__agree label {
+        font-size: 0.84rem;
+        line-height: 1.55;
+    }
+
+    .bk-billing-notice__agree input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        margin-top: 2px;
+    }
+
+    #turnstile-booking,
+    .mpct-turnstile {
+        display: flex;
+        justify-content: center;
+        max-width: 100%;
+        overflow-x: auto;
+    }
+}
+
+@media (max-width: 600px) {
+    /* Submit actions: full-width stack on phones */
+    .bk-submit-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .bk-submit-actions .btn {
+        width: 100%;
+        min-height: 48px;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .pf__section {
+        padding: 18px 14px 16px;
+    }
+
+    .bk-info-card {
+        padding: 14px 14px;
+    }
+
+    .bk-billing-notice__clause {
+        padding: 12px 14px;
+    }
+
+    .bk-billing-notice__clause p {
+        font-size: 0.76rem;
+    }
 }
 
 
@@ -17822,13 +19219,22 @@ body.workforce-development-page {
     }
 
     .news-more-stories__grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
 @media (max-width: 760px) {
     .news-filter-bar {
         padding: 12px 0;
+        overflow-x: clip;
+    }
+
+    .news-toolbar,
+    .news-toolbar__top,
+    .news-toolbar__controls {
+        min-width: 0;
+        max-width: 100%;
+        width: 100%;
     }
 
     .news-toolbar__top {
@@ -17838,6 +19244,7 @@ body.workforce-development-page {
     .news-toolbar__controls {
         align-items: stretch;
         flex-direction: column;
+        flex: 1 1 auto;
         gap: 8px;
     }
 
@@ -17845,15 +19252,24 @@ body.workforce-development-page {
         min-width: 0;
         max-width: none;
         flex: 1 1 auto;
+        width: 100%;
     }
 
     .news-search-field__input {
         font-size: 16px;
         /* prevents iOS zoom on focus */
+        max-width: 100%;
+    }
+
+    .news-calendar-wrap {
+        width: 100%;
+        min-width: 0;
     }
 
     .news-calendar-trigger {
         width: 100%;
+        min-width: 0;
+        max-width: 100%;
     }
 
     .news-reset-btn {
@@ -17867,6 +19283,9 @@ body.workforce-development-page {
         padding-bottom: 2px;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
     }
 
     #newsFilterSection .filter-group::-webkit-scrollbar {
@@ -17892,6 +19311,8 @@ body.workforce-development-page {
     .news-more-stories {
         margin-top: 36px;
         padding-top: 28px;
+        min-width: 0;
+        max-width: 100%;
     }
 
     .news-more-stories__header {
@@ -17905,12 +19326,18 @@ body.workforce-development-page {
     }
 
     .news-more-stories__grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
         gap: 10px;
+        min-width: 0;
+        width: 100%;
     }
 
     .news-more-card {
         padding: 14px 16px;
+        min-width: 0;
+        max-width: 100%;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .news-calendar-popover {
@@ -17929,6 +19356,18 @@ body.workforce-development-page {
 
     .news-calendar-popover.is-open {
         transform: translateY(0);
+    }
+
+    /* Hero: unlock inline height caps so title + subtitle fit */
+    body:has(#newsHeroSection) .ml-hero.ml-hero--compact {
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        padding: 100px 0 48px;
+    }
+
+    body:has(#newsHeroSection) .ml-hero.ml-hero--compact .ml-hero__content {
+        padding-bottom: 8px !important;
     }
 }
 
@@ -20971,6 +22410,156 @@ body.workforce-development-page {
         justify-content: center;
     }
     .intel-register__note {
+        justify-content: center;
+    }
+}
+
+/* --------------------------------------
+   CHIPS SCHOLARS — MOBILE / TABLET POLISH
+   Placed AFTER base .intel-* rules so padding /
+   header overrides actually win (earlier 768
+   block sits above base eligibility/focus/cta).
+   Desktop (≥1025px) unchanged.
+   -------------------------------------- */
+
+@media (max-width: 1024px) {
+    .intel-overview,
+    .intel-bento,
+    .intel-focus,
+    .intel-eligibility,
+    .intel-cta {
+        padding: 80px 0;
+    }
+
+    .intel-cta::before {
+        font-size: 22vw;
+    }
+}
+
+@media (max-width: 768px) {
+    .intel-overview,
+    .intel-bento,
+    .intel-focus,
+    .intel-eligibility,
+    .intel-pathway {
+        padding: 64px 0;
+    }
+
+    .intel-cta {
+        padding: 64px 0;
+    }
+
+    .intel-bento__header,
+    .intel-eligibility__header,
+    .intel-pathway__header {
+        text-align: left;
+        margin-bottom: 36px;
+    }
+
+    .intel-bento__sub,
+    .intel-eligibility__sub,
+    .intel-pathway__sub {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .intel-bento__grid,
+    .intel-eligibility__grid {
+        gap: 14px;
+    }
+
+    .intel-bento__card,
+    .intel-eligibility__card {
+        padding: 24px 20px;
+        border-radius: 16px;
+    }
+
+    .intel-bento__card--wide,
+    .intel-bento__card--narrow,
+    .intel-bento__card--third {
+        min-height: 0;
+    }
+
+    .intel-bento__watermark {
+        right: 10px;
+        font-size: 4.5rem;
+    }
+
+    .intel-focus__image-frame {
+        aspect-ratio: 4 / 3;
+        flex: none;
+    }
+
+    .intel-cta__actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    .intel-cta__actions .btn--cta-blue,
+    .intel-cta__actions .btn--cta-outline {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+        min-height: 48px;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .intel-cta::before {
+        font-size: min(28vw, 7rem);
+    }
+
+    .intel-eligibility__footnote {
+        margin-top: 24px;
+    }
+
+    body:has(.intel-register) .ml-hero__actions {
+        max-width: none;
+        width: 100%;
+    }
+
+    body:has(.intel-register) .ml-hero__actions .btn {
+        min-height: 48px;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .intel-overview,
+    .intel-bento,
+    .intel-focus,
+    .intel-eligibility,
+    .intel-cta {
+        padding: 56px 0;
+    }
+
+    .intel-bento__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .intel-bento__card--wide {
+        grid-column: span 1;
+    }
+
+    .intel-bento__title,
+    .intel-focus__title,
+    .intel-eligibility__title,
+    .intel-overview__title {
+        font-size: clamp(1.75rem, 8.5vw, 2.2rem);
+    }
+
+    .intel-register__radio-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .intel-register__radio span {
+        width: 100%;
+        text-align: center;
+        min-height: 48px;
+        display: inline-flex;
+        align-items: center;
         justify-content: center;
     }
 }

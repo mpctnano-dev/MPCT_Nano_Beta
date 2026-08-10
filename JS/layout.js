@@ -61,6 +61,7 @@ function highlightActiveLink(header) {
 // Powers the hamburger menu on mobile screens.
 // Handles open/close toggling, aria labels for accessibility,
 // and automatically closes the menu when a nav link is tapped.
+// Also resets drill-down state when the drawer closes.
 function initMobileMenu(header) {
     const mobileBtn = header.querySelector('.mobile-toggle');
     const navMenu = header.querySelector('.nav-menu');
@@ -69,25 +70,52 @@ function initMobileMenu(header) {
     // Give the nav menu an id so the button can reference it via aria-controls.
     if (!navMenu.id) navMenu.id = 'site-nav-menu';
 
-    const closeMenu = () => {
-        navMenu.classList.remove('is-open');
-        mobileBtn.setAttribute('aria-expanded', 'false');
-        mobileBtn.setAttribute('aria-label', 'Open Menu');
-        // Also collapse any dropdowns that were open inside the mobile menu.
+    const iconOpen = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 12h18M3 6h18M3 18h18" /></svg>';
+    const iconClose = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M6 18L18 6" /></svg>';
+
+    const setBodyScrollLock = (locked) => {
+        document.body.style.overflow = locked ? 'hidden' : '';
+    };
+
+    const setToggleVisual = (isOpen) => {
+        mobileBtn.setAttribute('aria-expanded', String(isOpen));
+        mobileBtn.setAttribute('aria-label', isOpen ? 'Close Menu' : 'Open Menu');
+        mobileBtn.innerHTML = isOpen ? iconClose : iconOpen;
+    };
+
+    const resetDrill = () => {
+        navMenu.classList.remove('is-drilling');
+        header.querySelectorAll('.nav-item--has-dropdown.is-drill-active').forEach(item => {
+            item.classList.remove('is-drill-active');
+            item.querySelector('.nav-dropdown-btn')?.setAttribute('aria-expanded', 'false');
+        });
+        // Also clear legacy .is-mobile-open if present after a restore from archive.
         header.querySelectorAll('.nav-item--has-dropdown.is-mobile-open').forEach(item => {
             item.classList.remove('is-mobile-open');
             item.querySelector('.nav-dropdown-btn')?.setAttribute('aria-expanded', 'false');
         });
     };
 
+    const closeMenu = () => {
+        navMenu.classList.remove('is-open');
+        setToggleVisual(false);
+        setBodyScrollLock(false);
+        resetDrill();
+    };
+
+    // Expose reset/close helpers for the drill-down controller.
+    navMenu._mpctResetDrill = resetDrill;
+    navMenu._mpctCloseMenu = closeMenu;
+
     mobileBtn.setAttribute('aria-controls', navMenu.id);
-    mobileBtn.setAttribute('aria-expanded', 'false');
+    setToggleVisual(false);
 
     // Toggle the menu open or closed when the hamburger button is tapped.
     mobileBtn.addEventListener('click', () => {
         const isOpen = navMenu.classList.toggle('is-open');
-        mobileBtn.setAttribute('aria-expanded', String(isOpen));
-        mobileBtn.setAttribute('aria-label', isOpen ? 'Close Menu' : 'Open Menu');
+        setToggleVisual(isOpen);
+        setBodyScrollLock(isOpen);
+        if (!isOpen) resetDrill();
     });
 
     // Close the menu when any nav link inside it is clicked.
@@ -100,6 +128,96 @@ function initMobileMenu(header) {
     window.addEventListener('resize', () => {
         if (window.innerWidth > 1024) closeMenu();
     }, { passive: true });
+}
+
+
+// Inject a Back bar and drill into a section panel on mobile
+// (replaces the archived accordion expand in CSS/_preserved_mobile_nav.css).
+function initMobileDrillNav(header) {
+    const navMenu = header.querySelector('.nav-menu');
+    if (!navMenu) return;
+
+    const dropdownItems = header.querySelectorAll('.nav-item--has-dropdown');
+
+    const drillBar = document.createElement('div');
+    drillBar.className = 'nav-drill-bar';
+    drillBar.innerHTML = `
+        <button type="button" class="nav-drill-back">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            Back
+        </button>
+        <span class="nav-drill-title"></span>
+    `;
+    navMenu.prepend(drillBar);
+
+    const backBtn = drillBar.querySelector('.nav-drill-back');
+    const titleEl = drillBar.querySelector('.nav-drill-title');
+
+    const exitDrill = () => {
+        const active = navMenu.querySelector('.is-drill-active');
+        const activeBtn = active?.querySelector('.nav-dropdown-btn');
+        if (typeof navMenu._mpctResetDrill === 'function') {
+            navMenu._mpctResetDrill();
+        } else {
+            navMenu.classList.remove('is-drilling');
+            header.querySelectorAll('.is-drill-active').forEach(item => {
+                item.classList.remove('is-drill-active');
+                item.querySelector('.nav-dropdown-btn')?.setAttribute('aria-expanded', 'false');
+            });
+        }
+        activeBtn?.focus();
+    };
+
+    const enterDrill = (item) => {
+        const btn = item.querySelector('.nav-dropdown-btn');
+        if (!btn) return;
+
+        dropdownItems.forEach(other => {
+            other.classList.remove('is-drill-active', 'is-mobile-open');
+            other.querySelector('.nav-dropdown-btn')?.setAttribute('aria-expanded', 'false');
+        });
+
+        item.classList.add('is-drill-active');
+        navMenu.classList.add('is-drilling');
+        btn.setAttribute('aria-expanded', 'true');
+
+        // Button label text without the chevron SVG.
+        const label = [...btn.childNodes]
+            .filter(n => n.nodeType === Node.TEXT_NODE)
+            .map(n => n.textContent.trim())
+            .join(' ')
+            .trim() || btn.textContent.trim();
+        titleEl.textContent = label;
+        backBtn.focus();
+    };
+
+    backBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        exitDrill();
+    });
+
+    dropdownItems.forEach(item => {
+        const btn = item.querySelector('.nav-dropdown-btn');
+        if (!btn) return;
+        btn.addEventListener('click', (e) => {
+            if (window.innerWidth > 1024) return;
+            e.preventDefault();
+            e.stopPropagation();
+            enterDrill(item);
+        });
+    });
+
+    // Escape while drilling returns to the root list (does not close the sheet).
+    navMenu.addEventListener('keydown', (e) => {
+        if (e.key !== 'Escape') return;
+        if (window.innerWidth > 1024) return;
+        if (!navMenu.classList.contains('is-drilling')) return;
+        e.stopPropagation();
+        exitDrill();
+    });
 }
 
 
@@ -156,14 +274,24 @@ function initAllDropdowns(header) {
             close();
         });
 
-        // On mobile, tapping the button accordion-expands the dropdown
-        // instead of hovering, since there is no hover on touch screens.
-        btn.addEventListener('click', (e) => {
-            if (window.innerWidth > 1024) return;
-            e.stopPropagation();
-            const isOpen = item.classList.toggle('is-mobile-open');
-            btn.setAttribute('aria-expanded', String(isOpen));
-        });
+        /*
+         * Archived accordion toggle (see CSS/_preserved_mobile_nav.css).
+         * Replaced by drill-down in initMobileDrillNav.
+         *
+         * btn.addEventListener('click', (e) => {
+         *     if (window.innerWidth > 1024) return;
+         *     e.stopPropagation();
+         *     const willOpen = !item.classList.contains('is-mobile-open');
+         *     dropdownItems.forEach(other => {
+         *         other.classList.remove('is-mobile-open');
+         *         other.querySelector('.nav-dropdown-btn')?.setAttribute('aria-expanded', 'false');
+         *     });
+         *     if (willOpen) {
+         *         item.classList.add('is-mobile-open');
+         *         btn.setAttribute('aria-expanded', 'true');
+         *     }
+         * });
+         */
 
         // Keyboard support: Enter or Space opens the dropdown,
         // Escape closes it and returns focus to the trigger button.
@@ -185,11 +313,13 @@ function initAllDropdowns(header) {
         });
     });
 
-    // Clicking anywhere outside a dropdown closes all open dropdowns.
+    // Clicking outside a desktop dropdown closes open panels.
+    // Mobile drill state is owned by initMobileDrillNav / initMobileMenu.
     document.addEventListener('click', (e) => {
+        if (window.innerWidth <= 1024) return;
         dropdownItems.forEach(item => {
             if (!item.contains(e.target)) {
-                item.classList.remove('is-open', 'is-mobile-open');
+                item.classList.remove('is-open');
                 item.querySelector('.nav-dropdown-btn')?.setAttribute('aria-expanded', 'false');
             }
         });
@@ -201,6 +331,7 @@ function initAllDropdowns(header) {
 loadPart('site-header', '/includes/header.html', (el) => {
     highlightActiveLink(el);
     initMobileMenu(el);
+    initMobileDrillNav(el);
     initAllDropdowns(el);
 });
 
