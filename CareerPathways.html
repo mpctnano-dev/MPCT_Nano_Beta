@@ -1178,6 +1178,55 @@
             font-size: 0.65rem;
             color: var(--nau-gold-dark, #b8860b);
         }
+
+        /* ── Phone / tablet polish ─────────────────────────────────
+           The 900px and 700px blocks above already stack the layout,
+           unstick the tree sidebar, and shrink the stat/skill grids.
+           This handles what was still overflowing. Desktop untouched. */
+        @media (max-width: 768px) {
+
+            /* The eight career tables have no wrapper element, and
+               their nowrap skill tags push min-content past a phone
+               viewport — which scrolled the whole PAGE sideways.
+               display:block turns the table itself into the scroll
+               container so the overflow stays local. Note: thead and
+               tbody are deliberately left alone; an anonymous table
+               box still wraps them, so header and body columns stay
+               aligned. Overriding their display would split them into
+               two independently-sized tables and break alignment. */
+            .cp-career-table {
+                display: block;
+                overflow-x: auto;
+                overflow-y: hidden;
+                -webkit-overflow-scrolling: touch;
+                overscroll-behavior-x: contain;
+            }
+
+            /* Salary ranges read as one token — don't break mid-range. */
+            .cp-career-table .cp-salary {
+                white-space: nowrap;
+            }
+
+            .cp-citation {
+                padding: 22px 20px;
+            }
+
+            /* Source badges were ~26px tall — below a usable tap size. */
+            .cp-citation__badge {
+                min-height: 44px;
+                padding: 8px 14px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .cp-hero {
+                padding: 44px 0 56px;
+            }
+
+            .cp-career-section h3 {
+                font-size: 1.05rem;
+            }
+        }
 </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1569,7 +1618,7 @@
 </div>
 <div class="cp-advantage">
 <h4><i class="fas fa-star"></i> NAU Advantage</h4>
-<p>Students build deep expertise in microelectronics, power systems, and signal processing. The program emphasizes experiential learning, offering direct access to semiconductor fabrication equipment in the $13M MPaCT Lab to prepare students for complex technical challenges.</p>
+<p>Students build deep expertise in microelectronics, power systems, and signal processing. The program emphasizes experiential learning, offering direct access to semiconductor fabrication equipment in the $8M MPaCT Lab to prepare students for complex technical challenges.</p>
 </div>
 </div>
 </div>

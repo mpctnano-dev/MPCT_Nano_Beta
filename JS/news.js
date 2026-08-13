@@ -79,7 +79,7 @@ const ARTICLES = [
             },
             {
                 heading: 'Complementary Strengths Across the Alliance',
-                body: 'NAU brings the MPaCT Lab, a 35+ instrument fabrication and metrology facility, alongside new curriculum supported by a $13M Arizona Commerce Authority semiconductor workforce grant and an established TSMC apprenticeship pipeline. As a Hispanic-Serving Institution with approximately 60% first-generation enrollment, NAU reaches underrepresented communities across rural northern Arizona. U of A contributes decades of Intel-aligned photonics expertise through the Wyant College of Optical Sciences and the Center for Semiconductor Manufacturing, which is staffed in part by former Intel engineers and has graduated more than 200 Master\'s and PhD students through SRC-affiliated programs.'
+                body: 'NAU brings the MPaCT Lab, a 35+ instrument fabrication and metrology facility, alongside new curriculum supported by a $8M Arizona Commerce Authority semiconductor workforce grant and an established TSMC apprenticeship pipeline. As a Hispanic-Serving Institution with approximately 60% first-generation enrollment, NAU reaches underrepresented communities across rural northern Arizona. U of A contributes decades of Intel-aligned photonics expertise through the Wyant College of Optical Sciences and the Center for Semiconductor Manufacturing, which is staffed in part by former Intel engineers and has graduated more than 200 Master\'s and PhD students through SRC-affiliated programs.'
             },
             {
                 heading: 'From Lab to Career',

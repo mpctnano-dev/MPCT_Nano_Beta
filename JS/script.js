@@ -154,12 +154,21 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
+        // Position the track: page offset in %, plus an optional live drag offset in px
+        function applyEduTransform(dragOffsetPx) {
+            const translateX = -(currentPage * 100);
+            if (dragOffsetPx) {
+                eduCardsGrid.style.transform = `translateX(calc(${translateX}% + ${dragOffsetPx}px))`;
+            } else {
+                eduCardsGrid.style.transform = `translateX(${translateX}%)`;
+            }
+        }
+
         function updateEduPage(page) {
             currentPage = page;
 
             // Slide the grid
-            const translateX = -(page * 100);
-            eduCardsGrid.style.transform = `translateX(${translateX}%)`;
+            applyEduTransform(0);
 
             // Update pagination dots active state
             const dots = eduDotsContainer.querySelectorAll('.edu-dot');
@@ -179,6 +188,112 @@ document.addEventListener('DOMContentLoaded', () => {
         eduNavRight.addEventListener('click', () => {
             if (currentPage < totalPages - 1) updateEduPage(currentPage + 1);
         });
+
+        // Swipe / drag support for touch and pen devices
+        // CSS sets touch-action: pan-y on the viewport, so vertical page scrolling
+        // stays native while horizontal gestures are ours to handle.
+        const eduViewport = eduCardsGrid.parentElement;
+
+        if (eduViewport) {
+            let dragPointerId = null;
+            let dragStartX = 0;
+            let dragStartY = 0;
+            let dragDeltaX = 0;
+            let dragStartTime = 0;
+            let dragAxisLocked = false;
+            let didSwipe = false;
+
+            const AXIS_LOCK_PX = 10;   // movement before we decide horizontal vs vertical
+            const FLICK_VELOCITY = 0.4; // px/ms - a quick flick pages even if short
+
+            function endEduDrag(e) {
+                if (dragPointerId === null) return;
+                if (e && e.pointerId !== dragPointerId) return;
+
+                if (eduViewport.hasPointerCapture && eduViewport.hasPointerCapture(dragPointerId)) {
+                    eduViewport.releasePointerCapture(dragPointerId);
+                }
+
+                const width = eduViewport.clientWidth || 1;
+                const elapsed = Math.max(Date.now() - dragStartTime, 1);
+                const velocity = Math.abs(dragDeltaX) / elapsed;
+                const distanceThreshold = Math.max(50, width * 0.18);
+                const shouldPage = Math.abs(dragDeltaX) > distanceThreshold || velocity > FLICK_VELOCITY;
+
+                dragPointerId = null;
+                eduCardsGrid.classList.remove('is-dragging');
+
+                if (shouldPage && dragDeltaX < 0 && currentPage < totalPages - 1) {
+                    updateEduPage(currentPage + 1);
+                } else if (shouldPage && dragDeltaX > 0 && currentPage > 0) {
+                    updateEduPage(currentPage - 1);
+                } else {
+                    // Snap back to the current page
+                    applyEduTransform(0);
+                }
+
+                dragDeltaX = 0;
+                dragAxisLocked = false;
+            }
+
+            eduViewport.addEventListener('pointerdown', (e) => {
+                // Mouse users have the arrows and dots; dragging with a mouse would
+                // interfere with clicking the card links.
+                if (e.pointerType === 'mouse' || dragPointerId !== null) return;
+
+                dragPointerId = e.pointerId;
+                dragStartX = e.clientX;
+                dragStartY = e.clientY;
+                dragDeltaX = 0;
+                dragStartTime = Date.now();
+                dragAxisLocked = false;
+                didSwipe = false;
+            });
+
+            eduViewport.addEventListener('pointermove', (e) => {
+                if (e.pointerId !== dragPointerId) return;
+
+                const deltaX = e.clientX - dragStartX;
+                const deltaY = e.clientY - dragStartY;
+
+                if (!dragAxisLocked) {
+                    if (Math.abs(deltaX) < AXIS_LOCK_PX && Math.abs(deltaY) < AXIS_LOCK_PX) return;
+
+                    // Vertical intent - hand the gesture back to the page scroll
+                    if (Math.abs(deltaY) > Math.abs(deltaX)) {
+                        dragPointerId = null;
+                        return;
+                    }
+
+                    dragAxisLocked = true;
+                    didSwipe = true;
+                    eduCardsGrid.classList.add('is-dragging');
+
+                    // Keep receiving moves even if the finger leaves the viewport
+                    if (eduViewport.setPointerCapture) {
+                        eduViewport.setPointerCapture(dragPointerId);
+                    }
+                }
+
+                // Resist dragging past the first/last page
+                const atEdge = (deltaX > 0 && currentPage === 0) ||
+                    (deltaX < 0 && currentPage === totalPages - 1);
+                dragDeltaX = atEdge ? deltaX * 0.3 : deltaX;
+
+                applyEduTransform(dragDeltaX);
+            });
+
+            eduViewport.addEventListener('pointerup', endEduDrag);
+            eduViewport.addEventListener('pointercancel', endEduDrag);
+
+            // Swallow the click that follows a swipe so cards don't navigate
+            eduViewport.addEventListener('click', (e) => {
+                if (!didSwipe) return;
+                didSwipe = false;
+                e.preventDefault();
+                e.stopPropagation();
+            }, true);
+        }
 
         // Resize listener
         let resizeTimer;
@@ -1247,3 +1362,49 @@ if (searchInput) {
 
 buildSearchSuggestions();
 applyFilters();
+
+
+/**
+ * Horizontal scroll strips (.scroll-strip, see CSS/style.css).
+ * A hidden scrollbar leaves no sign that a row scrolls, so the CSS fades
+ * whichever edge still has content behind it. This only decides which
+ * edges those are; the fade itself is a mask driven by the classes below.
+ * No-ops on pages with no strips.
+ */
+function initScrollStrips() {
+    const strips = Array.from(document.querySelectorAll('.scroll-strip'));
+    if (strips.length === 0) return;
+
+    const updaters = strips.map(strip => {
+        const update = () => {
+            const max = strip.scrollWidth - strip.clientWidth;
+            const x = strip.scrollLeft;
+            // 1px slack: sub-pixel layout means scrollLeft rarely lands
+            // exactly on 0 or on max, which would leave a fade stuck on.
+            strip.classList.toggle('has-overflow-start', x > 1);
+            strip.classList.toggle('has-overflow-end', max > 1 && x < max - 1);
+        };
+
+        strip.addEventListener('scroll', update, { passive: true });
+        if ('ResizeObserver' in window) {
+            new ResizeObserver(update).observe(strip);
+        }
+        update();
+        return update;
+    });
+
+    const updateAll = () => updaters.forEach(update => update());
+
+    if (!('ResizeObserver' in window)) {
+        window.addEventListener('resize', updateAll);
+    }
+
+    // Item widths shift when webfonts swap in, which can change whether
+    // the row overflows at all. ResizeObserver misses it: the strip's own
+    // box does not change, only its contents.
+    if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(updateAll);
+    }
+}
+
+initScrollStrips();

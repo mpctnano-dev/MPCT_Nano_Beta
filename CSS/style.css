@@ -2208,6 +2208,8 @@ ul {
     /* Add top/bottom padding for hover transform */
     margin: -20px 0 -40px 0;
     /* Compensate for padding */
+    touch-action: pan-y;
+    /* Vertical scrolling stays native; horizontal swipes are handled in JS */
 }
 
 /* Cards Track - Flexbox for sliding */
@@ -2216,6 +2218,17 @@ ul {
     gap: 0;
     transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
     /* Smooth subtle ease-out */
+}
+
+/* Follow the finger 1:1 while swiping */
+.edu-cards-grid.is-dragging {
+    transition: none;
+}
+
+/* Keep images/text from being selected or native-dragged mid-swipe */
+.edu-cards-grid.is-dragging * {
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 /* Individual Card */
@@ -6990,6 +7003,112 @@ ul {
 }
 
 /* --------------------------------------
+   SCROLL STRIP — swipe affordance for horizontal rows
+   Reusable: add class="scroll-strip" to any row that scrolls
+   sideways. JS/script.js -> initScrollStrips() toggles the
+   .has-overflow-* classes that drive the edge fades.
+
+   Two affordances working together, because a hidden scrollbar
+   leaves no cue that the row scrolls at all:
+     1. Full-bleed peek — the row runs to the viewport edge so an
+        item is always sliced by the edge of the screen instead of
+        ending flush with the container gutter.
+     2. Edge fade — a mask on whichever side still has content
+        hidden. Both sides are opt-in via class, so neither end
+        fades when there is nothing more to reveal that way.
+
+   Scoped to ≤1024px on purpose. The bleed makes the row claim a full
+   line of its own, which is right on a phone and wrong on desktop,
+   where these rows sit inline beside other controls and fit anyway.
+
+   Candidates to migrate onto this: #newsFilterSection .filter-group
+   (~line 19279) and .card-wrapper (~line 1077) have the same
+   hidden-scrollbar setup and the same discoverability gap.
+   -------------------------------------- */
+
+@media (max-width: 1024px) {
+    .scroll-strip {
+        /* Mirror .container's gutter so the bleed lands on the viewport edge. */
+        --strip-pad-l: var(--space-md);
+        --strip-pad-r: var(--space-md);
+        --strip-fade: 32px;
+
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        overscroll-behavior-x: contain;
+        min-width: 0;
+
+        /* Cancel the gutter, then re-add it as padding so the first and
+           last item still line up with the rest of the page. Width grows
+           by both gutters, leaving the margin box the size of the parent
+           track — so this bleeds without reporting overflow to the layout. */
+        width: calc(100% + var(--strip-pad-l) + var(--strip-pad-r));
+        max-width: none;
+        margin-left: calc(-1 * var(--strip-pad-l));
+        margin-right: calc(-1 * var(--strip-pad-r));
+        padding-left: var(--strip-pad-l);
+        padding-right: var(--strip-pad-r);
+    }
+
+    .scroll-strip::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* For strips that share their row with something else, so bleeding to
+       the viewport edge would run them under a neighbouring control. Fades
+       only; the fade then marks the row's own right edge. */
+    .scroll-strip--no-bleed {
+        width: 100%;
+        max-width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .scroll-strip>* {
+        flex-shrink: 0;
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 768px) {
+    .scroll-strip {
+        --strip-pad-l: max(var(--space-md), env(safe-area-inset-left, 0px));
+        --strip-pad-r: max(var(--space-md), env(safe-area-inset-right, 0px));
+    }
+}
+
+@supports ((-webkit-mask-image: linear-gradient(#000, #000)) or (mask-image: linear-gradient(#000, #000))) {
+    @media (max-width: 1024px) {
+        .scroll-strip {
+            --fade-l: 0px;
+            --fade-r: 0px;
+            /* At 0px the two stops collide into a hard edge, i.e. no fade. */
+            -webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--fade-l), #000 calc(100% - var(--fade-r)), transparent 100%);
+            mask-image: linear-gradient(to right, transparent 0, #000 var(--fade-l), #000 calc(100% - var(--fade-r)), transparent 100%);
+        }
+
+        .scroll-strip.has-overflow-start {
+            --fade-l: var(--strip-fade);
+        }
+
+        .scroll-strip.has-overflow-end {
+            --fade-r: var(--strip-fade);
+        }
+
+        /* Never fade a keyboard focus ring out of sight. :focus-visible
+           rather than :focus-within so a tap on a chip keeps the fades. */
+        .scroll-strip:has(:focus-visible) {
+            -webkit-mask-image: none;
+            mask-image: none;
+        }
+    }
+}
+
+/* --------------------------------------
    EQUIPMENT CATALOG — MOBILE / TABLET
    Scoped to Equipment.html via #equipmentContainer.
    Desktop (≥1025px) unchanged.
@@ -7010,6 +7129,11 @@ ul {
         /* overrides inline max-width: 300px */
     }
 
+    /* PREVIOUS MECHANISM — kept for reference. Both filter rows were plain
+       hidden-scrollbar scrollers with no cue that they scrolled. Superseded
+       by .scroll-strip (full-bleed peek + edge fade) on the category row.
+       Restore this pair and drop the scroll-strip class to revert.
+
     body:has(#equipmentContainer) .filter-section .filter-group {
         width: 100%;
         max-width: 100%;
@@ -7024,6 +7148,23 @@ ul {
 
     body:has(#equipmentContainer) .filter-section .filter-group::-webkit-scrollbar {
         display: none;
+    }
+    */
+
+    /* Category row: sizing and spacing only — .scroll-strip owns the
+       bleed, the overflow and the fades. Deliberately sets no width,
+       which would defeat the bleed. */
+    body:has(#equipmentContainer) .filter-section .filter-group.scroll-strip {
+        gap: 8px;
+        padding-bottom: 2px;
+    }
+
+    /* Location row: fades but no bleed — it shares its row with the
+       Grid/List switcher. At 390px it only gets ~187px, which is not
+       enough for "NVC (Phoenix)", so it needs the cue too. */
+    body:has(#equipmentContainer) .filter-section .location-filter {
+        gap: 8px;
+        padding-bottom: 2px;
     }
 
     body:has(#equipmentContainer) .filter-section .filter-btn,
@@ -16006,6 +16147,73 @@ body {
     }
 }
 
+/* ── Rates — phone/tablet polish ───────────────────────────────
+   The block above already stacks the layout (≤1024) and shrinks the
+   hero (≤640). This fills the 641–768px tablet-portrait gap and
+   fixes touch ergonomics: 44px hit areas on the two 30px icon
+   buttons, 16px filter input (stops iOS focus-zoom), and a category
+   header that breathes once the title wraps onto a second line.
+   Desktop (≥769px) untouched. */
+@media (max-width: 768px) {
+
+    /* Header wraps to two rows on long category names — give the
+       wrapped rows vertical padding instead of a fixed 56px row. */
+    .category-head {
+        padding: 10px 16px;
+        row-gap: 8px;
+    }
+
+    .category-head .cat-title {
+        min-width: 0;
+        overflow-wrap: break-word;
+    }
+
+    /* 13.6px input triggers iOS zoom-on-focus; 16px is the floor. */
+    .cat-filter,
+    .cat-filter.expanded {
+        font-size: 1rem;
+    }
+
+    /* Keep both icon buttons visually 30px but expand the hit area
+       to ~44px with a transparent overlay, so layout is unchanged. */
+    .cat-filter-icon,
+    .search-clear-btn {
+        position: relative;
+    }
+
+    .cat-filter-icon::after,
+    .search-clear-btn::after {
+        content: '';
+        position: absolute;
+        inset: -7px;
+    }
+
+    /* Table scrolls inside its wrapper — keep that swipe from
+       rubber-banding the whole page sideways. */
+    .table-wrap {
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
+    }
+
+    .back-to-top {
+        bottom: 18px;
+        right: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    /* Reclaim room the result-count + clear button reserve. */
+    #globalSearch {
+        padding-right: 96px;
+    }
+
+    .rates-table th,
+    .rates-table td {
+        padding: 10px 12px;
+    }
+}
+
 /* ================================================================
    WORKFORCE DEVELOPMENT — PAGE STYLES
    Unified NAU palette: deep navy + gold with warm ivory surfaces
@@ -22561,6 +22769,161 @@ body.workforce-development-page {
         display: inline-flex;
         align-items: center;
         justify-content: center;
+    }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ACADEMICS — UNDER-DEV STUB (tablet/phone)
+   Placeholder page with inline desktop styles and no horizontal
+   padding on <main>. Media queries add gutters and scale the fixed
+   3rem / 1.5rem type down so nothing touches the viewport edge.
+   Desktop (≥769px) keeps the original inline styles.
+   ══════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+    .academics-stub {
+        padding: 56px 20px 48px !important;
+        box-sizing: border-box;
+    }
+
+    .academics-stub h1 {
+        font-size: clamp(2rem, 9vw, 3rem) !important;
+        margin-bottom: 14px !important;
+        overflow-wrap: break-word;
+        max-width: 100%;
+    }
+
+    .academics-stub p {
+        font-size: 1.05rem !important;
+        line-height: 1.6;
+        max-width: 100%;
+    }
+
+    .academics-stub>div {
+        margin-top: 22px !important;
+    }
+
+    .academics-stub i {
+        font-size: 3rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .academics-stub {
+        padding: 48px 16px 40px !important;
+    }
+
+    .academics-stub p {
+        font-size: 1rem !important;
+    }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   EQUIPMENT DETAIL PAGES — TABLES & TAP TARGETS (tablet/phone)
+   Shared by all 41 About_Equipment/*.html pages, which load only
+   this stylesheet and carry no page-level <style> block, so these
+   rules cover the whole template family.
+
+   The two spec tables have min-content widths of 340–484px — wider
+   than a phone's content column. Because the global body rule sets
+   overflow-x:hidden, the excess never scrolled the page; it was
+   silently clipped instead, leaving the last column unreachable on
+   27 of the 41 pages at 375px. Both tables become their own scroll
+   container below. Desktop (≥769px) is untouched.
+   ══════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+    /* The shared mobile rule near the top of this file gives
+       .container a horizontal gutter, but .section-padding's
+       `padding: … 0` shorthand is declared later at equal
+       specificity, so it reset that gutter to zero — leaving every
+       heading, paragraph and table flush against both screen edges.
+       Restoring it on the two classes together, a combination that
+       appears only on the equipment detail pages, so the five other
+       .section-padding pages are unaffected. */
+    .container.section-padding {
+        padding-left: max(var(--space-md), env(safe-area-inset-left, 0px));
+        padding-right: max(var(--space-md), env(safe-area-inset-right, 0px));
+    }
+
+    /* Both columns are .layout-grid items, so they default to
+       min-width:auto — an automatic minimum size equal to their
+       min-content. That floors the grid track at the widest table's
+       min-content and inflates the whole column past the viewport,
+       which defeats the scroll containers below no matter how they
+       are styled. min-width:0 lets the track shrink so the wrappers
+       can actually do their job. */
+    .content-col,
+    .sidebar-col {
+        min-width: 0;
+    }
+
+    /* .table-responsive is already in the markup on 40 of 41 pages
+       but never had a rule anywhere in this stylesheet, so the
+       wrapper was inert. It is the comparison table's scroll
+       container; the table keeps its own overflow:hidden, which
+       exists to clip its rounded corners. */
+    .table-responsive {
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
+    }
+
+    /* tech-specs-table has no wrapper element at all, so the table
+       itself becomes the scroll container — the same approach as
+       .cp-career-table on CareerPathways. thead/tbody are
+       deliberately left alone: an anonymous table box still wraps
+       them, so header and body columns stay aligned. Overriding
+       their display would split them into two independently sized
+       tables and break that alignment. */
+    .tech-specs-table {
+        display: block;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
+    }
+
+    /* Tighter cells so most tables fit outright and only the widest
+       few actually need to scroll. */
+    .tech-specs-table th,
+    .tech-specs-table td {
+        padding: 10px 12px;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+        padding: 12px 10px;
+    }
+
+    /* These two are discrete targets rather than links inside a
+       sentence, but sat at 19–24px tall. Vertical padding lifts the
+       hit area to ~44px without changing the text or the layout;
+       .contact-item is a centered flex row, so the icon stays
+       aligned as the row grows. */
+    .contact-item .contact-link {
+        display: inline-block;
+        padding: 10px 0;
+        line-height: 1.4;
+    }
+
+    .link-blue-underline {
+        display: inline-block;
+        padding: 12px 4px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .tech-specs-table th,
+    .tech-specs-table td {
+        padding: 9px 10px;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+        padding: 10px 8px;
+        font-size: 0.9rem;
     }
 }
 
