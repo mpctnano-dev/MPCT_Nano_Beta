@@ -19,6 +19,21 @@ function scrollGrid(amount) {
 }
 
 /**
+ * One card + one gap, measured from the live layout rather than hardcoded.
+ * The cards grow at the 1600/1920/2560px breakpoints, so a fixed step would
+ * leave the snap points progressively more off-centre on wide displays.
+ * @returns {number} Pixel distance for one arrow click.
+ */
+function getEquipmentScrollStep() {
+    const container = document.getElementById('cardContainer');
+    const card = container && container.querySelector('.equipment-card');
+    if (!card) return 350;
+
+    const gap = parseFloat(getComputedStyle(container).columnGap) || 0;
+    return card.getBoundingClientRect().width + gap;
+}
+
+/**
  * Updates the semester display for education cards based on current date.
  * Logic:
  * - Feb 15 - Aug 31: FALL [current year]
@@ -104,11 +119,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (carouselLeft && carouselRight) {
         carouselLeft.addEventListener('click', () => {
-            scrollGrid(-350); // Scroll Left
+            scrollGrid(-getEquipmentScrollStep()); // Scroll Left
         });
 
         carouselRight.addEventListener('click', () => {
-            scrollGrid(350); // Scroll Right
+            scrollGrid(getEquipmentScrollStep()); // Scroll Right
         });
     }
 
@@ -129,6 +144,9 @@ document.addEventListener('DOMContentLoaded', () => {
         function getCardsPerView() {
             if (window.innerWidth <= 768) return 1;
             if (window.innerWidth <= 1024) return 2;
+            // Matches .edu-card-wrapper { flex: 0 0 25% } in the
+            // min-width: 1600px block — keep the two in step.
+            if (window.innerWidth >= 1600) return 4;
             return 3;
         }
 
@@ -1363,48 +1381,3 @@ if (searchInput) {
 buildSearchSuggestions();
 applyFilters();
 
-
-/**
- * Horizontal scroll strips (.scroll-strip, see CSS/style.css).
- * A hidden scrollbar leaves no sign that a row scrolls, so the CSS fades
- * whichever edge still has content behind it. This only decides which
- * edges those are; the fade itself is a mask driven by the classes below.
- * No-ops on pages with no strips.
- */
-function initScrollStrips() {
-    const strips = Array.from(document.querySelectorAll('.scroll-strip'));
-    if (strips.length === 0) return;
-
-    const updaters = strips.map(strip => {
-        const update = () => {
-            const max = strip.scrollWidth - strip.clientWidth;
-            const x = strip.scrollLeft;
-            // 1px slack: sub-pixel layout means scrollLeft rarely lands
-            // exactly on 0 or on max, which would leave a fade stuck on.
-            strip.classList.toggle('has-overflow-start', x > 1);
-            strip.classList.toggle('has-overflow-end', max > 1 && x < max - 1);
-        };
-
-        strip.addEventListener('scroll', update, { passive: true });
-        if ('ResizeObserver' in window) {
-            new ResizeObserver(update).observe(strip);
-        }
-        update();
-        return update;
-    });
-
-    const updateAll = () => updaters.forEach(update => update());
-
-    if (!('ResizeObserver' in window)) {
-        window.addEventListener('resize', updateAll);
-    }
-
-    // Item widths shift when webfonts swap in, which can change whether
-    // the row overflows at all. ResizeObserver misses it: the strip's own
-    // box does not change, only its contents.
-    if (document.fonts && document.fonts.ready) {
-        document.fonts.ready.then(updateAll);
-    }
-}
-
-initScrollStrips();
