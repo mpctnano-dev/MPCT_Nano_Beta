@@ -996,7 +996,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    const isMobile = () => window.matchMedia('(max-width: 760px)').matches;
+    /* Matches the breakpoint where the calendar becomes a bottom sheet, which
+       is the whole touch band — the trigger lives inside the collapsing filter
+       panel at ≤1024px, and that panel clips its own overflow. */
+    const isMobile = () => window.matchMedia('(max-width: 1024px)').matches;
 
     const openCalendar = () => {
         calendarPopover.classList.add('is-open');

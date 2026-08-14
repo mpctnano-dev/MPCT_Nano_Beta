@@ -657,6 +657,21 @@
             .sr-form-body {
                 padding: 32px 28px;
             }
+
+            /* iOS zooms the page on focus for any control under 16px, and an
+               iPad is as much a touch device as a phone — so the floor and the
+               44px hit height start here, not at 768px. 0.95rem = 15.2px was
+               enough to trigger it on all 79 fields. */
+            .sr-input,
+            .sr-select,
+            .sr-textarea {
+                font-size: 16px;
+                min-height: 44px;
+            }
+
+            .sr-textarea {
+                min-height: 100px;
+            }
         }
 
         @media (max-width: 768px) {
@@ -764,17 +779,7 @@
                 grid-template-columns: 1fr;
             }
 
-            .sr-input,
-            .sr-select,
-            .sr-textarea {
-                font-size: 16px;
-                /* prevents iOS zoom on focus */
-                min-height: 44px;
-            }
-
-            .sr-textarea {
-                min-height: 100px;
-            }
+            /* Font floor and min-heights now live in the ≤1024px block above. */
 
             .sr-file-upload {
                 padding: 22px 14px;

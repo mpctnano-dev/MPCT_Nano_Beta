@@ -1700,6 +1700,35 @@ ul {
 }
 
 /* ── Responsive ── */
+
+/* Touch targets for the whole touch band, not just phones. These used to sit
+   in the ≤600 block, which left every footer link at 21px from 601px up —
+   the width where an iPad actually is. Layout is unchanged above 1024. */
+@media (max-width: 1024px) {
+    .footer-links li {
+        margin-bottom: 0;
+    }
+
+    .footer-links a {
+        display: flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 10px 0;
+    }
+
+    .social-icon {
+        width: 44px;
+        height: 44px;
+    }
+
+    .footer-link-mute {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 10px 8px;
+    }
+}
+
 @media (max-width: 900px) {
     .footer-grid {
         grid-template-columns: repeat(3, 1fr);
@@ -1787,21 +1816,7 @@ ul {
         font-size: 1.6rem;
     }
 
-    .footer-links li {
-        margin-bottom: 0;
-    }
-
-    .footer-links a {
-        display: flex;
-        align-items: center;
-        min-height: 44px;
-        padding: 10px 0;
-    }
-
-    .social-icon {
-        width: 44px;
-        height: 44px;
-    }
+    /* Footer link / social-icon hit areas live in the ≤1024 block above. */
 
     .footer-meta__text {
         white-space: normal;
@@ -1818,13 +1833,6 @@ ul {
         justify-content: center;
         flex-wrap: wrap;
         gap: 4px 8px;
-    }
-
-    .footer-link-mute {
-        display: inline-flex;
-        align-items: center;
-        min-height: 44px;
-        padding: 10px 8px;
     }
 }
 
@@ -2472,13 +2480,15 @@ ul {
         gap: 0;
     }
 
+    /* 44px, not 36px: these overlay the cards, so the negative margin
+       that centres them has to stay half the size. */
     .edu-nav-btn {
         position: absolute;
         top: 50%;
         z-index: 5;
-        width: 36px;
-        height: 36px;
-        margin-top: -18px;
+        width: 44px;
+        height: 44px;
+        margin-top: -22px;
         font-size: 1rem;
         background: rgba(255, 255, 255, 0.96);
         box-shadow: 0 4px 16px rgba(0, 36, 84, 0.18);
@@ -7021,9 +7031,10 @@ ul {
    line of its own, which is right on a phone and wrong on desktop,
    where these rows sit inline beside other controls and fit anyway.
 
-   Candidates to migrate onto this: #newsFilterSection .filter-group
-   (~line 19279) and .card-wrapper (~line 1077) have the same
-   hidden-scrollbar setup and the same discoverability gap.
+   #newsFilterSection .filter-group has since migrated onto this (see
+   the News collapsing filter bar block). Still a candidate:
+   .card-wrapper (~line 1077) has the same hidden-scrollbar setup and
+   the same discoverability gap.
    -------------------------------------- */
 
 @media (max-width: 1024px) {
@@ -7109,24 +7120,183 @@ ul {
 }
 
 /* --------------------------------------
-   EQUIPMENT CATALOG — MOBILE / TABLET
-   Scoped to Equipment.html via #equipmentContainer.
-   Desktop (≥1025px) unchanged.
+   COLLAPSING FILTER BAR — phone/tablet only (≤1024px)
+
+   The catalog toolbar is three rows tall, which is a lot of a phone
+   viewport to hand to filters most visitors never open. So on phones and
+   tablets it is closed on arrival: the sticky bar is the search field
+   plus a Filters button, and the chips drop down only when that button is
+   tapped. It closes again on a second tap, on Escape, or once the reader
+   scrolls on. JS/script.js -> initEquipmentFilterBar() owns the
+   .is-collapsed / .is-condensed classes and the measured
+   --eq-filter-panel-h.
+
+   The shape of it, and why:
+
+     .filter-section       sticky, in flow — the search row
+       .filter-toggle      the button that opens/closes the panel
+       .filter-expandable  ABSOLUTE, hangs off the bottom of that row
+
+   The panel is out of flow on purpose. The bar is sticky, so a panel that
+   opened in flow would push every card down the screen — under the
+   reader's thumb, mid-scroll — and shrinking it again would haul them
+   back up. As an overlay it costs the layout nothing in either state, and
+   the closed bar reserves no empty space above the first card.
+
+   Above 1024px both wrappers are display:contents, so the filter groups
+   are still direct flex children of the toolbar row and desktop renders
+   byte-identically. .is-collapsed is inert there — every rule that reads
+   it lives inside the media query below.
    -------------------------------------- */
+
+.filter-toggle {
+    display: none;
+}
+
+.filter-expandable,
+.filter-expandable__inner {
+    display: contents;
+}
 
 @media (max-width: 1024px) {
 
-    /* Keep sticky chrome usable: search full-width, filters in rows */
+    /* Toolbar row: search + Filters button. Everything else moved into the
+       panel, which is positioned rather than laid out here. */
+    body:has(#equipmentContainer) .filter-section {
+        --eq-toolbar-pad: 12px;
+        padding: var(--eq-toolbar-pad) 0 !important;
+        /* overrides inline padding: 20px 0 */
+        transition: box-shadow 0.25s ease;
+    }
+
+    /* Closed, the bar is the only chrome above the cards, so it carries the
+       lift itself; open, the panel below it does (and this comes off). */
+    body:has(#equipmentContainer) .filter-section.is-condensed {
+        box-shadow: 0 6px 16px -10px rgba(0, 36, 84, 0.35);
+    }
+
     body:has(#equipmentContainer) .filter-section .container.d-flex {
-        align-items: stretch;
-        gap: 14px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 10px;
     }
 
     body:has(#equipmentContainer) .filter-section .search-wrapper {
-        flex: 1 1 100%;
+        grid-column: 1;
         width: 100%;
         max-width: none !important;
         /* overrides inline max-width: 300px */
+    }
+
+    /* The inline font-size is inherited at 13.33px, which iOS zooms the page
+       for on focus — on a tablet as readily as on a phone, so the floor
+       belongs at the same 1024 breakpoint as the rest of this bar. */
+    body:has(#equipmentContainer) .filter-section .search-wrapper input,
+    body:has(#equipmentContainer) #searchInput {
+        font-size: 16px;
+        min-height: 44px;
+        box-sizing: border-box;
+    }
+
+    .filter-toggle {
+        grid-column: 2;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        /* Enough for a category name plus the +1 at 375px, without starving
+           the search field beside it. */
+        max-width: 46vw;
+        min-height: 44px;
+        padding: 8px 14px;
+        border: 1px solid var(--gray-300);
+        border-radius: 22px;
+        background: var(--white);
+        color: var(--nau-blue);
+        font-family: var(--font-body);
+        font-size: 0.85rem;
+        font-weight: 600;
+        line-height: 1;
+        cursor: pointer;
+        transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+
+    /* Filtered state reads at a glance while the chips are folded away —
+       same blue fill the active chip itself uses. */
+    .filter-toggle.has-active {
+        background: var(--nau-blue);
+        border-color: var(--nau-blue);
+        color: var(--white);
+    }
+
+    .filter-toggle__label {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /* Its own element so a long category name is what gets ellipsed —
+       "Support Syst… +1" still says a second filter is on. */
+    .filter-toggle__more {
+        flex-shrink: 0;
+        opacity: 0.85;
+    }
+
+    .filter-toggle__more[hidden] {
+        display: none;
+    }
+
+    .filter-toggle__chevron {
+        font-size: 0.7rem;
+        transition: transform 0.28s ease;
+    }
+
+    .filter-toggle[aria-expanded="true"] .filter-toggle__chevron {
+        transform: rotate(180deg);
+    }
+
+    /* Panel. Hangs off the bottom of the row: 100% is the row's box, then
+       the bar's own bottom padding and its 1px inline border-bottom, so the
+       panel starts flush under that hairline. */
+    body:has(#equipmentContainer) .filter-expandable {
+        display: block;
+        position: absolute;
+        top: calc(100% + var(--eq-toolbar-pad) + 1px);
+        left: 0;
+        right: 0;
+        height: var(--eq-filter-panel-h, 118px);
+        overflow: hidden;
+        visibility: visible;
+        box-shadow: 0 10px 20px -14px rgba(0, 36, 84, 0.45);
+        transition: height 0.28s ease, visibility 0s;
+    }
+
+    body:has(#equipmentContainer) .filter-expandable.is-collapsed {
+        height: 0;
+        /* Delayed so the controls stay visible for the fold, then leave the
+           tab order entirely rather than sitting clipped and focusable. */
+        visibility: hidden;
+        transition: height 0.28s ease, visibility 0s linear 0.28s;
+    }
+
+    /* JS reads the natural height through this: class on, measure, class off
+       inside one task, so the open panel is never painted. */
+    body:has(#equipmentContainer) .filter-expandable.is-measuring {
+        height: auto !important;
+        transition: none !important;
+    }
+
+    /* Full-bleed surface. Its padding matches .container's gutter, so the
+       chips line up with the page while .scroll-strip's negative margins
+       still bleed to the screen edge inside it. */
+    body:has(#equipmentContainer) .filter-expandable__inner {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 10px 12px;
+        padding: 12px var(--space-md);
+        background: var(--white);
+        border-bottom: 1px solid var(--gray-200);
     }
 
     /* PREVIOUS MECHANISM — kept for reference. Both filter rows were plain
@@ -7156,15 +7326,27 @@ ul {
        which would defeat the bleed. */
     body:has(#equipmentContainer) .filter-section .filter-group.scroll-strip {
         gap: 8px;
-        padding-bottom: 2px;
+    }
+
+    /* :not() because the location row is a scroll-strip too, and it shares
+       its grid row with the Grid/List switcher rather than spanning. */
+    body:has(#equipmentContainer) .filter-section .filter-group.scroll-strip:not(.location-filter) {
+        grid-column: 1 / -1;
     }
 
     /* Location row: fades but no bleed — it shares its row with the
        Grid/List switcher. At 390px it only gets ~187px, which is not
        enough for "NVC (Phoenix)", so it needs the cue too. */
     body:has(#equipmentContainer) .filter-section .location-filter {
+        grid-column: 1;
         gap: 8px;
-        padding-bottom: 2px;
+    }
+
+    body:has(#equipmentContainer) .filter-section .view-switcher {
+        grid-column: 2;
+        display: inline-flex;
+        flex-shrink: 0;
+        width: auto;
     }
 
     body:has(#equipmentContainer) .filter-section .filter-btn,
@@ -7172,9 +7354,15 @@ ul {
         flex-shrink: 0;
         white-space: nowrap;
     }
+}
 
-    body:has(#equipmentContainer) .filter-section .view-switcher {
-        margin-left: auto;
+@media (prefers-reduced-motion: reduce) {
+
+    body:has(#equipmentContainer) .filter-expandable,
+    body:has(#equipmentContainer) .filter-section,
+    .filter-toggle,
+    .filter-toggle__chevron {
+        transition: none !important;
     }
 }
 
@@ -7203,51 +7391,21 @@ ul {
         max-width: 100%;
     }
 
-    body:has(#equipmentContainer) .filter-section {
-        padding: 12px 0 !important;
-        /* overrides inline padding: 20px 0 */
-    }
-
-    /* Compact sticky toolbar: search + categories full-width;
-       location + view share one row */
-    body:has(#equipmentContainer) .filter-section .container.d-flex {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) auto;
-        align-items: center;
-        gap: 10px 12px;
-    }
-
-    body:has(#equipmentContainer) .filter-section .search-wrapper,
-    body:has(#equipmentContainer) .filter-section .filter-group:not(.location-filter) {
-        grid-column: 1 / -1;
+    /* Panel gutter tracks .container's safe-area-aware padding at this width. */
+    body:has(#equipmentContainer) .filter-expandable__inner {
+        padding-left: max(var(--space-md), env(safe-area-inset-left, 0px));
+        padding-right: max(var(--space-md), env(safe-area-inset-right, 0px));
     }
 
     body:has(#equipmentContainer) .filter-section .location-filter {
-        grid-column: 1;
         width: auto;
         max-width: 100%;
-    }
-
-    body:has(#equipmentContainer) .filter-section .search-wrapper input,
-    body:has(#equipmentContainer) #searchInput {
-        font-size: 16px;
-        /* prevents iOS zoom on focus */
-        min-height: 44px;
-        box-sizing: border-box;
     }
 
     body:has(#equipmentContainer) .filter-section .filter-btn {
         min-height: 40px;
         padding: 8px 14px;
         font-size: 0.85rem;
-    }
-
-    body:has(#equipmentContainer) .filter-section .view-switcher {
-        display: inline-flex;
-        width: auto;
-        margin-left: 0;
-        grid-column: 2;
-        flex-shrink: 0;
     }
 
     body:has(#equipmentContainer) .filter-section .view-switcher .btn {
@@ -16111,6 +16269,27 @@ body {
     .rates-sidebar a:nth-child(3n) {
         border-right: none;
     }
+
+    /* Touch ergonomics start at the tablet, not the phone: 0.85rem = 13.6px
+       triggers iOS focus-zoom on an iPad exactly as it does on an iPhone, and
+       the two 30px icon buttons are as hard to hit there. Hit area is grown
+       with a transparent overlay so the buttons still measure 30px in layout. */
+    .cat-filter,
+    .cat-filter.expanded {
+        font-size: 1rem;
+    }
+
+    .cat-filter-icon,
+    .search-clear-btn {
+        position: relative;
+    }
+
+    .cat-filter-icon::after,
+    .search-clear-btn::after {
+        content: '';
+        position: absolute;
+        inset: -7px;
+    }
 }
 
 @media (max-width: 640px) {
@@ -16147,13 +16326,12 @@ body {
     }
 }
 
-/* ── Rates — phone/tablet polish ───────────────────────────────
-   The block above already stacks the layout (≤1024) and shrinks the
-   hero (≤640). This fills the 641–768px tablet-portrait gap and
-   fixes touch ergonomics: 44px hit areas on the two 30px icon
-   buttons, 16px filter input (stops iOS focus-zoom), and a category
-   header that breathes once the title wraps onto a second line.
-   Desktop (≥769px) untouched. */
+/* ── Rates — phone polish ──────────────────────────────────────
+   The ≤1024 block above stacks the layout and owns the touch
+   ergonomics (16px filter input, 44px icon hit areas); ≤640 shrinks
+   the hero. This is what is left that is phone-specific: a category
+   header that breathes once the title wraps onto a second line, and
+   scroll containment. Desktop (≥769px) untouched. */
 @media (max-width: 768px) {
 
     /* Header wraps to two rows on long category names — give the
@@ -16166,26 +16344,6 @@ body {
     .category-head .cat-title {
         min-width: 0;
         overflow-wrap: break-word;
-    }
-
-    /* 13.6px input triggers iOS zoom-on-focus; 16px is the floor. */
-    .cat-filter,
-    .cat-filter.expanded {
-        font-size: 1rem;
-    }
-
-    /* Keep both icon buttons visually 30px but expand the hit area
-       to ~44px with a transparent overlay, so layout is unchanged. */
-    .cat-filter-icon,
-    .search-clear-btn {
-        position: relative;
-    }
-
-    .cat-filter-icon::after,
-    .search-clear-btn::after {
-        content: '';
-        position: absolute;
-        inset: -7px;
     }
 
     /* Table scrolls inside its wrapper — keep that swipe from
@@ -18470,6 +18628,19 @@ body.workforce-development-page {
     .bk-cost-badge {
         margin-left: 0;
     }
+
+    /* iOS focus-zoom fires on any control under 16px, tablet included, so the
+       floor and the 44px hit height start at 1024 rather than 768. */
+    .pf__input,
+    .pf__select,
+    .pf__textarea {
+        font-size: 16px;
+        min-height: 44px;
+    }
+
+    .pf__textarea {
+        min-height: 96px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -18498,17 +18669,12 @@ body.workforce-development-page {
         font-size: 0.74rem;
     }
 
-    /* 16px prevents iOS focus-zoom on form controls */
+    /* Font floor and min-heights live in the ≤1024px block above; this is the
+       phone-only density trim. */
     .pf__input,
     .pf__select,
     .pf__textarea {
-        font-size: 16px;
-        min-height: 44px;
         padding: 12px 14px;
-    }
-
-    .pf__textarea {
-        min-height: 96px;
     }
 
     .pf__helper,
@@ -18640,19 +18806,30 @@ body.workforce-development-page {
     gap: 14px;
 }
 
+/* The date picker, Reset and the category chips live inside
+   .news-filter-expandable, which is display:contents until 1024px — so on
+   desktop all five controls are still direct flex children of this row.
+   The 12px gap and the auto margin on the chips below reproduce what the
+   old two-box (controls | chips + space-between) markup rendered. */
 .news-toolbar__top {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 18px;
+    gap: 12px;
     flex-wrap: wrap;
 }
 
+/* Grows to absorb the row's free space, which is what pushes the chips to
+   the right edge — the job space-between used to do. The search field
+   inside caps itself at 360px, so the surplus ends up as the gap between
+   Reset and the chips, exactly where it was before. The 260px basis is
+   deliberately small: flex wraps on hypothetical sizes before it shrinks
+   anything, so a basis of 360 would drop the chips onto a second line at
+   1280px rather than narrowing the field by 5px. */
 .news-toolbar__controls {
     display: flex;
     align-items: center;
     gap: 12px;
-    flex: 1 1 460px;
+    flex: 1 1 260px;
     flex-wrap: wrap;
 }
 
@@ -19416,10 +19593,22 @@ body.workforce-development-page {
     pointer-events: none;
 }
 
+/* 1025–1120px: too narrow for search + date + Reset + six chips on one line,
+   too wide for the collapsing panel below. The chips wrap to a second line
+   on their own — the row already has flex-wrap.
+   This block used to force flex-direction: column instead, which turned the
+   460px flex-basis on .news-toolbar__controls from a width into a height:
+   460px of vertical space reserved for 46px of controls, a ~410px hole on
+   every tablet. Phones escaped it only because ≤760px happened to reset the
+   shorthand. Wrapping gets the same two-line layout with no basis to
+   misread, so do not reintroduce the column here. */
 @media (max-width: 1120px) {
-    .news-toolbar__top {
-        align-items: stretch;
-        flex-direction: column;
+    /* Stop the search box growing once the chips have wrapped away. Grown,
+       it fills the whole first line and shunts the date picker and Reset to
+       the far right — where the calendar popover, which is anchored to the
+       left of its trigger, then hangs 50px off the side of the page. */
+    .news-toolbar__controls {
+        flex: 0 1 360px;
     }
 
     #newsFilterSection .filter-group {
@@ -19431,53 +19620,226 @@ body.workforce-development-page {
     }
 }
 
+/* ══════════════════════════════════════════════════════════════
+   NEWS — COLLAPSING FILTER BAR (≤1024px)
+
+   Same problem and the same answer as the Equipment catalog, so the
+   same mechanism: see the COLLAPSING FILTER BAR block above for why
+   the panel is absolutely positioned rather than in flow. This is the
+   News wiring of it; JS/script.js -> initCollapsibleFilterBar() drives
+   both from one implementation.
+
+   What it was costing: on a 390×844 phone this bar stood 242px tall
+   under an 84px header — 39% of the screen spent on filters before a
+   single story, with the first card at y≈745. Everything but the
+   search field is now behind the Filters pill, which brings the bar to
+   roughly 96px and the first card to y≈600.
+
+   The results label deliberately stays in the sticky bar rather than
+   moving into the panel. Search is still out here, so the live count
+   is the only feedback while typing with the panel shut — and as an
+   aria-live region it has to stay out of a visibility:hidden subtree
+   to keep being announced at all.
+   ══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+    #newsFilterSection.news-filter-bar {
+        --news-toolbar-pad: 12px;
+        padding: var(--news-toolbar-pad) 0;
+        transition: box-shadow 0.25s ease;
+    }
+
+    /* Closed, this bar is the only chrome above the cards, so it carries
+       the lift itself; open, the panel below it does. */
+    #newsFilterSection.news-filter-bar.is-condensed {
+        box-shadow: 0 6px 16px -10px rgba(0, 36, 84, 0.35);
+    }
+
+    .news-toolbar {
+        gap: 8px;
+    }
+
+    /* Search + Filters button, one row, always. flex:none so the 360px
+       basis it carries on desktop stops applying and width:100% governs. */
+    .news-toolbar__controls {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 10px;
+        flex: none;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .news-search-field {
+        grid-column: 1;
+        flex: none;
+        width: 100%;
+        min-width: 0;
+        max-width: none;
+    }
+
+    /* 0.9rem inherited is 13.33px, which iOS zooms the page for on focus. */
+    .news-search-field__input {
+        font-size: 16px;
+        min-height: 44px;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .news-toolbar__controls .filter-toggle {
+        grid-column: 2;
+    }
+
+    /* Panel. 100% is .container's padding box — the toolbar's own height,
+       with no vertical padding of its own — then the bar's bottom padding
+       and its 1px border, so the panel starts flush under that hairline. */
+    .news-filter-expandable {
+        display: block;
+        position: absolute;
+        top: calc(100% + var(--news-toolbar-pad) + 1px);
+        left: 0;
+        right: 0;
+        height: var(--news-filter-panel-h, 132px);
+        overflow: hidden;
+        visibility: visible;
+        box-shadow: 0 10px 20px -14px rgba(0, 36, 84, 0.45);
+        transition: height 0.28s ease, visibility 0s;
+    }
+
+    .news-filter-expandable.is-collapsed {
+        height: 0;
+        /* Delayed so the controls stay visible for the fold, then leave the
+           tab order entirely rather than sitting clipped and focusable. */
+        visibility: hidden;
+        transition: height 0.28s ease, visibility 0s linear 0.28s;
+    }
+
+    /* JS reads the natural height through this: class on, measure, class off
+       inside one task, so the open panel is never painted. */
+    .news-filter-expandable.is-measuring {
+        height: auto !important;
+        transition: none !important;
+    }
+
+    .news-filter-expandable .filter-expandable__inner {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 10px 12px;
+        padding: 12px var(--space-md);
+        background: #fff;
+        border-bottom: 1px solid var(--gray-200);
+    }
+
+    /* Row 1: date picker beside Reset. */
+    #newsFilterSection .news-calendar-wrap {
+        grid-column: 1;
+        width: 100%;
+        min-width: 0;
+    }
+
+    #newsFilterSection .news-calendar-trigger {
+        width: 100%;
+        min-width: 0;
+        min-height: 44px;
+    }
+
+    #newsFilterSection .news-reset-btn {
+        grid-column: 2;
+        min-height: 44px;
+        white-space: nowrap;
+    }
+
+    /* Row 2: the chips, full width. .scroll-strip owns the bleed, the
+       overflow and the edge fades — set no width here or the bleed dies. */
+    #newsFilterSection .filter-group.scroll-strip {
+        grid-column: 1 / -1;
+        gap: 8px;
+        justify-content: flex-start;
+        /* .scroll-strip asks for nowrap, but the id-scoped rule that sets
+           flex-wrap: wrap outranks it — and half-applied, the strip bleeds
+           to the screen edge while still wrapping, which just looks like a
+           chip cut in half. Restate it at a specificity that wins. */
+        flex-wrap: nowrap;
+    }
+
+    .news-filter-btn {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 8px 16px;
+        font-size: 0.8rem;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    /* Bottom sheet rather than an anchored popover, for the whole touch band
+       and not just phones: the trigger now lives inside the panel, and the
+       panel has to clip its own overflow for the height transition, so an
+       absolutely positioned popover would be cut off at the panel's edge.
+       JS/news.js -> isMobile() matches this breakpoint for the scrim. */
+    .news-calendar-popover {
+        position: fixed;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        max-width: 100%;
+        border-radius: 20px 20px 0 0;
+        padding: 24px 20px calc(env(safe-area-inset-bottom, 0px) + 20px);
+        box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.15);
+        transform: translateY(100%);
+        z-index: 1200;
+    }
+
+    .news-calendar-popover.is-open {
+        transform: translateY(0);
+    }
+
+    /* Above the 1000 header, so the sheet is not dimmed by its own scrim. */
+    .news-calendar-scrim {
+        z-index: 1199;
+    }
+
+    .news-calendar-month {
+        min-height: 44px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .news-filter-expandable,
+    #newsFilterSection.news-filter-bar {
+        transition: none !important;
+    }
+}
+
 @media (max-width: 760px) {
     .news-filter-bar {
-        padding: 12px 0;
         overflow-x: clip;
     }
 
     .news-toolbar,
-    .news-toolbar__top,
-    .news-toolbar__controls {
+    .news-toolbar__top {
         min-width: 0;
         max-width: 100%;
         width: 100%;
     }
 
-    .news-toolbar__top {
-        gap: 12px;
-    }
+    /* PREVIOUS MECHANISM — kept for reference. The controls stacked into a
+       column of three full-width rows and the chips were a plain
+       hidden-scrollbar scroller with no cue that they scrolled: 242px of
+       sticky bar. Superseded by the collapsing panel at ≤1024 (search +
+       Filters pill) with .scroll-strip on the chip row. Restore this and
+       drop the panel markup to revert.
 
     .news-toolbar__controls {
         align-items: stretch;
         flex-direction: column;
         flex: 1 1 auto;
         gap: 8px;
-    }
-
-    .news-search-field {
-        min-width: 0;
-        max-width: none;
-        flex: 1 1 auto;
-        width: 100%;
-    }
-
-    .news-search-field__input {
-        font-size: 16px;
-        /* prevents iOS zoom on focus */
-        max-width: 100%;
-    }
-
-    .news-calendar-wrap {
-        width: 100%;
-        min-width: 0;
-    }
-
-    .news-calendar-trigger {
-        width: 100%;
-        min-width: 0;
-        max-width: 100%;
     }
 
     .news-reset-btn {
@@ -19495,17 +19857,7 @@ body.workforce-development-page {
         max-width: 100%;
         min-width: 0;
     }
-
-    #newsFilterSection .filter-group::-webkit-scrollbar {
-        display: none;
-    }
-
-    .news-filter-btn {
-        white-space: nowrap;
-        flex-shrink: 0;
-        padding: 6px 14px;
-        font-size: 0.76rem;
-    }
+    */
 
     .news-results-label {
         line-height: 1.6;
@@ -19546,24 +19898,6 @@ body.workforce-development-page {
         max-width: 100%;
         width: 100%;
         box-sizing: border-box;
-    }
-
-    .news-calendar-popover {
-        position: fixed;
-        top: auto;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-        max-width: 100%;
-        border-radius: 20px 20px 0 0;
-        padding: 24px 20px calc(env(safe-area-inset-bottom, 0px) + 20px);
-        box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.15);
-        transform: translateY(100%);
-    }
-
-    .news-calendar-popover.is-open {
-        transform: translateY(0);
     }
 
     /* Hero: unlock inline height caps so title + subtitle fit */
@@ -22935,4 +23269,393 @@ body.workforce-development-page {
     width: 1px;
     height: 1px;
     overflow: hidden;
+}
+
+/* ---------------------------------------------------------------
+   TAP TARGETS — discrete controls that sat under 40px on touch
+
+   Last of the max-width blocks on purpose: these are corrections to
+   rules defined further up, and a tie on specificity has to fall this
+   way. Scoped to ≤1024px, which is the touch band — a tablet is as
+   much a finger as a phone is.
+
+   Two techniques, picked per element:
+     • min-height / padding where the element owns its own line and
+       growing it costs nothing but a few pixels of rhythm.
+     • a transparent ::after overlay where the visible chrome is the
+       point (a pill, a logo) and padding would restyle it. The
+       overlay is inset negatively, so the element still measures its
+       original size in layout and only the hit area grows.
+
+   Deliberately NOT touched: citation links inside the source notes on
+   WorkForceDevelopment and CareerPathways. They are links in a
+   sentence of running text — the exemption in WCAG 2.5.8 — and at a
+   1.7 line-height an expanded hit area would overlap the line above
+   and below, so every tap near a citation would land on the wrong one.
+   --------------------------------------------------------------- */
+
+@media (max-width: 1024px) {
+
+    /* The primary CTA on every program row, at 23px. It sits on its own
+       line already (align-self: flex-start), so height is free. */
+    .program-row-link {
+        min-height: 44px;
+        padding-right: 4px;
+    }
+
+    /* Standalone links in a section header, 26px. */
+    .section-header .see-all {
+        min-height: 44px;
+        padding: 10px 0;
+    }
+
+    /* Chip-shaped links, 29px. An overlay is the wrong tool here: the rows
+       are only 6px apart, so an inset big enough to reach 44px would have
+       neighbouring rows competing for the same taps. The pill grows for
+       real instead, and the row grows with it. */
+    .stage-tags .stage-tag-link span {
+        padding: 12px 14px;
+    }
+
+    /* The header lockup is a link, and the logo it wraps is 32–36px on
+       phones. The header is 84px tall, so this changes no layout. */
+    .brand-logo {
+        min-height: 44px;
+    }
+}
+
+/**
+ * Large-Screen Tier
+ * --------------------------------------
+ * Everything above this point is written max-width-first, so any viewport
+ * wider than 1400px got the identical 1400px layout with the surplus dumped
+ * into the side margins — content read small and sparse on 1440p/4K/ultrawide
+ * displays. These are the only min-width queries in the stylesheet; because
+ * they sit last, they win over the base rules at the widths they target and
+ * never overlap the max-width blocks above.
+ *
+ * Steps: 1600px (large desktop) / 1920px (1080p full-screen and up) /
+ * 2560px (1440p, 4K, ultrawide). The container grows well short of the
+ * viewport on purpose — line length, not screen width, sets the ceiling.
+ *
+ * The shared blocks (.container, .section-padding) apply site-wide so the
+ * header and footer stay aligned with page content. Everything else is
+ * scoped to home-page-only classes.
+ */
+
+/* ---------------------------------------------------------------
+   Shared: content width + vertical rhythm (all pages)
+   --------------------------------------------------------------- */
+@media (min-width: 1600px) {
+    .container {
+        max-width: 1520px;
+        padding: 0 var(--space-lg);
+    }
+
+    .section-padding {
+        padding: 120px 0;
+    }
+}
+
+@media (min-width: 1920px) {
+    .container {
+        max-width: 1680px;
+        padding: 0 var(--space-xl);
+    }
+
+    .section-padding {
+        padding: 132px 0;
+    }
+}
+
+@media (min-width: 2560px) {
+    .container {
+        max-width: 1840px;
+    }
+}
+
+/* ---------------------------------------------------------------
+   Home page (index.html only)
+   --------------------------------------------------------------- */
+@media (min-width: 1600px) {
+
+    /* --- Hero --- */
+    .hero-v2 {
+        min-height: 760px;
+    }
+
+    /* Hero pins its own 1400px container, so it needs the widened value
+       explicitly or the hero text would sit narrower than the sections
+       below it. */
+    .hero-v2__content .container {
+        max-width: 1520px;
+    }
+
+    .hero-v2__badge {
+        font-size: 0.9rem;
+        padding: 9px 22px;
+    }
+
+    /* The base clamp tops out at 4.5rem, which is where it stopped growing
+       from 1200px onward. This one picks up at that ceiling and keeps
+       scaling to 5.5rem at ~2100px, then holds. */
+    .hero-v2__title {
+        font-size: clamp(4.5rem, 4vw, 5.5rem);
+        max-width: 960px;
+    }
+
+    .hero-v2__desc {
+        font-size: 1.25rem;
+        max-width: 680px;
+    }
+
+    .hero-v2__cta-primary,
+    .hero-v2__cta-outline {
+        padding: 16px 42px;
+        font-size: 1.1rem;
+    }
+
+    /* --- Quick actions --- */
+    .quick-actions {
+        padding: var(--space-3xl) 0;
+    }
+
+    .action-grid {
+        gap: var(--space-lg);
+    }
+
+    .action-item {
+        padding: var(--space-xl);
+    }
+
+    .action-icon {
+        width: 52px;
+        height: 52px;
+    }
+
+    .action-text {
+        font-size: 1.15rem;
+    }
+
+    /* --- About --- */
+    .about-section {
+        padding: 120px 0;
+    }
+
+    .about-title {
+        font-size: 3rem;
+    }
+
+    .lead-text {
+        font-size: 1.2rem;
+    }
+
+    .about-desc {
+        font-size: 1.05rem;
+    }
+
+    .about-image-col {
+        height: 480px;
+    }
+
+    .stat-box {
+        padding: 24px 28px;
+    }
+
+    .stat-number {
+        font-size: 2.4rem;
+    }
+
+    /* --- Featured equipment carousel --- */
+    .carousel-section {
+        padding: var(--space-4xl) 0;
+    }
+
+    /* .section-header is shared with Contact_Us, so scope the type bump. */
+    .carousel-section .section-header h2 {
+        font-size: 2.6rem;
+    }
+
+    .card-wrapper {
+        gap: var(--space-xl);
+    }
+
+    /* Cards keep their fixed width by design (the track is a snap
+       carousel, not a fluid grid) — they just scale with the rest.
+       JS derives the arrow step from the measured card + gap. */
+    .equipment-card {
+        min-width: 340px;
+        max-width: 340px;
+        height: 540px;
+    }
+
+    /* The card grows but .image-container is flex-grow, so without this the
+       170px thumbnail just floats in a taller pocket of whitespace.
+       .card-title / .specs are shared with Equipment.html — scoped. */
+    .carousel-section .equipment-img {
+        width: 195px;
+        height: 195px;
+    }
+
+    .carousel-section .card-title {
+        font-size: 1.5rem;
+    }
+
+    .carousel-section .specs {
+        font-size: 15px;
+    }
+
+    /* --- Workforce development --- */
+    .text-white-display {
+        font-size: 3rem;
+    }
+
+    .text-white-muted {
+        font-size: 1.15rem;
+    }
+
+    .partners-box {
+        padding: 40px;
+    }
+
+    .partners-title {
+        font-size: 1.35rem;
+    }
+
+    .partner-logo {
+        height: 60px;
+    }
+
+    /* --- Education paths --- */
+    .education-paths-section {
+        padding: 110px 0;
+    }
+
+    .edu-header-content {
+        max-width: 760px;
+    }
+
+    .edu-title {
+        font-size: 3rem;
+    }
+
+    .edu-subtitle {
+        font-size: 1.15rem;
+    }
+
+    .edu-carousel-container {
+        gap: 28px;
+    }
+
+    .edu-nav-btn {
+        width: 64px;
+        height: 64px;
+    }
+
+    /* Four across instead of three — at this width three cards stretched
+       to ~460px each. getCardsPerView() in script.js returns 4 at the same
+       breakpoint so the paging maths and dots stay in sync. */
+    .edu-card-wrapper {
+        flex: 0 0 25%;
+    }
+
+    .edu-card {
+        min-height: 420px;
+    }
+
+    /* --- Contact / map --- */
+    .text-gold-display {
+        font-size: 3rem;
+    }
+
+    .location-details {
+        font-size: 1.2rem;
+    }
+
+    .map-container {
+        height: 460px;
+    }
+}
+
+@media (min-width: 1920px) {
+    .hero-v2 {
+        min-height: 820px;
+    }
+
+    .hero-v2__content .container {
+        max-width: 1680px;
+    }
+
+    .action-icon {
+        width: 56px;
+        height: 56px;
+    }
+
+    .action-text {
+        font-size: 1.2rem;
+    }
+
+    .about-section {
+        padding: 132px 0;
+    }
+
+    .about-title {
+        font-size: 3.25rem;
+    }
+
+    .about-image-col {
+        height: 540px;
+    }
+
+    .equipment-card {
+        min-width: 360px;
+        max-width: 360px;
+        height: 570px;
+    }
+
+    .carousel-section .equipment-img {
+        width: 210px;
+        height: 210px;
+    }
+
+    .partner-logo {
+        height: 66px;
+    }
+
+    .education-paths-section {
+        padding: 120px 0;
+    }
+
+    .edu-card {
+        min-height: 440px;
+    }
+
+    .map-container {
+        height: 500px;
+    }
+}
+
+@media (min-width: 2560px) {
+    .hero-v2__content .container {
+        max-width: 1840px;
+    }
+
+    .equipment-card {
+        min-width: 380px;
+        max-width: 380px;
+        height: 600px;
+    }
+
+    .carousel-section .equipment-img {
+        width: 225px;
+        height: 225px;
+    }
+
+    .about-image-col {
+        height: 580px;
+    }
+
+    .map-container {
+        height: 540px;
+    }
 }
