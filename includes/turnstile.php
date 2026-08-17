@@ -42,6 +42,11 @@ function verifyTurnstile(): void
         'remoteip' => $_SERVER['REMOTE_ADDR'] ?? '',
     ]);
 
+    if (!function_exists('curl_init')) {
+        error_log('MPCT Turnstile siteverify failed: curl extension is not available');
+        respond(false, 'Security verification is temporarily unavailable. Please try again in a moment.');
+    }
+
     $ch = curl_init('https://challenges.cloudflare.com/turnstile/v0/siteverify');
     curl_setopt_array($ch, [
         CURLOPT_POST           => true,

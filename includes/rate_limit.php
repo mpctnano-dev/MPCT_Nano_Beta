@@ -37,31 +37,42 @@ function checkRateLimits(string $ip, string $emailRaw): void
     $windowSec = defined('RATE_LIMIT_WINDOW_SEC') ? (int) RATE_LIMIT_WINDOW_SEC : 300;
     $retentionDays = defined('RATE_LIMIT_RETENTION_DAYS') ? (int) RATE_LIMIT_RETENTION_DAYS : 7;
 
-    $store = RateLimitStoreFactory::create();
+    // Storage failures must never 500 a form. Legitimate rejects still
+    // call respond() inside processRateLimitKey(); everything else is
+    // logged and the request continues.
+    try {
+        $store = RateLimitStoreFactory::create();
 
-    processRateLimitKey(
-        $store,
-        'ip:' . $ip,
-        (int) RATE_LIMIT_IP_MAX,
-        $windowSec,
-        $retentionDays,
-        'Too many submissions from your network. Please try again later.'
-    );
-
-    $email = normalizeEmail($emailRaw);
-    if ($email !== null) {
         processRateLimitKey(
             $store,
-            'email:' . $email,
-            (int) RATE_LIMIT_EMAIL_MAX,
+            'ip:' . $ip,
+            (int) RATE_LIMIT_IP_MAX,
             $windowSec,
             $retentionDays,
-            'Too many submissions for this email address. Please try again later.'
+            'Too many submissions from your network. Please try again later.'
         );
-    }
 
-    if (mt_rand(1, 100) === 1) {
-        $store->cleanupExpired($retentionDays);
+        $email = normalizeEmail($emailRaw);
+        if ($email !== null) {
+            processRateLimitKey(
+                $store,
+                'email:' . $email,
+                (int) RATE_LIMIT_EMAIL_MAX,
+                $windowSec,
+                $retentionDays,
+                'Too many submissions for this email address. Please try again later.'
+            );
+        }
+
+        if (mt_rand(1, 100) === 1) {
+            $store->cleanupExpired($retentionDays);
+        }
+    } catch (Throwable $e) {
+        if (function_exists('mpactLogInternalError')) {
+            mpactLogInternalError('MPCT rate limit skipped', $e);
+        } else {
+            error_log('MPCT rate limit skipped');
+        }
     }
 }
 
