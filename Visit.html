@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <script src='JS/gtm.js'></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#002454">
+    <title>Plan Your Visit | MPaCT Lab | NAU Nano</title>
+    <meta name="description"
+        content="Directions, parking, and arrival steps for visiting the MPaCT Lab at Northern Arizona University." />
+    <link rel="canonical" href="https://nano.nau.edu/Visit.html">
+    <link rel="icon" type="image/png" href="Images/NAU_Nano_favicon.png">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="NAU Nano">
+    <meta property="og:title" content="Plan Your Visit | MPaCT Lab | NAU Nano">
+    <meta property="og:description" content="Directions, parking, and arrival steps for visiting the MPaCT Lab at Northern Arizona University.">
+    <meta property="og:url" content="https://nano.nau.edu/Visit.html">
+    <meta property="og:image" content="https://nano.nau.edu/Images/NAU-nano-og-image.jpg">
+    <meta property="og:image:alt" content="NAU sign on the Flagstaff campus in winter">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Plan Your Visit | MPaCT Lab | NAU Nano">
+    <meta name="twitter:description" content="Directions, parking, and arrival steps for visiting the MPaCT Lab at Northern Arizona University.">
+    <meta name="twitter:image" content="https://nano.nau.edu/Images/NAU-nano-og-image.jpg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        .visit-page .hero-v2 {
+            min-height: 520px;
+            height: 62vh;
+        }
+
+        .visit-page .hero-v2__content {
+            padding-bottom: 50px;
+        }
+
+        .visit-page .hero-v2__title {
+            max-width: 760px;
+        }
+
+        .visit-page .hero-v2__bg-img {
+            object-position: center 42%;
+        }
+
+        .visit-page-main {
+            background: linear-gradient(180deg, #ffffff 0%, #f7f9fb 100%);
+        }
+
+        .visit-section {
+            padding: 48px 0;
+        }
+
+        .visit-section--soft {
+            background: #f7f9fb;
+        }
+
+        /* ARRIVAL — solid white so it visually separates Parking (soft gray) from Contact (soft gray) */
+        #arrival {
+            background: #ffffff;
+        }
+
+        /* Section eyebrow tags — rounded navy pill with gold text above each heading */
+        .visit-page .section-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            background: var(--nau-blue);
+            color: var(--nau-gold);
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 0.78rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 8px 20px;
+            border-radius: 999px;
+            margin-bottom: 14px;
+        }
+
+        .visit-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.65fr) minmax(320px, 0.85fr);
+            gap: 32px;
+            align-items: start;
+        }
+
+        /* ARRIVAL — plain checklist (no card box), matching the site's live look */
+        #arrival .visit-feature-card {
+            background: none;
+            border: none;
+            box-shadow: none;
+            border-radius: 0;
+            padding: 0;
+        }
+
+        #arrival .visit-feature-card__head {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        #arrival .visit-feature-card__head i {
+            display: none;
+        }
+
+        #arrival .visit-feature-card__head h3 {
+            margin-bottom: 0;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--gray-600);
+        }
+
+        #arrival .visit-check-list {
+            margin-top: 0;
+            gap: 8px;
+        }
+
+        #arrival .visit-check-line {
+            font-size: 0.95rem;
+            font-weight: 400;
+            color: var(--gray-800);
+        }
+
+        #arrival .visit-check-line {
+            font-size: 0.9rem;
+        }
+
+        .visit-panel {
+            background: #fff;
+            border: 1px solid var(--gray-200);
+            border-radius: 18px;
+            box-shadow: 0 20px 40px rgba(0, 36, 84, 0.06);
+            overflow: hidden;
+        }
+
+        .visit-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .visit-layer-btn {
+            border: 1px solid var(--gray-300);
+            background: #fff;
+            color: var(--nau-blue);
+            border-radius: 999px;
+            padding: 8px 18px;
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .visit-layer-btn.active,
+        .visit-layer-btn:hover {
+            background: var(--nau-blue);
+            border-color: var(--nau-blue);
+            color: #fff;
+        }
+
+        .visit-map-frame {
+            width: 100%;
+            min-height: 420px;
+            border: 0;
+            display: block;
+        }
+
+        .visit-detail-header {
+            background: var(--nau-blue);
+            color: #fff;
+            padding: 18px 22px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .visit-detail-header i {
+            color: var(--nau-gold);
+            font-size: 1.1rem;
+        }
+
+        .visit-detail-header h3 {
+            color: #fff;
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+
+        .visit-detail-body {
+            padding: 22px;
+        }
+
+        .visit-info-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .visit-info-row:last-of-type {
+            border-bottom: none;
+        }
+
+        .visit-info-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: rgba(0, 36, 84, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: var(--nau-blue);
+        }
+
+        .visit-info-label {
+            display: block;
+            font-size: 0.68rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--gray-600);
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+
+        .visit-info-value {
+            font-size: 0.95rem;
+            color: var(--gray-900);
+            line-height: 1.5;
+            font-weight: 600;
+        }
+
+        .copy-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .copy-field {
+            flex: 1;
+            border: 1px solid var(--gray-300);
+            background: var(--gray-50);
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 0.82rem;
+            color: var(--nau-blue);
+            font-family: 'Roboto', monospace;
+            line-height: 1.4;
+            min-height: 46px;
+            display: flex;
+            align-items: center;
+        }
+
+        .copy-btn {
+            width: 42px;
+            height: 42px;
+            border: 1px solid var(--gray-300);
+            background: #fff;
+            border-radius: 10px;
+            color: var(--nau-blue);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .copy-btn:hover {
+            border-color: var(--nau-blue);
+            background: var(--gray-50);
+        }
+
+        .map-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .map-link-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border: 1px solid var(--gray-300);
+            border-radius: 10px;
+            font-family: var(--font-display);
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--nau-blue);
+            background: #fff;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+
+        .map-link-btn:hover {
+            border-color: var(--nau-blue);
+            background: var(--gray-50);
+        }
+
+        .map-link-btn.google i { color: #4285F4; }
+        .map-link-btn.apple i { color: var(--gray-800); }
+
+        .visit-feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px;
+            margin-top: 32px;
+        }
+
+        .visit-feature-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 14px;
+            padding: 24px 22px;
+            box-shadow: 0 10px 30px rgba(0, 36, 84, 0.06);
+        }
+
+        .visit-feature-card i {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(250, 192, 26, 0.12);
+            color: var(--nau-blue);
+            margin-bottom: 14px;
+            font-size: 1.2rem;
+        }
+
+        .visit-feature-card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 10px;
+            color: var(--nau-blue);
+        }
+
+        .visit-feature-card p,
+        .visit-feature-card li {
+            font-size: 0.96rem;
+            color: var(--gray-700);
+            line-height: 1.65;
+        }
+
+        .visit-feature-card ul {
+            margin: 0;
+            padding-left: 18px;
+            list-style: disc;
+        }
+
+        .visit-checklist {
+            margin-top: 18px;
+            display: grid;
+            gap: 12px;
+        }
+
+        .visit-check {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            color: var(--gray-800);
+            font-weight: 600;
+        }
+
+        .visit-check i {
+            color: var(--nau-green);
+            font-size: 1rem;
+        }
+
+        .visit-step-list {
+            display: grid;
+            gap: 18px;
+            margin-top: 22px;
+        }
+
+        .visit-step {
+            display: flex;
+            gap: 18px;
+            align-items: flex-start;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .visit-step:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .visit-step-number {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--nau-blue);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .visit-step h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: var(--nau-blue);
+        }
+
+        .visit-step p {
+            margin: 0;
+            color: var(--gray-700);
+            font-size: 0.96rem;
+            line-height: 1.65;
+        }
+
+        .visit-contact-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px;
+            margin-top: 30px;
+        }
+
+        .visit-contact-card {
+            background: #fff;
+            border: 1px solid var(--gray-200);
+            border-radius: 18px;
+            padding: 24px 22px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .visit-contact-card h3 {
+            font-size: 1.05rem;
+            margin-bottom: 14px;
+            color: var(--nau-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .visit-contact-card p,
+        .visit-contact-card a {
+            font-size: 0.96rem;
+            color: var(--gray-700);
+            line-height: 1.7;
+            margin: 0 0 8px;
+        }
+
+        .visit-contact-card a:hover {
+            color: var(--nau-gold-dark);
+        }
+
+        .visit-contact-card .small-note {
+            color: var(--gray-600);
+            font-size: 0.84rem;
+        }
+
+        .visit-park-layout {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 24px;
+        }
+
+        .visit-callout {
+            border-left: 3px solid var(--nau-gold);
+            padding: 16px 18px;
+            background: #FFFCF2;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 18px;
+            color: var(--gray-700);
+            font-size: 0.96rem;
+            line-height: 1.7;
+        }
+
+        .visit-callout strong,
+        .visit-callout b {
+            color: var(--nau-blue);
+        }
+
+        .visit-park-steps {
+            margin: 12px 0 0;
+            padding-left: 20px;
+            list-style: decimal;
+            color: var(--gray-700);
+        }
+
+        .visit-park-steps li {
+            margin: 0 0 8px;
+            padding-left: 4px;
+            line-height: 1.6;
+        }
+
+        .visit-parking-help {
+            display: grid;
+            gap: 6px;
+            margin-top: 0;
+        }
+
+        .visit-plain-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 12px 0;
+        }
+
+        .visit-plain-row i {
+            color: var(--nau-blue);
+            font-size: 1.05rem;
+            width: 22px;
+            padding-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .visit-plain-row h4 {
+            font-size: 0.96rem;
+            margin: 0 0 4px;
+            color: var(--nau-blue);
+        }
+
+        .visit-plain-row p {
+            margin: 0;
+            color: var(--gray-700);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .visit-step-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 18px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .visit-step-row:last-child {
+            border-bottom: none;
+        }
+
+        .visit-step-num {
+            flex: 0 0 32px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--nau-blue);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            font-weight: 800;
+        }
+
+        .visit-step-row h4 {
+            font-size: 1rem;
+            margin: 0 0 6px;
+            color: var(--nau-blue);
+        }
+
+        .visit-step-row p {
+            margin: 0;
+            color: var(--gray-700);
+            font-size: 0.92rem;
+            line-height: 1.6;
+        }
+
+        .visit-check-list {
+            display: grid;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .visit-check-line {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.92rem;
+            color: var(--gray-800);
+            font-weight: 600;
+        }
+
+        .visit-check-line i {
+            color: #007A33;
+            font-size: 1rem;
+        }
+
+        .visit-help-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px;
+            margin-top: 24px;
+        }
+
+        .visit-help-card {
+            background: #fff;
+            border: 1px solid var(--gray-200);
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0, 36, 84, 0.06);
+            padding: 22px 20px;
+        }
+
+        .visit-help-card h4 {
+            font-size: 0.92rem;
+            margin: 0 0 12px;
+            color: var(--nau-blue);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .visit-help-card p,
+        .visit-help-card a {
+            margin: 0 0 8px;
+            color: var(--gray-700);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .visit-help-card a:hover {
+            color: var(--nau-gold-dark);
+        }
+
+        .visit-help-card .small-note {
+            font-size: 0.82rem;
+            color: var(--gray-600);
+        }
+
+        @media (max-width: 980px) {
+            .visit-grid,
+            .visit-feature-grid,
+            .visit-contact-grid,
+            .visit-park-layout,
+            .visit-help-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .visit-section {
+                padding: 40px 0;
+            }
+
+            .visit-page .hero-v2 {
+                height: 560px;
+                min-height: 560px;
+            }
+
+            .visit-page .hero-v2__desc {
+                max-width: 100%;
+            }
+
+            .visit-controls {
+                gap: 8px;
+            }
+
+            .visit-layer-btn {
+                flex: 1 1 calc(50% - 8px);
+                justify-content: center;
+            }
+
+            .copy-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .copy-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body class="visit-page">
+    <div id="site-header"></div>
+    <noscript>
+        <nav style="background:#002454;padding:10px;text-align:center;font-family:sans-serif;">
+            <a href="index.html" style="color:#fff;margin:0 8px;">Home</a>
+            <a href="MPaCT.html" style="color:#fff;margin:0 8px;">MPaCT Lab</a>
+            <a href="Equipment.html" style="color:#fff;margin:0 8px;">Equipment</a>
+            <a href="degree-programs.html" style="color:#fff;margin:0 8px;">Degree Programs</a>
+            <a href="Visit.html" style="color:#fff;margin:0 8px;">Visit</a>
+            <a href="Contact_Us.html" style="color:#fff;margin:0 8px;">Contact</a>
+        </nav>
+    </noscript>
+
+    <main class="visit-page-main">
+        <section class="hero-v2" id="heroMain">
+            <div class="hero-v2__bg">
+                <img src="Images/dark_room.jpg" alt="MPaCT lab interior and research facility" class="hero-v2__bg-img">
+            </div>
+            <div class="hero-v2__overlay"></div>
+            <div class="hero-v2__pattern"></div>
+
+            <div class="hero-v2__content">
+                <div class="container">
+                    <div class="hero-v2__badge">
+                        <span class="hero-v2__badge-dot"></span>
+                        NAU Nano &middot; Flagstaff, Arizona
+                    </div>
+                    <h1 class="hero-v2__title">Plan Your Visit to the <span class="hero-v2__title-gold">MPaCT Lab</span></h1>
+                    <p class="hero-v2__desc">Directions, parking, and what to expect when you arrive. Everything you need before you leave home.</p>
+                    <div class="hero-v2__ctas">
+                        <a href="https://www.google.com/maps?q=561+E+Pine+Knoll+Dr,+Flagstaff,+AZ+86001" target="_blank" rel="noopener" class="btn btn-primary hero-v2__cta-primary">Get Directions</a>
+                        <a href="#contact" class="btn btn-outline hero-v2__cta-outline">Contact the Lab</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-v2__scroll-indicator">
+                <span class="hero-v2__scroll-text">Scroll</span>
+                <div class="hero-v2__scroll-line"></div>
+            </div>
+        </section>
+
+        <section class="visit-section" id="location">
+            <div class="container">
+                <span class="section-eyebrow">Location</span>
+                <h2 class="section-title">Lab, Parking &amp; Bus Stop</h2>
+                <p class="lead" style="max-width: 760px; color: var(--gray-700);">Building 98E, South Engineering Lab &mdash; 561 E Pine Knoll Dr, Flagstaff, AZ 86001. Switch the map below to see the lab, parking, or the nearest bus stop.</p>
+
+                <div class="visit-grid" style="margin-top: 28px;">
+                    <div>
+                        <div class="visit-controls" role="group" aria-label="Map view">
+                            <button class="visit-layer-btn active" type="button" data-layer="lab">Lab</button>
+                            <button class="visit-layer-btn" type="button" data-layer="parking">Parking (Lot P64)</button>
+                            <button class="visit-layer-btn" type="button" data-layer="bus">Bus Stop</button>
+                        </div>
+
+                        <div class="visit-panel">
+                            <iframe id="visitMap" class="visit-map-frame" src="https://maps.google.com/maps?q=561+E+Pine+Knoll+Dr,+Flagstaff,+AZ+86001&z=17&output=embed" loading="lazy" title="Interactive map of the MPaCT Lab area"></iframe>
+                        </div>
+                    </div>
+
+                    <aside class="visit-panel">
+                        <div class="visit-detail-header">
+                            <i class="fa-solid fa-map-location-dot"></i>
+                            <h3>Lab Details</h3>
+                        </div>
+                        <div class="visit-detail-body">
+                            <div class="visit-info-row">
+                                <div class="visit-info-icon"><i class="fa-solid fa-building"></i></div>
+                                <div>
+                                    <span class="visit-info-label">Building</span>
+                                    <div class="visit-info-value">98E &mdash; South Engineering Lab</div>
+                                </div>
+                            </div>
+
+                            <div class="visit-info-row">
+                                <div class="visit-info-icon"><i class="fa-regular fa-clock"></i></div>
+                                <div>
+                                    <span class="visit-info-label">Hours</span>
+                                    <div class="visit-info-value">Monday&ndash;Friday, 8:00 AM&ndash;5:00 PM</div>
+                                </div>
+                            </div>
+
+                            <div class="visit-info-row">
+                                <div class="visit-info-icon"><i class="fa-solid fa-location-crosshairs"></i></div>
+                                <div>
+                                    <span class="visit-info-label">GPS Coordinates</span>
+                                    <div class="visit-info-value">35.17765608035483, -111.6491191644177</div>
+                                </div>
+                            </div>
+
+                            <div class="copy-row">
+                                <div class="copy-field" id="addrText">561 E Pine Knoll Dr, Flagstaff, AZ 86001</div>
+                                <button type="button" class="copy-btn" onclick="copyText('addrText', this)" aria-label="Copy address"><i class="fa-regular fa-copy"></i></button>
+                            </div>
+
+                            <div class="copy-row">
+                                <div class="copy-field" id="gpsText">35.17765608035483, -111.6491191644177</div>
+                                <button type="button" class="copy-btn" onclick="copyText('gpsText', this)" aria-label="Copy GPS coordinates"><i class="fa-regular fa-copy"></i></button>
+                            </div>
+
+                            <div class="map-links">
+                                <a class="map-link-btn google" href="https://www.google.com/maps?q=561+E+Pine+Knoll+Dr,+Flagstaff,+AZ+86001" target="_blank" rel="noopener"><i class="fa-brands fa-google"></i>Google Maps</a>
+                                <a class="map-link-btn apple" href="https://maps.apple.com/?address=561%20E%20Pine%20Knoll%20Dr,%20Flagstaff,%20AZ%2086001" target="_blank" rel="noopener"><i class="fa-brands fa-apple"></i>Apple Maps</a>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+
+        <section class="visit-section visit-section--soft" id="parking">
+            <div class="container">
+                <span class="section-eyebrow">Parking</span>
+                <h2 class="section-title">Where to Park</h2>
+
+                <div class="visit-park-layout">
+                    <div>
+                        <div class="visit-callout">
+                            Use <strong>ParkMobile</strong> pay-by-phone options in Lot <strong>P64</strong> (2551 Pine Knoll Drive) for <strong>$5/hour</strong>.
+                            <ol class="visit-park-steps">
+                                <li>Download the ParkMobile app, register online.</li>
+                                <li>Or call <a href="tel:8777275950">877-727-5950</a> to set up an account before using this option.</li>
+                            </ol>
+                            <p style="margin: 12px 0 0; font-size: 0.82rem; color: var(--gray-600);">Each lot has its own ParkMobile code &mdash; <strong>Lot P64 is: Zone 4691</strong></p>
+                        </div>
+                        <a href="https://in.nau.edu/university-transit-services/" target="_blank" rel="noopener" class="btn btn-secondary">NAU Parking Services</a>
+                    </div>
+
+                    <div class="visit-parking-help">
+                        <div class="visit-plain-row"><i class="fa-solid fa-wheelchair"></i><div><h4>Accessible Parking</h4><p>ADA stalls available in Lot P64 with a valid permit plus state placard or plate.</p></div></div>
+                        <div class="visit-plain-row"><i class="fa-solid fa-charging-station"></i><div><h4>EV Charging</h4><p>Nearest station is at Lot P16A &mdash; confirm availability before you arrive.</p></div></div>
+                        <div class="visit-plain-row"><i class="fa-solid fa-bus"></i><div><h4>Bus / Shuttle</h4><p>The weekday shuttle stops at Skydome, a 5-minute walk from the lab.</p></div></div>
+                        <div class="visit-plain-row"><i class="fa-solid fa-bicycle"></i><div><h4>Bicycle Parking</h4><p>Racks are available at the Building 98E entrance.</p></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="visit-section" id="arrival">
+            <div class="container">
+                <span class="section-eyebrow">Arrival</span>
+                <h2 class="section-title">Getting In &amp; Checking In</h2>
+
+                <div class="visit-grid" style="margin-top: 26px;">
+                    <div>
+                        <div class="visit-step-row"><div class="visit-step-num">1</div><div><h4>Walk to Building 98E</h4><p>A 2&ndash;3 minute walk from Lot P64.</p></div></div>
+                        <div class="visit-step-row"><div class="visit-step-num">2</div><div><h4>Check in at the front desk</h4><p>Sign in at the Front desk hours: Monday&ndash;Friday, 8:00 AM&ndash;5:00 PM.</p></div></div>
+                        <div class="visit-step-row"><div class="visit-step-num">3</div><div><h4>Need assistance?</h4><p>Call <a href="tel:9285232343">928-523-2343</a> and lab staff will meet you at the door.</p></div></div>
+                    </div>
+
+                    <div class="visit-feature-card">
+                        <div class="visit-feature-card__head">
+                            <i class="fa-solid fa-list-check"></i>
+                            <h3>Before You Arrive</h3>
+                        </div>
+                        <div class="visit-check-list">
+                            <div class="visit-check-line"><i class="fa-solid fa-circle-check"></i> Government-issued photo ID</div>
+                            <div class="visit-check-line"><i class="fa-solid fa-circle-check"></i> ParkMobile app set up for Lot P64 (Zone 4691)</div>
+                            <div class="visit-check-line"><i class="fa-solid fa-circle-check"></i> Appointment confirmation or host's name</div>
+                            <div class="visit-check-line"><i class="fa-solid fa-circle-check"></i> Closed-toe shoes required in the lab area</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="visit-section visit-section--soft" id="contact">
+            <div class="container">
+                <span class="section-eyebrow">Contact</span>
+                <h2 class="section-title">Need Help?</h2>
+
+                <div class="visit-help-grid">
+                    <div class="visit-help-card">
+                        <h4>MPaCT Lab Front Office</h4>
+                        <p><a href="tel:9285232343">928-523-2343</a></p>
+                        <p>
+                            <a href="mailto:Roger.Alvis@nau.edu">Roger.Alvis@nau.edu</a> / <a href="mailto:Sethuprasad.Gorantla@nau.edu">Sethuprasad.Gorantla@nau.edu</a>
+                        </p>
+                        <p class="small-note">Monday&ndash;Friday, 8:00 AM&ndash;5:00 PM</p>
+                    </div>
+
+                    <div class="visit-help-card">
+                        <h4>After-Hours / Emergency</h4>
+                        <p>NAU Police: <a href="tel:9285233611">928-523-3611</a></p>
+                        <p>Parking after-hours: <a href="tel:9285239066">928-523-9066</a></p>
+                        <p class="small-note">Campus emergency: dial 911</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="JS/layout.js"></script>
+    <script>
+        function copyText(id, btn) {
+            const text = document.getElementById(id).innerText.trim();
+            if (!navigator.clipboard) return;
+
+            navigator.clipboard.writeText(text).then(() => {
+                const icon = btn.querySelector('i');
+                if (!icon) return;
+                const original = icon.className;
+                icon.className = 'fa-solid fa-check';
+                btn.setAttribute('title', 'Copied');
+                setTimeout(() => {
+                    icon.className = original;
+                    btn.setAttribute('title', 'Copy');
+                }, 1500);
+            }).catch(() => {
+                btn.setAttribute('title', 'Copy failed');
+            });
+        }
+
+        const visitLayerMap = {
+            lab: 'https://maps.google.com/maps?q=' + encodeURIComponent('561 E Pine Knoll Dr, Flagstaff, AZ 86001') + '&z=17&output=embed',
+            parking: 'https://maps.google.com/maps?q=' + encodeURIComponent('Lot P64, 2551 Pine Knoll Drive, Flagstaff, AZ 86001') + '&z=17&output=embed',
+            bus: 'https://maps.google.com/maps?q=' + encodeURIComponent('35.180066, -111.650981') + '&z=17&output=embed'
+        };
+
+        const visitLayerLinks = {
+            lab: 'https://www.google.com/maps?q=561+E+Pine+Knoll+Dr,+Flagstaff,+AZ+86001',
+            parking: 'https://maps.app.goo.gl/7WTK34eRCa9o7kLN8',
+            bus: 'https://maps.app.goo.gl/ZjW563GE5VEDYLXPA'
+        };
+
+        const visitMap = document.getElementById('visitMap');
+        document.querySelectorAll('.visit-layer-btn').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const layer = btn.dataset.layer;
+                if (!visitMap || !layer || !visitLayerMap[layer]) return;
+
+                visitMap.src = visitLayerMap[layer];
+
+                const externalLink = document.getElementById('layerExternalLink');
+                if (externalLink && visitLayerLinks[layer]) {
+                    externalLink.href = visitLayerLinks[layer];
+                    externalLink.textContent = layer === 'parking' ? 'Open Parking in Maps' : layer === 'bus' ? 'Open Bus Stop in Maps' : 'Open in Maps';
+                }
+
+                document.querySelectorAll('.visit-layer-btn').forEach((el) => el.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+    </script>
+</body>
+
+</html>
