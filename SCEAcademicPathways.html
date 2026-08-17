@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <script src='JS/gtm.js'></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Explore advanced degree programs at Northern Arizona University across engineering, computing, and related fields that prepare students for high-demand careers and future innovation.">
+    <meta name="theme-color" content="#002454">
+    <title>Degree Programs | NAU Nano</title>
+    <link rel="canonical" href="https://nano.nau.edu/degree-programs.html">
+    <link rel="icon" type="image/png" href="Images/NAU_Nano_favicon.png">
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="NAU Nano">
+    <meta property="og:title" content="Degree Programs in Engineering & Computing | NAU Nano">
+    <meta property="og:description" content="Explore advanced degree programs at Northern Arizona University in engineering, computing, and related fields that prepare students for high-demand microelectronics careers.">
+    <meta property="og:url" content="https://nano.nau.edu/degree-programs.html">
+    <meta property="og:image" content="https://nano.nau.edu/Images/NAU-nano-og-image.jpg">
+    <meta property="og:image:alt" content="NAU sign on the Flagstaff campus in winter">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Degree Programs in Engineering & Computing | NAU Nano">
+    <meta name="twitter:description" content="Explore degree programs at NAU in engineering and computing for high-demand microelectronics careers.">
+    <meta name="twitter:image" content="https://nano.nau.edu/Images/NAU-nano-og-image.jpg">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,400&display=swap"
+        rel="stylesheet">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="CSS/style.css">
+
+    <style>
+        /* ================================================================
+           DEGREE PROGRAMS — CINEMATIC PAGE DESIGN SYSTEM
+           ================================================================ */
+
+        /* ── 1. CINEMATIC HERO ──────────────────────────────────────────── */
+        .ml-hero {
+            position: relative;
+            height: 100vh;
+            min-height: 680px;
+            max-height: 1080px;
+            display: flex;
+            align-items: flex-end;
+            overflow: hidden;
+            background: var(--nau-blue-dark);
+        }
+
+        .ml-hero__bg {
+            position: absolute;
+            inset: 0;
+        }
+
+        .ml-hero__bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 35%;
+            animation: mlKenBurns 22s ease-in-out infinite alternate;
+        }
+
+        @keyframes mlKenBurns {
+            from { transform: scale(1.04) translateX(0); }
+            to   { transform: scale(1.10) translateX(-1.5%); }
+        }
+
+        .ml-hero__overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to top,
+                rgba(0, 15, 35, 0.97) 0%,
+                rgba(0, 36, 84, 0.80) 38%,
+                rgba(0, 24, 56, 0.45) 70%,
+                rgba(0, 15, 35, 0.25) 100%
+            );
+        }
+
+        .ml-hero__noise {
+            position: absolute;
+            inset: 0;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-size: 200px 200px;
+            pointer-events: none;
+        }
+
+        .ml-hero__content {
+            position: relative;
+            z-index: 2;
+            padding-bottom: 88px;
+            width: 100%;
+        }
+
+        .ml-hero__split {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 64px;
+            align-items: flex-end;
+        }
+
+        .ml-hero__eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--nau-gold);
+            margin-bottom: 22px;
+        }
+
+        .ml-hero__eyebrow-line {
+            width: 36px;
+            height: 2px;
+            background: var(--nau-gold);
+            border-radius: 2px;
+        }
+
+        .ml-hero__title {
+            font-size: clamp(3rem, 6.5vw, 5.5rem);
+            font-weight: 900;
+            color: #fff;
+            line-height: 0.95;
+            letter-spacing: -0.035em;
+            margin-bottom: 28px;
+        }
+
+        .ml-hero__title em {
+            font-style: normal;
+            color: var(--nau-gold);
+        }
+
+        .ml-hero__subtitle {
+            font-size: 1.05rem;
+            color: rgba(255, 255, 255, 0.65);
+            line-height: 1.8;
+            max-width: 540px;
+            margin-bottom: 40px;
+        }
+
+        .ml-hero__subtitle strong {
+            color: rgba(255, 255, 255, 0.92);
+            font-weight: 600;
+        }
+
+        .ml-hero__actions {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        /* Hero right panel */
+        .ml-hero__panel {
+            background: rgba(0, 12, 36, 0.72);
+            backdrop-filter: blur(28px) saturate(150%);
+            -webkit-backdrop-filter: blur(28px) saturate(150%);
+            border: 1px solid rgba(250, 192, 26, 0.18);
+            border-radius: 20px;
+            padding: 32px;
+        }
+
+        .ml-hero__panel-label {
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--nau-gold);
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .ml-hero__panel-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+
+        .ml-pstat__num {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 900;
+            color: #fff;
+            line-height: 1;
+        }
+
+        .ml-pstat__num em {
+            font-style: normal;
+            color: var(--nau-gold);
+            font-size: 1.2rem;
+        }
+
+        .ml-pstat__label {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.45);
+            margin-top: 5px;
+            line-height: 1.4;
+        }
+
+        .ml-hero__panel-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+        }
+
+        .ml-hero__panel-tag {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: rgba(255, 255, 255, 0.65);
+            font-size: 0.68rem;
+            font-weight: 600;
+            padding: 5px 12px;
+            border-radius: 100px;
+            letter-spacing: 0.3px;
+        }
+
+        /* Scroll cue */
+        .ml-hero__scroll {
+            position: absolute;
+            bottom: 36px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            z-index: 3;
+            color: rgba(255, 255, 255, 0.35);
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .ml-hero__scroll-bar {
+            width: 1px;
+            height: 52px;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.35), transparent);
+            animation: scrollBarPulse 2.2s ease-in-out infinite;
+        }
+
+        @keyframes scrollBarPulse {
+            0%, 100% { transform: scaleY(1); opacity: 0.6; }
+            50%       { transform: scaleY(0.6); opacity: 0.2; }
+        }
+
+        @media (max-width: 1100px) {
+            .ml-hero__split { grid-template-columns: 1fr; }
+            .ml-hero__panel { display: none; }
+        }
+
+        @media (max-width: 600px) {
+            .ml-hero { min-height: 600px; }
+            .ml-hero__content { padding-bottom: 64px; }
+        }
+
+        /* ── Section ──────────────────────────────────────────────────────── */
+        .scea-section {
+            background: #F6EEE2FA;
+            /* background: #f7f1e8fa; */
+            padding: 96px 24px 100px;
+            position: relative;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .scea-section::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 70% 80% at 80% 50%, rgba(0,36,84,0.035) 0%, transparent 65%);
+            pointer-events: none;
+        }
+
+        /* ── Inner container ──────────────────────────────────────────────── */
+        .scea-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* ── Two-column grid ──────────────────────────────────────────────── */
+        .scea-grid {
+            display: grid;
+            grid-template-columns: 5fr 7fr;
+            gap: 64px;
+            align-items: center;
+        }
+
+        /* ── Eyebrow ──────────────────────────────────────────────────────── */
+        .scea-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #C89B3C;
+            margin: 0 0 20px 0;
+            font-family: inherit;
+        }
+
+        .scea-eyebrow::after {
+            content: "";
+            display: inline-block;
+            width: 36px;
+            height: 1.5px;
+            background: #C89B3C;
+            opacity: 0.55;
+            flex-shrink: 0;
+        }
+
+        /* ── Heading ──────────────────────────────────────────────────────── */
+        .scea-heading {
+            font-size: clamp(2rem, 3.2vw, 2.85rem);
+            font-weight: 900;
+            line-height: 1.13;
+            letter-spacing: -0.03em;
+            color: #0D1E3C;
+            margin: 0 0 40px 0;
+            font-family: inherit;
+        }
+
+        .scea-heading em {
+            font-style: normal;
+            color: #C89B3C;
+        }
+
+        /* ── Contact pills ────────────────────────────────────────────────── */
+        .scea-pills {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 13px;
+            align-items: center;
+        }
+
+        .scea-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 13px;
+            background: #FAFAF8;
+            border: 1px solid rgba(0, 36, 84, 0.09);
+            border-radius: 50px;
+            padding: 10px 22px 10px 10px;
+            box-shadow:
+            0 1px 3px rgba(0, 36, 84, 0.05),
+            0 4px 16px rgba(0, 36, 84, 0.05);
+            text-decoration: none;
+            transition: box-shadow 0.22s ease, transform 0.22s ease;
+            width: fit-content;
+            box-sizing: border-box;
+        }
+
+        .scea-pill:hover {
+            box-shadow:
+            0 3px 8px rgba(0, 36, 84, 0.09),
+            0 10px 28px rgba(0, 36, 84, 0.10);
+            transform: translateY(-2px);
+        }
+
+        .scea-pill:focus-visible {
+            outline: 3px solid #C89B3C;
+            outline-offset: 3px;
+        }
+
+        .scea-pill-icon {
+            width: 36px;
+            height: 36px;
+            background: #002454;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: background 0.22s ease;
+        }
+
+        .scea-pill:hover .scea-pill-icon {
+            background: #001638;
+        }
+
+        .scea-pill-icon svg {
+            width: 15px;
+            height: 15px;
+            color: #ffffff;
+        }
+
+        .scea-pill-text {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .scea-pill-label {
+            font-size: 0.62rem;
+            font-weight: 700;
+            color: #8a96a8;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
+            line-height: 1;
+            font-family: inherit;
+        }
+
+        .scea-pill-value {
+            font-size: 0.9375rem;
+            font-weight: 700;
+            color: #0D1E3C;
+            line-height: 1.3;
+            font-family: inherit;
+        }
+
+        /* ── Map wrapper ──────────────────────────────────────────────────── */
+        .scea-map-wrap {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow:
+            0 2px 6px rgba(0, 36, 84, 0.06),
+            0 16px 50px rgba(0, 36, 84, 0.11);
+            border: 1px solid rgba(0, 36, 84, 0.07);
+            height: 460px;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        .scea-map-wrap:hover {
+            box-shadow:
+            0 6px 16px rgba(0, 36, 84, 0.09),
+            0 28px 64px rgba(0, 36, 84, 0.14);
+            transform: translateY(-3px);
+        }
+
+        .scea-map-wrap iframe {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border: 0;
+            filter: saturate(0.88) contrast(1.02);
+        }
+
+        /* ── Tablet: narrow the gap ───────────────────────────────────────── */
+        @media (max-width: 1024px) {
+            .scea-grid {
+            gap: 40px;
+            }
+            .scea-map-wrap {
+            height: 400px;
+            }
+        }
+
+        /* ── Mobile: stack vertically ─────────────────────────────────────── */
+        @media (max-width: 767px) {
+            .scea-section {
+            padding: 60px 20px 68px;
+            }
+            .scea-grid {
+            grid-template-columns: 1fr;
+            gap: 40px;
+            }
+            .scea-heading {
+            font-size: 1.85rem;
+            }
+            .scea-map-wrap {
+            height: 320px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .scea-section {
+            padding: 48px 16px 56px;
+            }
+            .scea-pills {
+            flex-direction: column;
+            align-items: flex-start;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .scea-pill,
+            .scea-map-wrap,
+            .scea-pill-icon {
+            transition: none;
+            }
+        }
+
+    </style>
+</head>
+
+<body class="SCEAcademicPathways-page">
+
+    <!-- Site Header Web Component -->
+    <div id="site-header"></div>
+    <noscript>
+        <nav style="background:#002454;padding:10px;text-align:center;font-family:sans-serif;">
+            <a href="index.html" style="color:#fff;margin:0 8px;">Home</a>
+            <a href="MPaCT.html" style="color:#fff;margin:0 8px;">MPaCT Lab</a>
+            <a href="Equipment.html" style="color:#fff;margin:0 8px;">Equipment</a>
+            <a href="degree-programs.html" style="color:#fff;margin:0 8px;">Degree Programs</a>
+            <a href="WorkForceDevelopment.html" style="color:#fff;margin:0 8px;">Workforce</a>
+            <a href="News.html" style="color:#fff;margin:0 8px;">News</a>
+            <a href="About_Us.html" style="color:#fff;margin:0 8px;">About Us</a>
+            <a href="Contact_Us.html" style="color:#fff;margin:0 8px;">Contact</a>
+        </nav>
+    </noscript>
+
+    <main>
+        <!-- ══════════════════════════════════════════════════════════
+             §1  CINEMATIC HERO
+        ══════════════════════════════════════════════════════════════ -->
+        <section class="ml-hero">
+            <div class="ml-hero__bg">
+                <img src="Images/SCE_Academics_Banner.jpg"
+                    alt="Engineering and Semiconductor Programs at Northern Arizona University">
+            </div>
+            <div class="ml-hero__overlay"></div>
+            <div class="ml-hero__noise"></div>
+
+            <div class="ml-hero__content">
+                <div class="container">
+                    <div class="ml-hero__split">
+
+                        <!-- Left: text & CTAs -->
+                        <div>
+                            <div class="ml-hero__eyebrow">
+                                <span class="ml-hero__eyebrow-line"></span>
+                                Steve Sanghi College of Engineering
+                            </div>
+                            <h1 class="ml-hero__title">
+                                <em>Degree</em><br>Programs
+                            </h1>
+                            <p class="ml-hero__subtitle">
+                                Six engineering and computing pathways at NAU that prepare graduates for careers in <strong>semiconductor manufacturing, embedded systems, robotics, computer science, and advanced computing</strong> through rigorous, hands-on learning and industry-aligned preparation.
+                            </p>
+                            <div class="ml-hero__actions">
+                                <a href="https://nau.edu/admissions/request-information/" class="btn btn-primary">Request Information</a>
+                            </div>
+                        </div>
+
+                        <!-- Right: stats panel -->
+                        <div class="ml-hero__panel">
+                            <div class="ml-hero__panel-label">Academic Excellence</div>
+                            <div class="ml-hero__panel-stats">
+                                <div>
+                                    <div class="ml-pstat__num">7</div>
+                                    <div class="ml-pstat__label">Degree Tracks</div>
+                                </div>
+                                <div>
+                                    <div class="ml-pstat__num">100<em>%</em></div>
+                                    <div class="ml-pstat__label">ABET Accredited</div>
+                                </div>
+                                <div>
+                                    <div class="ml-pstat__num">$68<em>K+</em></div>
+                                    <div class="ml-pstat__label">Avg. Base Salary</div>
+                                </div>
+                                <div>
+                                    <div class="ml-pstat__num">4<em>k+</em></div>
+                                    <div class="ml-pstat__label">PTAP On-Job Hrs</div>
+                                </div>
+                            </div>
+                            <div class="ml-hero__panel-tags">
+                                <span class="ml-hero__panel-tag">Hands-on Research</span>
+                                <span class="ml-hero__panel-tag">Advanced Facilities</span>
+                                <span class="ml-hero__panel-tag">Expert Faculty</span>
+                                <span class="ml-hero__panel-tag">Innovation Driven</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="ml-hero__scroll" aria-hidden="true">
+                <span>Scroll</span>
+                <div class="ml-hero__scroll-bar"></div>
+            </div>
+        </section>
+
+        <!-- Bachelor's Programs Section -->
+        <section class="section-padding" id="programs">
+            <div class="container">
+                <div class="section-intro reveal-on-scroll">
+                    <h2>Bachelor's Degree Programs</h2>
+                    <p class="section-intro-text">
+                        Our engineering and computing programs combine hands-on experience, industry-aligned curriculum,
+                        and research-driven learning opportunities to prepare you for the future of technology.
+                    </p>
+                </div>
+
+                <div class="program-rows">
+
+                    <!-- Computer Engineering -->
+                    <article class="program-row reveal-on-scroll" id="computer-engineering">
+                        <div class="program-row-image">
+                            <img src="Images/nau-computers-with-blue-lights.jpg" alt="Computer Engineering Chip Board">
+                        </div>
+                        <div class="program-row-content">
+                            <div class="program-row-header">
+                                <h3 class="program-row-title">Computer Engineering</h3>
+                                <span class="program-row-degree">Bachelor of Science</span>
+                            </div>
+                            <p class="program-row-desc">
+                                Bridge the gap between hardware and software. Design high-performance computing systems,
+                                embedded controllers, and advanced processor architectures essential for the AI and
+                                semiconductor era.
+                            </p>
+                            <div class="program-row-features">
+                                <div class="program-row-feature">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
+                                        <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
+                                        <line x1="6" y1="6" x2="6.01" y2="6" />
+                                        <line x1="6" y1="18" x2="6.01" y2="18" />
+                                    </svg>
+                                    Computer Architecture
+                                </div>
+                                <div class="program-row-feature">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                                        <polyline points="15 3 21 3 21 9" />
+                                        <line x1="10" y1="14" x2="21" y2="3" />
+                                    </svg>
+                                    Digital Logic & VLSI
+                                </div>
+                                <div class="program-row-feature">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="4" y="4" width="16" height="16" rx="2" ry="2" />
+                                        <rect x="9" y="9" width="6" height="6" />
+                                        <path d="M9 1v3" />
+                                        <path d="M15 1v3" />
+                                        <path d="M9 20v3" />
+                                        <path d="M15 20v3" />
+                                        <path d="M20 9h3" />
+                                        <path d="M20 14h3" />
+                                        <path d="M1 9h3" />
+                                        <path d="M1 14h3" />
+                                    </svg>
+                                    FPGA Design
+                                </div>
+                                <div class="program-row-feature">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path
+                                            d="M2 16.1A5 5 0 0 1 5.9 20M2 12.05A9 9 0 0 1 9.95 20M2 8V6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6" />
+                                        <line x1="2" y1="20" x2="2.01" y2="20" />
+                                    </svg>
+                                    Network Systems
+                                </div>
+                            </div>
+                            <a href="https://degree-search.nau.edu/degree/computer-engineering-bs" target="_blank" class="program-row-link">
+                                View Degree Details
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+                                </svg>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Computer Science -->
+                    <article class="program-row reveal-on-scroll" id="cs">
+                        <div class="program-row-image">
+                            <img src="Images/computer_lab.jpg" alt="Computer Science Code">
+                        </div>
+                        <div class="program-row-content">
+                            <div class="program-row-header">
+                                <h3 class="program-row-title">Computer Science</h3>
+                                <span class="program-row-degree">Bachelor of Science</span>
+                            </div>
+                            <p class="program-row-desc">
+                                Build foundational knowledge in software development, algorithms, and computing systems.
+                                Modern fabrication plants run on millions of lines of code—your skills are vital
+                                for automation, big data analytics, and yield optimization.
+                            </p>
+                            <div class="program-row-features">
+                                <div class="program-row-feature">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="16 18 22 12 16 6" />
+                                        <polyline points="8 6 2 12 8 18" />
+                                    </svg>
+                                    Software Engineering
+                                </div>
+                                <div class="program-row-feature">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                                        <line x1="8" y1="21" x2="16" y2="21" />
+                                        <line x1="12" y1="17" x2="12" y2="21" />
+                                    </svg>
+                                    Algorithms & Data
+                                </div>
+                                <div class="program-row-feature">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path
+                                            d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z" />
+                                        <path d="M12 6v6l4 2" />
+                                    </svg>
+                                    Operating Systems
+                                </div>
+                                <div class="program-row-feature">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path
+                                            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                                        <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                                        <line x1="12" y1="22.08" x2="12" y2="12" />
+                                    </svg>
+                                    Artificial Intelligence
+                                </div>
+                            </div>
+                            <a href="https://degree-search.nau.edu/degree/computer-science-bscs" target="_blank"
+                                class="program-row-link">
+                                View Degree Details
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+                                </svg>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Electrical Engineering -->
+                    <article class="program-row reveal-on-scroll" id="electrical">
+                        <div class="program-row-image">
+                            <img src="Images/electronics_students.jpg" alt="Electrical Engineering Student">
+                        </div>
+                        <div class="program-row-content">
+                            <div class="program-row-header">
+                                <h3 class="program-row-title">Electrical Engineering</h3>
+                                <span class="program-row-degree">Bachelor of Science</span>
+                            </div>
+                            <p class="program-row-desc">
+                                Design, develop, and analyze electrical and electronic systems used in semiconductor
+                                manufacturing, communications, energy systems, and embedded technologies.
+                                You'll gain hands-on experience in our state-of-the-art research labs and fabrication environments.
+                            </p>
+                            <div class="program-row-features">
+                                <div class="program-row-feature">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                                    </svg>
+                                    Circuit Analysis & Design
+                                </div>
+                                <div class="program-row-feature">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M2 12h20M2 12l5-5m-5 5l5 5" />
+                                    </svg>
+                                    Microelectronics
+                                </div>
+                                <div class="program-row-feature">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="4" y="4" width="16" height="16" rx="2" ry="2" />
+                                        <rect x="9" y="9" width="6" height="6" />
+                                        <path d="M15 2v2" />
+                                        <path d="M15 20v2" />
+                                        <path d="M2 15h2" />
+                                        <path d="M2 9h2" />
+                                        <path d="M20 15h2" />
+                                        <path d="M20 9h2" />
+                                        <path d="M9 2v2" />
+                                        <path d="M9 20v2" />
+                                    </svg>
+                                    Embedded Systems
+                                </div>
+                                <div class="program-row-feature">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M12 2v20M2 12h20" />
+                                    </svg>
+                                    Signal Processing
+                                </div>
+                            </div>
+                            <a href="https://degree-search.nau.edu/degree/electrical-engineering-bs" target="_blank" class="program-row-link">
+                                View Degree Details
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+                                </svg>
+                            </a>
+                        </div>
+                    </article>
+
+                    
+
+                    <!-- Engineering Technology -->
+                    <article class="program-row reveal-on-scroll" id="bset">
+                        <div class="program-row-image">
+                            <img src="Images/atomic_force_microscope.jpg" alt="Microelectronic Circuits">
+                        </div>
+                        <div class="program-row-content">
+                            <div class="program-row-header">
+                                <h3 class="program-row-title">Engineering Technology</h3>
+                                <span class="program-row-degree">Bachelor of Science (BSET)</span>
+                            </div>
+                            <p class="program-row-desc">
+                                Focus on applied engineering practices and technical problem-solving.
+                                This degree lays the groundwork for roles in manufacturing supervision,
+                                equipment maintenance, and industrial operations.
+                            </p>
+                            <div class="program-row-features">
+                                <div class="program-row-feature">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path
+                                            d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+                                    </svg>
+                                    Manufacturing Systems
+                                </div>
+                                <div class="program-row-feature">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                                    </svg>
+                                    Quality Assurance
+                                </div>
+                                <div class="program-row-feature">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="3" width="7" height="7" />
+                                        <rect x="14" y="3" width="7" height="7" />
+                                        <rect x="14" y="14" width="7" height="7" />
+                                        <rect x="3" y="14" width="7" height="7" />
+                                    </svg>
+                                    Industrial Systems
+                                </div>
+                                <div class="program-row-feature">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M12 2v20M2 12h20" />
+                                    </svg>
+                                    Project Management
+                                </div>
+                            </div>
+                            <a href="https://degree-search.nau.edu/degree/ETBS" target="_blank" class="program-row-link">
+                                View Degree Details
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+                                </svg>
+                            </a>
+                        </div>
+                    </article>
+
+                      <!-- Bachlor of Profesional science Technology -->
+                    <article class="program-row reveal-on-scroll" id="bset">
+                        <div class="program-row-image">
+                            <img src="Images/ET_BPSET.jpg" alt="Microelectronic Circuits">
+                        </div>
+                        <div class="program-row-content">
+                            <div class="program-row-header">
+                                <h3 class="program-row-title">Engineering Technology</h3>
+                                <span class="program-row-degree">Bachelor of Professional Studies in Engineering Technology (BPSET)</span>
+                            </div>
+                            <p class="program-row-desc">
+                               <strong>A 3-Year Degree Program</strong>—Fast-track your path to a bachelor's degree in about three years. Build on your technical education with applied engineering, leadership, and project management skills that prepare you to advance into high-demand technical and supervisory roles.
+
+                            </p>
+                            <div class="program-row-features">
+                                <div class="program-row-feature">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="7" r="4"/>
+                                        <path d="M5.5 21a6.5 6.5 0 0 1 13 0"/>
+                                        <path d="M19 8l1 2 2 .5-1.5 1.5.5 2-2-1-2 1 .5-2-1.5-1.5 2-.5z"/>
+                                    </svg>
+                                    Engineering Leadership
+                                </div>
+                                <div class="program-row-feature">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="5" y="4" width="14" height="18" rx="2"/>
+                                        <path d="M9 4V2h6v2"/>
+                                        <path d="M8 10h8"/>
+                                        <path d="M8 14h5"/>
+                                        <circle cx="17" cy="17" r="3"/>
+                                        <path d="M17 15.5v3M15.5 17h3"/>
+                                    </svg>
+                                    Technical Project Management
+                                </div>
+                                <div class="program-row-feature">
+                                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M3 21V8l7 4V8l7 4V5h4v16H3z"/>
+                                        <path d="M7 21v-4h4v4"/>
+                                        <circle cx="17" cy="15" r="2"/>
+                                    </svg>
+                                    Advanced Manufacturing
+                                </div>
+                                <div class="program-row-feature">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M4 18V6"/>
+                                        <path d="M4 18h16"/>
+                                        <path d="M8 14l4-4 3 3 5-6"/>
+                                        <circle cx="8" cy="14" r="1"/>
+                                        <circle cx="12" cy="10" r="1"/>
+                                        <circle cx="15" cy="13" r="1"/>
+                                        <circle cx="20" cy="7" r="1"/>
+                                    </svg>
+                                    Industrial Operations
+                                </div>
+                            </div>
+                            <a href="https://degree-search.nau.edu/degree/ETBPRS" target="_blank" class="program-row-link">
+                                View Degree Details
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+                                </svg>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Mechanical Engineering -->
+                    <article class="program-row reveal-on-scroll" id="mechanical">
+                        <div class="program-row-image">
+                            <img src="Images/drone_engineering.jpg" alt="Mechanical Engineering - Desktop Mill">
+                        </div>
+                        <div class="program-row-content">
+                            <div class="program-row-header">
+                                <h3 class="program-row-title">Mechanical Engineering</h3>
+                                <span class="program-row-degree">Bachelor of Science</span>
+                            </div>
+                            <p class="program-row-desc">
+                                Design, analyze, and improve mechanical and energy systems. The semiconductor industry
+                                relies on mechanical engineers for thermal management, equipment design, and
+                                vacuum systems.
+                            </p>
+                            <div class="program-row-features">
+                                <div class="program-row-feature">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M12 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                                        <path
+                                            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3d-2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                                    </svg>
+                                    Thermodynamics
+                                </div>
+                                <div class="program-row-feature">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M2 12h20" />
+                                    </svg>
+                                    Materials Science
+                                </div>
+                                <div class="program-row-feature">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M12 2v20" />
+                                        <path d="M2 12h20" />
+                                    </svg>
+                                    Solid Mechanics
+                                </div>
+                                <div class="program-row-feature">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M12 21a9 9 0 0 0 9-9 9 9 0 0 0-9-9 9 9 0 0 0 9 9z" />
+                                        <path d="M12 7v5l3 3" />
+                                    </svg>
+                                    System Dynamics
+                                </div>
+                            </div>
+                            <a href="https://degree-search.nau.edu/degree/MEEGRBS" target="_blank" class="program-row-link">
+                                View Degree Details
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+                                </svg>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Mechatronics & Robotics -->
+                    <article class="program-row reveal-on-scroll" id="mechatronics">
+                        <div class="program-row-image">
+                            <img src="Images/robotics_testing.jpg" alt="Industrial Automation PLC">
+                        </div>
+                        <div class="program-row-content">
+                            <div class="program-row-header">
+                                <h3 class="program-row-title">Mechatronics & Robotics Engineering</h3>
+                                <span class="program-row-degree">Bachelor of Science</span>
+                            </div>
+                            <p class="program-row-desc">
+                                Integrate mechanical, electrical, and computer engineering with control systems to
+                                design automated and intelligent systems. Perfect for students interested in
+                                semiconductor automation, wafer handling robots, and manufacturing systems.
+                            </p>
+                            <div class="program-row-features">
+                                <div class="program-row-feature">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="3" />
+                                        <path
+                                            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                                    </svg>
+                                    Robotics Design
+                                </div>
+                                <div class="program-row-feature">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M12 2v20M2 12h20" />
+                                    </svg>
+                                    Control Systems
+                                </div>
+                                <div class="program-row-feature">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                                    </svg>
+                                    Sensors & Actuators
+                                </div>
+                                <div class="program-row-feature">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="3" width="7" height="7" />
+                                        <rect x="14" y="3" width="7" height="7" />
+                                        <rect x="14" y="14" width="7" height="7" />
+                                        <rect x="3" y="14" width="7" height="7" />
+                                    </svg>
+                                    Industrial Automation
+                                </div>
+                            </div>
+                            <a href="https://degree-search.nau.edu/degree/MREEGRBS" target="_blank" class="program-row-link">
+                                View Degree Details
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+                                </svg>
+                            </a>
+                        </div>
+                    </article>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- Metrology Training Section -->
+      <!--  <section class="section-padding metrology-section">
+            <div class="container">
+                <div class="metrology-grid">
+                    <div class="metrology-image reveal-on-scroll">
+                        <img src="Images/atomic_force_microscope.jpg" alt="Atomic Force Microscope">
+                    </div>
+                    <div class="metrology-content reveal-on-scroll" data-delay="200">
+                        <div class="section-tag">Specialized Training</div>
+                        <h2>Semiconductor & Microelectronics Metrology</h2>
+                        <p>
+                            Semiconductor manufacturing requires expertise from every discipline. NAU bridges our core bachelor's
+                            programs with specialized training in microelectronics metrology, ensuring students across mechanical,
+                            electrical, computing, and technology fields gain the precise measurement and characterization skills
+                            demanded by the industry through hands-on access to cutting-edge research equipment.
+                        </p>
+
+                        <div class="metrology-skills">
+                            <div class="metrology-skill">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="var(--nau-green)">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                </svg>
+                                <span>Optical and Electron Microscopy</span>
+                            </div>
+                            <div class="metrology-skill">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="var(--nau-green)">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                </svg>
+                                <span>Wafer Inspection and Characterization</span>
+                            </div>
+                            <div class="metrology-skill">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="var(--nau-green)">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                </svg>
+                                <span>Measurement Calibration and Uncertainty Analysis</span>
+                            </div>
+                            <div class="metrology-skill">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="var(--nau-green)">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                </svg>
+                                <span>Semiconductor Yield Analysis</span>
+                            </div>
+                        </div>
+
+                        <p class="metrology-note">
+                            These interdisciplinary experiences are integrated into select laboratory courses, technical electives,
+                            and flexible workforce development programs.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>-->
+
+        <!-- Campus Locations Section -->
+      <!--  <section class="section-padding campuses-section">
+            <div class="container">
+                <div class="section-intro reveal-on-scroll">
+                    <h2>Campus Locations</h2>
+                    <p class="section-intro-text">
+                        NAU offers engineering and technology education at multiple locations to serve students
+                        across Arizona.
+                    </p>
+                </div>
+
+                <div class="campus-grid">
+                    <div class="campus-card reveal-on-scroll">
+                        <div class="campus-card-image">
+                            <img src="Images/flagstaff_campus.jpg" alt="Flagstaff Campus">
+                            <div class="campus-card-badge">Main Campus</div>
+                        </div>
+                        <div class="campus-card-body">
+                            <h3>Flagstaff Campus</h3>
+                            <p>
+                                The Flagstaff campus serves as the primary location for traditional engineering and
+                                computer science degree programs, featuring state-of-the-art labs and research
+                                facilities.
+                            </p>
+                            <div class="campus-features">
+                                <span class="campus-feature">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="var(--nau-gold)">
+                                        <circle cx="12" cy="12" r="10" />
+                                    </svg>
+                                    Full Degree Programs
+                                </span>
+                                <span class="campus-feature">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="var(--nau-gold)">
+                                        <circle cx="12" cy="12" r="10" />
+                                    </svg>
+                                    Research Facilities
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="campus-card reveal-on-scroll" data-delay="200">
+                        <div class="campus-card-image">
+                            <img src="Images/modern_building.jpg" alt="North Valley Campus">
+                            <div class="campus-card-badge campus-card-badge-gold">Phoenix Area</div>
+                        </div>
+                        <div class="campus-card-body">
+                            <h3>North Valley Campus</h3>
+                            <p>
+                                The North Valley campus supports workforce training, industry partnerships, and
+                                advanced manufacturing education initiatives in the greater Phoenix region.
+                            </p>
+                            <div class="campus-features">
+                                <span class="campus-feature">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="var(--nau-gold)">
+                                        <circle cx="12" cy="12" r="10" />
+                                    </svg>
+                                    Industry Partnerships
+                                </span>
+                                <span class="campus-feature">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="var(--nau-gold)">
+                                        <circle cx="12" cy="12" r="10" />
+                                    </svg>
+                                    Workforce Training
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>-->
+
+        <div id="ptap"></div>
+
+        <section class="scea-section" aria-labelledby="scea-heading">
+        <div class="scea-container">
+            <div class="scea-grid">
+
+            <!-- ── Left: Heading + pills ──────────────────────────────────── -->
+            <div class="scea-left">
+
+                <p class="scea-eyebrow" aria-hidden="true">
+                COMMITTED TO INNOVATION AND ADVANCEMENT
+                </p>
+
+                <h2 class="scea-heading" id="scea-heading">
+                Contact the<br>
+                <em>Steve Sanghi College</em><br>
+                of Engineering
+                </h2>
+
+                <div class="scea-pills">
+
+                <a href="tel:+19285232704" class="scea-pill"
+                    aria-label="Call the Steve Sanghi College of Engineering at 928-523-2704">
+                    <span class="scea-pill-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        aria-hidden="true">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.56 3.44 2 2 0 0 1 3.53 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.73a16 16 0 0 0 6 6l.87-.87a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                    </svg>
+                    </span>
+                    <span class="scea-pill-text">
+                    <span class="scea-pill-label">Phone</span>
+                    <span class="scea-pill-value">928-523-2704</span>
+                    </span>
+                </a>
+
+                <a href="mailto:sce@nau.edu" class="scea-pill"
+                    aria-label="Email the Steve Sanghi College of Engineering at sce@nau.edu">
+                    <span class="scea-pill-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        aria-hidden="true">
+                        <rect width="20" height="16" x="2" y="4" rx="2"/>
+                        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                    </svg>
+                    </span>
+                    <span class="scea-pill-text">
+                    <span class="scea-pill-label">Email</span>
+                    <span class="scea-pill-value">sce@nau.edu</span>
+                    </span>
+                </a>
+
+                </div>
+            </div>
+
+            <!-- ── Right: Map ─────────────────────────────────────────────── -->
+            <div class="scea-right">
+                <div class="scea-map-wrap">
+                <iframe
+                    src="https://maps.google.com/maps?width=100%25&height=100%25&hl=en&q=2112+South+Huffer+Lane%2C+Flagstaff%2C+AZ+86011+(Steve+Sanghi+College+of+Engineering)&t=&z=15&ie=UTF8&iwloc=B&output=embed"
+                    title="Map showing the Steve Sanghi College of Engineering at 2112 South Huffer Lane, Flagstaff, Arizona"
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    aria-label="Interactive map: Steve Sanghi College of Engineering, Northern Arizona University">
+                </iframe>
+                </div>
+            </div>
+
+            </div>
+        </div>
+        </section>
+
+        <!-- Accreditation Note & CTA Section -->
+        <section class="section-padding cta-section">
+            <div class="container">
+                <div class="cta-content reveal-on-scroll">
+
+                    <div class="cta-box">
+                        <h2>Ready to Start Your Journey?</h2>
+                        <p>
+                            Tell us a little about yourself so we can follow up with helpful updates and reminders about our programs.
+                        </p>
+                        <div class="cta-buttons">
+                            <a href="https://nau.edu/admissions/request-information/" target="_blank" class="btn btn-primary">
+                                Request Information
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Site Footer Web Component -->
+    <div id="site-footer"></div>
+
+    <!-- Layout Scripts -->
+    <script src="JS/layout.js"></script>
+
+    <!-- Page-specific scroll animations -->
+    <script>
+        // Scroll reveal animation
+        document.addEventListener('DOMContentLoaded', function () {
+            const revealElements = document.querySelectorAll('.reveal-on-scroll');
+
+            const revealOnScroll = () => {
+                revealElements.forEach(el => {
+                    const elementTop = el.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    const delay = parseInt(el.dataset.delay) || 0;
+
+                    if (elementTop < windowHeight - 100) {
+                        setTimeout(() => {
+                            el.classList.add('revealed');
+                        }, delay);
+                    }
+                });
+            };
+
+            // Initial check
+            revealOnScroll();
+
+            // Add scroll listener with throttling
+            let ticking = false;
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        revealOnScroll();
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            });
+        });
+
+    
+    </script>
+
+</body>
+
+</html>
