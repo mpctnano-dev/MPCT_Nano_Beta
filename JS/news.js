@@ -22,6 +22,30 @@ const EQUIPMENT_LINKS = {
     'XRD': 'About_Equipment/XRD.html'
 };
 
+/* Mid-build renovation progress article — 12-frame scrubbable sequence in the hero. */
+
+const LAB_RENOVATION_TIMELAPSE_FRAMES = [
+    { src: 'Images/Lab_renovation/01-main-lab-metal-framing-worker.jpeg', alt: 'Metal framing going up in the main lab bay', phase: 'Framing', caption: 'Metal framing outlines new rooms across the main lab bay' },
+    { src: 'Images/Lab_renovation/21-dust-barrier-containment-wall.jpeg', alt: 'Dust barrier separating construction from lab areas', phase: 'Protect', caption: 'Dust barriers keep the build zone separate from lab areas still in use' },
+    { src: 'Images/Lab_renovation/05-main-bay-scissor-lifts-workers.jpeg', alt: 'Crews on lifts installing overhead systems', phase: 'Systems', caption: 'Crews work from lifts to install overhead building systems' },
+    { src: 'Images/Lab_renovation/17-main-lab-hvac-install-in-progress.jpeg', alt: 'HVAC ductwork staged on the floor', phase: 'Systems', caption: 'Large ducts staged on the floor before they go into the ceiling' },
+    { src: 'Images/Lab_renovation/06-main-bay-hvac-crew-at-work.jpeg', alt: 'HVAC crew working in the main bay', phase: 'Systems', caption: 'HVAC installation continues through the main bay' },
+    { src: 'Images/Lab_renovation/22-wall-electrical-rough-in.jpeg', alt: 'Wiring and outlets going into newly framed walls', phase: 'Systems', caption: 'Wiring and outlets go into the new walls before drywall closes them' },
+    { src: 'Images/Lab_renovation/20-corridor-drywall-and-hvac.jpeg', alt: 'Drywall and overhead work advancing together', phase: 'Rooms', caption: 'Drywall goes up as open bays start to become enclosed rooms' },
+    { src: 'Images/Lab_renovation/23-finished-walls-exposed-ceiling.jpeg', alt: 'Closed walls with open ceiling systems still exposed', phase: 'Rooms', caption: 'Walls close in while overhead systems stay open for install' },
+    { src: 'Images/Lab_renovation/28-main-hall-scissor-lifts-planning.jpeg', alt: 'Scissor lifts and planning in the main hall', phase: 'Rooms', caption: 'Work continues in the main hall as room layouts take shape' },
+    { src: 'Images/Lab_renovation/27-drywall-room-worker-and-window.jpeg', alt: 'Interior room with drywall and a new window', phase: 'Rooms', caption: 'Interior rooms take shape around new windows and doorways' },
+    { src: 'Images/Lab_renovation/30-room-85-drywall-rough-in.jpeg', alt: 'Room 85 drywall and rough-in underway', phase: 'Rooms', caption: 'Room shell complete: walls up, with flooring, ceiling, and fit-out still to come' },
+    { src: 'Images/Lab_renovation/26-drywall-phase-interior-window.jpeg', alt: 'Interior hallway with observation window and closed walls', phase: 'Rooms', caption: 'Observation windows and enclosed rooms mark clear mid-build progress' }
+];
+
+const LAB_RENOVATION_TIMELAPSE_MILESTONES = [
+    { id: 'framing', label: 'Framing', startIndex: 0 },
+    { id: 'protect', label: 'Protect', startIndex: 1 },
+    { id: 'systems', label: 'Systems', startIndex: 2 },
+    { id: 'rooms', label: 'Rooms', startIndex: 6 }
+];
+
 /* Article definitions drive the expanded reader view. Keep ids synchronized with News.html. */
 
 const ARTICLES = [
@@ -55,7 +79,7 @@ const ARTICLES = [
             },
             {
                 heading: 'Complementary Strengths Across the Alliance',
-                body: 'NAU brings the MPaCT Lab, a 35+ instrument fabrication and metrology facility, alongside new curriculum supported by a $13M Arizona Commerce Authority semiconductor workforce grant and an established TSMC apprenticeship pipeline. As a Hispanic-Serving Institution with approximately 60% first-generation enrollment, NAU reaches underrepresented communities across rural northern Arizona. U of A contributes decades of Intel-aligned photonics expertise through the Wyant College of Optical Sciences and the Center for Semiconductor Manufacturing, which is staffed in part by former Intel engineers and has graduated more than 200 Master\'s and PhD students through SRC-affiliated programs.'
+                body: 'NAU brings the MPaCT Lab, a 35+ instrument fabrication and metrology facility, alongside new curriculum supported by a $8M Arizona Commerce Authority semiconductor workforce grant and an established TSMC apprenticeship pipeline. As a Hispanic-Serving Institution with approximately 60% first-generation enrollment, NAU reaches underrepresented communities across rural northern Arizona. U of A contributes decades of Intel-aligned photonics expertise through the Wyant College of Optical Sciences and the Center for Semiconductor Manufacturing, which is staffed in part by former Intel engineers and has graduated more than 200 Master\'s and PhD students through SRC-affiliated programs.'
             },
             {
                 heading: 'From Lab to Career',
@@ -151,6 +175,73 @@ const ARTICLES = [
             { src: 'Images/blueprint_1.jpeg', alt: 'Facility floor plan', caption: 'Detailed facility floor plan and layout' },
             { src: 'Images/engineering_building.jpg', alt: 'NAU Engineering Building', caption: 'NAU Engineering Building — home of MPaCT Lab' }
         ]
+    },
+
+    {
+        id: 'lab-renovation-progress-timelapse',
+        title: 'MPaCT Lab Renovation: Mid-Build Progress',
+        tagLabel: 'Facility',
+        date: '2026-07-31',
+        readTime: '4 min read',
+        heroAlt: 'MPaCT Lab renovation and build-out in progress',
+        statusBadge: 'In Progress',
+        stats: [],
+        sections: [
+            {
+                heading: 'Renovation Underway at MPaCT Lab',
+                body: 'MPaCT Lab at Northern Arizona University is in the middle of a facility renovation to expand its shared metrology and semiconductor research space. Crews are working through the main lab bays on metal framing, HVAC rough-in, drywall, and overhead systems, building toward a cleaner, more modern environment for precision instruments. The project is part of NAU\'s wider push on semiconductor workforce development and shared research facilities for academic, industry, and government partners.'
+            },
+            {
+                heading: 'Equipment Installation Continues',
+                body: 'While construction continues, MPaCT has kept commissioning and installing new systems and protecting instruments already on site. Recent additions include the FLs1000 fiber laser, HAAS Desktop CNC, and LPKF ProtoLaser R4, with sensitive systems kept under containment during nearby work. More installs and relocations will follow as renovation zones wrap up, with broader user access expected in the coming months.'
+            },
+            {
+                heading: 'What Comes Next',
+                body: 'Next up is finishing the interior build-out, completing mechanical and electrical systems, preparing spaces, and moving into the actual equipment installation and commissioning. MPaCT will post more updates as major phases close. In the meantime, the lab is still focused on its 35+ instrument suite and the research, training, and industry partnerships that drive the facility.'
+            }
+        ],
+        featured: {
+            type: 'progress',
+            heading: 'Current Project Status',
+            items: [
+                {
+                    status: 'active',
+                    icon: '&#128736;',
+                    label: 'Facility Renovation',
+                    detail: 'Framing, HVAC, drywall, and overhead systems underway across main and west bays',
+                    statusLabel: 'In Progress'
+                },
+                {
+                    status: 'active',
+                    icon: '&#9881;',
+                    label: 'Equipment Installation',
+                    detail: 'New systems commissioning and existing instruments protected during active construction',
+                    statusLabel: 'In Progress'
+                },
+                {
+                    status: 'active',
+                    icon: '&#128274;',
+                    label: 'Containment & Protection',
+                    detail: 'Dust barriers and plastic containment keeping operating lab zones safe during build-out',
+                    statusLabel: 'In Progress'
+                },
+                {
+                    status: 'planned',
+                    icon: '&#128640;',
+                    label: 'Facility Launch',
+                    detail: 'Final fit-out, instrument relocation, and expanded user access expected soon',
+                    statusLabel: 'Coming Soon'
+                }
+            ]
+        },
+        cta: {
+            text: 'Interested in the shared facility and instrument suite at MPaCT?',
+            label: 'Learn About MPaCT',
+            href: 'MPaCT.html'
+        },
+        heroLayout: 'timelapse',
+        heroImage: 'Images/Lab_renovation/05-main-bay-scissor-lifts-workers.jpeg',
+        gallery: LAB_RENOVATION_TIMELAPSE_FRAMES
     },
 
     {
@@ -462,6 +553,307 @@ const renderFeatured = (featured) => {
     }
 };
 
+/* Hero banner helpers — pseudo-timelapse lives in the article hero area. */
+
+let activeTimelapseTimer = null;
+
+const renderHeroMeta = (article, formattedDate) => `
+    <div class="nar-hero__meta">
+        <span class="nar-hero__category">${article.tagLabel}</span>
+        <span class="nar-hero__dot">&#9679;</span>
+        <span class="nar-hero__date">${formattedDate}</span>
+        <span class="nar-hero__dot">&#9679;</span>
+        <span class="nar-hero__readtime">${article.readTime}</span>
+    </div>
+`;
+
+const renderHeroTimelapse = (frames, metaHTML) => {
+    const milestones = LAB_RENOVATION_TIMELAPSE_MILESTONES;
+    const phaseStripHTML = milestones.map((m, i) => `
+        <button type="button" class="nar-hero-timelapse__milestone${i === 0 ? ' is-active' : ''}" data-index="${m.startIndex}" aria-label="Jump to ${m.label}">
+            <span class="nar-hero-timelapse__milestone-dot"></span>
+            <span class="nar-hero-timelapse__milestone-label">${m.label}</span>
+        </button>
+    `).join('');
+
+    return `
+        <div class="nar-hero-timelapse-wrap" id="narHeroTimelapse" tabindex="0" role="region" aria-label="Renovation progress sequence">
+            <div class="nar-hero nar-hero--timelapse">
+                <div class="nar-hero-timelapse__stage">
+                    <img class="nar-hero-timelapse__img" src="${frames[0].src}" alt="${frames[0].alt}" loading="eager">
+                    <div class="nar-hero__overlay nar-hero__overlay--timelapse"></div>
+                    <span class="nar-hero-timelapse__badge">${frames[0].phase}</span>
+                    <span class="nar-hero-timelapse__counter">1 / ${frames.length}</span>
+                    ${metaHTML}
+                </div>
+            </div>
+            <div class="nar-hero-timelapse__panel">
+                <p class="nar-hero-timelapse__caption">${frames[0].caption}</p>
+                <div class="nar-hero-timelapse__controls">
+                    <button type="button" class="nar-hero-timelapse__btn nar-hero-timelapse__btn--prev" aria-label="Previous frame">&#8592;</button>
+                    <button type="button" class="nar-hero-timelapse__btn nar-hero-timelapse__btn--play">&#9654; Play</button>
+                    <button type="button" class="nar-hero-timelapse__btn nar-hero-timelapse__btn--next" aria-label="Next frame">&#8594;</button>
+                </div>
+                <div class="nar-hero-timelapse__slider-row">
+                    <input type="range" class="nar-hero-timelapse__slider" min="0" max="${frames.length - 1}" value="0" aria-label="Progress scrubber">
+                </div>
+                <div class="nar-hero-timelapse__phase-strip" aria-label="Renovation phases">${phaseStripHTML}</div>
+            </div>
+        </div>
+    `;
+};
+
+const initNarHeroTimelapse = (root, frames) => {
+    if (!root || !frames.length) return;
+
+    const img = root.querySelector('.nar-hero-timelapse__img');
+    const caption = root.querySelector('.nar-hero-timelapse__caption');
+    const counter = root.querySelector('.nar-hero-timelapse__counter');
+    const badge = root.querySelector('.nar-hero-timelapse__badge');
+    const slider = root.querySelector('.nar-hero-timelapse__slider');
+    const playBtn = root.querySelector('.nar-hero-timelapse__btn--play');
+    const prevBtn = root.querySelector('.nar-hero-timelapse__btn--prev');
+    const nextBtn = root.querySelector('.nar-hero-timelapse__btn--next');
+    const milestones = Array.from(root.querySelectorAll('.nar-hero-timelapse__milestone'));
+    const milestonesData = LAB_RENOVATION_TIMELAPSE_MILESTONES;
+
+    let index = 0;
+    let playing = false;
+    let fadeTimer = null;
+    let hasPainted = false;
+    const INTERVAL_MS = 2000;
+    const FADE_MS = 220;
+
+    const getActiveMilestoneIndex = (frameIndex) => {
+        let active = 0;
+        milestonesData.forEach((m, i) => {
+            if (frameIndex >= m.startIndex) active = i;
+        });
+        return active;
+    };
+
+    const preloadFrames = () => {
+        frames.forEach(frame => {
+            const preload = new Image();
+            preload.src = frame.src;
+        });
+    };
+
+    const updateMilestones = (frameIndex) => {
+        const activeIdx = getActiveMilestoneIndex(frameIndex);
+        milestones.forEach((btn, i) => btn.classList.toggle('is-active', i === activeIdx));
+    };
+
+    const applyFrame = (frame, frameIndex) => {
+        img.src = frame.src;
+        img.alt = frame.alt;
+        caption.textContent = frame.caption;
+        counter.textContent = `${frameIndex + 1} / ${frames.length}`;
+        if (badge) badge.textContent = frame.phase;
+        slider.value = String(frameIndex);
+        updateMilestones(frameIndex);
+    };
+
+    const showFrame = (nextIndex, { animate = true } = {}) => {
+        const clamped = Math.max(0, Math.min(frames.length - 1, nextIndex));
+        if (hasPainted && clamped === index && animate) return;
+
+        index = clamped;
+        const frame = frames[index];
+
+        if (fadeTimer) {
+            clearTimeout(fadeTimer);
+            fadeTimer = null;
+            img.classList.remove('is-fading');
+        }
+
+        if (!animate || !hasPainted) {
+            applyFrame(frame, index);
+            hasPainted = true;
+            return;
+        }
+
+        img.classList.add('is-fading');
+        fadeTimer = window.setTimeout(() => {
+            applyFrame(frame, index);
+            img.classList.remove('is-fading');
+            fadeTimer = null;
+        }, FADE_MS);
+    };
+
+    const stopPlay = () => {
+        playing = false;
+        if (activeTimelapseTimer) {
+            clearInterval(activeTimelapseTimer);
+            activeTimelapseTimer = null;
+        }
+        if (playBtn) {
+            playBtn.innerHTML = '&#9654; Play';
+            playBtn.setAttribute('aria-label', 'Play progress sequence');
+        }
+    };
+
+    const startPlay = () => {
+        if (index >= frames.length - 1) showFrame(0);
+        playing = true;
+        if (playBtn) {
+            playBtn.innerHTML = '&#9208; Pause';
+            playBtn.setAttribute('aria-label', 'Pause progress sequence');
+        }
+        activeTimelapseTimer = setInterval(() => {
+            if (index >= frames.length - 1) {
+                stopPlay();
+                return;
+            }
+            showFrame(index + 1);
+        }, INTERVAL_MS);
+    };
+
+    preloadFrames();
+    showFrame(0, { animate: false });
+    if (playBtn) playBtn.setAttribute('aria-label', 'Play progress sequence');
+    if (caption) caption.setAttribute('aria-live', 'polite');
+
+    slider.addEventListener('input', () => {
+        stopPlay();
+        showFrame(parseInt(slider.value, 10));
+    });
+
+    prevBtn?.addEventListener('click', () => {
+        stopPlay();
+        showFrame(index - 1);
+    });
+
+    nextBtn?.addEventListener('click', () => {
+        stopPlay();
+        showFrame(index + 1);
+    });
+
+    playBtn?.addEventListener('click', () => {
+        if (playing) stopPlay();
+        else startPlay();
+    });
+
+    milestones.forEach(btn => {
+        btn.addEventListener('click', () => {
+            stopPlay();
+            showFrame(parseInt(btn.dataset.index, 10));
+        });
+    });
+
+    root.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowLeft') {
+            event.preventDefault();
+            stopPlay();
+            showFrame(index - 1);
+        }
+        if (event.key === 'ArrowRight') {
+            event.preventDefault();
+            stopPlay();
+            showFrame(index + 1);
+        }
+        if (event.key === ' ' || event.key === 'Enter') {
+            if (event.target === root || event.target === playBtn) {
+                event.preventDefault();
+                if (playing) stopPlay();
+                else startPlay();
+            }
+        }
+    });
+};
+
+/* Legacy body-level timelapse (kept for reuse if needed elsewhere). */
+
+const renderTimelapseGallery = (frames) => {
+    if (!frames.length) return '';
+
+    return `
+        <div class="nar-timelapse" id="narTimelapse">
+            <div class="nar-timelapse__stage">
+                <img class="nar-timelapse__img" src="${frames[0].src}" alt="${frames[0].alt}" loading="lazy">
+                <span class="nar-timelapse__counter">1 / ${frames.length}</span>
+            </div>
+            <p class="nar-timelapse__caption">${frames[0].caption}</p>
+            <div class="nar-timelapse__controls">
+                <button type="button" class="nar-timelapse__btn nar-timelapse__btn--prev" aria-label="Previous frame">&#8592;</button>
+                <button type="button" class="nar-timelapse__btn nar-timelapse__btn--play">Play</button>
+                <input type="range" class="nar-timelapse__slider" min="0" max="${frames.length - 1}" value="0" aria-label="Progress scrubber">
+                <button type="button" class="nar-timelapse__btn nar-timelapse__btn--next" aria-label="Next frame">&#8594;</button>
+            </div>
+        </div>
+    `;
+};
+
+const initNarTimelapse = (root, frames) => {
+    if (!root || !frames.length) return;
+
+    const img = root.querySelector('.nar-timelapse__img');
+    const caption = root.querySelector('.nar-timelapse__caption');
+    const counter = root.querySelector('.nar-timelapse__counter');
+    const slider = root.querySelector('.nar-timelapse__slider');
+    const playBtn = root.querySelector('.nar-timelapse__btn--play');
+    const prevBtn = root.querySelector('.nar-timelapse__btn--prev');
+    const nextBtn = root.querySelector('.nar-timelapse__btn--next');
+
+    let index = 0;
+    let playing = false;
+    const INTERVAL_MS = 2000;
+
+    const showFrame = (nextIndex) => {
+        index = Math.max(0, Math.min(frames.length - 1, nextIndex));
+        const frame = frames[index];
+
+        img.classList.add('is-fading');
+        window.setTimeout(() => {
+            img.src = frame.src;
+            img.alt = frame.alt;
+            caption.textContent = frame.caption;
+            counter.textContent = `${index + 1} / ${frames.length}`;
+            slider.value = String(index);
+            img.classList.remove('is-fading');
+        }, 150);
+    };
+
+    const stopPlay = () => {
+        playing = false;
+        if (activeTimelapseTimer) {
+            clearInterval(activeTimelapseTimer);
+            activeTimelapseTimer = null;
+        }
+        if (playBtn) playBtn.textContent = 'Play';
+    };
+
+    const startPlay = () => {
+        playing = true;
+        if (playBtn) playBtn.textContent = 'Pause';
+        activeTimelapseTimer = setInterval(() => {
+            showFrame(index >= frames.length - 1 ? 0 : index + 1);
+        }, INTERVAL_MS);
+    };
+
+    showFrame(0);
+
+    slider.addEventListener('input', () => {
+        stopPlay();
+        showFrame(parseInt(slider.value, 10));
+    });
+
+    prevBtn?.addEventListener('click', () => {
+        stopPlay();
+        showFrame(index - 1);
+    });
+
+    nextBtn?.addEventListener('click', () => {
+        stopPlay();
+        showFrame(index + 1);
+    });
+
+    playBtn?.addEventListener('click', () => {
+        if (playing) stopPlay();
+        else startPlay();
+    });
+};
+
 /* Wire the static grid markup to the richer reader experience once the page shell is available. */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -516,16 +908,21 @@ document.addEventListener('DOMContentLoaded', () => {
     let searchQuery       = '';
     let currentArticleIdx = -1;
 
-    /* Convert absolute publish dates into relative labels for the grid without mutating the source article data. */
+    /* Convert absolute publish dates into relative labels for the grid without mutating the source article data.
+       Cards with data-format="absolute" keep their fixed calendar date. */
 
     const renderTimestamps = () => {
         const now = new Date();
         document.querySelectorAll('#newsGrid .news-card__timestamp[data-date]').forEach(el => {
-            const d     = new Date(el.dataset.date + 'T00:00:00');
-            const days  = Math.floor((now - d) / 86400000);
+            const d = new Date(el.dataset.date + 'T00:00:00');
+            if (el.dataset.format === 'absolute') {
+                el.textContent = d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+                return;
+            }
+            const days = Math.floor((now - d) / 86400000);
             if (days === 0)      el.textContent = 'Today';
             else if (days === 1) el.textContent = 'Yesterday';
-            else if (days <= 7)  el.textContent = `${days} days ago`;
+            else if (days > 1 && days <= 7) el.textContent = `${days} days ago`;
             else el.textContent = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
         });
     };
@@ -599,7 +996,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    const isMobile = () => window.matchMedia('(max-width: 760px)').matches;
+    /* Matches the breakpoint where the calendar becomes a bottom sheet, which
+       is the whole touch band — the trigger lives inside the collapsing filter
+       panel at ≤1024px, and that panel clips its own overflow. */
+    const isMobile = () => window.matchMedia('(max-width: 1024px)').matches;
 
     const openCalendar = () => {
         calendarPopover.classList.add('is-open');
@@ -722,6 +1122,11 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const closeArticle = () => {
+        if (activeTimelapseTimer) {
+            clearInterval(activeTimelapseTimer);
+            activeTimelapseTimer = null;
+        }
+
         articleReader.classList.remove('is-visible');
         setTimeout(() => {
             articleReader.style.display = 'none';
@@ -743,6 +1148,11 @@ document.addEventListener('DOMContentLoaded', () => {
     /* Build the reader view from structured article data so long-form content stays centralized in one place. */
 
     const populateArticleReader = (article) => {
+        if (activeTimelapseTimer) {
+            clearInterval(activeTimelapseTimer);
+            activeTimelapseTimer = null;
+        }
+
         const idx           = ARTICLES.findIndex(a => a.id === article.id);
         const hasPrev       = idx > 0;
         const hasNext       = idx < ARTICLES.length - 1;
@@ -750,12 +1160,14 @@ document.addEventListener('DOMContentLoaded', () => {
             month: 'long', day: 'numeric', year: 'numeric'
         });
 
-        const statsHTML = article.stats.map(s => `
+        const statsHTML = Array.isArray(article.stats) && article.stats.length
+            ? article.stats.map(s => `
             <div class="nar-stat-box">
                 <span class="nar-stat-box__value">${s.value}</span>
                 <span class="nar-stat-box__label">${s.label}</span>
             </div>
-        `).join('');
+        `).join('')
+            : '';
 
         const bodyHTML = article.sections.map(s => `
             <h3 class="nar-section-heading">${s.heading}</h3>
@@ -771,8 +1183,14 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         ` : '';
 
-        const galleryClass = article.galleryLayout === 'three-up' ? ' nar-gallery--three-up' : '';
-        const galleryHTML = Array.isArray(article.gallery) && article.gallery.length ? `
+        let galleryHTML = '';
+        const heroUsesTimelapse = article.heroLayout === 'timelapse';
+
+        if (!heroUsesTimelapse && article.galleryLayout === 'timelapse' && Array.isArray(article.gallery) && article.gallery.length) {
+            galleryHTML = renderTimelapseGallery(article.gallery);
+        } else if (!heroUsesTimelapse && Array.isArray(article.gallery) && article.gallery.length) {
+            const galleryClass = article.galleryLayout === 'three-up' ? ' nar-gallery--three-up' : '';
+            galleryHTML = `
             <div class="nar-gallery${galleryClass}">
                 ${article.gallery.map(img => `
                     <div class="nar-gallery__item">
@@ -781,7 +1199,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 `).join('')}
             </div>
-        ` : '';
+        `;
+        }
 
         // Use adjacent articles as lightweight recommendations. This keeps the logic deterministic and avoids a second ranking layer.
         const others = [];
@@ -801,8 +1220,12 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `).join('');
 
+        const heroMetaHTML = renderHeroMeta(article, formattedDate);
+
         let heroHTML = '';
-        if (article.id === 'intel-chips-scholarship-2026') {
+        if (article.heroLayout === 'timelapse' && Array.isArray(article.gallery) && article.gallery.length) {
+            heroHTML = renderHeroTimelapse(article.gallery, heroMetaHTML);
+        } else if (article.id === 'intel-chips-scholarship-2026') {
             heroHTML = `
             <div class="nar-hero">
                 <img class="nar-hero__img" src="Images/Intel_News_Thumbnail.png" alt="Intel and NAU Partnership Banner">
@@ -885,9 +1308,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="nar-content">
                 <h1 class="nar-title">${article.title}</h1>
 
-                <div class="nar-stats">
-                    ${statsHTML}
-                </div>
+                ${statsHTML ? `<div class="nar-stats">${statsHTML}</div>` : ''}
 
                 <div class="nar-body">
                     ${bodyHTML}
@@ -920,6 +1341,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     vid.play();
                 }
             }, 500);
+        }
+
+        if (article.heroLayout === 'timelapse') {
+            initNarHeroTimelapse(document.getElementById('narHeroTimelapse'), article.gallery);
+        } else if (article.galleryLayout === 'timelapse') {
+            initNarTimelapse(document.getElementById('narTimelapse'), article.gallery);
         }
 
         // Reader controls are rebound after every render because the container markup is replaced wholesale.

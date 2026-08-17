@@ -19,6 +19,21 @@ function scrollGrid(amount) {
 }
 
 /**
+ * One card + one gap, measured from the live layout rather than hardcoded.
+ * The cards grow at the 1600/1920/2560px breakpoints, so a fixed step would
+ * leave the snap points progressively more off-centre on wide displays.
+ * @returns {number} Pixel distance for one arrow click.
+ */
+function getEquipmentScrollStep() {
+    const container = document.getElementById('cardContainer');
+    const card = container && container.querySelector('.equipment-card');
+    if (!card) return 350;
+
+    const gap = parseFloat(getComputedStyle(container).columnGap) || 0;
+    return card.getBoundingClientRect().width + gap;
+}
+
+/**
  * Updates the semester display for education cards based on current date.
  * Logic:
  * - Feb 15 - Aug 31: FALL [current year]
@@ -104,11 +119,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (carouselLeft && carouselRight) {
         carouselLeft.addEventListener('click', () => {
-            scrollGrid(-350); // Scroll Left
+            scrollGrid(-getEquipmentScrollStep()); // Scroll Left
         });
 
         carouselRight.addEventListener('click', () => {
-            scrollGrid(350); // Scroll Right
+            scrollGrid(getEquipmentScrollStep()); // Scroll Right
         });
     }
 
@@ -129,6 +144,9 @@ document.addEventListener('DOMContentLoaded', () => {
         function getCardsPerView() {
             if (window.innerWidth <= 768) return 1;
             if (window.innerWidth <= 1024) return 2;
+            // Matches .edu-card-wrapper { flex: 0 0 25% } in the
+            // min-width: 1600px block — keep the two in step.
+            if (window.innerWidth >= 1600) return 4;
             return 3;
         }
 
@@ -154,12 +172,21 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
+        // Position the track: page offset in %, plus an optional live drag offset in px
+        function applyEduTransform(dragOffsetPx) {
+            const translateX = -(currentPage * 100);
+            if (dragOffsetPx) {
+                eduCardsGrid.style.transform = `translateX(calc(${translateX}% + ${dragOffsetPx}px))`;
+            } else {
+                eduCardsGrid.style.transform = `translateX(${translateX}%)`;
+            }
+        }
+
         function updateEduPage(page) {
             currentPage = page;
 
             // Slide the grid
-            const translateX = -(page * 100);
-            eduCardsGrid.style.transform = `translateX(${translateX}%)`;
+            applyEduTransform(0);
 
             // Update pagination dots active state
             const dots = eduDotsContainer.querySelectorAll('.edu-dot');
@@ -179,6 +206,112 @@ document.addEventListener('DOMContentLoaded', () => {
         eduNavRight.addEventListener('click', () => {
             if (currentPage < totalPages - 1) updateEduPage(currentPage + 1);
         });
+
+        // Swipe / drag support for touch and pen devices
+        // CSS sets touch-action: pan-y on the viewport, so vertical page scrolling
+        // stays native while horizontal gestures are ours to handle.
+        const eduViewport = eduCardsGrid.parentElement;
+
+        if (eduViewport) {
+            let dragPointerId = null;
+            let dragStartX = 0;
+            let dragStartY = 0;
+            let dragDeltaX = 0;
+            let dragStartTime = 0;
+            let dragAxisLocked = false;
+            let didSwipe = false;
+
+            const AXIS_LOCK_PX = 10;   // movement before we decide horizontal vs vertical
+            const FLICK_VELOCITY = 0.4; // px/ms - a quick flick pages even if short
+
+            function endEduDrag(e) {
+                if (dragPointerId === null) return;
+                if (e && e.pointerId !== dragPointerId) return;
+
+                if (eduViewport.hasPointerCapture && eduViewport.hasPointerCapture(dragPointerId)) {
+                    eduViewport.releasePointerCapture(dragPointerId);
+                }
+
+                const width = eduViewport.clientWidth || 1;
+                const elapsed = Math.max(Date.now() - dragStartTime, 1);
+                const velocity = Math.abs(dragDeltaX) / elapsed;
+                const distanceThreshold = Math.max(50, width * 0.18);
+                const shouldPage = Math.abs(dragDeltaX) > distanceThreshold || velocity > FLICK_VELOCITY;
+
+                dragPointerId = null;
+                eduCardsGrid.classList.remove('is-dragging');
+
+                if (shouldPage && dragDeltaX < 0 && currentPage < totalPages - 1) {
+                    updateEduPage(currentPage + 1);
+                } else if (shouldPage && dragDeltaX > 0 && currentPage > 0) {
+                    updateEduPage(currentPage - 1);
+                } else {
+                    // Snap back to the current page
+                    applyEduTransform(0);
+                }
+
+                dragDeltaX = 0;
+                dragAxisLocked = false;
+            }
+
+            eduViewport.addEventListener('pointerdown', (e) => {
+                // Mouse users have the arrows and dots; dragging with a mouse would
+                // interfere with clicking the card links.
+                if (e.pointerType === 'mouse' || dragPointerId !== null) return;
+
+                dragPointerId = e.pointerId;
+                dragStartX = e.clientX;
+                dragStartY = e.clientY;
+                dragDeltaX = 0;
+                dragStartTime = Date.now();
+                dragAxisLocked = false;
+                didSwipe = false;
+            });
+
+            eduViewport.addEventListener('pointermove', (e) => {
+                if (e.pointerId !== dragPointerId) return;
+
+                const deltaX = e.clientX - dragStartX;
+                const deltaY = e.clientY - dragStartY;
+
+                if (!dragAxisLocked) {
+                    if (Math.abs(deltaX) < AXIS_LOCK_PX && Math.abs(deltaY) < AXIS_LOCK_PX) return;
+
+                    // Vertical intent - hand the gesture back to the page scroll
+                    if (Math.abs(deltaY) > Math.abs(deltaX)) {
+                        dragPointerId = null;
+                        return;
+                    }
+
+                    dragAxisLocked = true;
+                    didSwipe = true;
+                    eduCardsGrid.classList.add('is-dragging');
+
+                    // Keep receiving moves even if the finger leaves the viewport
+                    if (eduViewport.setPointerCapture) {
+                        eduViewport.setPointerCapture(dragPointerId);
+                    }
+                }
+
+                // Resist dragging past the first/last page
+                const atEdge = (deltaX > 0 && currentPage === 0) ||
+                    (deltaX < 0 && currentPage === totalPages - 1);
+                dragDeltaX = atEdge ? deltaX * 0.3 : deltaX;
+
+                applyEduTransform(dragDeltaX);
+            });
+
+            eduViewport.addEventListener('pointerup', endEduDrag);
+            eduViewport.addEventListener('pointercancel', endEduDrag);
+
+            // Swallow the click that follows a swipe so cards don't navigate
+            eduViewport.addEventListener('click', (e) => {
+                if (!didSwipe) return;
+                didSwipe = false;
+                e.preventDefault();
+                e.stopPropagation();
+            }, true);
+        }
 
         // Resize listener
         let resizeTimer;
@@ -686,6 +819,14 @@ function selectCategory(category, element) {
         void formContainer.offsetWidth;
         formContainer.classList.add('fade-in');
 
+        if (window.MPCT && MPCT.Turnstile) {
+            requestAnimationFrame(function () {
+                requestAnimationFrame(function () {
+                    MPCT.Turnstile.ensureRendered('turnstile-contact');
+                });
+            });
+        }
+
         // Smooth Scroll
         setTimeout(() => {
             formContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -697,6 +838,9 @@ function resetSelection() {
     document.querySelectorAll('.gateway-card').forEach(card => card.classList.remove('selected'));
     document.getElementById('formContainer').classList.add('hidden');
     document.getElementById('formContainer').classList.remove('fade-in');
+    if (window.MPCT && MPCT.Turnstile) {
+        MPCT.Turnstile.reset('turnstile-contact');
+    }
     document.getElementById('gatewayGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
@@ -1034,28 +1178,52 @@ async function handleFormSubmit(e) {
         return;
     }
 
+    if (window.MPCT && MPCT.Turnstile && !MPCT.Turnstile.requireToken(form)) {
+        setContactFeedback(
+            MPCT.Turnstile.getBlockReason(form, 'turnstile-contact') || 'Please complete the security check.',
+            'error'
+        );
+        return;
+    }
+
     setContactFeedback('', '');
     submitBtn.disabled = true;
     submitBtn.textContent = 'Submitting...';
 
     try {
+        const formData = new FormData(form);
+        if (window.MPCT && MPCT.Csrf) {
+            MPCT.Csrf.appendToFormData(formData);
+        }
         const response = await fetch('FormSubmission.php', {
             method: 'POST',
-            body: new FormData(form),
+            body: formData,
         });
         const result = await response.json();
 
         if (result.success) {
             setContactFeedback(result.message || 'Your message was sent.', 'success');
             form.reset();
+            if (window.MPCT && MPCT.Csrf) {
+                MPCT.Csrf.applyToForm(form);
+            }
+            if (window.MPCT && MPCT.Turnstile) {
+                MPCT.Turnstile.reset('turnstile-contact');
+            }
             // Return the page to the gateway view after the success toast
             // has had enough time to be read.
             setTimeout(resetSelection, 5000);
         } else {
             setContactFeedback(result.message || 'An error occurred. Please try again.', 'error');
+            if (window.MPCT && MPCT.Turnstile) {
+                MPCT.Turnstile.reset('turnstile-contact');
+            }
         }
     } catch (err) {
         setContactFeedback('Unable to connect to the server. Please try again later or email us directly.', 'error');
+        if (window.MPCT && MPCT.Turnstile) {
+            MPCT.Turnstile.reset('turnstile-contact');
+        }
         console.error('Form submission error:', err);
     } finally {
         submitBtn.disabled = false;
@@ -1212,3 +1380,4 @@ if (searchInput) {
 
 buildSearchSuggestions();
 applyFilters();
+

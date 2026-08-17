@@ -141,6 +141,12 @@
                         <!-- Hidden Category Field -->
                         <input type="hidden" name="category" id="categoryInput" value="">
 
+                        <!-- Honeypot: leave empty. Hidden from users; bots often fill it. -->
+                        <div class="hp-field" aria-hidden="true">
+                            <label for="website">Website</label>
+                            <input type="text" id="website" name="website" value="" tabindex="-1" autocomplete="off">
+                        </div>
+
                         <!-- Common Fields -->
                         <div class="grid grid-2 gap-lg" style="margin-bottom: 25px;">
                             <div>
@@ -175,6 +181,8 @@
                         <!-- Feedback Message -->
                         <div id="formFeedback" class="bk-feedback" role="alert"></div>
 
+                        <div id="turnstile-contact" class="mpct-turnstile" style="margin-bottom: 16px;"></div>
+
                         <!-- Actions -->
                         <div class="d-flex justify-between align-center">
                             <button type="button" onclick="resetSelection()" class="btn btn-outline btn-outline-gray">
@@ -194,6 +202,11 @@
     <div id="site-footer"></div>
 
     <!-- Shared Script -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
+    <script src="turnstile-config.php"></script>
+    <script src="JS/turnstile.js"></script>
+    <script src="csrf-token.php"></script>
+    <script src="JS/csrf.js"></script>
     <script src="JS/layout.js"></script>
     <script src="JS/validation.js"></script>
     <script src="JS/script.js"></script>

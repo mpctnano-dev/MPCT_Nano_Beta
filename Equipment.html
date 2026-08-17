@@ -86,28 +86,49 @@
                         style="width: 100%; padding: 10px 10px 10px 40px; border: 1px solid var(--gray-300); border-radius: 20px; background: var(--gray-50);">
                 </div>
 
-                <div class="filter-group">
-                    <button class="filter-btn category-btn active" data-filter="all">All</button>
-                    <button class="filter-btn category-btn" data-filter="Metrology">Metrology</button>
-                    <button class="filter-btn category-btn" data-filter="Fabrication">Fabrication</button>
-                    <button class="filter-btn category-btn" data-filter="Electrical">Electrical</button>
-                    <button class="filter-btn category-btn" data-filter="Sample Prep">Sample Prep</button>
-                    <button class="filter-btn category-btn" data-filter="Mechatronics">Mechatronics</button>
-                    <button class="filter-btn category-btn" data-filter="Educational">Educational</button>
-                    <button class="filter-btn category-btn" data-filter="Support Systems">Support Systems</button>
-                </div>
+                <!-- Phone/tablet only (≤1024px): opens and closes the rows below.
+                     display:none on desktop, where the whole toolbar fits anyway. -->
+                <button type="button" class="filter-toggle" id="filterToggle" aria-expanded="false"
+                    aria-controls="filterPanel">
+                    <i class="fas fa-sliders-h" aria-hidden="true"></i>
+                    <span class="filter-toggle__label" id="filterToggleLabel">Filters</span>
+                    <span class="filter-toggle__more" id="filterToggleMore" hidden></span>
+                    <i class="fas fa-chevron-down filter-toggle__chevron" aria-hidden="true"></i>
+                </button>
 
-                <div class="filter-group location-filter">
-                    <span class="filter-label">Location</span>
-                    <button class="filter-btn location-btn active" data-location="all">All</button>
-                    <button class="filter-btn location-btn" data-location="Flagstaff">Flagstaff</button>
-                    <button class="filter-btn location-btn" data-location="NVC">NVC (Phoenix)</button>
-                </div>
+                <!-- Ships closed so the panel never flashes open before the script runs;
+                     .is-collapsed is inert above 1024px, where both wrappers are
+                     display:contents and the three groups stay flex children of this row. -->
+                <div class="filter-expandable is-collapsed" id="filterPanel">
+                    <div class="filter-expandable__inner">
 
-                <div class="view-switcher">
-                    <button class="btn btn-sm btn-outline active" id="gridViewBtn"><i class="fas fa-th-large"></i>
-                        Grid</button>
-                    <button class="btn btn-sm btn-outline" id="listViewBtn"><i class="fas fa-list"></i> List</button>
+                        <div class="filter-group scroll-strip">
+                            <button class="filter-btn category-btn active" data-filter="all">All</button>
+                            <button class="filter-btn category-btn" data-filter="Metrology">Metrology</button>
+                            <button class="filter-btn category-btn" data-filter="Fabrication">Fabrication</button>
+                            <button class="filter-btn category-btn" data-filter="Electrical">Electrical</button>
+                            <button class="filter-btn category-btn" data-filter="Sample Prep">Sample Prep</button>
+                            <button class="filter-btn category-btn" data-filter="Mechatronics">Mechatronics</button>
+                            <button class="filter-btn category-btn" data-filter="Educational">Educational</button>
+                            <button class="filter-btn category-btn" data-filter="Support Systems">Support
+                                Systems</button>
+                        </div>
+
+                        <div class="filter-group location-filter scroll-strip scroll-strip--no-bleed">
+                            <span class="filter-label">Location</span>
+                            <button class="filter-btn location-btn active" data-location="all">All</button>
+                            <button class="filter-btn location-btn" data-location="Flagstaff">Flagstaff</button>
+                            <button class="filter-btn location-btn" data-location="NVC">NVC (Phoenix)</button>
+                        </div>
+
+                        <div class="view-switcher">
+                            <button class="btn btn-sm btn-outline active" id="gridViewBtn"><i
+                                    class="fas fa-th-large"></i>
+                                Grid</button>
+                            <button class="btn btn-sm btn-outline" id="listViewBtn"><i class="fas fa-list"></i>
+                                List</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1201,6 +1222,9 @@
 
     <script src="JS/layout.js"></script>
     <script src="JS/script.js"></script>
+    <!-- Sticky-toolbar behaviour shared with News.html: scroll strips + the
+         collapsing filter panel. See JS/filter-bar.js. -->
+    <script src="JS/filter-bar.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const container = document.getElementById('equipmentContainer');

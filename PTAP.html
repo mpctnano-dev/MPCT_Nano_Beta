@@ -776,6 +776,108 @@
         .ptap-d5 {
             transition-delay: 0.40s;
         }
+
+        /* ── MOBILE / TABLET POLISH ─────────────────────────────────────
+           Desktop (≥1025px) unchanged. Shared .ml-hero--compact already
+           unlocks hero height; these tighten sections + CTAs. */
+        @media (max-width: 1024px) {
+            .ptap-overview,
+            .ptap-bento,
+            .ptap-coursework,
+            .ptap-pathway,
+            .ptap-cta {
+                padding: 80px 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .ptap-overview,
+            .ptap-bento,
+            .ptap-coursework,
+            .ptap-pathway,
+            .ptap-cta {
+                padding: 56px 0;
+            }
+
+            .ptap-partners {
+                padding: 24px 0;
+            }
+
+            .ptap-partners__inner {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .ptap-partners__logos {
+                gap: 20px;
+                justify-content: center;
+            }
+
+            .ptap-bento__header,
+            .ptap-pathway__header {
+                text-align: left;
+                margin-bottom: 36px;
+            }
+
+            .ptap-bento__sub,
+            .ptap-pathway__sub {
+                margin-left: 0;
+                margin-right: 0;
+            }
+
+            .ptap-bento__card {
+                padding: 24px 20px;
+                min-height: 0;
+            }
+
+            .ptap-cta__actions {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+
+            .ptap-cta__actions .btn--cta-blue,
+            .ptap-cta__actions .btn--cta-outline {
+                width: 100%;
+                justify-content: center;
+                text-align: center;
+                min-height: 48px;
+                display: inline-flex;
+                align-items: center;
+            }
+
+            .ptap-cta::before {
+                font-size: min(28vw, 7rem);
+            }
+
+            .ml-hero__actions {
+                max-width: none;
+                width: 100%;
+            }
+
+            .ml-hero__actions .btn {
+                min-height: 48px;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .ptap-overview,
+            .ptap-bento,
+            .ptap-coursework,
+            .ptap-pathway,
+            .ptap-cta {
+                padding: 48px 0;
+            }
+
+            .ptap-overview__title,
+            .ptap-bento__title,
+            .ptap-coursework__title,
+            .ptap-pathway__title,
+            .ptap-cta__title {
+                font-size: clamp(1.75rem, 8.5vw, 2.2rem);
+            }
+        }
     </style>
 </head>
 

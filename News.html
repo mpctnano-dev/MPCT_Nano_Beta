@@ -84,37 +84,56 @@
                                 <input class="news-search-field__input" type="text" id="newsSearch" placeholder="Search news...">
                             </label>
 
-                            <div class="news-calendar-wrap">
-                                <div class="news-calendar-trigger" id="newsCalendarTrigger">
-                                    <i class="far fa-calendar-alt news-calendar-trigger__icon" aria-hidden="true"></i>
-                                    <span class="news-calendar-trigger__label" id="newsCalendarLabel">Any date</span>
-                                    <i class="fas fa-chevron-down news-calendar-trigger__caret" aria-hidden="true"></i>
-                                </div>
-                                <div class="news-calendar-popover" id="newsCalendarPopover" role="dialog" aria-label="Select month and year">
-                                    <div class="news-calendar-popover__header">
-                                        <button class="news-calendar-popover__nav" id="calendarPrevYear" type="button" aria-label="Previous year">
-                                            <i class="fas fa-chevron-left"></i>
-                                        </button>
-                                        <span class="news-calendar-popover__year" id="calendarYear"></span>
-                                        <button class="news-calendar-popover__nav" id="calendarNextYear" type="button" aria-label="Next year">
-                                            <i class="fas fa-chevron-right"></i>
-                                        </button>
-                                    </div>
-                                    <div class="news-calendar-popover__grid" id="calendarMonthGrid"></div>
-                                    <button class="news-calendar-popover__clear" id="calendarClear" type="button">Clear selection</button>
-                                </div>
-                            </div>
-
-                            <button id="newsResetFilters" class="news-reset-btn" type="button">Reset</button>
+                            <!-- Phone/tablet only (≤1024px): opens and closes the panel below.
+                                 display:none on desktop, where the whole toolbar fits on one row. -->
+                            <button type="button" class="filter-toggle" id="newsFilterToggle" aria-expanded="false"
+                                aria-controls="newsFilterPanel">
+                                <i class="fas fa-sliders-h" aria-hidden="true"></i>
+                                <span class="filter-toggle__label" id="newsFilterToggleLabel">Filters</span>
+                                <span class="filter-toggle__more" id="newsFilterToggleMore" hidden></span>
+                                <i class="fas fa-chevron-down filter-toggle__chevron" aria-hidden="true"></i>
+                            </button>
                         </div>
 
-                        <div class="filter-group">
-                            <button class="news-filter-btn active" data-tag="all">All</button>
-                            <button class="news-filter-btn" data-tag="facility">Facility</button>
-                            <button class="news-filter-btn" data-tag="equipment">Equipment</button>
-                            <button class="news-filter-btn" data-tag="installation">Installation</button>
-                            <button class="news-filter-btn" data-tag="announcement">Announcement</button>
-                            <button class="news-filter-btn" data-tag="workforce">Workforce</button>
+                        <!-- Ships closed so the panel never flashes open before the script runs;
+                             .is-collapsed is inert above 1024px, where both wrappers are
+                             display:contents and these three controls stay flex children of
+                             this row exactly as they were. -->
+                        <div class="filter-expandable news-filter-expandable is-collapsed" id="newsFilterPanel">
+                            <div class="filter-expandable__inner">
+
+                                <div class="news-calendar-wrap">
+                                    <div class="news-calendar-trigger" id="newsCalendarTrigger">
+                                        <i class="far fa-calendar-alt news-calendar-trigger__icon" aria-hidden="true"></i>
+                                        <span class="news-calendar-trigger__label" id="newsCalendarLabel">Any date</span>
+                                        <i class="fas fa-chevron-down news-calendar-trigger__caret" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="news-calendar-popover" id="newsCalendarPopover" role="dialog" aria-label="Select month and year">
+                                        <div class="news-calendar-popover__header">
+                                            <button class="news-calendar-popover__nav" id="calendarPrevYear" type="button" aria-label="Previous year">
+                                                <i class="fas fa-chevron-left"></i>
+                                            </button>
+                                            <span class="news-calendar-popover__year" id="calendarYear"></span>
+                                            <button class="news-calendar-popover__nav" id="calendarNextYear" type="button" aria-label="Next year">
+                                                <i class="fas fa-chevron-right"></i>
+                                            </button>
+                                        </div>
+                                        <div class="news-calendar-popover__grid" id="calendarMonthGrid"></div>
+                                        <button class="news-calendar-popover__clear" id="calendarClear" type="button">Clear selection</button>
+                                    </div>
+                                </div>
+
+                                <button id="newsResetFilters" class="news-reset-btn" type="button">Reset</button>
+
+                                <div class="filter-group scroll-strip">
+                                    <button class="news-filter-btn active" data-tag="all">All</button>
+                                    <button class="news-filter-btn" data-tag="facility">Facility</button>
+                                    <button class="news-filter-btn" data-tag="equipment">Equipment</button>
+                                    <button class="news-filter-btn" data-tag="installation">Installation</button>
+                                    <button class="news-filter-btn" data-tag="announcement">Announcement</button>
+                                    <button class="news-filter-btn" data-tag="workforce">Workforce</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -184,6 +203,36 @@
                                 <span class="news-card__hashtag">#MPaCT</span>
                                 <span class="news-card__hashtag">#Renovation</span>
                                 <span class="news-card__hashtag">#Metrology</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Lab renovation progress — 12-frame scrubbable mid-build sequence. -->
+                    <article class="news-card" data-tags="facility,installation" data-article-id="lab-renovation-progress-timelapse" aria-label="MPaCT Lab Renovation Mid-Build Progress">
+                        <div class="news-corner-fold"></div>
+                        <div class="news-corner-icon">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#002454" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <polyline points="9 21 3 21 3 15"></polyline>
+                                <line x1="21" y1="3" x2="14" y2="10"></line>
+                                <line x1="3" y1="21" x2="10" y2="14"></line>
+                            </svg>
+                        </div>
+                        <div class="news-card__banner news-card__banner--facility">
+                            <img src="Images/Lab_renovation/05-main-bay-scissor-lifts-workers.jpeg" alt="Crews installing overhead systems during MPaCT Lab renovation" class="news-card__image">
+                            <span class="news-card__badge news-card__badge--milestone">In Progress</span>
+                        </div>
+                        <div class="news-card__body">
+                            <div class="news-card__meta">
+                                <span class="news-card__tag news-card__tag--facility">Facility</span>
+                                <span class="news-card__timestamp" data-date="2026-07-31" data-format="absolute">July 31, 2026</span>
+                            </div>
+                            <h3 class="news-card__title">MPaCT Lab Renovation: Mid-Build Progress</h3>
+                            <p class="news-card__excerpt">Facility renovation is underway across MPaCT’s main lab bays, with framing, HVAC, and drywall moving forward while equipment installation continues under containment.</p>
+                            <div class="news-card__hashtags">
+                                <span class="news-card__hashtag">#MPaCT</span>
+                                <span class="news-card__hashtag">#Renovation</span>
+                                <span class="news-card__hashtag">#Facility</span>
                             </div>
                         </div>
                     </article>
@@ -339,6 +388,10 @@
     <script src="JS/layout.js"></script>
     <script src="JS/news-filtering.js"></script>
     <script src="JS/news.js"></script>
+    <!-- Sticky-toolbar behaviour shared with Equipment.html: scroll strips +
+         the collapsing filter panel. After news.js, so the Filters pill reads
+         a calendar label that page has already initialised. -->
+    <script src="JS/filter-bar.js"></script>
 </body>
 
 </html>

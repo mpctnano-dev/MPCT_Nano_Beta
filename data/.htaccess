@@ -1,0 +1,2 @@
+# Deny direct HTTP access to rate-limit storage and other runtime data.
+Require all denied

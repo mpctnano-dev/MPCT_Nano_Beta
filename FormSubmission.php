@@ -59,6 +59,10 @@ require_once __DIR__ . '/mpact_config.php';
 // includes/validation.php so all three form endpoints share one
 // source of truth instead of each carrying a prefixed copy.
 require_once __DIR__ . '/includes/validation.php';
+require_once __DIR__ . '/includes/turnstile.php';
+require_once __DIR__ . '/includes/rate_limit.php';
+require_once __DIR__ . '/includes/honeypot.php';
+require_once __DIR__ . '/includes/csrf.php';
 
 // SharePoint failure alert helper — emails LAB_EMAIL + DEV_SUPP_CC_LIST whenever
 // the SharePoint sync below throws, so the lab knows to backfill.
@@ -326,6 +330,11 @@ $categories = [
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     respond(false, 'Invalid request method.');
 }
+
+rejectIfHoneypotFilled();
+verifyCsrfToken();
+verifyTurnstile();
+checkRateLimits(getClientIp(), trim($_POST['email'] ?? ''));
 
 // Name, email, and category are required for every form type.
 // Category tells us which form was submitted; without it we can't
@@ -746,6 +755,7 @@ try {
     respond(false, 'We were unable to send your inquiry at this time. Please try again or email us directly at ' . LAB_EMAIL . '.');
 }
 
+if (!defined('SANDBOX_SKIP_SHAREPOINT') || !SANDBOX_SKIP_SHAREPOINT) {
 // Log the inquiry to SharePoint (non-blocking)
 // Emails are already sent — a SharePoint failure does NOT affect
 // the user's experience. Errors are logged server-side only.
@@ -832,4 +842,5 @@ try {
         'submitter_email' => $email,
         'category'        => $catTitle ?? ($category ?? ''),
     ]);
+}
 }

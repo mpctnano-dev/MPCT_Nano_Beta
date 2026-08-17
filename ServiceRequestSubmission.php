@@ -47,6 +47,10 @@ require_once __DIR__ . '/mpact_config.php';
 // come from includes/validation.php. Upload helpers and limits stay local —
 // only this endpoint accepts file uploads.
 require_once __DIR__ . '/includes/validation.php';
+require_once __DIR__ . '/includes/turnstile.php';
+require_once __DIR__ . '/includes/rate_limit.php';
+require_once __DIR__ . '/includes/honeypot.php';
+require_once __DIR__ . '/includes/csrf.php';
 
 // SharePoint failure alert helper — emails LAB_EMAIL + DEV_SUPP_CC_LIST whenever
 // the SharePoint sync below throws, so the lab knows to backfill.
@@ -498,6 +502,14 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     respond(false, 'Invalid request method.');
 }
 
+rejectIfHoneypotFilled();
+
+verifyCsrfToken();
+
+verifyTurnstile();
+
+checkRateLimits(getClientIp(), trim($_POST['email'] ?? ''));
+
 // Read and validate the service type. This must be one of the keys in $services
 // ('printing', 'laser', 'scanning'). Any other value means the request was
 // tampered with or came from somewhere other than our form.
@@ -933,6 +945,7 @@ Northern Arizona University
 ";
 
 // --- Send both emails --------------------------------------------------------
+
 // Two separate createMailer() calls, not one reused instance. See createMailer()
 // for the reasoning — state leakage between sends is a real risk with PHPMailer.
 //
@@ -975,6 +988,7 @@ try {
     respond(false, 'We were unable to send your request at this time. Please try again or email us directly at ' . LAB_EMAIL . '.');
 }
 
+if (!defined('SANDBOX_SKIP_SHAREPOINT') || !SANDBOX_SKIP_SHAREPOINT) {
 // Log the service request to SharePoint (non-blocking)
 // Emails are already sent — a SharePoint failure does NOT affect
 // the user's experience. Errors are logged server-side only.
@@ -1146,4 +1160,5 @@ try {
         'submitter_email' => $email,
         'service_type'    => $serviceTitle ?? ($serviceType ?? ''),
     ]);
+}
 }

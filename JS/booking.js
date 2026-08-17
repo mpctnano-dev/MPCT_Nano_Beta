@@ -247,6 +247,10 @@
         // up hints, word counters, and number clamps.
         const bookingForm = document.getElementById('bookingForm');
         if (bookingForm) applyBookingFieldRules(bookingForm);
+
+        if (window.MPCT && MPCT.Turnstile) {
+            MPCT.Turnstile.ensureRendered('turnstile-booking');
+        }
     });
 
     // --- Validation and live-input helpers -----------------------------------
@@ -970,6 +974,14 @@
         e.preventDefault();
         if (!validateForm()) return;
 
+        const form = e.target;
+        if (window.MPCT && MPCT.Turnstile && !MPCT.Turnstile.requireToken(form)) {
+            const feedback = document.getElementById('formFeedback');
+            showFeedback(feedback, false,
+                '<i class="fas fa-times-circle"></i> ' + (MPCT.Turnstile.getBlockReason(form, 'turnstile-booking') || 'Please complete the security check.'));
+            return;
+        }
+
         const submitBtn = document.getElementById('bkSubmitBtn');
         const feedback  = document.getElementById('formFeedback');
 
@@ -977,6 +989,9 @@
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting\u2026';
 
         const formData = new FormData(e.target);
+        if (window.MPCT && MPCT.Csrf) {
+            MPCT.Csrf.appendToFormData(formData);
+        }
         collapseCheckboxes(formData, 'operating_modes');
         try {
             const res  = await fetch('EquipmentReservation.php', { method: 'POST', body: formData });
@@ -987,14 +1002,26 @@
                     : '<i class="fas fa-check-circle"></i> Booking request submitted! The lab team will contact you to confirm your session.';
                 showFeedback(feedback, true, msg);
                 e.target.reset();
+                if (window.MPCT && MPCT.Csrf) {
+                    MPCT.Csrf.applyToForm(e.target);
+                }
                 clearEquipmentSelection();
+                if (window.MPCT && MPCT.Turnstile) {
+                    MPCT.Turnstile.reset('turnstile-booking');
+                }
             } else {
                 showFeedback(feedback, false,
                     '<i class="fas fa-times-circle"></i> ' + (json.message || 'Submission failed. Please try again or email mpct.nano@gmail.com.'));
+                if (window.MPCT && MPCT.Turnstile) {
+                    MPCT.Turnstile.reset('turnstile-booking');
+                }
             }
         } catch (err) {
             showFeedback(feedback, false,
                 '<i class="fas fa-times-circle"></i> Network error. Please check your connection and try again.');
+            if (window.MPCT && MPCT.Turnstile) {
+                MPCT.Turnstile.reset('turnstile-booking');
+            }
         } finally {
             submitBtn.disabled = false;
             submitBtn.innerHTML = 'Submit Booking Request';

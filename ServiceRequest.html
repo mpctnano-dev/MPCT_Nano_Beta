@@ -647,6 +647,226 @@
                 #C2185B 306deg 360deg
             );
         }
+
+        /* ---------- MOBILE / TABLET (desktop ≥1025 unchanged) ---------- */
+        @media (max-width: 1024px) {
+            .sr-body {
+                padding: 32px 0 64px;
+            }
+
+            .sr-form-body {
+                padding: 32px 28px;
+            }
+
+            /* iOS zooms the page on focus for any control under 16px, and an
+               iPad is as much a touch device as a phone — so the floor and the
+               44px hit height start here, not at 768px. 0.95rem = 15.2px was
+               enough to trigger it on all 79 fields. */
+            .sr-input,
+            .sr-select,
+            .sr-textarea {
+                font-size: 16px;
+                min-height: 44px;
+            }
+
+            .sr-textarea {
+                min-height: 100px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sr-hero {
+                padding: 32px 0 24px;
+            }
+
+            .sr-hero h1 {
+                font-size: clamp(1.75rem, 7vw, 2.25rem);
+            }
+
+            .sr-hero p {
+                font-size: 0.95rem;
+                padding: 0 4px;
+            }
+
+            .sr-body {
+                padding: 24px 0 56px;
+            }
+
+            /* Service tabs: keep all three reachable (was clipping Laser) */
+            .sr-sidebar {
+                overflow: visible;
+            }
+
+            .sr-nav {
+                flex-direction: row;
+                flex-wrap: nowrap;
+                gap: 6px;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                padding-bottom: 2px;
+            }
+
+            .sr-nav::-webkit-scrollbar {
+                display: none;
+            }
+
+            .sr-nav-btn {
+                flex: 1 1 0;
+                min-width: 0;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 8px;
+                padding: 12px 8px;
+                font-size: 0.78rem;
+                line-height: 1.25;
+                text-align: center;
+                min-height: 88px;
+            }
+
+            .sr-nav-btn i:not(.sr-nav-arrow) {
+                width: 32px;
+                height: 32px;
+                font-size: 0.9rem;
+            }
+
+            .sr-nav-btn span {
+                display: block;
+                max-width: 100%;
+                overflow-wrap: anywhere;
+                word-break: break-word;
+            }
+
+            .sr-form-header {
+                padding: 20px 18px;
+                gap: 12px;
+                align-items: flex-start;
+            }
+
+            .sr-form-header i {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
+                border-radius: 10px;
+            }
+
+            .sr-form-header h2 {
+                font-size: 1.15rem;
+            }
+
+            .sr-form-body {
+                padding: 20px 16px;
+            }
+
+            .sr-form {
+                gap: 18px;
+            }
+
+            .sr-section {
+                padding: 16px;
+                gap: 16px;
+                border-radius: 10px;
+            }
+
+            .sr-section-title {
+                width: auto;
+                max-width: 100%;
+                font-size: 1rem;
+            }
+
+            .sr-row {
+                grid-template-columns: 1fr;
+            }
+
+            /* Font floor and min-heights now live in the ≤1024px block above. */
+
+            .sr-file-upload {
+                padding: 22px 14px;
+            }
+
+            .sr-check-block {
+                padding: 12px 14px;
+                gap: 12px;
+            }
+
+            .sr-check-block input[type="checkbox"] {
+                width: 18px;
+                height: 18px;
+                margin-top: 1px;
+            }
+
+            .sr-workflow {
+                flex-direction: column;
+            }
+
+            .sr-workflow-divider {
+                width: auto;
+                height: 1px;
+            }
+
+            .sr-workflow-step {
+                padding: 18px 16px;
+            }
+
+            .sr-color-option {
+                width: 52px;
+            }
+
+            .sr-color-dot {
+                width: 44px;
+                height: 44px;
+            }
+
+            .mpct-turnstile,
+            .mpct-turnstile iframe {
+                max-width: 100%;
+            }
+
+            .sr-submit-area {
+                flex-direction: column-reverse;
+                align-items: stretch;
+                gap: 10px;
+                padding-top: 20px;
+            }
+
+            .sr-submit-area .btn {
+                width: 100%;
+                min-height: 48px;
+                padding: 12px 20px;
+                justify-content: center;
+                display: inline-flex;
+                align-items: center;
+                white-space: normal;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sr-kicker {
+                font-size: 0.7rem;
+                padding: 4px 12px;
+                letter-spacing: 1px;
+            }
+
+            .sr-nav-btn {
+                font-size: 0.72rem;
+                padding: 10px 6px;
+                min-height: 84px;
+            }
+
+            .sr-form-header h2 {
+                font-size: 1.05rem;
+            }
+
+            .sr-form-body {
+                padding: 16px 12px;
+            }
+
+            .sr-section {
+                padding: 14px 12px;
+            }
+        }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -795,6 +1015,11 @@
 
                         <div class="sr-form-body">
                             <form id="printingForm" class="sr-form" novalidate>
+                                <!-- Honeypot: leave empty. Hidden from users; bots often fill it. -->
+                                <div class="hp-field" aria-hidden="true">
+                                    <label for="website_printing">Website</label>
+                                    <input type="text" id="website_printing" name="website" value="" tabindex="-1" autocomplete="off">
+                                </div>
 
                                 <!-- Section 1: Your Information -->
                                 <div class="sr-section">
@@ -1105,6 +1330,7 @@
                                 </div>
 
                                 <div class="bk-feedback sr-form-feedback" role="alert"></div>
+                                <div id="turnstile-printing" class="mpct-turnstile" style="margin-bottom: 16px;"></div>
                                 <div class="sr-submit-area">
                                     <button type="reset" class="btn btn-outline"
                                         style="color: var(--gray-600); border-color: var(--gray-400);">Clear
@@ -1126,6 +1352,11 @@
 
                         <div class="sr-form-body">
                             <form id="laserForm" class="sr-form" novalidate>
+                                <!-- Honeypot: leave empty. Hidden from users; bots often fill it. -->
+                                <div class="hp-field" aria-hidden="true">
+                                    <label for="website_laser">Website</label>
+                                    <input type="text" id="website_laser" name="website" value="" tabindex="-1" autocomplete="off">
+                                </div>
 
                                 <!-- Section 1: Your Information -->
                                 <div class="sr-section">
@@ -1400,6 +1631,7 @@
                                 </div>
 
                                 <div class="bk-feedback sr-form-feedback" role="alert"></div>
+                                <div id="turnstile-laser" class="mpct-turnstile" style="margin-bottom: 16px;"></div>
                                 <div class="sr-submit-area">
                                     <button type="reset" class="btn btn-outline"
                                         style="color: var(--gray-600); border-color: var(--gray-400);">Clear
@@ -1421,6 +1653,11 @@
 
                         <div class="sr-form-body">
                             <form id="scanningForm" class="sr-form" novalidate>
+                                <!-- Honeypot: leave empty. Hidden from users; bots often fill it. -->
+                                <div class="hp-field" aria-hidden="true">
+                                    <label for="website_scanning">Website</label>
+                                    <input type="text" id="website_scanning" name="website" value="" tabindex="-1" autocomplete="off">
+                                </div>
 
                                 <!-- Section 1: Your Information -->
                                 <div class="sr-section">
@@ -1678,6 +1915,7 @@
                                 </div>
 
                                 <div class="bk-feedback sr-form-feedback" role="alert"></div>
+                                <div id="turnstile-scanning" class="mpct-turnstile" style="margin-bottom: 16px;"></div>
                                 <div class="sr-submit-area">
                                     <button type="reset" class="btn btn-outline"
                                         style="color: var(--gray-600); border-color: var(--gray-400);">Clear
@@ -1695,6 +1933,11 @@
 
     <div id="site-footer"></div>
 
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
+    <script src="turnstile-config.php"></script>
+    <script src="JS/turnstile.js"></script>
+    <script src="csrf-token.php"></script>
+    <script src="JS/csrf.js"></script>
     <script src="JS/layout.js"></script>
     <script src="JS/validation.js"></script>
     <script>
@@ -1705,6 +1948,20 @@
             const navBtns = document.querySelectorAll('.sr-nav-btn');
             const panels = document.querySelectorAll('.sr-panel');
 
+            const turnstileByPanel = {
+                printing: 'turnstile-printing',
+                laser: 'turnstile-laser',
+                scanning: 'turnstile-scanning'
+            };
+
+            function renderTurnstileForPanel(target) {
+                if (!window.MPCT || !MPCT.Turnstile) return;
+                var containerId = turnstileByPanel[target];
+                if (containerId) {
+                    MPCT.Turnstile.ensureRendered(containerId);
+                }
+            }
+
             function activatePanel(target) {
                 navBtns.forEach(b => b.classList.remove('active'));
                 panels.forEach(p => p.classList.remove('active'));
@@ -1712,6 +1969,7 @@
                 const panel = document.getElementById(`panel-${target}`);
                 if (btn) btn.classList.add('active');
                 if (panel) panel.classList.add('active');
+                renderTurnstileForPanel(target);
             }
 
             navBtns.forEach(btn => {
@@ -1730,6 +1988,8 @@
             const hashTarget = window.location.hash.replace('#', '');
             if (hashTarget && document.querySelector(`.sr-nav-btn[data-target="${hashTarget}"]`)) {
                 activatePanel(hashTarget);
+            } else {
+                renderTurnstileForPanel('printing');
             }
 
             // Allowed file extensions per service (must match PHP allowedExtensions)
@@ -2375,6 +2635,12 @@
 
             // Real form submission to ServiceRequestSubmission.php
             document.querySelectorAll('.sr-form').forEach(form => {
+                const turnstileContainerId = form.id === 'printingForm'
+                    ? 'turnstile-printing'
+                    : form.id === 'laserForm'
+                        ? 'turnstile-laser'
+                        : 'turnstile-scanning';
+
                 form.addEventListener('submit', async (e) => {
                     e.preventDefault();
 
@@ -2396,11 +2662,23 @@
                         return;
                     }
 
+                    if (window.MPCT && MPCT.Turnstile && !MPCT.Turnstile.requireToken(form)) {
+                        showFeedbackMsg(
+                            feedbackEl,
+                            MPCT.Turnstile.getBlockReason(form, turnstileContainerId) || 'Please complete the security check.',
+                            'bk-feedback--error', 3, true
+                        );
+                        return;
+                    }
+
                     const btn = form.querySelector('button[type="submit"]');
                     const originalLabel = btn.innerHTML;
                     const serviceType = serviceTypeByFormId[form.id] || '';
                     const formData = new FormData(form);
                     formData.append('service_type', serviceType);
+                    if (window.MPCT && MPCT.Csrf) {
+                        MPCT.Csrf.appendToFormData(formData);
+                    }
 
                     btn.disabled = true;
                     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
@@ -2423,7 +2701,13 @@
                             'bk-feedback--success', 4, true
                         );
                         form.reset();
+                        if (window.MPCT && MPCT.Csrf) {
+                            MPCT.Csrf.applyToForm(form);
+                        }
                         resetFileUploadUI(form);
+                        if (window.MPCT && MPCT.Turnstile) {
+                            MPCT.Turnstile.reset(turnstileContainerId);
+                        }
                     } catch (err) {
                         console.error('Service request submission error:', err);
                         showFeedbackMsg(
@@ -2431,6 +2715,9 @@
                             err.message || 'Unable to connect to the server. Please try again later.',
                             'bk-feedback--error', 3, true
                         );
+                        if (window.MPCT && MPCT.Turnstile) {
+                            MPCT.Turnstile.reset(turnstileContainerId);
+                        }
                     } finally {
                         btn.disabled = false;
                         btn.innerHTML = originalLabel;
