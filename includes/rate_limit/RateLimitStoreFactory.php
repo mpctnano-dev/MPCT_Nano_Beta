@@ -21,18 +21,50 @@ class RateLimitStoreFactory
             ? strtolower((string) RATE_LIMIT_STORAGE)
             : strtolower((string) (getenv('RATE_LIMIT_STORAGE') ?: 'sqlite'));
 
-        if ($driver === 'sqlite') {
-            self::$instance = new SqliteRateLimitStore($baseDir . '/rate_limits.sqlite');
-            return self::$instance;
+        $tempDir = rtrim(sys_get_temp_dir(), '/\\') . '/mpct-rate-limits';
+        $lastError = null;
+
+        foreach (self::candidates($driver, $baseDir, $tempDir) as $make) {
+            try {
+                self::$instance = $make();
+                return self::$instance;
+            } catch (Throwable $e) {
+                $lastError = $e;
+                error_log('MPCT rate limit store init failed: ' . $e->getMessage());
+            }
         }
 
-        // JSON file storage — kept for future use; set RATE_LIMIT_STORAGE=json to enable.
-        // if ($driver === 'json') {
-        //     self::$instance = new JsonFileRateLimitStore($baseDir . '/json');
-        //     return self::$instance;
-        // }
+        throw $lastError ?? new RuntimeException('Unable to initialize rate limit storage.');
+    }
 
-        throw new RuntimeException('Unsupported rate limit storage driver: ' . $driver);
+    /**
+     * Preferred store first, then fallbacks that still rate-limit when
+     * pdo_sqlite is missing or data/rate-limits is not writable.
+     *
+     * @return array<int, callable(): RateLimitStoreInterface>
+     */
+    private static function candidates(string $driver, string $baseDir, string $tempDir): array
+    {
+        $sqliteThenJson = [
+            static fn () => new SqliteRateLimitStore($baseDir . '/rate_limits.sqlite'),
+            static fn () => new JsonFileRateLimitStore($baseDir . '/json'),
+            static fn () => new SqliteRateLimitStore($tempDir . '/rate_limits.sqlite'),
+            static fn () => new JsonFileRateLimitStore($tempDir . '/json'),
+        ];
+
+        if ($driver === 'json') {
+            return [
+                static fn () => new JsonFileRateLimitStore($baseDir . '/json'),
+                static fn () => new JsonFileRateLimitStore($tempDir . '/json'),
+            ];
+        }
+
+        if ($driver === 'sqlite' || $driver === '') {
+            return $sqliteThenJson;
+        }
+
+        error_log('MPCT rate limit storage driver rejected');
+        throw new RuntimeException('Unable to initialize rate limit storage.');
     }
 
     public static function reset(): void

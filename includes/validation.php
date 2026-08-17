@@ -19,6 +19,9 @@ if (defined('MPCT_VALIDATION_LOADED')) {
 }
 define('MPCT_VALIDATION_LOADED', true);
 
+ini_set('display_errors', '0');
+ini_set('log_errors', '1');
+
 
 /* Trim + HTML-encode for safe HTML embedding. */
 function clean(string $value): string
@@ -44,6 +47,9 @@ function post(string $key): string
  */
 function respond(bool $ok, string $msg): void
 {
+    if (!defined('MPCT_JSON_SENT')) {
+        define('MPCT_JSON_SENT', true);
+    }
     if (ob_get_length()) {
         ob_clean();
     }
@@ -70,6 +76,9 @@ function respond(bool $ok, string $msg): void
  */
 function respondAndContinue(bool $ok, string $msg): void
 {
+    if (!defined('MPCT_JSON_SENT')) {
+        define('MPCT_JSON_SENT', true);
+    }
     if (ob_get_length()) {
         ob_clean();
     }
@@ -84,6 +93,50 @@ function respondAndContinue(bool $ok, string $msg): void
         @flush();
     }
 }
+
+/*
+ * Generic copy for unexpected failures. Never include exception text,
+ * file paths, driver names, or host details — those stay in error_log.
+ */
+function publicFormErrorMessage(): string
+{
+    $email = defined('LAB_EMAIL') ? LAB_EMAIL : 'mpct.nano@nau.edu';
+
+    return 'We were unable to process your submission at this time. Please try again later or email us directly at ' . $email . '.';
+}
+
+function mpactLogInternalError(string $label, Throwable $e): void
+{
+    error_log($label . ': ' . $e->getMessage() . ' in ' . basename($e->getFile()) . ':' . $e->getLine());
+}
+
+function mpactRespondWithoutInternals(): void
+{
+    if (defined('MPCT_JSON_SENT') || headers_sent()) {
+        return;
+    }
+    if (function_exists('respond')) {
+        respond(false, publicFormErrorMessage());
+    }
+}
+
+set_exception_handler(static function (Throwable $e): void {
+    mpactLogInternalError('MPCT uncaught error', $e);
+    mpactRespondWithoutInternals();
+});
+
+register_shutdown_function(static function (): void {
+    $err = error_get_last();
+    if ($err === null) {
+        return;
+    }
+    $fatals = [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR];
+    if (!in_array($err['type'], $fatals, true)) {
+        return;
+    }
+    error_log('MPCT fatal: ' . $err['message']);
+    mpactRespondWithoutInternals();
+});
 
 /*
  * Bail out if any required POST field is empty. The optional $labels map

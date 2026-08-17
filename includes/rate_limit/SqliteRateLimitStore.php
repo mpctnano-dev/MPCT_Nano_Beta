@@ -10,7 +10,11 @@ class SqliteRateLimitStore implements RateLimitStoreInterface
     {
         $directory = dirname($databasePath);
         if (!is_dir($directory) && !mkdir($directory, 0775, true) && !is_dir($directory)) {
-            throw new RuntimeException('Unable to create rate limit storage directory: ' . $directory);
+            throw new RuntimeException('Unable to create rate limit storage directory');
+        }
+
+        if (!in_array('sqlite', PDO::getAvailableDrivers(), true)) {
+            throw new RuntimeException('Rate limit storage driver is not available');
         }
 
         $this->pdo = new PDO('sqlite:' . $databasePath);

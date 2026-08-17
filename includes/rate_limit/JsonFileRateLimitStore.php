@@ -10,7 +10,7 @@ class JsonFileRateLimitStore implements RateLimitStoreInterface
     {
         $this->directory = rtrim($directory, '/\\');
         if (!is_dir($this->directory) && !mkdir($this->directory, 0775, true) && !is_dir($this->directory)) {
-            throw new RuntimeException('Unable to create rate limit storage directory: ' . $this->directory);
+            throw new RuntimeException('Unable to create rate limit storage directory');
         }
     }
 
