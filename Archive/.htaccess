@@ -1,0 +1,5 @@
+# Deny direct HTTP access to archived pages.
+# These are reference copies of the pre-Supabase booking flow. They are kept
+# readable in the repository but must never be servable: a reachable copy is a
+# second live form that still posts to SharePoint and bypasses later changes.
+Require all denied
