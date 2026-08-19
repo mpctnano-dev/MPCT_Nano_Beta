@@ -30,16 +30,14 @@ function normalizeEmail(string $email): ?string
 
 function checkRateLimits(string $ip, string $emailRaw): void
 {
-    if (!defined('RATE_LIMIT_IP_MAX') || !defined('RATE_LIMIT_EMAIL_MAX')) {
-        return;
-    }
+    $windowSec = (int) RATE_LIMIT_WINDOW_SEC;
+    $retentionDays = (int) RATE_LIMIT_RETENTION_DAYS;
 
-    $windowSec = defined('RATE_LIMIT_WINDOW_SEC') ? (int) RATE_LIMIT_WINDOW_SEC : 300;
-    $retentionDays = defined('RATE_LIMIT_RETENTION_DAYS') ? (int) RATE_LIMIT_RETENTION_DAYS : 7;
-
-    // Storage failures must never 500 a form. Legitimate rejects still
-    // call respond() inside processRateLimitKey(); everything else is
-    // logged and the request continues.
+    // Fail open. A storage fault must never cost us a genuine enquiry from a
+    // prospective student or research partner — losing those is worse than
+    // letting spam through until someone reads the log. A real reject is not
+    // affected: processRateLimitKey() calls respond(), which exits before
+    // this catch can see it.
     try {
         $store = RateLimitStoreFactory::create();
 
@@ -84,41 +82,7 @@ function processRateLimitKey(
     int $retentionDays,
     string $rejectMessage
 ): void {
-    $now = time();
-    $record = $store->load($key);
-
-    if ($record !== null) {
-        $retentionCutoff = $now - ($retentionDays * 86400);
-        if ($record['last_seen'] < $retentionCutoff) {
-            $store->delete($key);
-            $record = null;
-        }
-    }
-
-    if ($record === null) {
-        $store->save($key, [
-            'count' => 1,
-            'window_start' => $now,
-            'last_seen' => $now,
-        ]);
-        return;
-    }
-
-    $elapsed = $now - $record['window_start'];
-    if ($elapsed >= $windowSec) {
-        $store->save($key, [
-            'count' => 1,
-            'window_start' => $now,
-            'last_seen' => $now,
-        ]);
-        return;
-    }
-
-    if ($record['count'] >= $max) {
+    if (!$store->consume($key, $max, $windowSec, $retentionDays)) {
         respond(false, $rejectMessage);
     }
-
-    $record['count']++;
-    $record['last_seen'] = $now;
-    $store->save($key, $record);
 }

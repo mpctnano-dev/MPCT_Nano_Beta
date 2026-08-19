@@ -10,8 +10,9 @@ lerna-debug.log*
 #congig
 mpact_config.php
 
-# Rate limit runtime data (SQLite DB — never commit)
-data/rate-limits/
+# Rate limit runtime data (SQLite DB / JSON counters — never commit)
+data/rate-limits/*
+!data/rate-limits/.gitkeep
 
 # Local Docker sandbox POC (keep on disk only — never commit)
 sandbox/
