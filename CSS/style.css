@@ -20792,6 +20792,8 @@ body.workforce-development-page {
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
     margin-top: 36px;
+    /* Mixed portrait/landscape rows otherwise stretch the shorter item's box. */
+    align-items: start;
 }
 
 .nar-gallery--three-up {
@@ -20814,6 +20816,17 @@ body.workforce-development-page {
 
 .nar-gallery__item:hover .nar-gallery__img {
     transform: scale(1.03);
+}
+
+/* Vertical install photos lose most of their subject in the default 16/10 crop,
+   so they opt into a taller box instead. */
+.nar-gallery__img--portrait {
+    aspect-ratio: 2 / 3;
+}
+
+/* Lets a landscape image close out a row of portraits at full width. */
+.nar-gallery__item--wide {
+    grid-column: 1 / -1;
 }
 
 .nar-gallery__caption {

@@ -27,6 +27,7 @@ class RateLimitStoreFactory
         foreach (self::candidates($driver, $baseDir, $tempDir) as $make) {
             try {
                 self::$instance = $make();
+                error_log('MPCT rate limit store ready: ' . self::$instance->describe());
                 return self::$instance;
             } catch (Throwable $e) {
                 $lastError = $e;

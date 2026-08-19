@@ -19,7 +19,15 @@ const EQUIPMENT_LINKS = {
     'BELSORP MAX X Surface and Pore Analyzer': 'About_Equipment/BELSORP_MAX_X.html',
     'SEM': 'About_Equipment/SEM.html',
     'TEM': 'About_Equipment/TEM.html',
-    'XRD': 'About_Equipment/XRD.html'
+    'XRD': 'About_Equipment/XRD.html',
+    'Ellipsometer': 'About_Equipment/Ellipsometer.html',
+    'J.A. Woollam RC2 Ellipsometer': 'About_Equipment/Ellipsometer.html',
+    'Amatrol 87-MS1 Pick and Place': 'About_Equipment/Amatrol_87_MS1.html',
+    'Amatrol 87-MS2 Gauging Station': 'About_Equipment/Amatrol_87_MS2.html',
+    'Amatrol 87-MS7 Inventory Storage': 'About_Equipment/Amatrol_87_MS7.html',
+    'Amatrol Smart Robot Workcell': 'About_Equipment/Amatrol_SmartRobot_Workcell.html',
+    'Hiden Analytical Type 40010': 'About_Equipment/SIMS_Workstation.html',
+    'SIMS Workstation': 'About_Equipment/SIMS_Workstation.html'
 };
 
 /* Mid-build renovation progress article — 12-frame scrubbable sequence in the hero. */
@@ -49,6 +57,239 @@ const LAB_RENOVATION_TIMELAPSE_MILESTONES = [
 /* Article definitions drive the expanded reader view. Keep ids synchronized with News.html. */
 
 const ARTICLES = [
+    {
+        id: 'tem-installation-2026',
+        title: 'JEOL JEM-F200 TEM Installation Underway',
+        tagLabel: 'Installation',
+        date: '2026-08-18',
+        readTime: '4 min read',
+        heroImage: 'Images/TEM.jpg',
+        heroAlt: 'JEOL JEM-F200 transmission electron microscope at MPaCT Lab',
+        statusBadge: 'In Progress',
+        stats: [
+            { value: 'Aug 4 to Nov', label: 'Install Window' },
+            { value: '200 kV', label: 'TEM / STEM' },
+            { value: '0.14 nm', label: 'STEM Resolution' }
+        ],
+        sections: [
+            {
+                heading: 'Installation Underway in Building 98E',
+                body: 'MPaCT Lab at Northern Arizona University is installing a JEOL JEM-F200 transmission electron microscope in Building 98E on the Flagstaff campus. The install window opened on August 4, 2026 and runs through the first week of November. A TEM takes months to install rather than days, because the room has to hold tight limits on vibration, stray magnetic fields, and temperature before the column can go in. Only then can the system be assembled, pumped down, aligned, and tested against spec. The instrument is not open for booking until that work is signed off.'
+            },
+            {
+                heading: 'What a Transmission Electron Microscope Does',
+                body: 'A TEM sends a beam of electrons through a specimen thin enough for them to pass, then forms an image from the electrons that make it out the other side. The wavelength of an accelerated electron is far shorter than that of visible light, so a TEM resolves detail no optical microscope can reach. It also resolves finer detail than a scanning electron microscope, which images the surface rather than looking through the sample. The JEM-F200 is a multipurpose TEM/STEM operating from 20 to 200 kV, with 0.19 nm point resolution in TEM mode and 0.14 nm in STEM-HAADF, driven by a Schottky field emission gun. Magnification runs from 20x to 2,000,000x in TEM and from 200x to 150,000,000x in STEM.'
+            },
+            {
+                heading: 'Applications and Uses',
+                body: 'TEM work spans imaging, diffraction, and spectroscopy. Bright-field and dark-field imaging reveal crystal defects such as dislocations, stacking faults, and grain boundaries, along with the interfaces between layers in a device stack. STEM-HAADF gives Z-contrast, so heavier elements stand out against lighter ones, which is how thin interfacial layers and buried structures get located. On the analytical side, EDS produces elemental maps and line scans across a feature, while EELS resolves bonding and electronic structure at high energy resolution. Tomography options extend this into three dimensions. In practice the instrument covers semiconductor cross-sections and interface quality, nanoparticle size and morphology, 2D material characterization, catalyst structure, and failure analysis where the cause sits below what an SEM can see.'
+            },
+            {
+                heading: 'How the TEM Fits the MPaCT Suite',
+                body: 'The TEM joins the Materials Characterization suite at MPaCT Lab as its highest-resolution instrument. Each technique in that suite answers a different question. XRD gives crystal structure averaged across a sample, SEM gives surface morphology and composition at the micron scale, SIMS gives trace chemistry with depth, and the TEM gives atomic-scale structure and chemistry at one specific location. MPaCT Lab also runs the sample preparation chain that TEM work depends on. The TEM Prep Disk Grinder, Dimple Grinder, and Ion Beam Mill thin specimens down to electron transparency, so preparation and imaging both happen in the same facility rather than requiring samples to be sent out.'
+            },
+            {
+                heading: 'What Comes Next',
+                body: 'For the rest of the window, crews continue column assembly, alignment, and acceptance testing in Building 98E, followed by operator training. MPaCT Lab will post another update as the first week of November approaches. Reservations open once the system passes acceptance.'
+            }
+        ],
+        featured: {
+            type: 'progress',
+            heading: 'TEM Install Timeline',
+            items: [
+                {
+                    status: 'done',
+                    icon: '✓',
+                    label: 'Install Window Opens',
+                    detail: 'Work began August 4, 2026 in Building 98E on the Flagstaff campus',
+                    statusLabel: 'Complete'
+                },
+                {
+                    status: 'active',
+                    icon: '→',
+                    label: 'System Assembly',
+                    detail: 'The JEM-F200 column and support systems are being built up on site',
+                    statusLabel: 'In Progress'
+                },
+                {
+                    status: 'planned',
+                    icon: '◦',
+                    label: 'Alignment and Acceptance Testing',
+                    detail: 'Beam alignment, then resolution and stability checks measured against spec',
+                    statusLabel: 'Planned'
+                },
+                {
+                    status: 'planned',
+                    icon: '◦',
+                    label: 'Install Window Closes',
+                    detail: 'Through the first week of November 2026, with user access following sign-off',
+                    statusLabel: 'Planned'
+                }
+            ]
+        },
+        cta: {
+            text: 'See full specs, operating modes, and accessories for the JEM-F200.',
+            label: 'About the TEM',
+            href: 'About_Equipment/TEM.html'
+        },
+        gallery: [
+            {
+                src: 'Images/TEM_under_Installation.jpg',
+                alt: 'The JEOL JEM-F200 TEM column part-way through assembly at MPaCT Lab, Building 98E',
+                caption: 'The JEM-F200 part-way through assembly in Building 98E',
+                portrait: true
+            },
+            {
+                src: 'Images/TEM_Outer_Layer.jpg',
+                alt: 'The JEOL JEM-F200 column with outer panels off, vacuum plumbing and wiring exposed, with JEM-F200 control software running on the monitor alongside',
+                caption: 'Outer panels still off, exposing the vacuum plumbing and wiring that get routed and sealed before alignment. The JEM-F200 control software is already up on the console.',
+                portrait: true
+            }
+        ]
+    },
+
+    {
+        id: 'xrd-ellipsometer-sem-installation-2026',
+        title: 'XRD, Ellipsometer, and SEM Installation Underway',
+        tagLabel: 'Installation',
+        date: '2026-08-18',
+        readTime: '4 min read',
+        heroImage: 'Images/SEM.jpg',
+        heroAlt: 'JEOL JSM-IT710HR field emission SEM at MPaCT Lab',
+        statusBadge: 'In Progress',
+        stats: [
+            { value: '3', label: 'Systems Installing' },
+            { value: 'Aug to Sep', label: 'Install Windows' },
+            { value: 'Bldg 98E', label: 'Flagstaff Campus' }
+        ],
+        sections: [
+            {
+                heading: 'Three Systems, Three Overlapping Windows',
+                body: 'Three characterization instruments are going in at MPaCT Lab in Building 98E this month. The Rigaku SmartLab XRD and the JEOL JSM-IT710HR field emission SEM both started on August 17. The XRD is expected to wrap by the end of August, and the SEM should run into the first week of September in Room 103. The J.A. Woollam RC2 ellipsometer starts mid-week, around August 19, and should take about a week. None of the three are open for reservations until each one clears acceptance testing.'
+            },
+            {
+                heading: 'Rigaku SmartLab XRD: Crystal Structure and Thin Films',
+                body: 'X-ray diffraction directs X-rays at a sample and measures the angles at which they scatter constructively off planes of atoms. Those angles act as a fingerprint of the crystal structure. The SmartLab is a multipurpose platform built around a Cu source running up to 40 kV and 44 mA, a HyPix-3000 detector that collects in 0D, 1D, or 2D, and Cross Beam Optics that switch between focusing and parallel-beam geometry without a hardware change. Its theta-theta goniometer resolves to roughly 0.0001 degrees. Between those modes the system covers phase identification and crystallinity in powders and bulk solids, grazing-incidence diffraction for thin films and coatings, X-ray reflectivity for film thickness, density, and interface roughness, and pole figures for crystallographic texture and residual stress, on samples up to roughly 6-inch wafers.'
+            },
+            {
+                heading: 'J.A. Woollam RC2 Ellipsometer: Non-Contact Film Metrology',
+                body: 'An ellipsometer measures how polarized light changes when it reflects off a surface, then derives film thickness and the optical constants n and k from that change without touching the sample. The RC2 uses a dual-rotating compensator design that captures all 16 Mueller matrix elements, which is what makes anisotropic and depolarizing samples tractable. It collects more than 1000 wavelengths across a 210 to 1690 nm range, extendable to 2500 nm, in roughly 0.1 to 3 seconds per point, and handles wafers up to 200 or 300 mm depending on configuration. Typical work includes dielectric and photoresist thickness, optical constants of new materials, uniformity mapping across a wafer, and real-time growth or etch monitoring. All of it is non-destructive, where a stylus profilometer would need a scribed step and physical contact.'
+            },
+            {
+                heading: 'JEOL JSM-IT710HR SEM: Imaging and Microanalysis',
+                body: 'A scanning electron microscope rasters a focused electron probe across a surface and builds an image from the electrons and X-rays that come back. The JSM-IT710HR pairs an in-lens Schottky field emission gun with probe currents at or above 300 nA, giving a small probe without giving up signal. High- and low-vacuum modes switch in one click, so poorly conducting or outgassing samples can be imaged without a conductive coating. Secondary and quadrant backscatter detectors handle morphology and compositional contrast, with live 3D surface reconstruction, and integrated JEOL EDS produces live spectra and X-ray maps during imaging. It is the general-purpose instrument for surface morphology, fracture and failure analysis, particle sizing, cross-section inspection, and elemental composition.'
+            },
+            {
+                heading: 'How They Work Together',
+                body: 'The XRD and ellipsometer belong to the Thin Film Deposition &amp; Analysis track at MPaCT Lab, which is concerned with film thickness, crystal orientation, and stress. The SEM belongs to Materials Characterization, covering structure and composition from bulk samples down to nanostructures. Used together, a deposited film can be measured for thickness and optical constants on the RC2, checked for phase, texture, and stress on the SmartLab, and inspected for morphology and elemental makeup on the SEM, with the incoming TEM available when a question needs atomic-scale resolution.'
+            }
+        ],
+        featured: {
+            type: 'phases',
+            heading: 'Three-Track Installation Timeline',
+            items: [
+                {
+                    period: 'Aug 17 to end of August',
+                    title: 'Rigaku SmartLab XRD',
+                    desc: 'Install started August 17 in Building 98E and is expected to finish by the end of the month. Brings phase identification, grazing-incidence thin-film diffraction, X-ray reflectivity, and texture and stress analysis.'
+                },
+                {
+                    period: 'Aug 19, about one week',
+                    title: 'J.A. Woollam RC2 Ellipsometer',
+                    desc: 'Install starts mid-week and is expected to take about a week. Adds non-contact thickness and optical constants (n, k), full Mueller matrix data, and uniformity mapping on wafers up to 300 mm.'
+                },
+                {
+                    period: 'Aug 17 to early September',
+                    title: 'JEOL JSM-IT710HR FE-SEM',
+                    desc: 'Install started August 17 in 98E Room 103 and runs through the end of August into the first week of September. Covers high- and low-vacuum imaging, live 3D surface reconstruction, and integrated EDS.'
+                }
+            ]
+        },
+        cta: {
+            text: 'See where these systems sit in the MPaCT instrument suite.',
+            label: 'View Equipment',
+            href: 'Equipment.html'
+        },
+        galleryLayout: 'three-up',
+        gallery: [
+            {
+                src: 'Images/XRD_installation.jpg',
+                alt: 'Rigaku SmartLab XRD with its enclosure doors open during installation, goniometer and detector arm visible inside',
+                caption: 'The SmartLab with its enclosure open, showing the theta-theta goniometer, X-ray tube, and detector arm still carrying their shipping restraints',
+                portrait: true
+            },
+            {
+                src: 'Images/Ellipsometer_installation.jpg',
+                alt: 'J.A. Woollam RC2 ellipsometer during installation at MPaCT Lab, goniometer arms and sample stage visible with packing material still in place',
+                caption: 'The RC2 on site with its sample stage still wrapped, goniometer arms carrying the angle-of-incidence scale from 40 to 80 degrees',
+                portrait: true
+            },
+            {
+                src: 'Images/SEM_installation.jpg',
+                alt: 'JEOL JSM-IT710HR SEM during installation, column and specimen chamber on the vibration isolation frame with the electronics bay open',
+                caption: 'The JSM-IT710HR column and chamber set on the vibration isolation frame in 98E Room 103, electronics bay still open',
+                portrait: true
+            }
+        ]
+    },
+
+    {
+        id: 'amatrol-sims-flagstaff-installation-2026',
+        title: 'Amatrol Training Line and SIMS Installing at Flagstaff',
+        tagLabel: 'Installation',
+        date: '2026-08-18',
+        readTime: '4 min read',
+        heroImage: 'Images/Amatrol_smartrobot.png',
+        heroAlt: 'Amatrol Smart Robot Workcell at MPaCT Lab, Building 98E, Flagstaff',
+        statusBadge: 'In Progress',
+        stats: [
+            { value: '4', label: 'Amatrol Stations' },
+            { value: '5 nm', label: 'SIMS Depth Resolution' },
+            { value: 'Aug to Sep', label: 'Install Windows' }
+        ],
+        sections: [
+            {
+                heading: 'Two Installations at the Flagstaff Campus',
+                body: 'Two systems are going in at MPaCT Lab, Building 98E, 561 E Pine Knoll Dr in Flagstaff. The Amatrol training line is scheduled to start around August 31 and take roughly a week, wrapping in the first week of September. The Hiden Analytical Type 40010 SIMS workstation follows, installing from the first week of September through the middle to third week of the month. One is a teaching floor for workforce training, the other a research instrument for trace chemical analysis. Neither is in service yet.'
+            },
+            {
+                heading: 'Amatrol Line: Mechatronics and Automation Training',
+                body: 'The training line is made up of four stations drawn from the Amatrol 870 Mechatronics Learning System. Station 1, the 87-MS1 Pick and Place Feeding Station, teaches automated parts feeding, pneumatic pick-and-place manipulation, and station-level sequencing under PLC control. Station 2, the 87-MS2 Gauging Station, covers automated go/no-go gauging, part transfer, and reject logic. Station 7, the 87-MS7 Inventory Storage Station, handles automated storage and retrieval through a four-channel storage module. Alongside them, the Smart Robot Workcell is built around a FANUC LR Mate 200iD/4S six-axis industrial robot and supports robot operation, programming, troubleshooting, and material handling in a lab-scale automated cell. Across the four stations students work on PLC programming, sensor integration, pneumatics, inspection logic, and robotics, which are the skills that run semiconductor fabs and advanced manufacturing lines. These are instructional stations rather than individually reservable instruments, and access comes through scheduled coursework and workforce development programs.'
+            },
+            {
+                heading: 'Hiden Type 40010 SIMS: Trace Chemistry and Depth Profiles',
+                body: 'Secondary ion mass spectrometry sputters a surface with a primary ion beam and mass-analyzes the ions ejected in the process. It is the most sensitive of the common surface analysis techniques, reaching trace levels that EDS and XPS cannot. The Type 40010 is a UHV system built around a MAXIM quadrupole SIMS/SNMS spectrometer, detecting both positive and negative ions with roughly 5 nm depth resolution on thin films. Its mass range runs from 300 to 1000 amu depending on configuration, it takes samples up to about 40 by 40 mm and 10 mm thick, and an electron flood gun option handles insulating materials. Dynamic SIMS supports dopant and implant depth profiles in semiconductors, contamination detection at trace concentrations, and layer-by-layer composition through multilayer stacks. Static SIMS covers molecular species at the surface, SNMS adds quantitative depth profiles, and imaging modes produce 2D and 3D chemical maps.'
+            },
+            {
+                heading: 'Where They Land in MPaCT',
+                body: 'The Amatrol line feeds the workforce development pipeline at MPaCT Lab, building the automation and mechatronics skills that Arizona employers in semiconductors and advanced manufacturing hire for. SIMS joins the Materials Characterization suite as its trace-chemistry and depth-profiling instrument. It complements the SEM and its EDS for surface and micron-scale composition, XRD for crystal structure, and the incoming TEM for atomic-scale imaging. MPaCT Lab will post another update once this Flagstaff track wraps in September.'
+            }
+        ],
+        featured: {
+            type: 'phases',
+            heading: 'Installation Windows',
+            items: [
+                {
+                    period: 'Aug 31 to first week of September',
+                    title: 'Amatrol Training Line',
+                    desc: 'About a week to install the 87-MS1 Pick and Place, 87-MS2 Gauging Station, 87-MS7 Inventory Storage, and the Smart Robot Workcell. These are instructional stations, so access runs through scheduled coursework rather than individual bookings.'
+                },
+                {
+                    period: 'First to third week of September',
+                    title: 'Hiden Analytical Type 40010 SIMS',
+                    desc: 'Installs from the first week of September through the middle to third week. Brings dynamic and static SIMS plus SNMS for depth profiling, dopant and impurity detection, and surface chemistry.'
+                }
+            ]
+        },
+        cta: {
+            text: 'See how these training stations fit MPaCT workforce programs.',
+            label: 'Workforce Development',
+            href: 'WorkForceDevelopment.html'
+        }
+        /* No gallery: no installation photos exist for this track yet. Product shots
+           belong on the equipment pages, not in a progress update. */
+    },
+
     {
         id: 'intel-chips-scholarship-2026',
         title: 'Intel-SRC CHIPS Scholarship Supports Master\'s Students at NAU and University of Arizona',
@@ -1193,8 +1434,8 @@ document.addEventListener('DOMContentLoaded', () => {
             galleryHTML = `
             <div class="nar-gallery${galleryClass}">
                 ${article.gallery.map(img => `
-                    <div class="nar-gallery__item">
-                        <img class="nar-gallery__img" src="${img.src}" alt="${img.alt}" loading="lazy">
+                    <div class="nar-gallery__item${img.wide ? ' nar-gallery__item--wide' : ''}">
+                        <img class="nar-gallery__img${img.portrait ? ' nar-gallery__img--portrait' : ''}" src="${img.src}" alt="${img.alt}" loading="lazy">
                         <p class="nar-gallery__caption">${img.caption}</p>
                     </div>
                 `).join('')}
@@ -1315,9 +1556,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     ${featuredHTML}
                 </div>
 
-                ${ctaHTML}
-
                 ${galleryHTML}
+
+                ${ctaHTML}
             </div>
 
             <div class="nar-explore">

@@ -5,9 +5,11 @@ require_once __DIR__ . '/RateLimitStoreInterface.php';
 class SqliteRateLimitStore implements RateLimitStoreInterface
 {
     private PDO $pdo;
+    private string $databasePath;
 
     public function __construct(string $databasePath)
     {
+        $this->databasePath = $databasePath;
         $directory = dirname($databasePath);
         if (!is_dir($directory) && !mkdir($directory, 0775, true) && !is_dir($directory)) {
             throw new RuntimeException('Unable to create rate limit storage directory');
@@ -19,7 +21,32 @@ class SqliteRateLimitStore implements RateLimitStoreInterface
 
         $this->pdo = new PDO('sqlite:' . $databasePath);
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $this->pdo->exec('PRAGMA busy_timeout = 5000');
         $this->initializeSchema();
+    }
+
+    public function consume(string $key, int $max, int $windowSec, int $retentionDays): bool
+    {
+        // Must go through PDO's own transaction API. Opening one with a raw
+        // exec('BEGIN') leaves PDO's internal flag unset, and commit() then
+        // throws "There is no active transaction".
+        $this->pdo->beginTransaction();
+        try {
+            $record = $this->load($key);
+            $next = RateLimitDecision::next($record, $max, $windowSec, $retentionDays);
+            if ($next !== null) {
+                $this->save($key, $next);
+            }
+
+            $this->pdo->commit();
+
+            return $next !== null;
+        } catch (Throwable $e) {
+            if ($this->pdo->inTransaction()) {
+                $this->pdo->rollBack();
+            }
+            throw $e;
+        }
     }
 
     public function load(string $key): ?array
@@ -43,13 +70,12 @@ class SqliteRateLimitStore implements RateLimitStoreInterface
 
     public function save(string $key, array $record): void
     {
+        // INSERT OR REPLACE, not ON CONFLICT ... DO UPDATE: UPSERT needs
+        // SQLite 3.24+ and nano.nau.edu ships 3.7.17, where it is a syntax
+        // error. Every column is written here, so the two are equivalent.
         $stmt = $this->pdo->prepare(
-            'INSERT INTO rate_limits (rate_key, count, window_start, last_seen)
-             VALUES (:rate_key, :count, :window_start, :last_seen)
-             ON CONFLICT(rate_key) DO UPDATE SET
-                count = excluded.count,
-                window_start = excluded.window_start,
-                last_seen = excluded.last_seen'
+            'INSERT OR REPLACE INTO rate_limits (rate_key, count, window_start, last_seen)
+             VALUES (:rate_key, :count, :window_start, :last_seen)'
         );
 
         $stmt->execute([
@@ -71,6 +97,11 @@ class SqliteRateLimitStore implements RateLimitStoreInterface
         $cutoff = time() - ($retentionDays * 86400);
         $stmt = $this->pdo->prepare('DELETE FROM rate_limits WHERE last_seen < :cutoff');
         $stmt->execute(['cutoff' => $cutoff]);
+    }
+
+    public function describe(): string
+    {
+        return 'sqlite:' . $this->databasePath;
     }
 
     private function initializeSchema(): void
