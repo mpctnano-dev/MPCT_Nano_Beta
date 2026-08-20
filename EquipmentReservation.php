@@ -1083,7 +1083,7 @@ if (supabaseIsConfigured()) {
         error_log('MPCT Supabase skip: no appointment window on ' . $requestReference);
     } else {
         try {
-            $spDecode = static fn(?string $v): ?string => $v === null || $v === ''
+            $decode = static fn(?string $v): ?string => $v === null || $v === ''
                 ? null
                 : htmlspecialchars_decode($v, ENT_QUOTES);
 
@@ -1091,27 +1091,27 @@ if (supabaseIsConfigured()) {
 
             $requestPayload = array_filter([
                 'request_type'         => $isCourse ? 'course' : 'instrument',
-                'first_name'           => $spDecode($firstName),
-                'last_name'            => $spDecode($lastName),
-                'email'                => $spDecode($email),
-                'phone'                => $spDecode($phone),
-                'organization'         => $spDecode($organization),
+                'first_name'           => $decode($firstName),
+                'last_name'            => $decode($lastName),
+                'email'                => $decode($email),
+                'phone'                => $decode($phone),
+                'organization'         => $decode($organization),
                 'user_type'            => $userType,
-                'nau_id'               => $spDecode(post('nau_id')),
-                'nau_email'            => $spDecode(post('nau_email')),
-                'department'           => $spDecode(post('department')),
+                'nau_id'               => $decode(post('nau_id')),
+                'nau_email'            => $decode(post('nau_email')),
+                'department'           => $decode(post('department')),
                 'school'               => post('school'),
-                'billing_account'      => $spDecode(post('speed_chart')),
-                'supervisor'           => $spDecode(post('supervisor')),
-                'job_title'            => $spDecode(post('job_title')),
+                'billing_account'      => $decode(post('speed_chart')),
+                'supervisor'           => $decode(post('supervisor')),
+                'job_title'            => $decode(post('job_title')),
                 'alternative_date'     => $alternative_date !== '' ? $alternative_date : null,
                 'preferred_time'       => $preferred_time !== '' ? $preferred_time : null,
                 'requested_duration'   => $estimated_duration !== '' ? $estimated_duration : null,
-                'purpose_of_use'       => $spDecode($isCourse ? post('class_use') : $purpose_of_use),
-                'sample_description'   => $isCourse ? null : $spDecode($sample_description),
+                'purpose_of_use'       => $decode($isCourse ? post('class_use') : $purpose_of_use),
+                'sample_description'   => $isCourse ? null : $decode($sample_description),
                 'training_needed'      => trainingNeededForDb($training_needed),
                 'lab_assistance'       => $lab_assistance !== '' ? $lab_assistance : 'self_service',
-                'special_requirements' => $spDecode($isCourse ? post('edu_notes') : $special_requirements),
+                'special_requirements' => $decode($isCourse ? post('edu_notes') : $special_requirements),
                 'billing_acknowledged' => true,
             ], static fn($value): bool => $value !== null && $value !== '');
 
@@ -1120,13 +1120,13 @@ if (supabaseIsConfigured()) {
             $requestPayload['technical_details'] = (object) $technicalDetails;
             $requestPayload['operating_modes']   = $operatingModes;
             $requestPayload['course_details']    = (object) ($isCourse ? array_filter([
-                'course_number'    => $spDecode(post('course_number')),
-                'course_name'      => $spDecode(post('course_name')),
-                'instructor_name'  => $spDecode(post('instructor_name')),
-                'instructor_email' => $spDecode(post('instructor_email')),
-                'group_size'       => $spDecode(post('group_size')),
+                'course_number'    => $decode(post('course_number')),
+                'course_name'      => $decode(post('course_name')),
+                'instructor_name'  => $decode(post('instructor_name')),
+                'instructor_email' => $decode(post('instructor_email')),
+                'group_size'       => $decode(post('group_size')),
                 'semester'         => post('semester'),
-                'sessions_needed'  => $spDecode(post('sessions_needed')),
+                'sessions_needed'  => $decode(post('sessions_needed')),
                 'session_duration' => post('session_duration'),
             ], static fn($value): bool => $value !== null && $value !== '') : []);
 
