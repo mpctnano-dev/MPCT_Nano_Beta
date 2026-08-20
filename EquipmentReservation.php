@@ -199,6 +199,26 @@ function technicalFieldLabels(): array
 }
 
 
+// HELPER: fieldUsesValueMap()
+// Only dropdowns submit machine values like "full_day" that need translating.
+// Everything else is either typed by the user or already display-ready, and
+// running formatValue() over it would title-case their sentences.
+function fieldUsesValueMap(string $key): bool
+{
+    return in_array($key, [
+        'equipment_status',
+        'user_type',
+        'school',
+        'preferred_time',
+        'estimated_duration',
+        'training_needed',
+        'lab_assistance',
+        'semester',
+        'session_duration',
+    ], true);
+}
+
+
 // HELPER: technicalIsSelect()
 // formatValue() turns option values like "thin_film" into "Thin Film", which
 // is right for a dropdown and wrong for anything the user typed — it would
@@ -527,7 +547,7 @@ $plainDetails = '';   // Plain-text equivalent for the AltBody
 foreach ($fields as $field => $label) {
     // Read the raw POST value so formatValue() sees the original machine value
     $rawValue  = isset($_POST[$field]) ? trim((string) $_POST[$field]) : '';
-    $displayed = formatValue($rawValue);
+    $displayed = fieldUsesValueMap($field) ? formatValue($rawValue) : $rawValue;
 
     // Show a dash rather than a blank cell when the field wasn't filled in
     if ($displayed === '') {
