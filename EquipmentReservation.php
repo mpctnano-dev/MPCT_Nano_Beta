@@ -48,6 +48,9 @@ require_once __DIR__ . '/includes/csrf.php';
 // the SharePoint sync below throws, so the lab knows to backfill.
 require_once __DIR__ . '/includes/sharepoint_alert.php';
 
+// Supabase RPC client for the LIMS reservation write at the end of this file.
+require_once __DIR__ . '/includes/supabase.php';
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -1055,7 +1058,7 @@ try {
         'submitter_name'  => $fullName,
         'submitter_email' => $email,
         'equipment'       => $equipmentLabel ?? '',
-        'category'        => $category ?? '',
+        'category'        => $equipment_category ?? '',
     ]);
 }
 }
@@ -1148,7 +1151,7 @@ if (supabaseIsConfigured()) {
                 'submitter_name'  => $fullName,
                 'submitter_email' => $email,
                 'equipment'       => $equipmentLabel ?? '',
-                'category'        => $category ?? '',
+                'category'        => $equipment_category ?? '',
                 'window'          => $slotStart . ' → ' . $slotEnd,
             ]);
         }
