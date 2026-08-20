@@ -199,6 +199,31 @@ function technicalFieldLabels(): array
 }
 
 
+// HELPER: newRequestUuid()
+// Version 4 UUID used as the database's idempotency key. Generated here rather
+// than in the browser so a replayed POST cannot reuse someone else's id.
+function newRequestUuid(): string
+{
+    $bytes = random_bytes(16);
+    $bytes[6] = chr((ord($bytes[6]) & 0x0f) | 0x40);
+    $bytes[8] = chr((ord($bytes[8]) & 0x3f) | 0x80);
+
+    return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($bytes), 4));
+}
+
+
+// HELPER: trainingNeededForDb()
+// The form and the database name the same three states differently.
+function trainingNeededForDb(string $value): string
+{
+    return [
+        'no'        => 'experienced',
+        'new_user'  => 'first_time',
+        'refresher' => 'refresher',
+    ][$value] ?? 'experienced';
+}
+
+
 // HELPER: fieldUsesValueMap()
 // Only dropdowns submit machine values like "full_day" that need translating.
 // Everything else is either typed by the user or already display-ready, and
@@ -492,6 +517,13 @@ if ($categoryMode !== 'educational') {
         }
     }
 }
+
+// Internal reference for this submission. Minted before anything is sent so
+// the same value identifies the request in the database and in any failure
+// alert, even when a downstream write fails.
+$clientRequestId  = newRequestUuid();
+$requestReference = 'MPCT-' . date('ymd') . '-'
+    . strtoupper(substr(str_replace('-', '', $clientRequestId), 0, 4));
 
 // Mode-aware display field list for the email table
 if ($categoryMode === 'educational') {
@@ -1026,4 +1058,99 @@ try {
         'category'        => $category ?? '',
     ]);
 }
+}
+
+
+// STEP 10: Record the reservation in the LIMS database (non-blocking)
+//
+// Runs after SharePoint and, like it, never affects the user's response —
+// they were told the submission succeeded before either write started. A
+// failure here means the request is missing from the lab manager's calendar,
+// so it raises an alert carrying enough detail to re-enter by hand.
+//
+// The write goes through submit_equipment_appointment_request_v3, which
+// re-runs every rule this file just applied. That duplication is deliberate:
+// the database is the last line of defence and does not trust its callers.
+if (supabaseIsConfigured()) {
+    $slotStart = trim((string) ($_POST['starts_at'] ?? ''));
+    $slotEnd   = trim((string) ($_POST['ends_at'] ?? ''));
+
+    if ($slotStart === '' || $slotEnd === '') {
+        // The booking form supplies these once the slot picker is in place.
+        error_log('MPCT Supabase skip: no appointment window on ' . $requestReference);
+    } else {
+        try {
+            $spDecode = static fn(?string $v): ?string => $v === null || $v === ''
+                ? null
+                : htmlspecialchars_decode($v, ENT_QUOTES);
+
+            $isCourse = ($categoryMode === 'educational');
+
+            $requestPayload = array_filter([
+                'request_type'         => $isCourse ? 'course' : 'instrument',
+                'first_name'           => $spDecode($firstName),
+                'last_name'            => $spDecode($lastName),
+                'email'                => $spDecode($email),
+                'phone'                => $spDecode($phone),
+                'organization'         => $spDecode($organization),
+                'user_type'            => $userType,
+                'nau_id'               => $spDecode(post('nau_id')),
+                'nau_email'            => $spDecode(post('nau_email')),
+                'department'           => $spDecode(post('department')),
+                'school'               => post('school'),
+                'billing_account'      => $spDecode(post('speed_chart')),
+                'supervisor'           => $spDecode(post('supervisor')),
+                'job_title'            => $spDecode(post('job_title')),
+                'alternative_date'     => $alternative_date !== '' ? $alternative_date : null,
+                'preferred_time'       => $preferred_time !== '' ? $preferred_time : null,
+                'requested_duration'   => $estimated_duration !== '' ? $estimated_duration : null,
+                'purpose_of_use'       => $spDecode($isCourse ? post('class_use') : $purpose_of_use),
+                'sample_description'   => $isCourse ? null : $spDecode($sample_description),
+                'training_needed'      => trainingNeededForDb($training_needed),
+                'lab_assistance'       => $lab_assistance !== '' ? $lab_assistance : 'self_service',
+                'special_requirements' => $spDecode($isCourse ? post('edu_notes') : $special_requirements),
+                'billing_acknowledged' => true,
+            ], static fn($value): bool => $value !== null && $value !== '');
+
+            // Always sent, even when empty, so the database stores the right
+            // JSON type rather than falling back to its column default.
+            $requestPayload['technical_details'] = (object) $technicalDetails;
+            $requestPayload['operating_modes']   = $operatingModes;
+            $requestPayload['course_details']    = (object) ($isCourse ? array_filter([
+                'course_number'    => $spDecode(post('course_number')),
+                'course_name'      => $spDecode(post('course_name')),
+                'instructor_name'  => $spDecode(post('instructor_name')),
+                'instructor_email' => $spDecode(post('instructor_email')),
+                'group_size'       => $spDecode(post('group_size')),
+                'semester'         => post('semester'),
+                'sessions_needed'  => $spDecode(post('sessions_needed')),
+                'session_duration' => post('session_duration'),
+            ], static fn($value): bool => $value !== null && $value !== '') : []);
+
+            $result = supabaseRpc('submit_equipment_appointment_request_v3', [
+                'p_client_request_id'   => $clientRequestId,
+                'p_source_equipment_id' => htmlspecialchars_decode(post('equipment_id'), ENT_QUOTES),
+                'p_request'             => $requestPayload,
+                'p_starts_at'           => $slotStart,
+                'p_ends_at'             => $slotEnd,
+                'p_request_source'      => SUPABASE_REQUEST_SOURCE,
+                'p_source_reference'    => $requestReference,
+                'p_form_secret'         => SUPABASE_INTAKE_SECRET,
+            ]);
+
+            if (!is_array($result) || empty($result['appointment_request_id'])) {
+                throw new RuntimeException('Supabase returned no appointment id');
+            }
+        } catch (Throwable $e) {
+            error_log('MPCT Supabase Booking Sync Error: ' . $e->getMessage());
+            notifySyncFailure('Supabase', 'Equipment Reservation', $e, [
+                'reference'       => $requestReference,
+                'submitter_name'  => $fullName,
+                'submitter_email' => $email,
+                'equipment'       => $equipmentLabel ?? '',
+                'category'        => $category ?? '',
+                'window'          => $slotStart . ' → ' . $slotEnd,
+            ]);
+        }
+    }
 }
