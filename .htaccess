@@ -11,9 +11,31 @@
     RewriteRule (^|/)get_oauth_token\.php$ - [F,L]
 </IfModule>
 
+# Block the archived copies of the pre-Supabase booking flow. They are kept
+# readable in the repository for reference but must never be served: a
+# reachable copy is a second live form still posting to SharePoint.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^Archive/ - [F,L]
+</IfModule>
+
 # Basic security headers (HSTS is configured separately on production).
 <IfModule mod_headers.c>
     Header always set X-Content-Type-Options "nosniff"
     Header always set X-Frame-Options "SAMEORIGIN"
     Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+    # The booking page reads the equipment catalog and slot availability from
+    # Supabase over XHR. connect-src is what permits that; everything else is
+    # deliberately kept to this origin. Turnstile needs its own script and
+    # frame origins, and Font Awesome and Google Fonts are already in use
+    # across the site, so they are listed rather than dropped.
+    Header always set Content-Security-Policy "default-src 'self'; \
+script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com https://cdnjs.cloudflare.com https://www.googletagmanager.com; \
+style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; \
+font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com data:; \
+img-src 'self' data: https:; \
+connect-src 'self' https://tqwdwlfwapfpbptisrtp.supabase.co https://www.google-analytics.com; \
+frame-src https://challenges.cloudflare.com; \
+object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'"
 </IfModule>

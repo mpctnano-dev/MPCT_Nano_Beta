@@ -431,7 +431,7 @@
 
     // Load data first so dropdowns and URL preselection have the catalog available.
     document.addEventListener('DOMContentLoaded', async () => {
-        await Promise.all([loadEquipmentData(), loadRatesData()]);
+        await Promise.all([loadEquipmentData(), loadRatesData(), loadBookingCatalog()]);
         populateCategoryDropdown();
         populateEquipmentPicker();
         showNoEquipmentChosen();
@@ -676,11 +676,36 @@
         });
     }
 
+    // Bookability comes from the database, which is the thing that actually
+    // accepts or refuses a reservation. equipment.json only decides what the
+    // catalog page advertises, so an instrument can be listed there as not yet
+    // available and still be bookable from this page. If the database cannot
+    // be reached we fall back to the catalog file.
+    function isBookable(item) {
+        if (bookingCatalog && bookingCatalog[item.id]) {
+            return bookingCatalog[item.id].bookable;
+        }
+        return item.status === 'AVAILABLE';
+    }
+
+    // Pull the bookable list once, then redraw whatever is already on screen.
+    async function loadBookingCatalog() {
+        if (!(window.MPCT && MPCT.SupabaseRead && MPCT.SupabaseRead.isAvailable())) return;
+
+        try {
+            bookingCatalog = await MPCT.SupabaseRead.loadCatalog();
+        } catch (err) {
+            bookingCatalog = null;
+        }
+    }
+
     // The phone picker: every instrument in one native select, grouped by
     // category so the list is scannable without a search box.
     function populateEquipmentPicker() {
         const sel = document.getElementById('bkEquipmentPicker');
         if (!sel) return;
+
+        sel.querySelectorAll('optgroup').forEach(g => g.remove());
 
         const byCategory = {};
         equipmentData.forEach(item => {
@@ -694,7 +719,7 @@
             byCategory[category]
                 .sort((a, b) => a.name.localeCompare(b.name))
                 .forEach(item => {
-                    const bookable = item.status === 'AVAILABLE';
+                    const bookable = isBookable(item);
                     const opt = document.createElement('option');
                     opt.value = item.id;
                     opt.textContent = bookable ? item.name : item.name + ' (unavailable)';
@@ -738,7 +763,7 @@
         }
 
         list.innerHTML = matches.map(item => {
-            const bookable = item.status === 'AVAILABLE';
+            const bookable = isBookable(item);
             const state = bookable ? 'Available' : (item.status === 'EXPECTED' ? 'Expected' : 'Unavailable');
             return `
             <button type="button" role="listitem"
@@ -1034,17 +1059,13 @@
             card.innerHTML = `
                 <div class="bk-info-header">
                     <div class="bk-info-meta">
-                        <span class="badge badge-blue">Educational</span>
                         <h3 class="bk-info-name">${esc(item.name)}</h3>
-                    </div>
-                    <div class="bk-info-status">
-                        <i class="fas fa-graduation-cap" style="color: var(--nau-blue);"></i>
-                        <span class="bk-status-label">Course Use Only</span>
+                        <span class="badge badge-blue">Educational</span>
                     </div>
                 </div>
                 <div class="bk-info-alert bk-info-alert--educational">
-                    <i class="fas fa-info-circle"></i>
-                    <div><strong>Educational Equipment</strong><br>This equipment is reserved for NAU coursework. Complete the course request form below to arrange access for your class.</div>
+                    <i class="fas fa-graduation-cap"></i>
+                    <div><strong>Reserved for coursework.</strong> Complete the course request below and the lab will arrange access for your class.</div>
                 </div>`;
             card.style.display = 'block';
             return;
@@ -1057,7 +1078,7 @@
             : '';
 
         let alertHtml = '';
-        if (item.status !== 'AVAILABLE') {
+        if (!isBookable(item)) {
             const dateStr = item.expectedDate ? ` Expected: ${formatDate(item.expectedDate)}.` : '';
             alertHtml = `
                 <div class="bk-info-alert bk-info-alert--warning">
@@ -1070,15 +1091,12 @@
         card.innerHTML = `
             <div class="bk-info-header">
                 <div class="bk-info-meta">
-                    <span class="badge ${badgeClass}">${esc(item.category)}</span>
                     <h3 class="bk-info-name">${esc(item.name)}</h3>
+                    <span class="badge ${badgeClass}">${esc(item.category)}</span>
                 </div>
-                <div class="bk-info-status">
-                    <span class="status-dot ${cls}"></span>
-                    <div class="bk-status-text">
-                        <span class="bk-status-label">${esc(label)}</span>
-                        <span class="bk-status-sub">${esc(sub)}</span>
-                    </div>
+                <div class="bk-info-status bk-info-status--${cls}">
+                    <span class="bk-status-label">${esc(label)}</span>
+                    <span class="bk-status-sub">${esc(sub)}</span>
                 </div>
             </div>
             ${accsHtml}
@@ -1089,7 +1107,7 @@
     }
 
     function getStatusInfo(item) {
-        if (item.status === 'AVAILABLE') {
+        if (isBookable(item)) {
             return { cls: 'available', label: 'Available Now', sub: 'Ready to reserve' };
         }
         if (item.status === 'EXPECTED') {

@@ -24018,3 +24018,63 @@ body.workforce-development-page {
         align-self: flex-start;
     }
 }
+
+/* Selected instrument inside section 1: name leads, category follows, and a
+   single status reading rather than a dot label plus a heading. */
+.pf__section .bk-info-header {
+    align-items: center;
+}
+
+.pf__section .bk-info-meta {
+    align-items: baseline;
+    gap: 12px;
+    min-width: 0;
+}
+
+.pf__section .bk-info-name {
+    font-size: 1.15rem;
+}
+
+.pf__section .bk-info-status {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+    text-align: right;
+}
+
+.pf__section .bk-status-label {
+    font-size: 0.86rem;
+    font-weight: 700;
+}
+
+.pf__section .bk-info-status--available .bk-status-label { color: #1b5e20; }
+.pf__section .bk-info-status--expected  .bk-status-label { color: #8a6100; }
+.pf__section .bk-info-status--busy      .bk-status-label { color: var(--gray-600); }
+
+.pf__section .bk-info-alert {
+    margin-top: 18px;
+}
+
+.pf__section .bk-info-alert i {
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.pf__section .bk-info-accessories {
+    margin-top: 14px;
+    align-items: flex-start;
+    line-height: 1.5;
+}
+
+.pf__section .bk-info-accessories i {
+    margin-top: 3px;
+    flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+    .pf__section .bk-info-status {
+        align-items: flex-start;
+        text-align: left;
+    }
+}
