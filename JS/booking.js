@@ -433,6 +433,7 @@
     document.addEventListener('DOMContentLoaded', async () => {
         await Promise.all([loadEquipmentData(), loadRatesData()]);
         populateCategoryDropdown();
+        populateEquipmentPicker();
         showNoEquipmentChosen();
         renderCatalog();
         refreshAvailability();
@@ -675,6 +676,36 @@
         });
     }
 
+    // The phone picker: every instrument in one native select, grouped by
+    // category so the list is scannable without a search box.
+    function populateEquipmentPicker() {
+        const sel = document.getElementById('bkEquipmentPicker');
+        if (!sel) return;
+
+        const byCategory = {};
+        equipmentData.forEach(item => {
+            (byCategory[item.category] = byCategory[item.category] || []).push(item);
+        });
+
+        Object.keys(byCategory).sort().forEach(category => {
+            const group = document.createElement('optgroup');
+            group.label = category;
+
+            byCategory[category]
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .forEach(item => {
+                    const bookable = item.status === 'AVAILABLE';
+                    const opt = document.createElement('option');
+                    opt.value = item.id;
+                    opt.textContent = bookable ? item.name : item.name + ' (unavailable)';
+                    opt.disabled = !bookable;
+                    group.appendChild(opt);
+                });
+
+            sel.appendChild(group);
+        });
+    }
+
     // Instruments matching the current search box and category filter.
     function catalogMatches() {
         const q   = ((document.getElementById('bkSearch') || {}).value || '').trim().toLowerCase();
@@ -689,6 +720,9 @@
     // Draw the catalog. Equipment the lab is not currently accepting bookings
     // for is listed but not selectable, so people can still see it exists.
     function renderCatalog() {
+        const picker = document.getElementById('bkEquipmentPicker');
+        if (picker) picker.value = (document.getElementById('bk_equipment_id') || {}).value || '';
+
         const list  = document.getElementById('bkCatalogList');
         const count = document.getElementById('bkCatalogCount');
         if (!list) return;
@@ -741,6 +775,20 @@
 
         if (catSel) catSel.addEventListener('change', renderCatalog);
         if (search) search.addEventListener('input', renderCatalog);
+
+        const picker = document.getElementById('bkEquipmentPicker');
+        if (picker) {
+            picker.addEventListener('change', () => {
+                const item = equipmentData.find(i => i.id === picker.value);
+                if (!item) return;
+
+                onEquipmentChange(item);
+                renderCatalog();
+
+                const err = document.getElementById('err_equipment');
+                if (err) err.style.display = 'none';
+            });
+        }
 
         if (list) {
             list.addEventListener('click', (ev) => {

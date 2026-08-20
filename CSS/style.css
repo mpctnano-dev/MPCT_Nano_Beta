@@ -23964,3 +23964,57 @@ body.workforce-development-page {
 .bk-catalog__list::-webkit-scrollbar-track {
     background: transparent;
 }
+
+/* The selected instrument sits inside section 1, which is already a bordered
+   panel. Drop the standalone card treatment it inherits from .bk-info-card so
+   it reads as content in the section rather than a card within a card. */
+.pf__section .bk-info-card {
+    border: 0;
+    border-left: 0;
+    border-radius: 0;
+    box-shadow: none;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Phone picker replaces the search box, category filter and card list. */
+.bk-catalog__compact {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .bk-catalog {
+        padding: 16px;
+    }
+
+    .bk-catalog__head {
+        margin-bottom: 12px;
+    }
+
+    .bk-catalog__title {
+        font-size: 1rem;
+    }
+
+    .bk-catalog__compact {
+        display: block;
+    }
+
+    .bk-catalog__filters,
+    .bk-catalog__list {
+        display: none;
+    }
+}
+
+/* On a phone the instrument name and its status compete for one line, so
+   let the status sit under the name instead of beside it. */
+@media (max-width: 768px) {
+    .pf__section .bk-info-header {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .pf__section .bk-info-status {
+        align-self: flex-start;
+    }
+}

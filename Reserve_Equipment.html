@@ -54,13 +54,22 @@
                         <span class="bk-catalog__count" id="bkCatalogCount"></span>
                     </div>
 
+                    <!-- Phones get a single native picker instead of a search box,
+                         a category filter and a scrolling list of cards. -->
+                    <div class="bk-catalog__compact">
+                        <label class="pf__label" for="bkEquipmentPicker">Instrument <span class="pf__req">*</span></label>
+                        <select id="bkEquipmentPicker" class="pf__select" autocomplete="off">
+                            <option value="">Choose an instrument&hellip;</option>
+                        </select>
+                    </div>
+
                     <div class="bk-catalog__filters">
                         <label class="pf__label" for="bkSearch">Search</label>
                         <input type="search" id="bkSearch" class="pf__input" autocomplete="off"
                             placeholder="Instrument name or EQ number">
 
                         <label class="pf__label" for="bkCategory">Category</label>
-                        <select id="bkCategory" class="pf__select">
+                        <select id="bkCategory" class="pf__select" autocomplete="off">
                             <option value="">All categories</option>
                         </select>
                     </div>
