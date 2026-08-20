@@ -2,11 +2,11 @@
 /*
  * includes/sharepoint_alert.php
  *
- * Sends an email to the lab whenever SharePoint sync fails on any form
- * (Service Request, Equipment Reservation, Inquiry). The user has already
- * received their success email at this point — SharePoint logging runs
- * non-blocking — so this alert is purely an internal heads-up that the
- * SharePoint side of the pipeline is broken and needs to be checked.
+ * Sends an email to the lab whenever a downstream write fails on any form
+ * (Service Request, Equipment Reservation, Inquiry). Both SharePoint and the
+ * Supabase reservation write run non-blocking, so the user already has their
+ * success email by this point — this alert is purely an internal heads-up
+ * that one side of the pipeline is broken and needs to be checked.
  *
  * Recipients are LAB_EMAIL + DEV_SUPP_CC_LIST from mpact_config.php.
  * Toggle SHAREPOINT_ALERT_ENABLED in the config to silence these
@@ -23,14 +23,38 @@ define('MPCT_SP_ALERT_LOADED', true);
 
 
 /*
- * Send an alert email for a SharePoint failure.
+ * Remediation guidance per downstream system. Each entry is the sentence
+ * pair shown in the alert: what the failure means, and what to do about it.
+ */
+function syncFailureRemediation(string $system): array
+{
+    $map = [
+        'SharePoint' => [
+            'A submission was processed and the user was notified by email, but logging the record to SharePoint did not succeed.',
+            'This may be temporary (transient auth or network blip). Check the relevant SharePoint list shortly to confirm whether the record appeared on a delayed retry. If it has not, this submission must be entered into SharePoint manually using the snapshot in this alert — manual backfill is the agreed fallback whenever SharePoint sync fails.',
+        ],
+        'Supabase' => [
+            'A reservation was processed and the user was notified by email, but writing the record to the LIMS database did not succeed.',
+            'The request is not on the LIMS calendar, so the lab manager will not see it and the slot is not held. Check the reservation list shortly in case a delayed retry succeeded. If it has not appeared, re-enter the reservation in LIMS using the snapshot in this alert.',
+        ],
+    ];
+
+    return $map[$system] ?? [
+        'A submission was processed and the user was notified by email, but the downstream write did not succeed.',
+        'Check the target system shortly in case a delayed retry succeeded. If it has not, re-enter the record manually using the snapshot in this alert.',
+    ];
+}
+
+
+/*
+ * Send an alert email for a downstream sync failure.
  *
+ *   $system   — which downstream write failed: 'SharePoint' or 'Supabase'.
  *   $formType — short label that goes in the subject line, e.g.
  *               'Service Request', 'Equipment Reservation', 'Inquiry'.
- *   $e        — the Exception caught around the SharePoint block.
- *               $e->getMessage() already names the failure stage
- *               ('SharePoint auth failed', 'SharePoint list insert
- *               failed: ...', etc.) since each throw site is labeled.
+ *   $e        — the Exception caught around the sync block. $e->getMessage()
+ *               already names the failure stage since each throw site is
+ *               labeled.
  *   $context  — optional associative array of extra fields to surface
  *               in the email (submitter name, email, request ID, etc.).
  *               Anything in here gets rendered as a key/value table.
@@ -39,7 +63,7 @@ define('MPCT_SP_ALERT_LOADED', true);
  * disabled. Never throws — the caller is already inside a catch and
  * we don't want to mask the original error.
  */
-function notifySharePointFailure(string $formType, Throwable $e, array $context = []): bool
+function notifySyncFailure(string $system, string $formType, Throwable $e, array $context = []): bool
 {
     if (defined('SHAREPOINT_ALERT_ENABLED') && SHAREPOINT_ALERT_ENABLED === false) {
         return false;
@@ -53,23 +77,34 @@ function notifySharePointFailure(string $formType, Throwable $e, array $context 
         $prefix = defined('SHAREPOINT_ALERT_SUBJECT_PREFIX')
             ? SHAREPOINT_ALERT_SUBJECT_PREFIX
             : '[MPaCT Alert]';
-        $mail->Subject = trim($prefix . ' SharePoint sync failed — ' . $formType);
+        $mail->Subject = trim($prefix . ' ' . $system . ' sync failed — ' . $formType);
 
-        $mail->Body    = buildSharePointAlertHtml($formType, $e, $context);
-        $mail->AltBody = buildSharePointAlertText($formType, $e, $context);
+        $mail->Body    = buildSharePointAlertHtml($formType, $e, $context, $system);
+        $mail->AltBody = buildSharePointAlertText($formType, $e, $context, $system);
 
         return (bool) $mail->send();
     } catch (Throwable $alertError) {
-        // Don't let a broken alert path mask the original SharePoint error.
-        error_log('MPCT SharePoint alert email failed: ' . $alertError->getMessage());
+        // Don't let a broken alert path mask the original sync error.
+        error_log('MPCT ' . $system . ' alert email failed: ' . $alertError->getMessage());
         return false;
     }
 }
 
 
-/* HTML body — table layout that mirrors the form notification emails. */
-function buildSharePointAlertHtml(string $formType, Throwable $e, array $context): string
+/* Existing call sites keep working unchanged. */
+function notifySharePointFailure(string $formType, Throwable $e, array $context = []): bool
 {
+    return notifySyncFailure('SharePoint', $formType, $e, $context);
+}
+
+
+/* HTML body — table layout that mirrors the form notification emails. */
+function buildSharePointAlertHtml(string $formType, Throwable $e, array $context, string $system = 'SharePoint'): string
+{
+    [$summary, $advice] = syncFailureRemediation($system);
+    $summary   = htmlspecialchars($summary, ENT_QUOTES, 'UTF-8');
+    $advice    = htmlspecialchars($advice, ENT_QUOTES, 'UTF-8');
+    $sysLabel  = htmlspecialchars($system, ENT_QUOTES, 'UTF-8');
     $when      = date('Y-m-d H:i:s T');
     $stage     = htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
     $where     = htmlspecialchars($e->getFile() . ':' . $e->getLine(), ENT_QUOTES, 'UTF-8');
@@ -93,13 +128,13 @@ function buildSharePointAlertHtml(string $formType, Throwable $e, array $context
          . '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f4;padding:24px 0;"><tr><td align="center">'
          . '<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:6px;overflow:hidden;border:1px solid #e3e3e3;">'
          . '<tr><td style="background:#7a0019;color:#ffffff;padding:18px 24px;font-size:18px;font-weight:bold;">'
-         . '<img src="cid:naulogo" alt="NAU" style="height:28px;vertical-align:middle;margin-right:10px;border:0;"> SharePoint Sync Failed'
+         . '<img src="cid:naulogo" alt="NAU" style="height:28px;vertical-align:middle;margin-right:10px;border:0;"> ' . $sysLabel . ' Sync Failed'
          . '</td></tr>'
          . '<tr><td style="padding:24px;font-size:14px;line-height:1.55;">'
-         . '<p style="margin:0 0 14px 0;">A submission was processed and the user was notified by email, but logging the record to SharePoint did <strong>not</strong> succeed. The data below shows the failure reason and a snapshot of the submission so the team can re-run or backfill it manually.</p>'
+         . '<p style="margin:0 0 14px 0;">' . $summary . ' The data below shows the failure reason and a snapshot of the submission so the team can re-run or backfill it manually.</p>'
          . '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 16px 0; background:#fff8e1; border-left:4px solid #FFC627; border-radius:4px;">'
          . '<tr><td style="padding:12px 14px; font-size:13px; color:#5a4500; line-height:1.55;">'
-         . '<strong style="color:#7a0019;">Note:</strong> This SharePoint failure may be temporary (transient auth or network blip). Please check the relevant SharePoint list shortly to confirm whether the record appeared on a delayed retry. <strong>If it has not</strong>, this submission must be entered into SharePoint manually using the snapshot below — manual backfill is the agreed fallback whenever SharePoint sync fails.'
+         . '<strong style="color:#7a0019;">Note:</strong> ' . $advice
          . '</td></tr></table>'
          . '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;font-size:13px;">'
          . $rows
@@ -121,10 +156,11 @@ function alertRow(string $label, string $value): string
 
 
 /* Plain-text fallback for clients that don't render HTML. */
-function buildSharePointAlertText(string $formType, Throwable $e, array $context): string
+function buildSharePointAlertText(string $formType, Throwable $e, array $context, string $system = 'SharePoint'): string
 {
+    [$summary, $advice] = syncFailureRemediation($system);
     $lines   = [];
-    $lines[] = 'SharePoint Sync Failed';
+    $lines[] = $system . ' Sync Failed';
     $lines[] = str_repeat('-', 40);
     $lines[] = 'Form:    ' . $formType;
     $lines[] = 'When:    ' . date('Y-m-d H:i:s T');
@@ -135,13 +171,8 @@ function buildSharePointAlertText(string $formType, Throwable $e, array $context
         $lines[] = ucwords(str_replace('_', ' ', (string) $key)) . ': ' . (string) $val;
     }
     $lines[] = '';
-    $lines[] = 'A submission was processed and the user was notified, but the SharePoint';
-    $lines[] = 'log step failed. Re-run or backfill the record manually.';
+    $lines[] = wordwrap($summary, 76);
     $lines[] = '';
-    $lines[] = 'NOTE: This may be temporary (transient auth/network). Please check the';
-    $lines[] = 'relevant SharePoint list shortly to confirm whether the record appeared';
-    $lines[] = 'on a delayed retry. If it has not, this submission must be entered into';
-    $lines[] = 'SharePoint manually using the snapshot above — manual backfill is the';
-    $lines[] = 'agreed fallback whenever SharePoint sync fails.';
+    $lines[] = 'NOTE: ' . wordwrap($advice, 76);
     return implode("\n", $lines);
 }
