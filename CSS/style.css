@@ -23673,91 +23673,57 @@ body.workforce-development-page {
     }
 }
 
-/* Booking slot picker — half-hour blocks between 8:00 AM and 5:00 PM. */
-.bk-slots {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
-    gap: var(--space-sm);
-    margin-top: var(--space-sm);
-}
+/* ==========================================================================
+   Reserve Equipment — instrument catalog and session-time picker
+   Follows the .pf__ form conventions above so these panels read as part of
+   the same form rather than as a bolted-on widget.
+   ========================================================================== */
 
-.bk-slot {
-    font: inherit;
-    font-size: 0.85rem;
-    padding: 10px 6px;
-    border: 1px solid var(--gray-300);
-    border-radius: var(--radius-sm);
-    background: #fff;
-    color: var(--nau-blue);
-    cursor: pointer;
-    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
-}
-
-.bk-slot:hover:not(:disabled) {
-    border-color: var(--nau-blue);
-    background: var(--gray-50);
-}
-
-.bk-slot:focus-visible {
-    outline: 2px solid var(--nau-gold);
-    outline-offset: 2px;
-}
-
-.bk-slot.is-selected {
-    background: var(--nau-blue);
-    border-color: var(--nau-blue);
-    color: #fff;
-    font-weight: 600;
-}
-
-.bk-slot.is-taken,
-.bk-slot:disabled {
-    background: var(--gray-100);
-    border-color: var(--gray-200);
-    color: var(--gray-400);
-    cursor: not-allowed;
-    text-decoration: line-through;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .bk-slot { transition: none; }
-}
-
-/* Booking page: instrument catalog beside the form. */
 .bk-layout {
     display: grid;
-    grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
-    gap: var(--space-xl);
+    grid-template-columns: minmax(280px, 340px) minmax(0, 1fr);
+    gap: var(--space-lg);
     align-items: start;
-    max-width: 1280px;
+    max-width: 1240px;
     margin: 0 auto;
     padding: 0 var(--space-lg);
 }
 
+/* Inside the two-column layout the form no longer centres itself. */
+.bk-layout .bk-form-wrap {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* ---- Catalog panel ---- */
+
 .bk-catalog {
-    position: sticky;
-    top: 96px;
-    background: #fff;
     border: 1px solid var(--gray-200);
     border-radius: var(--radius-md);
-    padding: var(--space-lg);
+    background: var(--white);
+    padding: 24px 20px;
+    position: sticky;
+    top: 88px;
     display: flex;
     flex-direction: column;
-    gap: var(--space-sm);
-    max-height: calc(100vh - 128px);
+    max-height: calc(100vh - 112px);
 }
 
 .bk-catalog__head {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    gap: var(--space-sm);
+    gap: 10px;
+    margin-bottom: 16px;
 }
 
 .bk-catalog__title {
-    font-size: 1.05rem;
-    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.1rem;
     color: var(--nau-blue);
+    margin: 0;
 }
 
 .bk-catalog__count {
@@ -23769,28 +23735,46 @@ body.workforce-development-page {
 .bk-catalog__filters {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    margin-bottom: 4px;
 }
 
+.bk-catalog__filters .pf__label {
+    display: block;
+}
+
+.bk-catalog__filters .pf__label + * {
+    margin-bottom: 14px;
+}
+
+/* min-height:0 lets this flex child actually shrink, which is what allows
+   it to scroll instead of forcing the panel taller than the viewport. */
 .bk-catalog__list {
+    flex: 1 1 auto;
+    min-height: 0;
     overflow-y: auto;
+    /* Keep the scrollbar visible: macOS hides overlay scrollbars until you
+       scroll, which makes a clipped list look like a rendering fault. */
+    scrollbar-width: thin;
+    scrollbar-color: var(--gray-300) transparent;
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    margin-top: var(--space-sm);
-    padding-right: 4px;
+    gap: 8px;
+    padding: 4px 6px 4px 0;
+    border-top: 1px solid var(--gray-100);
+    margin-top: 8px;
 }
 
 .bk-catalog__item {
     font: inherit;
     text-align: left;
     display: grid;
-    gap: 2px;
+    gap: 4px;
+    width: 100%;
     padding: 10px 12px;
     border: 1px solid var(--gray-200);
     border-left: 3px solid transparent;
     border-radius: var(--radius-sm);
-    background: #fff;
+    background: var(--white);
     cursor: pointer;
     transition: border-color 0.15s ease, background 0.15s ease;
 }
@@ -23801,7 +23785,7 @@ body.workforce-development-page {
 }
 
 .bk-catalog__item:focus-visible {
-    outline: 2px solid var(--nau-gold);
+    outline: 2px solid var(--nau-blue);
     outline-offset: 2px;
 }
 
@@ -23810,58 +23794,173 @@ body.workforce-development-page {
     background: var(--gray-50);
 }
 
-.bk-catalog__item.is-locked,
 .bk-catalog__item:disabled {
     cursor: not-allowed;
-    opacity: 0.55;
+    background: var(--gray-50);
+}
+
+.bk-catalog__item:disabled .bk-catalog__name {
+    color: var(--gray-500);
 }
 
 .bk-catalog__name {
+    font-family: var(--font-body);
     font-weight: 600;
     font-size: 0.9rem;
-    color: var(--nau-blue);
     line-height: 1.3;
+    color: var(--nau-blue);
+}
+
+.bk-catalog__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
 }
 
 .bk-catalog__meta {
-    font-size: 0.74rem;
+    font-size: 0.76rem;
     color: var(--gray-500);
 }
 
 .bk-catalog__state {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     font-weight: 700;
-    letter-spacing: 0.04em;
     text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 3px 8px;
+    border-radius: 12px;
+    white-space: nowrap;
 }
 
-.bk-catalog__state--ok  { color: #1b7f5e; }
-.bk-catalog__state--off { color: var(--gray-500); }
+.bk-catalog__state--ok  { background: #e8f5e9; color: #1b5e20; }
+.bk-catalog__state--off { background: var(--gray-100); color: var(--gray-600); }
 
 .bk-catalog__empty {
     font-size: 0.85rem;
     color: var(--gray-500);
-    padding: var(--space-md) 0;
+    padding: 16px 4px;
     margin: 0;
 }
 
+.bk-selected--empty {
+    border: 1px dashed var(--gray-300);
+    border-radius: var(--radius-sm);
+    padding: 4px 16px;
+    background: var(--gray-50);
+}
+
 .bk-selected:focus-visible {
-    outline: 2px solid var(--nau-gold);
+    outline: 2px solid var(--nau-blue);
     outline-offset: 4px;
 }
 
-@media (max-width: 900px) {
+/* ---- Session time ---- */
+
+.bk-slots {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.bk-slot {
+    font-family: var(--font-body);
+    font-size: 0.84rem;
+    font-weight: 500;
+    padding: 11px 6px;
+    min-height: 44px;
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius-sm);
+    background: var(--white);
+    color: var(--nau-blue);
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.bk-slot:hover:not(:disabled) {
+    border-color: var(--nau-blue);
+    background: var(--gray-50);
+}
+
+.bk-slot:focus-visible {
+    outline: 2px solid var(--nau-blue);
+    outline-offset: 2px;
+}
+
+.bk-slot.is-selected {
+    background: var(--nau-blue);
+    border-color: var(--nau-blue);
+    color: var(--white);
+    font-weight: 600;
+}
+
+.bk-slot:disabled {
+    cursor: not-allowed;
+    background: var(--gray-50);
+    border-color: var(--gray-200);
+    color: var(--gray-400);
+}
+
+.bk-slot.is-taken {
+    text-decoration: line-through;
+}
+
+/* ---- Tablet and below: the catalog stacks above the form ---- */
+
+@media (max-width: 1024px) {
     .bk-layout {
         grid-template-columns: 1fr;
+        gap: var(--space-md);
         padding: 0 var(--space-md);
     }
 
     .bk-catalog {
         position: static;
-        max-height: 420px;
+        max-height: none;
+    }
+
+    /* Cap the list itself, not the panel, so the header and filters always
+       stay visible and the rows are never clipped mid-card. */
+    .bk-catalog__list {
+        max-height: 46vh;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        align-content: start;
+    }
+}
+
+@media (max-width: 600px) {
+    .bk-catalog {
+        padding: 20px 16px;
+    }
+
+    .bk-catalog__list {
+        max-height: 52vh;
+        grid-template-columns: 1fr;
+    }
+
+    .bk-slots {
+        grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .bk-catalog__item { transition: none; }
+    .bk-catalog__item,
+    .bk-slot {
+        transition: none;
+    }
+}
+
+.bk-catalog__list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.bk-catalog__list::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 4px;
+}
+
+.bk-catalog__list::-webkit-scrollbar-track {
+    background: transparent;
 }

@@ -40,6 +40,7 @@
 
     let selectedSlots  = [];
     let takenSlots     = new Set();
+    let slotsEnabled   = false;
     let bookingCatalog = null;
 
     function slotIsValid(minute) {
@@ -122,7 +123,7 @@
 
             btn.classList.toggle('is-taken', taken);
             btn.classList.toggle('is-selected', selected);
-            btn.disabled = taken;
+            btn.disabled = taken || !slotsEnabled;
             btn.setAttribute('aria-pressed', selected ? 'true' : 'false');
 
             if (taken) {
@@ -189,17 +190,22 @@
 
         selectedSlots = [];
         takenSlots = new Set();
+        slotsEnabled = false;
+        renderSlotGrid();
         syncScheduleFields();
 
         if (!eqId || !dateVal) {
-            renderSlotGrid();
-            setSlotStatus('Choose equipment and a date to see available times.');
+            setSlotStatus(eqId
+                ? 'Pick a date to see which hours are free.'
+                : 'Choose an instrument, then a date, to see which hours are free.');
             return;
         }
 
+        slotsEnabled = true;
+
         if (!(window.MPCT && MPCT.SupabaseRead && MPCT.SupabaseRead.isAvailable())) {
-            renderSlotGrid();
-            setSlotStatus('Select the hours you need. Availability is confirmed by lab staff.');
+            paintSlots();
+            setSlotStatus('Select the hours you need. Lab staff confirm the final time.');
             return;
         }
 
@@ -210,19 +216,20 @@
             const row = bookingCatalog[eqId];
 
             if (!row) {
-                renderSlotGrid();
-                setSlotStatus('This instrument is not currently open for online booking. Please contact the lab.');
+                slotsEnabled = false;
+                paintSlots();
+                setSlotStatus('This instrument is not open for online booking. Please contact the lab.');
                 return;
             }
 
             takenSlots = await MPCT.SupabaseRead.loadTakenSlots(row.bookingId, dateVal);
-            renderSlotGrid();
+            paintSlots();
             setSlotStatus(takenSlots.size
-                ? 'Select the hours you need. Greyed times are already booked.'
-                : 'Select the hours you need. Nothing is booked on this date yet.');
+                ? 'Select the hours you need. Crossed-out times are already booked.'
+                : 'Select the hours you need. This date is completely free.');
         } catch (err) {
-            renderSlotGrid();
-            setSlotStatus('Live availability is unavailable right now. Select the hours you need and staff will confirm.');
+            paintSlots();
+            setSlotStatus('Live availability could not be checked. Select the hours you need and staff will confirm.');
         }
     }
 
@@ -426,7 +433,9 @@
     document.addEventListener('DOMContentLoaded', async () => {
         await Promise.all([loadEquipmentData(), loadRatesData()]);
         populateCategoryDropdown();
+        showNoEquipmentChosen();
         renderCatalog();
+        refreshAvailability();
         readUrlParams();
         bindEvents();
 
@@ -702,8 +711,10 @@
                 class="bk-catalog__item${item.id === selected ? ' is-selected' : ''}${bookable ? '' : ' is-locked'}"
                 data-equipment="${esc(item.id)}"${bookable ? '' : ' disabled'}>
                 <span class="bk-catalog__name">${esc(item.name)}</span>
-                <span class="bk-catalog__meta">${esc(item.id)} \u00b7 ${esc(item.category)}</span>
-                <span class="bk-catalog__state bk-catalog__state--${bookable ? 'ok' : 'off'}">${state}</span>
+                <span class="bk-catalog__row">
+                    <span class="bk-catalog__meta">${esc(item.id)} \u00b7 ${esc(item.category)}</span>
+                    <span class="bk-catalog__state bk-catalog__state--${bookable ? 'ok' : 'off'}">${state}</span>
+                </span>
             </button>`;
         }).join('');
     }
@@ -929,8 +940,6 @@
         setHidden('bk_equipment_category', '');
         setHidden('bk_equipment_status', '');
 
-        const card = document.getElementById('bkSelectedEquipment');
-        if (card) card.style.display = 'none';
 
         const dynFields = document.getElementById('dynamicFields');
         if (dynFields) {
@@ -942,8 +951,19 @@
 
         setFormMode(false);
         disableSubmit(false);
+        showNoEquipmentChosen();
         renderCatalog();
         refreshAvailability();
+    }
+
+    // An empty panel reads as a broken page, so say what to do instead.
+    function showNoEquipmentChosen() {
+        const card = document.getElementById('bkSelectedEquipment');
+        if (!card) return;
+        card.className = 'bk-selected bk-selected--empty';
+        card.style.display = '';
+        card.innerHTML = '<p class="bk-fields-placeholder">'
+            + '<i class="fas fa-circle-info"></i> Choose an instrument from the list to begin.</p>';
     }
 
     // Render the status card above the form for the selected instrument.
