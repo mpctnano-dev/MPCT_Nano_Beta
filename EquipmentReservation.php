@@ -165,6 +165,57 @@ function formatValue(string $raw): string
 }
 
 
+// HELPER: technicalFieldLabels()
+// The technical inputs shown in Section 4 depend on the selected equipment's
+// category, so they cannot live in the fixed $fields map further down. This
+// is the allowlist: a submitted field is only read if it appears here, which
+// keeps a hand-crafted POST from stuffing arbitrary keys into the database.
+function technicalFieldLabels(): array
+{
+    return [
+        // Metrology
+        'sample_type'              => 'Sample Type',
+        'sample_dimensions'        => 'Sample Dimensions',
+        'sample_conductivity'      => 'Conductivity',
+        'vacuum_compatible'        => 'Vacuum Compatible',
+        // Electrical
+        'dut_description'          => 'Device / DUT Description',
+        'temperature_requirements' => 'Temperature Requirements',
+        'atmosphere_requirements'  => 'Atmosphere / Environment',
+        // Fabrication
+        'material_type'            => 'Material / Substrate Type',
+        'material_dimensions'      => 'Material Dimensions',
+        'consumables_needed'       => 'Consumables / Special Materials',
+        // Sample Prep
+        'specimen_material'        => 'Specimen Material',
+        'specimen_dimensions'      => 'Specimen Dimensions',
+        'target_thickness'         => 'Target Final Thickness',
+        'processing_type'          => 'Processing Type',
+        'cryogenic_cooling'        => 'Cryogenic Cooling',
+        // Support Systems
+        'quantity_needed'          => 'Quantity / Volume Needed',
+        'container_type'           => 'Container Type',
+    ];
+}
+
+
+// HELPER: technicalIsSelect()
+// formatValue() turns option values like "thin_film" into "Thin Film", which
+// is right for a dropdown and wrong for anything the user typed — it would
+// title-case their prose. Only the fields below are selects or checkboxes.
+function technicalIsSelect(string $key): bool
+{
+    return in_array($key, [
+        'sample_type',
+        'sample_conductivity',
+        'atmosphere_requirements',
+        'processing_type',
+        'vacuum_compatible',
+        'cryogenic_cooling',
+    ], true);
+}
+
+
 // Content validators (enforceMaxLength, validateNumericRange, validateInteger,
 // validateDateInRange, validateNameField, validateTextField, enforceWordLimit,
 // and the containsHtmlTags / containsEmoji / looksLikeMashing primitives) all
@@ -386,6 +437,42 @@ if ($categoryMode === 'educational') {
     }
 }
 
+// Category-specific technical details, collected by allowlist. Each value goes
+// through the same content rules as any other free-text input. These were
+// previously discarded before reaching validation, so this is the first point
+// at which they are checked at all.
+$technicalDetails = [];
+$operatingModes   = [];
+
+if ($categoryMode !== 'educational') {
+    foreach (technicalFieldLabels() as $techKey => $techLabel) {
+        $techValue = trim((string) ($_POST[$techKey] ?? ''));
+        if ($techValue === '') {
+            continue;
+        }
+
+        enforceMaxLength($techKey, 300, $techLabel);
+        validateTextField($techKey, $techLabel);
+        $technicalDetails[$techKey] = $techValue;
+    }
+
+    // booking.js joins the operating-mode checkboxes into one comma string.
+    $modesRaw = trim((string) ($_POST['operating_modes'] ?? ''));
+    if ($modesRaw !== '') {
+        enforceMaxLength('operating_modes', 600, 'Preferred Operating Mode(s)');
+        validateTextField('operating_modes', 'Preferred Operating Mode(s)');
+
+        $operatingModes = array_values(array_filter(
+            array_map('trim', explode(',', $modesRaw)),
+            static fn(string $mode): bool => $mode !== ''
+        ));
+
+        if (count($operatingModes) > 24) {
+            respond(false, 'Too many operating modes were selected.');
+        }
+    }
+}
+
 // Mode-aware display field list for the email table
 if ($categoryMode === 'educational') {
     $fields = [
@@ -427,7 +514,6 @@ if ($categoryMode === 'educational') {
 
         'sample_description'   => 'Sample Description',
         'purpose_of_use'       => 'Purpose of Use',
-        'operating_modes'      => 'Preferred Operating Mode(s)',
 
         'training_needed'      => 'Training Needed',
         'lab_assistance'       => 'Lab Assistance',
@@ -450,6 +536,35 @@ foreach ($fields as $field => $label) {
 
     // Single htmlspecialchars call here — this is the only place we escape.
     // The plain-text version does not need escaping since it's not rendered as HTML.
+    $htmlValue = htmlspecialchars($displayed, ENT_QUOTES, 'UTF-8');
+
+    $detailRows .= "
+        <tr>
+            <td style='padding:10px 16px; font-weight:600; color:#003466; background:#f8f9fa; border-bottom:1px solid #e8e8e8; width:35%; font-size:14px;'>
+                $label
+            </td>
+            <td style='padding:10px 16px; color:#333333; border-bottom:1px solid #e8e8e8; font-size:14px;'>
+                $htmlValue
+            </td>
+        </tr>";
+
+    $plainDetails .= "$label: $displayed\n";
+}
+
+// Technical details are appended after the fixed rows because which ones exist
+// depends on the equipment category. Only the selects go through formatValue();
+// running it over free text would title-case whatever the user typed.
+$technicalRows = $technicalDetails;
+if ($operatingModes) {
+    $technicalRows['operating_modes'] = implode(', ', $operatingModes);
+}
+
+foreach ($technicalRows as $techKey => $techValue) {
+    $label = $techKey === 'operating_modes'
+        ? 'Preferred Operating Mode(s)'
+        : (technicalFieldLabels()[$techKey] ?? ucwords(str_replace('_', ' ', $techKey)));
+
+    $displayed = technicalIsSelect($techKey) ? formatValue($techValue) : $techValue;
     $htmlValue = htmlspecialchars($displayed, ENT_QUOTES, 'UTF-8');
 
     $detailRows .= "
