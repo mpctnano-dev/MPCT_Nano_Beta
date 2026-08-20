@@ -29,15 +29,202 @@
 
     // Rate data is loaded at runtime from rates.json — do not hardcode rates here.
 
-    // Converts the duration select values into billable hours.
-    const DURATION_HOURS = {
-        '30min':     0.5,
-        '1hr':       1,
-        '2hr':       2,
-        '4hr':       4,
-        'full_day':  8,
-        'multi_day': null, // cannot calculate — show note
-    };
+    // ---- Slot picker ------------------------------------------------------
+    // The lab takes bookings in half-hour blocks between 8:00 AM and 5:00 PM
+    // Arizona time, on a single day. Those bounds are enforced by the database
+    // too; mirroring them here just means the user finds out before submitting.
+    const SLOT_OPEN  = 8 * 60;
+    const SLOT_CLOSE = 17 * 60;
+    const SLOT_STEP  = 30;
+    const SLOT_MAX   = 18;
+
+    let selectedSlots  = [];
+    let takenSlots     = new Set();
+    let bookingCatalog = null;
+
+    function slotIsValid(minute) {
+        return Number.isInteger(minute)
+            && minute >= SLOT_OPEN
+            && minute < SLOT_CLOSE
+            && (minute - SLOT_OPEN) % SLOT_STEP === 0;
+    }
+
+    function clockLabel(minute) {
+        const h24 = Math.floor(minute / 60);
+        const mm  = String(minute % 60).padStart(2, '0');
+        const ampm = h24 >= 12 ? 'PM' : 'AM';
+        const h12 = h24 % 12 === 0 ? 12 : h24 % 12;
+        return `${h12}:${mm} ${ampm}`;
+    }
+
+    function clockValue(minute) {
+        return String(Math.floor(minute / 60)).padStart(2, '0') + ':' + String(minute % 60).padStart(2, '0');
+    }
+
+    // Selection stays one contiguous run, because a booking is a single
+    // start/end pair. Clicking an end trims it, clicking inside restarts from
+    // there, and clicking away extends across the gap unless something in
+    // between is already taken.
+    function nextSlotSelection(current, clicked) {
+        if (!slotIsValid(clicked) || takenSlots.has(clicked)) return { slots: current, blocked: true };
+        if (current.length === 0) return { slots: [clicked], blocked: false };
+
+        const index = current.indexOf(clicked);
+        if (index !== -1) {
+            if (current.length === 1) return { slots: [], blocked: false };
+            if (index === 0) return { slots: current.slice(1), blocked: false };
+            if (index === current.length - 1) return { slots: current.slice(0, -1), blocked: false };
+            return { slots: [clicked], blocked: false };
+        }
+
+        const start = Math.min(current[0], clicked);
+        const end   = Math.max(current[current.length - 1], clicked);
+        const range = [];
+        for (let m = start; m <= end; m += SLOT_STEP) range.push(m);
+
+        if (range.some(m => takenSlots.has(m))) return { slots: current, blocked: true };
+        if (range.length > SLOT_MAX) return { slots: current, blocked: true, tooLong: true };
+
+        return { slots: range, blocked: false };
+    }
+
+    // Built once per availability lookup. Selection changes only repaint the
+    // existing buttons — rebuilding them would move keyboard focus off the
+    // control the user just pressed.
+    function renderSlotGrid() {
+        const box = document.getElementById('bkSlots');
+        if (!box) return;
+
+        if (box.childElementCount === 0) {
+            const frag = document.createDocumentFragment();
+            for (let m = SLOT_OPEN; m < SLOT_CLOSE; m += SLOT_STEP) {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'bk-slot';
+                btn.textContent = clockLabel(m);
+                btn.dataset.minute = String(m);
+                frag.appendChild(btn);
+            }
+            box.appendChild(frag);
+        }
+
+        paintSlots();
+    }
+
+    function paintSlots() {
+        const box = document.getElementById('bkSlots');
+        if (!box) return;
+
+        box.querySelectorAll('.bk-slot').forEach(function (btn) {
+            const m        = Number(btn.dataset.minute);
+            const taken    = takenSlots.has(m);
+            const selected = selectedSlots.includes(m);
+
+            btn.classList.toggle('is-taken', taken);
+            btn.classList.toggle('is-selected', selected);
+            btn.disabled = taken;
+            btn.setAttribute('aria-pressed', selected ? 'true' : 'false');
+
+            if (taken) {
+                btn.setAttribute('aria-label', clockLabel(m) + ' \u2014 already booked');
+            } else {
+                btn.removeAttribute('aria-label');
+            }
+        });
+    }
+
+    function setSlotStatus(message) {
+        const el = document.getElementById('bkSlotStatus');
+        if (el) el.textContent = message;
+    }
+
+    // preferred_time and estimated_duration are still what the email and the
+    // SharePoint record expect, so they are derived here rather than removed.
+    function syncScheduleFields() {
+        const dateVal = (document.getElementById('bkDate') || {}).value || '';
+        const hasSlots = selectedSlots.length > 0;
+        const first = hasSlots ? selectedSlots[0] : null;
+        const last  = hasSlots ? selectedSlots[selectedSlots.length - 1] + SLOT_STEP : null;
+
+        setHidden('bk_preferred_time', hasSlots ? clockValue(first) : '');
+        setHidden('bk_estimated_duration', hasSlots ? durationToken(selectedSlots.length) : '');
+
+        if (hasSlots && dateVal && window.MPCT && MPCT.SupabaseRead) {
+            setHidden('bk_starts_at', MPCT.SupabaseRead.arizonaIso(dateVal, first));
+            setHidden('bk_ends_at',   MPCT.SupabaseRead.arizonaIso(dateVal, last));
+        } else {
+            setHidden('bk_starts_at', '');
+            setHidden('bk_ends_at', '');
+        }
+
+        if (hasSlots) {
+            const h = slotHours();
+            const hoursText = (h === 1 ? '1 hour' : String(h) + ' hours');
+            setSlotStatus(`${clockLabel(first)} to ${clockLabel(last)} — ${hoursText} selected.`);
+        }
+
+        const err = document.getElementById('err_slots');
+        if (err && hasSlots) err.style.display = 'none';
+
+        updateCostDisplay();
+    }
+
+    function slotHours() {
+        return selectedSlots.length * (SLOT_STEP / 60);
+    }
+
+    // Exact duration token. formatValue() on the server turns "1.5hr" into
+    // "1.5 hours", so the email reports the session actually requested rather
+    // than rounding it to the nearest dropdown option.
+    function durationToken(count) {
+        const hours = count * (SLOT_STEP / 60);
+        return hours === 0.5 ? '30min' : hours + 'hr';
+    }
+
+    // Ask the database which hours are already spoken for. A failure here is
+    // not fatal: the grid still renders and the manager resolves any clash.
+    async function refreshAvailability() {
+        const dateVal = (document.getElementById('bkDate') || {}).value || '';
+        const eqId    = (document.getElementById('bk_equipment_id') || {}).value || '';
+
+        selectedSlots = [];
+        takenSlots = new Set();
+        syncScheduleFields();
+
+        if (!eqId || !dateVal) {
+            renderSlotGrid();
+            setSlotStatus('Choose equipment and a date to see available times.');
+            return;
+        }
+
+        if (!(window.MPCT && MPCT.SupabaseRead && MPCT.SupabaseRead.isAvailable())) {
+            renderSlotGrid();
+            setSlotStatus('Select the hours you need. Availability is confirmed by lab staff.');
+            return;
+        }
+
+        setSlotStatus('Checking availability\u2026');
+
+        try {
+            if (!bookingCatalog) bookingCatalog = await MPCT.SupabaseRead.loadCatalog();
+            const row = bookingCatalog[eqId];
+
+            if (!row) {
+                renderSlotGrid();
+                setSlotStatus('This instrument is not currently open for online booking. Please contact the lab.');
+                return;
+            }
+
+            takenSlots = await MPCT.SupabaseRead.loadTakenSlots(row.bookingId, dateVal);
+            renderSlotGrid();
+            setSlotStatus(takenSlots.size
+                ? 'Select the hours you need. Greyed times are already booked.'
+                : 'Select the hours you need. Nothing is booked on this date yet.');
+        } catch (err) {
+            renderSlotGrid();
+            setSlotStatus('Live availability is unavailable right now. Select the hours you need and staff will confirm.');
+        }
+    }
 
     // Optional operating-mode checkboxes shown for supported instruments.
     const OPERATING_MODES = {
@@ -548,15 +735,39 @@
             });
         }
 
-        const durationSel = document.getElementById('bkDuration');
-        if (durationSel) {
-            durationSel.addEventListener('change', () => updateCostDisplay());
+        const slotBox = document.getElementById('bkSlots');
+        if (slotBox) {
+            slotBox.addEventListener('click', (ev) => {
+                const btn = ev.target.closest('.bk-slot');
+                if (!btn || btn.disabled) return;
+
+                const result = nextSlotSelection(selectedSlots, Number(btn.dataset.minute));
+                if (result.blocked) {
+                    setSlotStatus(result.tooLong
+                        ? 'A session can run for at most 9 hours. Contact the lab for longer work.'
+                        : 'That range crosses a time that is already booked.');
+                    return;
+                }
+
+                selectedSlots = result.slots;
+                paintSlots();
+                syncScheduleFields();
+                if (!selectedSlots.length) {
+                    setSlotStatus('Select the hours you need.');
+                }
+            });
+        }
+
+        const dateInput = document.getElementById('bkDate');
+        if (dateInput) {
+            dateInput.addEventListener('change', () => refreshAvailability());
         }
     }
 
     // Keep the hidden fields, info card, dynamic fields, and cost panel in sync.
     function onEquipmentChange(item) {
         setHidden('bk_equipment_id',       item.id);
+        refreshAvailability();
         setHidden('bk_equipment_name',     item.name);
         setHidden('bk_equipment_category', item.category);
         setHidden('bk_equipment_status',   item.status);
@@ -884,10 +1095,11 @@
         const userType = (document.getElementById('bkUserType') || {}).value || '';
         const isInternal = (userType === 'nau_student' || userType === 'nau_faculty_staff');
         const isExternal = (userType === 'external_academic' || userType === 'industry');
-        const durationVal = (document.getElementById('bkDuration') || {}).value || '1hr';
-        const hours = DURATION_HOURS[durationVal];
+        const hours = selectedSlots.length ? slotHours() : null;
         const perUnit = isInternal ? rate && rate.internal : (isExternal ? rate && rate.external : null);
-        const durationLabel = document.querySelector('#bkDuration option:checked');
+        const durationText = hours === null
+            ? 'No time selected'
+            : hours + (hours === 1 ? ' hour' : ' hours');
 
         if (pendingTitle) pendingTitle.textContent = 'Select equipment and duration to see estimated cost.';
         if (pendingText) {
@@ -923,7 +1135,7 @@
                     const externalTotal = rate.external * hours;
                     if (pendingTitle) pendingTitle.textContent = 'Select user type to confirm your estimated cost.';
                     if (pendingText) {
-                        pendingText.textContent = (durationLabel ? durationLabel.textContent : durationVal) + ': Internal estimate $' + internalTotal.toFixed(2) + ', External estimate $' + externalTotal.toFixed(2) + '. Date and start time do not change the estimate.';
+                        pendingText.textContent = durationText + ': Internal estimate $' + internalTotal.toFixed(2) + ', External estimate $' + externalTotal.toFixed(2) + '. Date and start time do not change the estimate.';
                     }
                 }
             }
@@ -965,7 +1177,7 @@
         if (costUserTypeLabel) costUserTypeLabel.textContent = userLabel;
         if (costUnit)     costUnit.textContent     = rate.unit;
         if (costRate)     costRate.textContent     = '$' + perUnit.toFixed(2);
-        if (costDuration) costDuration.textContent = durationLabel ? durationLabel.textContent : durationVal;
+        if (costDuration) costDuration.textContent = durationText;
         if (costTotal)    costTotal.textContent    = '$' + total.toFixed(2);
     }
 
@@ -1119,6 +1331,19 @@
             const reason = V.checkNumberRange(el.value, min, max);
             if (reason) flag(el, reason.charAt(0).toUpperCase() + reason.slice(1) + '.');
         });
+
+        // Session time — the database needs a concrete start and end.
+        const slotErr = document.getElementById('err_slots');
+        if (!isEducationalMode && selectedSlots.length === 0) {
+            valid = false;
+            if (slotErr) slotErr.style.display = 'flex';
+            if (!invalidEls.length) {
+                const slotBox = document.getElementById('bkSlots');
+                if (slotBox) slotBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        } else if (slotErr) {
+            slotErr.style.display = 'none';
+        }
 
         // Billing notice checkbox — must be acknowledged before submitting.
         const agreeBox   = document.getElementById('bkAgreeTerms');

@@ -163,6 +163,12 @@ function formatValue(string $raw): string
         return "{$h12}:{$min} {$suffix}";
     }
 
+    // Half-hour durations the slot picker produces, e.g. "1.5hr" → "1.5 hours".
+    // Kept as a pattern rather than eighteen map entries.
+    if (preg_match('/^(\d+(?:\.5)?)hr$/', $raw, $d)) {
+        return $d[1] === '1' ? '1 hour' : $d[1] . ' hours';
+    }
+
     // Known value → readable label, unknown value → best-effort title case
     return $map[$raw] ?? ucwords(str_replace('_', ' ', $raw));
 }

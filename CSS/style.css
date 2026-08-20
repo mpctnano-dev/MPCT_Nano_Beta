@@ -23672,3 +23672,53 @@ body.workforce-development-page {
         height: 540px;
     }
 }
+
+/* Booking slot picker — half-hour blocks between 8:00 AM and 5:00 PM. */
+.bk-slots {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+    gap: var(--space-sm);
+    margin-top: var(--space-sm);
+}
+
+.bk-slot {
+    font: inherit;
+    font-size: 0.85rem;
+    padding: 10px 6px;
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius-sm);
+    background: #fff;
+    color: var(--nau-blue);
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.bk-slot:hover:not(:disabled) {
+    border-color: var(--nau-blue);
+    background: var(--gray-50);
+}
+
+.bk-slot:focus-visible {
+    outline: 2px solid var(--nau-gold);
+    outline-offset: 2px;
+}
+
+.bk-slot.is-selected {
+    background: var(--nau-blue);
+    border-color: var(--nau-blue);
+    color: #fff;
+    font-weight: 600;
+}
+
+.bk-slot.is-taken,
+.bk-slot:disabled {
+    background: var(--gray-100);
+    border-color: var(--gray-200);
+    color: var(--gray-400);
+    cursor: not-allowed;
+    text-decoration: line-through;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .bk-slot { transition: none; }
+}

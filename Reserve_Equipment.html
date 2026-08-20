@@ -235,53 +235,37 @@
                                     <input type="date" id="bkDate" name="preferred_date" class="pf__input" required>
                                 </div>
                                 <div class="pf__group">
-                                    <label class="pf__label" for="bkTime">Preferred Start Time</label>
-                                    <select id="bkTime" name="preferred_time" class="pf__select">
-                                        <option value="" selected>Flexible</option>
-                                        <option value="08:00">8:00 AM</option>
-                                        <option value="08:30">8:30 AM</option>
-                                        <option value="09:00">9:00 AM</option>
-                                        <option value="09:30">9:30 AM</option>
-                                        <option value="10:00">10:00 AM</option>
-                                        <option value="10:30">10:30 AM</option>
-                                        <option value="11:00">11:00 AM</option>
-                                        <option value="11:30">11:30 AM</option>
-                                        <option value="12:00">12:00 PM</option>
-                                        <option value="12:30">12:30 PM</option>
-                                        <option value="13:00">1:00 PM</option>
-                                        <option value="13:30">1:30 PM</option>
-                                        <option value="14:00">2:00 PM</option>
-                                        <option value="14:30">2:30 PM</option>
-                                        <option value="15:00">3:00 PM</option>
-                                        <option value="15:30">3:30 PM</option>
-                                        <option value="16:00">4:00 PM</option>
-                                        <option value="16:30">4:30 PM</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="pf__row--2col">
-                                <div class="pf__group">
-                                    <label class="pf__label" for="bkDuration">Estimated Duration</label>
-                                    <select id="bkDuration" name="estimated_duration" class="pf__select">
-                                        <option value="30min">30 minutes</option>
-                                        <option value="1hr" selected>1 hour</option>
-                                        <option value="2hr">2 hours</option>
-                                        <option value="4hr">4 hours (half day)</option>
-                                        <option value="full_day">Full day (8 hours)</option>
-                                        <option value="multi_day">Multiple days — specify in notes</option>
-                                    </select>
-                                </div>
-                                <div class="pf__group">
                                     <label class="pf__label" for="bkAltDate">Alternative Date</label>
                                     <input type="date" id="bkAltDate" name="alternative_date" class="pf__input">
                                     <span class="pf__helper">In case your preferred date is unavailable.</span>
                                 </div>
                             </div>
 
+                            <!-- Slot grid. booking.js fills this from the live schedule once
+                                 an instrument and date are chosen; hours already booked are
+                                 shown as taken and cannot be selected. -->
+                            <div class="pf__row">
+                                <div class="pf__group">
+                                    <label class="pf__label" id="bkSlotsLabel">Session Time <span class="pf__req">*</span></label>
+                                    <div id="bkSlots" class="bk-slots" role="group" aria-labelledby="bkSlotsLabel"
+                                        aria-describedby="bkSlotStatus"></div>
+                                    <span class="pf__helper" id="bkSlotStatus" role="status" aria-live="polite">
+                                        Choose equipment and a date to see available times.
+                                    </span>
+                                    <span class="pf__error" id="err_slots">Please select at least one time slot.</span>
+                                </div>
+                            </div>
+
+                            <!-- Derived from the chosen slots so the email, the SharePoint
+                                 record, and the cost estimate keep the shapes they expect. -->
+                            <input type="hidden" name="preferred_time"     id="bk_preferred_time">
+                            <input type="hidden" name="estimated_duration" id="bk_estimated_duration">
+                            <input type="hidden" name="starts_at"          id="bk_starts_at">
+                            <input type="hidden" name="ends_at"            id="bk_ends_at">
+
                             <div class="bk-section-note">
                                 <i class="fas fa-circle-info"></i>
-                                Dates are requests, not confirmed reservations. The lab manager will review availability and contact you to finalize your session.
+                                Times are requests, not confirmed reservations. The lab manager will review availability and contact you to finalize your session. Sessions run between 8:00 AM and 5:00 PM Arizona time on a single day.
                             </div>
 
                         </fieldset>
@@ -643,6 +627,8 @@
     <script src="JS/csrf.js"></script>
     <script src="JS/layout.js"></script>
     <script src="JS/validation.js"></script>
+    <script src="supabase-config.php"></script>
+    <script src="JS/supabase-read.js"></script>
     <script src="JS/booking.js"></script>
 
 </body>
