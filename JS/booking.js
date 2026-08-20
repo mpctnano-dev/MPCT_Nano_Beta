@@ -426,6 +426,7 @@
     document.addEventListener('DOMContentLoaded', async () => {
         await Promise.all([loadEquipmentData(), loadRatesData()]);
         populateCategoryDropdown();
+        renderCatalog();
         readUrlParams();
         bindEvents();
 
@@ -665,22 +666,46 @@
         });
     }
 
-    // Rebuild the equipment dropdown after the category changes.
-    function populateEquipmentDropdown(category) {
-        const eqSel = document.getElementById('bkEquipment');
-        if (!eqSel) return;
-        eqSel.innerHTML = '<option value="" disabled selected>-- Select Equipment --</option>';
+    // Instruments matching the current search box and category filter.
+    function catalogMatches() {
+        const q   = ((document.getElementById('bkSearch') || {}).value || '').trim().toLowerCase();
+        const cat = (document.getElementById('bkCategory') || {}).value || '';
 
-        const filtered = category
-            ? equipmentData.filter(i => i.category === category)
-            : equipmentData;
+        return equipmentData
+            .filter(item => !cat || item.category === cat)
+            .filter(item => !q || (item.name + ' ' + item.id + ' ' + item.category).toLowerCase().includes(q))
+            .sort((a, b) => a.name.localeCompare(b.name));
+    }
 
-        [...filtered].sort((a, b) => a.name.localeCompare(b.name)).forEach(item => {
-            const opt = document.createElement('option');
-            opt.value = item.id;
-            opt.textContent = item.name;
-            eqSel.appendChild(opt);
-        });
+    // Draw the catalog. Equipment the lab is not currently accepting bookings
+    // for is listed but not selectable, so people can still see it exists.
+    function renderCatalog() {
+        const list  = document.getElementById('bkCatalogList');
+        const count = document.getElementById('bkCatalogCount');
+        if (!list) return;
+
+        const matches  = catalogMatches();
+        const selected = (document.getElementById('bk_equipment_id') || {}).value || '';
+
+        if (count) count.textContent = matches.length + (matches.length === 1 ? ' instrument' : ' instruments');
+
+        if (!matches.length) {
+            list.innerHTML = '<p class="bk-catalog__empty">No instruments match that search.</p>';
+            return;
+        }
+
+        list.innerHTML = matches.map(item => {
+            const bookable = item.status === 'AVAILABLE';
+            const state = bookable ? 'Available' : (item.status === 'EXPECTED' ? 'Expected' : 'Unavailable');
+            return `
+            <button type="button" role="listitem"
+                class="bk-catalog__item${item.id === selected ? ' is-selected' : ''}${bookable ? '' : ' is-locked'}"
+                data-equipment="${esc(item.id)}"${bookable ? '' : ' disabled'}>
+                <span class="bk-catalog__name">${esc(item.name)}</span>
+                <span class="bk-catalog__meta">${esc(item.id)} \u00b7 ${esc(item.category)}</span>
+                <span class="bk-catalog__state bk-catalog__state--${bookable ? 'ok' : 'off'}">${state}</span>
+            </button>`;
+        }).join('');
     }
 
     // Support Equipment.html links that pass ?equipment=EQ-... into this page.
@@ -692,33 +717,33 @@
         const item = equipmentData.find(i => i.id === eqId);
         if (!item) return;
 
-        const catSel = document.getElementById('bkCategory');
-        const eqSel  = document.getElementById('bkEquipment');
-        if (!catSel || !eqSel) return;
-
-        catSel.value = item.category;
-        populateEquipmentDropdown(item.category);
-        eqSel.value = item.id;
         onEquipmentChange(item);
+        renderCatalog();
     }
 
     // Attach the form event handlers once the DOM and equipment catalog are ready.
     function bindEvents() {
         const catSel = document.getElementById('bkCategory');
-        const eqSel  = document.getElementById('bkEquipment');
+        const search = document.getElementById('bkSearch');
+        const list   = document.getElementById('bkCatalogList');
         const form   = document.getElementById('bookingForm');
 
-        if (catSel) {
-            catSel.addEventListener('change', () => {
-                populateEquipmentDropdown(catSel.value);
-                clearEquipmentSelection();
-            });
-        }
+        if (catSel) catSel.addEventListener('change', renderCatalog);
+        if (search) search.addEventListener('input', renderCatalog);
 
-        if (eqSel) {
-            eqSel.addEventListener('change', () => {
-                const item = equipmentData.find(i => i.id === eqSel.value);
-                if (item) onEquipmentChange(item);
+        if (list) {
+            list.addEventListener('click', (ev) => {
+                const btn = ev.target.closest('.bk-catalog__item');
+                if (!btn || btn.disabled) return;
+
+                const item = equipmentData.find(i => i.id === btn.dataset.equipment);
+                if (!item) return;
+
+                onEquipmentChange(item);
+                renderCatalog();
+
+                const err = document.getElementById('err_equipment');
+                if (err) err.style.display = 'none';
             });
         }
 
@@ -782,9 +807,14 @@
             updateCostDisplay(item);
         }
 
-        const card = document.getElementById('equipmentInfoCard');
+        // Move both the viewport and keyboard position to the selection, so a
+        // link from the catalog lands on the instrument it named.
+        const card = document.getElementById('bkSelectedEquipment');
         if (card) {
-            setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+            setTimeout(() => {
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                card.focus({ preventScroll: true });
+            }, 80);
         }
     }
 
@@ -899,7 +929,7 @@
         setHidden('bk_equipment_category', '');
         setHidden('bk_equipment_status', '');
 
-        const card = document.getElementById('equipmentInfoCard');
+        const card = document.getElementById('bkSelectedEquipment');
         if (card) card.style.display = 'none';
 
         const dynFields = document.getElementById('dynamicFields');
@@ -912,11 +942,13 @@
 
         setFormMode(false);
         disableSubmit(false);
+        renderCatalog();
+        refreshAvailability();
     }
 
     // Render the status card above the form for the selected instrument.
     function renderInfoCard(item) {
-        const card = document.getElementById('equipmentInfoCard');
+        const card = document.getElementById('bkSelectedEquipment');
         if (!card) return;
 
         const isEduc = EDUCATIONAL_IDS.includes(item.id);
@@ -1331,6 +1363,18 @@
             const reason = V.checkNumberRange(el.value, min, max);
             if (reason) flag(el, reason.charAt(0).toUpperCase() + reason.slice(1) + '.');
         });
+
+        // Equipment — chosen from the catalog rather than a required <select>.
+        const eqErr = document.getElementById('err_equipment');
+        const eqId  = (document.getElementById('bk_equipment_id') || {}).value || '';
+        if (!eqId) {
+            valid = false;
+            if (eqErr) eqErr.style.display = 'flex';
+            const panel = document.getElementById('bkCatalogList');
+            if (panel) panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else if (eqErr) {
+            eqErr.style.display = 'none';
+        }
 
         // Session time — the database needs a concrete start and end.
         const slotErr = document.getElementById('err_slots');

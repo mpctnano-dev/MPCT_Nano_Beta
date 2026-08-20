@@ -42,16 +42,33 @@
             </div>
         </section>
 
-        <!-- booking.js fills this card after an equipment choice is made -->
-        <div class="container" style="padding-top: 32px;">
-            <div id="equipmentInfoCard" class="bk-info-card" style="display:none;" aria-live="polite">
-                <!-- Populated dynamically by booking.js -->
-            </div>
-        </div>
-
         <!-- Main booking form -->
         <section class="section-padding" style="padding-top: 0;">
-            <div class="bk-form-wrap">
+            <div class="bk-layout">
+
+                <!-- Instrument catalog. booking.js fills the list from equipment.json
+                     and marks anything the lab cannot currently accept a booking for. -->
+                <aside class="bk-catalog" aria-labelledby="bkCatalogTitle">
+                    <div class="bk-catalog__head">
+                        <h2 class="bk-catalog__title" id="bkCatalogTitle">Choose an instrument</h2>
+                        <span class="bk-catalog__count" id="bkCatalogCount"></span>
+                    </div>
+
+                    <div class="bk-catalog__filters">
+                        <label class="pf__label" for="bkSearch">Search</label>
+                        <input type="search" id="bkSearch" class="pf__input" autocomplete="off"
+                            placeholder="Instrument name or EQ number">
+
+                        <label class="pf__label" for="bkCategory">Category</label>
+                        <select id="bkCategory" class="pf__select">
+                            <option value="">All categories</option>
+                        </select>
+                    </div>
+
+                    <div class="bk-catalog__list" id="bkCatalogList" role="list"></div>
+                </aside>
+
+                <div class="bk-form-wrap">
 
                 <form id="bookingForm" novalidate>
 
@@ -68,31 +85,18 @@
                         <input type="text" id="website_booking" name="website" value="" tabindex="-1" autocomplete="off">
                     </div>
 
-                    <!-- Equipment picker -->
+                    <!-- Standing in for the old equipment dropdowns: what the catalog
+                         selection currently is, and the scroll target for links that
+                         arrive with ?equipment=EQ-000. -->
                     <div class="pf__section">
                         <fieldset style="border:0; padding:0; margin:0;">
                             <legend class="pf__legend">
                                 <span class="pf__legend-num">1</span>
-                                Equipment Selection
+                                Selected Equipment
                             </legend>
 
-                            <div class="pf__row--2col">
-                                <div class="pf__group">
-                                    <label class="pf__label" for="bkCategory">Category</label>
-                                    <select id="bkCategory" class="pf__select">
-                                        <option value="" disabled selected>-- All Categories --</option>
-                                        <!-- booking.js adds the category list from equipment.json -->
-                                    </select>
-                                </div>
-                                <div class="pf__group">
-                                    <label class="pf__label" for="bkEquipment">Equipment <span class="pf__req">*</span></label>
-                                    <select id="bkEquipment" name="equipment_name_display" class="pf__select" required>
-                                        <option value="" disabled selected>-- Select Equipment --</option>
-                                        <!-- booking.js rebuilds this list when the category changes -->
-                                    </select>
-                                    <span class="pf__helper">Select a category first to filter the list, or browse all equipment.</span>
-                                </div>
-                            </div>
+                            <div id="bkSelectedEquipment" class="bk-selected" tabindex="-1" aria-live="polite"></div>
+                            <span class="pf__error" id="err_equipment">Please choose an instrument from the list.</span>
 
                         </fieldset>
                     </div>
@@ -612,6 +616,8 @@
                     </div>
 
                 </form>
+
+                </div>
 
             </div>
         </section>

@@ -23722,3 +23722,146 @@ body.workforce-development-page {
 @media (prefers-reduced-motion: reduce) {
     .bk-slot { transition: none; }
 }
+
+/* Booking page: instrument catalog beside the form. */
+.bk-layout {
+    display: grid;
+    grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
+    gap: var(--space-xl);
+    align-items: start;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+}
+
+.bk-catalog {
+    position: sticky;
+    top: 96px;
+    background: #fff;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    max-height: calc(100vh - 128px);
+}
+
+.bk-catalog__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-sm);
+}
+
+.bk-catalog__title {
+    font-size: 1.05rem;
+    margin: 0;
+    color: var(--nau-blue);
+}
+
+.bk-catalog__count {
+    font-size: 0.78rem;
+    color: var(--gray-500);
+    white-space: nowrap;
+}
+
+.bk-catalog__filters {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.bk-catalog__list {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: var(--space-sm);
+    padding-right: 4px;
+}
+
+.bk-catalog__item {
+    font: inherit;
+    text-align: left;
+    display: grid;
+    gap: 2px;
+    padding: 10px 12px;
+    border: 1px solid var(--gray-200);
+    border-left: 3px solid transparent;
+    border-radius: var(--radius-sm);
+    background: #fff;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.bk-catalog__item:hover:not(:disabled) {
+    background: var(--gray-50);
+    border-left-color: var(--nau-gold);
+}
+
+.bk-catalog__item:focus-visible {
+    outline: 2px solid var(--nau-gold);
+    outline-offset: 2px;
+}
+
+.bk-catalog__item.is-selected {
+    border-left-color: var(--nau-blue);
+    background: var(--gray-50);
+}
+
+.bk-catalog__item.is-locked,
+.bk-catalog__item:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+.bk-catalog__name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--nau-blue);
+    line-height: 1.3;
+}
+
+.bk-catalog__meta {
+    font-size: 0.74rem;
+    color: var(--gray-500);
+}
+
+.bk-catalog__state {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.bk-catalog__state--ok  { color: #1b7f5e; }
+.bk-catalog__state--off { color: var(--gray-500); }
+
+.bk-catalog__empty {
+    font-size: 0.85rem;
+    color: var(--gray-500);
+    padding: var(--space-md) 0;
+    margin: 0;
+}
+
+.bk-selected:focus-visible {
+    outline: 2px solid var(--nau-gold);
+    outline-offset: 4px;
+}
+
+@media (max-width: 900px) {
+    .bk-layout {
+        grid-template-columns: 1fr;
+        padding: 0 var(--space-md);
+    }
+
+    .bk-catalog {
+        position: static;
+        max-height: 420px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .bk-catalog__item { transition: none; }
+}
