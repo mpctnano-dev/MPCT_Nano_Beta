@@ -1462,9 +1462,12 @@
             eqErr.style.display = 'none';
         }
 
-        // Session time — the database needs a concrete start and end.
+        // Session time — the database needs a concrete start and end, for a
+        // course request as much as an instrument booking. Faculty pick the
+        // first session; the lab manager settles the rest of the series when
+        // they approve it, which is what the note below the grid promises.
         const slotErr = document.getElementById('err_slots');
-        if (!isEducationalMode && selectedSlots.length === 0) {
+        if (selectedSlots.length === 0) {
             valid = false;
             if (slotErr) slotErr.style.display = 'flex';
             if (!invalidEls.length) {
