@@ -25,17 +25,25 @@
     Header always set X-Frame-Options "SAMEORIGIN"
     Header always set Referrer-Policy "strict-origin-when-cross-origin"
 
-    # The booking page reads the equipment catalog and slot availability from
-    # Supabase over XHR. connect-src is what permits that; everything else is
-    # deliberately kept to this origin. Turnstile needs its own script and
-    # frame origins, and Font Awesome and Google Fonts are already in use
-    # across the site, so they are listed rather than dropped.
-    Header always set Content-Security-Policy "default-src 'self'; \
-script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com https://cdnjs.cloudflare.com https://www.googletagmanager.com; \
-style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; \
+    # Content Security Policy, in report-only mode on purpose.
+    #
+    # Retrofitting a policy onto a site this size cannot be done blind. Two
+    # origins here are impossible to enumerate from the source alone: the Google
+    # Tag Manager container (GTM-5PQKN9FD) loads whichever tags are configured
+    # in its own interface, and Google Maps embeds redirect across several
+    # Google hosts. A policy that misses one of those silently breaks the map
+    # on Visit.html and index.html, or stops analytics collecting.
+    #
+    # Report-only publishes the intended policy and logs what would have been
+    # blocked, without blocking anything. Watch the browser console on the
+    # busiest pages for a week, add whatever legitimately appears, then rename
+    # this header to Content-Security-Policy to start enforcing it.
+    Header always set Content-Security-Policy-Report-Only "default-src 'self'; \
+script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com https://cdnjs.cloudflare.com https://www.googletagmanager.com https://www.google-analytics.com https://tagmanager.google.com; \
+style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com https://tagmanager.google.com; \
 font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com data:; \
 img-src 'self' data: https:; \
-connect-src 'self' https://tqwdwlfwapfpbptisrtp.supabase.co https://www.google-analytics.com; \
-frame-src https://challenges.cloudflare.com; \
+connect-src 'self' https://tqwdwlfwapfpbptisrtp.supabase.co https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net; \
+frame-src 'self' https://challenges.cloudflare.com https://www.googletagmanager.com https://maps.google.com https://www.google.com; \
 object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'"
 </IfModule>
