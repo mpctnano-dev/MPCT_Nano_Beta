@@ -1354,11 +1354,39 @@ const applyFilters = () => {
     });
 };
 
+const applyCategoryFromUrl = () => {
+    if (categoryBtns.length === 0) return;
+    const raw = new URLSearchParams(window.location.search).get('category');
+    if (!raw) return;
+    const match = Array.from(categoryBtns).find(
+        (btn) => (btn.getAttribute('data-filter') || '').toLowerCase() === raw.toLowerCase()
+    );
+    if (!match) return;
+    categoryBtns.forEach((b) => b.classList.remove('active'));
+    match.classList.add('active');
+};
+
+const syncCategoryUrl = (filter) => {
+    const url = new URL(window.location.href);
+    if (!filter || filter === 'all') {
+        url.searchParams.delete('category');
+    } else {
+        url.searchParams.set('category', filter);
+    }
+    const next = url.pathname + url.search + url.hash;
+    const current = window.location.pathname + window.location.search + window.location.hash;
+    if (current !== next) {
+        history.replaceState(null, '', next);
+    }
+};
+
 if (categoryBtns.length > 0) {
+    applyCategoryFromUrl();
     categoryBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             categoryBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+            syncCategoryUrl(btn.getAttribute('data-filter'));
             applyFilters();
         });
     });
