@@ -94,6 +94,19 @@
             "aboutPage": "About_Equipment/CSZ_EnvChamber.html"
         },
         {
+            "id": "EQ-024",
+            "name": "DualBeam (FIB-SEM)",
+            "category": "Metrology",
+            "status": "EXPECTED",
+            "expectedDate": "09/01/26",
+            "warningMessage": null,
+            "accessories": [
+                "Omniprobe Lift-Out System",
+                "Gas Injection System"
+            ],
+            "aboutPage": "About_Equipment/DualBeam_FIBSEM.html"
+        },
+        {
             "id": "EQ-010",
             "name": "Ellipsometer",
             "category": "Metrology",
