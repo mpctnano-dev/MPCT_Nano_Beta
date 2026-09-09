@@ -440,3 +440,107 @@ try {
     error_log('MPCT Intel Scholarship Form Error: ' . $e->getMessage());
     respond(false, 'We were unable to submit your registration at this time. Please try again or email us directly at ' . LAB_EMAIL . '.');
 }
+
+
+if (!defined('SANDBOX_SKIP_SHAREPOINT') || !SANDBOX_SKIP_SHAREPOINT) {
+// STEP 9: Log the booking to SharePoint (non-blocking)
+// Emails are already sent — a SharePoint failure does NOT affect
+// the user's experience. Errors are logged server-side only.
+try {
+    $tokenRes = curlRequest('POST', TOKEN_URL, null,
+        http_build_query([
+            'grant_type' => 'client_credentials',
+            'client_id' => CLIENT_ID,
+            'client_secret' => CLIENT_SECRET,
+            'scope' => 'https://graph.microsoft.com/.default'
+        ]),
+        'application/x-www-form-urlencoded'
+    );
+
+    $data = json_decode($tokenRes['body'], true);
+
+    if ($tokenRes['code'] !== 200 || empty($data['access_token'])) {
+        throw new RuntimeException('SharePoint auth failed');
+    }
+
+    $token = $data['access_token'];
+
+    $siteUrl = GRAPH . '/sites/' . rawurlencode(SP_HOST) . ':' . SP_SITE_PATH;
+    $site = curlRequest('GET', $siteUrl, $token);
+
+    $siteData = json_decode($site['body'], true);
+    $siteId = $siteData['id'];
+
+    if ($site['code'] !== 200) {
+        throw new RuntimeException('SharePoint site resolution failed: ' . $site['body']);
+    }
+
+    $listUrl = GRAPH . '/sites/' . $siteId . '/lists';
+    $listRes = curlRequest('GET', $listUrl, $token);
+
+    $listData = json_decode($listRes['body'], true);
+
+    if ($listRes['code'] !== 200) {
+        throw new RuntimeException('SharePoint list fetch failed: ' . $listRes['body']);
+    }
+
+    $listId = null;
+
+    foreach ($listData['value'] as $list) {
+        if ($list['name'] === INTEL_CHIPS_S_LIST_NAME) {
+            $listId = $list['id'];
+            break;
+        }
+    }
+
+    if (!$listId) {
+        throw new RuntimeException('SharePoint list not found: ' . INTEL_CHIPS_S_LIST_NAME);
+    }
+
+    $itemUrl = GRAPH . '/sites/' . $siteId . '/lists/' . $listId . '/items';
+
+    // Values from post() are HTML-escaped for safe email rendering
+    // (e.g. "O'Brien" becomes "O&#039;Brien"). SharePoint stores plain
+    // text and renders it itself — decode before insert so the list
+    // shows the original characters, not entity codes.
+    $spDecode = static fn(string $v): string => htmlspecialchars_decode($v, ENT_QUOTES);
+
+    $sp_List_fields = [
+        //'Title'               => $catTitle . ': ' . $spDecode($equipmentLabel),
+        'FirstName'           => $spDecode($firstName),
+        'LastName'            => $spDecode($lastName),
+        'Email'               => $spDecode($email),
+        'PhoneNumber'         => $spDecode($phone),
+        'CurrentInstitution'           => $spDecode($current_institution),
+        'DegreeInterest'            => $spDecode($degree_interest),
+        'TargetSemester'              => formatValue($spDecode($target_semester)),
+        'CurrentStatus'       => $spDecode($current_status),
+        'EstimatedDuration'   => formatValue($spDecode($estimated_duration)),
+        //'AlternativeDate'     => $spDecode($alternative_date),
+        'AdditionalNotes'   => $spDecode($sample_description)
+       // 'PurposeofUse'        => $spDecode($purpose_of_use),
+        //'TrainingNeeded'      => formatValue($spDecode($training_needed)),
+        //'LabAssistance'       => formatValue($spDecode($lab_assistance)),
+      //  'SpecialRequirements' => trim($specialRequirements ?? '') !== '' ? $specialRequirements : "Not any"
+    ];
+
+    $payload = json_encode([
+        'fields' => $sp_List_fields
+    ]);
+
+    $create = curlRequest('POST', $itemUrl, $token, $payload);
+
+    if ($create['code'] < 200 || $create['code'] >= 300) {
+        throw new RuntimeException('SharePoint list insert failed: ' . $create['body']);
+    }
+
+} catch (Exception $e) {
+    error_log('MPCT SharePoint Booking Sync Error: ' . $e->getMessage());
+    notifySharePointFailure('Equipment Reservation', $e, [
+        'submitter_name'  => $fullName,
+        'submitter_email' => $email,
+        'equipment'       => $equipmentLabel ?? '',
+        'category'        => $category ?? '',
+    ]);
+}
+}
