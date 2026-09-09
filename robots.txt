@@ -29,5 +29,10 @@ Allow: /JS/
 Allow: /Images/
 Allow: /About_Equipment/
 Allow: /Manuals_and_Specs/
+Allow: /learn/
+Allow: /llms.txt
+Allow: /sitemap.xml
 
+Sitemap: https://nano.nau.edu/sitemap.xml
 Sitemap: https://nano.nau.edu/sitemap_mpact.xml
+Sitemap: https://nano.nau.edu/learn/sitemap.xml
