@@ -30,6 +30,12 @@
   --md-typeset-a-color: var(--nau-blue);
   --docs-rule:    #dbe1ea;
   --docs-measure: 54rem;   /* one reading measure, shared by every block */
+
+  /* NAU header + Material docs bar. Material JS only measures .md-header
+     (3rem) and writes that as sidebar `top`, so the left nav and TOC
+     stick under the NAU header on scroll. */
+  --docs-bar-height: 3rem;
+  --docs-sticky-offset: calc(var(--site-header-height, 84px) + var(--docs-bar-height));
 }
 
 /* Dark scheme. style.css has no dark mode at all, so every base colour it
@@ -123,14 +129,33 @@ body,
 
 /* --- Measure & Heading Scroll Offset ---------------------------------------
    The measure belongs on the container, once, in rem.
-   Total sticky header height = NAU header (84px) + unified docs bar (48px) = 132px.
-   Headings and targets need scroll-margin-top so they never scroll behind the sticky bars. */
+   Headings and permalink targets must clear BOTH sticky bars. */
+html {
+  scroll-padding-top: calc(var(--docs-sticky-offset) + 1.6rem);
+}
 :target,
 .md-typeset h1,
 .md-typeset h2,
 .md-typeset h3,
 .md-typeset h4 {
-  scroll-margin-top: calc(var(--site-header-height, 84px) + 4.2rem);
+  scroll-margin-top: calc(var(--docs-sticky-offset) + 1.6rem);
+}
+
+/* Permalink (the ¶). Keep the fragment URL; do not paint it until hover. */
+.md-typeset .headerlink {
+  margin-left: .3em;
+  font-weight: 400;
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity .15s;
+}
+.md-typeset h1:hover .headerlink,
+.md-typeset h2:hover .headerlink,
+.md-typeset h3:hover .headerlink,
+.md-typeset h4:hover .headerlink,
+.md-typeset .headerlink:focus,
+.md-typeset .headerlink:focus-visible {
+  opacity: .4;
 }
 
 .md-grid { max-width: 1400px; }              /* sync with the site's container */
@@ -362,6 +387,16 @@ body,
 @media screen and (min-width: 76.25em) {
   .md-sidebar--primary { width: 14rem; }
   .md-sidebar--secondary { width: 13rem; }
+
+  /* Material writes `top: 48px` inline from .md-header height alone.
+     Both sticky bars must be counted, so this has to beat the inline. */
+  .md-sidebar,
+  .md-header--lifted ~ .md-container .md-sidebar {
+    top: var(--docs-sticky-offset) !important;
+  }
+  .md-sidebar__scrollwrap {
+    max-height: calc(100vh - var(--docs-sticky-offset) - 1.2rem);
+  }
 }
 
 .md-nav__title {
@@ -409,10 +444,10 @@ a.md-nav__link--active {
    other section unreachable on mobile. */
 @media screen and (max-width: 76.234375em) {
   .md-sidebar--primary {
-    top: var(--site-header-height, 84px);
-    height: calc(100% - var(--site-header-height, 84px));
+    top: var(--docs-sticky-offset);
+    height: calc(100% - var(--docs-sticky-offset));
   }
-  .md-overlay { top: var(--site-header-height, 84px); }
+  .md-overlay { top: var(--docs-sticky-offset); }
 }
 
 /* --- Buttons -------------------------------------------------------------- */
