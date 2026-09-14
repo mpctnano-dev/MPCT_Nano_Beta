@@ -6,37 +6,37 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="The machines at NAU's MPaCT Lab that people look up by name, with sizes, speeds, and hard limits. For the method itself, start with Techniques.">
+        <meta name="description" content="Photoluminescence spectroscopy measures emission spectra and lifetimes on an Edinburgh FLS1000 at NAU's MPaCT Lab in Flagstaff, Arizona.">
       
       
         <meta name="author" content="NAU Nano">
       
       
-        <link rel="canonical" href="https://nano.nau.edu/learn/instruments/">
+        <link rel="canonical" href="https://nano.nau.edu/learn/techniques/photoluminescence-spectroscopy/">
       
       
-        <link rel="prev" href="../compare/3d-printing-vs-cnc-machining/">
+        <link rel="prev" href="../spectroscopic-ellipsometry/">
       
       
-        <link rel="next" href="bambu-lab-h2d/">
+        <link rel="next" href="../x-ray-diffraction/">
       
       
         
       
       
-      <link rel="icon" href="../assets/NAU_Nano_favicon.png">
+      <link rel="icon" href="../../assets/NAU_Nano_favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
-        <title>Instruments - MPaCT Lab Docs</title>
+        <title>Photoluminescence Spectroscopy (PL) - MPaCT Lab Docs</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -49,7 +49,7 @@
       
     
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -61,9 +61,9 @@
 
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="NAU Nano | MPaCT Lab">
-  <meta property="og:title" content="Instruments">
-  <meta property="og:description" content="The machines at NAU's MPaCT Lab that people look up by name, with sizes, speeds, and hard limits. For the method itself, start with Techniques.">
-  <meta property="og:url" content="https://nano.nau.edu/learn/instruments/">
+  <meta property="og:title" content="Photoluminescence Spectroscopy (PL)">
+  <meta property="og:description" content="Photoluminescence spectroscopy measures emission spectra and lifetimes on an Edinburgh FLS1000 at NAU's MPaCT Lab in Flagstaff, Arizona.">
+  <meta property="og:url" content="https://nano.nau.edu/learn/techniques/photoluminescence-spectroscopy/">
   
   <meta name="twitter:card" content="summary_large_image">
 
@@ -73,6 +73,13 @@
 {
   "@context": "https://schema.org",
   "@graph": [
+    {
+      "@type": "DefinedTerm",
+      "alternateName": "PL",
+      "description": "An optical characterization technique in which a specimen is excited with light and the resulting emission is recorded as a spectrum or as a decay versus time, reporting electronic structure, defects, and carrier lifetime without contacting the sample.",
+      "inDefinedTermSet": "https://nano.nau.edu/learn/concepts/",
+      "name": "Photoluminescence Spectroscopy"
+    },
     {
       "@id": "https://nano.nau.edu/#organization",
       "@type": "ResearchOrganization",
@@ -84,50 +91,134 @@
         "postalCode": "86001",
         "streetAddress": "561 E Pine Knoll Dr, Building 98E"
       },
+      "alternateName": "Microelectronics Processing and Characterization Testing Lab",
+      "email": "mpct.nano@nau.edu",
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 35.17765608035483,
+        "longitude": -111.6491191644177
+      },
       "name": "MPaCT Lab",
       "parentOrganization": {
         "@type": "CollegeOrUniversity",
         "name": "Northern Arizona University"
       },
+      "telephone": "+1-928-523-2343",
       "url": "https://nano.nau.edu/"
     },
     {
-      "@type": "ItemList",
-      "itemListElement": [
+      "@type": "Service",
+      "areaServed": {
+        "@type": "State",
+        "name": "Arizona"
+      },
+      "availableChannel": {
+        "@type": "ServiceChannel",
+        "serviceUrl": "https://nano.nau.edu/ServiceRequest.html"
+      },
+      "description": "Steady-state and time-resolved photoluminescence from the ultraviolet to the mid-infrared, including emission and excitation spectra, lifetimes from picoseconds to seconds, and polarization-resolved emission, on films, powders, and solutions.",
+      "name": "Photoluminescence Spectroscopy",
+      "provider": {
+        "@id": "https://nano.nau.edu/#organization"
+      },
+      "serviceType": "Optical materials characterization"
+    },
+    {
+      "@type": "IndividualProduct",
+      "additionalProperty": [
         {
-          "@type": "ListItem",
-          "name": "Bambu Lab H2D 3D Printer",
-          "position": 1,
-          "url": "https://nano.nau.edu/learn/instruments/bambu-lab-h2d/"
+          "@type": "PropertyValue",
+          "name": "Spectral range",
+          "value": "About 185 to 5500 nm"
         },
         {
-          "@type": "ListItem",
-          "name": "Haas Desktop Mill",
-          "position": 2,
-          "url": "https://nano.nau.edu/learn/instruments/haas-desktop-mill/"
+          "@type": "PropertyValue",
+          "name": "Lifetime range",
+          "value": "Picoseconds to seconds"
         },
         {
-          "@type": "ListItem",
-          "name": "Haas Desktop Lathe",
-          "position": 3,
-          "url": "https://nano.nau.edu/learn/instruments/haas-desktop-lathe/"
+          "@type": "PropertyValue",
+          "name": "Sensitivity",
+          "value": "Greater than 35,000 to 1 signal-to-noise ratio"
         },
         {
-          "@type": "ListItem",
-          "name": "Amatrol 870 Mechatronics Learning System",
-          "position": 4,
-          "url": "https://nano.nau.edu/learn/instruments/amatrol-870-mechatronics-line/"
+          "@type": "PropertyValue",
+          "name": "Steady-state source",
+          "value": "450 W ozone-free xenon arc lamp"
         },
         {
-          "@type": "ListItem",
-          "name": "Amatrol Smart Robot Workcell",
-          "position": 5,
-          "url": "https://nano.nau.edu/learn/instruments/amatrol-smart-robot-workcell/"
+          "@type": "PropertyValue",
+          "name": "Monochromator",
+          "value": "325 mm focal length Czerny-Turner with triple grating turret"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Wavelength accuracy",
+          "value": "Plus or minus 0.2 nm, grating dependent"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Stray light rejection",
+          "value": "1 to 10^5 single monochromator, 1 to 10^10 double monochromator"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Minimum step",
+          "value": "0.01 nm"
         }
       ],
-      "itemListOrder": "https://schema.org/ItemListUnordered",
-      "name": "Instruments documented at MPaCT Lab",
-      "numberOfItems": 5
+      "category": "Modular photoluminescence spectrometer",
+      "manufacturer": {
+        "@type": "Organization",
+        "name": "Edinburgh Instruments"
+      },
+      "name": "Edinburgh Instruments FLS1000",
+      "url": "https://nano.nau.edu/About_Equipment/Photoluminescence_Spectrometer.html"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Photoluminescence spectroscopy records the light a specimen emits after it has been excited by light of a shorter wavelength. The emission spectrum locates electronic transitions and defect bands. The decay of that emission versus time is the lifetime, which reports how carriers or excited states recombine."
+          },
+          "name": "What is photoluminescence spectroscopy?"
+        },
+        {
+          "@type": "Question",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Photoluminescence is emission from an electronic excited state, usually much stronger than Raman and shifted by electron-volts rather than by vibrational wavenumbers. Raman is inelastic scattering from vibrations. Use PL when the question is band gap, defects, or lifetime. Use Raman when the question is chemical identity or crystal phase."
+          },
+          "name": "What is the difference between photoluminescence and Raman spectroscopy?"
+        },
+        {
+          "@type": "Question",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Time-correlated single-photon counting covers picoseconds to microseconds. Multichannel scaling covers longer phosphorescence, from nanoseconds to seconds. The FLS1000 is specified for lifetimes across that whole span. Lifetime is a decay of emission after pulsed excitation, not a substitute for a transport measurement of mobility."
+          },
+          "name": "Can photoluminescence measure carrier lifetime?"
+        },
+        {
+          "@type": "Question",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The excitation wavelength is not absorbed, the emission is outside the detector window, the surface is quenched by contamination or a metal overlayer, or the material is indirect-gap and simply emits weakly at room temperature. Cooling, a different excitation line, and a clean uncoated surface are the usual first checks. A missing signal is often a sample or geometry problem, not a broken lamp."
+          },
+          "name": "Why is my photoluminescence signal weak or missing?"
+        },
+        {
+          "@type": "Question",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The MPaCT Lab is a shared-use facility in Flagstaff, Arizona, open to NAU researchers, external academic users, and industry partners on either a fee-for-service or hands-on trained-user basis."
+          },
+          "name": "Can external companies use the photoluminescence spectrometer at NAU?"
+        }
+      ]
     }
   ]
 }
@@ -144,7 +235,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   
-  <link rel="stylesheet" href="../assets/extra.css">
+  <link rel="stylesheet" href="../../assets/extra.css">
 
   </head>
   
@@ -165,7 +256,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#instruments" class="md-skip">
+        <a href="#photoluminescence-spectroscopy-pl" class="md-skip">
           Skip to content
         </a>
       
@@ -549,9 +640,9 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="MPaCT Lab Docs" class="md-header__button md-logo" aria-label="MPaCT Lab Docs" data-md-component="logo">
+    <a href="../.." title="MPaCT Lab Docs" class="md-header__button md-logo" aria-label="MPaCT Lab Docs" data-md-component="logo">
       
-  <img src="../assets/NAU.png" alt="logo">
+  <img src="../../assets/NAU.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -568,7 +659,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Instruments
+              Photoluminescence Spectroscopy (PL)
             
           </span>
         </div>
@@ -588,7 +679,7 @@
   
   
     <li class="md-tabs__item">
-      <a href=".." class="md-tabs__link">
+      <a href="../.." class="md-tabs__link">
         
   
   
@@ -609,7 +700,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../samples/" class="md-tabs__link">
+        <a href="../../samples/" class="md-tabs__link">
           
   
   
@@ -627,11 +718,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../techniques/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
           
   
   
@@ -653,7 +746,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../compare/" class="md-tabs__link">
+        <a href="../../compare/" class="md-tabs__link">
           
   
   
@@ -671,13 +764,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../instruments/" class="md-tabs__link">
           
   
   
@@ -699,7 +790,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../concepts/" class="md-tabs__link">
+        <a href="../../concepts/" class="md-tabs__link">
           
   
   
@@ -816,9 +907,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="MPaCT Lab Docs" class="md-nav__button md-logo" aria-label="MPaCT Lab Docs" data-md-component="logo">
+    <a href="../.." title="MPaCT Lab Docs" class="md-nav__button md-logo" aria-label="MPaCT Lab Docs" data-md-component="logo">
       
-  <img src="../assets/NAU.png" alt="logo">
+  <img src="../../assets/NAU.png" alt="logo">
 
     </a>
     MPaCT Lab Docs
@@ -833,7 +924,7 @@
   
   
     <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -889,7 +980,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../samples/" class="md-nav__link ">
+            <a href="../../samples/" class="md-nav__link ">
               
   
   
@@ -933,7 +1024,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../samples/thin-films/" class="md-nav__link">
+      <a href="../../samples/thin-films/" class="md-nav__link">
         
   
   
@@ -961,7 +1052,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../samples/powders-and-porous-solids/" class="md-nav__link">
+      <a href="../../samples/powders-and-porous-solids/" class="md-nav__link">
         
   
   
@@ -989,7 +1080,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../samples/prototype-parts/" class="md-nav__link">
+      <a href="../../samples/prototype-parts/" class="md-nav__link">
         
   
   
@@ -1017,7 +1108,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../samples/devices-and-packaged-parts/" class="md-nav__link">
+      <a href="../../samples/devices-and-packaged-parts/" class="md-nav__link">
         
   
   
@@ -1049,6 +1140,8 @@
       
   
   
+    
+  
   
   
     
@@ -1100,18 +1193,21 @@
     
     
       
+        
+        
+      
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../techniques/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   
@@ -1129,13 +1225,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1155,7 +1251,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/transmission-electron-microscopy/" class="md-nav__link">
+      <a href="../transmission-electron-microscopy/" class="md-nav__link">
         
   
   
@@ -1183,7 +1279,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/scanning-electron-microscopy/" class="md-nav__link">
+      <a href="../scanning-electron-microscopy/" class="md-nav__link">
         
   
   
@@ -1211,7 +1307,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/atomic-force-microscopy/" class="md-nav__link">
+      <a href="../atomic-force-microscopy/" class="md-nav__link">
         
   
   
@@ -1239,7 +1335,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/optical-profilometry/" class="md-nav__link">
+      <a href="../optical-profilometry/" class="md-nav__link">
         
   
   
@@ -1267,7 +1363,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/spectroscopic-ellipsometry/" class="md-nav__link">
+      <a href="../spectroscopic-ellipsometry/" class="md-nav__link">
         
   
   
@@ -1292,10 +1388,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../techniques/photoluminescence-spectroscopy/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Photoluminescence
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1311,6 +1434,164 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-photoluminescence-spectroscopy-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How photoluminescence spectroscopy works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-to-use-photoluminescence-spectroscopy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to use photoluminescence spectroscopy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-photoluminescence-spectroscopy-cannot-do" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What photoluminescence spectroscopy cannot do
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-fls1000-at-mpact-lab-flagstaff-arizona" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The FLS1000 at MPaCT Lab, Flagstaff, Arizona
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sample-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sample requirements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#frequently-asked-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Frequently asked questions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Frequently asked questions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-photoluminescence-spectroscopy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is photoluminescence spectroscopy?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-is-the-difference-between-photoluminescence-and-raman-spectroscopy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is the difference between photoluminescence and Raman spectroscopy?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#can-photoluminescence-measure-carrier-lifetime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Can photoluminescence measure carrier lifetime?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-is-my-photoluminescence-signal-weak-or-missing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why is my photoluminescence signal weak or missing?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#can-external-companies-use-the-photoluminescence-spectrometer-at-nau" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Can external companies use the photoluminescence spectrometer at NAU?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#request-time-on-this-instrument" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Request time on this instrument
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1323,7 +1604,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/x-ray-diffraction/" class="md-nav__link">
+      <a href="../x-ray-diffraction/" class="md-nav__link">
         
   
   
@@ -1351,7 +1632,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/secondary-ion-mass-spectrometry/" class="md-nav__link">
+      <a href="../secondary-ion-mass-spectrometry/" class="md-nav__link">
         
   
   
@@ -1379,7 +1660,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/gas-sorption-surface-area/" class="md-nav__link">
+      <a href="../gas-sorption-surface-area/" class="md-nav__link">
         
   
   
@@ -1407,7 +1688,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/sample-degassing/" class="md-nav__link">
+      <a href="../sample-degassing/" class="md-nav__link">
         
   
   
@@ -1435,7 +1716,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/on-wafer-probing/" class="md-nav__link">
+      <a href="../on-wafer-probing/" class="md-nav__link">
         
   
   
@@ -1463,7 +1744,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/environmental-stress-testing/" class="md-nav__link">
+      <a href="../environmental-stress-testing/" class="md-nav__link">
         
   
   
@@ -1491,7 +1772,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/pressure-calibration/" class="md-nav__link">
+      <a href="../pressure-calibration/" class="md-nav__link">
         
   
   
@@ -1519,7 +1800,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/additive-manufacturing-fdm/" class="md-nav__link">
+      <a href="../additive-manufacturing-fdm/" class="md-nav__link">
         
   
   
@@ -1547,7 +1828,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/cnc-machining/" class="md-nav__link">
+      <a href="../cnc-machining/" class="md-nav__link">
         
   
   
@@ -1575,7 +1856,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/laser-micromachining/" class="md-nav__link">
+      <a href="../laser-micromachining/" class="md-nav__link">
         
   
   
@@ -1603,7 +1884,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/photolithography/" class="md-nav__link">
+      <a href="../photolithography/" class="md-nav__link">
         
   
   
@@ -1631,7 +1912,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/die-and-wire-bonding/" class="md-nav__link">
+      <a href="../die-and-wire-bonding/" class="md-nav__link">
         
   
   
@@ -1659,7 +1940,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/industrial-automation-plc/" class="md-nav__link">
+      <a href="../industrial-automation-plc/" class="md-nav__link">
         
   
   
@@ -1719,7 +2000,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../compare/" class="md-nav__link ">
+            <a href="../../compare/" class="md-nav__link ">
               
   
   
@@ -1763,7 +2044,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../compare/choosing-a-technique/" class="md-nav__link">
+      <a href="../../compare/choosing-a-technique/" class="md-nav__link">
         
   
   
@@ -1791,7 +2072,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../compare/3d-printing-vs-cnc-machining/" class="md-nav__link">
+      <a href="../../compare/3d-printing-vs-cnc-machining/" class="md-nav__link">
         
   
   
@@ -1823,8 +2104,6 @@
       
   
   
-    
-  
   
   
     
@@ -1848,21 +2127,18 @@
     
     
       
-        
-        
-      
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="./" class="md-nav__link md-nav__link--active">
+            <a href="../../instruments/" class="md-nav__link ">
               
   
   
@@ -1880,13 +2156,13 @@
             </a>
             
               
-              <label class="md-nav__link md-nav__link--active" for="__nav_5" id="__nav_5_label" tabindex="">
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1906,7 +2182,7 @@
   
   
     <li class="md-nav__item">
-      <a href="bambu-lab-h2d/" class="md-nav__link">
+      <a href="../../instruments/bambu-lab-h2d/" class="md-nav__link">
         
   
   
@@ -1934,7 +2210,7 @@
   
   
     <li class="md-nav__item">
-      <a href="haas-desktop-mill/" class="md-nav__link">
+      <a href="../../instruments/haas-desktop-mill/" class="md-nav__link">
         
   
   
@@ -1962,7 +2238,7 @@
   
   
     <li class="md-nav__item">
-      <a href="haas-desktop-lathe/" class="md-nav__link">
+      <a href="../../instruments/haas-desktop-lathe/" class="md-nav__link">
         
   
   
@@ -1990,7 +2266,7 @@
   
   
     <li class="md-nav__item">
-      <a href="amatrol-870-mechatronics-line/" class="md-nav__link">
+      <a href="../../instruments/amatrol-870-mechatronics-line/" class="md-nav__link">
         
   
   
@@ -2018,7 +2294,7 @@
   
   
     <li class="md-nav__item">
-      <a href="amatrol-smart-robot-workcell/" class="md-nav__link">
+      <a href="../../instruments/amatrol-smart-robot-workcell/" class="md-nav__link">
         
   
   
@@ -2074,7 +2350,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../concepts/" class="md-nav__link ">
+            <a href="../../concepts/" class="md-nav__link ">
               
   
   
@@ -2140,10 +2416,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#fabrication" class="md-nav__link">
+  <a href="#how-photoluminescence-spectroscopy-works" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Fabrication
+        How photoluminescence spectroscopy works
       
     </span>
   </a>
@@ -2151,10 +2427,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#automation-and-robotics" class="md-nav__link">
+  <a href="#when-to-use-photoluminescence-spectroscopy" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Automation and robotics
+        When to use photoluminescence spectroscopy
       
     </span>
   </a>
@@ -2162,10 +2438,115 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#everything-else" class="md-nav__link">
+  <a href="#what-photoluminescence-spectroscopy-cannot-do" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Everything else
+        What photoluminescence spectroscopy cannot do
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-fls1000-at-mpact-lab-flagstaff-arizona" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The FLS1000 at MPaCT Lab, Flagstaff, Arizona
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sample-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sample requirements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#frequently-asked-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Frequently asked questions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Frequently asked questions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-photoluminescence-spectroscopy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is photoluminescence spectroscopy?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-is-the-difference-between-photoluminescence-and-raman-spectroscopy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is the difference between photoluminescence and Raman spectroscopy?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#can-photoluminescence-measure-carrier-lifetime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Can photoluminescence measure carrier lifetime?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-is-my-photoluminescence-signal-weak-or-missing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why is my photoluminescence signal weak or missing?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#can-external-companies-use-the-photoluminescence-spectrometer-at-nau" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Can external companies use the photoluminescence spectrometer at NAU?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#request-time-on-this-instrument" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Request time on this instrument
       
     </span>
   </a>
@@ -2193,152 +2574,131 @@
       
       
       
-        <span class="md-tag">Reference</span>
+        <span class="md-tag">Characterization</span>
+      
+    
+      
+      
+      
+      
+        <span class="md-tag">Optical Metrology</span>
+      
+    
+      
+      
+      
+      
+        <span class="md-tag">Semiconductors</span>
       
     
   </nav>
 
 
 
-<h1 id="instruments">Instruments<a class="headerlink" href="#instruments" title="Permanent link">&para;</a></h1>
-<p>Use this section when you already know the machine by name. If you know what you need measured or made, start with <a href="../techniques/">Techniques</a> instead.</p>
-<p>A technique page is the method: what it can tell you, what it cannot, and which machine in the lab performs it. An instrument page is the hardware: bed size, spindle limits, who can use it. Most of the lab lives on a technique page. These five pages exist because people look them up by make and model.</p>
-<h2 id="fabrication">Fabrication<a class="headerlink" href="#fabrication" title="Permanent link">&para;</a></h2>
+<h1 id="photoluminescence-spectroscopy-pl">Photoluminescence Spectroscopy (PL)<a class="headerlink" href="#photoluminescence-spectroscopy-pl" title="Permanent link">&para;</a></h1>
+<p>Photoluminescence spectroscopy (PL) is an optical characterization technique in which a specimen is excited with light and the resulting emission is recorded as a spectrum or as a decay versus time. It reports electronic structure, defects, and carrier lifetime without contacting the sample.</p>
+<h2 id="how-photoluminescence-spectroscopy-works">How photoluminescence spectroscopy works<a class="headerlink" href="#how-photoluminescence-spectroscopy-works" title="Permanent link">&para;</a></h2>
+<p>A photon is absorbed and promotes an electron into an excited state. When that electron returns toward the ground state, some of the energy is re-emitted as light. The <strong>emission spectrum</strong> is intensity versus wavelength of that light. An <strong>excitation spectrum</strong> is intensity at a fixed emission wavelength while the excitation wavelength is scanned, which maps which absorptions feed that emission.</p>
+<p><strong>Lifetime</strong> is the decay of emission after a short excitation pulse. Time-correlated single-photon counting (TCSPC) builds that decay from many weak pulses and covers picoseconds to microseconds. Multichannel scaling covers slower phosphorescence, out to seconds.</p>
+<p>A spectrofluorometer selects excitation and emission with monochromators rather than with fixed filters, so the same instrument can scan a semiconductor film, a quantum-dot dispersion, and a molecular dye without changing filter sets. Polarizers on both paths give <strong>anisotropy</strong>, which reports how quickly an emitter rotates or how oriented a film is.</p>
+<p>PL is not absorption. A weak emitter can still absorb strongly. A strong emitter can still be quenched at the surface.</p>
+<h2 id="when-to-use-photoluminescence-spectroscopy">When to use photoluminescence spectroscopy<a class="headerlink" href="#when-to-use-photoluminescence-spectroscopy" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Locating the emission energy of a semiconductor, quantum dot, or phosphor</li>
+<li>Comparing defect or impurity bands between growth runs</li>
+<li>Measuring fluorescence or phosphorescence lifetime</li>
+<li>Checking whether a film is optically active before building a device on it</li>
+<li>Polarization-resolved emission when orientation or mobility of the emitter matters</li>
+<li>Any case where the sample must not be contacted, coated, or placed in vacuum</li>
+</ul>
+<h2 id="what-photoluminescence-spectroscopy-cannot-do">What photoluminescence spectroscopy cannot do<a class="headerlink" href="#what-photoluminescence-spectroscopy-cannot-do" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>A missing band is not proof the material is absent.</strong> Indirect-gap semiconductors and metals emit weakly. Surface quenching can kill PL from a film that is otherwise intact.</li>
+<li><strong>It does not report composition the way EDS or SIMS does.</strong> Peak position constrains the electronic transition; it does not identify an element.</li>
+<li><strong>Room-temperature PL can hide structure that appears only when cooled.</strong> The catalogue page does not list a cryostat as part of this instrument.</li>
+<li><strong>The measurement averages over the illuminated spot.</strong> Feature-level emission needs a microscope, which is a different setup.</li>
+<li><strong>It is not a substitute for quantum-efficiency metrology unless the run is set up for absolute PLQY.</strong> Spectral shape and lifetime do not by themselves give a yield.</li>
+</ul>
+<h2 id="the-fls1000-at-mpact-lab-flagstaff-arizona">The FLS1000 at MPaCT Lab, Flagstaff, Arizona<a class="headerlink" href="#the-fls1000-at-mpact-lab-flagstaff-arizona" title="Permanent link">&para;</a></h2>
+<p>The MPaCT Lab at Northern Arizona University operates an <strong>Edinburgh Instruments FLS1000</strong> modular photoluminescence spectrometer in Flagstaff, Arizona. The catalogue lists spectral coverage of about 185 to 5500 nm, lifetimes from picoseconds to seconds, a 450 W ozone-free xenon lamp for steady-state work, and a signal-to-noise ratio greater than 35,000:1.</p>
+<p>A 325 mm Czerny-Turner monochromator with a triple grating turret selects wavelength. Picosecond diode lasers and a microsecond flashlamp cover the pulsed measurements. Wavelength accuracy is listed as ±0.2 nm, grating dependent.</p>
+<p>The instrument is available to NAU researchers, external academic users, and industry partners, on a fee-for-service basis or as a trained hands-on user.</p>
 <table>
 <thead>
 <tr>
-<th>Instrument</th>
-<th>Method</th>
-<th>Key limit</th>
+<th>Specification</th>
+<th>Value</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><a href="bambu-lab-h2d/">Bambu Lab H2D</a></td>
-<td><a href="../techniques/additive-manufacturing-fdm/">FDM printing</a></td>
-<td>325 × 320 × 325 mm build volume</td>
+<td>Spectral range</td>
+<td>~185 to 5500 nm</td>
 </tr>
 <tr>
-<td><a href="haas-desktop-mill/">Haas Desktop Mill</a></td>
-<td><a href="../techniques/cnc-machining/">CNC milling</a></td>
-<td>Plastics and machinable wax only</td>
+<td>Lifetime range</td>
+<td>Picoseconds to seconds</td>
 </tr>
 <tr>
-<td><a href="haas-desktop-lathe/">Haas Desktop Lathe</a></td>
-<td><a href="../techniques/cnc-machining/">CNC turning</a></td>
-<td>0.75 in max cutting diameter</td>
+<td>Sensitivity</td>
+<td>&gt;35,000:1 SNR</td>
+</tr>
+<tr>
+<td>Steady-state source</td>
+<td>450 W ozone-free xenon arc lamp</td>
+</tr>
+<tr>
+<td>Pulsed sources</td>
+<td>Picosecond diode lasers and microsecond flashlamp</td>
+</tr>
+<tr>
+<td>Monochromator</td>
+<td>325 mm Czerny-Turner, triple grating turret</td>
+</tr>
+<tr>
+<td>Wavelength accuracy</td>
+<td>±0.2 nm (grating dependent)</td>
+</tr>
+<tr>
+<td>Minimum step</td>
+<td>0.01 nm</td>
+</tr>
+<tr>
+<td>Stray light rejection</td>
+<td>1:10⁵ (single mono), 1:10¹⁰ (double mono)</td>
+</tr>
+<tr>
+<td>Software</td>
+<td>USB control via PC software</td>
 </tr>
 </tbody>
 </table>
-<h2 id="automation-and-robotics">Automation and robotics<a class="headerlink" href="#automation-and-robotics" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Instrument</th>
-<th>Method</th>
-<th>Key limit</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="amatrol-870-mechatronics-line/">Amatrol 870 Mechatronics Learning System</a></td>
-<td><a href="../techniques/industrial-automation-plc/">PLC control</a></td>
-<td>Educational access only</td>
-</tr>
-<tr>
-<td><a href="amatrol-smart-robot-workcell/">Amatrol Smart Robot Workcell</a></td>
-<td><a href="../techniques/industrial-automation-plc/">Robot programming</a></td>
-<td>Educational access only</td>
-</tr>
-</tbody>
-</table>
-<div class="admonition note">
-<p class="admonition-title">Three stations, one page</p>
-<p>The 87-MS1 pick and place, 87-MS2 gauging, and 87-MS7 inventory storage stations are listed separately in the equipment catalogue, and documented here as one line. They build a single workpiece in sequence; none of them is a complete machine on its own. Each station's catalogue entry remains at <a href="/Equipment.html">About Equipment</a>.</p>
-</div>
-<h2 id="everything-else">Everything else<a class="headerlink" href="#everything-else" title="Permanent link">&para;</a></h2>
-<p>The remaining instruments in the catalogue are documented by method rather than by model:</p>
-<table>
-<thead>
-<tr>
-<th>Instrument</th>
-<th>Documented at</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>JEOL JEM-F200</td>
-<td><a href="../techniques/transmission-electron-microscopy/">Transmission Electron Microscopy</a></td>
-</tr>
-<tr>
-<td>JEOL JSM-IT710HR</td>
-<td><a href="../techniques/scanning-electron-microscopy/">Scanning Electron Microscopy</a></td>
-</tr>
-<tr>
-<td>AFM Workshop B-2</td>
-<td><a href="../techniques/atomic-force-microscopy/">Atomic Force Microscopy</a></td>
-</tr>
-<tr>
-<td>Keyence VK-X3000</td>
-<td><a href="../techniques/optical-profilometry/">Optical Profilometry</a></td>
-</tr>
-<tr>
-<td>J.A. Woollam RC2</td>
-<td><a href="../techniques/spectroscopic-ellipsometry/">Spectroscopic Ellipsometry</a></td>
-</tr>
-<tr>
-<td>Edinburgh Instruments FLS1000</td>
-<td><a href="../techniques/photoluminescence-spectroscopy/">Photoluminescence Spectroscopy</a></td>
-</tr>
-<tr>
-<td>Microtrac BELSORP MAX X</td>
-<td><a href="../techniques/gas-sorption-surface-area/">Gas Sorption and BET</a></td>
-</tr>
-<tr>
-<td>Microtrac BELPREP VAC</td>
-<td><a href="../techniques/sample-degassing/">Sample Degassing</a></td>
-</tr>
-<tr>
-<td>CSZ MicroClimate MCBH-1.2</td>
-<td><a href="../techniques/environmental-stress-testing/">Environmental Stress Testing</a></td>
-</tr>
-<tr>
-<td>Fluke Calibration P3114</td>
-<td><a href="../techniques/pressure-calibration/">Pressure Calibration</a></td>
-</tr>
-<tr>
-<td>MPI TS200</td>
-<td><a href="../techniques/on-wafer-probing/">On-Wafer Probing</a></td>
-</tr>
-<tr>
-<td>LPKF ProtoLaser R4</td>
-<td><a href="../techniques/laser-micromachining/">Laser Micromachining</a></td>
-</tr>
-<tr>
-<td>SUSS MJB4</td>
-<td><a href="../techniques/photolithography/">Photolithography</a></td>
-</tr>
-<tr>
-<td>Rigaku SmartLab</td>
-<td><a href="../techniques/x-ray-diffraction/">X-ray Diffraction</a></td>
-</tr>
-<tr>
-<td>Hiden Analytical SIMS Workstation</td>
-<td><a href="../techniques/secondary-ion-mass-spectrometry/">Secondary Ion Mass Spectrometry</a></td>
-</tr>
-<tr>
-<td>Tresky T-4909-AE</td>
-<td><a href="../techniques/die-and-wire-bonding/">Die attach</a></td>
-</tr>
-<tr>
-<td>West-Bond 7700D</td>
-<td><a href="../techniques/die-and-wire-bonding/">Wire bonding</a></td>
-</tr>
-</tbody>
-</table>
-<p>The <a href="/Equipment.html">full catalogue of 41 instruments</a> is on the main site.</p>
-<p><strong>MPaCT Lab</strong> - Building 98E, South Engineering Lab, 561 E Pine Knoll Dr, Flagstaff, AZ 86001<br>
+<p>Figures follow the <a href="/About_Equipment/Photoluminescence_Spectrometer.html">equipment catalogue</a>.</p>
+<p><a class="md-button md-button--primary" href="/About_Equipment/Photoluminescence_Spectrometer.html">Full FLS1000 specifications and booking &rarr;</a></p>
+<h2 id="sample-requirements">Sample requirements<a class="headerlink" href="#sample-requirements" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Form.</strong> Films, wafers, powders, cuvettes, and small coupons that sit in the sample chamber.</li>
+<li><strong>Surface.</strong> Clean enough that the excitation reaches the material you care about. A metal cap or a dirty polymer overlayer will quench or shadow the emission.</li>
+<li><strong>Optical access.</strong> The instrument looks at light, not at a buried layer behind an opaque stack.</li>
+<li><strong>Hazards.</strong> Declare anything fluorescent, photosensitive, or toxic before submission.</li>
+<li><strong>What you already know.</strong> Nominal composition, expected emission window, and whether you need a spectrum, a lifetime, or both.</li>
+</ul>
+<h2 id="frequently-asked-questions">Frequently asked questions<a class="headerlink" href="#frequently-asked-questions" title="Permanent link">&para;</a></h2>
+<h3 id="what-is-photoluminescence-spectroscopy">What is photoluminescence spectroscopy?<a class="headerlink" href="#what-is-photoluminescence-spectroscopy" title="Permanent link">&para;</a></h3>
+<p>Photoluminescence spectroscopy records the light a specimen emits after it has been excited by light of a shorter wavelength. The emission spectrum locates electronic transitions and defect bands. The decay of that emission versus time is the lifetime, which reports how carriers or excited states recombine.</p>
+<h3 id="what-is-the-difference-between-photoluminescence-and-raman-spectroscopy">What is the difference between photoluminescence and Raman spectroscopy?<a class="headerlink" href="#what-is-the-difference-between-photoluminescence-and-raman-spectroscopy" title="Permanent link">&para;</a></h3>
+<p>Photoluminescence is emission from an electronic excited state, usually much stronger than Raman and shifted by electron-volts rather than by vibrational wavenumbers. Raman is inelastic scattering from vibrations. Use PL when the question is band gap, defects, or lifetime. Use Raman when the question is chemical identity or crystal phase.</p>
+<h3 id="can-photoluminescence-measure-carrier-lifetime">Can photoluminescence measure carrier lifetime?<a class="headerlink" href="#can-photoluminescence-measure-carrier-lifetime" title="Permanent link">&para;</a></h3>
+<p>Yes. Time-correlated single-photon counting covers picoseconds to microseconds. Multichannel scaling covers longer phosphorescence, from nanoseconds to seconds. The FLS1000 is specified for lifetimes across that whole span. Lifetime is a decay of emission after pulsed excitation, not a substitute for a transport measurement of mobility.</p>
+<h3 id="why-is-my-photoluminescence-signal-weak-or-missing">Why is my photoluminescence signal weak or missing?<a class="headerlink" href="#why-is-my-photoluminescence-signal-weak-or-missing" title="Permanent link">&para;</a></h3>
+<p>The excitation wavelength is not absorbed, the emission is outside the detector window, the surface is quenched by contamination or a metal overlayer, or the material is indirect-gap and simply emits weakly at room temperature. Cooling, a different excitation line, and a clean uncoated surface are the usual first checks. A missing signal is often a sample or geometry problem, not a broken lamp.</p>
+<h3 id="can-external-companies-use-the-photoluminescence-spectrometer-at-nau">Can external companies use the photoluminescence spectrometer at NAU?<a class="headerlink" href="#can-external-companies-use-the-photoluminescence-spectrometer-at-nau" title="Permanent link">&para;</a></h3>
+<p>Yes. The MPaCT Lab is a shared-use facility in Flagstaff, Arizona, open to NAU researchers, external academic users, and industry partners on either a fee-for-service or hands-on trained-user basis.</p>
+<h2 id="request-time-on-this-instrument">Request time on this instrument<a class="headerlink" href="#request-time-on-this-instrument" title="Permanent link">&para;</a></h2>
+<p><strong>MPaCT Lab</strong> - Building 98E, South Engineering Lab<br>
+561 E Pine Knoll Dr, Flagstaff, AZ 86001<br>
 Phone: <a href="tel:+19285232343">928-523-2343</a> &middot; Email: <a href="mailto:mpct.nano@nau.edu">mpct.nano@nau.edu</a></p>
+<p><a class="md-button" href="/ServiceRequest.html">Submit a service request</a> <a class="md-button" href="/Reserve_Equipment.html">Reserve the instrument</a></p>
 
 
 
@@ -2467,10 +2827,10 @@ Phone: <a href="tel:+19285232343">928-523-2343</a> &middot; Email: <a href="mail
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "content.tabs.link", "content.tooltips", "navigation.indexes", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.tracking", "search.highlight", "search.suggest", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "content.tabs.link", "content.tooltips", "navigation.indexes", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.tracking", "search.highlight", "search.suggest", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
         <script src="/JS/layout.js"></script>

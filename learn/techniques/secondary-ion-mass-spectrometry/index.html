@@ -140,8 +140,18 @@
         },
         {
           "@type": "PropertyValue",
-          "name": "Mass range options",
-          "value": "300, 510, or 1000 amu"
+          "name": "Mass range",
+          "value": "300 to 1000 amu (typical)"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Depth resolution",
+          "value": "About 5 nm (typical thin-film profiling)"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Ion guns",
+          "value": "Configurable, for example Ar/O2 and Cs; electron flood gun option for insulators"
         },
         {
           "@type": "PropertyValue",
@@ -1163,6 +1173,16 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
     
     
     
@@ -1309,6 +1329,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../optical-profilometry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Optical profilometry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../spectroscopic-ellipsometry/" class="md-nav__link">
         
   
@@ -1317,6 +1365,34 @@
     
   
     Ellipsometry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../photoluminescence-spectroscopy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Photoluminescence
   
 
     
@@ -1623,6 +1699,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../on-wafer-probing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    On-wafer probing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../environmental-stress-testing/" class="md-nav__link">
         
   
@@ -1715,6 +1819,62 @@
     
   
     CNC machining
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../laser-micromachining/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Laser micromachining
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../photolithography/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Photolithography
   
 
     
@@ -2430,7 +2590,7 @@
 <li><strong>It is not a picture of the surface.</strong> Spatial resolution is set by the primary-beam diameter, typically tens to hundreds of micrometres on a quadrupole workstation, not nanometres. Morphology is an <a href="../scanning-electron-microscopy/">SEM</a> or <a href="../atomic-force-microscopy/">AFM</a> question.</li>
 <li><strong>A raw SIMS intensity is not a concentration.</strong> Matrix effects can change secondary-ion yield by orders of magnitude at an interface. Quantification needs a standard, a known implant, or SNMS.</li>
 <li><strong>It consumes the analysed area.</strong> Dynamic SIMS leaves a crater. The only piece of a working device is the wrong sample.</li>
-<li><strong>Insulators charge.</strong> Without charge compensation, the spectrum distorts or vanishes. An electron flood gun is the usual fix, and it is an option on this platform rather than a guarantee of the installed configuration.</li>
+<li><strong>Insulators charge.</strong> Without charge compensation, the spectrum distorts or vanishes. An electron flood gun is the usual fix; the catalogue lists it as an option for insulating samples.</li>
 <li><strong>It does not report chemical state the way XPS does.</strong> Mass identifies species; oxidation state and bonding are inferred, not measured as a core-level shift.</li>
 </ul>
 <h2 id="the-hiden-sims-workstation-at-mpact-lab-flagstaff-arizona">The Hiden SIMS Workstation at MPaCT Lab, Flagstaff, Arizona<a class="headerlink" href="#the-hiden-sims-workstation-at-mpact-lab-flagstaff-arizona" title="Permanent link">&para;</a></h2>
@@ -2454,8 +2614,20 @@
 <td>Dynamic SIMS, static SIMS, SNMS</td>
 </tr>
 <tr>
-<td>Mass range options</td>
-<td>300, 510, or 1000 amu</td>
+<td>Mass range</td>
+<td>300 to 1000 amu (typical)</td>
+</tr>
+<tr>
+<td>Depth resolution</td>
+<td>~5 nm (typical thin-film profiling)</td>
+</tr>
+<tr>
+<td>Ion guns</td>
+<td>Configurable (e.g. Ar/O₂, Cs)</td>
+</tr>
+<tr>
+<td>Charge compensation</td>
+<td>Electron flood gun option for insulating samples</td>
 </tr>
 <tr>
 <td>Detection</td>
@@ -2463,11 +2635,11 @@
 </tr>
 <tr>
 <td>Sample size</td>
-<td>Up to 40 × 40 mm, max 10 mm thick (Hiden)</td>
+<td>Up to ~40 × 40 mm, max ~10 mm thick</td>
 </tr>
 <tr>
 <td>Vacuum</td>
-<td>UHV analysis chamber with load lock</td>
+<td>UHV chamber with turbomolecular pumping and LN2 cryopanel</td>
 </tr>
 <tr>
 <td>Software</td>
@@ -2475,11 +2647,7 @@
 </tr>
 </tbody>
 </table>
-<p>Analyser type, modes, mass-range options, and sample size are as published by Hiden Analytical for the SIMS Workstation and MAXIM.</p>
-<div class="admonition warning">
-<p class="admonition-title">Installed ion guns, mass-range card, and depth resolution pending confirmation</p>
-<p>Hiden offers the IG20 gas gun (Ar or O2) and the IG-5C caesium gun as typical workstation sources, plus an electron flood gun for insulators. The equipment catalogue lists "configurable ion guns (e.g., Ar/O2, Cs)" and a typical depth resolution of about 5 nm. Neither the installed gun set nor a manufacturer depth-resolution specification for this chamber has been confirmed. Mass range is listed in the catalogue as "300 to 1000 amu (typical)"; the MAXIM is sold as one of three cards. Those rows are held until the Lab Manager confirms the fitted options.</p>
-</div>
+<p>Mass range, depth resolution, ion guns, flood-gun option, and sample size follow the <a href="/About_Equipment/SIMS_Workstation.html">equipment catalogue</a>.</p>
 <p><a class="md-button md-button--primary" href="/About_Equipment/SIMS_Workstation.html">Full SIMS specifications and booking &rarr;</a></p>
 <h2 id="sample-requirements">Sample requirements<a class="headerlink" href="#sample-requirements" title="Permanent link">&para;</a></h2>
 <ul>

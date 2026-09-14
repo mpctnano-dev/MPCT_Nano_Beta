@@ -6,37 +6,37 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="The machines at NAU's MPaCT Lab that people look up by name, with sizes, speeds, and hard limits. For the method itself, start with Techniques.">
+        <meta name="description" content="Optical profilometry maps 3D roughness and step height without contact on a Keyence VK-X3000 at NAU's MPaCT Lab in Flagstaff, Arizona.">
       
       
         <meta name="author" content="NAU Nano">
       
       
-        <link rel="canonical" href="https://nano.nau.edu/learn/instruments/">
+        <link rel="canonical" href="https://nano.nau.edu/learn/techniques/optical-profilometry/">
       
       
-        <link rel="prev" href="../compare/3d-printing-vs-cnc-machining/">
+        <link rel="prev" href="../atomic-force-microscopy/">
       
       
-        <link rel="next" href="bambu-lab-h2d/">
+        <link rel="next" href="../spectroscopic-ellipsometry/">
       
       
         
       
       
-      <link rel="icon" href="../assets/NAU_Nano_favicon.png">
+      <link rel="icon" href="../../assets/NAU_Nano_favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
-        <title>Instruments - MPaCT Lab Docs</title>
+        <title>Optical Profilometry (3D Surface Profiling) - MPaCT Lab Docs</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -49,7 +49,7 @@
       
     
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -61,9 +61,9 @@
 
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="NAU Nano | MPaCT Lab">
-  <meta property="og:title" content="Instruments">
-  <meta property="og:description" content="The machines at NAU's MPaCT Lab that people look up by name, with sizes, speeds, and hard limits. For the method itself, start with Techniques.">
-  <meta property="og:url" content="https://nano.nau.edu/learn/instruments/">
+  <meta property="og:title" content="Optical Profilometry (3D Surface Profiling)">
+  <meta property="og:description" content="Optical profilometry maps 3D roughness and step height without contact on a Keyence VK-X3000 at NAU's MPaCT Lab in Flagstaff, Arizona.">
+  <meta property="og:url" content="https://nano.nau.edu/learn/techniques/optical-profilometry/">
   
   <meta name="twitter:card" content="summary_large_image">
 
@@ -73,6 +73,13 @@
 {
   "@context": "https://schema.org",
   "@graph": [
+    {
+      "@type": "DefinedTerm",
+      "alternateName": "3D Surface Profiling",
+      "description": "A non-contact surface metrology technique that reconstructs a three-dimensional height map from optical signals, reporting roughness, step height, and topography over fields from micrometres to tens of millimetres.",
+      "inDefinedTermSet": "https://nano.nau.edu/learn/concepts/",
+      "name": "Optical Profilometry"
+    },
     {
       "@id": "https://nano.nau.edu/#organization",
       "@type": "ResearchOrganization",
@@ -84,50 +91,129 @@
         "postalCode": "86001",
         "streetAddress": "561 E Pine Knoll Dr, Building 98E"
       },
+      "alternateName": "Microelectronics Processing and Characterization Testing Lab",
+      "email": "mpct.nano@nau.edu",
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 35.17765608035483,
+        "longitude": -111.6491191644177
+      },
       "name": "MPaCT Lab",
       "parentOrganization": {
         "@type": "CollegeOrUniversity",
         "name": "Northern Arizona University"
       },
+      "telephone": "+1-928-523-2343",
       "url": "https://nano.nau.edu/"
     },
     {
-      "@type": "ItemList",
-      "itemListElement": [
+      "@type": "Service",
+      "areaServed": {
+        "@type": "State",
+        "name": "Arizona"
+      },
+      "availableChannel": {
+        "@type": "ServiceChannel",
+        "serviceUrl": "https://nano.nau.edu/ServiceRequest.html"
+      },
+      "description": "Non-contact three-dimensional surface measurement of roughness, step height, and topography by laser confocal, focus variation, and interferometric methods on parts, films, and microstructures.",
+      "name": "Optical Profilometry and 3D Surface Profiling",
+      "provider": {
+        "@id": "https://nano.nau.edu/#organization"
+      },
+      "serviceType": "Surface metrology"
+    },
+    {
+      "@type": "IndividualProduct",
+      "additionalProperty": [
         {
-          "@type": "ListItem",
-          "name": "Bambu Lab H2D 3D Printer",
-          "position": 1,
-          "url": "https://nano.nau.edu/learn/instruments/bambu-lab-h2d/"
+          "@type": "PropertyValue",
+          "name": "Height resolution",
+          "value": "0.01 nm"
         },
         {
-          "@type": "ListItem",
-          "name": "Haas Desktop Mill",
-          "position": 2,
-          "url": "https://nano.nau.edu/learn/instruments/haas-desktop-mill/"
+          "@type": "PropertyValue",
+          "name": "Scan area",
+          "value": "Up to 50 by 50 millimetres"
         },
         {
-          "@type": "ListItem",
-          "name": "Haas Desktop Lathe",
-          "position": 3,
-          "url": "https://nano.nau.edu/learn/instruments/haas-desktop-lathe/"
+          "@type": "PropertyValue",
+          "name": "Magnification",
+          "value": "42x to 28800x total"
         },
         {
-          "@type": "ListItem",
-          "name": "Amatrol 870 Mechatronics Learning System",
-          "position": 4,
-          "url": "https://nano.nau.edu/learn/instruments/amatrol-870-mechatronics-line/"
+          "@type": "PropertyValue",
+          "name": "Field of view",
+          "value": "11 micrometres to 7398 micrometres"
         },
         {
-          "@type": "ListItem",
-          "name": "Amatrol Smart Robot Workcell",
-          "position": 5,
-          "url": "https://nano.nau.edu/learn/instruments/amatrol-smart-robot-workcell/"
+          "@type": "PropertyValue",
+          "name": "Measurement principles",
+          "value": "Laser confocal, focus variation, white light interferometry, spectral interference"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Laser wavelength",
+          "value": "404 nm or 661 nm, head dependent"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Maximum measurement speed",
+          "value": "Surface 125 Hz, line 7900 Hz"
         }
       ],
-      "itemListOrder": "https://schema.org/ItemListUnordered",
-      "name": "Instruments documented at MPaCT Lab",
-      "numberOfItems": 5
+      "category": "3D laser scanning confocal microscope",
+      "manufacturer": {
+        "@type": "Organization",
+        "name": "Keyence"
+      },
+      "name": "Keyence VK-X3000",
+      "url": "https://nano.nau.edu/About_Equipment/VKX3000_3D_Surface_Profiler.html"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Optical profilometry reconstructs a three-dimensional height map from light rather than from a contacting stylus or an AFM tip. The VK-X3000 combines laser confocal scanning, focus variation, white-light interferometry, and spectral interference in one instrument so the same part can be measured whether the surface is smooth, rough, or mixed. The output is topography, step height, and roughness parameters such as Ra and Rq."
+          },
+          "name": "What is optical profilometry?"
+        },
+        {
+          "@type": "Question",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Scale and contact. The AFM Workshop B-2 scans 50 by 50 micrometres with a 17 micrometre vertical range and a physical tip. The VK-X3000 is specified up to 50 by 50 millimetres, does not touch the surface, and can measure features taller than the AFM scanner. Use AFM when you need a calibrated nanometre patch, mechanical contrast, or the smallest lateral features. Use optical profilometry when the question is a millimetre-scale survey, a tall step, or a part the tip would damage or never finish scanning."
+          },
+          "name": "What is the difference between optical profilometry and AFM?"
+        },
+        {
+          "@type": "Question",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Up to 50 by 50 millimetres, as listed on the catalogue page. A single field of view is 11 micrometres to 7398 micrometres depending on magnification (42x to 28800x total). The 50 mm figure is the stitched working envelope, not one camera frame. That is a thousand times the AFM\u0027s 50 by 50 micrometre scan, which is why wafer surveys and machined parts start here."
+          },
+          "name": "How large an area can the VK-X3000 measure?"
+        },
+        {
+          "@type": "Question",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The catalogue lists surface roughness, including Ra and Rq, as a primary application, along with step height on trenches and microstructures. The number you get is only as meaningful as the field you measured: a 50 mm map and a 50 micrometre AFM image of the same coupon will not match, because they average different wavelengths of roughness. Say the evaluation length you care about."
+          },
+          "name": "Can optical profilometry report Ra and Rq?"
+        },
+        {
+          "@type": "Question",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The beam has to return. A steep wall, a mirror at the wrong angle, or a transparent film that the confocal pinhole cannot localise will drop points. Focus variation is the catalogue mode for rough or steep surfaces. Spectral interference is listed for thin films and smooth surfaces. Switching mode is the first fix; coating a transparent sample is a last resort because it changes the surface you came to measure."
+          },
+          "name": "Why is my optical profile missing data on a steep or transparent surface?"
+        }
+      ]
     }
   ]
 }
@@ -144,7 +230,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   
-  <link rel="stylesheet" href="../assets/extra.css">
+  <link rel="stylesheet" href="../../assets/extra.css">
 
   </head>
   
@@ -165,7 +251,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#instruments" class="md-skip">
+        <a href="#optical-profilometry-3d-surface-profiling" class="md-skip">
           Skip to content
         </a>
       
@@ -549,9 +635,9 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="MPaCT Lab Docs" class="md-header__button md-logo" aria-label="MPaCT Lab Docs" data-md-component="logo">
+    <a href="../.." title="MPaCT Lab Docs" class="md-header__button md-logo" aria-label="MPaCT Lab Docs" data-md-component="logo">
       
-  <img src="../assets/NAU.png" alt="logo">
+  <img src="../../assets/NAU.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -568,7 +654,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Instruments
+              Optical Profilometry (3D Surface Profiling)
             
           </span>
         </div>
@@ -588,7 +674,7 @@
   
   
     <li class="md-tabs__item">
-      <a href=".." class="md-tabs__link">
+      <a href="../.." class="md-tabs__link">
         
   
   
@@ -609,7 +695,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../samples/" class="md-tabs__link">
+        <a href="../../samples/" class="md-tabs__link">
           
   
   
@@ -627,11 +713,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../techniques/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
           
   
   
@@ -653,7 +741,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../compare/" class="md-tabs__link">
+        <a href="../../compare/" class="md-tabs__link">
           
   
   
@@ -671,13 +759,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../instruments/" class="md-tabs__link">
           
   
   
@@ -699,7 +785,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../concepts/" class="md-tabs__link">
+        <a href="../../concepts/" class="md-tabs__link">
           
   
   
@@ -816,9 +902,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="MPaCT Lab Docs" class="md-nav__button md-logo" aria-label="MPaCT Lab Docs" data-md-component="logo">
+    <a href="../.." title="MPaCT Lab Docs" class="md-nav__button md-logo" aria-label="MPaCT Lab Docs" data-md-component="logo">
       
-  <img src="../assets/NAU.png" alt="logo">
+  <img src="../../assets/NAU.png" alt="logo">
 
     </a>
     MPaCT Lab Docs
@@ -833,7 +919,7 @@
   
   
     <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -889,7 +975,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../samples/" class="md-nav__link ">
+            <a href="../../samples/" class="md-nav__link ">
               
   
   
@@ -933,7 +1019,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../samples/thin-films/" class="md-nav__link">
+      <a href="../../samples/thin-films/" class="md-nav__link">
         
   
   
@@ -961,7 +1047,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../samples/powders-and-porous-solids/" class="md-nav__link">
+      <a href="../../samples/powders-and-porous-solids/" class="md-nav__link">
         
   
   
@@ -989,7 +1075,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../samples/prototype-parts/" class="md-nav__link">
+      <a href="../../samples/prototype-parts/" class="md-nav__link">
         
   
   
@@ -1017,7 +1103,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../samples/devices-and-packaged-parts/" class="md-nav__link">
+      <a href="../../samples/devices-and-packaged-parts/" class="md-nav__link">
         
   
   
@@ -1049,6 +1135,8 @@
       
   
   
+    
+  
   
   
     
@@ -1100,18 +1188,21 @@
     
     
       
+        
+        
+      
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../techniques/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   
@@ -1129,13 +1220,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1155,7 +1246,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/transmission-electron-microscopy/" class="md-nav__link">
+      <a href="../transmission-electron-microscopy/" class="md-nav__link">
         
   
   
@@ -1183,7 +1274,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/scanning-electron-microscopy/" class="md-nav__link">
+      <a href="../scanning-electron-microscopy/" class="md-nav__link">
         
   
   
@@ -1211,7 +1302,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/atomic-force-microscopy/" class="md-nav__link">
+      <a href="../atomic-force-microscopy/" class="md-nav__link">
         
   
   
@@ -1236,10 +1327,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../techniques/optical-profilometry/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Optical profilometry
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1255,6 +1373,164 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-optical-profilometry-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How optical profilometry works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-to-use-optical-profilometry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to use optical profilometry
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-optical-profilometry-cannot-do" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What optical profilometry cannot do
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-vk-x3000-at-mpact-lab-flagstaff-arizona" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The VK-X3000 at MPaCT Lab, Flagstaff, Arizona
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sample-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sample requirements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#frequently-asked-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Frequently asked questions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Frequently asked questions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-optical-profilometry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is optical profilometry?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-is-the-difference-between-optical-profilometry-and-afm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is the difference between optical profilometry and AFM?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-large-an-area-can-the-vk-x3000-measure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How large an area can the VK-X3000 measure?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#can-optical-profilometry-report-ra-and-rq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Can optical profilometry report Ra and Rq?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-is-my-optical-profile-missing-data-on-a-steep-or-transparent-surface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why is my optical profile missing data on a steep or transparent surface?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#request-time-on-this-instrument" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Request time on this instrument
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1267,7 +1543,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/spectroscopic-ellipsometry/" class="md-nav__link">
+      <a href="../spectroscopic-ellipsometry/" class="md-nav__link">
         
   
   
@@ -1295,7 +1571,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/photoluminescence-spectroscopy/" class="md-nav__link">
+      <a href="../photoluminescence-spectroscopy/" class="md-nav__link">
         
   
   
@@ -1323,7 +1599,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/x-ray-diffraction/" class="md-nav__link">
+      <a href="../x-ray-diffraction/" class="md-nav__link">
         
   
   
@@ -1351,7 +1627,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/secondary-ion-mass-spectrometry/" class="md-nav__link">
+      <a href="../secondary-ion-mass-spectrometry/" class="md-nav__link">
         
   
   
@@ -1379,7 +1655,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/gas-sorption-surface-area/" class="md-nav__link">
+      <a href="../gas-sorption-surface-area/" class="md-nav__link">
         
   
   
@@ -1407,7 +1683,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/sample-degassing/" class="md-nav__link">
+      <a href="../sample-degassing/" class="md-nav__link">
         
   
   
@@ -1435,7 +1711,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/on-wafer-probing/" class="md-nav__link">
+      <a href="../on-wafer-probing/" class="md-nav__link">
         
   
   
@@ -1463,7 +1739,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/environmental-stress-testing/" class="md-nav__link">
+      <a href="../environmental-stress-testing/" class="md-nav__link">
         
   
   
@@ -1491,7 +1767,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/pressure-calibration/" class="md-nav__link">
+      <a href="../pressure-calibration/" class="md-nav__link">
         
   
   
@@ -1519,7 +1795,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/additive-manufacturing-fdm/" class="md-nav__link">
+      <a href="../additive-manufacturing-fdm/" class="md-nav__link">
         
   
   
@@ -1547,7 +1823,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/cnc-machining/" class="md-nav__link">
+      <a href="../cnc-machining/" class="md-nav__link">
         
   
   
@@ -1575,7 +1851,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/laser-micromachining/" class="md-nav__link">
+      <a href="../laser-micromachining/" class="md-nav__link">
         
   
   
@@ -1603,7 +1879,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/photolithography/" class="md-nav__link">
+      <a href="../photolithography/" class="md-nav__link">
         
   
   
@@ -1631,7 +1907,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/die-and-wire-bonding/" class="md-nav__link">
+      <a href="../die-and-wire-bonding/" class="md-nav__link">
         
   
   
@@ -1659,7 +1935,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/industrial-automation-plc/" class="md-nav__link">
+      <a href="../industrial-automation-plc/" class="md-nav__link">
         
   
   
@@ -1719,7 +1995,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../compare/" class="md-nav__link ">
+            <a href="../../compare/" class="md-nav__link ">
               
   
   
@@ -1763,7 +2039,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../compare/choosing-a-technique/" class="md-nav__link">
+      <a href="../../compare/choosing-a-technique/" class="md-nav__link">
         
   
   
@@ -1791,7 +2067,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../compare/3d-printing-vs-cnc-machining/" class="md-nav__link">
+      <a href="../../compare/3d-printing-vs-cnc-machining/" class="md-nav__link">
         
   
   
@@ -1823,8 +2099,6 @@
       
   
   
-    
-  
   
   
     
@@ -1848,21 +2122,18 @@
     
     
       
-        
-        
-      
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="./" class="md-nav__link md-nav__link--active">
+            <a href="../../instruments/" class="md-nav__link ">
               
   
   
@@ -1880,13 +2151,13 @@
             </a>
             
               
-              <label class="md-nav__link md-nav__link--active" for="__nav_5" id="__nav_5_label" tabindex="">
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1906,7 +2177,7 @@
   
   
     <li class="md-nav__item">
-      <a href="bambu-lab-h2d/" class="md-nav__link">
+      <a href="../../instruments/bambu-lab-h2d/" class="md-nav__link">
         
   
   
@@ -1934,7 +2205,7 @@
   
   
     <li class="md-nav__item">
-      <a href="haas-desktop-mill/" class="md-nav__link">
+      <a href="../../instruments/haas-desktop-mill/" class="md-nav__link">
         
   
   
@@ -1962,7 +2233,7 @@
   
   
     <li class="md-nav__item">
-      <a href="haas-desktop-lathe/" class="md-nav__link">
+      <a href="../../instruments/haas-desktop-lathe/" class="md-nav__link">
         
   
   
@@ -1990,7 +2261,7 @@
   
   
     <li class="md-nav__item">
-      <a href="amatrol-870-mechatronics-line/" class="md-nav__link">
+      <a href="../../instruments/amatrol-870-mechatronics-line/" class="md-nav__link">
         
   
   
@@ -2018,7 +2289,7 @@
   
   
     <li class="md-nav__item">
-      <a href="amatrol-smart-robot-workcell/" class="md-nav__link">
+      <a href="../../instruments/amatrol-smart-robot-workcell/" class="md-nav__link">
         
   
   
@@ -2074,7 +2345,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../concepts/" class="md-nav__link ">
+            <a href="../../concepts/" class="md-nav__link ">
               
   
   
@@ -2140,10 +2411,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#fabrication" class="md-nav__link">
+  <a href="#how-optical-profilometry-works" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Fabrication
+        How optical profilometry works
       
     </span>
   </a>
@@ -2151,10 +2422,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#automation-and-robotics" class="md-nav__link">
+  <a href="#when-to-use-optical-profilometry" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Automation and robotics
+        When to use optical profilometry
       
     </span>
   </a>
@@ -2162,10 +2433,115 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#everything-else" class="md-nav__link">
+  <a href="#what-optical-profilometry-cannot-do" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Everything else
+        What optical profilometry cannot do
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-vk-x3000-at-mpact-lab-flagstaff-arizona" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The VK-X3000 at MPaCT Lab, Flagstaff, Arizona
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sample-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sample requirements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#frequently-asked-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Frequently asked questions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Frequently asked questions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-optical-profilometry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is optical profilometry?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-is-the-difference-between-optical-profilometry-and-afm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is the difference between optical profilometry and AFM?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-large-an-area-can-the-vk-x3000-measure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How large an area can the VK-X3000 measure?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#can-optical-profilometry-report-ra-and-rq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Can optical profilometry report Ra and Rq?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-is-my-optical-profile-missing-data-on-a-steep-or-transparent-surface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why is my optical profile missing data on a steep or transparent surface?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#request-time-on-this-instrument" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Request time on this instrument
       
     </span>
   </a>
@@ -2193,152 +2569,123 @@
       
       
       
-        <span class="md-tag">Reference</span>
+        <span class="md-tag">Characterization</span>
+      
+    
+      
+      
+      
+      
+        <span class="md-tag">Surface Metrology</span>
+      
+    
+      
+      
+      
+      
+        <span class="md-tag">Thin Films</span>
       
     
   </nav>
 
 
 
-<h1 id="instruments">Instruments<a class="headerlink" href="#instruments" title="Permanent link">&para;</a></h1>
-<p>Use this section when you already know the machine by name. If you know what you need measured or made, start with <a href="../techniques/">Techniques</a> instead.</p>
-<p>A technique page is the method: what it can tell you, what it cannot, and which machine in the lab performs it. An instrument page is the hardware: bed size, spindle limits, who can use it. Most of the lab lives on a technique page. These five pages exist because people look them up by make and model.</p>
-<h2 id="fabrication">Fabrication<a class="headerlink" href="#fabrication" title="Permanent link">&para;</a></h2>
+<h1 id="optical-profilometry-3d-surface-profiling">Optical Profilometry (3D Surface Profiling)<a class="headerlink" href="#optical-profilometry-3d-surface-profiling" title="Permanent link">&para;</a></h1>
+<p>Optical profilometry is a non-contact surface metrology technique that reconstructs a three-dimensional height map from optical signals. It reports roughness, step height, and topography over fields from micrometres to tens of millimetres, without a stylus and without an AFM tip.</p>
+<h2 id="how-optical-profilometry-works">How optical profilometry works<a class="headerlink" href="#how-optical-profilometry-works" title="Permanent link">&para;</a></h2>
+<p>A microscope collects height from how light interacts with the surface. The VK-X3000 puts four optical principles in one head so the method can follow the surface rather than the other way around:</p>
+<ul>
+<li><strong>Laser confocal.</strong> A pinhole rejects out-of-focus light. Height is the focus position that maximises the returned laser. This is the high-resolution profiling mode on smooth-to-moderate surfaces.</li>
+<li><strong>Focus variation.</strong> Height is stacked from the focus position of texture. The catalogue assigns this mode to rough or steep surfaces that confocal drops.</li>
+<li><strong>White-light interferometry.</strong> Interference fringes give height with interferometric sensitivity on surfaces that return a coherent signal.</li>
+<li><strong>Spectral interference.</strong> The catalogue lists this for thin films and smooth surfaces, where a single-wavelength confocal spot is a poor localiser.</li>
+</ul>
+<p>The instrument does not touch the sample. There is no tip convolution of the AFM kind. There is optical diffraction instead: lateral width is limited by the objective, not by a few-nanometre tip. Vertical numbers can still be useful on features whose plan-view width is not.</p>
+<p>A field of view at one magnification is 11 µm to 7398 µm. Larger maps are built by moving the stage. The catalogue's scan area is up to 50 × 50 mm.</p>
+<h2 id="when-to-use-optical-profilometry">When to use optical profilometry<a class="headerlink" href="#when-to-use-optical-profilometry" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Roughness (Ra, Rq, and related parameters) over a millimetre-scale patch, not a 50 µm AFM frame</li>
+<li>Step height on MEMS, trenches, and patterned films taller than the AFM's 17 µm Z range</li>
+<li>Surveying a wafer, a coupon, or a machined part before deciding whether <a href="../atomic-force-microscopy/">AFM</a> is worth a zoom</li>
+<li>Surfaces that must not be touched: soft polymers, freshly coated films, parts that continue to a process step</li>
+<li>Mixed surfaces (smooth and rough on the same part) where one optical mode will not cover the whole field</li>
+</ul>
+<h2 id="what-optical-profilometry-cannot-do">What optical profilometry cannot do<a class="headerlink" href="#what-optical-profilometry-cannot-do" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Height resolution is not a noise floor on your sample.</strong> The catalogue lists 0.01 nm. That is the instrument's stated vertical resolution, not the roughness of a given coupon, and not a measured noise floor at MPaCT.</li>
+<li><strong>It does not replace AFM at the smallest scale.</strong> 50 × 50 µm with a physical tip, phase contrast, and sub-nanometre work on a flat film still belong on the <a href="../atomic-force-microscopy/">B-2</a>.</li>
+<li><strong>It does not measure a buried interface.</strong> Thickness of a uniform transparent film without a step is <a href="../spectroscopic-ellipsometry/">ellipsometry</a> or <a href="../x-ray-diffraction/">X-ray reflectivity</a>. A profilometer needs a surface, or a step, that light can localise.</li>
+<li><strong>It reports no chemistry.</strong> Shape only. Composition is SEM-EDS or SIMS.</li>
+<li><strong>Steep, transparent, or mirror-like regions drop data</strong> until the matching mode is used. Missing pixels are an optical problem, not a broken laser.</li>
+</ul>
+<h2 id="the-vk-x3000-at-mpact-lab-flagstaff-arizona">The VK-X3000 at MPaCT Lab, Flagstaff, Arizona<a class="headerlink" href="#the-vk-x3000-at-mpact-lab-flagstaff-arizona" title="Permanent link">&para;</a></h2>
+<p>The MPaCT Lab at Northern Arizona University operates a <strong>Keyence VK-X3000</strong> 3D surface profiler in Flagstaff, Arizona. The catalogue specifies laser confocal, focus variation, white-light interferometry, and spectral interference; height resolution of 0.01 nm; scan area up to 50 × 50 mm; total magnification 42× to 28800×; field of view 11 µm to 7398 µm; and maximum measurement speed of 125 Hz (surface) and 7900 Hz (line).</p>
+<p>Laser wavelength is listed as 404 nm (VK-X3100) or 661 nm (VK-X3050), depending on the installed head. This page does not pick which head is on the floor; confirm on the catalogue page or with staff if the wavelength matters for your material.</p>
+<p>The instrument is listed as available. It is open to NAU researchers, external academic users, and industry partners, on a fee-for-service basis or as a trained hands-on user.</p>
 <table>
 <thead>
 <tr>
-<th>Instrument</th>
-<th>Method</th>
-<th>Key limit</th>
+<th>Specification</th>
+<th>Value</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><a href="bambu-lab-h2d/">Bambu Lab H2D</a></td>
-<td><a href="../techniques/additive-manufacturing-fdm/">FDM printing</a></td>
-<td>325 × 320 × 325 mm build volume</td>
+<td>Measurement principles</td>
+<td>Laser confocal, focus variation, white-light interferometry, spectral interference</td>
 </tr>
 <tr>
-<td><a href="haas-desktop-mill/">Haas Desktop Mill</a></td>
-<td><a href="../techniques/cnc-machining/">CNC milling</a></td>
-<td>Plastics and machinable wax only</td>
+<td>Height resolution</td>
+<td>0.01 nm</td>
 </tr>
 <tr>
-<td><a href="haas-desktop-lathe/">Haas Desktop Lathe</a></td>
-<td><a href="../techniques/cnc-machining/">CNC turning</a></td>
-<td>0.75 in max cutting diameter</td>
+<td>Scan area</td>
+<td>Up to 50 × 50 mm</td>
+</tr>
+<tr>
+<td>Magnification</td>
+<td>42× to 28800× (total)</td>
+</tr>
+<tr>
+<td>Field of view</td>
+<td>11 µm to 7398 µm</td>
+</tr>
+<tr>
+<td>Laser wavelength</td>
+<td>404 nm or 661 nm, head dependent</td>
+</tr>
+<tr>
+<td>Max measurement speed</td>
+<td>Surface 125 Hz; line 7900 Hz</td>
 </tr>
 </tbody>
 </table>
-<h2 id="automation-and-robotics">Automation and robotics<a class="headerlink" href="#automation-and-robotics" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Instrument</th>
-<th>Method</th>
-<th>Key limit</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="amatrol-870-mechatronics-line/">Amatrol 870 Mechatronics Learning System</a></td>
-<td><a href="../techniques/industrial-automation-plc/">PLC control</a></td>
-<td>Educational access only</td>
-</tr>
-<tr>
-<td><a href="amatrol-smart-robot-workcell/">Amatrol Smart Robot Workcell</a></td>
-<td><a href="../techniques/industrial-automation-plc/">Robot programming</a></td>
-<td>Educational access only</td>
-</tr>
-</tbody>
-</table>
-<div class="admonition note">
-<p class="admonition-title">Three stations, one page</p>
-<p>The 87-MS1 pick and place, 87-MS2 gauging, and 87-MS7 inventory storage stations are listed separately in the equipment catalogue, and documented here as one line. They build a single workpiece in sequence; none of them is a complete machine on its own. Each station's catalogue entry remains at <a href="/Equipment.html">About Equipment</a>.</p>
-</div>
-<h2 id="everything-else">Everything else<a class="headerlink" href="#everything-else" title="Permanent link">&para;</a></h2>
-<p>The remaining instruments in the catalogue are documented by method rather than by model:</p>
-<table>
-<thead>
-<tr>
-<th>Instrument</th>
-<th>Documented at</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>JEOL JEM-F200</td>
-<td><a href="../techniques/transmission-electron-microscopy/">Transmission Electron Microscopy</a></td>
-</tr>
-<tr>
-<td>JEOL JSM-IT710HR</td>
-<td><a href="../techniques/scanning-electron-microscopy/">Scanning Electron Microscopy</a></td>
-</tr>
-<tr>
-<td>AFM Workshop B-2</td>
-<td><a href="../techniques/atomic-force-microscopy/">Atomic Force Microscopy</a></td>
-</tr>
-<tr>
-<td>Keyence VK-X3000</td>
-<td><a href="../techniques/optical-profilometry/">Optical Profilometry</a></td>
-</tr>
-<tr>
-<td>J.A. Woollam RC2</td>
-<td><a href="../techniques/spectroscopic-ellipsometry/">Spectroscopic Ellipsometry</a></td>
-</tr>
-<tr>
-<td>Edinburgh Instruments FLS1000</td>
-<td><a href="../techniques/photoluminescence-spectroscopy/">Photoluminescence Spectroscopy</a></td>
-</tr>
-<tr>
-<td>Microtrac BELSORP MAX X</td>
-<td><a href="../techniques/gas-sorption-surface-area/">Gas Sorption and BET</a></td>
-</tr>
-<tr>
-<td>Microtrac BELPREP VAC</td>
-<td><a href="../techniques/sample-degassing/">Sample Degassing</a></td>
-</tr>
-<tr>
-<td>CSZ MicroClimate MCBH-1.2</td>
-<td><a href="../techniques/environmental-stress-testing/">Environmental Stress Testing</a></td>
-</tr>
-<tr>
-<td>Fluke Calibration P3114</td>
-<td><a href="../techniques/pressure-calibration/">Pressure Calibration</a></td>
-</tr>
-<tr>
-<td>MPI TS200</td>
-<td><a href="../techniques/on-wafer-probing/">On-Wafer Probing</a></td>
-</tr>
-<tr>
-<td>LPKF ProtoLaser R4</td>
-<td><a href="../techniques/laser-micromachining/">Laser Micromachining</a></td>
-</tr>
-<tr>
-<td>SUSS MJB4</td>
-<td><a href="../techniques/photolithography/">Photolithography</a></td>
-</tr>
-<tr>
-<td>Rigaku SmartLab</td>
-<td><a href="../techniques/x-ray-diffraction/">X-ray Diffraction</a></td>
-</tr>
-<tr>
-<td>Hiden Analytical SIMS Workstation</td>
-<td><a href="../techniques/secondary-ion-mass-spectrometry/">Secondary Ion Mass Spectrometry</a></td>
-</tr>
-<tr>
-<td>Tresky T-4909-AE</td>
-<td><a href="../techniques/die-and-wire-bonding/">Die attach</a></td>
-</tr>
-<tr>
-<td>West-Bond 7700D</td>
-<td><a href="../techniques/die-and-wire-bonding/">Wire bonding</a></td>
-</tr>
-</tbody>
-</table>
-<p>The <a href="/Equipment.html">full catalogue of 41 instruments</a> is on the main site.</p>
-<p><strong>MPaCT Lab</strong> - Building 98E, South Engineering Lab, 561 E Pine Knoll Dr, Flagstaff, AZ 86001<br>
+<p>Figures follow the <a href="/About_Equipment/VKX3000_3D_Surface_Profiler.html">equipment catalogue</a>.</p>
+<p><a class="md-button md-button--primary" href="/About_Equipment/VKX3000_3D_Surface_Profiler.html">Full VK-X3000 specifications and booking &rarr;</a></p>
+<h2 id="sample-requirements">Sample requirements<a class="headerlink" href="#sample-requirements" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Form.</strong> A part, coupon, wafer fragment, or device that sits under the objective. The working envelope is 50 × 50 mm; say if you need a stitched map or a single field.</li>
+<li><strong>Surface.</strong> Clean enough that the beam sees the material you care about. A fingerprint is a topography.</li>
+<li><strong>Optical access.</strong> The instrument looks at light. A cavity the objective cannot see, or a surface that returns nothing, will not profile.</li>
+<li><strong>What you already know.</strong> Whether the question is Ra over a specified length, a step height, or a 3D map. Bring a step if thickness is the question and the film is opaque.</li>
+<li><strong>Return.</strong> The measurement is non-contact. The sample leaves as it arrived unless you asked for a coating to kill a transparent-film problem.</li>
+</ul>
+<h2 id="frequently-asked-questions">Frequently asked questions<a class="headerlink" href="#frequently-asked-questions" title="Permanent link">&para;</a></h2>
+<h3 id="what-is-optical-profilometry">What is optical profilometry?<a class="headerlink" href="#what-is-optical-profilometry" title="Permanent link">&para;</a></h3>
+<p>Optical profilometry reconstructs a three-dimensional height map from light rather than from a contacting stylus or an AFM tip. The VK-X3000 combines laser confocal scanning, focus variation, white-light interferometry, and spectral interference in one instrument so the same part can be measured whether the surface is smooth, rough, or mixed. The output is topography, step height, and roughness parameters such as Ra and Rq.</p>
+<h3 id="what-is-the-difference-between-optical-profilometry-and-afm">What is the difference between optical profilometry and AFM?<a class="headerlink" href="#what-is-the-difference-between-optical-profilometry-and-afm" title="Permanent link">&para;</a></h3>
+<p>Scale and contact. The AFM Workshop B-2 scans 50 by 50 micrometres with a 17 micrometre vertical range and a physical tip. The VK-X3000 is specified up to 50 by 50 millimetres, does not touch the surface, and can measure features taller than the AFM scanner. Use AFM when you need a calibrated nanometre patch, mechanical contrast, or the smallest lateral features. Use optical profilometry when the question is a millimetre-scale survey, a tall step, or a part the tip would damage or never finish scanning.</p>
+<h3 id="how-large-an-area-can-the-vk-x3000-measure">How large an area can the VK-X3000 measure?<a class="headerlink" href="#how-large-an-area-can-the-vk-x3000-measure" title="Permanent link">&para;</a></h3>
+<p>Up to 50 by 50 millimetres, as listed on the catalogue page. A single field of view is 11 micrometres to 7398 micrometres depending on magnification (42x to 28800x total). The 50 mm figure is the stitched working envelope, not one camera frame. That is a thousand times the AFM's 50 by 50 micrometre scan, which is why wafer surveys and machined parts start here.</p>
+<h3 id="can-optical-profilometry-report-ra-and-rq">Can optical profilometry report Ra and Rq?<a class="headerlink" href="#can-optical-profilometry-report-ra-and-rq" title="Permanent link">&para;</a></h3>
+<p>Yes. The catalogue lists surface roughness, including Ra and Rq, as a primary application, along with step height on trenches and microstructures. The number you get is only as meaningful as the field you measured: a 50 mm map and a 50 micrometre AFM image of the same coupon will not match, because they average different wavelengths of roughness. Say the evaluation length you care about.</p>
+<h3 id="why-is-my-optical-profile-missing-data-on-a-steep-or-transparent-surface">Why is my optical profile missing data on a steep or transparent surface?<a class="headerlink" href="#why-is-my-optical-profile-missing-data-on-a-steep-or-transparent-surface" title="Permanent link">&para;</a></h3>
+<p>The beam has to return. A steep wall, a mirror at the wrong angle, or a transparent film that the confocal pinhole cannot localise will drop points. Focus variation is the catalogue mode for rough or steep surfaces. Spectral interference is listed for thin films and smooth surfaces. Switching mode is the first fix; coating a transparent sample is a last resort because it changes the surface you came to measure.</p>
+<h2 id="request-time-on-this-instrument">Request time on this instrument<a class="headerlink" href="#request-time-on-this-instrument" title="Permanent link">&para;</a></h2>
+<p><strong>MPaCT Lab</strong> - Building 98E, South Engineering Lab<br>
+561 E Pine Knoll Dr, Flagstaff, AZ 86001<br>
 Phone: <a href="tel:+19285232343">928-523-2343</a> &middot; Email: <a href="mailto:mpct.nano@nau.edu">mpct.nano@nau.edu</a></p>
+<p><a class="md-button" href="/ServiceRequest.html">Submit a service request</a> <a class="md-button" href="/Reserve_Equipment.html">Reserve the instrument</a></p>
 
 
 
@@ -2467,10 +2814,10 @@ Phone: <a href="tel:+19285232343">928-523-2343</a> &middot; Email: <a href="mail
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "content.tabs.link", "content.tooltips", "navigation.indexes", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.tracking", "search.highlight", "search.suggest", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "content.tabs.link", "content.tooltips", "navigation.indexes", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.tracking", "search.highlight", "search.suggest", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
         <script src="/JS/layout.js"></script>

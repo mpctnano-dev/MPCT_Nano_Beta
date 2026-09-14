@@ -394,9 +394,16 @@ html {
   .md-header--lifted ~ .md-container .md-sidebar {
     top: var(--docs-sticky-offset) !important;
   }
-  .md-sidebar__scrollwrap {
-    max-height: calc(100vh - var(--docs-sticky-offset) - 1.2rem);
-  }
+}
+
+/* Last heading can scroll clear of the dual sticky bars before the
+   site footer arrives. Sidebars are clipped to the footer in JS. */
+.md-main {
+  padding-bottom: calc(var(--docs-sticky-offset) + 2rem);
+}
+
+.site-footer {
+  z-index: 20;
 }
 
 .md-nav__title {

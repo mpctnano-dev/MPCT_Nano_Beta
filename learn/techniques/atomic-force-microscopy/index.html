@@ -18,7 +18,7 @@
         <link rel="prev" href="../scanning-electron-microscopy/">
       
       
-        <link rel="next" href="../spectroscopic-ellipsometry/">
+        <link rel="next" href="../optical-profilometry/">
       
       
         
@@ -145,6 +145,11 @@
           "@type": "PropertyValue",
           "name": "Imaging modes",
           "value": "Vibrating (tapping), non-vibrating (contact), phase, lateral force"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Noise floor",
+          "value": "Under 0.3 nm in standard configuration; under 0.15 nm with the optional vibration isolation table"
         }
       ],
       "category": "Atomic Force Microscope",
@@ -178,7 +183,7 @@
           "@type": "Question",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Up to 50 by 50 micrometres laterally, with 17 micrometres of vertical range. Features taller than that, or surveys across a whole wafer, are better handled by the Keyence VK-X3000 optical profiler."
+            "text": "Up to 50 by 50 micrometres laterally, with 17 micrometres of vertical range. Features taller than that, or surveys across a whole wafer, are better handled by optical profilometry on the Keyence VK-X3000."
           },
           "name": "How large an area can the AFM scan?"
         },
@@ -1151,6 +1156,16 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
     
     
     
@@ -1471,6 +1486,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../optical-profilometry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Optical profilometry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../spectroscopic-ellipsometry/" class="md-nav__link">
         
   
@@ -1479,6 +1522,34 @@
     
   
     Ellipsometry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../photoluminescence-spectroscopy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Photoluminescence
   
 
     
@@ -1611,6 +1682,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../on-wafer-probing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    On-wafer probing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../environmental-stress-testing/" class="md-nav__link">
         
   
@@ -1703,6 +1802,62 @@
     
   
     CNC machining
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../laser-micromachining/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Laser micromachining
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../photolithography/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Photolithography
   
 
     
@@ -2412,7 +2567,7 @@
 <p>If you need a number in nanometres rather than a picture, AFM is the instrument.</p>
 <h2 id="what-afm-cannot-do">What AFM cannot do<a class="headerlink" href="#what-afm-cannot-do" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>The scan area is small.</strong> 50 by 50 micrometres per image. Whole-wafer survey work belongs on the <a href="/About_Equipment/VKX3000_3D_Surface_Profiler.html">Keyence VK-X3000 optical profiler</a>.</li>
+<li><strong>The scan area is small.</strong> 50 by 50 micrometres per image. Whole-wafer survey work belongs on <a href="../optical-profilometry/">optical profilometry</a>.</li>
 <li><strong>It is slow.</strong> A high-resolution image is minutes, not seconds. It is a measurement tool, not a survey tool.</li>
 <li><strong>Vertical range is limited.</strong> Features taller than 17 micrometres exceed the scanner.</li>
 <li><strong>It reports no chemistry.</strong> AFM measures shape and mechanical response. For elemental composition use <a href="../scanning-electron-microscopy/">SEM-EDS</a>.</li>
@@ -2439,6 +2594,10 @@
 <td>17 um</td>
 </tr>
 <tr>
+<td>Noise floor</td>
+<td>&lt; 0.3 nm standard; &lt; 0.15 nm with vibration isolation table</td>
+</tr>
+<tr>
 <td>Scanners</td>
 <td>Linearized X, Y, Z with closed-loop strain gauges</td>
 </tr>
@@ -2452,11 +2611,7 @@
 </tr>
 </tbody>
 </table>
-<div class="admonition warning">
-<p class="admonition-title">Noise floor: pending verification before publication</p>
-<p>The existing equipment page states a noise floor below 0.08 nm. AFM Workshop publishes <strong>&lt; 0.3 nm</strong> for the B-2 in standard configuration and <strong>&lt; 0.15 nm</strong> with the optional vibration isolation table. These do not agree, and the published figure is the weaker one.</p>
-<p>Because a noise floor determines the smallest step height a customer can trust, this row must not ship until the staff scientist either confirms the instrument's measured performance in its current installation or the page adopts the manufacturer's figure.</p>
-</div>
+<p>Noise floor figures are as published by AFM Workshop for the B-2.</p>
 <p><a class="md-button md-button--primary" href="/About_Equipment/B2_AFM.html">Full AFM Workshop B-2 specifications and booking &rarr;</a></p>
 <h2 id="sample-requirements">Sample requirements<a class="headerlink" href="#sample-requirements" title="Permanent link">&para;</a></h2>
 <p>AFM asks less of a sample than any other technique in the lab:</p>
@@ -2474,7 +2629,7 @@
 <h3 id="does-an-afm-sample-need-to-be-conductive-or-coated">Does an AFM sample need to be conductive or coated?<a class="headerlink" href="#does-an-afm-sample-need-to-be-conductive-or-coated" title="Permanent link">&para;</a></h3>
 <p>No. AFM senses force rather than current, so insulators, polymers, and oxides are measured directly with no conductive coating. Measurements run in ambient air rather than vacuum, so the sample is returned unaltered.</p>
 <h3 id="how-large-an-area-can-the-afm-scan">How large an area can the AFM scan?<a class="headerlink" href="#how-large-an-area-can-the-afm-scan" title="Permanent link">&para;</a></h3>
-<p>Up to 50 by 50 micrometres laterally, with 17 micrometres of vertical range. Features taller than that, or surveys across a whole wafer, are better handled by the <a href="/About_Equipment/VKX3000_3D_Surface_Profiler.html">Keyence VK-X3000 optical profiler</a>.</p>
+<p>Up to 50 by 50 micrometres laterally, with 17 micrometres of vertical range. Features taller than that, or surveys across a whole wafer, are better handled by <a href="../optical-profilometry/">optical profilometry</a> on the Keyence VK-X3000.</p>
 <h3 id="why-does-my-afm-image-look-streaked-or-wider-than-expected">Why does my AFM image look streaked or wider than expected?<a class="headerlink" href="#why-does-my-afm-image-look-streaked-or-wider-than-expected" title="Permanent link">&para;</a></h3>
 <p>Almost always tip convolution. The measured image is the true surface broadened by the shape of the tip, so steep walls slope and narrow trenches appear shallow. Lateral widths on high-aspect-ratio features are therefore systematically overstated. Vertical heights stay accurate, which is why AFM step-height data is trustworthy even where widths are not.</p>
 <h2 id="request-time-on-this-instrument">Request time on this instrument<a class="headerlink" href="#request-time-on-this-instrument" title="Permanent link">&para;</a></h2>

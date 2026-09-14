@@ -6,37 +6,37 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="The machines at NAU's MPaCT Lab that people look up by name, with sizes, speeds, and hard limits. For the method itself, start with Techniques.">
+        <meta name="description" content="Laser micromachining structures, drills, and cuts thermally sensitive substrates on an LPKF ProtoLaser R4 at NAU's MPaCT Lab in Flagstaff, Arizona.">
       
       
         <meta name="author" content="NAU Nano">
       
       
-        <link rel="canonical" href="https://nano.nau.edu/learn/instruments/">
+        <link rel="canonical" href="https://nano.nau.edu/learn/techniques/laser-micromachining/">
       
       
-        <link rel="prev" href="../compare/3d-printing-vs-cnc-machining/">
+        <link rel="prev" href="../cnc-machining/">
       
       
-        <link rel="next" href="bambu-lab-h2d/">
+        <link rel="next" href="../photolithography/">
       
       
         
       
       
-      <link rel="icon" href="../assets/NAU_Nano_favicon.png">
+      <link rel="icon" href="../../assets/NAU_Nano_favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
-        <title>Instruments - MPaCT Lab Docs</title>
+        <title>Laser Micromachining (Laser Structuring) - MPaCT Lab Docs</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -49,7 +49,7 @@
       
     
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -61,9 +61,9 @@
 
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="NAU Nano | MPaCT Lab">
-  <meta property="og:title" content="Instruments">
-  <meta property="og:description" content="The machines at NAU's MPaCT Lab that people look up by name, with sizes, speeds, and hard limits. For the method itself, start with Techniques.">
-  <meta property="og:url" content="https://nano.nau.edu/learn/instruments/">
+  <meta property="og:title" content="Laser Micromachining (Laser Structuring)">
+  <meta property="og:description" content="Laser micromachining structures, drills, and cuts thermally sensitive substrates on an LPKF ProtoLaser R4 at NAU's MPaCT Lab in Flagstaff, Arizona.">
+  <meta property="og:url" content="https://nano.nau.edu/learn/techniques/laser-micromachining/">
   
   <meta name="twitter:card" content="summary_large_image">
 
@@ -73,6 +73,13 @@
 {
   "@context": "https://schema.org",
   "@graph": [
+    {
+      "@type": "DefinedTerm",
+      "alternateName": "Laser Structuring",
+      "description": "A fabrication process in which a pulsed laser ablates material to structure, drill, or cut a substrate, removing metal, ceramic, glass, or polymer with little heat transfer into the surrounding part.",
+      "inDefinedTermSet": "https://nano.nau.edu/learn/concepts/",
+      "name": "Laser Micromachining"
+    },
     {
       "@id": "https://nano.nau.edu/#organization",
       "@type": "ResearchOrganization",
@@ -84,50 +91,144 @@
         "postalCode": "86001",
         "streetAddress": "561 E Pine Knoll Dr, Building 98E"
       },
+      "alternateName": "Microelectronics Processing and Characterization Testing Lab",
+      "email": "mpct.nano@nau.edu",
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 35.17765608035483,
+        "longitude": -111.6491191644177
+      },
       "name": "MPaCT Lab",
       "parentOrganization": {
         "@type": "CollegeOrUniversity",
         "name": "Northern Arizona University"
       },
+      "telephone": "+1-928-523-2343",
       "url": "https://nano.nau.edu/"
     },
     {
-      "@type": "ItemList",
-      "itemListElement": [
+      "@type": "Service",
+      "areaServed": {
+        "@type": "State",
+        "name": "Arizona"
+      },
+      "availableChannel": {
+        "@type": "ServiceChannel",
+        "serviceUrl": "https://nano.nau.edu/ServiceRequest.html"
+      },
+      "description": "Picosecond laser structuring, drilling, cutting, and thin-film ablation on FR4, ceramics, glass, and flexible foils for RF, microwave, and electronics prototypes.",
+      "name": "Laser Micromachining and PCB Structuring",
+      "provider": {
+        "@id": "https://nano.nau.edu/#organization"
+      },
+      "serviceType": "Laser fabrication"
+    },
+    {
+      "@type": "IndividualProduct",
+      "additionalProperty": [
         {
-          "@type": "ListItem",
-          "name": "Bambu Lab H2D 3D Printer",
-          "position": 1,
-          "url": "https://nano.nau.edu/learn/instruments/bambu-lab-h2d/"
+          "@type": "PropertyValue",
+          "name": "Laser wavelength",
+          "value": "515 nm (green)"
         },
         {
-          "@type": "ListItem",
-          "name": "Haas Desktop Mill",
-          "position": 2,
-          "url": "https://nano.nau.edu/learn/instruments/haas-desktop-mill/"
+          "@type": "PropertyValue",
+          "name": "Pulse length",
+          "value": "About 1.5 picoseconds"
         },
         {
-          "@type": "ListItem",
-          "name": "Haas Desktop Lathe",
-          "position": 3,
-          "url": "https://nano.nau.edu/learn/instruments/haas-desktop-lathe/"
+          "@type": "PropertyValue",
+          "name": "Laser power",
+          "value": "8 W maximum"
         },
         {
-          "@type": "ListItem",
-          "name": "Amatrol 870 Mechatronics Learning System",
-          "position": 4,
-          "url": "https://nano.nau.edu/learn/instruments/amatrol-870-mechatronics-line/"
+          "@type": "PropertyValue",
+          "name": "Minimum line and space",
+          "value": "35 micrometres line, 20 micrometres space"
         },
         {
-          "@type": "ListItem",
-          "name": "Amatrol Smart Robot Workcell",
-          "position": 5,
-          "url": "https://nano.nau.edu/learn/instruments/amatrol-smart-robot-workcell/"
+          "@type": "PropertyValue",
+          "name": "Maximum material size",
+          "value": "315 by 239 millimetres"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Processing area",
+          "value": "305 by 229 by 7 millimetres"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Positioning accuracy",
+          "value": "Plus or minus 8 micrometres in the scan field"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Repeatability",
+          "value": "Plus or minus 0.23 micrometres"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Structuring speed",
+          "value": "About 3.5 square centimetres per minute on 18 micrometre copper"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Control software",
+          "value": "LPKF CircuitPro PL"
         }
       ],
-      "itemListOrder": "https://schema.org/ItemListUnordered",
-      "name": "Instruments documented at MPaCT Lab",
-      "numberOfItems": 5
+      "category": "Picosecond laser micromachining system",
+      "manufacturer": {
+        "@type": "Organization",
+        "name": "LPKF"
+      },
+      "name": "LPKF ProtoLaser R4",
+      "url": "https://nano.nau.edu/About_Equipment/LPKF_ProtoLaser.html"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Laser micromachining removes material with a focused pulsed laser instead of a cutting tool. On the ProtoLaser R4 the pulse is about 1.5 picoseconds at 515 nm, which the catalogue describes as cold ablation: copper, ceramic, glass, or polymer is ejected before much heat reaches the surrounding substrate. The same tool structures conductive layers, drills vias, cuts outlines, and strips thin films such as ITO or gold."
+          },
+          "name": "What is laser micromachining?"
+        },
+        {
+          "@type": "Question",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A mill cuts by contact. A picosecond laser ablates without a bit, so there is no tool radius, no vibration from a cutter, and no bit to replace. The R4 is specified at 35 \u00b5m minimum line and 20 \u00b5m minimum space; a mechanical mill is typically limited near 100 \u00b5m by the bit. Laser structuring is contactless. It is not a plated production process: through-hole plating and multilayer lamination are separate steps, and those LPKF accessories are listed as unavailable on the catalogue page."
+          },
+          "name": "What is the difference between laser structuring and mechanical PCB milling?"
+        },
+        {
+          "@type": "Question",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "They add copper in opposite directions. The Voltera V-One prints conductive ink onto a blank board. The ProtoLaser R4 removes copper or another film from a clad or coated substrate. Use the Voltera when the starting material is bare and the traces can be ink. Use the R4 when you already have a metal layer, need finer line and space, or the substrate is ceramic, glass, or polyimide that a mill or an ink printer does not handle."
+          },
+          "name": "What is the difference between the LPKF ProtoLaser and the Voltera V-One?"
+        },
+        {
+          "@type": "Question",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The catalogue lists FR4, fired ceramics including alumina and LTCC, glass, and flexible polyimide foils. Operating modes include copper structuring, cutting and depaneling, micro-via and through-hole drilling, and removal of thin films such as TCO, ITO, or gold from glass or plastic. Bring the stack-up: cladding thickness, dielectric, and any coating the beam must not damage."
+          },
+          "name": "What materials can the ProtoLaser R4 process?"
+        },
+        {
+          "@type": "Question",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not with the accessories currently listed as available. The catalogue shows the LPKF Electroplater, MultiPress S, reflow oven, and wave solder as unavailable. The Pick and Place is listed as available. The R4 itself drills holes and structures copper; plated vias and laminated inner layers are a different process, and that process is not on this tool today. Confirm live accessory status on the catalogue page before assuming a plated or multilayer workflow."
+          },
+          "name": "Can the ProtoLaser plate through-holes or laminate multilayers?"
+        }
+      ]
     }
   ]
 }
@@ -144,7 +245,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   
-  <link rel="stylesheet" href="../assets/extra.css">
+  <link rel="stylesheet" href="../../assets/extra.css">
 
   </head>
   
@@ -165,7 +266,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#instruments" class="md-skip">
+        <a href="#laser-micromachining-laser-structuring" class="md-skip">
           Skip to content
         </a>
       
@@ -549,9 +650,9 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="MPaCT Lab Docs" class="md-header__button md-logo" aria-label="MPaCT Lab Docs" data-md-component="logo">
+    <a href="../.." title="MPaCT Lab Docs" class="md-header__button md-logo" aria-label="MPaCT Lab Docs" data-md-component="logo">
       
-  <img src="../assets/NAU.png" alt="logo">
+  <img src="../../assets/NAU.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -568,7 +669,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Instruments
+              Laser Micromachining (Laser Structuring)
             
           </span>
         </div>
@@ -588,7 +689,7 @@
   
   
     <li class="md-tabs__item">
-      <a href=".." class="md-tabs__link">
+      <a href="../.." class="md-tabs__link">
         
   
   
@@ -609,7 +710,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../samples/" class="md-tabs__link">
+        <a href="../../samples/" class="md-tabs__link">
           
   
   
@@ -627,11 +728,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../techniques/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
           
   
   
@@ -653,7 +756,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../compare/" class="md-tabs__link">
+        <a href="../../compare/" class="md-tabs__link">
           
   
   
@@ -671,13 +774,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../instruments/" class="md-tabs__link">
           
   
   
@@ -699,7 +800,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../concepts/" class="md-tabs__link">
+        <a href="../../concepts/" class="md-tabs__link">
           
   
   
@@ -816,9 +917,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="MPaCT Lab Docs" class="md-nav__button md-logo" aria-label="MPaCT Lab Docs" data-md-component="logo">
+    <a href="../.." title="MPaCT Lab Docs" class="md-nav__button md-logo" aria-label="MPaCT Lab Docs" data-md-component="logo">
       
-  <img src="../assets/NAU.png" alt="logo">
+  <img src="../../assets/NAU.png" alt="logo">
 
     </a>
     MPaCT Lab Docs
@@ -833,7 +934,7 @@
   
   
     <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -889,7 +990,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../samples/" class="md-nav__link ">
+            <a href="../../samples/" class="md-nav__link ">
               
   
   
@@ -933,7 +1034,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../samples/thin-films/" class="md-nav__link">
+      <a href="../../samples/thin-films/" class="md-nav__link">
         
   
   
@@ -961,7 +1062,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../samples/powders-and-porous-solids/" class="md-nav__link">
+      <a href="../../samples/powders-and-porous-solids/" class="md-nav__link">
         
   
   
@@ -989,7 +1090,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../samples/prototype-parts/" class="md-nav__link">
+      <a href="../../samples/prototype-parts/" class="md-nav__link">
         
   
   
@@ -1017,7 +1118,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../samples/devices-and-packaged-parts/" class="md-nav__link">
+      <a href="../../samples/devices-and-packaged-parts/" class="md-nav__link">
         
   
   
@@ -1049,6 +1150,8 @@
       
   
   
+    
+  
   
   
     
@@ -1100,18 +1203,21 @@
     
     
       
+        
+        
+      
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../techniques/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   
@@ -1129,13 +1235,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1155,7 +1261,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/transmission-electron-microscopy/" class="md-nav__link">
+      <a href="../transmission-electron-microscopy/" class="md-nav__link">
         
   
   
@@ -1183,7 +1289,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/scanning-electron-microscopy/" class="md-nav__link">
+      <a href="../scanning-electron-microscopy/" class="md-nav__link">
         
   
   
@@ -1211,7 +1317,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/atomic-force-microscopy/" class="md-nav__link">
+      <a href="../atomic-force-microscopy/" class="md-nav__link">
         
   
   
@@ -1239,7 +1345,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/optical-profilometry/" class="md-nav__link">
+      <a href="../optical-profilometry/" class="md-nav__link">
         
   
   
@@ -1267,7 +1373,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/spectroscopic-ellipsometry/" class="md-nav__link">
+      <a href="../spectroscopic-ellipsometry/" class="md-nav__link">
         
   
   
@@ -1295,7 +1401,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/photoluminescence-spectroscopy/" class="md-nav__link">
+      <a href="../photoluminescence-spectroscopy/" class="md-nav__link">
         
   
   
@@ -1323,7 +1429,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/x-ray-diffraction/" class="md-nav__link">
+      <a href="../x-ray-diffraction/" class="md-nav__link">
         
   
   
@@ -1351,7 +1457,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/secondary-ion-mass-spectrometry/" class="md-nav__link">
+      <a href="../secondary-ion-mass-spectrometry/" class="md-nav__link">
         
   
   
@@ -1379,7 +1485,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/gas-sorption-surface-area/" class="md-nav__link">
+      <a href="../gas-sorption-surface-area/" class="md-nav__link">
         
   
   
@@ -1407,7 +1513,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/sample-degassing/" class="md-nav__link">
+      <a href="../sample-degassing/" class="md-nav__link">
         
   
   
@@ -1435,7 +1541,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/on-wafer-probing/" class="md-nav__link">
+      <a href="../on-wafer-probing/" class="md-nav__link">
         
   
   
@@ -1463,7 +1569,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/environmental-stress-testing/" class="md-nav__link">
+      <a href="../environmental-stress-testing/" class="md-nav__link">
         
   
   
@@ -1491,7 +1597,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/pressure-calibration/" class="md-nav__link">
+      <a href="../pressure-calibration/" class="md-nav__link">
         
   
   
@@ -1519,7 +1625,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/additive-manufacturing-fdm/" class="md-nav__link">
+      <a href="../additive-manufacturing-fdm/" class="md-nav__link">
         
   
   
@@ -1547,7 +1653,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/cnc-machining/" class="md-nav__link">
+      <a href="../cnc-machining/" class="md-nav__link">
         
   
   
@@ -1572,10 +1678,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../techniques/laser-micromachining/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Laser micromachining
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1591,6 +1724,164 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-laser-micromachining-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How laser micromachining works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-to-use-laser-micromachining" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When to use laser micromachining
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-laser-micromachining-cannot-do" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What laser micromachining cannot do
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-protolaser-r4-at-mpact-lab-flagstaff-arizona" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The ProtoLaser R4 at MPaCT Lab, Flagstaff, Arizona
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sample-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sample requirements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#frequently-asked-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Frequently asked questions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Frequently asked questions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-laser-micromachining" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is laser micromachining?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-is-the-difference-between-laser-structuring-and-mechanical-pcb-milling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is the difference between laser structuring and mechanical PCB milling?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-is-the-difference-between-the-lpkf-protolaser-and-the-voltera-v-one" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is the difference between the LPKF ProtoLaser and the Voltera V-One?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-materials-can-the-protolaser-r4-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What materials can the ProtoLaser R4 process?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#can-the-protolaser-plate-through-holes-or-laminate-multilayers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Can the ProtoLaser plate through-holes or laminate multilayers?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#request-time-on-this-instrument" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Request time on this instrument
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1603,7 +1894,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/photolithography/" class="md-nav__link">
+      <a href="../photolithography/" class="md-nav__link">
         
   
   
@@ -1631,7 +1922,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/die-and-wire-bonding/" class="md-nav__link">
+      <a href="../die-and-wire-bonding/" class="md-nav__link">
         
   
   
@@ -1659,7 +1950,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../techniques/industrial-automation-plc/" class="md-nav__link">
+      <a href="../industrial-automation-plc/" class="md-nav__link">
         
   
   
@@ -1719,7 +2010,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../compare/" class="md-nav__link ">
+            <a href="../../compare/" class="md-nav__link ">
               
   
   
@@ -1763,7 +2054,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../compare/choosing-a-technique/" class="md-nav__link">
+      <a href="../../compare/choosing-a-technique/" class="md-nav__link">
         
   
   
@@ -1791,7 +2082,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../compare/3d-printing-vs-cnc-machining/" class="md-nav__link">
+      <a href="../../compare/3d-printing-vs-cnc-machining/" class="md-nav__link">
         
   
   
@@ -1823,8 +2114,6 @@
       
   
   
-    
-  
   
   
     
@@ -1848,21 +2137,18 @@
     
     
       
-        
-        
-      
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="./" class="md-nav__link md-nav__link--active">
+            <a href="../../instruments/" class="md-nav__link ">
               
   
   
@@ -1880,13 +2166,13 @@
             </a>
             
               
-              <label class="md-nav__link md-nav__link--active" for="__nav_5" id="__nav_5_label" tabindex="">
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1906,7 +2192,7 @@
   
   
     <li class="md-nav__item">
-      <a href="bambu-lab-h2d/" class="md-nav__link">
+      <a href="../../instruments/bambu-lab-h2d/" class="md-nav__link">
         
   
   
@@ -1934,7 +2220,7 @@
   
   
     <li class="md-nav__item">
-      <a href="haas-desktop-mill/" class="md-nav__link">
+      <a href="../../instruments/haas-desktop-mill/" class="md-nav__link">
         
   
   
@@ -1962,7 +2248,7 @@
   
   
     <li class="md-nav__item">
-      <a href="haas-desktop-lathe/" class="md-nav__link">
+      <a href="../../instruments/haas-desktop-lathe/" class="md-nav__link">
         
   
   
@@ -1990,7 +2276,7 @@
   
   
     <li class="md-nav__item">
-      <a href="amatrol-870-mechatronics-line/" class="md-nav__link">
+      <a href="../../instruments/amatrol-870-mechatronics-line/" class="md-nav__link">
         
   
   
@@ -2018,7 +2304,7 @@
   
   
     <li class="md-nav__item">
-      <a href="amatrol-smart-robot-workcell/" class="md-nav__link">
+      <a href="../../instruments/amatrol-smart-robot-workcell/" class="md-nav__link">
         
   
   
@@ -2074,7 +2360,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../concepts/" class="md-nav__link ">
+            <a href="../../concepts/" class="md-nav__link ">
               
   
   
@@ -2140,10 +2426,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#fabrication" class="md-nav__link">
+  <a href="#how-laser-micromachining-works" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Fabrication
+        How laser micromachining works
       
     </span>
   </a>
@@ -2151,10 +2437,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#automation-and-robotics" class="md-nav__link">
+  <a href="#when-to-use-laser-micromachining" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Automation and robotics
+        When to use laser micromachining
       
     </span>
   </a>
@@ -2162,10 +2448,115 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#everything-else" class="md-nav__link">
+  <a href="#what-laser-micromachining-cannot-do" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Everything else
+        What laser micromachining cannot do
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-protolaser-r4-at-mpact-lab-flagstaff-arizona" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The ProtoLaser R4 at MPaCT Lab, Flagstaff, Arizona
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sample-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sample requirements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#frequently-asked-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Frequently asked questions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Frequently asked questions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-laser-micromachining" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is laser micromachining?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-is-the-difference-between-laser-structuring-and-mechanical-pcb-milling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is the difference between laser structuring and mechanical PCB milling?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-is-the-difference-between-the-lpkf-protolaser-and-the-voltera-v-one" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is the difference between the LPKF ProtoLaser and the Voltera V-One?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-materials-can-the-protolaser-r4-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What materials can the ProtoLaser R4 process?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#can-the-protolaser-plate-through-holes-or-laminate-multilayers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Can the ProtoLaser plate through-holes or laminate multilayers?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#request-time-on-this-instrument" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Request time on this instrument
       
     </span>
   </a>
@@ -2193,152 +2584,137 @@
       
       
       
-        <span class="md-tag">Reference</span>
+        <span class="md-tag">Electronics</span>
+      
+    
+      
+      
+      
+      
+        <span class="md-tag">Fabrication</span>
+      
+    
+      
+      
+      
+      
+        <span class="md-tag">Laser Processing</span>
       
     
   </nav>
 
 
 
-<h1 id="instruments">Instruments<a class="headerlink" href="#instruments" title="Permanent link">&para;</a></h1>
-<p>Use this section when you already know the machine by name. If you know what you need measured or made, start with <a href="../techniques/">Techniques</a> instead.</p>
-<p>A technique page is the method: what it can tell you, what it cannot, and which machine in the lab performs it. An instrument page is the hardware: bed size, spindle limits, who can use it. Most of the lab lives on a technique page. These five pages exist because people look them up by make and model.</p>
-<h2 id="fabrication">Fabrication<a class="headerlink" href="#fabrication" title="Permanent link">&para;</a></h2>
+<h1 id="laser-micromachining-laser-structuring">Laser Micromachining (Laser Structuring)<a class="headerlink" href="#laser-micromachining-laser-structuring" title="Permanent link">&para;</a></h1>
+<p>Laser micromachining is a fabrication process in which a pulsed laser ablates material to structure, drill, or cut a substrate. On a picosecond tool the pulse is short enough that metal, ceramic, glass, or polymer can be removed with little heat transfer into the surrounding part, which is why the same machine can pattern an RF laminate and cut a fired ceramic without a mechanical bit.</p>
+<h2 id="how-laser-micromachining-works">How laser micromachining works<a class="headerlink" href="#how-laser-micromachining-works" title="Permanent link">&para;</a></h2>
+<p>A focused pulse deposits energy in a spot faster than that energy can diffuse as heat. Material at the focus is ejected. The catalogue calls this <strong>cold ablation</strong>. The heat-affected zone is small compared with a nanosecond laser or a mill, which is what keeps RF laminates from delaminating and ceramics from micro-cracking when the process is in spec.</p>
+<p>Four jobs share that pulse:</p>
+<ul>
+<li><strong>Structuring.</strong> Ablating a copper or other conductive layer to leave traces, with a specified minimum of 35 µm line and 20 µm space.</li>
+<li><strong>Cutting and depaneling.</strong> Separating a board, flex, or ceramic coupon from a panel.</li>
+<li><strong>Drilling.</strong> Micro-vias and through-holes.</li>
+<li><strong>Surface processing.</strong> Stripping a thin film such as TCO or ITO from glass or plastic without cutting through the substrate.</li>
+</ul>
+<p>The beam does not care about a drill-bit radius. Corners, tapers, and isolated pads are a scan-path problem, not a tool-geometry problem. The process is still subtractive: it removes what is already there. It does not deposit copper.</p>
+<h2 id="when-to-use-laser-micromachining">When to use laser micromachining<a class="headerlink" href="#when-to-use-laser-micromachining" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Rapid PCB or RF prototypes on copper-clad laminates, including high-frequency materials that mill poorly</li>
+<li>Flexible polyimide circuits that would distort under a cutter or a hot process</li>
+<li>Fired ceramics (alumina, LTCC): cutting, drilling, or channel structuring without a grinding wheel</li>
+<li>Selective removal of gold, ITO, or TCO from glass or plastic</li>
+<li>Geometry a mill cannot reach because of bit radius, or a job where vibration from a cutter is the risk</li>
+<li>Any case where a photomask is not justified and <a href="../photolithography/">contact photolithography</a> is the wrong resolution or the wrong substrate</li>
+</ul>
+<h2 id="what-laser-micromachining-cannot-do">What laser micromachining cannot do<a class="headerlink" href="#what-laser-micromachining-cannot-do" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>It does not plate holes or laminate inner layers on its own.</strong> The R4 drills and structures. Through-hole copper and multilayer pressing are accessories, and the catalogue lists the Electroplater, MultiPress S, reflow oven, and wave solder as unavailable.</li>
+<li><strong>It is not sub-micron lithography.</strong> 35 µm line / 20 µm space is the specified minimum. Features at 0.5–1.0 µm belong on the <a href="../photolithography/">mask aligner</a>.</li>
+<li><strong>It does not add metal the way a printer does.</strong> Starting from a blank dielectric is a <a href="/About_Equipment/Voltera_VOne_PCB_Printer.html">Voltera V-One</a> question, not an R4 question.</li>
+<li><strong>It is not a structural-metal mill.</strong> The catalogue's applications are electronics substrates, ceramics, glass, foils, and thin films. It is not a substitute for <a href="../cnc-machining/">CNC machining</a> of a fixture.</li>
+<li><strong>Cold ablation is not zero heat in every stack.</strong> A process off the material window can still crack ceramic or lift copper. The first coupon is a process check, not a finished part.</li>
+</ul>
+<h2 id="the-protolaser-r4-at-mpact-lab-flagstaff-arizona">The ProtoLaser R4 at MPaCT Lab, Flagstaff, Arizona<a class="headerlink" href="#the-protolaser-r4-at-mpact-lab-flagstaff-arizona" title="Permanent link">&para;</a></h2>
+<p>The MPaCT Lab at Northern Arizona University operates an <strong>LPKF ProtoLaser R4</strong> picosecond laser micromachining system in Flagstaff, Arizona. The catalogue specifies a 515 nm green laser, a pulse length of about 1.5 ps, 8 W maximum power, and a working envelope of 315 × 239 mm material with a 305 × 229 × 7 mm processing volume.</p>
+<p>Positioning accuracy is listed as ±8 µm in the scan field, repeatability as ±0.23 µm, and structuring speed as about 3.5 cm²/min on 18 µm copper. Control is LPKF CircuitPro PL.</p>
+<p>The laser itself is listed as available. Accessory status is separate: Pick and Place is listed as available; MultiPress S, Electroplater, reflow oven, and wave solder are listed as unavailable. Confirm live status on the catalogue page; it is the source of truth for what is actually on the floor.</p>
+<p>The instrument is available to NAU researchers, external academic users, and industry partners, on a fee-for-service basis or as a trained hands-on user.</p>
 <table>
 <thead>
 <tr>
-<th>Instrument</th>
-<th>Method</th>
-<th>Key limit</th>
+<th>Specification</th>
+<th>Value</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><a href="bambu-lab-h2d/">Bambu Lab H2D</a></td>
-<td><a href="../techniques/additive-manufacturing-fdm/">FDM printing</a></td>
-<td>325 × 320 × 325 mm build volume</td>
+<td>Laser wavelength</td>
+<td>515 nm (green)</td>
 </tr>
 <tr>
-<td><a href="haas-desktop-mill/">Haas Desktop Mill</a></td>
-<td><a href="../techniques/cnc-machining/">CNC milling</a></td>
-<td>Plastics and machinable wax only</td>
+<td>Pulse length</td>
+<td>~1.5 ps</td>
 </tr>
 <tr>
-<td><a href="haas-desktop-lathe/">Haas Desktop Lathe</a></td>
-<td><a href="../techniques/cnc-machining/">CNC turning</a></td>
-<td>0.75 in max cutting diameter</td>
+<td>Laser power</td>
+<td>8 W maximum</td>
+</tr>
+<tr>
+<td>Minimum line / space</td>
+<td>35 µm / 20 µm</td>
+</tr>
+<tr>
+<td>Maximum material size</td>
+<td>315 × 239 mm</td>
+</tr>
+<tr>
+<td>Processing area (X / Y / Z)</td>
+<td>305 × 229 × 7 mm</td>
+</tr>
+<tr>
+<td>Positioning accuracy</td>
+<td>±8 µm (scan field)</td>
+</tr>
+<tr>
+<td>Repeatability</td>
+<td>±0.23 µm</td>
+</tr>
+<tr>
+<td>Structuring speed</td>
+<td>~3.5 cm²/min (18 µm Cu)</td>
+</tr>
+<tr>
+<td>Software</td>
+<td>LPKF CircuitPro PL</td>
 </tr>
 </tbody>
 </table>
-<h2 id="automation-and-robotics">Automation and robotics<a class="headerlink" href="#automation-and-robotics" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Instrument</th>
-<th>Method</th>
-<th>Key limit</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="amatrol-870-mechatronics-line/">Amatrol 870 Mechatronics Learning System</a></td>
-<td><a href="../techniques/industrial-automation-plc/">PLC control</a></td>
-<td>Educational access only</td>
-</tr>
-<tr>
-<td><a href="amatrol-smart-robot-workcell/">Amatrol Smart Robot Workcell</a></td>
-<td><a href="../techniques/industrial-automation-plc/">Robot programming</a></td>
-<td>Educational access only</td>
-</tr>
-</tbody>
-</table>
-<div class="admonition note">
-<p class="admonition-title">Three stations, one page</p>
-<p>The 87-MS1 pick and place, 87-MS2 gauging, and 87-MS7 inventory storage stations are listed separately in the equipment catalogue, and documented here as one line. They build a single workpiece in sequence; none of them is a complete machine on its own. Each station's catalogue entry remains at <a href="/Equipment.html">About Equipment</a>.</p>
-</div>
-<h2 id="everything-else">Everything else<a class="headerlink" href="#everything-else" title="Permanent link">&para;</a></h2>
-<p>The remaining instruments in the catalogue are documented by method rather than by model:</p>
-<table>
-<thead>
-<tr>
-<th>Instrument</th>
-<th>Documented at</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>JEOL JEM-F200</td>
-<td><a href="../techniques/transmission-electron-microscopy/">Transmission Electron Microscopy</a></td>
-</tr>
-<tr>
-<td>JEOL JSM-IT710HR</td>
-<td><a href="../techniques/scanning-electron-microscopy/">Scanning Electron Microscopy</a></td>
-</tr>
-<tr>
-<td>AFM Workshop B-2</td>
-<td><a href="../techniques/atomic-force-microscopy/">Atomic Force Microscopy</a></td>
-</tr>
-<tr>
-<td>Keyence VK-X3000</td>
-<td><a href="../techniques/optical-profilometry/">Optical Profilometry</a></td>
-</tr>
-<tr>
-<td>J.A. Woollam RC2</td>
-<td><a href="../techniques/spectroscopic-ellipsometry/">Spectroscopic Ellipsometry</a></td>
-</tr>
-<tr>
-<td>Edinburgh Instruments FLS1000</td>
-<td><a href="../techniques/photoluminescence-spectroscopy/">Photoluminescence Spectroscopy</a></td>
-</tr>
-<tr>
-<td>Microtrac BELSORP MAX X</td>
-<td><a href="../techniques/gas-sorption-surface-area/">Gas Sorption and BET</a></td>
-</tr>
-<tr>
-<td>Microtrac BELPREP VAC</td>
-<td><a href="../techniques/sample-degassing/">Sample Degassing</a></td>
-</tr>
-<tr>
-<td>CSZ MicroClimate MCBH-1.2</td>
-<td><a href="../techniques/environmental-stress-testing/">Environmental Stress Testing</a></td>
-</tr>
-<tr>
-<td>Fluke Calibration P3114</td>
-<td><a href="../techniques/pressure-calibration/">Pressure Calibration</a></td>
-</tr>
-<tr>
-<td>MPI TS200</td>
-<td><a href="../techniques/on-wafer-probing/">On-Wafer Probing</a></td>
-</tr>
-<tr>
-<td>LPKF ProtoLaser R4</td>
-<td><a href="../techniques/laser-micromachining/">Laser Micromachining</a></td>
-</tr>
-<tr>
-<td>SUSS MJB4</td>
-<td><a href="../techniques/photolithography/">Photolithography</a></td>
-</tr>
-<tr>
-<td>Rigaku SmartLab</td>
-<td><a href="../techniques/x-ray-diffraction/">X-ray Diffraction</a></td>
-</tr>
-<tr>
-<td>Hiden Analytical SIMS Workstation</td>
-<td><a href="../techniques/secondary-ion-mass-spectrometry/">Secondary Ion Mass Spectrometry</a></td>
-</tr>
-<tr>
-<td>Tresky T-4909-AE</td>
-<td><a href="../techniques/die-and-wire-bonding/">Die attach</a></td>
-</tr>
-<tr>
-<td>West-Bond 7700D</td>
-<td><a href="../techniques/die-and-wire-bonding/">Wire bonding</a></td>
-</tr>
-</tbody>
-</table>
-<p>The <a href="/Equipment.html">full catalogue of 41 instruments</a> is on the main site.</p>
-<p><strong>MPaCT Lab</strong> - Building 98E, South Engineering Lab, 561 E Pine Knoll Dr, Flagstaff, AZ 86001<br>
+<p>Figures follow the <a href="/About_Equipment/LPKF_ProtoLaser.html">equipment catalogue</a>.</p>
+<p><a class="md-button md-button--primary" href="/About_Equipment/LPKF_ProtoLaser.html">Full ProtoLaser R4 specifications and booking &rarr;</a></p>
+<h2 id="sample-requirements">Sample requirements<a class="headerlink" href="#sample-requirements" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Substrate.</strong> FR4, ceramic, glass, polyimide, or another catalogue material, with the copper or film thickness stated. A 18 µm copper process window is not a 70 µm window.</li>
+<li><strong>Size.</strong> Inside 315 × 239 mm, and not thicker than the 7 mm Z processing range.</li>
+<li><strong>Stack-up.</strong> Dielectric, cladding, coverlay, and any coating the beam must leave intact.</li>
+<li><strong>Files.</strong> Gerber or a vector path staff can import into CircuitPro. Dimensioned outlines if the job is a cut, not a circuit.</li>
+<li><strong>Hazards.</strong> Declare anything that outgasses, is beryllia, or is a polymer you do not want carbonised.</li>
+</ul>
+<h2 id="frequently-asked-questions">Frequently asked questions<a class="headerlink" href="#frequently-asked-questions" title="Permanent link">&para;</a></h2>
+<h3 id="what-is-laser-micromachining">What is laser micromachining?<a class="headerlink" href="#what-is-laser-micromachining" title="Permanent link">&para;</a></h3>
+<p>Laser micromachining removes material with a focused pulsed laser instead of a cutting tool. On the ProtoLaser R4 the pulse is about 1.5 picoseconds at 515 nm, which the catalogue describes as cold ablation: copper, ceramic, glass, or polymer is ejected before much heat reaches the surrounding substrate. The same tool structures conductive layers, drills vias, cuts outlines, and strips thin films such as ITO or gold.</p>
+<h3 id="what-is-the-difference-between-laser-structuring-and-mechanical-pcb-milling">What is the difference between laser structuring and mechanical PCB milling?<a class="headerlink" href="#what-is-the-difference-between-laser-structuring-and-mechanical-pcb-milling" title="Permanent link">&para;</a></h3>
+<p>A mill cuts by contact. A picosecond laser ablates without a bit, so there is no tool radius, no vibration from a cutter, and no bit to replace. The R4 is specified at 35 µm minimum line and 20 µm minimum space; a mechanical mill is typically limited near 100 µm by the bit. Laser structuring is contactless. It is not a plated production process: through-hole plating and multilayer lamination are separate steps, and those LPKF accessories are listed as unavailable on the catalogue page.</p>
+<h3 id="what-is-the-difference-between-the-lpkf-protolaser-and-the-voltera-v-one">What is the difference between the LPKF ProtoLaser and the Voltera V-One?<a class="headerlink" href="#what-is-the-difference-between-the-lpkf-protolaser-and-the-voltera-v-one" title="Permanent link">&para;</a></h3>
+<p>They add copper in opposite directions. The Voltera V-One prints conductive ink onto a blank board. The ProtoLaser R4 removes copper or another film from a clad or coated substrate. Use the Voltera when the starting material is bare and the traces can be ink. Use the R4 when you already have a metal layer, need finer line and space, or the substrate is ceramic, glass, or polyimide that a mill or an ink printer does not handle.</p>
+<h3 id="what-materials-can-the-protolaser-r4-process">What materials can the ProtoLaser R4 process?<a class="headerlink" href="#what-materials-can-the-protolaser-r4-process" title="Permanent link">&para;</a></h3>
+<p>The catalogue lists FR4, fired ceramics including alumina and LTCC, glass, and flexible polyimide foils. Operating modes include copper structuring, drilling of micro-vias and through-holes, cutting and depaneling, and removal of thin films such as TCO, ITO, or gold from glass or plastic. Bring the stack-up: cladding thickness, dielectric, and any coating the beam must not damage.</p>
+<h3 id="can-the-protolaser-plate-through-holes-or-laminate-multilayers">Can the ProtoLaser plate through-holes or laminate multilayers?<a class="headerlink" href="#can-the-protolaser-plate-through-holes-or-laminate-multilayers" title="Permanent link">&para;</a></h3>
+<p>Not with the accessories currently listed as available. The catalogue shows the LPKF Electroplater, MultiPress S, reflow oven, and wave solder as unavailable. The Pick and Place is listed as available. The R4 itself drills holes and structures copper; plated vias and laminated inner layers are a different process, and that process is not on this tool today. Confirm live accessory status on the catalogue page before assuming a plated or multilayer workflow.</p>
+<h2 id="request-time-on-this-instrument">Request time on this instrument<a class="headerlink" href="#request-time-on-this-instrument" title="Permanent link">&para;</a></h2>
+<p><strong>MPaCT Lab</strong> - Building 98E, South Engineering Lab<br>
+561 E Pine Knoll Dr, Flagstaff, AZ 86001<br>
 Phone: <a href="tel:+19285232343">928-523-2343</a> &middot; Email: <a href="mailto:mpct.nano@nau.edu">mpct.nano@nau.edu</a></p>
+<p><a class="md-button" href="/ServiceRequest.html">Submit a service request</a> <a class="md-button" href="/Reserve_Equipment.html">Reserve the instrument</a></p>
 
 
 
@@ -2467,10 +2843,10 @@ Phone: <a href="tel:+19285232343">928-523-2343</a> &middot; Email: <a href="mail
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "content.tabs.link", "content.tooltips", "navigation.indexes", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.tracking", "search.highlight", "search.suggest", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "content.tabs.link", "content.tooltips", "navigation.indexes", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.tracking", "search.highlight", "search.suggest", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
         <script src="/JS/layout.js"></script>

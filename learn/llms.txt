@@ -18,15 +18,20 @@ published.
 - [Transmission Electron Microscopy](https://nano.nau.edu/learn/techniques/transmission-electron-microscopy/): Internal structure and crystallography below 0.2 nm. JEOL JEM-F200.
 - [Scanning Electron Microscopy](https://nano.nau.edu/learn/techniques/scanning-electron-microscopy/): Surface morphology and EDS composition to about 1 nm. JEOL JSM-IT710HR.
 - [Atomic Force Microscopy](https://nano.nau.edu/learn/techniques/atomic-force-microscopy/): Calibrated nanometre surface height and roughness. AFM Workshop B-2.
+- [Optical Profilometry](https://nano.nau.edu/learn/techniques/optical-profilometry/): Non-contact 3D roughness and step height up to 50 x 50 mm. Keyence VK-X3000.
 - [Spectroscopic Ellipsometry](https://nano.nau.edu/learn/techniques/spectroscopic-ellipsometry/): Thin-film thickness and optical constants, non-contact. J.A. Woollam RC2.
+- [Photoluminescence Spectroscopy](https://nano.nau.edu/learn/techniques/photoluminescence-spectroscopy/): Emission spectra and lifetimes from UV to mid-IR. Edinburgh Instruments FLS1000.
 - [X-ray Diffraction](https://nano.nau.edu/learn/techniques/x-ray-diffraction/): Crystal phase, texture, and X-ray reflectivity. Rigaku SmartLab.
 - [Secondary Ion Mass Spectrometry](https://nano.nau.edu/learn/techniques/secondary-ion-mass-spectrometry/): Trace composition versus depth. Hiden Analytical SIMS Workstation.
 - [Gas Sorption and BET Surface Area](https://nano.nau.edu/learn/techniques/gas-sorption-surface-area/): Specific surface area, pore size distribution, pore volume. Microtrac BELSORP MAX X.
 - [Sample Degassing](https://nano.nau.edu/learn/techniques/sample-degassing/): Removal of physisorbed water and gases before an adsorption measurement. Microtrac BELPREP VAC.
+- [On-Wafer Probing](https://nano.nau.edu/learn/techniques/on-wafer-probing/): I-V, C-V, RF, and mmWave on wafers up to 200 mm. MPI TS200.
 - [Environmental Stress Testing](https://nano.nau.edu/learn/techniques/environmental-stress-testing/): Temperature and humidity cycling for reliability testing. CSZ MicroClimate MCBH-1.2.
 - [Pressure Calibration](https://nano.nau.edu/learn/techniques/pressure-calibration/): Primary pressure standard by deadweight tester. Fluke Calibration P3114.
 - [Fused Deposition Modeling](https://nano.nau.edu/learn/techniques/additive-manufacturing-fdm/): Additive thermoplastic manufacturing, including geometry no cutter can reach. Bambu Lab H2D.
 - [CNC Machining](https://nano.nau.edu/learn/techniques/cnc-machining/): Subtractive milling and turning from dense stock. Haas Desktop Mill and Desktop Lathe.
+- [Laser Micromachining](https://nano.nau.edu/learn/techniques/laser-micromachining/): Picosecond laser structuring, drilling, and cutting of electronics substrates. LPKF ProtoLaser R4.
+- [Photolithography](https://nano.nau.edu/learn/techniques/photolithography/): Contact mask alignment at 0.5-1.0 micrometres on wafers up to 100 mm. SUSS MJB4.
 - [Die Attach and Wire Bonding](https://nano.nau.edu/learn/techniques/die-and-wire-bonding/): Packaging a die and connecting pads with gold wire. Tresky T-4909-AE, West-Bond 7700D.
 - [Industrial Automation and PLC Control](https://nano.nau.edu/learn/techniques/industrial-automation-plc/): PLC scan-cycle control, ladder logic, sensor adjustment. Amatrol 870 line, FANUC LR Mate 200iD/4S.
 
@@ -60,5 +65,5 @@ published.
 Instrument billing rates are published in two places on the site that disagree on
 four instruments; no page in this section asserts a rate as fact. No turnaround
 or scheduling figure is published for any instrument. Amatrol publishes no
-dimensional, cycle-time, or throughput figures for the 870 stations. 19 of the
+dimensional, cycle-time, or throughput figures for the 870 stations. 24 of the
 lab's 41 catalogued instruments are documented here.
