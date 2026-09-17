@@ -13,6 +13,200 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,400&display=swap">
+    <!-- BEGIN structured-data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "ResearchOrganization",
+          "@id": "https://nano.nau.edu/#organization",
+          "name": "NAU Nano",
+          "alternateName": [
+            "MPaCT Lab",
+            "NAU Nano Initiative"
+          ],
+          "url": "https://nano.nau.edu/",
+          "description": "Northern Arizona University's shared use center for microelectronics research, nanotechnology innovation, semiconductor training, and industry academia collaboration.",
+          "logo": "https://nano.nau.edu/Images/NAU.png",
+          "parentOrganization": {
+            "@type": "CollegeOrUniversity",
+            "@id": "https://nau.edu/#organization",
+            "name": "Northern Arizona University",
+            "url": "https://nau.edu/"
+          },
+          "location": {
+            "@id": "https://nano.nau.edu/#place"
+          }
+        },
+        {
+          "@type": "Place",
+          "@id": "https://nano.nau.edu/#place",
+          "name": "Building 98E, South Engineering Lab",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "561 E Pine Knoll Dr",
+            "addressLocality": "Flagstaff",
+            "addressRegion": "AZ",
+            "postalCode": "86001",
+            "addressCountry": "US"
+          },
+          "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday"
+            ],
+            "opens": "08:00",
+            "closes": "17:00"
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://nano.nau.edu/#website",
+          "url": "https://nano.nau.edu/",
+          "name": "NAU Nano",
+          "publisher": {
+            "@id": "https://nano.nau.edu/#organization"
+          },
+          "inLanguage": "en-US"
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://nano.nau.edu/About_Equipment/CSZ_EnvChamber.html#webpage",
+          "url": "https://nano.nau.edu/About_Equipment/CSZ_EnvChamber.html",
+          "name": "CSZ MicroClimate | Environmental Test Chamber | MPaCT Lab",
+          "isPartOf": {
+            "@id": "https://nano.nau.edu/#website"
+          },
+          "about": {
+            "@id": "https://nano.nau.edu/About_Equipment/CSZ_EnvChamber.html#product"
+          },
+          "breadcrumb": {
+            "@id": "https://nano.nau.edu/About_Equipment/CSZ_EnvChamber.html#breadcrumb"
+          },
+          "description": "Test electronics and materials under controlled temperature cycling from -68°C to +190°C and humidity up to 98% RH with the CSZ Environmental Chamber at MPaCT Lab.",
+          "dateModified": "2026-09-03T09:36:40-07:00"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://nano.nau.edu/About_Equipment/CSZ_EnvChamber.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://nano.nau.edu/index.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Equipment",
+              "item": "https://nano.nau.edu/Equipment.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Electrical",
+              "item": "https://nano.nau.edu/Equipment.html?category=Electrical"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "CSZ Environmental Chamber"
+            }
+          ]
+        },
+        {
+          "@type": "Product",
+          "@id": "https://nano.nau.edu/About_Equipment/CSZ_EnvChamber.html#product",
+          "name": "CSZ Environmental Chamber",
+          "sku": "EQ-009",
+          "category": "Electrical",
+          "url": "https://nano.nau.edu/About_Equipment/CSZ_EnvChamber.html",
+          "provider": {
+            "@id": "https://nano.nau.edu/#organization"
+          },
+          "description": "Test electronics and materials under controlled temperature cycling from -68°C to +190°C and humidity up to 98% RH with the CSZ Environmental Chamber at MPaCT Lab.",
+          "image": "https://nano.nau.edu/Images/EnvChamber.jpg",
+          "brand": {
+            "@type": "Brand",
+            "name": "CSZ"
+          },
+          "model": "MicroClimate",
+          "additionalProperty": [
+            {
+              "@type": "PropertyValue",
+              "name": "Workspace Volume",
+              "value": "1.2 ft³ (Approx. 34 L)"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Temperature Range",
+              "value": "-68°C to +190°C"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Humidity Range",
+              "value": "10% to 98% RH"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Control Stability",
+              "value": "± 0.5°C (-50°C to 190°C)"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Live Load Capacity",
+              "value": "175 W @ -40°C"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Controller",
+              "value": "CSZ EZT430S Touchscreen"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Power Requirement",
+              "value": "115 V / 230 V Single Phase"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Operational status",
+              "value": "Expected — installation scheduled for 2026-09-01"
+            }
+          ],
+          "subjectOf": [
+            {
+              "@type": "DigitalDocument",
+              "url": "https://nano.nau.edu/Manuals_and_Specs/EnvironmentalChamber_Manual.pdf",
+              "name": "Chamber Manual"
+            },
+            {
+              "@type": "DigitalDocument",
+              "url": "https://nano.nau.edu/Manuals_and_Specs/EnvironmentalChamber_Specs.pdf",
+              "name": "Chamber Specs Sheet"
+            }
+          ],
+          "isSimilarTo": [
+            {
+              "@id": "https://nano.nau.edu/About_Equipment/Montana_CryoStation.html#product"
+            },
+            {
+              "@id": "https://nano.nau.edu/About_Equipment/MPI_TS200.html#product"
+            },
+            {
+              "@id": "https://nano.nau.edu/About_Equipment/SEM.html#product"
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+    <!-- END structured-data -->
 </head>
 <body>
 
@@ -29,6 +223,14 @@
         </div>
         <section class="product-hero">
             <div class="container">
+                <nav class="eq-crumb" aria-label="Breadcrumb">
+                    <ol>
+                        <li><a href="../index.html"><i class="fas fa-house" aria-hidden="true"></i><span class="sr-only">Home</span></a></li>
+                        <li><a href="../Equipment.html" rel="up">Equipment</a></li>
+                        <li><a href="../Equipment.html?category=Electrical">Electrical</a></li>
+                        <li><span aria-current="page">CSZ Environmental Chamber</span></li>
+                    </ol>
+                </nav>
                 <div class="hero-inner">
                     <div class="hero-text">
                         <div class="hero-badges">
@@ -350,6 +552,43 @@
                 </aside>
             </div>
         </div>
+        <nav class="eq-related" aria-label="Related instruments">
+            <div class="container">
+                <div class="eq-related__head">
+                    <h2 class="eq-related__title">Related instruments</h2>
+                    <a class="eq-related__all" href="../Equipment.html?category=Electrical">See all Electrical →</a>
+                </div>
+                <ul class="eq-related__list">
+                    <li>
+                        <a class="eq-related__card" href="Montana_CryoStation.html">
+                            <img class="eq-related__thumb" src="../Images/CryoAdvance50.png" alt="Montana CryoAdvance 50" width="72" height="72" loading="lazy">
+                            <span class="eq-related__body">
+                                <span class="eq-related__name">Montana CryoAdvance 50</span>
+                                <span class="eq-related__role">Closed-cycle optical cryostat for cold science</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="eq-related__card" href="MPI_TS200.html">
+                            <img class="eq-related__thumb" src="../Images/Probe_Station.png" alt="MPI TS200 Manual Probe System" width="72" height="72" loading="lazy">
+                            <span class="eq-related__body">
+                                <span class="eq-related__name">MPI TS200 Manual Probe System</span>
+                                <span class="eq-related__role">Manual wafer probing for I-V and RF</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="eq-related__card" href="SEM.html">
+                            <img class="eq-related__thumb" src="../Images/SEM.jpg" alt="JEOL JSM-IT710HR Field Emission SEM" width="72" height="72" loading="lazy">
+                            <span class="eq-related__body">
+                                <span class="eq-related__name">JEOL JSM-IT710HR Field Emission SEM</span>
+                                <span class="eq-related__role">High-resolution SEM imaging and microanalysis</span>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
     </main>
 
     <div id="site-footer"></div>

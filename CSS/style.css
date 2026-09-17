@@ -5364,6 +5364,7 @@ ul {
     z-index: 900;
     margin-top: -30px;
     padding-bottom: 20px;
+    scroll-margin-top: var(--site-header-height);
 }
 
 .filter-bar {
@@ -23670,5 +23671,244 @@ body.workforce-development-page {
 
     .map-container {
         height: 540px;
+    }
+}
+
+
+/* ==========================================================================
+   EQUIPMENT BREADCRUMB  —  Design 1 "Full Trail"
+   docs/GEO_P0_3_breadcrumbs_plan.md §4
+   --------------------------------------------------------------------------
+   Home › Equipment › <category from equipment.json> › <instrument name>
+   -------------------------------------------------------------------------- */
+
+/* Visually hidden, still read by crawlers and screen readers. */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.eq-crumb {
+    margin-bottom: var(--space-sm);
+}
+
+/* nowrap keeps this a single row at every width; the current-page crumb
+   truncates instead of wrapping, which is what keeps the height exact. */
+.eq-crumb ol {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 6px;
+    height: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    line-height: 20px;
+    letter-spacing: 0.3px;
+}
+
+.eq-crumb li {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+}
+
+.eq-crumb a {
+    color: rgba(255, 255, 255, 0.55);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color var(--trans-fast);
+}
+
+.eq-crumb a:hover,
+.eq-crumb a:focus-visible {
+    color: var(--nau-gold);
+}
+
+.eq-crumb a:focus-visible {
+    outline: 2px solid var(--nau-gold);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+}
+
+/* Separator, matching the existing .cs-breadcrumb treatment. */
+.eq-crumb li+li::before {
+    content: '\203A';
+    color: rgba(255, 255, 255, 0.25);
+}
+
+/* The category crumb is the only one leading somewhere the visitor
+   has not just been, so it is weighted brighter than its neighbours. */
+.eq-crumb li:nth-child(3) a {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* The current page is not a link. Long instrument names truncate
+   rather than wrapping, which would change the row height. */
+.eq-crumb [aria-current="page"] {
+    color: rgba(255, 255, 255, 0.85);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* The crumb lives in space .product-hero was already padding out, so adding
+   it does not make the band taller. */
+.product-hero:has(.eq-crumb) {
+    padding-top: 32px;
+}
+
+/* Drop Home, and the separator that would be left dangling. */
+@media (max-width: 600px) {
+
+    .eq-crumb li:first-child,
+    .eq-crumb li:nth-child(2)::before {
+        display: none;
+    }
+}
+
+/* ==========================================================================
+   RELATED INSTRUMENTS  —  GEO P0.3 part (b)
+   --------------------------------------------------------------------------
+   Compact thumbnail row under the two-column equipment layout.
+   Static anchors only; no JS. 72px thumbs sit beside name + role.
+   -------------------------------------------------------------------------- */
+
+.eq-related {
+    background: var(--gray-50);
+    border-top: 2px solid var(--nau-gold);
+    padding: var(--space-2xl) 0;
+}
+
+.eq-related__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-md) var(--space-lg);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-lg);
+}
+
+.eq-related__title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--nau-blue);
+    margin: 0;
+}
+
+.eq-related__all {
+    font-family: var(--font-display);
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--nau-blue-light);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color var(--trans-fast);
+}
+
+.eq-related__all:hover,
+.eq-related__all:focus-visible {
+    color: var(--nau-gold-dark);
+}
+
+.eq-related__all:focus-visible,
+.eq-related__card:focus-visible {
+    outline: 2px solid var(--nau-gold);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+}
+
+.eq-related__list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-md);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.eq-related__card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    min-height: 88px;
+    padding: var(--space-sm);
+    padding-right: var(--space-md);
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    color: inherit;
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--trans-fast), box-shadow var(--trans-fast), border-color var(--trans-fast);
+}
+
+.eq-related__card:hover,
+.eq-related__card:focus-visible {
+    transform: translateY(-3px);
+    border-color: var(--nau-gold);
+    box-shadow: var(--shadow-md);
+}
+
+.eq-related__thumb {
+    width: 72px;
+    height: 72px;
+    max-width: 72px;
+    flex-shrink: 0;
+    object-fit: cover;
+    border-radius: 6px;
+    background: var(--gray-100);
+}
+
+.eq-related__body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.eq-related__name {
+    font-family: var(--font-display);
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--nau-blue);
+    line-height: 1.3;
+}
+
+.eq-related__role {
+    font-size: 0.8rem;
+    color: var(--gray-600);
+    line-height: 1.35;
+}
+
+@media (max-width: 900px) {
+    .eq-related {
+        padding: var(--space-xl) 0;
+    }
+
+    .eq-related__list {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .eq-related__card {
+        transition: none;
+    }
+
+    .eq-related__card:hover,
+    .eq-related__card:focus-visible {
+        transform: none;
     }
 }

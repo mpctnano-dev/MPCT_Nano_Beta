@@ -13,6 +13,183 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,400&display=swap">
+    <!-- BEGIN structured-data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "ResearchOrganization",
+          "@id": "https://nano.nau.edu/#organization",
+          "name": "NAU Nano",
+          "alternateName": [
+            "MPaCT Lab",
+            "NAU Nano Initiative"
+          ],
+          "url": "https://nano.nau.edu/",
+          "description": "Northern Arizona University's shared use center for microelectronics research, nanotechnology innovation, semiconductor training, and industry academia collaboration.",
+          "logo": "https://nano.nau.edu/Images/NAU.png",
+          "parentOrganization": {
+            "@type": "CollegeOrUniversity",
+            "@id": "https://nau.edu/#organization",
+            "name": "Northern Arizona University",
+            "url": "https://nau.edu/"
+          },
+          "location": {
+            "@id": "https://nano.nau.edu/#place"
+          }
+        },
+        {
+          "@type": "Place",
+          "@id": "https://nano.nau.edu/#place",
+          "name": "Building 98E, South Engineering Lab",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "561 E Pine Knoll Dr",
+            "addressLocality": "Flagstaff",
+            "addressRegion": "AZ",
+            "postalCode": "86001",
+            "addressCountry": "US"
+          },
+          "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday"
+            ],
+            "opens": "08:00",
+            "closes": "17:00"
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://nano.nau.edu/#website",
+          "url": "https://nano.nau.edu/",
+          "name": "NAU Nano",
+          "publisher": {
+            "@id": "https://nano.nau.edu/#organization"
+          },
+          "inLanguage": "en-US"
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://nano.nau.edu/About_Equipment/VKX3000_3D_Surface_Profiler.html#webpage",
+          "url": "https://nano.nau.edu/About_Equipment/VKX3000_3D_Surface_Profiler.html",
+          "name": "Keyence VK-X3000 | 3D Surface Profiler | MPaCT Lab",
+          "isPartOf": {
+            "@id": "https://nano.nau.edu/#website"
+          },
+          "about": {
+            "@id": "https://nano.nau.edu/About_Equipment/VKX3000_3D_Surface_Profiler.html#product"
+          },
+          "breadcrumb": {
+            "@id": "https://nano.nau.edu/About_Equipment/VKX3000_3D_Surface_Profiler.html#breadcrumb"
+          },
+          "description": "Map 3D surface topography and roughness with the Keyence VK-X3000 3D Surface Profiler at MPaCT Lab using laser confocal, focus variation, and White light interferometry — with 0.01 nm height resolution.",
+          "dateModified": "2026-09-03T09:36:45-07:00"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://nano.nau.edu/About_Equipment/VKX3000_3D_Surface_Profiler.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://nano.nau.edu/index.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Equipment",
+              "item": "https://nano.nau.edu/Equipment.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Metrology",
+              "item": "https://nano.nau.edu/Equipment.html?category=Metrology"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Keyence VK-X3000 3D Surface Profiler"
+            }
+          ]
+        },
+        {
+          "@type": "Product",
+          "@id": "https://nano.nau.edu/About_Equipment/VKX3000_3D_Surface_Profiler.html#product",
+          "name": "Keyence VK-X3000 3D Surface Profiler",
+          "sku": "EQ-016",
+          "category": "Metrology",
+          "url": "https://nano.nau.edu/About_Equipment/VKX3000_3D_Surface_Profiler.html",
+          "provider": {
+            "@id": "https://nano.nau.edu/#organization"
+          },
+          "description": "Map 3D surface topography and roughness with the Keyence VK-X3000 3D Surface Profiler at MPaCT Lab using laser confocal, focus variation, and White light interferometry — with 0.01 nm height resolution.",
+          "image": "https://nano.nau.edu/Images/VKX_3000.png",
+          "brand": {
+            "@type": "Brand",
+            "name": "Keyence"
+          },
+          "model": "VK-X3000",
+          "additionalProperty": [
+            {
+              "@type": "PropertyValue",
+              "name": "Measurement Principles",
+              "value": "Laser confocal, focus variation, white light interferometry, spectral interference"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Magnification Range",
+              "value": "42x to 28800x (total)"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Field of View",
+              "value": "11 um to 7398 um"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Laser Wavelengths",
+              "value": "404 nm (VK-X3100) or 661 nm (VK-X3050)"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Max Measurement Speed",
+              "value": "Surface 125 Hz, line 7900 Hz"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Height Resolution",
+              "value": "0.01 nm"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Operational status",
+              "value": "Available"
+            }
+          ],
+          "isSimilarTo": [
+            {
+              "@id": "https://nano.nau.edu/About_Equipment/SEM.html#product"
+            },
+            {
+              "@id": "https://nano.nau.edu/About_Equipment/B2_AFM.html#product"
+            },
+            {
+              "@id": "https://nano.nau.edu/About_Equipment/VHX7000_Digital_Microscope.html#product"
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+    <!-- END structured-data -->
 </head>
 <body>
 
@@ -29,6 +206,14 @@
         </div>
         <section class="product-hero">
             <div class="container">
+                <nav class="eq-crumb" aria-label="Breadcrumb">
+                    <ol>
+                        <li><a href="../index.html"><i class="fas fa-house" aria-hidden="true"></i><span class="sr-only">Home</span></a></li>
+                        <li><a href="../Equipment.html" rel="up">Equipment</a></li>
+                        <li><a href="../Equipment.html?category=Metrology">Metrology</a></li>
+                        <li><span aria-current="page">Keyence VK-X3000 3D Surface Profiler</span></li>
+                    </ol>
+                </nav>
                 <div class="hero-inner">
                     <div class="hero-text">
                         <div class="hero-badges">
@@ -327,6 +512,43 @@
                 </aside>
             </div>
         </div>
+        <nav class="eq-related" aria-label="Related instruments">
+            <div class="container">
+                <div class="eq-related__head">
+                    <h2 class="eq-related__title">Related instruments</h2>
+                    <a class="eq-related__all" href="../Equipment.html?category=Metrology">See all Metrology →</a>
+                </div>
+                <ul class="eq-related__list">
+                    <li>
+                        <a class="eq-related__card" href="SEM.html">
+                            <img class="eq-related__thumb" src="../Images/SEM.jpg" alt="JEOL JSM-IT710HR Field Emission SEM" width="72" height="72" loading="lazy">
+                            <span class="eq-related__body">
+                                <span class="eq-related__name">JEOL JSM-IT710HR Field Emission SEM</span>
+                                <span class="eq-related__role">High-resolution SEM imaging and microanalysis</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="eq-related__card" href="B2_AFM.html">
+                            <img class="eq-related__thumb" src="../Images/B2_AFM.png" alt="B-2 Atomic Force Microscope (AFM)" width="72" height="72" loading="lazy">
+                            <span class="eq-related__body">
+                                <span class="eq-related__name">B-2 Atomic Force Microscope (AFM)</span>
+                                <span class="eq-related__role">High-resolution 3D nanoscale surface imaging</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="eq-related__card" href="VHX7000_Digital_Microscope.html">
+                            <img class="eq-related__thumb" src="../Images/VHX_7000.png" alt="Keyence VHX-7000 Digital Microscope" width="72" height="72" loading="lazy">
+                            <span class="eq-related__body">
+                                <span class="eq-related__name">Keyence VHX-7000 Digital Microscope</span>
+                                <span class="eq-related__role">Optical inspection and 3D surface capture</span>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
     </main>
 
     <div id="site-footer"></div>

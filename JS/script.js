@@ -1354,11 +1354,72 @@ const applyFilters = () => {
     });
 };
 
+const applyCategoryFromUrl = () => {
+    if (categoryBtns.length === 0) return false;
+    const raw = new URLSearchParams(window.location.search).get('category');
+    if (!raw) return false;
+    const match = Array.from(categoryBtns).find(
+        (btn) => (btn.getAttribute('data-filter') || '').toLowerCase() === raw.toLowerCase()
+    );
+    if (!match) return false;
+    categoryBtns.forEach((b) => b.classList.remove('active'));
+    match.classList.add('active');
+    return true;
+};
+
+const scrollToCatalog = () => {
+    const run = () => {
+        const grid = document.getElementById('equipmentContainer');
+        const filter = document.getElementById('catalog') || document.querySelector('.filter-section');
+        const target = grid || filter;
+        if (!target) return;
+
+        const headerEl = document.getElementById('mainHeader');
+        const headerH = headerEl
+            ? Math.round(headerEl.getBoundingClientRect().height)
+            : (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--site-header-height')) || 84);
+        const filterH = (grid && filter) ? Math.round(filter.getBoundingClientRect().height) : 0;
+        const top = target.getBoundingClientRect().top + window.scrollY - headerH - filterH;
+
+        const html = document.documentElement;
+        const previous = html.style.scrollBehavior;
+        html.style.scrollBehavior = 'auto';
+        window.scrollTo(0, Math.max(0, Math.round(top)));
+        html.style.scrollBehavior = previous;
+    };
+
+    const headerEl = document.getElementById('mainHeader');
+    if (headerEl) {
+        const headerH = Math.round(headerEl.getBoundingClientRect().height);
+        document.documentElement.style.setProperty('--site-header-height', `${headerH}px`);
+        requestAnimationFrame(run);
+    } else {
+        run();
+    }
+};
+
+const syncCategoryUrl = (filter) => {
+    const url = new URL(window.location.href);
+    if (!filter || filter === 'all') {
+        url.searchParams.delete('category');
+    } else {
+        url.searchParams.set('category', filter);
+    }
+    const next = url.pathname + url.search + url.hash;
+    const current = window.location.pathname + window.location.search + window.location.hash;
+    if (current !== next) {
+        history.replaceState(null, '', next);
+    }
+};
+
+const landedOnCategory = applyCategoryFromUrl();
+
 if (categoryBtns.length > 0) {
     categoryBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             categoryBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+            syncCategoryUrl(btn.getAttribute('data-filter'));
             applyFilters();
         });
     });
@@ -1380,4 +1441,17 @@ if (searchInput) {
 
 buildSearchSuggestions();
 applyFilters();
+
+if (landedOnCategory) {
+    scrollToCatalog();
+    const headerWait = setInterval(() => {
+        if (document.getElementById('mainHeader')) {
+            scrollToCatalog();
+            clearInterval(headerWait);
+            // Compact header (.scrolled) settles after 300ms; re-jump once.
+            setTimeout(scrollToCatalog, 400);
+        }
+    }, 50);
+    setTimeout(() => clearInterval(headerWait), 3000);
+}
 
