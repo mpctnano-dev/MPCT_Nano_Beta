@@ -15,6 +15,7 @@
     const ACCESSORIES = {
         'EQ-006': ['3D Scanner'],
         'EQ-020': ['LPKF MultiPress S', 'LPKF Electroplater', 'LPKF Pick & Place', 'LPKF Reflow Oven', 'Wave Solder'],
+        'EQ-024': ['Omniprobe Lift-Out System', 'Gas Injection System'],
         'EQ-037': ['Backscattered Detector', 'Electron Biprism'],
     };
 
