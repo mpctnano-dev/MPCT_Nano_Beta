@@ -63,5 +63,7 @@ Allow: /JS/
 Allow: /Images/
 Allow: /About_Equipment/
 Allow: /Manuals_and_Specs/
+Allow: /knowledge-base/
+Allow: /llms.txt
 
 Sitemap: https://nano.nau.edu/sitemap.php

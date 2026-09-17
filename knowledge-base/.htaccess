@@ -1,0 +1,11 @@
+# /knowledge-base/ is the MkDocs build (directory URLs + index.html).
+DirectoryIndex index.html
+Options -Indexes
+
+ErrorDocument 404 /knowledge-base/404.html
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule [^/]$ %{REQUEST_URI}/ [R=301,L]
+</IfModule>

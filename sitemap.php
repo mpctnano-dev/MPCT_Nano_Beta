@@ -12,6 +12,8 @@
  *
  * Only public pages are listed. Internal files — form processors, includes,
  * PHPMailer, JSON, docs, data — are never scanned, so they never appear.
+ * The knowledge-base directory is included as trailing-slash URLs so MkDocs
+ * pages are advertised without listing assets or 404.html.
  *
  * GEO plan item #4: robots.txt already advertises a sitemap; this is the
  * file that makes that URL resolve. lastmod is omitted on purpose — file
@@ -75,6 +77,29 @@ foreach ($scanDirs as $relDir) {
     }
 
     closedir($handle);
+}
+
+// Knowledge-base pages are MkDocs directory URLs (index.html behind a trailing slash).
+// Walk only index.html files so assets, 404, and search JSON stay out of the sitemap.
+$kbRoot = $root . DIRECTORY_SEPARATOR . 'knowledge-base';
+if (is_dir($kbRoot)) {
+    $kbIter = new RecursiveIteratorIterator(
+        new RecursiveDirectoryIterator($kbRoot, FilesystemIterator::SKIP_DOTS)
+    );
+    foreach ($kbIter as $file) {
+        if (!$file->isFile()) {
+            continue;
+        }
+        if (strtolower($file->getFilename()) !== 'index.html') {
+            continue;
+        }
+        $rel = str_replace('\\', '/', substr($file->getPathname(), strlen($root) + 1));
+        if (strpos($rel, '/404') !== false) {
+            continue;
+        }
+        $dir = dirname($rel);
+        $pages[] = ($dir === 'knowledge-base') ? 'knowledge-base/' : $dir . '/';
+    }
 }
 
 // Homepage first, then A–Z by path so the document is stable across requests.
