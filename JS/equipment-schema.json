@@ -28,6 +28,7 @@
     "EQ-021": { "brand": "Montana", "model": "CryoAdvance 50" },
     "EQ-022": { "brand": "MPI", "model": "TS200" },
     "EQ-023": { "brand": "NIL Technology", "model": "CNI v3.0" },
+    "EQ-024": { "brand": "FEI", "model": "Quanta 3D FEG" },
     "EQ-025": { "brand": "PELCO", "model": "FlexScribe 300" },
     "EQ-026": { "brand": "Edinburgh Instruments", "model": "FLS1000" },
     "EQ-027": { "brand": "JEOL", "model": "JSM-IT710HR" },

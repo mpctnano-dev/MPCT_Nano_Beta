@@ -14,6 +14,180 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,400&display=swap">
+    <!-- BEGIN structured-data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "ResearchOrganization",
+          "@id": "https://nano.nau.edu/#organization",
+          "name": "NAU Nano",
+          "alternateName": [
+            "MPaCT Lab",
+            "NAU Nano Initiative"
+          ],
+          "url": "https://nano.nau.edu/",
+          "description": "Northern Arizona University's shared use center for microelectronics research, nanotechnology innovation, semiconductor training, and industry academia collaboration.",
+          "logo": "https://nano.nau.edu/Images/NAU.png",
+          "parentOrganization": {
+            "@type": "CollegeOrUniversity",
+            "@id": "https://nau.edu/#organization",
+            "name": "Northern Arizona University",
+            "url": "https://nau.edu/"
+          },
+          "location": {
+            "@id": "https://nano.nau.edu/#place"
+          }
+        },
+        {
+          "@type": "Place",
+          "@id": "https://nano.nau.edu/#place",
+          "name": "Building 98E, South Engineering Lab",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "561 E Pine Knoll Dr",
+            "addressLocality": "Flagstaff",
+            "addressRegion": "AZ",
+            "postalCode": "86001",
+            "addressCountry": "US"
+          },
+          "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday"
+            ],
+            "opens": "08:00",
+            "closes": "17:00"
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://nano.nau.edu/#website",
+          "url": "https://nano.nau.edu/",
+          "name": "NAU Nano",
+          "publisher": {
+            "@id": "https://nano.nau.edu/#organization"
+          },
+          "inLanguage": "en-US"
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://nano.nau.edu/About_Equipment/DualBeam_FIBSEM.html#webpage",
+          "url": "https://nano.nau.edu/About_Equipment/DualBeam_FIBSEM.html",
+          "name": "FEI Quanta 3D FEG DualBeam | FIB-SEM | MPaCT Lab",
+          "isPartOf": {
+            "@id": "https://nano.nau.edu/#website"
+          },
+          "about": {
+            "@id": "https://nano.nau.edu/About_Equipment/DualBeam_FIBSEM.html#product"
+          },
+          "breadcrumb": {
+            "@id": "https://nano.nau.edu/About_Equipment/DualBeam_FIBSEM.html#breadcrumb"
+          },
+          "description": "Perform site-specific FIB milling, cross-sectioning, and high-resolution SEM imaging with the FEI Quanta 3D FEG DualBeam FIB-SEM at MPaCT Lab for 2D/3D materials characterization and TEM sample prep.",
+          "dateModified": "2026-09-17T08:49:00-07:00"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://nano.nau.edu/About_Equipment/DualBeam_FIBSEM.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://nano.nau.edu/index.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Equipment",
+              "item": "https://nano.nau.edu/Equipment.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Metrology",
+              "item": "https://nano.nau.edu/Equipment.html?category=Metrology"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "DualBeam"
+            }
+          ]
+        },
+        {
+          "@type": "Product",
+          "@id": "https://nano.nau.edu/About_Equipment/DualBeam_FIBSEM.html#product",
+          "name": "FEI Quanta 3D FEG DualBeam (FIB-SEM)",
+          "sku": "EQ-024",
+          "category": "Metrology",
+          "url": "https://nano.nau.edu/About_Equipment/DualBeam_FIBSEM.html",
+          "provider": {
+            "@id": "https://nano.nau.edu/#organization"
+          },
+          "description": "Perform site-specific FIB milling, cross-sectioning, and high-resolution SEM imaging with the FEI Quanta 3D FEG DualBeam FIB-SEM at MPaCT Lab for 2D/3D materials characterization and TEM sample prep.",
+          "image": "https://nano.nau.edu/Images/DualBeam.jpg",
+          "brand": {
+            "@type": "Brand",
+            "name": "FEI"
+          },
+          "model": "Quanta 3D FEG",
+          "additionalProperty": [
+            {
+              "@type": "PropertyValue",
+              "name": "Electron Source",
+              "value": "Field-emission gun, 200 V – 30 kV accelerating voltage"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Electron Beam Resolution",
+              "value": "1.2 nm at 30 kV (SE, high-vacuum)"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Ion Source",
+              "value": "Ga liquid-metal ion source (LMIS), 1000-hour guaranteed lifetime"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Ion Beam Resolution",
+              "value": "7 nm at 30 kV at beam coincident point"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Chamber Vacuum Modes",
+              "value": "High-vacuum, low-vacuum, and ESEM"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Gas Chemistry",
+              "value": "Up to 5 gas injectors; Pt, W, Au, and SiO2 deposition; enhanced and insulator etch"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Operational status",
+              "value": "Expected — installation scheduled for 2026-09-01"
+            }
+          ],
+          "isSimilarTo": [
+            {
+              "@id": "https://nano.nau.edu/About_Equipment/SEM.html#product"
+            },
+            {
+              "@id": "https://nano.nau.edu/About_Equipment/TEM.html#product"
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+    <!-- END structured-data -->
 </head>
 
 <body>
@@ -31,6 +205,14 @@
         </div>
         <section class="product-hero">
             <div class="container">
+                <nav class="eq-crumb" aria-label="Breadcrumb">
+                    <ol>
+                        <li><a href="../index.html"><i class="fas fa-house" aria-hidden="true"></i><span class="sr-only">Home</span></a></li>
+                        <li><a href="../Equipment.html" rel="up">Equipment</a></li>
+                        <li><a href="../Equipment.html?category=Metrology">Metrology</a></li>
+                        <li><span aria-current="page">DualBeam</span></li>
+                    </ol>
+                </nav>
                 <div class="hero-inner">
                     <div class="hero-text">
                         <div class="hero-badges">
@@ -418,6 +600,34 @@
             </div>
 
         </div>
+        <nav class="eq-related" aria-label="Related instruments">
+            <div class="container">
+                <div class="eq-related__head">
+                    <h2 class="eq-related__title">Related instruments</h2>
+                    <a class="eq-related__all" href="../Equipment.html?category=Metrology">See all Metrology →</a>
+                </div>
+                <ul class="eq-related__list">
+                    <li>
+                        <a class="eq-related__card" href="SEM.html">
+                            <img class="eq-related__thumb" src="../Images/SEM.jpg" alt="JEOL JSM-IT710HR Field Emission SEM" width="72" height="72" loading="lazy">
+                            <span class="eq-related__body">
+                                <span class="eq-related__name">JEOL JSM-IT710HR Field Emission SEM</span>
+                                <span class="eq-related__role">High-resolution SEM imaging and microanalysis</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="eq-related__card" href="TEM.html">
+                            <img class="eq-related__thumb" src="../Images/TEM.jpg" alt="JEOL JEM-F200 Transmission Electron Microscope" width="72" height="72" loading="lazy">
+                            <span class="eq-related__body">
+                                <span class="eq-related__name">JEOL JEM-F200 Transmission Electron Microscope</span>
+                                <span class="eq-related__role">High-resolution TEM and STEM imaging</span>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
     </main>
 
     <div id="site-footer"></div>
