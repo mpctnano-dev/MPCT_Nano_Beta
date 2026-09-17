@@ -13,6 +13,178 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,400&display=swap">
+    <!-- BEGIN structured-data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "ResearchOrganization",
+          "@id": "https://nano.nau.edu/#organization",
+          "name": "NAU Nano",
+          "alternateName": [
+            "MPaCT Lab",
+            "NAU Nano Initiative"
+          ],
+          "url": "https://nano.nau.edu/",
+          "description": "Northern Arizona University's shared use center for microelectronics research, nanotechnology innovation, semiconductor training, and industry academia collaboration.",
+          "logo": "https://nano.nau.edu/Images/NAU.png",
+          "parentOrganization": {
+            "@type": "CollegeOrUniversity",
+            "@id": "https://nau.edu/#organization",
+            "name": "Northern Arizona University",
+            "url": "https://nau.edu/"
+          },
+          "location": {
+            "@id": "https://nano.nau.edu/#place"
+          }
+        },
+        {
+          "@type": "Place",
+          "@id": "https://nano.nau.edu/#place",
+          "name": "Building 98E, South Engineering Lab",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "561 E Pine Knoll Dr",
+            "addressLocality": "Flagstaff",
+            "addressRegion": "AZ",
+            "postalCode": "86001",
+            "addressCountry": "US"
+          },
+          "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday"
+            ],
+            "opens": "08:00",
+            "closes": "17:00"
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://nano.nau.edu/#website",
+          "url": "https://nano.nau.edu/",
+          "name": "NAU Nano",
+          "publisher": {
+            "@id": "https://nano.nau.edu/#organization"
+          },
+          "inLanguage": "en-US"
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://nano.nau.edu/About_Equipment/VHX7000_Digital_Microscope.html#webpage",
+          "url": "https://nano.nau.edu/About_Equipment/VHX7000_Digital_Microscope.html",
+          "name": "Keyence VHX-7000 | Digital Microscope | MPaCT Lab",
+          "isPartOf": {
+            "@id": "https://nano.nau.edu/#website"
+          },
+          "about": {
+            "@id": "https://nano.nau.edu/About_Equipment/VHX7000_Digital_Microscope.html#product"
+          },
+          "breadcrumb": {
+            "@id": "https://nano.nau.edu/About_Equipment/VHX7000_Digital_Microscope.html#breadcrumb"
+          },
+          "description": "Inspect, measure, and document surface features with the Keyence VHX-7000 Digital Microscope at MPaCT Lab using a high-resolution CMOS sensor and 4K imaging for materials and device characterization.",
+          "dateModified": "2026-09-03T09:36:45-07:00"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://nano.nau.edu/About_Equipment/VHX7000_Digital_Microscope.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://nano.nau.edu/index.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Equipment",
+              "item": "https://nano.nau.edu/Equipment.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Metrology",
+              "item": "https://nano.nau.edu/Equipment.html?category=Metrology"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Keyence VHX-7000 Digital Microscope"
+            }
+          ]
+        },
+        {
+          "@type": "Product",
+          "@id": "https://nano.nau.edu/About_Equipment/VHX7000_Digital_Microscope.html#product",
+          "name": "Keyence VHX-7000 Digital Microscope",
+          "sku": "EQ-015",
+          "category": "Metrology",
+          "url": "https://nano.nau.edu/About_Equipment/VHX7000_Digital_Microscope.html",
+          "provider": {
+            "@id": "https://nano.nau.edu/#organization"
+          },
+          "description": "Inspect, measure, and document surface features with the Keyence VHX-7000 Digital Microscope at MPaCT Lab using a high-resolution CMOS sensor and 4K imaging for materials and device characterization.",
+          "image": "https://nano.nau.edu/Images/VHX_7000.png",
+          "brand": {
+            "@type": "Brand",
+            "name": "Keyence"
+          },
+          "model": "VHX-7000",
+          "additionalProperty": [
+            {
+              "@type": "PropertyValue",
+              "name": "Image Sensor",
+              "value": "1/1.8 in CMOS image sensor"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Effective Pixels",
+              "value": "2048 x 1536"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Output Image",
+              "value": "3840 x 2160"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Display",
+              "value": "15 in monitor"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Output Interface",
+              "value": "4K output supported"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Operational status",
+              "value": "Available"
+            }
+          ],
+          "isSimilarTo": [
+            {
+              "@id": "https://nano.nau.edu/About_Equipment/SEM.html#product"
+            },
+            {
+              "@id": "https://nano.nau.edu/About_Equipment/TEM.html#product"
+            },
+            {
+              "@id": "https://nano.nau.edu/About_Equipment/B2_AFM.html#product"
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+    <!-- END structured-data -->
 </head>
 <body>
 
@@ -331,6 +503,43 @@
                 </aside>
             </div>
         </div>
+        <nav class="eq-related" aria-label="Related instruments">
+            <div class="container">
+                <div class="eq-related__head">
+                    <h2 class="eq-related__title">Related instruments</h2>
+                    <a class="eq-related__all" href="../Equipment.html?category=Metrology">See all Metrology →</a>
+                </div>
+                <ul class="eq-related__list">
+                    <li>
+                        <a class="eq-related__card" href="SEM.html">
+                            <img class="eq-related__thumb" src="../Images/SEM.jpg" alt="JEOL JSM-IT710HR Field Emission SEM" width="72" height="72" loading="lazy">
+                            <span class="eq-related__body">
+                                <span class="eq-related__name">JEOL JSM-IT710HR Field Emission SEM</span>
+                                <span class="eq-related__role">High-resolution SEM imaging and microanalysis</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="eq-related__card" href="TEM.html">
+                            <img class="eq-related__thumb" src="../Images/TEM.jpg" alt="JEOL JEM-F200 Transmission Electron Microscope" width="72" height="72" loading="lazy">
+                            <span class="eq-related__body">
+                                <span class="eq-related__name">JEOL JEM-F200 Transmission Electron Microscope</span>
+                                <span class="eq-related__role">High-resolution TEM and STEM imaging</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="eq-related__card" href="B2_AFM.html">
+                            <img class="eq-related__thumb" src="../Images/B2_AFM.png" alt="B-2 Atomic Force Microscope (AFM)" width="72" height="72" loading="lazy">
+                            <span class="eq-related__body">
+                                <span class="eq-related__name">B-2 Atomic Force Microscope (AFM)</span>
+                                <span class="eq-related__role">High-resolution 3D nanoscale surface imaging</span>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
     </main>
 
     <div id="site-footer"></div>

@@ -33,6 +33,443 @@
     <link rel="stylesheet" href="CSS/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
+    <!-- BEGIN structured-data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "ResearchOrganization",
+          "@id": "https://nano.nau.edu/#organization",
+          "name": "NAU Nano",
+          "alternateName": [
+            "MPaCT Lab",
+            "NAU Nano Initiative"
+          ],
+          "url": "https://nano.nau.edu/",
+          "description": "Northern Arizona University's shared use center for microelectronics research, nanotechnology innovation, semiconductor training, and industry academia collaboration.",
+          "logo": "https://nano.nau.edu/Images/NAU.png",
+          "parentOrganization": {
+            "@type": "CollegeOrUniversity",
+            "@id": "https://nau.edu/#organization",
+            "name": "Northern Arizona University",
+            "url": "https://nau.edu/"
+          },
+          "location": {
+            "@id": "https://nano.nau.edu/#place"
+          }
+        },
+        {
+          "@type": "Place",
+          "@id": "https://nano.nau.edu/#place",
+          "name": "Building 98E, South Engineering Lab",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "561 E Pine Knoll Dr",
+            "addressLocality": "Flagstaff",
+            "addressRegion": "AZ",
+            "postalCode": "86001",
+            "addressCountry": "US"
+          },
+          "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday"
+            ],
+            "opens": "08:00",
+            "closes": "17:00"
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://nano.nau.edu/#website",
+          "url": "https://nano.nau.edu/",
+          "name": "NAU Nano",
+          "publisher": {
+            "@id": "https://nano.nau.edu/#organization"
+          },
+          "inLanguage": "en-US"
+        },
+        {
+          "@type": "CollectionPage",
+          "@id": "https://nano.nau.edu/Equipment.html#webpage",
+          "url": "https://nano.nau.edu/Equipment.html",
+          "name": "MPaCT Lab Equipment Catalog | NAU Nano",
+          "isPartOf": {
+            "@id": "https://nano.nau.edu/#website"
+          },
+          "about": {
+            "@id": "https://nano.nau.edu/#organization"
+          },
+          "breadcrumb": {
+            "@id": "https://nano.nau.edu/Equipment.html#breadcrumb"
+          },
+          "mainEntity": {
+            "@id": "https://nano.nau.edu/Equipment.html#itemlist"
+          },
+          "description": "Browse the MPaCT Lab equipment catalog at NAU Nano, featuring capabilities in fabrication, metrology, electrical characterization, mechatronics, testing, and more for research and training.",
+          "dateModified": "2026-08-14T15:47:12-07:00"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://nano.nau.edu/Equipment.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://nano.nau.edu/index.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Equipment"
+            }
+          ]
+        },
+        {
+          "@type": "ItemList",
+          "@id": "https://nano.nau.edu/Equipment.html#itemlist",
+          "numberOfItems": 41,
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "url": "https://nano.nau.edu/About_Equipment/B2_AFM.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/B2_AFM.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "url": "https://nano.nau.edu/About_Equipment/SEM.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/SEM.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "url": "https://nano.nau.edu/About_Equipment/TEM.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/TEM.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "url": "https://nano.nau.edu/About_Equipment/XRD.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/XRD.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "url": "https://nano.nau.edu/About_Equipment/Montana_CryoStation.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/Montana_CryoStation.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 6,
+              "url": "https://nano.nau.edu/About_Equipment/Ellipsometer.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/Ellipsometer.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 7,
+              "url": "https://nano.nau.edu/About_Equipment/Keysight_ImpAnalyzer.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/Keysight_ImpAnalyzer.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 8,
+              "url": "https://nano.nau.edu/About_Equipment/Keyence_WM6000.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/Keyence_WM6000.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 9,
+              "url": "https://nano.nau.edu/About_Equipment/SUSS_MJB4.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/SUSS_MJB4.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 10,
+              "url": "https://nano.nau.edu/About_Equipment/LPKF_ProtoLaser.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/LPKF_ProtoLaser.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 11,
+              "url": "https://nano.nau.edu/About_Equipment/NIL_CNI_v3.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/NIL_CNI_v3.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 12,
+              "url": "https://nano.nau.edu/About_Equipment/WestBond_WireBonder.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/WestBond_WireBonder.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 13,
+              "url": "https://nano.nau.edu/About_Equipment/Tresky_DieBonder.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/Tresky_DieBonder.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 14,
+              "url": "https://nano.nau.edu/About_Equipment/Amatrol_87_MS1.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/Amatrol_87_MS1.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 15,
+              "url": "https://nano.nau.edu/About_Equipment/Amatrol_87_MS2.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/Amatrol_87_MS2.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 16,
+              "url": "https://nano.nau.edu/About_Equipment/Amatrol_87_MS7.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/Amatrol_87_MS7.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 17,
+              "url": "https://nano.nau.edu/About_Equipment/Amatrol_SmartRobot_Workcell.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/Amatrol_SmartRobot_Workcell.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 18,
+              "url": "https://nano.nau.edu/About_Equipment/Vector_Network_Analyzer.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/Vector_Network_Analyzer.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 19,
+              "url": "https://nano.nau.edu/About_Equipment/Haas_DesktopLathe.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/Haas_DesktopLathe.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 20,
+              "url": "https://nano.nau.edu/About_Equipment/MPI_TS200.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/MPI_TS200.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 21,
+              "url": "https://nano.nau.edu/About_Equipment/CSZ_EnvChamber.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/CSZ_EnvChamber.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 22,
+              "url": "https://nano.nau.edu/About_Equipment/Bambu_H2D.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/Bambu_H2D.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 23,
+              "url": "https://nano.nau.edu/About_Equipment/Haas_DesktopMill.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/Haas_DesktopMill.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 24,
+              "url": "https://nano.nau.edu/About_Equipment/Seebeck_Resistivity_Instrument.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/Seebeck_Resistivity_Instrument.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 25,
+              "url": "https://nano.nau.edu/About_Equipment/Photoluminescence_Spectrometer.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/Photoluminescence_Spectrometer.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 26,
+              "url": "https://nano.nau.edu/About_Equipment/BELSORP_MAX_X.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/BELSORP_MAX_X.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 27,
+              "url": "https://nano.nau.edu/About_Equipment/BELPREP_VAC_Series.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/BELPREP_VAC_Series.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 28,
+              "url": "https://nano.nau.edu/About_Equipment/Spatial_Light_Modulator.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/Spatial_Light_Modulator.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 29,
+              "url": "https://nano.nau.edu/About_Equipment/SIMS_Workstation.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/SIMS_Workstation.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 30,
+              "url": "https://nano.nau.edu/About_Equipment/TEM_Prep_Disk_Grinder.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/TEM_Prep_Disk_Grinder.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 31,
+              "url": "https://nano.nau.edu/About_Equipment/TEM_Prep_Dimple_Grinder.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/TEM_Prep_Dimple_Grinder.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 32,
+              "url": "https://nano.nau.edu/About_Equipment/TEM_Prep_Ion_Beam_Mill.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/TEM_Prep_Ion_Beam_Mill.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 33,
+              "url": "https://nano.nau.edu/About_Equipment/VKX3000_3D_Surface_Profiler.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/VKX3000_3D_Surface_Profiler.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 34,
+              "url": "https://nano.nau.edu/About_Equipment/VHX7000_Digital_Microscope.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/VHX7000_Digital_Microscope.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 35,
+              "url": "https://nano.nau.edu/About_Equipment/Fluke_P3114_Deadweight_Tester.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/Fluke_P3114_Deadweight_Tester.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 36,
+              "url": "https://nano.nau.edu/About_Equipment/Tektronix_TBS1052C.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/Tektronix_TBS1052C.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 37,
+              "url": "https://nano.nau.edu/About_Equipment/Tektronix_AFG1022.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/Tektronix_AFG1022.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 38,
+              "url": "https://nano.nau.edu/About_Equipment/Keithley_2110.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/Keithley_2110.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 39,
+              "url": "https://nano.nau.edu/About_Equipment/Voltera_VOne_PCB_Printer.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/Voltera_VOne_PCB_Printer.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 40,
+              "url": "https://nano.nau.edu/About_Equipment/PELCO_FlexScribe_300.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/PELCO_FlexScribe_300.html#product"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 41,
+              "url": "https://nano.nau.edu/About_Equipment/LN2_Storage_Dewars.html",
+              "item": {
+                "@id": "https://nano.nau.edu/About_Equipment/LN2_Storage_Dewars.html#product"
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+    <!-- END structured-data -->
 </head>
 
 <body>
@@ -76,7 +513,7 @@
         </section>
 
 
-        <section class="filter-section" style="border-bottom: 1px solid var(--gray-200); padding: 20px 0;">
+        <section id="catalog" class="filter-section" style="border-bottom: 1px solid var(--gray-200); padding: 20px 0;">
             <div class="container d-flex justify-between align-center" style="gap: 20px; flex-wrap: wrap;">
 
                 <div class="search-wrapper" style="position: relative; flex-grow: 1; max-width: 300px;">

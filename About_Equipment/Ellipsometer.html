@@ -13,6 +13,193 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,400&display=swap">
+    <!-- BEGIN structured-data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "ResearchOrganization",
+          "@id": "https://nano.nau.edu/#organization",
+          "name": "NAU Nano",
+          "alternateName": [
+            "MPaCT Lab",
+            "NAU Nano Initiative"
+          ],
+          "url": "https://nano.nau.edu/",
+          "description": "Northern Arizona University's shared use center for microelectronics research, nanotechnology innovation, semiconductor training, and industry academia collaboration.",
+          "logo": "https://nano.nau.edu/Images/NAU.png",
+          "parentOrganization": {
+            "@type": "CollegeOrUniversity",
+            "@id": "https://nau.edu/#organization",
+            "name": "Northern Arizona University",
+            "url": "https://nau.edu/"
+          },
+          "location": {
+            "@id": "https://nano.nau.edu/#place"
+          }
+        },
+        {
+          "@type": "Place",
+          "@id": "https://nano.nau.edu/#place",
+          "name": "Building 98E, South Engineering Lab",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "561 E Pine Knoll Dr",
+            "addressLocality": "Flagstaff",
+            "addressRegion": "AZ",
+            "postalCode": "86001",
+            "addressCountry": "US"
+          },
+          "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday"
+            ],
+            "opens": "08:00",
+            "closes": "17:00"
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://nano.nau.edu/#website",
+          "url": "https://nano.nau.edu/",
+          "name": "NAU Nano",
+          "publisher": {
+            "@id": "https://nano.nau.edu/#organization"
+          },
+          "inLanguage": "en-US"
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://nano.nau.edu/About_Equipment/Ellipsometer.html#webpage",
+          "url": "https://nano.nau.edu/About_Equipment/Ellipsometer.html",
+          "name": "J.A. Woollam RC2 Ellipsometer | Thin Film Metrology | MPaCT Lab",
+          "isPartOf": {
+            "@id": "https://nano.nau.edu/#website"
+          },
+          "about": {
+            "@id": "https://nano.nau.edu/About_Equipment/Ellipsometer.html#product"
+          },
+          "breadcrumb": {
+            "@id": "https://nano.nau.edu/About_Equipment/Ellipsometer.html#breadcrumb"
+          },
+          "description": "Measure thin film thickness, optical constants, and multilayer properties with the J.A. Woollam RC2 Ellipsometer at MPaCT Lab for semiconductor, coating, and materials characterization.",
+          "dateModified": "2026-09-03T09:36:40-07:00"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://nano.nau.edu/About_Equipment/Ellipsometer.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://nano.nau.edu/index.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Equipment",
+              "item": "https://nano.nau.edu/Equipment.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Metrology",
+              "item": "https://nano.nau.edu/Equipment.html?category=Metrology"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "J.A. Woollam RC2 Ellipsometer"
+            }
+          ]
+        },
+        {
+          "@type": "Product",
+          "@id": "https://nano.nau.edu/About_Equipment/Ellipsometer.html#product",
+          "name": "J.A. Woollam RC2 Ellipsometer",
+          "sku": "EQ-010",
+          "category": "Metrology",
+          "url": "https://nano.nau.edu/About_Equipment/Ellipsometer.html",
+          "provider": {
+            "@id": "https://nano.nau.edu/#organization"
+          },
+          "description": "Measure thin film thickness, optical constants, and multilayer properties with the J.A. Woollam RC2 Ellipsometer at MPaCT Lab for semiconductor, coating, and materials characterization.",
+          "image": "https://nano.nau.edu/Images/Ellipsometer.jpg",
+          "brand": {
+            "@type": "Brand",
+            "name": "J.A. Woollam"
+          },
+          "model": "RC2",
+          "additionalProperty": [
+            {
+              "@type": "PropertyValue",
+              "name": "Spectral Range",
+              "value": "UV-Vis-NIR (210 nm to 1690 nm or 2500 nm)"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Detectors",
+              "value": "CCD (UV-Vis) and InGaAs (NIR)"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Angle of Incidence",
+              "value": "Automated or manual, typically 45 to 90 deg"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Data Acquisition",
+              "value": "~0.1 to 3 seconds per measurement point"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Wavelength Count",
+              "value": ">1000 channels per measurement"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Sample Size",
+              "value": "Standard configurations up to 200 mm or 300 mm wafers"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Sample Surface",
+              "value": "Reflective or semi-reflective surfaces preferred"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Operational status",
+              "value": "Expected — installation scheduled for 2026-09-01"
+            }
+          ],
+          "subjectOf": {
+            "@type": "DigitalDocument",
+            "url": "https://nano.nau.edu/Manuals_and_Specs/Ellipsometer_Specs.pdf",
+            "name": "Tool Specs Sheet"
+          },
+          "isSimilarTo": [
+            {
+              "@id": "https://nano.nau.edu/About_Equipment/B2_AFM.html#product"
+            },
+            {
+              "@id": "https://nano.nau.edu/About_Equipment/Photoluminescence_Spectrometer.html#product"
+            },
+            {
+              "@id": "https://nano.nau.edu/About_Equipment/SEM.html#product"
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+    <!-- END structured-data -->
 </head>
 <body>
 
@@ -362,6 +549,43 @@
                 </aside>
             </div>
         </div>
+        <nav class="eq-related" aria-label="Related instruments">
+            <div class="container">
+                <div class="eq-related__head">
+                    <h2 class="eq-related__title">Related instruments</h2>
+                    <a class="eq-related__all" href="../Equipment.html?category=Metrology">See all Metrology →</a>
+                </div>
+                <ul class="eq-related__list">
+                    <li>
+                        <a class="eq-related__card" href="B2_AFM.html">
+                            <img class="eq-related__thumb" src="../Images/B2_AFM.png" alt="B-2 Atomic Force Microscope (AFM)" width="72" height="72" loading="lazy">
+                            <span class="eq-related__body">
+                                <span class="eq-related__name">B-2 Atomic Force Microscope (AFM)</span>
+                                <span class="eq-related__role">High-resolution 3D nanoscale surface imaging</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="eq-related__card" href="Photoluminescence_Spectrometer.html">
+                            <img class="eq-related__thumb" src="../Images/FLS1000.png" alt="Edinburgh Instruments FLS1000" width="72" height="72" loading="lazy">
+                            <span class="eq-related__body">
+                                <span class="eq-related__name">Edinburgh Instruments FLS1000</span>
+                                <span class="eq-related__role">Steady-state and time-resolved photoluminescence</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="eq-related__card" href="SEM.html">
+                            <img class="eq-related__thumb" src="../Images/SEM.jpg" alt="JEOL JSM-IT710HR Field Emission SEM" width="72" height="72" loading="lazy">
+                            <span class="eq-related__body">
+                                <span class="eq-related__name">JEOL JSM-IT710HR Field Emission SEM</span>
+                                <span class="eq-related__role">High-resolution SEM imaging and microanalysis</span>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
     </main>
 
     <div id="site-footer"></div>

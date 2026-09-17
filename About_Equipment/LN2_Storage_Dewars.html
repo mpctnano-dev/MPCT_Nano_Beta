@@ -13,6 +13,195 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,400&display=swap">
+    <!-- BEGIN structured-data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "ResearchOrganization",
+          "@id": "https://nano.nau.edu/#organization",
+          "name": "NAU Nano",
+          "alternateName": [
+            "MPaCT Lab",
+            "NAU Nano Initiative"
+          ],
+          "url": "https://nano.nau.edu/",
+          "description": "Northern Arizona University's shared use center for microelectronics research, nanotechnology innovation, semiconductor training, and industry academia collaboration.",
+          "logo": "https://nano.nau.edu/Images/NAU.png",
+          "parentOrganization": {
+            "@type": "CollegeOrUniversity",
+            "@id": "https://nau.edu/#organization",
+            "name": "Northern Arizona University",
+            "url": "https://nau.edu/"
+          },
+          "location": {
+            "@id": "https://nano.nau.edu/#place"
+          }
+        },
+        {
+          "@type": "Place",
+          "@id": "https://nano.nau.edu/#place",
+          "name": "Building 98E, South Engineering Lab",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "561 E Pine Knoll Dr",
+            "addressLocality": "Flagstaff",
+            "addressRegion": "AZ",
+            "postalCode": "86001",
+            "addressCountry": "US"
+          },
+          "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday"
+            ],
+            "opens": "08:00",
+            "closes": "17:00"
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://nano.nau.edu/#website",
+          "url": "https://nano.nau.edu/",
+          "name": "NAU Nano",
+          "publisher": {
+            "@id": "https://nano.nau.edu/#organization"
+          },
+          "inLanguage": "en-US"
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://nano.nau.edu/About_Equipment/LN2_Storage_Dewars.html#webpage",
+          "url": "https://nano.nau.edu/About_Equipment/LN2_Storage_Dewars.html",
+          "name": "Rutherford Titan 10 | LN2 Generator and Storage Dewar | MPaCT Lab",
+          "isPartOf": {
+            "@id": "https://nano.nau.edu/#website"
+          },
+          "about": {
+            "@id": "https://nano.nau.edu/About_Equipment/LN2_Storage_Dewars.html#product"
+          },
+          "breadcrumb": {
+            "@id": "https://nano.nau.edu/About_Equipment/LN2_Storage_Dewars.html#breadcrumb"
+          },
+          "description": "Generate and store onsite liquid nitrogen with the Rutherford Titan 10 at MPaCT Lab for continuous LN2 supply, lab dispensing, and filling portable dewars at up to 10 L/day.",
+          "dateModified": "2026-09-03T09:36:41-07:00"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://nano.nau.edu/About_Equipment/LN2_Storage_Dewars.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://nano.nau.edu/index.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Equipment",
+              "item": "https://nano.nau.edu/Equipment.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Support Systems",
+              "item": "https://nano.nau.edu/Equipment.html?category=Support%20Systems"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Rutherford Titan 10 LN2 Generator and Storage Dewar"
+            }
+          ]
+        },
+        {
+          "@type": "Product",
+          "@id": "https://nano.nau.edu/About_Equipment/LN2_Storage_Dewars.html#product",
+          "name": "Rutherford Titan 10 LN2 Generator and Storage Dewar",
+          "sku": "EQ-019",
+          "category": "Support Systems",
+          "url": "https://nano.nau.edu/About_Equipment/LN2_Storage_Dewars.html",
+          "provider": {
+            "@id": "https://nano.nau.edu/#organization"
+          },
+          "description": "Generate and store onsite liquid nitrogen with the Rutherford Titan 10 at MPaCT Lab for continuous LN2 supply, lab dispensing, and filling portable dewars at up to 10 L/day.",
+          "image": "https://nano.nau.edu/Images/LN2.png",
+          "brand": {
+            "@type": "Brand",
+            "name": "Rutherford"
+          },
+          "model": "Titan 10",
+          "additionalProperty": [
+            {
+              "@type": "PropertyValue",
+              "name": "Model",
+              "value": "Titan 10 (RT TITAN LN2 10L)"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Production Capacity",
+              "value": "Up to ~10 L/day"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Internal Storage",
+              "value": "~55 L vacuum-insulated dewar (35 to 40 L usable)"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Power",
+              "value": "115 to 120 V AC, 60 Hz, 20 A circuit"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Cooling",
+              "value": "Air-cooled with integrated chiller"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Connectivity",
+              "value": "Ethernet or WiFi for remote monitoring"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Operational status",
+              "value": "Expected — installation scheduled for 2026-09-01"
+            }
+          ],
+          "subjectOf": [
+            {
+              "@type": "DigitalDocument",
+              "url": "https://nano.nau.edu/Manuals_and_Specs/LN2Plant_Manual.pdf",
+              "name": "LN2 System Manual"
+            },
+            {
+              "@type": "DigitalDocument",
+              "url": "https://nano.nau.edu/Manuals_and_Specs/LN2Plant_Specs.pdf",
+              "name": "LN2 System Specs"
+            }
+          ],
+          "isSimilarTo": [
+            {
+              "@id": "https://nano.nau.edu/About_Equipment/Montana_CryoStation.html#product"
+            },
+            {
+              "@id": "https://nano.nau.edu/About_Equipment/TEM.html#product"
+            },
+            {
+              "@id": "https://nano.nau.edu/About_Equipment/SEM.html#product"
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+    <!-- END structured-data -->
 </head>
 <body>
 
@@ -345,6 +534,43 @@
                 </aside>
             </div>
         </div>
+        <nav class="eq-related" aria-label="Related instruments">
+            <div class="container">
+                <div class="eq-related__head">
+                    <h2 class="eq-related__title">Related instruments</h2>
+                    <a class="eq-related__all" href="../Equipment.html?category=Support%20Systems">See all Support Systems →</a>
+                </div>
+                <ul class="eq-related__list">
+                    <li>
+                        <a class="eq-related__card" href="Montana_CryoStation.html">
+                            <img class="eq-related__thumb" src="../Images/CryoAdvance50.png" alt="Montana CryoAdvance 50" width="72" height="72" loading="lazy">
+                            <span class="eq-related__body">
+                                <span class="eq-related__name">Montana CryoAdvance 50</span>
+                                <span class="eq-related__role">Closed-cycle optical cryostat for cold science</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="eq-related__card" href="TEM.html">
+                            <img class="eq-related__thumb" src="../Images/TEM.jpg" alt="JEOL JEM-F200 Transmission Electron Microscope" width="72" height="72" loading="lazy">
+                            <span class="eq-related__body">
+                                <span class="eq-related__name">JEOL JEM-F200 Transmission Electron Microscope</span>
+                                <span class="eq-related__role">High-resolution TEM and STEM imaging</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="eq-related__card" href="SEM.html">
+                            <img class="eq-related__thumb" src="../Images/SEM.jpg" alt="JEOL JSM-IT710HR Field Emission SEM" width="72" height="72" loading="lazy">
+                            <span class="eq-related__body">
+                                <span class="eq-related__name">JEOL JSM-IT710HR Field Emission SEM</span>
+                                <span class="eq-related__role">High-resolution SEM imaging and microanalysis</span>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
     </main>
 
     <div id="site-footer"></div>

@@ -14,6 +14,195 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,400&display=swap">
+    <!-- BEGIN structured-data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "ResearchOrganization",
+          "@id": "https://nano.nau.edu/#organization",
+          "name": "NAU Nano",
+          "alternateName": [
+            "MPaCT Lab",
+            "NAU Nano Initiative"
+          ],
+          "url": "https://nano.nau.edu/",
+          "description": "Northern Arizona University's shared use center for microelectronics research, nanotechnology innovation, semiconductor training, and industry academia collaboration.",
+          "logo": "https://nano.nau.edu/Images/NAU.png",
+          "parentOrganization": {
+            "@type": "CollegeOrUniversity",
+            "@id": "https://nau.edu/#organization",
+            "name": "Northern Arizona University",
+            "url": "https://nau.edu/"
+          },
+          "location": {
+            "@id": "https://nano.nau.edu/#place"
+          }
+        },
+        {
+          "@type": "Place",
+          "@id": "https://nano.nau.edu/#place",
+          "name": "Building 98E, South Engineering Lab",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "561 E Pine Knoll Dr",
+            "addressLocality": "Flagstaff",
+            "addressRegion": "AZ",
+            "postalCode": "86001",
+            "addressCountry": "US"
+          },
+          "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday"
+            ],
+            "opens": "08:00",
+            "closes": "17:00"
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://nano.nau.edu/#website",
+          "url": "https://nano.nau.edu/",
+          "name": "NAU Nano",
+          "publisher": {
+            "@id": "https://nano.nau.edu/#organization"
+          },
+          "inLanguage": "en-US"
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://nano.nau.edu/About_Equipment/LPKF_ProtoLaser.html#webpage",
+          "url": "https://nano.nau.edu/About_Equipment/LPKF_ProtoLaser.html",
+          "name": "LPKF ProtoLaser R4 | Laser Micromachining System | MPaCT Lab",
+          "isPartOf": {
+            "@id": "https://nano.nau.edu/#website"
+          },
+          "about": {
+            "@id": "https://nano.nau.edu/About_Equipment/LPKF_ProtoLaser.html#product"
+          },
+          "breadcrumb": {
+            "@id": "https://nano.nau.edu/About_Equipment/LPKF_ProtoLaser.html#breadcrumb"
+          },
+          "description": "Structure thermally sensitive RF and microwave substrates with the LPKF ProtoLaser R4 at MPaCT Lab using a 515 nm picosecond laser for non-thermal, high-precision micro-machining.",
+          "dateModified": "2026-09-03T09:36:42-07:00"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://nano.nau.edu/About_Equipment/LPKF_ProtoLaser.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://nano.nau.edu/index.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Equipment",
+              "item": "https://nano.nau.edu/Equipment.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Fabrication",
+              "item": "https://nano.nau.edu/Equipment.html?category=Fabrication"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "LPKF ProtoLaser R4"
+            }
+          ]
+        },
+        {
+          "@type": "Product",
+          "@id": "https://nano.nau.edu/About_Equipment/LPKF_ProtoLaser.html#product",
+          "name": "LPKF ProtoLaser R4",
+          "sku": "EQ-020",
+          "category": "Fabrication",
+          "url": "https://nano.nau.edu/About_Equipment/LPKF_ProtoLaser.html",
+          "provider": {
+            "@id": "https://nano.nau.edu/#organization"
+          },
+          "description": "Structure thermally sensitive RF and microwave substrates with the LPKF ProtoLaser R4 at MPaCT Lab using a 515 nm picosecond laser for non-thermal, high-precision micro-machining.",
+          "image": "https://nano.nau.edu/Images/LPKF.png",
+          "brand": {
+            "@type": "Brand",
+            "name": "LPKF"
+          },
+          "model": "ProtoLaser R4",
+          "additionalProperty": [
+            {
+              "@type": "PropertyValue",
+              "name": "Laser Power",
+              "value": "8 W (Max)"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Processing Area (X/Y/Z)",
+              "value": "305 mm × 229 mm × 7 mm"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Positioning Accuracy",
+              "value": "± 8 µm (Scan Field)"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Repeatability",
+              "value": "± 0.23 µm"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Structuring Speed",
+              "value": "~3.5 cm²/min (18 µm Cu)"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Control Software",
+              "value": "LPKF CircuitPro PL"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Operational status",
+              "value": "Available"
+            }
+          ],
+          "subjectOf": [
+            {
+              "@type": "DigitalDocument",
+              "url": "https://nano.nau.edu/Manuals_and_Specs/LPKFProtoLaserR4_Manual.pdf",
+              "name": "ProtoLaser R4 Manual"
+            },
+            {
+              "@type": "DigitalDocument",
+              "url": "https://nano.nau.edu/Manuals_and_Specs/LPKFProtoLaserR4_Specs.pdf",
+              "name": "ProtoLaser R4 Specs"
+            }
+          ],
+          "isSimilarTo": [
+            {
+              "@id": "https://nano.nau.edu/About_Equipment/SUSS_MJB4.html#product"
+            },
+            {
+              "@id": "https://nano.nau.edu/About_Equipment/NIL_CNI_v3.html#product"
+            },
+            {
+              "@id": "https://nano.nau.edu/About_Equipment/SEM.html#product"
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+    <!-- END structured-data -->
 </head>
 
 <body>
@@ -475,6 +664,43 @@
             </div>
 
         </div>
+        <nav class="eq-related" aria-label="Related instruments">
+            <div class="container">
+                <div class="eq-related__head">
+                    <h2 class="eq-related__title">Related instruments</h2>
+                    <a class="eq-related__all" href="../Equipment.html?category=Fabrication">See all Fabrication →</a>
+                </div>
+                <ul class="eq-related__list">
+                    <li>
+                        <a class="eq-related__card" href="SUSS_MJB4.html">
+                            <img class="eq-related__thumb" src="../Images/Suss_MaskAligner.webp" alt="SUSS MJB4 Mask Aligner" width="72" height="72" loading="lazy">
+                            <span class="eq-related__body">
+                                <span class="eq-related__name">SUSS MJB4 Mask Aligner</span>
+                                <span class="eq-related__role">UV contact mask alignment for lithography</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="eq-related__card" href="NIL_CNI_v3.html">
+                            <img class="eq-related__thumb" src="../Images/NI.png" alt="NIL Technology Compact Nano Imprinter v3.0" width="72" height="72" loading="lazy">
+                            <span class="eq-related__body">
+                                <span class="eq-related__name">NIL Technology Compact Nano Imprinter v3.0</span>
+                                <span class="eq-related__role">Thermal and UV nanoimprint lithography</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="eq-related__card" href="SEM.html">
+                            <img class="eq-related__thumb" src="../Images/SEM.jpg" alt="JEOL JSM-IT710HR Field Emission SEM" width="72" height="72" loading="lazy">
+                            <span class="eq-related__body">
+                                <span class="eq-related__name">JEOL JSM-IT710HR Field Emission SEM</span>
+                                <span class="eq-related__role">High-resolution SEM imaging and microanalysis</span>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
     </main>
 
     <div id="site-footer"></div>
