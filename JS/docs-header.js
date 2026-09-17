@@ -1,5 +1,5 @@
 /**
- * Wire the baked-in nano.nau.edu header on /learn/ pages.
+ * Wire the baked-in nano.nau.edu header on /knowledge-base/ pages.
  *
  * layout.js fetches chrome into #site-header. MkDocs pages already include
  * #mainHeader in the HTML so crawlers see the nav without JavaScript.
