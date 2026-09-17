@@ -9,6 +9,10 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteRule (^|/)get_oauth_token\.php$ - [F,L]
+    # GEO item #4: robots.txt used to advertise sitemap_mpact.xml. Keep that
+    # URL (and the conventional sitemap.xml) resolving to sitemap.php so
+    # crawlers that already cached the old address still get the page list.
+    RewriteRule ^sitemap(_mpact)?\.xml$ sitemap.php [L]
 </IfModule>
 
 # Basic security headers (HSTS is configured separately on production).
