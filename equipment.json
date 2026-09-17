@@ -95,7 +95,7 @@
         },
         {
             "id": "EQ-024",
-            "name": "DualBeam (FIB-SEM)",
+            "name": "FEI Quanta 3D FEG DualBeam (FIB-SEM)",
             "category": "Metrology",
             "status": "EXPECTED",
             "expectedDate": "09/01/26",

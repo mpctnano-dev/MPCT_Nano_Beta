@@ -27,7 +27,7 @@
         { "id": "EQ-015", "name": "Keyence VHX-7000 Digital Microscope",   "category": "Metrology",        "unit": "hour", "internal": null,  "external": null  },
         { "id": "EQ-016", "name": "Keyence VK-X3000 3D Surface Profiler",  "category": "Metrology",        "unit": "hour", "internal": null,  "external": null  },
         { "id": "EQ-017", "name": "Keyence WM-6000 Wide Area CMM",         "category": "Metrology",        "unit": "hour", "internal": null,  "external": null  },
-        { "id": "EQ-024", "name": "DualBeam (FIB-SEM)",                    "category": "Metrology",        "unit": "hour", "internal": null,  "external": null  },
+        { "id": "EQ-024", "name": "FEI Quanta 3D FEG DualBeam (FIB-SEM)",   "category": "Metrology",        "unit": "hour", "internal": null,  "external": null  },
         { "id": "EQ-026", "name": "Photoluminescence Spectrometer",        "category": "Metrology",        "unit": "hour", "internal": 14.87, "external": 22.67 },
         { "id": "EQ-027", "name": "Scanning Electron Microscope (SEM)",    "category": "Metrology",        "unit": "hour", "internal": null,  "external": null  },
         { "id": "EQ-029", "name": "SIMS Workstation",                      "category": "Metrology",        "unit": "hour", "internal": null,  "external": null  },
