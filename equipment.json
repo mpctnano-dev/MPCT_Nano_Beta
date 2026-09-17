@@ -349,6 +349,7 @@
             "status": "EXPECTED",
             "expectedDate": "09/01/26",
             "warningMessage": null,
+            "listed": false,
             "accessories": [],
             "aboutPage": "About_Equipment/TEM_Prep_Dimple_Grinder.html"
         },
@@ -359,6 +360,7 @@
             "status": "EXPECTED",
             "expectedDate": "09/01/26",
             "warningMessage": null,
+            "listed": false,
             "accessories": [],
             "aboutPage": "About_Equipment/TEM_Prep_Disk_Grinder.html"
         },
@@ -369,6 +371,7 @@
             "status": "EXPECTED",
             "expectedDate": "09/01/26",
             "warningMessage": null,
+            "listed": false,
             "accessories": [],
             "aboutPage": "About_Equipment/TEM_Prep_Ion_Beam_Mill.html"
         },

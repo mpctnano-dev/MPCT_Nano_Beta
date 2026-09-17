@@ -37,6 +37,9 @@ $scanDirs = array(
 $excludeFiles = array(
     'OLD_CHIPS_Scholars_Program.html' => true,
     'SCEAcademicPathways.html' => true,
+    'TEM_Prep_Disk_Grinder.html' => true,
+    'TEM_Prep_Dimple_Grinder.html' => true,
+    'TEM_Prep_Ion_Beam_Mill.html' => true,
 );
 
 $pages = array();

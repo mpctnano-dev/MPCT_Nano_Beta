@@ -697,7 +697,7 @@ async function populateEquipmentData() {
         if (!response.ok) throw new Error('Failed to load equipment data');
 
         const data = await response.json();
-        const equipmentList = data.equipment || [];
+        const equipmentList = (data.equipment || []).filter(item => item.listed !== false);
 
         // 1. Populate Categories
         const categories = [...new Set(equipmentList.map(item => item.category))].sort();
@@ -719,8 +719,8 @@ async function populateEquipmentData() {
 
             // Filter list
             const filtered = selectedCat
-                ? equipmentList.filter(item => item.category === selectedCat)
-                : equipmentList;
+                ? equipmentList.filter(item => item.category === selectedCat && item.listed !== false)
+                : equipmentList.filter(item => item.listed !== false);
 
             // Sort by name
             filtered.sort((a, b) => a.name.localeCompare(b.name));
