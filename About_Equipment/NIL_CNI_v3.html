@@ -13,6 +13,198 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,400&display=swap">
+    <!-- BEGIN structured-data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "ResearchOrganization",
+          "@id": "https://nano.nau.edu/#organization",
+          "name": "NAU Nano",
+          "alternateName": [
+            "MPaCT Lab",
+            "NAU Nano Initiative"
+          ],
+          "url": "https://nano.nau.edu/",
+          "description": "Northern Arizona University's shared use center for microelectronics research, nanotechnology innovation, semiconductor training, and industry academia collaboration.",
+          "logo": "https://nano.nau.edu/Images/NAU.png",
+          "parentOrganization": {
+            "@type": "CollegeOrUniversity",
+            "@id": "https://nau.edu/#organization",
+            "name": "Northern Arizona University",
+            "url": "https://nau.edu/"
+          },
+          "location": {
+            "@id": "https://nano.nau.edu/#place"
+          }
+        },
+        {
+          "@type": "Place",
+          "@id": "https://nano.nau.edu/#place",
+          "name": "Building 98E, South Engineering Lab",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "561 E Pine Knoll Dr",
+            "addressLocality": "Flagstaff",
+            "addressRegion": "AZ",
+            "postalCode": "86001",
+            "addressCountry": "US"
+          },
+          "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday"
+            ],
+            "opens": "08:00",
+            "closes": "17:00"
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://nano.nau.edu/#website",
+          "url": "https://nano.nau.edu/",
+          "name": "NAU Nano",
+          "publisher": {
+            "@id": "https://nano.nau.edu/#organization"
+          },
+          "inLanguage": "en-US"
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://nano.nau.edu/About_Equipment/NIL_CNI_v3.html#webpage",
+          "url": "https://nano.nau.edu/About_Equipment/NIL_CNI_v3.html",
+          "name": "NIL Technology CNI v3.0 | Compact Nano Imprinter | MPaCT Lab",
+          "isPartOf": {
+            "@id": "https://nano.nau.edu/#website"
+          },
+          "about": {
+            "@id": "https://nano.nau.edu/About_Equipment/NIL_CNI_v3.html#product"
+          },
+          "breadcrumb": {
+            "@id": "https://nano.nau.edu/About_Equipment/NIL_CNI_v3.html#breadcrumb"
+          },
+          "description": "Replicate micro- and nanoscale patterns from master stamps with the NIL Technology CNI v3.0 at MPaCT Lab using thermal NIL, UV NIL at 365/405 nm, and hot embossing into polymers and resists.",
+          "dateModified": "2026-09-03T09:36:42-07:00"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://nano.nau.edu/About_Equipment/NIL_CNI_v3.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://nano.nau.edu/index.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Equipment",
+              "item": "https://nano.nau.edu/Equipment.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Fabrication",
+              "item": "https://nano.nau.edu/Equipment.html?category=Fabrication"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "NIL Technology Compact Nano Imprinter v3.0"
+            }
+          ]
+        },
+        {
+          "@type": "Product",
+          "@id": "https://nano.nau.edu/About_Equipment/NIL_CNI_v3.html#product",
+          "name": "NIL Technology Compact Nano Imprinter v3.0",
+          "sku": "EQ-023",
+          "category": "Fabrication",
+          "url": "https://nano.nau.edu/About_Equipment/NIL_CNI_v3.html",
+          "provider": {
+            "@id": "https://nano.nau.edu/#organization"
+          },
+          "description": "Replicate micro- and nanoscale patterns from master stamps with the NIL Technology CNI v3.0 at MPaCT Lab using thermal NIL, UV NIL at 365/405 nm, and hot embossing into polymers and resists.",
+          "image": "https://nano.nau.edu/Images/NI.png",
+          "brand": {
+            "@type": "Brand",
+            "name": "NIL Technology"
+          },
+          "model": "CNI v3.0",
+          "additionalProperty": [
+            {
+              "@type": "PropertyValue",
+              "name": "Tool Type",
+              "value": "Desktop nanoimprint and hot-embossing tool"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Technologies",
+              "value": "Thermal NIL, UV NIL, hot embossing, micro-contact printing, polymer bonding"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Temperature Range",
+              "value": "Up to 250 C (thermal), up to 200 C with UV lids"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Pressure Application",
+              "value": "Membrane-based uniform pressure up to about 6.5 bar"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Atmosphere",
+              "value": "Atmospheric or vacuum (~1 mbar)"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Feature Size Range",
+              "value": "Approx. 40 nm to >100 um (master dependent)"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Chamber Size",
+              "value": "120 mm or 210 mm diameter chamber options"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Operation",
+              "value": "Manual load/unload with automatic process control"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Footprint",
+              "value": "Compact desktop system (about 1 m2)"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Operational status",
+              "value": "Expected — installation scheduled for 2026-09-01"
+            }
+          ],
+          "isSimilarTo": [
+            {
+              "@id": "https://nano.nau.edu/About_Equipment/SUSS_MJB4.html#product"
+            },
+            {
+              "@id": "https://nano.nau.edu/About_Equipment/LPKF_ProtoLaser.html#product"
+            },
+            {
+              "@id": "https://nano.nau.edu/About_Equipment/SEM.html#product"
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+    <!-- END structured-data -->
 </head>
 <body>
 
@@ -29,6 +221,14 @@
         </div>
         <section class="product-hero">
             <div class="container">
+                <nav class="eq-crumb" aria-label="Breadcrumb">
+                    <ol>
+                        <li><a href="../index.html"><i class="fas fa-house" aria-hidden="true"></i><span class="sr-only">Home</span></a></li>
+                        <li><a href="../Equipment.html" rel="up">Equipment</a></li>
+                        <li><a href="../Equipment.html?category=Fabrication">Fabrication</a></li>
+                        <li><span aria-current="page">NIL Technology Compact Nano Imprinter v3.0</span></li>
+                    </ol>
+                </nav>
                 <div class="hero-inner">
                     <div class="hero-text">
                         <div class="hero-badges">
@@ -353,6 +553,43 @@
                 </aside>
             </div>
         </div>
+        <nav class="eq-related" aria-label="Related instruments">
+            <div class="container">
+                <div class="eq-related__head">
+                    <h2 class="eq-related__title">Related instruments</h2>
+                    <a class="eq-related__all" href="../Equipment.html?category=Fabrication">See all Fabrication →</a>
+                </div>
+                <ul class="eq-related__list">
+                    <li>
+                        <a class="eq-related__card" href="SUSS_MJB4.html">
+                            <img class="eq-related__thumb" src="../Images/Suss_MaskAligner.webp" alt="SUSS MJB4 Mask Aligner" width="72" height="72" loading="lazy">
+                            <span class="eq-related__body">
+                                <span class="eq-related__name">SUSS MJB4 Mask Aligner</span>
+                                <span class="eq-related__role">UV contact mask alignment for lithography</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="eq-related__card" href="LPKF_ProtoLaser.html">
+                            <img class="eq-related__thumb" src="../Images/LPKF.png" alt="LPKF ProtoLaser R4" width="72" height="72" loading="lazy">
+                            <span class="eq-related__body">
+                                <span class="eq-related__name">LPKF ProtoLaser R4</span>
+                                <span class="eq-related__role">Picosecond laser micro-structuring of substrates</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="eq-related__card" href="SEM.html">
+                            <img class="eq-related__thumb" src="../Images/SEM.jpg" alt="JEOL JSM-IT710HR Field Emission SEM" width="72" height="72" loading="lazy">
+                            <span class="eq-related__body">
+                                <span class="eq-related__name">JEOL JSM-IT710HR Field Emission SEM</span>
+                                <span class="eq-related__role">High-resolution SEM imaging and microanalysis</span>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
     </main>
 
     <div id="site-footer"></div>

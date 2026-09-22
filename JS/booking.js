@@ -15,6 +15,7 @@
     const ACCESSORIES = {
         'EQ-006': ['3D Scanner'],
         'EQ-020': ['LPKF MultiPress S', 'LPKF Electroplater', 'LPKF Pick & Place', 'LPKF Reflow Oven', 'Wave Solder'],
+        'EQ-024': ['Omniprobe Lift-Out System', 'Gas Injection System'],
         'EQ-037': ['Backscattered Detector', 'Electron Biprism'],
     };
 
@@ -442,7 +443,7 @@
             if (!res.ok) throw new Error('HTTP ' + res.status);
             const data = await res.json();
             // Keep a dedicated Educational category so those machines can share the same picker.
-            equipmentData = (data.equipment || []).map(item => {
+            equipmentData = (data.equipment || []).filter(item => item.listed !== false).map(item => {
                 if (EDUCATIONAL_IDS.includes(item.id)) {
                     return Object.assign({}, item, { category: 'Educational' });
                 }
@@ -485,8 +486,8 @@
         eqSel.innerHTML = '<option value="" disabled selected>-- Select Equipment --</option>';
 
         const filtered = category
-            ? equipmentData.filter(i => i.category === category)
-            : equipmentData;
+            ? equipmentData.filter(i => i.category === category && i.listed !== false)
+            : equipmentData.filter(i => i.listed !== false);
 
         [...filtered].sort((a, b) => a.name.localeCompare(b.name)).forEach(item => {
             const opt = document.createElement('option');

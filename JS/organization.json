@@ -1,0 +1,58 @@
+{
+  "organization": {
+    "@type": "ResearchOrganization",
+    "@id": "https://nano.nau.edu/#organization",
+    "name": "NAU Nano",
+    "alternateName": [
+      "MPaCT Lab",
+      "NAU Nano Initiative"
+    ],
+    "url": "https://nano.nau.edu/",
+    "description": "Northern Arizona University's shared use center for microelectronics research, nanotechnology innovation, semiconductor training, and industry academia collaboration.",
+    "logo": "https://nano.nau.edu/Images/NAU.png",
+    "parentOrganization": {
+      "@type": "CollegeOrUniversity",
+      "@id": "https://nau.edu/#organization",
+      "name": "Northern Arizona University",
+      "url": "https://nau.edu/"
+    },
+    "location": {
+      "@id": "https://nano.nau.edu/#place"
+    }
+  },
+  "place": {
+    "@type": "Place",
+    "@id": "https://nano.nau.edu/#place",
+    "name": "Building 98E, South Engineering Lab",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "561 E Pine Knoll Dr",
+      "addressLocality": "Flagstaff",
+      "addressRegion": "AZ",
+      "postalCode": "86001",
+      "addressCountry": "US"
+    },
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ],
+      "opens": "08:00",
+      "closes": "17:00"
+    }
+  },
+  "website": {
+    "@type": "WebSite",
+    "@id": "https://nano.nau.edu/#website",
+    "url": "https://nano.nau.edu/",
+    "name": "NAU Nano",
+    "publisher": {
+      "@id": "https://nano.nau.edu/#organization"
+    },
+    "inLanguage": "en-US"
+  }
+}

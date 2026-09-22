@@ -1,0 +1,75 @@
+# MPaCT Lab - Northern Arizona University
+
+> The Microelectronics Processing and Characterization Testing (MPaCT) Lab is a
+> shared-use characterization and fabrication facility at Northern Arizona
+> University, Building 98E, 561 E Pine Knoll Dr, Flagstaff, AZ 86001, USA.
+> It is open to NAU researchers, external academic users, and industry partners.
+> Contact: mpct.nano@nau.edu, +1-928-523-2343.
+
+This file indexes the knowledge base. Every page below states the technique,
+the instrument make and model, what it measures or makes, its limits, and the
+facility location in Flagstaff, Arizona.
+
+## Techniques
+
+- [Transmission Electron Microscopy](https://nano.nau.edu/knowledge-base/techniques/transmission-electron-microscopy/): Internal structure and crystallography below 0.2 nm. JEOL JEM-F200.
+- [Scanning Electron Microscopy](https://nano.nau.edu/knowledge-base/techniques/scanning-electron-microscopy/): Surface morphology and EDS composition to about 1 nm. JEOL JSM-IT710HR.
+- [Focused Ion Beam (DualBeam)](https://nano.nau.edu/knowledge-base/techniques/focused-ion-beam/): Site-specific Ga FIB milling, cross-sections, and TEM lamellae. FEI Quanta 3D FEG DualBeam.
+- [Atomic Force Microscopy](https://nano.nau.edu/knowledge-base/techniques/atomic-force-microscopy/): Calibrated nanometre surface height and roughness. AFM Workshop B-2.
+- [Optical Profilometry](https://nano.nau.edu/knowledge-base/techniques/optical-profilometry/): Non-contact 3D roughness and step height up to 50 x 50 mm. Keyence VK-X3000.
+- [Spectroscopic Ellipsometry](https://nano.nau.edu/knowledge-base/techniques/spectroscopic-ellipsometry/): Thin-film thickness and optical constants, non-contact. J.A. Woollam RC2.
+- [Photoluminescence Spectroscopy](https://nano.nau.edu/knowledge-base/techniques/photoluminescence-spectroscopy/): Emission spectra and lifetimes from UV to mid-IR. Edinburgh Instruments FLS1000.
+- [X-ray Diffraction](https://nano.nau.edu/knowledge-base/techniques/x-ray-diffraction/): Crystal phase, texture, and X-ray reflectivity. Rigaku SmartLab.
+- [Secondary Ion Mass Spectrometry](https://nano.nau.edu/knowledge-base/techniques/secondary-ion-mass-spectrometry/): Trace composition versus depth. Hiden Analytical SIMS Workstation.
+- [Gas Sorption and BET Surface Area](https://nano.nau.edu/knowledge-base/techniques/gas-sorption-surface-area/): Specific surface area, pore size distribution, pore volume. Microtrac BELSORP MAX X.
+- [Sample Degassing](https://nano.nau.edu/knowledge-base/techniques/sample-degassing/): Removal of physisorbed water and gases before an adsorption measurement. Microtrac BELPREP VAC.
+- [On-Wafer Probing](https://nano.nau.edu/knowledge-base/techniques/on-wafer-probing/): I-V, C-V, RF, and mmWave on wafers up to 200 mm. MPI TS200.
+- [Environmental Stress Testing](https://nano.nau.edu/knowledge-base/techniques/environmental-stress-testing/): Temperature and humidity cycling for reliability testing. CSZ MicroClimate MCBH-1.2.
+- [Pressure Calibration](https://nano.nau.edu/knowledge-base/techniques/pressure-calibration/): Primary pressure standard by deadweight tester. Fluke Calibration P3114.
+- [Fused Deposition Modeling](https://nano.nau.edu/knowledge-base/techniques/additive-manufacturing-fdm/): Additive thermoplastic manufacturing, including geometry no cutter can reach. Bambu Lab H2D.
+- [CNC Machining](https://nano.nau.edu/knowledge-base/techniques/cnc-machining/): Subtractive milling and turning from dense stock. Haas Desktop Mill and Desktop Lathe.
+- [Laser Micromachining](https://nano.nau.edu/knowledge-base/techniques/laser-micromachining/): Picosecond laser structuring, drilling, and cutting of electronics substrates. LPKF ProtoLaser R4.
+- [Photolithography](https://nano.nau.edu/knowledge-base/techniques/photolithography/): Contact mask alignment at 0.5-1.0 micrometres on wafers up to 100 mm. SUSS MJB4.
+- [Die Attach and Wire Bonding](https://nano.nau.edu/knowledge-base/techniques/die-and-wire-bonding/): Packaging a die and connecting pads with gold wire. Tresky T-4909-AE, West-Bond 7700D.
+- [Industrial Automation and PLC Control](https://nano.nau.edu/knowledge-base/techniques/industrial-automation-plc/): PLC scan-cycle control, ladder logic, sensor adjustment. Amatrol 870 line, FANUC LR Mate 200iD/4S.
+- [Digital Microscopy](https://nano.nau.edu/knowledge-base/techniques/digital-microscopy/): Colour inspection and on-screen 2D measurement. Keyence VHX-7000.
+- [Wide-Area Coordinate Measurement](https://nano.nau.edu/knowledge-base/techniques/coordinate-measuring/): Portable CMM of large parts. Keyence WM-6000.
+- [Impedance Analysis](https://nano.nau.edu/knowledge-base/techniques/impedance-analysis/): Z, C, L versus frequency, 20 Hz to 120 MHz. Keysight E4990A.
+- [Vector Network Analysis](https://nano.nau.edu/knowledge-base/techniques/vector-network-analysis/): Two-port S-parameters. Keysight E5063A.
+- [Cryogenic Electrical and Optical Measurement](https://nano.nau.edu/knowledge-base/techniques/cryogenic-measurement/): 3.2 K to 350 K closed-cycle cryostat. Montana CryoAdvance 50; Rutherford Titan 10 LN2.
+- [Seebeck Coefficient and Resistivity](https://nano.nau.edu/knowledge-base/techniques/seebeck-and-resistivity/): Thermoelectric S and four-terminal resistivity. LINSEIS LSR-3.
+- [Benchtop Electrical Measurement](https://nano.nau.edu/knowledge-base/techniques/benchtop-electrical-measurement/): 5.5-digit DMM, 25 MHz AFG, 50 MHz oscilloscope. Keithley 2110, Tektronix AFG1022, TBS1052C.
+- [Spatial Light Modulation](https://nano.nau.edu/knowledge-base/techniques/spatial-light-modulation/): Phase-only LCoS, 400-850 nm. Thorlabs EXULUS-HD2HP.
+- [Nanoimprint Lithography](https://nano.nau.edu/knowledge-base/techniques/nanoimprint-lithography/): Thermal and UV stamp replication. NIL Technology CNI v3.0.
+- [Conductive-Ink PCB Printing](https://nano.nau.edu/knowledge-base/techniques/conductive-ink-pcb-printing/): Additive 0.2 mm traces. Voltera V-One.
+- [Wafer Scribing](https://nano.nau.edu/knowledge-base/techniques/wafer-scribing/): Top-side scoring, 5 mm to 300 mm. PELCO FlexScribe 300.
+- [TEM Sample Preparation](https://nano.nau.edu/knowledge-base/techniques/tem-sample-preparation/): Disk grind, dimple, argon mill. Fischione 160, 200, 1051.
+
+## By sample type
+
+- [Thin Films](https://nano.nau.edu/knowledge-base/samples/thin-films/): Thickness, roughness, composition, crystallinity, interface abruptness.
+- [Wafers and Coupons](https://nano.nau.edu/knowledge-base/samples/wafers-and-coupons/): Pattern, probe, or cleave a wafer.
+- [Powders and Porous Solids](https://nano.nau.edu/knowledge-base/samples/powders-and-porous-solids/): Surface area, pore size, particle morphology, phase.
+- [Bulk Solids](https://nano.nau.edu/knowledge-base/samples/bulk-solids/): Phase, thermoelectric numbers, and large-part dimensions.
+- [Prototype Parts and Fixtures](https://nano.nau.edu/knowledge-base/samples/prototype-parts/): Choosing between printing, milling, and turning for a part.
+- [Devices and Packaged Parts](https://nano.nau.edu/knowledge-base/samples/devices-and-packaged-parts/): Die attach, wire bonding, inspection, and failure analysis.
+
+## Comparisons
+
+- [TEM vs SEM vs AFM](https://nano.nau.edu/knowledge-base/compare/choosing-a-technique/): Resolution, sample survival, and what each one measures.
+- [Inspecting a Surface](https://nano.nau.edu/knowledge-base/compare/inspecting-a-surface/): Digital microscope, optical profiler, or AFM.
+- [3D Printing vs CNC Machining](https://nano.nau.edu/knowledge-base/compare/3d-printing-vs-cnc-machining/): Additive against subtractive, decided by geometry, material, tolerance, and load.
+- [Photolithography vs Nanoimprint](https://nano.nau.edu/knowledge-base/compare/photolithography-vs-nanoimprint/): Chrome mask at micron scale, or a stamp to copy.
+
+## Instruments
+
+- [Bambu Lab H2D](https://nano.nau.edu/knowledge-base/instruments/bambu-lab-h2d/): Dual-nozzle FDM printer, 325 x 320 x 325 mm, 350 C nozzle, 65 C chamber.
+- [Haas Desktop Mill](https://nano.nau.edu/knowledge-base/instruments/haas-desktop-mill/): 3-axis benchtop CNC mill, 15,000 rpm ER11 spindle. Rated for plastics and machinable wax.
+- [Haas Desktop Lathe](https://nano.nau.edu/knowledge-base/instruments/haas-desktop-lathe/): Benchtop CNC lathe, 0.75 in max cutting diameter. Rated for brass, plastics, machinable wax.
+- [Amatrol 870 Mechatronics Learning System](https://nano.nau.edu/knowledge-base/instruments/amatrol-870-mechatronics-line/): Three-station PLC-controlled line assembling an industrial directional control valve.
+- [Amatrol Smart Robot Workcell](https://nano.nau.edu/knowledge-base/instruments/amatrol-smart-robot-workcell/): FANUC LR Mate 200iD/4S six-axis robot, 550 mm reach, 4 kg payload.
+
+## Reference
+
+- [Concepts and Definitions](https://nano.nau.edu/knowledge-base/concepts/): Terms used in these guides, grouped by domain.
+- [Equipment catalogue](https://nano.nau.edu/Equipment.html): Tools held by the lab, with live status.

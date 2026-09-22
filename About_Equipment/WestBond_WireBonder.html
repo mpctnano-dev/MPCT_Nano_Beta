@@ -13,6 +13,188 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,400&display=swap">
+    <!-- BEGIN structured-data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "ResearchOrganization",
+          "@id": "https://nano.nau.edu/#organization",
+          "name": "NAU Nano",
+          "alternateName": [
+            "MPaCT Lab",
+            "NAU Nano Initiative"
+          ],
+          "url": "https://nano.nau.edu/",
+          "description": "Northern Arizona University's shared use center for microelectronics research, nanotechnology innovation, semiconductor training, and industry academia collaboration.",
+          "logo": "https://nano.nau.edu/Images/NAU.png",
+          "parentOrganization": {
+            "@type": "CollegeOrUniversity",
+            "@id": "https://nau.edu/#organization",
+            "name": "Northern Arizona University",
+            "url": "https://nau.edu/"
+          },
+          "location": {
+            "@id": "https://nano.nau.edu/#place"
+          }
+        },
+        {
+          "@type": "Place",
+          "@id": "https://nano.nau.edu/#place",
+          "name": "Building 98E, South Engineering Lab",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "561 E Pine Knoll Dr",
+            "addressLocality": "Flagstaff",
+            "addressRegion": "AZ",
+            "postalCode": "86001",
+            "addressCountry": "US"
+          },
+          "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday"
+            ],
+            "opens": "08:00",
+            "closes": "17:00"
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://nano.nau.edu/#website",
+          "url": "https://nano.nau.edu/",
+          "name": "NAU Nano",
+          "publisher": {
+            "@id": "https://nano.nau.edu/#organization"
+          },
+          "inLanguage": "en-US"
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://nano.nau.edu/About_Equipment/WestBond_WireBonder.html#webpage",
+          "url": "https://nano.nau.edu/About_Equipment/WestBond_WireBonder.html",
+          "name": "West-Bond 7700D | Wire Bonder | MPaCT Lab",
+          "isPartOf": {
+            "@id": "https://nano.nau.edu/#website"
+          },
+          "about": {
+            "@id": "https://nano.nau.edu/About_Equipment/WestBond_WireBonder.html#product"
+          },
+          "breadcrumb": {
+            "@id": "https://nano.nau.edu/About_Equipment/WestBond_WireBonder.html#breadcrumb"
+          },
+          "description": "Create reliable thermosonic gold wire bonds between semiconductor dies and package leads with the West-Bond 7700D at MPaCT Lab using 18–50 µm wire for precision microelectronic packaging.",
+          "dateModified": "2026-09-03T09:36:46-07:00"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://nano.nau.edu/About_Equipment/WestBond_WireBonder.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://nano.nau.edu/index.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Equipment",
+              "item": "https://nano.nau.edu/Equipment.html"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Fabrication",
+              "item": "https://nano.nau.edu/Equipment.html?category=Fabrication"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "West-Bond 7700D Wire Bonder"
+            }
+          ]
+        },
+        {
+          "@type": "Product",
+          "@id": "https://nano.nau.edu/About_Equipment/WestBond_WireBonder.html#product",
+          "name": "West-Bond 7700D Wire Bonder",
+          "sku": "EQ-041",
+          "category": "Fabrication",
+          "url": "https://nano.nau.edu/About_Equipment/WestBond_WireBonder.html",
+          "provider": {
+            "@id": "https://nano.nau.edu/#organization"
+          },
+          "description": "Create reliable thermosonic gold wire bonds between semiconductor dies and package leads with the West-Bond 7700D at MPaCT Lab using 18–50 µm wire for precision microelectronic packaging.",
+          "image": "https://nano.nau.edu/Images/bond.jpg",
+          "brand": {
+            "@type": "Brand",
+            "name": "West-Bond"
+          },
+          "model": "7700D",
+          "additionalProperty": [
+            {
+              "@type": "PropertyValue",
+              "name": "Bonding Method",
+              "value": "Thermosonic (Heat + Ultrasonic)"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Wire Compatability",
+              "value": "Gold (0.7 - 2.0 mils diameter)"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Ultrasonic Transducer",
+              "value": "63 kHz, 5W Dual-Channel"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Z-Axis Travel",
+              "value": "0.5 inches"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Throat Reach",
+              "value": "5.125 inches"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Microscope",
+              "value": "Stereo Zoom (External)"
+            },
+            {
+              "@type": "PropertyValue",
+              "name": "Operational status",
+              "value": "Available"
+            }
+          ],
+          "subjectOf": {
+            "@type": "DigitalDocument",
+            "url": "https://nano.nau.edu/Manuals_and_Specs/WireBonder_Specs.pdf",
+            "name": "Wire Bonder Specs"
+          },
+          "isSimilarTo": [
+            {
+              "@id": "https://nano.nau.edu/About_Equipment/Tresky_DieBonder.html#product"
+            },
+            {
+              "@id": "https://nano.nau.edu/About_Equipment/SUSS_MJB4.html#product"
+            },
+            {
+              "@id": "https://nano.nau.edu/About_Equipment/LPKF_ProtoLaser.html#product"
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+    <!-- END structured-data -->
 </head>
 <body>
 
@@ -29,6 +211,14 @@
         </div>
         <section class="product-hero">
             <div class="container">
+                <nav class="eq-crumb" aria-label="Breadcrumb">
+                    <ol>
+                        <li><a href="../index.html"><i class="fas fa-house" aria-hidden="true"></i><span class="sr-only">Home</span></a></li>
+                        <li><a href="../Equipment.html" rel="up">Equipment</a></li>
+                        <li><a href="../Equipment.html?category=Fabrication">Fabrication</a></li>
+                        <li><span aria-current="page">West-Bond 7700D Wire Bonder</span></li>
+                    </ol>
+                </nav>
                 <div class="hero-inner">
                     <div class="hero-text">
                         <div class="hero-badges">
@@ -344,6 +534,43 @@
                 </aside>
             </div>
         </div>
+        <nav class="eq-related" aria-label="Related instruments">
+            <div class="container">
+                <div class="eq-related__head">
+                    <h2 class="eq-related__title">Related instruments</h2>
+                    <a class="eq-related__all" href="../Equipment.html?category=Fabrication">See all Fabrication →</a>
+                </div>
+                <ul class="eq-related__list">
+                    <li>
+                        <a class="eq-related__card" href="Tresky_DieBonder.html">
+                            <img class="eq-related__thumb" src="../Images/Die_B.png" alt="Tresky T-4909-AE Die Bonder" width="72" height="72" loading="lazy">
+                            <span class="eq-related__body">
+                                <span class="eq-related__name">Tresky T-4909-AE Die Bonder</span>
+                                <span class="eq-related__role">Precision die bonding for microelectronic packaging</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="eq-related__card" href="SUSS_MJB4.html">
+                            <img class="eq-related__thumb" src="../Images/Suss_MaskAligner.webp" alt="SUSS MJB4 Mask Aligner" width="72" height="72" loading="lazy">
+                            <span class="eq-related__body">
+                                <span class="eq-related__name">SUSS MJB4 Mask Aligner</span>
+                                <span class="eq-related__role">UV contact mask alignment for lithography</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="eq-related__card" href="LPKF_ProtoLaser.html">
+                            <img class="eq-related__thumb" src="../Images/LPKF.png" alt="LPKF ProtoLaser R4" width="72" height="72" loading="lazy">
+                            <span class="eq-related__body">
+                                <span class="eq-related__name">LPKF ProtoLaser R4</span>
+                                <span class="eq-related__role">Picosecond laser micro-structuring of substrates</span>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
     </main>
 
     <div id="site-footer"></div>
