@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{#
+  Adds the machine-readable layer to every generated page.
+  - Canonical + description come from Material/mkdocs (needs site_url in mkdocs.yml).
+  - Open Graph tags come from page frontmatter.
+  - JSON-LD is rendered verbatim from the `schema:` list in frontmatter.
+    Authors never touch this file. See Docs/authoring-guide.md.
+#}
+{% block extrahead %}
+  {% set page_title = page.meta.title if page.meta and page.meta.title else page.title %}
+  {% set page_desc  = page.meta.description if page.meta and page.meta.description else config.site_description %}
+  {% set page_url   = page.canonical_url if page and page.canonical_url else config.site_url %}
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="NAU Nano | MPaCT Lab">
+  <meta property="og:title" content="{{ page_title }}">
+  <meta property="og:description" content="{{ page_desc }}">
+  <meta property="og:url" content="{{ page_url }}">
+  {% if page.meta and page.meta.image %}
+  <meta property="og:image" content="{{ page.meta.image }}">
+  {% endif %}
+  <meta name="twitter:card" content="summary_large_image">
+
+  {# The whole point of the build: frontmatter YAML -> valid schema.org JSON-LD. #}
+  {% if page.meta and page.meta.schema %}
+  <script type="application/ld+json">
+{{ {"@context": "https://schema.org", "@graph": page.meta.schema} | tojson(indent=2) }}
+  </script>
+  {% endif %}
+
+  {# The same families the rest of nano.nau.edu loads. Without these the docs
+     fall back to a system stack while every other page is set in Open Sans,
+     so the section reads as a different site. #}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Roboto:wght@400;500;700&display=swap">
+
+  {# nano.nau.edu stylesheet, needed by the pasted header/footer markup. #}
+  <link rel="stylesheet" href="/CSS/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  {# LAST on purpose. style.css sets `body { background:#fff; color:var(--text-main) }`,
+     which beat Material's dark-mode tokens and left dark mode as a white page with
+     dark chrome. extra.css must be able to reconcile the two, so it comes after both. #}
+  <link rel="stylesheet" href="{{ 'assets/extra.css' | url }}">
+{% endblock %}
+
+{# Site header rendered STATICALLY into the HTML, not fetched by JS/layout.js.
+   Crawlers that do not execute JavaScript still see the nav and the address.
+
+   Material's own header IS included, but extra.css reduces it to a slim navy
+   strip flush under the nano header. It is not decoration: Material's JS
+   derives the sidebar and drawer offsets from [data-md-component=header].
+   Removing it leaves the table of contents unpositioned and the drawer with
+   no back-navigation, which makes every section but the current one
+   unreachable on mobile. #}
+{% block header %}
+  {% include "partials/nano-header.html" %}
+  {% include "partials/header.html" %}
+{% endblock %}
+
+{# Tabs are now merged directly into partials/header.html #}
+{% block tabs %}
+{% endblock %}
+
+{% block footer %}
+  {% include "partials/nano-footer.html" %}
+{% endblock %}

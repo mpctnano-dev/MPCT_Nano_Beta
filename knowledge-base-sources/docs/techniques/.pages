@@ -1,0 +1,37 @@
+title: Techniques
+# Short nav labels only. The page <title> stays long for search; these exist
+# so sidebar entries sit on one line instead of wrapping to three.
+nav:
+  - Overview: index.md
+  - TEM: transmission-electron-microscopy.md
+  - SEM: scanning-electron-microscopy.md
+  - DualBeam FIB-SEM: focused-ion-beam.md
+  - AFM: atomic-force-microscopy.md
+  - Optical profilometry: optical-profilometry.md
+  - Ellipsometry: spectroscopic-ellipsometry.md
+  - Photoluminescence: photoluminescence-spectroscopy.md
+  - XRD: x-ray-diffraction.md
+  - SIMS: secondary-ion-mass-spectrometry.md
+  - Gas sorption & BET: gas-sorption-surface-area.md
+  - Degassing: sample-degassing.md
+  - On-wafer probing: on-wafer-probing.md
+  - Environmental testing: environmental-stress-testing.md
+  - Pressure calibration: pressure-calibration.md
+  - FDM 3D printing: additive-manufacturing-fdm.md
+  - CNC machining: cnc-machining.md
+  - Laser micromachining: laser-micromachining.md
+  - Photolithography: photolithography.md
+  - Nanoimprint: nanoimprint-lithography.md
+  - Die & wire bonding: die-and-wire-bonding.md
+  - Digital microscopy: digital-microscopy.md
+  - Wide-area CMM: coordinate-measuring.md
+  - Impedance analysis: impedance-analysis.md
+  - Vector network analysis: vector-network-analysis.md
+  - Cryogenic measurement: cryogenic-measurement.md
+  - Seebeck & resistivity: seebeck-and-resistivity.md
+  - Benchtop electrical: benchtop-electrical-measurement.md
+  - Spatial light modulation: spatial-light-modulation.md
+  - Conductive-ink PCB: conductive-ink-pcb-printing.md
+  - Wafer scribing: wafer-scribing.md
+  - TEM sample prep: tem-sample-preparation.md
+  - PLC & automation: industrial-automation-plc.md

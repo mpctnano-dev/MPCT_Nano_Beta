@@ -1,0 +1,540 @@
+/* ===========================================================================
+   MPaCT Lab Docs — reconciliation layer between Material for MkDocs and
+   nano.nau.edu's own stylesheet.
+
+   Loaded LAST (see overrides/main.html). That ordering is load-bearing:
+   style.css sets `body { background:#fff; color:var(--text-main) }`, which
+   silently overrode Material's dark-mode tokens. Anything here that looks
+   like a duplicate of Material is re-asserting a value style.css took.
+
+   The goal is fidelity, not personality. This section should read as a page
+   of nano.nau.edu that happens to contain documentation.
+   =========================================================================== */
+
+/* --- Brand tokens ---------------------------------------------------------
+   Taken from style.css rather than approximated. The previous values here
+   (#003466 / #FFC72C) were close to but not the same as the site's real
+   navy and gold, so the docs header sat next to the NAU header in a
+   slightly different blue. */
+:root {
+  --nau-blue:       #002454;
+  --nau-blue-dark:  #001838;
+  --nau-blue-light: #003a85;
+  --nau-gold:       #FAC01A;
+
+  --md-primary-fg-color:        var(--nau-blue);
+  --md-primary-fg-color--light: var(--nau-blue-light);
+  --md-primary-fg-color--dark:  var(--nau-blue-dark);
+  --md-accent-fg-color:         var(--nau-blue-light);
+
+  --md-typeset-a-color: var(--nau-blue);
+  --docs-rule:    #dbe1ea;
+  --docs-measure: 54rem;   /* one reading measure, shared by every block */
+
+  /* NAU header + Material docs bar. Material JS only measures .md-header
+     (3rem) and writes that as sidebar `top`, so the left nav and TOC
+     stick under the NAU header on scroll. */
+  --docs-bar-height: 3rem;
+  --docs-sticky-offset: calc(var(--site-header-height, 84px) + var(--docs-bar-height));
+}
+
+/* Dark scheme. style.css has no dark mode at all, so every base colour it
+   sets has to be taken back here or the page stays white. */
+[data-md-color-scheme="slate"] {
+  --md-default-bg-color:        #101722;
+  --md-default-bg-color--light: #161f2c;
+  --md-default-fg-color:        #e4e9f1;
+  --md-default-fg-color--light: #b9c3d3;
+  --md-default-fg-color--lighter: #8b97ab;
+  --md-typeset-color:           #e4e9f1;
+  --md-typeset-a-color:         #8fb6f0;
+  --md-accent-fg-color:         var(--nau-gold);
+  --docs-rule:                  #26303f;
+}
+
+/* style.css paints the body white with a fixed radial-gradient wash. Both
+   have to go in dark mode, and the gradient is a site-page device that does
+   not belong behind a wall of technical prose in either mode. */
+body {
+  background-color: var(--md-default-bg-color);
+  background-image: none;
+  color: var(--md-typeset-color);
+  /* style.css sets overflow-x: hidden, which computes overflow-y to auto and
+     makes body a scrollport. Sticky headers then scroll off the page.
+     clip hides horizontal overflow without creating that scrollport. */
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+/* --- Typography -----------------------------------------------------------
+   Material ships font:false, so without this the docs render in a system
+   stack while the rest of the site is Open Sans. Roboto for headings matches
+   style.css's --font-display. */
+body,
+.md-typeset,
+.md-nav,
+.md-tabs,
+.md-header {
+  font-family: 'Open Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4 {
+  font-family: 'Roboto', 'Open Sans', system-ui, sans-serif;
+}
+
+/* Material sets .md-typeset to .8rem (12.8px) against the site's 16px base.
+   Restore 16px and rescale everything that depends on it. */
+.md-typeset { font-size: 1rem; line-height: 1.7; }
+
+/* Material renders h1/h2 at weight 300 in a ~54% grey, which reads as
+   unfinished next to the solid navy header rather than as restrained. */
+.md-typeset h1 {
+  font-size: 2rem;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -.015em;
+  color: var(--md-primary-fg-color);
+  margin-bottom: 1.4rem;
+}
+.md-typeset h2 {
+  font-size: 1.5rem;
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: -.01em;
+  color: var(--md-primary-fg-color);
+  margin-top: 3rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--docs-rule);
+}
+.md-typeset h3 {
+  font-size: 1.15rem;
+  line-height: 1.4;
+  font-weight: 600;
+  margin-top: 2rem;
+  color: var(--md-default-fg-color);
+}
+.md-typeset h4 { font-size: 1rem; font-weight: 600; }
+
+/* Navy on a dark ground fails contrast. */
+[data-md-color-scheme="slate"] .md-typeset h1,
+[data-md-color-scheme="slate"] .md-typeset h2 { color: var(--md-default-fg-color); }
+[data-md-color-scheme="slate"] .md-typeset h2 { border-top-color: var(--docs-rule); }
+
+/* An h2 opening a page has no preceding content to be separated from. */
+.md-typeset h1 + h2,
+.md-typeset > h2:first-child { border-top: 0; margin-top: 1.5rem; padding-top: 0; }
+
+/* --- Measure & Heading Scroll Offset ---------------------------------------
+   The measure belongs on the container, once, in rem.
+   Headings and permalink targets must clear BOTH sticky bars. */
+html {
+  scroll-padding-top: calc(var(--docs-sticky-offset) + 1.6rem);
+}
+:target,
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4 {
+  scroll-margin-top: calc(var(--docs-sticky-offset) + 1.6rem);
+}
+
+/* Permalink (the ¶). Keep the fragment URL; do not paint it until hover. */
+.md-typeset .headerlink {
+  margin-left: .3em;
+  font-weight: 400;
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity .15s;
+}
+.md-typeset h1:hover .headerlink,
+.md-typeset h2:hover .headerlink,
+.md-typeset h3:hover .headerlink,
+.md-typeset h4:hover .headerlink,
+.md-typeset .headerlink:focus,
+.md-typeset .headerlink:focus-visible {
+  opacity: .4;
+}
+
+.md-grid { max-width: 1400px; }              /* sync with the site's container */
+.md-content__inner {
+  max-width: var(--docs-measure);
+  padding-top: 1.6rem;
+}
+.md-content__inner > * { max-width: none; }  /* revoke the old per-child cap */
+
+/* --- Reclaiming bare-element rules from style.css --------------------------
+   style.css styles bare elements for the site's own pages:
+     p { max-width: 70ch }   h1..h6 { line-height }   h1..h5 { font-size }   a { color }
+   Those are right for a marketing page and wrong inside a documentation
+   column, where the measure is set once on the container above. The 70ch rule
+   is why notice titles rendered 600px wide inside an 864px box: the container
+   rule cannot reach a <p> nested inside an admonition, but the bare selector
+   can. Scoped to .md-typeset so the pasted header and footer keep the site's
+   own rules untouched. */
+.md-typeset p,
+.md-typeset li,
+.md-typeset dd,
+.md-typeset blockquote,
+.md-typeset .admonition-title { max-width: none; }
+
+.md-typeset h5,
+.md-typeset h6 { font-size: 1rem; line-height: 1.45; font-weight: 600; }
+
+/* style.css sets `a { color: inherit; text-decoration: none }`, so links in
+   the docs came out navy with no underline - the same colour as body text and
+   with nothing else to mark them. The site's own content-link convention
+   (.link-blue-underline) is navy PLUS an underline, so follow that: it matches
+   the site and it does not rely on colour alone. */
+.md-typeset a {
+  color: var(--md-typeset-a-color);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .15em;
+  text-decoration-color: rgba(0, 36, 84, .38);
+}
+.md-typeset a:hover,
+.md-typeset a:focus-visible { text-decoration-color: currentColor; }
+[data-md-color-scheme="slate"] .md-typeset a { text-decoration-color: rgba(143, 182, 240, .45); }
+
+/* Controls and affordances are not prose links. */
+.md-typeset .md-button,
+.md-typeset .headerlink,
+.md-typeset .md-tag,
+.md-typeset .md-nav a,
+.md-typeset table a.md-button { text-decoration: none; }
+
+/* --- Tables ---------------------------------------------------------------
+   Specification and comparison tables are the substance of this section, not
+   an aside. Full measure, quiet rules, and a header row that reads as a
+   header without shouting. */
+.md-typeset table:not([class]) {
+  font-size: .9375rem;
+  border: 1px solid var(--docs-rule);
+  border-radius: 0;
+  box-shadow: none;
+  display: table;
+  width: 100%;
+}
+.md-typeset table:not([class]) th {
+  background: var(--md-default-bg-color--light, #f2f5f9);
+  color: var(--md-primary-fg-color);
+  font-weight: 600;
+  border-bottom: 2px solid var(--docs-rule);
+}
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) th {
+  color: var(--md-default-fg-color);
+}
+.md-typeset table:not([class]) td { border-top: 1px solid var(--docs-rule); }
+.md-typeset table:not([class]) tr:hover { background: rgba(0, 36, 84, .03); }
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) tr:hover {
+  background: rgba(255, 255, 255, .03);
+}
+/* Wide tables scroll inside the column instead of pushing the page sideways. */
+.md-typeset__scrollwrap { margin: 1.4rem 0; }
+.md-typeset__table { min-width: 0; }
+
+/* --- Notices --------------------------------------------------------------
+   These carry the held specification conflicts, so they have to read as part
+   of the document rather than as a UI widget. A left rule in the type colour,
+   a flat tint, square corners. The title now spans the full box, which it did
+   not while the ch-based measure was shrinking it. */
+.md-typeset .admonition,
+.md-typeset details {
+  font-size: .9375rem;
+  border: 0;
+  border-left: 3px solid var(--md-primary-fg-color);
+  border-radius: 0;
+  box-shadow: none;
+  background: rgba(0, 36, 84, .04);
+  margin: 1.6rem 0;
+  padding: 0;
+}
+[data-md-color-scheme="slate"] .md-typeset .admonition,
+[data-md-color-scheme="slate"] .md-typeset details {
+  background: rgba(255, 255, 255, .05);
+}
+.md-typeset .admonition-title,
+.md-typeset summary {
+  margin: 0;
+  padding: .7rem 1rem .7rem 2.6rem;
+  background: transparent;
+  border: 0;
+  font-weight: 700;
+  font-size: 1em;
+}
+.md-typeset .admonition-title::before,
+.md-typeset summary::before { top: .75rem; left: .9rem; }
+.md-typeset .admonition > :not(.admonition-title),
+.md-typeset details > :not(summary) { padding: 0 1rem; }
+.md-typeset .admonition > :last-child,
+.md-typeset details > :last-child { padding-bottom: .9rem; }
+
+/* One tint per notice, not a tinted band over a grey body. Material tints the
+   title separately; matching specificity here (extra.css loads last) takes it
+   back so each notice reads as a single object. */
+.md-typeset .admonition.warning { border-left-color: #b26a00; background: rgba(178, 106, 0, .07); }
+.md-typeset .admonition.warning > .admonition-title { background: transparent; color: #8a5200; }
+.md-typeset .admonition.danger  { border-left-color: #bb0000; background: rgba(187, 0, 0, .06); }
+.md-typeset .admonition.danger  > .admonition-title { background: transparent; color: #8f0000; }
+.md-typeset .admonition.note    { border-left-color: var(--nau-blue-light); }
+.md-typeset .admonition.note    > .admonition-title { background: transparent; color: var(--md-primary-fg-color); }
+
+[data-md-color-scheme="slate"] .md-typeset .admonition.warning { background: rgba(250, 192, 26, .09); }
+[data-md-color-scheme="slate"] .md-typeset .admonition.warning > .admonition-title { color: #f0c05a; }
+[data-md-color-scheme="slate"] .md-typeset .admonition.danger  { background: rgba(255, 120, 120, .09); }
+[data-md-color-scheme="slate"] .md-typeset .admonition.danger  > .admonition-title { color: #ff9a9a; }
+[data-md-color-scheme="slate"] .md-typeset .admonition.note    > .admonition-title { color: var(--md-default-fg-color); }
+
+/* --- Unified Header strip -------------------------------------------------
+   The NAU header above carries the brand and site nav. Material's header is
+   a single unified bar (height 3rem / 48px) combining section tabs on the
+   left/center and utility controls (dark mode toggle, search) on the right.
+   Material's JS derives sidebar and drawer offsets from it. */
+.md-header {
+  top: var(--site-header-height, 84px);
+  box-shadow: none;
+  height: 3rem;
+  background-color: var(--nau-blue);
+  z-index: 10;
+}
+.md-header__inner {
+  min-height: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.md-header__title,
+.md-header .md-logo { display: none; }
+
+/* Merged section tabs inside header */
+.md-header .md-tabs {
+  position: static;
+  top: auto;
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  flex: 1 1 auto;
+  height: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.md-header .md-tabs::-webkit-scrollbar { display: none; }
+.md-header .md-tabs .md-grid {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+.md-header .md-tabs__list {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  gap: 0.25rem;
+}
+.md-header .md-tabs__item {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.md-header .md-tabs__link {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  margin: 0;
+  padding: 0 0.85rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #ffffff;
+  opacity: 0.82;
+  border-bottom: 3px solid transparent;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: opacity 0.15s, border-color 0.15s;
+}
+.md-header .md-tabs__link:hover {
+  opacity: 1;
+  color: #ffffff;
+}
+.md-header .md-tabs__link--active {
+  opacity: 1;
+  font-weight: 600;
+  color: #ffffff;
+  border-bottom-color: var(--nau-gold);
+}
+
+.md-header__option:first-of-type { margin-left: auto; }
+
+/* Tabs live inside .md-header. Hide a leftover standalone tabs row if the
+   theme still emits one after the empty {% block tabs %}. */
+.md-container > .md-tabs {
+  display: none;
+}
+
+/* --- Sidebar --------------------------------------------------------------
+   Material's 12.1rem column forced most entries onto three lines, which is
+   what made it feel crowded. Wider column, tighter leading, real separation
+   between the section label and its pages, and one gold rule for position. */
+.md-nav { font-size: .85rem; }
+
+@media screen and (min-width: 76.25em) {
+  .md-sidebar--primary { width: 14rem; }
+  .md-sidebar--secondary { width: 13rem; }
+
+  /* Material writes `top: 48px` inline from .md-header height alone.
+     Both sticky bars must be counted, so this has to beat the inline. */
+  .md-sidebar,
+  .md-header--lifted ~ .md-container .md-sidebar {
+    top: var(--docs-sticky-offset) !important;
+  }
+}
+
+/* Last heading can scroll clear of the dual sticky bars before the
+   site footer arrives. Sidebars are clipped to the footer in JS. */
+.md-main {
+  padding-bottom: calc(var(--docs-sticky-offset) + 2rem);
+}
+
+.site-footer {
+  z-index: 20;
+}
+
+.md-nav__title {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--md-default-fg-color--lighter, #8b97ab);
+  padding-bottom: .5rem;
+  margin-bottom: .4rem;
+  border-bottom: 1px solid var(--docs-rule);
+}
+
+/* Prevent container divs or labels from rendering duplicate borders or padding */
+div.md-nav__link,
+.md-nav__container,
+label.md-nav__link {
+  border-left: none !important;
+  padding-left: 0 !important;
+}
+
+/* Apply active gold indicator strictly to anchor links */
+a.md-nav__link {
+  line-height: 1.45;
+  padding: .28rem 0 .28rem .7rem;
+  border-left: 2px solid transparent;
+}
+.md-nav__item--active > a.md-nav__link,
+a.md-nav__link--active {
+  font-weight: 600;
+  color: var(--md-primary-fg-color);
+  border-left: 2px solid var(--nau-gold);
+}
+[data-md-color-scheme="slate"] .md-nav__item--active > a.md-nav__link,
+[data-md-color-scheme="slate"] a.md-nav__link--active { color: var(--md-default-fg-color); }
+
+/* Table of contents: a quiet index, clearly subordinate to the page. */
+.md-nav--secondary .md-nav__link { padding-left: .7rem; }
+.md-nav--secondary .md-nav .md-nav__link { padding-left: 1.5rem; font-size: .95em; opacity: .85; }
+
+/* Material fixes the mobile drawer at top:0 with height:100%. The nano header
+   is sticky and opaque, so it covered the drawer's first ~84px - exactly
+   where the title and back-navigation row sits. The drawer then opened
+   already inside the current section with no visible way up, which made every
+   other section unreachable on mobile. */
+@media screen and (max-width: 76.234375em) {
+  .md-sidebar--primary {
+    top: var(--docs-sticky-offset);
+    height: calc(100% - var(--docs-sticky-offset));
+  }
+  .md-overlay { top: var(--docs-sticky-offset); }
+}
+
+/* --- Buttons -------------------------------------------------------------- */
+.md-typeset .md-button {
+  border-radius: 2px;
+  font-weight: 600;
+  border-width: 1px;
+}
+.md-typeset .md-button--primary { border-color: var(--md-primary-fg-color); }
+
+/* Tag pills sit above the h1 and should not compete with it. */
+.md-typeset .md-tags { margin-bottom: .8rem; }
+.md-typeset .md-tag {
+  font-size: .72rem;
+  border-radius: 2px;
+  background: rgba(0, 36, 84, .06);
+  color: var(--md-primary-fg-color);
+}
+[data-md-color-scheme="slate"] .md-typeset .md-tag {
+  background: rgba(255, 255, 255, .07);
+  color: var(--md-default-fg-color--light);
+}
+
+/* --- Grid cards on the home page ------------------------------------------ */
+.md-typeset .grid.cards > ul > li {
+  border: 1px solid var(--docs-rule);
+  border-radius: 0;
+  box-shadow: none;
+  padding: 1.1rem 1.2rem;
+}
+.md-typeset .grid.cards > ul > li:hover {
+  border-color: var(--md-primary-fg-color);
+  box-shadow: none;
+}
+
+/* --- Dark scheme for the site chrome ---------------------------------------
+   The pasted nano.nau.edu header and footer have no dark mode of their own,
+   because the rest of the site is light-only. Left alone they stayed white
+   above and below a dark page, which read as a rendering fault rather than a
+   theme. Covered here so the whole page commits to one scheme. */
+[data-md-color-scheme="slate"] .site-header {
+  background: var(--nau-blue-dark);
+  border-bottom: 1px solid var(--docs-rule);
+}
+[data-md-color-scheme="slate"] .site-header .dept1,
+[data-md-color-scheme="slate"] .site-header .dept-sub,
+[data-md-color-scheme="slate"] .site-header .nav-link,
+[data-md-color-scheme="slate"] .site-header .nav-dropdown-btn,
+[data-md-color-scheme="slate"] .site-header .mobile-toggle {
+  color: var(--md-default-fg-color);
+}
+[data-md-color-scheme="slate"] .site-header .nav-link:hover,
+[data-md-color-scheme="slate"] .site-header .nav-dropdown-btn:hover { color: var(--nau-gold); }
+[data-md-color-scheme="slate"] .site-header .brand-divider { background: var(--docs-rule); }
+[data-md-color-scheme="slate"] .site-header .nav-mega-panel {
+  background: var(--md-default-bg-color--light);
+  border: 1px solid var(--docs-rule);
+}
+[data-md-color-scheme="slate"] .site-header .nav-dropdown-link,
+[data-md-color-scheme="slate"] .site-header .nav-dropdown-text {
+  color: var(--md-default-fg-color);
+}
+
+[data-md-color-scheme="slate"] .site-footer,
+[data-md-color-scheme="slate"] .footer-bottom,
+[data-md-color-scheme="slate"] .footer-cmd-bar {
+  background: var(--nau-blue-dark);
+  border-color: var(--docs-rule);
+}
+[data-md-color-scheme="slate"] .footer-brand__title,
+[data-md-color-scheme="slate"] .footer-brand__copy,
+[data-md-color-scheme="slate"] .footer-col__label,
+[data-md-color-scheme="slate"] .footer-meta__text,
+[data-md-color-scheme="slate"] .footer-links a,
+[data-md-color-scheme="slate"] .footer-link-mute {
+  color: var(--md-default-fg-color--light);
+}
+
+/* Respect a reduced-motion preference for the theme swap and any transition
+   Material or style.css applies on colour. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}

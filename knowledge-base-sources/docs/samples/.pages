@@ -1,0 +1,9 @@
+title: By Sample Type
+nav:
+  - Overview: index.md
+  - Thin films: thin-films.md
+  - Wafers & coupons: wafers-and-coupons.md
+  - Powders & porous solids: powders-and-porous-solids.md
+  - Bulk solids: bulk-solids.md
+  - Prototype parts: prototype-parts.md
+  - Devices & packages: devices-and-packaged-parts.md

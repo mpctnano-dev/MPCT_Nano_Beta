@@ -1,0 +1,8 @@
+title: Instruments
+nav:
+  - Overview: index.md
+  - Bambu Lab H2D: bambu-lab-h2d.md
+  - Haas Desktop Mill: haas-desktop-mill.md
+  - Haas Desktop Lathe: haas-desktop-lathe.md
+  - Amatrol 870 line: amatrol-870-mechatronics-line.md
+  - Smart Robot Workcell: amatrol-smart-robot-workcell.md
